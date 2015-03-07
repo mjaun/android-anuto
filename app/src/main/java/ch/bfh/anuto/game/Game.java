@@ -111,13 +111,17 @@ public class Game implements Runnable, Handler.Callback {
 
     @Override
     public synchronized void run() {
-        // make a copy so that the original list remains modifiable
-        for (GameObject obj : new ArrayList<>(mGameObjects)) {
-            obj.tick();
-        }
+        try {
+            // make a copy so that the original list remains modifiable
+            for (GameObject obj : new ArrayList<>(mGameObjects)) {
+                obj.tick();
+            }
 
-        mTickCount++;
-        mGameHandler.obtainMessage(MSG_TICK).sendToTarget();
+            mTickCount++;
+            mGameHandler.obtainMessage(MSG_TICK).sendToTarget();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /*
