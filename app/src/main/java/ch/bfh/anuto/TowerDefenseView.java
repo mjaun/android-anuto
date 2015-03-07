@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import ch.bfh.anuto.game.BasicEnemy;
+import ch.bfh.anuto.game.BasicPlateau;
 import ch.bfh.anuto.game.BasicTower;
 import ch.bfh.anuto.game.Game;
 import ch.bfh.anuto.game.GameListener;
@@ -26,6 +27,9 @@ public class TowerDefenseView extends View implements GameListener {
         mGame = new Game(width, height);
         mGame.addListener(this);
 
+        mGame.addObject(new BasicPlateau(mGame, new PointF(1, 4)));
+        mGame.addObject(new BasicPlateau(mGame, new PointF(1, 5)));
+        mGame.addObject(new BasicPlateau(mGame, new PointF(1, 6)));
         mGame.addObject(new BasicTower(mGame, new PointF(1, 5)));
         mGame.addObject(new BasicEnemy(mGame, new PointF(5, 0)));
     }
