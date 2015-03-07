@@ -1,9 +1,12 @@
-package ch.bfh.anuto.game;
+package ch.bfh.anuto.game.objects;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.PointF;
+
+import ch.bfh.anuto.game.Enemy;
+import ch.bfh.anuto.game.Game;
+import ch.bfh.anuto.game.Tower;
 
 public class BasicTower extends Tower {
     public final static int RELOAD_TIME = 20;

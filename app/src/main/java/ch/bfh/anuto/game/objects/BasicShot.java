@@ -1,9 +1,14 @@
-package ch.bfh.anuto.game;
+package ch.bfh.anuto.game.objects;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
+
+import ch.bfh.anuto.game.Enemy;
+import ch.bfh.anuto.game.Game;
+import ch.bfh.anuto.game.Projectile;
+import ch.bfh.anuto.game.Tower;
 
 public class BasicShot extends Projectile {
     protected final static float SPEED = 0.1f;
