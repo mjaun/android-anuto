@@ -14,8 +14,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import ch.bfh.anuto.R;
-
 public class Game implements Runnable, Handler.Callback {
     /*
     ------ Members ------
@@ -45,7 +43,7 @@ public class Game implements Runnable, Handler.Callback {
 
         // TODO: not sure about how many threads make sense here...
         // TODO: do we have to shutdown this thing?
-        mGameExecutor = (ScheduledThreadPoolExecutor)Executors.newScheduledThreadPool(5);
+        mGameExecutor = (ScheduledThreadPoolExecutor)Executors.newScheduledThreadPool(1);
         mGameExecutor.scheduleAtFixedRate(this, 0, 25, TimeUnit.MILLISECONDS);
     }
 
@@ -101,7 +99,7 @@ public class Game implements Runnable, Handler.Callback {
         return mGameBounds.contains(gamePoint.x, gamePoint.y);
     }
 
-    public void draw(Canvas canvas) {
+    public synchronized void draw(Canvas canvas) {
         for (GameObject obj : mGameObjects) {
             obj.draw(canvas);
         }
@@ -112,15 +110,14 @@ public class Game implements Runnable, Handler.Callback {
      */
 
     @Override
-    public void run() {
+    public synchronized void run() {
         // make a copy so that the original list remains modifiable
         for (GameObject obj : new ArrayList<>(mGameObjects)) {
             obj.tick();
         }
 
         mTickCount++;
-        //mGameHandler.obtainMessage(MSG_TICK).sendToTarget();
-        onTickEvent();
+        mGameHandler.obtainMessage(MSG_TICK).sendToTarget();
     }
 
     /*
