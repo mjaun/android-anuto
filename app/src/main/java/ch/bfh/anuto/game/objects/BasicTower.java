@@ -5,14 +5,13 @@ import android.graphics.Color;
 import android.graphics.PointF;
 
 import ch.bfh.anuto.game.Enemy;
-import ch.bfh.anuto.game.Game;
 import ch.bfh.anuto.game.Tower;
 
 public class BasicTower extends Tower {
     public final static int RELOAD_TIME = 20;
 
-    public BasicTower(Game game, PointF position) {
-        super(game, position);
+    public BasicTower(PointF position) {
+        super(position);
 
         mPaint.setColor(Color.GREEN);
     }
@@ -28,7 +27,7 @@ public class BasicTower extends Tower {
 
             Enemy enemy = nextEnemy();
             if (enemy != null) {
-                mGame.addObject(new BasicShot(mGame, this, enemy));
+                mGame.addObject(new BasicShot(this, enemy));
             }
         }
     }

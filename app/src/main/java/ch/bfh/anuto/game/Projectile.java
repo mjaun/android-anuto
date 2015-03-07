@@ -6,11 +6,11 @@ public abstract class Projectile extends GameObject {
     protected Tower mOwner;
     protected Enemy mTarget;
 
-    public Projectile(Game game, Tower owner, Enemy target) {
-        super(game, owner.getPosition());
-
+    public Projectile(Tower owner, Enemy target) {
         mOwner = owner;
         mTarget = target;
+
+        setPosition(owner.getPosition());
     }
 
     // TODO: why the heck couldn't I find 2D vector classes?

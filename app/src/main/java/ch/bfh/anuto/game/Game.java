@@ -52,11 +52,13 @@ public class Game implements Runnable, Handler.Callback {
      */
 
     public void addObject(GameObject object) {
+        object.setGame(this);
         mGameObjects.add(object);
     }
 
     public void removeObject(GameObject object) {
         mGameObjects.remove(object);
+        object.setGame(null);
     }
 
     public List<GameObject> getObjects() {

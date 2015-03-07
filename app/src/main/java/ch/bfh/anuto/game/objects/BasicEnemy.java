@@ -2,17 +2,15 @@ package ch.bfh.anuto.game.objects;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.PointF;
 
 import ch.bfh.anuto.game.Enemy;
-import ch.bfh.anuto.game.Game;
 
 public class BasicEnemy extends Enemy {
     protected final static float SPEED = 0.05f;
 
-    public BasicEnemy(Game game, PointF position) {
-        super(game, position);
+    public BasicEnemy(PointF position) {
+        super(position);
 
         mPaint.setColor(Color.BLUE);
     }

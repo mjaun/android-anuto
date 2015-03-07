@@ -4,25 +4,92 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
 
-public abstract class GameObject {
-    protected Game mGame;
-    protected PointF mPosition;
+import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.core.Commit;
+import org.simpleframework.xml.core.Persist;
 
+public abstract class GameObject {
+
+    /*
+    ------ Members ------
+     */
+
+    protected Game mGame = null;
     protected Paint mPaint = new Paint();
 
-    public GameObject(Game game, PointF position) {
-        mGame = game;
+    protected PointF mPosition = null;
 
-        // TODO: should we make a copy here?
-        mPosition = new PointF(position.x, position.y);
+    /*
+    ------ Constructors ------
+     */
+
+    public void setGame(Game game) {
+        mGame = game;
     }
+
+    /*
+    ------ Public Methods ------
+     */
+
+    public abstract void tick();
+
+    public abstract void draw(Canvas canvas);
 
     public PointF getPosition() {
         // TODO: should we make a copy here?
         return mPosition;
     }
 
-    public abstract void tick();
+    public void setPosition(PointF position) {
+        // TODO: is it correct to make a copy here?
+        if (position != null) {
+            mPosition = new PointF(position.x, position.y);
+        }
+        else {
+            mPosition = null;
+        }
+    }
 
-    public abstract void draw(Canvas canvas);
+    /*
+    ------ XML Serialization ------
+     */
+
+    @Attribute(name="x")
+    private float getPositionX() {
+        return mPosition.x;
+    }
+
+    @Attribute(name="x")
+    private void setPositionX(float x) {
+        if (mPosition == null) {
+            mPosition = new PointF(x, 0);
+        }
+        else {
+            mPosition.x = x;
+        }
+    }
+
+    @Attribute(name="y")
+    private float getPositionY() {
+        return mPosition.y;
+    }
+
+    @Attribute(name="y")
+    private void setPositionY(float y) {
+        if (mPosition == null) {
+            mPosition = new PointF(0, y);
+        }
+        else {
+            mPosition.y = y;
+        }
+    }
+
+    @Persist
+    protected void onXmlSerialize() {
+    }
+
+    @Commit
+    protected void onXmlDeserialize() {
+    }
 }
