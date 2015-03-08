@@ -6,7 +6,4 @@ import org.simpleframework.xml.Root;
 
 @Root
 public abstract class Plateau extends GameObject {
-    public Plateau(PointF position) {
-        setPosition(position);
-    }
 }

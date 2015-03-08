@@ -1,9 +1,16 @@
 package ch.bfh.anuto.game;
 
-import android.graphics.PointF;
+import org.simpleframework.xml.Element;
 
 public abstract class Enemy extends GameObject {
-    public Enemy(PointF position) {
-        setPosition(position);
+    @Element(name="path", required=false)
+    protected Path mPath;
+
+    public void setPath(Path path) {
+        mPath = path;
+    }
+
+    public Path getPath() {
+        return mPath;
     }
 }

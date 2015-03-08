@@ -8,19 +8,16 @@ import ch.bfh.anuto.game.Plateau;
 
 public class BasicPlateau extends Plateau {
     public BasicPlateau() {
-        // no-args constructor is needed because of XML serialization
-        this(null);
+        mPaint.setColor(Color.LTGRAY);
     }
 
     public BasicPlateau(PointF position) {
-        super(position);
-
-        mPaint.setColor(Color.LTGRAY);
+        this();
+        setPosition(position);
     }
 
     @Override
     public void tick() {
-
     }
 
     @Override

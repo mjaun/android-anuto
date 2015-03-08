@@ -10,10 +10,13 @@ import ch.bfh.anuto.game.Tower;
 public class BasicTower extends Tower {
     public final static int RELOAD_TIME = 20;
 
-    public BasicTower(PointF position) {
-        super(position);
-
+    public BasicTower() {
         mPaint.setColor(Color.GREEN);
+    }
+
+    public BasicTower(PointF position) {
+        this();
+        setPosition(position);
     }
 
     public int ticksUntilShot = RELOAD_TIME;

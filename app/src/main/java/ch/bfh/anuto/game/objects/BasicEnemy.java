@@ -5,14 +5,19 @@ import android.graphics.Color;
 import android.graphics.PointF;
 
 import ch.bfh.anuto.game.Enemy;
+import ch.bfh.anuto.game.Path;
 
 public class BasicEnemy extends Enemy {
     protected final static float SPEED = 0.05f;
 
-    public BasicEnemy(PointF position) {
-        super(position);
-
+    public BasicEnemy() {
         mPaint.setColor(Color.BLUE);
+    }
+
+    public BasicEnemy(PointF position, Path path) {
+        this();
+        setPosition(position);
+        setPath(path);
     }
 
     @Override
