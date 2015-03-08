@@ -37,18 +37,20 @@ public abstract class GameObject {
     public abstract void draw(Canvas canvas);
 
     public PointF getPosition() {
-        // TODO: should we make a copy here?
         return mPosition;
     }
 
     public void setPosition(PointF position) {
-        // TODO: is it correct to make a copy here?
-        if (position != null) {
-            mPosition = new PointF(position.x, position.y);
-        }
-        else {
-            mPosition = null;
-        }
+        mPosition = position;
+    }
+
+    public float getDistanceTo(PointF target) {
+        return (float)Math.sqrt(Math.pow(target.x - mPosition.x, 2) + Math.pow(target.y - mPosition.y, 2));
+    }
+
+    public PointF getDirectionTo(PointF target) {
+        float dist = getDistanceTo(target);
+        return new PointF((target.x - mPosition.x) / dist, (target.y - mPosition.y) / dist);
     }
 
     /*

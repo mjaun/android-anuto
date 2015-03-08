@@ -3,8 +3,16 @@ package ch.bfh.anuto.game;
 import android.graphics.PointF;
 
 public abstract class Projectile extends GameObject {
+    /*
+    ------ Members ------
+     */
+
     protected Tower mOwner;
     protected Enemy mTarget;
+
+    /*
+    ------ Constructors ------
+     */
 
     public Projectile(Tower owner, Enemy target) {
         mOwner = owner;
@@ -13,18 +21,15 @@ public abstract class Projectile extends GameObject {
         setPosition(owner.getPosition());
     }
 
-    // TODO: why the heck couldn't I find 2D vector classes?
+    /*
+    ------ Public Methods ------
+     */
 
     protected float getDistanceToTarget() {
-        PointF target = mTarget.getPosition();
-        return (float)Math.sqrt(Math.pow(target.x - mPosition.x, 2) + Math.pow(target.y - mPosition.y, 2));
+        return getDistanceTo(mTarget.getPosition());
     }
 
     protected PointF getDirectionToTarget() {
-        PointF target = mTarget.getPosition();
-        float dist = getDistanceToTarget();
-        float x = (target.x - mPosition.x) / dist;
-        float y = (target.y - mPosition.y) / dist;
-        return new PointF(x, y);
+        return getDirectionTo(mTarget.getPosition());
     }
 }

@@ -22,10 +22,14 @@ public class BasicEnemy extends Enemy {
 
     @Override
     public void tick() {
-        mPosition.y += SPEED;
+        if (getDistanceToWayPoint() < SPEED) {
+            nextWayPoint();
+        }
 
-        if (!mGame.isPointInBounds(mPosition)) {
-            mPosition.y = 0f;
+        PointF dir = getDirectionToWayPoint();
+
+        if (dir != null) {
+            mPosition.offset(dir.x * SPEED, dir.y * SPEED);
         }
     }
 
