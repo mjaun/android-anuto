@@ -2,7 +2,6 @@ package ch.bfh.anuto.game;
 
 import android.util.Log;
 
-import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
@@ -12,6 +11,8 @@ import org.simpleframework.xml.strategy.CycleStrategy;
 import org.simpleframework.xml.strategy.Strategy;
 
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,19 +65,47 @@ public class Level {
         return mWaves;
     }
 
+    public Game createGame() {
+        Game ret = new Game(mSettings.width, mSettings.height);
+
+        for (Plateau p : mPlateaus) {
+            ret.addObject(p);
+        }
+
+        return ret;
+    }
+
+    public void startWave(Game game, int idx) {
+        Wave wave = mWaves.get(idx);
+
+        for (Enemy e : wave.getEnemies()) {
+            game.addObject(e);
+        }
+    }
+
     public void serialize() {
         // TODO: this is just for testing
 
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 
         try {
-            Strategy strategy = new CycleStrategy("id", "ref");
-            Serializer serializer = new Persister(strategy);
-            serializer.write(this, outStream);
+            serialize(outStream);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         Log.i("XML", outStream.toString());
+    }
+
+    public void serialize(OutputStream outStream) throws Exception {
+        Strategy strategy = new CycleStrategy("id", "ref");
+        Serializer serializer = new Persister(strategy);
+        serializer.write(this, outStream);
+    }
+
+    public static Level deserialize(InputStream inStream) throws Exception {
+        Strategy strategy = new CycleStrategy("id", "ref");
+        Serializer serializer = new Persister(strategy);
+        return serializer.read(Level.class, inStream);
     }
 }

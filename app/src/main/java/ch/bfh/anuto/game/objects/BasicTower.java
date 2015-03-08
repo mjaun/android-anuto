@@ -23,15 +23,15 @@ public class BasicTower extends Tower {
 
     @Override
     public void tick() {
-        ticksUntilShot--;
-
-        if (ticksUntilShot < 0) {
-            ticksUntilShot = RELOAD_TIME;
-
+        if (ticksUntilShot <= 0) {
             Enemy enemy = nextEnemy();
             if (enemy != null) {
                 mGame.addObject(new BasicShot(this, enemy));
+                ticksUntilShot = RELOAD_TIME;
             }
+        }
+        else {
+            ticksUntilShot--;
         }
     }
 

@@ -41,7 +41,7 @@ public abstract class GameObject {
     }
 
     public void setPosition(PointF position) {
-        mPosition = position;
+        mPosition = new PointF(position.x, position.y);
     }
 
     public float getDistanceTo(PointF target) {

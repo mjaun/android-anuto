@@ -67,13 +67,18 @@ public class Game implements Runnable {
         return mTickCount;
     }
 
-    public void setScreenBounds(Rect bounds) {
-        mScreenBounds = new RectF(bounds);
+    public void calcScreenBounds(int width, int height) {
 
-        float blockWidth = mScreenBounds.width() / (mGameBounds.width() + 1);
-        float blockHeight = mScreenBounds.height() / (mGameBounds.height() + 1);
+        float blockWidth = width / (mGameBounds.width() + 1);
+        float blockHeight = height / (mGameBounds.height() + 1);
 
         mBlockLength = Math.min(blockWidth, blockHeight);
+
+        float paddingX = width - (mBlockLength * (mGameBounds.width() + 1));
+        float paddingY = height - (mBlockLength * (mGameBounds.height() + 1));
+
+        mScreenBounds = new RectF(0, 0, width, height);
+        mScreenBounds.offset(paddingX / 2, paddingY / 2);
     }
 
     public float getBlockLength() {

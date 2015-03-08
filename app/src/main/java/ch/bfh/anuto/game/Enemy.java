@@ -26,7 +26,7 @@ public abstract class Enemy extends GameObject {
     }
 
     public void nextWayPoint() {
-        if (mPath.getWayPoints().size() < mNextWayPointIndex)
+        if (mPath.getWayPoints().size() > mNextWayPointIndex)
             mNextWayPointIndex++;
     }
 

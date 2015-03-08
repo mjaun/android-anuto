@@ -31,6 +31,9 @@ public class BasicEnemy extends Enemy {
         if (dir != null) {
             mPosition.offset(dir.x * SPEED, dir.y * SPEED);
         }
+        else {
+            mGame.removeObject(this);
+        }
     }
 
     @Override
