@@ -14,7 +14,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-public class Game implements Runnable, Handler.Callback {
+public class Game implements Runnable {
     /*
     ------ Members ------
      */
@@ -22,7 +22,6 @@ public class Game implements Runnable, Handler.Callback {
     protected final static int MSG_TICK = 1;
 
     protected final ScheduledThreadPoolExecutor mGameExecutor;
-    protected final Handler mGameHandler;
     protected final ArrayList<GameListener> mListeners = new ArrayList<>();
 
     protected final RectF mGameBounds;
@@ -38,8 +37,6 @@ public class Game implements Runnable, Handler.Callback {
 
     public Game(int width, int height) {
         mGameBounds = new RectF(0, 0, width - 1, height - 1);
-
-        mGameHandler = new Handler(this);
 
         // TODO: not sure about how many threads make sense here...
         // TODO: do we have to shutdown this thing?
@@ -120,7 +117,7 @@ public class Game implements Runnable, Handler.Callback {
             }
 
             mTickCount++;
-            mGameHandler.obtainMessage(MSG_TICK).sendToTarget();
+            onTickEvent();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -129,17 +126,6 @@ public class Game implements Runnable, Handler.Callback {
     /*
     ------ Handler / Listener Stuff ------
      */
-
-    @Override
-    public boolean handleMessage(Message msg) {
-        switch (msg.what) {
-            case MSG_TICK:
-                onTickEvent();
-                return true;
-        }
-
-        return false;
-    }
 
     protected void onTickEvent() {
         for (GameListener listener : mListeners) {
