@@ -19,17 +19,17 @@ public class Game implements Runnable {
     ------ Members ------
      */
 
-    protected final static int MSG_TICK = 1;
+    private final static int MSG_TICK = 1;
 
-    protected final ScheduledThreadPoolExecutor mGameExecutor;
-    protected final ArrayList<GameListener> mListeners = new ArrayList<>();
+    private final ScheduledThreadPoolExecutor mGameExecutor;
+    private final ArrayList<GameListener> mListeners = new ArrayList<>();
 
-    protected final RectF mGameBounds;
-    protected RectF mScreenBounds;
-    protected float mBlockLength;
+    private final RectF mGameBounds;
+    private RectF mScreenBounds;
+    private float mBlockLength;
 
-    protected long mTickCount = 0;
-    protected final ArrayList<GameObject> mGameObjects = new ArrayList<>();
+    private long mTickCount = 0;
+    private final ArrayList<GameObject> mGameObjects = new ArrayList<>();
 
     /*
     ------ Constructors ------
@@ -132,7 +132,7 @@ public class Game implements Runnable {
     ------ Handler / Listener Stuff ------
      */
 
-    protected void onTickEvent() {
+    private void onTickEvent() {
         for (GameListener listener : mListeners) {
             listener.onTickEvent(this);
         }
