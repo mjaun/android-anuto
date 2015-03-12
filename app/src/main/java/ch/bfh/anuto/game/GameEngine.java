@@ -31,14 +31,13 @@ public class GameEngine implements Runnable {
     private Thread mGameThread;
     private boolean mRunning = false;
 
-    private long mTickCount = 0;
     private final ArrayList<GameObject> mGameObjects = new ArrayList<>();
+    private final ArrayList<GameObject> mObjectsToAdd = new ArrayList<>();
+    private final ArrayList<GameObject> mObjectsToRemove = new ArrayList<>();
 
     private RectF mGameBounds;
     private RectF mScreenBounds;
     private float mTileLength;
-
-    private final Paint mBackgroundPaint;
 
     private final ArrayList<GameListener> mListeners = new ArrayList<>();
 
@@ -49,31 +48,22 @@ public class GameEngine implements Runnable {
 
     public GameEngine(SurfaceHolder surfaceHolder) {
         mSurfaceHolder = surfaceHolder;
-
-        mBackgroundPaint = new Paint();
-        mBackgroundPaint.setColor(Color.BLACK);
     }
 
     /*
     ------ Public Methods ------
      */
 
-    public void addObject(GameObject object) {
-        object.setGame(this);
-        mGameObjects.add(object);
+    public void addObject(GameObject obj) {
+        mObjectsToAdd.add(obj);
     }
 
-    public void removeObject(GameObject object) {
-        mGameObjects.remove(object);
-        object.setGame(null);
+    public void removeObject(GameObject obj) {
+        mObjectsToRemove.add(obj);
     }
 
     public List<GameObject> getObjects() {
         return Collections.unmodifiableList(mGameObjects);
-    }
-
-    public long getTickCount() {
-        return mTickCount;
     }
 
     public void setGameBounds(int width, int height) {
@@ -112,26 +102,31 @@ public class GameEngine implements Runnable {
         return new RectF(left, top, left + mTileLength, top + mTileLength);
     }
 
-    public boolean isPointInBounds(PointF gamePoint) {
-        return mGameBounds.contains(gamePoint.x, gamePoint.y);
-    }
-
     /*
     ------ GameEngine Loop ------
      */
 
     private void tick() {
-        // make a copy so that the original list remains modifiable
-        // TODO: could be optimized
-        for (GameObject obj : new ArrayList<>(mGameObjects)) {
+        for (GameObject obj : mGameObjects) {
             obj.tick();
         }
 
-        mTickCount++;
+        for (GameObject obj : mObjectsToAdd) {
+            mGameObjects.add(obj);
+            obj.setGame(this);
+        }
+
+        for (GameObject obj : mObjectsToRemove) {
+            mGameObjects.remove(obj);
+            obj.setGame(null);
+        }
+
+        mObjectsToAdd.clear();
+        mObjectsToRemove.clear();
     }
 
     private void draw(Canvas canvas) {
-        canvas.drawRect(mScreenBounds, mBackgroundPaint);
+        canvas.drawColor(Color.WHITE);
 
         for (GameObject obj : mGameObjects) {
             obj.draw(canvas);
