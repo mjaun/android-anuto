@@ -5,7 +5,6 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 
 import org.simpleframework.xml.Attribute;
-import org.simpleframework.xml.Element;
 import org.simpleframework.xml.core.Commit;
 import org.simpleframework.xml.core.Persist;
 
@@ -15,7 +14,7 @@ public abstract class GameObject {
     ------ Members ------
      */
 
-    protected Game mGame = null;
+    protected GameEngine mGame = null;
     protected Paint mPaint = new Paint();
 
     protected PointF mPosition = null;
@@ -24,7 +23,7 @@ public abstract class GameObject {
     ------ Constructors ------
      */
 
-    public void setGame(Game game) {
+    public void setGame(GameEngine game) {
         mGame = game;
     }
 

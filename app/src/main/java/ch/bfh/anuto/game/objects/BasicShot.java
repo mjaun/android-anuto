@@ -30,6 +30,6 @@ public class BasicShot extends Projectile {
     @Override
     public void draw(Canvas canvas) {
         PointF pos = mGame.getPointOnScreen(mPosition);
-        canvas.drawCircle(pos.x, pos.y, mGame.getBlockLength() / 3, mPaint);
+        canvas.drawCircle(pos.x, pos.y, mGame.getTileSize() / 3, mPaint);
     }
 }

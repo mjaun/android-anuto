@@ -39,6 +39,6 @@ public class BasicEnemy extends Enemy {
     @Override
     public void draw(Canvas canvas) {
         PointF p = mGame.getPointOnScreen(mPosition);
-        canvas.drawCircle(p.x, p.y, mGame.getBlockLength() / 2, mPaint);
+        canvas.drawCircle(p.x, p.y, mGame.getTileSize() / 2, mPaint);
     }
 }

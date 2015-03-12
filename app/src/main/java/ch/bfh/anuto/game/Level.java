@@ -1,6 +1,7 @@
 package ch.bfh.anuto.game;
 
 import android.util.Log;
+import android.view.SurfaceHolder;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
@@ -65,8 +66,9 @@ public class Level {
         return mWaves;
     }
 
-    public Game createGame() {
-        Game ret = new Game(mSettings.width, mSettings.height);
+    public GameEngine createGame(SurfaceHolder holder) {
+        GameEngine ret = new GameEngine(holder);
+        ret.setGameBounds(mSettings.width, mSettings.height);
 
         for (Plateau p : mPlateaus) {
             ret.addObject(p);
@@ -75,7 +77,7 @@ public class Level {
         return ret;
     }
 
-    public void startWave(Game game, int idx) {
+    public void startWave(GameEngine game, int idx) {
         Wave wave = mWaves.get(idx);
 
         for (Enemy e : wave.getEnemies()) {
