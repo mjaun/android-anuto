@@ -66,8 +66,8 @@ public class Level {
         return mWaves;
     }
 
-    public GameEngine createGame(SurfaceHolder holder) {
-        GameEngine ret = new GameEngine(holder);
+    public GameEngine createGame() {
+        GameEngine ret = new GameEngine();
         ret.setGameSize(mSettings.width, mSettings.height);
 
         for (Plateau p : mPlateaus) {

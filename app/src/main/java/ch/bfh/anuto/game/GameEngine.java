@@ -17,7 +17,7 @@ public class GameEngine implements Runnable {
     ------ Constants ------
      */
 
-    private final static String TAG = GameEngine.class.getName();
+    private final static String TAG = GameEngine.class.getSimpleName();
 
     public final static int TARGET_FPS = 30;
     private final static int MAX_FRAME_SKIPS = 5;
@@ -27,7 +27,6 @@ public class GameEngine implements Runnable {
     ------ Members ------
      */
 
-    private final SurfaceHolder mSurfaceHolder;
     private Thread mGameThread;
     private boolean mRunning = false;
 
@@ -45,8 +44,7 @@ public class GameEngine implements Runnable {
     ------ Constructors ------
      */
 
-    public GameEngine(SurfaceHolder surfaceHolder) {
-        mSurfaceHolder = surfaceHolder;
+    public GameEngine() {
     }
 
     /*
@@ -97,7 +95,7 @@ public class GameEngine implements Runnable {
     ------ GameEngine Loop ------
      */
 
-    private void tick() {
+    private synchronized void tick() {
         for (GameObject obj : mGameObjects) {
             obj.tick();
         }
@@ -116,9 +114,8 @@ public class GameEngine implements Runnable {
         mObjectsToRemove.clear();
     }
 
-    private void draw(Canvas canvas) {
-        canvas.drawColor(Color.WHITE);
-        canvas.setMatrix(mScreenMatrix);
+    public synchronized void render(Canvas canvas) {
+        canvas.concat(mScreenMatrix);
 
         for (GameObject obj : mGameObjects) {
             PointF pos = obj.getPosition();
@@ -142,14 +139,19 @@ public class GameEngine implements Runnable {
         mGameThread.start();
     }
 
-    public void shutdown() throws InterruptedException {
+    public void stop() {
         mRunning = false;
-        mGameThread.join();
+
+        while (true) {
+            try {
+                mGameThread.join();
+                break;
+            } catch (InterruptedException e) {}
+        }
     }
 
     @Override
     public void run() {
-        Canvas canvas;
         Log.d(TAG, "Starting game loop");
 
         // see http://www.javacodegeeks.com/2011/07/android-game-development-game-loop.html
@@ -161,27 +163,14 @@ public class GameEngine implements Runnable {
 
         try {
             while (mRunning) {
-                canvas = null;
-
                 beginTime = System.currentTimeMillis();
                 framesSkipped = 0;
 
                 // update game logic
                 tick();
 
-                // try locking the canvas for exclusive pixel editing in the surface
-                try {
-                    canvas = mSurfaceHolder.lockCanvas();
-
-                    // render current game state
-                    synchronized (mSurfaceHolder) {
-                        draw(canvas);
-                    }
-                } finally {
-                    if (canvas != null) {
-                        mSurfaceHolder.unlockCanvasAndPost(canvas);
-                    }
-                }
+                // send render request
+                onRenderRequest();
 
                 // calculate the required sleep time for this cycle
                 timeDiff = System.currentTimeMillis() - beginTime;
@@ -225,5 +214,11 @@ public class GameEngine implements Runnable {
 
     public void removeListener(GameListener listener) {
         mListeners.remove(listener);
+    }
+
+    private void onRenderRequest() {
+        for (GameListener l : mListeners) {
+            l.onRenderRequest();
+        }
     }
 }
