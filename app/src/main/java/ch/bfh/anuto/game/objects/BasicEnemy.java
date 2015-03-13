@@ -39,6 +39,7 @@ public class BasicEnemy extends Enemy {
 
     @Override
     public void draw(Canvas canvas) {
+        super.draw(canvas);
         canvas.drawCircle(0f, 0f, 0.5f, mPaint);
     }
 }

@@ -15,10 +15,9 @@ import java.io.InputStream;
 import ch.bfh.anuto.game.Level;
 import ch.bfh.anuto.game.objects.BasicTower;
 import ch.bfh.anuto.game.GameEngine;
-import ch.bfh.anuto.game.GameListener;
 
 
-public class TowerDefenseView extends View implements GameListener {
+public class TowerDefenseView extends View implements GameEngine.Listener {
     private final static String TAG = TowerDefenseView.class.getName();
 
     protected GameEngine mGame;

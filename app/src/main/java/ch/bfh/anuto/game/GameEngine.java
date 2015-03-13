@@ -24,6 +24,14 @@ public class GameEngine implements Runnable {
     private final static int FRAME_PERIOD = 1000 / TARGET_FPS;
 
     /*
+    ------ Listener Interface ------
+     */
+
+    public interface Listener {
+        void onRenderRequest();
+    }
+
+    /*
     ------ Members ------
      */
 
@@ -36,9 +44,10 @@ public class GameEngine implements Runnable {
 
     private Point mGameSize;
     private Point mScreenSize;
+    private float mTileSize;
     private Matrix mScreenMatrix;
 
-    private final ArrayList<GameListener> mListeners = new ArrayList<>();
+    private final ArrayList<Listener> mListeners = new ArrayList<>();
 
     /*
     ------ Constructors ------
@@ -82,13 +91,17 @@ public class GameEngine implements Runnable {
     private void calcScreenMatrix() {
         mScreenMatrix = new Matrix();
 
-        float tileSize = Math.min(mScreenSize.x / mGameSize.x, mScreenSize.y / mGameSize.y);
+        mTileSize = Math.min(mScreenSize.x / mGameSize.x, mScreenSize.y / mGameSize.y);
         mScreenMatrix.postTranslate(0.5f, 0.5f);
-        mScreenMatrix.postScale(tileSize, tileSize);
+        mScreenMatrix.postScale(mTileSize, mTileSize);
 
-        float paddingLeft = (mScreenSize.x - (tileSize * mGameSize.x)) / 2f;
-        float paddingTop = (mScreenSize.y - (tileSize * mGameSize.y)) / 2f;
+        float paddingLeft = (mScreenSize.x - (mTileSize * mGameSize.x)) / 2f;
+        float paddingTop = (mScreenSize.y - (mTileSize * mGameSize.y)) / 2f;
         mScreenMatrix.postTranslate(paddingLeft, paddingTop);
+    }
+
+    public float getTileSize() {
+        return mTileSize;
     }
 
     /*
@@ -208,16 +221,16 @@ public class GameEngine implements Runnable {
     ------ Listener Stuff ------
      */
 
-    public void addListener(GameListener listener) {
+    public void addListener(Listener listener) {
         mListeners.add(listener);
     }
 
-    public void removeListener(GameListener listener) {
+    public void removeListener(Listener listener) {
         mListeners.remove(listener);
     }
 
     private void onRenderRequest() {
-        for (GameListener l : mListeners) {
+        for (Listener l : mListeners) {
             l.onRenderRequest();
         }
     }

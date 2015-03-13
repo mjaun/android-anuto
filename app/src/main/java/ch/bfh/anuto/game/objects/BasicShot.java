@@ -10,6 +10,7 @@ import ch.bfh.anuto.game.Tower;
 
 public class BasicShot extends Projectile {
     protected final static float SPEED = 0.1f;
+    protected final static int DMG = 10;
 
     public BasicShot(Tower owner, Enemy target) {
         super(owner, target);
@@ -21,6 +22,7 @@ public class BasicShot extends Projectile {
     public void tick() {
         if (getDistanceToTarget() < SPEED) {
             mGame.removeObject(this);
+            mTarget.damage(DMG);
         }
 
         PointF dir = getDirectionToTarget();
