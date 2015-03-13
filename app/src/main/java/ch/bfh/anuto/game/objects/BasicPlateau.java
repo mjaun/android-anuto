@@ -8,8 +8,6 @@ import android.graphics.RectF;
 import ch.bfh.anuto.game.Plateau;
 
 public class BasicPlateau extends Plateau {
-    RectF mRect;
-
     public BasicPlateau() {
         mPaint.setColor(Color.LTGRAY);
     }
@@ -25,10 +23,6 @@ public class BasicPlateau extends Plateau {
 
     @Override
     public void draw(Canvas canvas) {
-        if (mRect == null) {
-            mRect = mGame.getBlockOnScreen(mPosition);
-        }
-
-        canvas.drawRect(mRect, mPaint);
+        canvas.drawRect(TILE_RECT, mPaint);
     }
 }

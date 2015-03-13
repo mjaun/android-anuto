@@ -37,6 +37,6 @@ public class BasicTower extends Tower {
 
     @Override
     public void draw(Canvas canvas) {
-        canvas.drawRect(mGame.getBlockOnScreen(mPosition), mPaint);
+        canvas.drawRect(TILE_RECT, mPaint);
     }
 }

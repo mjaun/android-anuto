@@ -68,7 +68,7 @@ public class Level {
 
     public GameEngine createGame(SurfaceHolder holder) {
         GameEngine ret = new GameEngine(holder);
-        ret.setGameBounds(mSettings.width, mSettings.height);
+        ret.setGameSize(mSettings.width, mSettings.height);
 
         for (Plateau p : mPlateaus) {
             ret.addObject(p);

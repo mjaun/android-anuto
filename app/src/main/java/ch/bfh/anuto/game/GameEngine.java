@@ -2,9 +2,9 @@ package ch.bfh.anuto.game;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
+import android.graphics.Matrix;
+import android.graphics.Point;
 import android.graphics.PointF;
-import android.graphics.RectF;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
@@ -35,12 +35,11 @@ public class GameEngine implements Runnable {
     private final ArrayList<GameObject> mObjectsToAdd = new ArrayList<>();
     private final ArrayList<GameObject> mObjectsToRemove = new ArrayList<>();
 
-    private RectF mGameBounds;
-    private RectF mScreenBounds;
-    private float mTileLength;
+    private Point mGameSize;
+    private Point mScreenSize;
+    private Matrix mScreenMatrix;
 
     private final ArrayList<GameListener> mListeners = new ArrayList<>();
-
 
     /*
     ------ Constructors ------
@@ -51,7 +50,7 @@ public class GameEngine implements Runnable {
     }
 
     /*
-    ------ Public Methods ------
+    ------ Methods ------
      */
 
     public void addObject(GameObject obj) {
@@ -66,40 +65,32 @@ public class GameEngine implements Runnable {
         return Collections.unmodifiableList(mGameObjects);
     }
 
-    public void setGameBounds(int width, int height) {
-        mGameBounds = new RectF(0, 0, width - 1, height - 1);
+    public void setGameSize(int width, int height) {
+        mGameSize = new Point(width, height);
+
+        if (mScreenSize != null) {
+            calcScreenMatrix();
+        }
     }
 
-    public void setScreenBounds(int width, int height) {
+    public void setScreenSize(int width, int height) {
+        mScreenSize = new Point(width, height);
 
-        float blockWidth = width / (mGameBounds.width() + 1);
-        float blockHeight = height / (mGameBounds.height() + 1);
-
-        mTileLength = Math.min(blockWidth, blockHeight);
-
-        float paddingX = width - (mTileLength * (mGameBounds.width() + 1));
-        float paddingY = height - (mTileLength * (mGameBounds.height() + 1));
-
-        mScreenBounds = new RectF(0, 0, width, height);
-        mScreenBounds.offset(paddingX / 2, paddingY / 2);
+        if (mGameSize != null) {
+            calcScreenMatrix();
+        }
     }
 
-    public float getTileSize() {
-        return mTileLength;
-    }
+    private void calcScreenMatrix() {
+        mScreenMatrix = new Matrix();
 
-    public PointF getPointOnScreen(PointF gamePoint) {
-        float x = mScreenBounds.left + (gamePoint.x + 0.5f) * mTileLength;
-        float y = mScreenBounds.top + (gamePoint.y + 0.5f) * mTileLength;
+        float tileSize = Math.min(mScreenSize.x / mGameSize.x, mScreenSize.y / mGameSize.y);
+        mScreenMatrix.postTranslate(0.5f, 0.5f);
+        mScreenMatrix.postScale(tileSize, tileSize);
 
-        return new PointF(x, y);
-    }
-
-    public RectF getBlockOnScreen(PointF gamePoint) {
-        float left = mScreenBounds.left + Math.round(gamePoint.x) * mTileLength;
-        float top = mScreenBounds.top + Math.round(gamePoint.y) * mTileLength;
-
-        return new RectF(left, top, left + mTileLength, top + mTileLength);
+        float paddingLeft = (mScreenSize.x - (tileSize * mGameSize.x)) / 2f;
+        float paddingTop = (mScreenSize.y - (tileSize * mGameSize.y)) / 2f;
+        mScreenMatrix.postTranslate(paddingLeft, paddingTop);
     }
 
     /*
@@ -127,9 +118,21 @@ public class GameEngine implements Runnable {
 
     private void draw(Canvas canvas) {
         canvas.drawColor(Color.WHITE);
+        canvas.setMatrix(mScreenMatrix);
 
         for (GameObject obj : mGameObjects) {
+            PointF pos = obj.getPosition();
+
+            if (pos == null) {
+                continue;
+            }
+
+            canvas.save();
+            canvas.translate(pos.x, pos.y);
+
             obj.draw(canvas);
+
+            canvas.restore();
         }
     }
 
@@ -169,10 +172,9 @@ public class GameEngine implements Runnable {
                 // try locking the canvas for exclusive pixel editing in the surface
                 try {
                     canvas = mSurfaceHolder.lockCanvas();
-                    boolean hw = canvas.isHardwareAccelerated();
 
+                    // render current game state
                     synchronized (mSurfaceHolder) {
-                        // render current game state
                         draw(canvas);
                     }
                 } finally {

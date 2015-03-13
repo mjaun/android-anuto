@@ -3,6 +3,7 @@ package ch.bfh.anuto.game;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
+import android.graphics.RectF;
 
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.core.Commit;
@@ -13,6 +14,8 @@ public abstract class GameObject {
     /*
     ------ Members ------
      */
+
+    protected static final RectF TILE_RECT = new RectF(-0.5f, -0.5f, 0.5f, 0.5f);
 
     protected GameEngine mGame = null;
     protected Paint mPaint = new Paint();

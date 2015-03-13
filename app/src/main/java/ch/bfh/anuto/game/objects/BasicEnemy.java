@@ -2,6 +2,7 @@ package ch.bfh.anuto.game.objects;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.PointF;
 
 import ch.bfh.anuto.game.Enemy;
@@ -38,7 +39,6 @@ public class BasicEnemy extends Enemy {
 
     @Override
     public void draw(Canvas canvas) {
-        PointF p = mGame.getPointOnScreen(mPosition);
-        canvas.drawCircle(p.x, p.y, mGame.getTileSize() / 2, mPaint);
+        canvas.drawCircle(0f, 0f, 0.5f, mPaint);
     }
 }

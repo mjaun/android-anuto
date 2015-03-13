@@ -57,7 +57,7 @@ public class TowerDefenseView extends SurfaceView implements GameListener, Surfa
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         Log.d(TAG, "Surface changed");
 
-        mGame.setScreenBounds(width, height);
+        mGame.setScreenSize(width, height);
     }
 
     @Override
