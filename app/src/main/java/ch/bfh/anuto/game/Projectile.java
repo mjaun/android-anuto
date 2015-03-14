@@ -2,7 +2,7 @@ package ch.bfh.anuto.game;
 
 import android.graphics.PointF;
 
-public abstract class Projectile extends GameObject {
+public abstract class Projectile extends GameObject implements GameObject.Listener {
     /*
     ------ Members ------
      */
@@ -19,10 +19,11 @@ public abstract class Projectile extends GameObject {
         mTarget = target;
 
         setPosition(owner.getPosition());
+        target.addListener(this);
     }
 
     /*
-    ------ Public Methods ------
+    ------ Methods ------
      */
 
     protected float getDistanceToTarget() {
@@ -31,5 +32,15 @@ public abstract class Projectile extends GameObject {
 
     protected PointF getDirectionToTarget() {
         return getDirectionTo(mTarget.getPosition());
+    }
+
+    @Override
+    protected void onRemove() {
+        mTarget.removeListener(this);
+    }
+
+    @Override
+    public void onObjectRemove(GameObject obj) {
+        mGame.removeObject(this);
     }
 }
