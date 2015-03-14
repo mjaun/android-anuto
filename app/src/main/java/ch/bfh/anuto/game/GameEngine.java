@@ -1,16 +1,17 @@
 package ch.bfh.anuto.game;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.util.Log;
-import android.view.SurfaceHolder;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Queue;
 
 public class GameEngine implements Runnable {
     /*
@@ -37,10 +38,11 @@ public class GameEngine implements Runnable {
 
     private Thread mGameThread;
     private boolean mRunning = false;
+    private long mTickCount = 0;
 
-    private final ArrayList<GameObject> mGameObjects = new ArrayList<>();
-    private final ArrayList<GameObject> mObjectsToAdd = new ArrayList<>();
-    private final ArrayList<GameObject> mObjectsToRemove = new ArrayList<>();
+    private final List<GameObject> mGameObjects = new ArrayList<>();
+    private final Queue<GameObject> mObjectsToAdd = new ArrayDeque<>();
+    private final Queue<GameObject> mObjectsToRemove = new ArrayDeque<>();
 
     private Point mGameSize;
     private Point mScreenSize;
@@ -104,6 +106,10 @@ public class GameEngine implements Runnable {
         return mTileSize;
     }
 
+    public long getTickCount() {
+        return mTickCount;
+    }
+
     /*
     ------ GameEngine Loop ------
      */
@@ -113,18 +119,19 @@ public class GameEngine implements Runnable {
             obj.tick();
         }
 
-        for (GameObject obj : mObjectsToAdd) {
-            mGameObjects.add(obj);
-            obj.setGame(this);
-        }
+        GameObject obj;
 
-        for (GameObject obj : mObjectsToRemove) {
+        while ((obj = mObjectsToRemove.poll()) != null) {
             mGameObjects.remove(obj);
             obj.setGame(null);
         }
 
-        mObjectsToAdd.clear();
-        mObjectsToRemove.clear();
+        while ((obj = mObjectsToAdd.poll()) != null) {
+            mGameObjects.add(obj);
+            obj.setGame(this);
+        }
+
+        mTickCount++;
     }
 
     public synchronized void render(Canvas canvas) {
