@@ -35,7 +35,11 @@ public class TowerDefenseView extends View implements GameEngine.Listener {
             mGame = lvl.createGame();
             mGame.addListener(this);
 
-            mGame.addObject(new BasicTower(new PointF(5, 5)));
+            mGame.addObject(new BasicTower(new PointF(5, 4)));
+            mGame.addObject(new BasicTower(new PointF(6, 5)));
+
+            mGame.addObject(new BasicTower(new PointF(5, 9)));
+            mGame.addObject(new BasicTower(new PointF(2, 8)));
 
             lvl.startWave(mGame, 0);
         } catch (Exception e) {

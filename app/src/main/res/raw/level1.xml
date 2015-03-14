@@ -142,6 +142,33 @@
                 <enemy class="ch.bfh.anuto.game.objects.BasicEnemy" x="2" y="-2">
                     <path ref="1"/>
                 </enemy>
+                <enemy class="ch.bfh.anuto.game.objects.BasicEnemy" x="2" y="-3.5">
+                    <path ref="1"/>
+                </enemy>
+                <enemy class="ch.bfh.anuto.game.objects.BasicEnemy" x="2" y="-5">
+                    <path ref="1"/>
+                </enemy>
+                <enemy class="ch.bfh.anuto.game.objects.BasicEnemy" x="2" y="-6.5">
+                    <path ref="1"/>
+                </enemy>
+                <enemy class="ch.bfh.anuto.game.objects.BasicEnemy" x="2" y="-8">
+                    <path ref="1"/>
+                </enemy>
+                <enemy class="ch.bfh.anuto.game.objects.BasicEnemy" x="2" y="-9.5">
+                    <path ref="1"/>
+                </enemy>
+                <enemy class="ch.bfh.anuto.game.objects.BasicEnemy" x="2" y="-11">
+                    <path ref="1"/>
+                </enemy>
+                <enemy class="ch.bfh.anuto.game.objects.BasicEnemy" x="2" y="-12.5">
+                    <path ref="1"/>
+                </enemy>
+                <enemy class="ch.bfh.anuto.game.objects.BasicEnemy" x="2" y="-14">
+                    <path ref="1"/>
+                </enemy>
+                <enemy class="ch.bfh.anuto.game.objects.BasicEnemy" x="2" y="-15.5">
+                    <path ref="1"/>
+                </enemy>
             </enemies>
         </wave>
     </waves>
