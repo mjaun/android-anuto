@@ -9,7 +9,17 @@ import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.core.Commit;
 import org.simpleframework.xml.core.Persist;
 
+import java.util.ArrayList;
+
 public abstract class GameObject {
+
+    /*
+    ------ Listener Interface ------
+     */
+
+    public interface Listener {
+        void onObjectRemove(GameObject obj);
+    }
 
     /*
     ------ Members ------
@@ -22,16 +32,22 @@ public abstract class GameObject {
 
     protected PointF mPosition = null;
 
+    private final ArrayList<Listener> mListeners = new ArrayList<>();
+
     /*
     ------ Constructors ------
      */
 
     public void setGame(GameEngine game) {
         mGame = game;
+
+        if (game == null) {
+            onRemove();
+        }
     }
 
     /*
-    ------ Public Methods ------
+    ------ Methods ------
      */
 
     public abstract void tick();
@@ -53,6 +69,24 @@ public abstract class GameObject {
     public PointF getDirectionTo(PointF target) {
         float dist = getDistanceTo(target);
         return new PointF((target.x - mPosition.x) / dist, (target.y - mPosition.y) / dist);
+    }
+
+    /*
+    ------ Listener Stuff ------
+     */
+
+    public void addListener(Listener listener) {
+        mListeners.add(listener);
+    }
+
+    public void removeListener(Listener listener) {
+        mListeners.remove(listener);
+    }
+
+    protected void onRemove() {
+        for (Listener l : mListeners) {
+            l.onObjectRemove(this);
+        }
     }
 
     /*
@@ -87,13 +121,5 @@ public abstract class GameObject {
         else {
             mPosition.y = y;
         }
-    }
-
-    @Persist
-    protected void onXmlSerialize() {
-    }
-
-    @Commit
-    protected void onXmlDeserialize() {
     }
 }
