@@ -9,7 +9,7 @@ import ch.bfh.anuto.game.Enemy;
 import ch.bfh.anuto.game.Path;
 
 public class BasicEnemy extends Enemy {
-    protected final static float SPEED = 0.05f;
+    private final static float SPEED = 0.05f;
 
     public BasicEnemy() {
         mPaint.setColor(Color.BLUE);

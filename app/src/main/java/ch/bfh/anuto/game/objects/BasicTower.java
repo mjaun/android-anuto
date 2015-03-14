@@ -8,7 +8,7 @@ import ch.bfh.anuto.game.Enemy;
 import ch.bfh.anuto.game.Tower;
 
 public class BasicTower extends Tower {
-    public final static int RELOAD_TIME = 20;
+    private final static int RELOAD_TIME = 20;
 
     public BasicTower() {
         mPaint.setColor(Color.GREEN);
