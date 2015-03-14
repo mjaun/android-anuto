@@ -64,10 +64,12 @@ public class GameEngine implements Runnable {
 
     public void addObject(GameObject obj) {
         mObjectsToAdd.add(obj);
+        obj.setGame(this);
     }
 
     public void removeObject(GameObject obj) {
         mObjectsToRemove.add(obj);
+        obj.setGame(null);
     }
 
     public List<GameObject> getObjects() {
@@ -123,12 +125,10 @@ public class GameEngine implements Runnable {
 
         while ((obj = mObjectsToRemove.poll()) != null) {
             mGameObjects.remove(obj);
-            obj.setGame(null);
         }
 
         while ((obj = mObjectsToAdd.poll()) != null) {
             mGameObjects.add(obj);
-            obj.setGame(this);
         }
 
         mTickCount++;

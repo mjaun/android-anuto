@@ -6,10 +6,9 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 
 import org.simpleframework.xml.Attribute;
-import org.simpleframework.xml.core.Commit;
-import org.simpleframework.xml.core.Persist;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public abstract class GameObject {
 
@@ -32,19 +31,7 @@ public abstract class GameObject {
 
     protected PointF mPosition = null;
 
-    private final ArrayList<Listener> mListeners = new ArrayList<>();
-
-    /*
-    ------ Constructors ------
-     */
-
-    public void setGame(GameEngine game) {
-        mGame = game;
-
-        if (game == null) {
-            onRemove();
-        }
-    }
+    private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
     /*
     ------ Methods ------
@@ -53,6 +40,19 @@ public abstract class GameObject {
     public abstract void tick();
 
     public abstract void draw(Canvas canvas);
+
+    public boolean isRemoved() {
+        return mGame != null;
+    }
+
+    public void setGame(GameEngine game) {
+        if (mGame != null && game == null) {
+            mGame = null;
+            onRemove();
+        }
+
+        mGame = game;
+    }
 
     public PointF getPosition() {
         return mPosition;
