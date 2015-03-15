@@ -17,29 +17,29 @@ public class BasicEnemy extends Enemy {
 
     public BasicEnemy(PointF position, Path path) {
         this();
+
         setPosition(position);
         setPath(path);
     }
 
     @Override
     public void tick() {
+        if (!hasWayPoint()) {
+            return;
+        }
+
         if (getDistanceToWayPoint() < SPEED) {
+            setPosition(getWayPoint());
             nextWayPoint();
         }
-
-        PointF dir = getDirectionToWayPoint();
-
-        if (dir != null) {
-            mPosition.offset(dir.x * SPEED, dir.y * SPEED);
-        }
         else {
-            mGame.removeObject(this);
+            move(getDirectionToWayPoint(), SPEED);
         }
     }
 
     @Override
     public void draw(Canvas canvas) {
-        super.draw(canvas);
+        drawHealthBar(canvas);
         canvas.drawCircle(0f, 0f, 0.5f, mPaint);
     }
 }

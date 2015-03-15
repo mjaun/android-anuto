@@ -8,10 +8,12 @@ import android.util.Log;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Queue;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class GameEngine implements Runnable {
     /*
@@ -33,6 +35,118 @@ public class GameEngine implements Runnable {
     }
 
     /*
+    ------ Iterator ------
+     */
+
+    private abstract class GameObjectIterator<T extends GameObject> implements Iterator<T>, Iterable<T> {
+        private T mNext = null;
+        private boolean mNextComputed = false;
+
+        protected abstract T computeNext();
+
+        @Override
+        public boolean hasNext() {
+            if (!mNextComputed) {
+                mNext = computeNext();
+                mNextComputed = true;
+            }
+
+            return mNext != null;
+        }
+
+        @Override
+        public T next() {
+            if (!mNextComputed) {
+                mNext = computeNext();
+            }
+
+            if (mNext == null) {
+                throw new NoSuchElementException();
+            }
+
+            mNextComputed = false;
+
+            return mNext;
+        }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public Iterator<T> iterator() {
+            return this;
+        }
+    }
+
+    private class GameObjectAllIterator extends GameObjectIterator<GameObject> {
+        Iterator<List<GameObject>> mListIterator;
+        Iterator<GameObject> mObjectIterator;
+
+        public GameObjectAllIterator() {
+            mListIterator = mGameObjects.values().iterator();
+
+            if (mListIterator.hasNext()) {
+                mObjectIterator = mListIterator.next().iterator();
+            }
+        }
+
+        @Override
+        public GameObject computeNext() {
+            if (mObjectIterator == null) {
+                return null;
+            }
+
+            while (true) {
+                while (!mObjectIterator.hasNext()) {
+                    if (mListIterator.hasNext()) {
+                        mObjectIterator = mListIterator.next().iterator();
+                    } else {
+                        return null;
+                    }
+                }
+
+                GameObject next = mObjectIterator.next();
+
+                if (!next.isRemoved()) {
+                    return next;
+                }
+            }
+        }
+    }
+
+    private class GameObjectLayerIterator<T extends GameObject> extends GameObjectIterator<T> {
+        Iterator<GameObject> mObjectIterator;
+        Class<T> mType;
+
+        public GameObjectLayerIterator(Class<T> type, Integer layer) {
+            mType = type;
+
+            if (!mGameObjects.containsKey(layer)) {
+                mGameObjects.put(layer, new ArrayList<GameObject>());
+            }
+
+            mObjectIterator = mGameObjects.get(layer).iterator();
+        }
+
+        @Override
+        public T computeNext() {
+            while (true) {
+                if (!mObjectIterator.hasNext()) {
+                    return null;
+                }
+
+                GameObject next = mObjectIterator.next();
+
+                if (!next.isRemoved()) {
+                    return mType.cast(next);
+                }
+            }
+        }
+    }
+
+    /*
     ------ Members ------
      */
 
@@ -40,7 +154,8 @@ public class GameEngine implements Runnable {
     private boolean mRunning = false;
     private long mTickCount = 0;
 
-    private final List<GameObject> mGameObjects = new ArrayList<>();
+    private final SortedMap<Integer, List<GameObject>> mGameObjects = new TreeMap<>();
+
     private final Queue<GameObject> mObjectsToAdd = new ArrayDeque<>();
     private final Queue<GameObject> mObjectsToRemove = new ArrayDeque<>();
 
@@ -49,7 +164,7 @@ public class GameEngine implements Runnable {
     private float mTileSize;
     private Matrix mScreenMatrix;
 
-    private final ArrayList<Listener> mListeners = new ArrayList<>();
+    private final List<Listener> mListeners = new ArrayList<>();
 
     /*
     ------ Constructors ------
@@ -72,8 +187,12 @@ public class GameEngine implements Runnable {
         obj.setGame(null);
     }
 
-    public List<GameObject> getObjects() {
-        return Collections.unmodifiableList(mGameObjects);
+    public Iterable<GameObject> getObjects() {
+        return new GameObjectAllIterator();
+    }
+
+    public Iterable<Enemy> getEnemies() {
+        return new GameObjectLayerIterator<>(Enemy.class, Enemy.LAYER);
     }
 
     public void setGameSize(int width, int height) {
@@ -117,18 +236,25 @@ public class GameEngine implements Runnable {
      */
 
     private synchronized void tick() {
-        for (GameObject obj : mGameObjects) {
+        for (GameObject obj : getObjects()) {
             obj.tick();
         }
 
         GameObject obj;
 
         while ((obj = mObjectsToRemove.poll()) != null) {
-            mGameObjects.remove(obj);
+            mGameObjects.get(obj.getLayer()).remove(obj);
         }
 
         while ((obj = mObjectsToAdd.poll()) != null) {
-            mGameObjects.add(obj);
+            if (!mGameObjects.containsKey(obj.getLayer())) {
+                List<GameObject> list = new ArrayList<>();
+                list.add(obj);
+
+                mGameObjects.put(obj.getLayer(), list);
+            } else {
+                mGameObjects.get(obj.getLayer()).add(obj);
+            }
         }
 
         mTickCount++;
@@ -137,7 +263,7 @@ public class GameEngine implements Runnable {
     public synchronized void render(Canvas canvas) {
         canvas.concat(mScreenMatrix);
 
-        for (GameObject obj : mGameObjects) {
+        for (GameObject obj : getObjects()) {
             PointF pos = obj.getPosition();
 
             if (pos == null) {
@@ -155,6 +281,7 @@ public class GameEngine implements Runnable {
 
     public void start() {
         mRunning = true;
+
         mGameThread = new Thread(this);
         mGameThread.start();
     }

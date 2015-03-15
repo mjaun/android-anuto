@@ -41,8 +41,16 @@ public abstract class GameObject {
 
     public abstract void draw(Canvas canvas);
 
+    public abstract int getLayer();
+
     public boolean isRemoved() {
-        return mGame != null;
+        return mGame == null;
+    }
+
+    public void remove() {
+        if (!isRemoved()) {
+            mGame.removeObject(this);
+        }
     }
 
     public void setGame(GameEngine game) {
@@ -60,6 +68,16 @@ public abstract class GameObject {
 
     public void setPosition(PointF position) {
         mPosition = new PointF(position.x, position.y);
+    }
+
+    public void move(float dx, float dy) {
+        mPosition.x += dx;
+        mPosition.y += dy;
+    }
+
+    public void move(PointF direction, float distance) {
+        mPosition.x += direction.x * distance;
+        mPosition.y += direction.y * distance;
     }
 
     public float getDistanceTo(PointF target) {

@@ -1,22 +1,20 @@
 package ch.bfh.anuto.game;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PointF;
-import android.graphics.RectF;
 
 import org.simpleframework.xml.Element;
 
-import java.util.ArrayList;
 
 public abstract class Enemy extends GameObject {
 
     /*
     ------ Constants ------
      */
+
+    public static final int LAYER = 3;
 
     private static final float HEALTHBAR_WIDTH = 1.0f;
     private static final float HEALTHBAR_HEIGHT = 0.1f;
@@ -28,7 +26,7 @@ public abstract class Enemy extends GameObject {
 
     @Element(name="path")
     protected Path mPath = null;
-    protected int mNextWayPointIndex = 0;
+    protected int mWayPointIndex = 0;
 
     protected int mHealth = 100;
     protected int mHealthMax = 100;
@@ -51,49 +49,40 @@ public abstract class Enemy extends GameObject {
     ------ Public Methods ------
      */
 
-    public PointF getWayPoint() {
-        if (mPath == null || mPath.getWayPoints().size() <= mNextWayPointIndex)
-            return null;
-
-        return mPath.getWayPoints().get(mNextWayPointIndex);
-    }
-
-    public void nextWayPoint() {
-        if (mPath.getWayPoints().size() > mNextWayPointIndex)
-            mNextWayPointIndex++;
-    }
-
-    public float getDistanceToWayPoint() {
-        PointF wp = getWayPoint();
-
-        if (wp == null)
-            return -1;
-
-        return getDistanceTo(wp);
-    }
-
-    public PointF getDirectionToWayPoint() {
-        PointF wp = getWayPoint();
-
-        if (wp == null)
-            return null;
-
-        return getDirectionTo(wp);
-    }
-
     public Path getPath() {
         return mPath;
     }
 
     public void setPath(Path path) {
         mPath = path;
+        mWayPointIndex = 0;
+    }
+
+    public PointF getWayPoint() {
+        return mPath.getWayPoints().get(mWayPointIndex);
+    }
+
+    protected void nextWayPoint() {
+        mWayPointIndex++;
+    }
+
+    protected boolean hasWayPoint() {
+        return mPath != null && mPath.getWayPoints().size() > mWayPointIndex;
+    }
+
+    protected float getDistanceToWayPoint() {
+        return getDistanceTo(getWayPoint());
+    }
+
+    protected PointF getDirectionToWayPoint() {
+        return getDirectionTo(getWayPoint());
     }
 
     public void damage(int dmg) {
         mHealth -= dmg;
 
         if (mHealth <= 0) {
-            mGame.removeObject(this);
+            remove();
         }
     }
 
@@ -101,8 +90,7 @@ public abstract class Enemy extends GameObject {
         mHealth += val;
     }
 
-    @Override
-    public void draw(Canvas canvas) {
+    protected void drawHealthBar(Canvas canvas) {
         canvas.save();
         canvas.translate(-HEALTHBAR_WIDTH/2f, -HEALTHBAR_OFFSET);
 
@@ -110,5 +98,10 @@ public abstract class Enemy extends GameObject {
         canvas.drawRect(0, 0, mHealth * HEALTHBAR_WIDTH / mHealthMax, HEALTHBAR_HEIGHT, mHealthBarFg);
 
         canvas.restore();
+    }
+
+    @Override
+    public int getLayer() {
+        return LAYER;
     }
 }
