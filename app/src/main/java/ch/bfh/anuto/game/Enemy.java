@@ -14,7 +14,7 @@ public abstract class Enemy extends GameObject {
     ------ Constants ------
      */
 
-    public static final int LAYER = 3;
+    public static final int LAYER = 2;
 
     private static final float HEALTHBAR_WIDTH = 1.0f;
     private static final float HEALTHBAR_HEIGHT = 0.1f;
@@ -78,6 +78,10 @@ public abstract class Enemy extends GameObject {
         return getDirectionTo(getWayPoint());
     }
 
+    protected float getAngleToWayPoint() {
+        return getAngleTo(getWayPoint());
+    }
+
     public void damage(int dmg) {
         mHealth -= dmg;
 
@@ -103,5 +107,11 @@ public abstract class Enemy extends GameObject {
     @Override
     public int getLayer() {
         return LAYER;
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        drawHealthBar(canvas);
+        mSprite.draw(canvas);
     }
 }

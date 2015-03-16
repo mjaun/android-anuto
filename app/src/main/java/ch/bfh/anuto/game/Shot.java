@@ -40,6 +40,10 @@ public abstract class Shot extends GameObject implements GameObject.Listener {
         return getDirectionTo(mTarget.getPosition());
     }
 
+    protected float getAngleToTarget() {
+        return getAngleTo(mTarget.getPosition());
+    }
+
     protected void setTarget(Enemy target) {
         if (mTarget != null) {
             mTarget.removeListener(this);

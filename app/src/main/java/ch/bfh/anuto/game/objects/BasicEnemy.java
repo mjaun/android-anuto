@@ -1,23 +1,24 @@
 package ch.bfh.anuto.game.objects;
 
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.PointF;
 
+import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.Enemy;
+import ch.bfh.anuto.game.GameEngine;
 import ch.bfh.anuto.game.Path;
+import ch.bfh.anuto.game.Sprite;
 
 public class BasicEnemy extends Enemy {
-    private final static float SPEED = 0.05f;
+    private final static float MOVEMENT_SPEED = 1.5f / GameEngine.TARGET_FPS;
+    private final static float ANIMATION_SPEED = 1f / GameEngine.TARGET_FPS;
 
     public BasicEnemy() {
-        mPaint.setColor(Color.BLUE);
     }
 
     public BasicEnemy(PointF position, Path path) {
-        this();
-
         setPosition(position);
         setPath(path);
     }
@@ -28,18 +29,20 @@ public class BasicEnemy extends Enemy {
             return;
         }
 
-        if (getDistanceToWayPoint() < SPEED) {
+        if (getDistanceToWayPoint() < MOVEMENT_SPEED) {
             setPosition(getWayPoint());
             nextWayPoint();
         }
         else {
-            move(getDirectionToWayPoint(), SPEED);
+            move(getDirectionToWayPoint(), MOVEMENT_SPEED);
         }
+
+        mSprite.cycle2(ANIMATION_SPEED);
     }
 
     @Override
-    public void draw(Canvas canvas) {
-        drawHealthBar(canvas);
-        canvas.drawCircle(0f, 0f, 0.5f, mPaint);
+    public void initResources(Resources res) {
+        mSprite = Sprite.fromResources(res, R.drawable.basic_enemy, 12);
+        mSprite.getMatrix().postScale(0.9f, 0.9f);
     }
 }

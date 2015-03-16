@@ -1,42 +1,52 @@
 package ch.bfh.anuto.game.objects;
 
+import android.content.res.Resources;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.PointF;
-import android.util.Log;
 
+import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.Enemy;
-import ch.bfh.anuto.game.GameObject;
+import ch.bfh.anuto.game.GameEngine;
+import ch.bfh.anuto.game.Sprite;
 import ch.bfh.anuto.game.Shot;
 import ch.bfh.anuto.game.Tower;
 
 public class BasicShot extends Shot {
-    private final static float SPEED = 0.1f;
     private final static int DMG = 10;
+    private final static float SPAWN_OFFSET = 0.9f;
+    private final static float MOVEMENT_SPEED = 3f / GameEngine.TARGET_FPS;
+    private final static float ROTATION_SPEED = 360f / GameEngine.TARGET_FPS;
+
+    private Sprite mSprite;
+    private float mAngle = 0f;
 
     public BasicShot(Tower owner, Enemy target) {
         super(owner, target);
 
-        mPaint.setColor(Color.RED);
+        move(getDirectionToTarget(), SPAWN_OFFSET);
     }
 
     @Override
     public void tick() {
-        try {
-            if (getDistanceToTarget() < SPEED) {
-                getTarget().damage(DMG);
-                remove();
-            } else {
-                move(getDirectionToTarget(), SPEED);
-            }
-        } catch (NullPointerException e) {
-            Log.d("test", "Error");
+        if (getDistanceToTarget() < MOVEMENT_SPEED) {
+            getTarget().damage(DMG);
+            remove();
+        } else {
+            move(getDirectionToTarget(), MOVEMENT_SPEED);
         }
+
+        mAngle += ROTATION_SPEED;
     }
 
     @Override
     public void draw(Canvas canvas) {
-        canvas.drawCircle(0f, 0f, 0.2f, mPaint);
+        canvas.rotate(mAngle);
+        mSprite.draw(canvas);
+    }
+
+    @Override
+    public void initResources(Resources res) {
+        mSprite = Sprite.fromResources(res, R.drawable.basic_shot);
+        mSprite.getMatrix().postScale(0.33f, 0.33f);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package ch.bfh.anuto.game;
 
+import android.content.res.Resources;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
@@ -66,8 +67,8 @@ public class Level {
         return mWaves;
     }
 
-    public GameEngine createGame() {
-        GameEngine ret = new GameEngine();
+    public GameEngine createGame(Resources res) {
+        GameEngine ret = new GameEngine(res);
         ret.setGameSize(mSettings.width, mSettings.height);
 
         for (Plateau p : mPlateaus) {

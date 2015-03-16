@@ -1,6 +1,8 @@
 package ch.bfh.anuto.game;
 
+import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.PointF;
@@ -20,11 +22,13 @@ public class GameEngine implements Runnable {
     ------ Constants ------
      */
 
-    private final static String TAG = GameEngine.class.getSimpleName();
-
     public final static int TARGET_FPS = 30;
+
     private final static int MAX_FRAME_SKIPS = 5;
     private final static int FRAME_PERIOD = 1000 / TARGET_FPS;
+    private final static int BACKGROUND_COLOR = Color.WHITE;
+
+    private final static String TAG = GameEngine.class.getSimpleName();
 
     /*
     ------ Listener Interface ------
@@ -164,13 +168,16 @@ public class GameEngine implements Runnable {
     private float mTileSize;
     private Matrix mScreenMatrix;
 
+    private final Resources mResources;
+
     private final List<Listener> mListeners = new ArrayList<>();
 
     /*
     ------ Constructors ------
      */
 
-    public GameEngine() {
+    public GameEngine(Resources res) {
+        mResources = res;
     }
 
     /*
@@ -179,7 +186,6 @@ public class GameEngine implements Runnable {
 
     public void addObject(GameObject obj) {
         mObjectsToAdd.add(obj);
-        obj.setGame(this);
     }
 
     public void removeObject(GameObject obj) {
@@ -248,19 +254,20 @@ public class GameEngine implements Runnable {
 
         while ((obj = mObjectsToAdd.poll()) != null) {
             if (!mGameObjects.containsKey(obj.getLayer())) {
-                List<GameObject> list = new ArrayList<>();
-                list.add(obj);
-
-                mGameObjects.put(obj.getLayer(), list);
-            } else {
-                mGameObjects.get(obj.getLayer()).add(obj);
+                mGameObjects.put(obj.getLayer(), new ArrayList<GameObject>());
             }
+
+            mGameObjects.get(obj.getLayer()).add(obj);
+
+            obj.setGame(this);
+            obj.initResources(mResources);
         }
 
         mTickCount++;
     }
 
     public synchronized void render(Canvas canvas) {
+        canvas.drawColor(BACKGROUND_COLOR);
         canvas.concat(mScreenMatrix);
 
         for (GameObject obj : getObjects()) {

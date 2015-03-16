@@ -1,21 +1,23 @@
 package ch.bfh.anuto.game.objects;
 
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PointF;
 
-import ch.bfh.anuto.game.Enemy;
+import ch.bfh.anuto.R;
+import ch.bfh.anuto.game.Sprite;
 import ch.bfh.anuto.game.Tower;
 
 public class BasicTower extends Tower {
     private final static int RELOAD_TIME = 20;
     private final static float RANGE = 5f;
 
+    private float mAngle;
+
     public BasicTower() {
         mRange = RANGE;
         mReloadTime = RELOAD_TIME;
-
-        mPaint.setColor(Color.GREEN);
     }
 
     public BasicTower(PointF position) {
@@ -32,14 +34,24 @@ public class BasicTower extends Tower {
             nextTarget();
         }
 
-        if (hasTarget() && isReloaded()) {
-            shoot(new BasicShot(this, getTarget()));
+        if (hasTarget()) {
+            if (isReloaded()) {
+                shoot(new BasicShot(this, mTarget));
+            }
+
+            mAngle = getAngleToTarget();
         }
     }
 
     @Override
     public void draw(Canvas canvas) {
-        canvas.drawRect(TILE_RECT, mPaint);
+        canvas.rotate(mAngle);
+        mSprite.draw(canvas);
+    }
+
+    @Override
+    public void initResources(Resources res) {
+        mSprite = Sprite.fromResources(res, R.drawable.basic_tower);
     }
 
     @Override

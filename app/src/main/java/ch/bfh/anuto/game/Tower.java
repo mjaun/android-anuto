@@ -8,7 +8,7 @@ public abstract class Tower extends GameObject implements GameObject.Listener {
     ------ Constants ------
      */
 
-    public static final int LAYER = 2;
+    public static final int LAYER = 3;
 
     /*
     ------ Members ------
@@ -69,6 +69,10 @@ public abstract class Tower extends GameObject implements GameObject.Listener {
 
     protected PointF getDirectionToTarget() {
         return getDirectionTo(mTarget.getPosition());
+    }
+
+    protected float getAngleToTarget() {
+        return getAngleTo(mTarget.getPosition());
     }
 
     protected boolean isReloaded() {

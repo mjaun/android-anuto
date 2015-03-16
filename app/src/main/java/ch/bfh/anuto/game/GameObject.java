@@ -1,12 +1,17 @@
 package ch.bfh.anuto.game;
 
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
 
 import org.simpleframework.xml.Attribute;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -26,10 +31,9 @@ public abstract class GameObject {
 
     protected static final RectF TILE_RECT = new RectF(-0.5f, -0.5f, 0.5f, 0.5f);
 
-    protected GameEngine mGame = null;
-    protected Paint mPaint = new Paint();
-
     protected PointF mPosition = null;
+    protected GameEngine mGame = null;
+    protected Sprite mSprite = null;
 
     private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
@@ -37,11 +41,17 @@ public abstract class GameObject {
     ------ Methods ------
      */
 
-    public abstract void tick();
-
-    public abstract void draw(Canvas canvas);
+    public abstract void initResources(Resources res);
 
     public abstract int getLayer();
+
+    public void tick() {
+
+    }
+
+    public void draw(Canvas canvas) {
+        mSprite.draw(canvas);
+    }
 
     public boolean isRemoved() {
         return mGame == null;
@@ -87,6 +97,10 @@ public abstract class GameObject {
     public PointF getDirectionTo(PointF target) {
         float dist = getDistanceTo(target);
         return new PointF((target.x - mPosition.x) / dist, (target.y - mPosition.y) / dist);
+    }
+
+    public float getAngleTo(PointF target) {
+        return (float)Math.atan2(target.x - mPosition.x, mPosition.y - target.y) / (float)Math.PI * 180f;
     }
 
     /*

@@ -32,7 +32,7 @@ public class TowerDefenseView extends View implements GameEngine.Listener {
             InputStream inStream = getResources().openRawResource(R.raw.level1);
             Level lvl = Level.deserialize(inStream);
 
-            mGame = lvl.createGame();
+            mGame = lvl.createGame(getResources());
             mGame.addListener(this);
 
             mGame.addObject(new BasicTower(new PointF(5, 4)));
