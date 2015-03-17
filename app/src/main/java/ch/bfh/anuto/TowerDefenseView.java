@@ -14,6 +14,9 @@ import java.io.InputStream;
 
 import ch.bfh.anuto.game.Level;
 import ch.bfh.anuto.game.objects.BasicTower;
+import ch.bfh.anuto.game.objects.LaserTower;
+import ch.bfh.anuto.game.objects.AreaTower;
+import ch.bfh.anuto.game.objects.RocketTower;
 import ch.bfh.anuto.game.GameEngine;
 
 
@@ -36,10 +39,10 @@ public class TowerDefenseView extends View implements GameEngine.Listener {
             mGame.addListener(this);
 
             mGame.addObject(new BasicTower(new PointF(5, 4)));
-            mGame.addObject(new BasicTower(new PointF(6, 5)));
+            mGame.addObject(new LaserTower(new PointF(6, 5)));
 
-            mGame.addObject(new BasicTower(new PointF(5, 9)));
-            mGame.addObject(new BasicTower(new PointF(2, 8)));
+            mGame.addObject(new AreaTower(new PointF(5, 9)));
+            mGame.addObject(new RocketTower(new PointF(2, 8)));
 
             lvl.startWave(mGame, 0);
         } catch (Exception e) {
