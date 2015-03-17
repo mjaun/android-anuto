@@ -51,6 +51,8 @@ public class RocketTower extends Tower {
     @Override
     public void initResources(Resources res) {
         mSprite = Sprite.fromResources(res, R.drawable.rocket_tower);
+        mSprite.getMatrix().postScale(2f, 2f);
+        mSprite.getMatrix().postTranslate(0f, -0.45f);
     }
 
     @Override
