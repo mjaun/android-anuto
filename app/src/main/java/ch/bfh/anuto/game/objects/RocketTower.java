@@ -6,7 +6,6 @@ import android.graphics.PointF;
 
 import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.Sprite;
-import ch.bfh.anuto.game.Tower;
 
 public class RocketTower extends Tower {
 
@@ -49,7 +48,7 @@ public class RocketTower extends Tower {
     }
 
     @Override
-    public void initResources(Resources res) {
+    public void init(Resources res) {
         mSprite = Sprite.fromResources(res, R.drawable.rocket_tower);
         mSprite.getMatrix().postScale(2f, 2f);
         mSprite.getMatrix().postTranslate(0f, -0.45f);

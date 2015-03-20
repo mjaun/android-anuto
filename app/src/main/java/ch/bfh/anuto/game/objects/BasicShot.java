@@ -4,11 +4,9 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 
 import ch.bfh.anuto.R;
-import ch.bfh.anuto.game.Enemy;
 import ch.bfh.anuto.game.GameEngine;
+import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.game.Sprite;
-import ch.bfh.anuto.game.Shot;
-import ch.bfh.anuto.game.Tower;
 
 public class BasicShot extends Shot {
     private final static int DMG = 10;
@@ -23,6 +21,12 @@ public class BasicShot extends Shot {
         super(owner, target);
 
         move(getDirectionToTarget(), SPAWN_OFFSET);
+    }
+
+    @Override
+    public void init(Resources res) {
+        mSprite = Sprite.fromResources(res, R.drawable.basic_shot);
+        mSprite.getMatrix().postScale(0.33f, 0.33f);
     }
 
     @Override
@@ -44,17 +48,12 @@ public class BasicShot extends Shot {
     }
 
     @Override
-    public void initResources(Resources res) {
-        mSprite = Sprite.fromResources(res, R.drawable.basic_shot);
-        mSprite.getMatrix().postScale(0.33f, 0.33f);
-    }
-
-    @Override
     public void onTargetLost() {
-        if (mOwner.hasTarget()) {
-            setTarget(mOwner.getTarget());
-        } else {
-            remove();
+        for (GameObject obj : mGame.getObjects(Enemy.TYPEID)) {
+            setTarget((Enemy)obj);
+            return;
         }
+
+        remove();
     }
 }

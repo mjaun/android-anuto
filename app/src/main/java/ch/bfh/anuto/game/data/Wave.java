@@ -1,12 +1,12 @@
-package ch.bfh.anuto.game;
-
-import android.graphics.PointF;
+package ch.bfh.anuto.game.data;
 
 import org.simpleframework.xml.ElementList;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import ch.bfh.anuto.game.objects.Enemy;
 
 public class Wave {
     /*

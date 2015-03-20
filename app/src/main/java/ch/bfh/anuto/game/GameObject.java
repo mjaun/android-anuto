@@ -15,7 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public abstract class GameObject {
+import ch.bfh.anuto.util.RemovedMark;
+
+public abstract class GameObject implements RemovedMark {
 
     /*
     ------ Listener Interface ------
@@ -29,11 +31,9 @@ public abstract class GameObject {
     ------ Members ------
      */
 
-    protected static final RectF TILE_RECT = new RectF(-0.5f, -0.5f, 0.5f, 0.5f);
-
     protected PointF mPosition = null;
-    protected GameEngine mGame = null;
     protected Sprite mSprite = null;
+    protected GameEngine mGame = null;
 
     private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
@@ -41,18 +41,25 @@ public abstract class GameObject {
     ------ Methods ------
      */
 
-    public abstract void initResources(Resources res);
+    public abstract int getTypeId();
 
-    public abstract int getLayer();
+    public abstract void init(Resources res);
 
     public void tick() {
-
     }
 
     public void draw(Canvas canvas) {
         mSprite.draw(canvas);
     }
 
+
+    @Override
+    public void markAsRemoved() {
+        mGame = null;
+        onRemove();
+    }
+
+    @Override
     public boolean isRemoved() {
         return mGame == null;
     }
@@ -63,14 +70,15 @@ public abstract class GameObject {
         }
     }
 
-    public void setGame(GameEngine game) {
-        if (mGame != null && game == null) {
-            mGame = null;
-            onRemove();
-        }
 
+    public GameEngine getGame() {
+        return mGame;
+    }
+
+    public void setGame(GameEngine game) {
         mGame = game;
     }
+
 
     public PointF getPosition() {
         return mPosition;
@@ -89,6 +97,7 @@ public abstract class GameObject {
         mPosition.x += direction.x * distance;
         mPosition.y += direction.y * distance;
     }
+
 
     public float getDistanceTo(PointF target) {
         return (float)Math.sqrt(Math.pow(target.x - mPosition.x, 2) + Math.pow(target.y - mPosition.y, 2));

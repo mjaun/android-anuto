@@ -4,15 +4,11 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.PointF;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.MotionEvent;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
 
 import java.io.InputStream;
 
-import ch.bfh.anuto.game.Level;
+import ch.bfh.anuto.game.data.Level;
 import ch.bfh.anuto.game.objects.BasicTower;
 import ch.bfh.anuto.game.objects.LaserTower;
 import ch.bfh.anuto.game.objects.AreaTower;

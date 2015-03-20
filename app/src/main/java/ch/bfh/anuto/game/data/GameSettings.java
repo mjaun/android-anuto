@@ -1,4 +1,4 @@
-package ch.bfh.anuto.game;
+package ch.bfh.anuto.game.data;
 
 import org.simpleframework.xml.Element;
 

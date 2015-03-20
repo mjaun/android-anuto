@@ -1,14 +1,11 @@
 package ch.bfh.anuto.game.objects;
 
 import android.content.res.Resources;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.PointF;
 
 import ch.bfh.anuto.R;
-import ch.bfh.anuto.game.Enemy;
 import ch.bfh.anuto.game.GameEngine;
-import ch.bfh.anuto.game.Path;
+import ch.bfh.anuto.game.data.Path;
 import ch.bfh.anuto.game.Sprite;
 
 public class BasicEnemy extends Enemy {
@@ -21,6 +18,12 @@ public class BasicEnemy extends Enemy {
     public BasicEnemy(PointF position, Path path) {
         setPosition(position);
         setPath(path);
+    }
+
+    @Override
+    public void init(Resources res) {
+        mSprite = Sprite.fromResources(res, R.drawable.basic_enemy, 12);
+        mSprite.getMatrix().postScale(0.9f, 0.9f);
     }
 
     @Override
@@ -38,11 +41,5 @@ public class BasicEnemy extends Enemy {
         }
 
         mSprite.cycle2(ANIMATION_SPEED);
-    }
-
-    @Override
-    public void initResources(Resources res) {
-        mSprite = Sprite.fromResources(res, R.drawable.basic_enemy, 12);
-        mSprite.getMatrix().postScale(0.9f, 0.9f);
     }
 }

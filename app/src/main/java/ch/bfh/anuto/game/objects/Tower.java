@@ -1,6 +1,8 @@
-package ch.bfh.anuto.game;
+package ch.bfh.anuto.game.objects;
 
 import android.graphics.PointF;
+
+import ch.bfh.anuto.game.GameObject;
 
 public abstract class Tower extends GameObject implements GameObject.Listener {
 
@@ -8,7 +10,7 @@ public abstract class Tower extends GameObject implements GameObject.Listener {
     ------ Constants ------
      */
 
-    public static final int LAYER = 3;
+    public static final int TYPEID = 3;
 
     /*
     ------ Members ------
@@ -24,6 +26,23 @@ public abstract class Tower extends GameObject implements GameObject.Listener {
     ------ Methods ------
      */
 
+    @Override
+    public int getTypeId() {
+        return TYPEID;
+    }
+
+    @Override
+    public void tick() {
+        if (mReloadCounter > 0) {
+            mReloadCounter--;
+        }
+
+        if (hasTarget() && getDistanceToTarget() > mRange) {
+            onTargetLost();
+        }
+    }
+
+
     public float getRange() {
         return mRange;
     }
@@ -31,6 +50,16 @@ public abstract class Tower extends GameObject implements GameObject.Listener {
     public int getReloadTime() {
         return mReloadTime;
     }
+
+    protected boolean isReloaded() {
+        return mReloadCounter <= 0;
+    }
+
+    protected void shoot(Shot shot) {
+        mGame.addObject(shot);
+        mReloadCounter = mReloadTime;
+    }
+
 
     public Enemy getTarget() {
         return mTarget;
@@ -55,13 +84,14 @@ public abstract class Tower extends GameObject implements GameObject.Listener {
     protected void nextTarget() {
         setTarget(null);
 
-        for (Enemy enemy : mGame.getEnemies()) {
-            if (getDistanceTo(enemy.getPosition()) <= mRange) {
-                setTarget(enemy);
+        for (GameObject obj : mGame.getObjects(Enemy.TYPEID)) {
+            if (getDistanceTo(obj.getPosition()) <= mRange) {
+                setTarget((Enemy)obj);
                 break;
             }
         }
     }
+
 
     protected float getDistanceToTarget() {
         return getDistanceTo(mTarget.getPosition());
@@ -75,14 +105,6 @@ public abstract class Tower extends GameObject implements GameObject.Listener {
         return getAngleTo(mTarget.getPosition());
     }
 
-    protected boolean isReloaded() {
-        return mReloadCounter <= 0;
-    }
-
-    protected void shoot(Shot shot) {
-        mGame.addObject(shot);
-        mReloadCounter = mReloadTime;
-    }
 
     protected void onTargetLost() {
         setTarget(null);
@@ -96,21 +118,5 @@ public abstract class Tower extends GameObject implements GameObject.Listener {
     @Override
     public void onObjectRemove(GameObject object) {
         onTargetLost();
-    }
-
-    @Override
-    public void tick() {
-        if (mReloadCounter > 0) {
-            mReloadCounter--;
-        }
-
-        if (hasTarget() && getDistanceToTarget() > mRange) {
-            onTargetLost();
-        }
-    }
-
-    @Override
-    public int getLayer() {
-        return LAYER;
     }
 }

@@ -1,6 +1,8 @@
-package ch.bfh.anuto.game;
+package ch.bfh.anuto.game.objects;
 
 import android.graphics.PointF;
+
+import ch.bfh.anuto.game.GameObject;
 
 public abstract class Shot extends GameObject implements GameObject.Listener {
 
@@ -8,7 +10,7 @@ public abstract class Shot extends GameObject implements GameObject.Listener {
     ------ Constants ------
      */
 
-    public static final int LAYER = 4;
+    public static final int TYPEID = 4;
 
     /*
     ------ Members ------
@@ -32,17 +34,16 @@ public abstract class Shot extends GameObject implements GameObject.Listener {
     ------ Methods ------
      */
 
-    protected float getDistanceToTarget() {
-        return getDistanceTo(mTarget.getPosition());
+    @Override
+    public int getTypeId() {
+        return TYPEID;
     }
 
-    protected PointF getDirectionToTarget() {
-        return getDirectionTo(mTarget.getPosition());
+
+    public Tower getOwner() {
+        return mOwner;
     }
 
-    protected float getAngleToTarget() {
-        return getAngleTo(mTarget.getPosition());
-    }
 
     protected void setTarget(Enemy target) {
         if (mTarget != null) {
@@ -64,9 +65,19 @@ public abstract class Shot extends GameObject implements GameObject.Listener {
         return mTarget != null;
     }
 
-    public Tower getOwner() {
-        return mOwner;
+
+    protected float getDistanceToTarget() {
+        return getDistanceTo(mTarget.getPosition());
     }
+
+    protected PointF getDirectionToTarget() {
+        return getDirectionTo(mTarget.getPosition());
+    }
+
+    protected float getAngleToTarget() {
+        return getAngleTo(mTarget.getPosition());
+    }
+
 
     protected void onTargetLost() {
         setTarget(null);
@@ -80,10 +91,5 @@ public abstract class Shot extends GameObject implements GameObject.Listener {
     @Override
     public void onObjectRemove(GameObject obj) {
         onTargetLost();
-    }
-
-    @Override
-    public int getLayer() {
-        return LAYER;
     }
 }

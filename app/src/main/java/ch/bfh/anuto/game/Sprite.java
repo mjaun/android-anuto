@@ -12,11 +12,10 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Sprite {
-    private final Matrix mMatrix;
-    private final List<Bitmap> mBitmaps;
-    private int mIndex = 0;
-    private float mCycleCounter = 0;
-    private boolean mCycleBackwards = false;
+
+    /*
+    ------ Static ------
+     */
 
     private static HashMap<Integer, Sprite> spriteCache = new HashMap<>();
 
@@ -58,6 +57,20 @@ public class Sprite {
         return new Sprite(sprite);
     }
 
+    /*
+    ------ Members ------
+     */
+
+    private final Matrix mMatrix;
+    private final List<Bitmap> mBitmaps;
+    private int mIndex = 0;
+    private float mCycleCounter = 0;
+    private boolean mCycleBackwards = false;
+
+    /*
+    ------ Constructors ------
+     */
+
     private Sprite(Matrix matrix, Bitmap... bitmaps) {
         mMatrix = matrix;
         mBitmaps = new ArrayList<Bitmap>(Arrays.asList(bitmaps));
@@ -67,6 +80,10 @@ public class Sprite {
         mMatrix = new Matrix(src.mMatrix);
         mBitmaps = src.mBitmaps;
     }
+
+    /*
+    ------ Methods ------
+     */
 
     public void select(int index) {
         mIndex = index;
@@ -116,6 +133,7 @@ public class Sprite {
         }
     }
 
+
     public Matrix getMatrix() {
         return mMatrix;
     }
@@ -123,6 +141,7 @@ public class Sprite {
     public List<Bitmap> getBitmaps() {
         return mBitmaps;
     }
+
 
     public void draw(Canvas canvas) {
         canvas.drawBitmap(mBitmaps.get(mIndex), mMatrix, null);

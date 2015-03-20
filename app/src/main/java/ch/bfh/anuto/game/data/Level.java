@@ -1,8 +1,7 @@
-package ch.bfh.anuto.game;
+package ch.bfh.anuto.game.data;
 
 import android.content.res.Resources;
 import android.util.Log;
-import android.view.SurfaceHolder;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
@@ -17,6 +16,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import ch.bfh.anuto.game.objects.Enemy;
+import ch.bfh.anuto.game.GameEngine;
+import ch.bfh.anuto.game.objects.Plateau;
 
 @Root
 public class Level {

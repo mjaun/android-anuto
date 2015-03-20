@@ -1,4 +1,4 @@
-package ch.bfh.anuto.game;
+package ch.bfh.anuto.game.objects;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -7,6 +7,9 @@ import android.graphics.PointF;
 
 import org.simpleframework.xml.Element;
 
+import ch.bfh.anuto.game.GameObject;
+import ch.bfh.anuto.game.data.Path;
+
 
 public abstract class Enemy extends GameObject {
 
@@ -14,7 +17,7 @@ public abstract class Enemy extends GameObject {
     ------ Constants ------
      */
 
-    public static final int LAYER = 2;
+    public static final int TYPEID = 2;
 
     private static final float HEALTHBAR_WIDTH = 1.0f;
     private static final float HEALTHBAR_HEIGHT = 0.1f;
@@ -49,6 +52,12 @@ public abstract class Enemy extends GameObject {
     ------ Public Methods ------
      */
 
+    @Override
+    public int getTypeId() {
+        return TYPEID;
+    }
+
+
     public Path getPath() {
         return mPath;
     }
@@ -57,6 +66,7 @@ public abstract class Enemy extends GameObject {
         mPath = path;
         mWayPointIndex = 0;
     }
+
 
     public PointF getWayPoint() {
         return mPath.getWayPoints().get(mWayPointIndex);
@@ -70,6 +80,7 @@ public abstract class Enemy extends GameObject {
         return mPath != null && mPath.getWayPoints().size() > mWayPointIndex;
     }
 
+
     protected float getDistanceToWayPoint() {
         return getDistanceTo(getWayPoint());
     }
@@ -81,6 +92,7 @@ public abstract class Enemy extends GameObject {
     protected float getAngleToWayPoint() {
         return getAngleTo(getWayPoint());
     }
+
 
     public void damage(int dmg) {
         mHealth -= dmg;
@@ -94,6 +106,7 @@ public abstract class Enemy extends GameObject {
         mHealth += val;
     }
 
+
     protected void drawHealthBar(Canvas canvas) {
         canvas.save();
         canvas.translate(-HEALTHBAR_WIDTH/2f, -HEALTHBAR_OFFSET);
@@ -104,10 +117,6 @@ public abstract class Enemy extends GameObject {
         canvas.restore();
     }
 
-    @Override
-    public int getLayer() {
-        return LAYER;
-    }
 
     @Override
     public void draw(Canvas canvas) {

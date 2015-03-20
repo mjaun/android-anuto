@@ -6,7 +6,6 @@ import android.graphics.PointF;
 
 import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.Sprite;
-import ch.bfh.anuto.game.Tower;
 
 public class LaserTower extends Tower {
     private final static int RELOAD_TIME = 20;
@@ -48,7 +47,7 @@ public class LaserTower extends Tower {
     }
 
     @Override
-    public void initResources(Resources res) {
+    public void init(Resources res) {
         mSprite = Sprite.fromResources(res, R.drawable.laser_tower);
     }
 

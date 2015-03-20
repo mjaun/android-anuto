@@ -8,14 +8,10 @@ import android.graphics.Point;
 import android.graphics.PointF;
 import android.util.Log;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Queue;
-import java.util.SortedMap;
-import java.util.TreeMap;
+
+import ch.bfh.anuto.util.ConcurrentListMap;
 
 public class GameEngine implements Runnable {
     /*
@@ -39,133 +35,16 @@ public class GameEngine implements Runnable {
     }
 
     /*
-    ------ Iterator ------
-     */
-
-    private abstract class GameObjectIterator<T extends GameObject> implements Iterator<T>, Iterable<T> {
-        private T mNext = null;
-        private boolean mNextComputed = false;
-
-        protected abstract T computeNext();
-
-        @Override
-        public boolean hasNext() {
-            if (!mNextComputed) {
-                mNext = computeNext();
-                mNextComputed = true;
-            }
-
-            return mNext != null;
-        }
-
-        @Override
-        public T next() {
-            if (!mNextComputed) {
-                mNext = computeNext();
-            }
-
-            if (mNext == null) {
-                throw new NoSuchElementException();
-            }
-
-            mNextComputed = false;
-
-            return mNext;
-        }
-
-        @Override
-        public void remove() {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public Iterator<T> iterator() {
-            return this;
-        }
-    }
-
-    private class GameObjectAllIterator extends GameObjectIterator<GameObject> {
-        Iterator<List<GameObject>> mListIterator;
-        Iterator<GameObject> mObjectIterator;
-
-        public GameObjectAllIterator() {
-            mListIterator = mGameObjects.values().iterator();
-
-            if (mListIterator.hasNext()) {
-                mObjectIterator = mListIterator.next().iterator();
-            }
-        }
-
-        @Override
-        public GameObject computeNext() {
-            if (mObjectIterator == null) {
-                return null;
-            }
-
-            while (true) {
-                while (!mObjectIterator.hasNext()) {
-                    if (mListIterator.hasNext()) {
-                        mObjectIterator = mListIterator.next().iterator();
-                    } else {
-                        return null;
-                    }
-                }
-
-                GameObject next = mObjectIterator.next();
-
-                if (!next.isRemoved()) {
-                    return next;
-                }
-            }
-        }
-    }
-
-    private class GameObjectLayerIterator<T extends GameObject> extends GameObjectIterator<T> {
-        Iterator<GameObject> mObjectIterator;
-        Class<T> mType;
-
-        public GameObjectLayerIterator(Class<T> type, Integer layer) {
-            mType = type;
-
-            if (!mGameObjects.containsKey(layer)) {
-                mGameObjects.put(layer, new ArrayList<GameObject>());
-            }
-
-            mObjectIterator = mGameObjects.get(layer).iterator();
-        }
-
-        @Override
-        public T computeNext() {
-            while (true) {
-                if (!mObjectIterator.hasNext()) {
-                    return null;
-                }
-
-                GameObject next = mObjectIterator.next();
-
-                if (!next.isRemoved()) {
-                    return mType.cast(next);
-                }
-            }
-        }
-    }
-
-    /*
     ------ Members ------
      */
 
     private Thread mGameThread;
     private boolean mRunning = false;
-    private long mTickCount = 0;
 
-    private final SortedMap<Integer, List<GameObject>> mGameObjects = new TreeMap<>();
-
-    private final Queue<GameObject> mObjectsToAdd = new ArrayDeque<>();
-    private final Queue<GameObject> mObjectsToRemove = new ArrayDeque<>();
+    private final ConcurrentListMap<Integer, GameObject> mGameObjects = new ConcurrentListMap<>();
 
     private Point mGameSize;
     private Point mScreenSize;
-    private float mTileSize;
     private Matrix mScreenMatrix;
 
     private final Resources mResources;
@@ -185,21 +64,25 @@ public class GameEngine implements Runnable {
      */
 
     public void addObject(GameObject obj) {
-        mObjectsToAdd.add(obj);
+        mGameObjects.addDeferred(obj.getTypeId(), obj);
+
+        obj.setGame(this);
+        obj.init(mResources);
     }
 
     public void removeObject(GameObject obj) {
-        mObjectsToRemove.add(obj);
-        obj.setGame(null);
+        mGameObjects.remove(obj.getTypeId(), obj);
     }
+
 
     public Iterable<GameObject> getObjects() {
-        return new GameObjectAllIterator();
+        return mGameObjects.getAll();
     }
 
-    public Iterable<Enemy> getEnemies() {
-        return new GameObjectLayerIterator<>(Enemy.class, Enemy.LAYER);
+    public Iterable<GameObject> getObjects(int typeId) {
+        return mGameObjects.getByKey(typeId);
     }
+
 
     public void setGameSize(int width, int height) {
         mGameSize = new Point(width, height);
@@ -220,21 +103,13 @@ public class GameEngine implements Runnable {
     private void calcScreenMatrix() {
         mScreenMatrix = new Matrix();
 
-        mTileSize = Math.min(mScreenSize.x / mGameSize.x, mScreenSize.y / mGameSize.y);
+        float tileSize = Math.min(mScreenSize.x / mGameSize.x, mScreenSize.y / mGameSize.y);
         mScreenMatrix.postTranslate(0.5f, 0.5f);
-        mScreenMatrix.postScale(mTileSize, mTileSize);
+        mScreenMatrix.postScale(tileSize, tileSize);
 
-        float paddingLeft = (mScreenSize.x - (mTileSize * mGameSize.x)) / 2f;
-        float paddingTop = (mScreenSize.y - (mTileSize * mGameSize.y)) / 2f;
+        float paddingLeft = (mScreenSize.x - (tileSize * mGameSize.x)) / 2f;
+        float paddingTop = (mScreenSize.y - (tileSize * mGameSize.y)) / 2f;
         mScreenMatrix.postTranslate(paddingLeft, paddingTop);
-    }
-
-    public float getTileSize() {
-        return mTileSize;
-    }
-
-    public long getTickCount() {
-        return mTickCount;
     }
 
     /*
@@ -242,35 +117,18 @@ public class GameEngine implements Runnable {
      */
 
     private synchronized void tick() {
-        for (GameObject obj : getObjects()) {
+        for (GameObject obj : mGameObjects.getAll()) {
             obj.tick();
         }
 
-        GameObject obj;
-
-        while ((obj = mObjectsToRemove.poll()) != null) {
-            mGameObjects.get(obj.getLayer()).remove(obj);
-        }
-
-        while ((obj = mObjectsToAdd.poll()) != null) {
-            if (!mGameObjects.containsKey(obj.getLayer())) {
-                mGameObjects.put(obj.getLayer(), new ArrayList<GameObject>());
-            }
-
-            mGameObjects.get(obj.getLayer()).add(obj);
-
-            obj.setGame(this);
-            obj.initResources(mResources);
-        }
-
-        mTickCount++;
+        mGameObjects.update();
     }
 
     public synchronized void render(Canvas canvas) {
         canvas.drawColor(BACKGROUND_COLOR);
         canvas.concat(mScreenMatrix);
 
-        for (GameObject obj : getObjects()) {
+        for (GameObject obj : mGameObjects.getAll()) {
             PointF pos = obj.getPosition();
 
             if (pos == null) {
@@ -279,12 +137,11 @@ public class GameEngine implements Runnable {
 
             canvas.save();
             canvas.translate(pos.x, pos.y);
-
             obj.draw(canvas);
-
             canvas.restore();
         }
     }
+
 
     public void start() {
         mRunning = true;
@@ -303,6 +160,7 @@ public class GameEngine implements Runnable {
             } catch (InterruptedException e) {}
         }
     }
+
 
     @Override
     public void run() {
