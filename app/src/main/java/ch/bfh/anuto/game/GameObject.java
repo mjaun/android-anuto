@@ -1,17 +1,11 @@
 package ch.bfh.anuto.game;
 
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.graphics.PointF;
-import android.graphics.RectF;
 
 import org.simpleframework.xml.Attribute;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -35,6 +29,8 @@ public abstract class GameObject implements RemovedMark {
     protected Sprite mSprite = null;
     protected GameEngine mGame = null;
 
+    private boolean mMarkedAsRemoved = false;
+
     private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
     /*
@@ -53,19 +49,8 @@ public abstract class GameObject implements RemovedMark {
     }
 
 
-    @Override
-    public void markAsRemoved() {
-        mGame = null;
-        onRemove();
-    }
-
-    @Override
-    public boolean isRemoved() {
-        return mGame == null;
-    }
-
     public void remove() {
-        if (!isRemoved()) {
+        if (mGame != null) {
             mGame.removeObject(this);
         }
     }
@@ -110,6 +95,23 @@ public abstract class GameObject implements RemovedMark {
 
     public float getAngleTo(PointF target) {
         return (float)Math.atan2(target.x - mPosition.x, mPosition.y - target.y) / (float)Math.PI * 180f;
+    }
+
+
+    @Override
+    public void resetRemovedMark() {
+        mMarkedAsRemoved = false;
+    }
+
+    @Override
+    public void markAsRemoved() {
+        mMarkedAsRemoved = true;
+        onRemove();
+    }
+
+    @Override
+    public boolean hasRemovedMark() {
+        return mMarkedAsRemoved;
     }
 
     /*

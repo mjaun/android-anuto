@@ -35,13 +35,30 @@ public class GameEngine implements Runnable {
     }
 
     /*
+    ------ Helper Classes ------
+     */
+
+    private class GameObjectListMap extends ConcurrentListMap<Integer, GameObject> {
+        @Override
+        protected void onItemAdded(Integer key, GameObject value) {
+            value.setGame(GameEngine.this);
+            value.init(mResources);
+        }
+
+        @Override
+        protected void onItemRemoved(Integer key, GameObject value) {
+            value.setGame(null);
+        }
+    }
+
+    /*
     ------ Members ------
      */
 
     private Thread mGameThread;
     private boolean mRunning = false;
 
-    private final ConcurrentListMap<Integer, GameObject> mGameObjects = new ConcurrentListMap<>();
+    private final GameObjectListMap mGameObjects = new GameObjectListMap();
 
     private Point mGameSize;
     private Point mScreenSize;
@@ -65,13 +82,10 @@ public class GameEngine implements Runnable {
 
     public void addObject(GameObject obj) {
         mGameObjects.addDeferred(obj.getTypeId(), obj);
-
-        obj.setGame(this);
-        obj.init(mResources);
     }
 
     public void removeObject(GameObject obj) {
-        mGameObjects.remove(obj.getTypeId(), obj);
+        mGameObjects.removeDeferred(obj.getTypeId(), obj);
     }
 
 
@@ -121,7 +135,7 @@ public class GameEngine implements Runnable {
             obj.tick();
         }
 
-        mGameObjects.update();
+        mGameObjects.applyChanges();
     }
 
     public synchronized void render(Canvas canvas) {

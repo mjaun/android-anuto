@@ -100,7 +100,7 @@ public class ConcurrentListMap<K, V extends RemovedMark> {
 
                 V next = mObjectIterator.next();
 
-                if (!next.isRemoved()) {
+                if (!next.hasRemovedMark()) {
                     return next;
                 }
             }
@@ -123,7 +123,7 @@ public class ConcurrentListMap<K, V extends RemovedMark> {
 
                 V next = mObjectIterator.next();
 
-                if (!next.isRemoved()) {
+                if (!next.hasRemovedMark()) {
                     return next;
                 }
             }
@@ -155,20 +155,23 @@ public class ConcurrentListMap<K, V extends RemovedMark> {
         mObjectsToAdd.add(new Entry<>(key, value));
     }
 
-    public void remove(K key, V value) {
+    public void removeDeferred(K key, V value) {
         value.markAsRemoved();
         mObjectsToRemove.add(new Entry<>(key, value));
     }
 
-    public void update() {
+    public void applyChanges() {
         while (!mObjectsToAdd.isEmpty()) {
             Entry<K, V> e = mObjectsToAdd.remove();
             getList(e.key).add(e.value);
+            e.value.resetRemovedMark();
+            onItemAdded(e.key, e.value);
         }
 
         while (!mObjectsToRemove.isEmpty()) {
             Entry<K, V> e = mObjectsToRemove.remove();
             getList(e.key).remove(e.value);
+            onItemRemoved(e.key, e.value);
         }
     }
 
@@ -178,5 +181,13 @@ public class ConcurrentListMap<K, V extends RemovedMark> {
 
     public Iterable<V> getByKey(K key) {
         return new ListMapKeyIterator(key);
+    }
+
+    protected void onItemAdded(K key, V value) {
+
+    }
+
+    protected void onItemRemoved(K key, V value) {
+
     }
 }
