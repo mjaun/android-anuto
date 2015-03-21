@@ -8,8 +8,8 @@ import ch.bfh.anuto.game.GameEngine;
 import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.game.Sprite;
 
-public class BasicShot extends Shot {
-    private final static int DMG = 10;
+public class BasicShot extends TargetedShot {
+    private final static int DAMAGE = 10;
     private final static float SPAWN_OFFSET = 0.9f;
     private final static float MOVEMENT_SPEED = 3f / GameEngine.TARGET_FPS;
     private final static float ROTATION_SPEED = 360f / GameEngine.TARGET_FPS;
@@ -17,10 +17,9 @@ public class BasicShot extends Shot {
     private Sprite mSprite;
     private float mAngle = 0f;
 
-    public BasicShot(Tower owner, Enemy target) {
-        super(owner, target);
-
-        move(getDirectionToTarget(), SPAWN_OFFSET);
+    public BasicShot(Enemy target) {
+        setTarget(target);
+        move(getDirectionTo(mTarget.getPosition()), SPAWN_OFFSET);
     }
 
     @Override
@@ -31,11 +30,11 @@ public class BasicShot extends Shot {
 
     @Override
     public void tick() {
-        if (getDistanceToTarget() < MOVEMENT_SPEED) {
-            getTarget().damage(DMG);
+        if (getDistanceTo(mTarget.getPosition()) < MOVEMENT_SPEED) {
+            ((Enemy)mTarget).damage(DAMAGE);
             remove();
         } else {
-            move(getDirectionToTarget(), MOVEMENT_SPEED);
+            move(getDirectionTo(mTarget.getPosition()), MOVEMENT_SPEED);
         }
 
         mAngle += ROTATION_SPEED;
@@ -50,7 +49,7 @@ public class BasicShot extends Shot {
     @Override
     public void onTargetLost() {
         for (GameObject obj : mGame.getObjects(Enemy.TYPEID)) {
-            setTarget((Enemy)obj);
+            setTarget(obj);
             return;
         }
 

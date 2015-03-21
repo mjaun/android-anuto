@@ -9,6 +9,8 @@ import java.util.Queue;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import ch.bfh.anuto.game.GameObject;
+
 public class ConcurrentListMap<K, V extends RemovedMark> {
 
     /*
@@ -130,6 +132,32 @@ public class ConcurrentListMap<K, V extends RemovedMark> {
         }
     }
 
+    private class ListMapFilterIterator extends ListMapIterator {
+
+        Iterator<V> mUnfiltered;
+        Predicate<V> mFilter;
+
+        public ListMapFilterIterator(Iterator<V> unfiltered, Predicate<V> filter) {
+            mUnfiltered = unfiltered;
+            mFilter = filter;
+        }
+
+        @Override
+        protected V computeNext() {
+            V ret;
+
+            while (mUnfiltered.hasNext()) {
+                ret = mUnfiltered.next();
+
+                if (mFilter.input(ret)) {
+                    return ret;
+                }
+            }
+
+            return null;
+        }
+    }
+
     /*
     ------ Members ------
      */
@@ -181,6 +209,14 @@ public class ConcurrentListMap<K, V extends RemovedMark> {
 
     public Iterable<V> getByKey(K key) {
         return new ListMapKeyIterator(key);
+    }
+
+    public Iterable<V> getAllFiltered(Predicate<V> filter) {
+        return new ListMapFilterIterator(new ListMapAllIterator(), filter);
+    }
+
+    public Iterable<V> getByKeyFiltered(K key, Predicate<V> filter) {
+        return new ListMapFilterIterator(new ListMapKeyIterator(key), filter);
     }
 
     protected void onItemAdded(K key, V value) {

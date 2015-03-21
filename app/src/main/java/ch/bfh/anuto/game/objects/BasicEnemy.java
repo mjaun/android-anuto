@@ -9,15 +9,13 @@ import ch.bfh.anuto.game.data.Path;
 import ch.bfh.anuto.game.Sprite;
 
 public class BasicEnemy extends Enemy {
+    private final static int HEALTH = 100;
     private final static float MOVEMENT_SPEED = 1.5f / GameEngine.TARGET_FPS;
     private final static float ANIMATION_SPEED = 1f / GameEngine.TARGET_FPS;
 
     public BasicEnemy() {
-    }
-
-    public BasicEnemy(PointF position, Path path) {
-        setPosition(position);
-        setPath(path);
+        mHealth = mHealthMax = HEALTH;
+        mSpeed = MOVEMENT_SPEED;
     }
 
     @Override
@@ -28,17 +26,7 @@ public class BasicEnemy extends Enemy {
 
     @Override
     public void tick() {
-        if (!hasWayPoint()) {
-            return;
-        }
-
-        if (getDistanceToWayPoint() < MOVEMENT_SPEED) {
-            setPosition(getWayPoint());
-            nextWayPoint();
-        }
-        else {
-            move(getDirectionToWayPoint(), MOVEMENT_SPEED);
-        }
+        super.tick();
 
         mSprite.cycle2(ANIMATION_SPEED);
     }

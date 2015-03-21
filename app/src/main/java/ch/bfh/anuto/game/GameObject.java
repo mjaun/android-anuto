@@ -18,17 +18,18 @@ public abstract class GameObject implements RemovedMark {
      */
 
     public interface Listener {
-        void onObjectRemove(GameObject obj);
+        void onAddObject(GameObject obj);
+        void onRemoveObject(GameObject obj);
     }
 
     /*
     ------ Members ------
      */
 
-    protected PointF mPosition = null;
+    protected final PointF mPosition = new PointF();
     protected Sprite mSprite = null;
-    protected GameEngine mGame = null;
 
+    protected GameEngine mGame = null;
     private boolean mMarkedAsRemoved = false;
 
     private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
@@ -41,13 +42,15 @@ public abstract class GameObject implements RemovedMark {
 
     public abstract void init(Resources res);
 
+    public void clean() {
+    }
+
     public void tick() {
     }
 
     public void draw(Canvas canvas) {
         mSprite.draw(canvas);
     }
-
 
     public void remove() {
         if (mGame != null) {
@@ -62,6 +65,12 @@ public abstract class GameObject implements RemovedMark {
 
     public void setGame(GameEngine game) {
         mGame = game;
+
+        if (game != null) {
+            onAdd();
+        } else {
+            onRemove();
+        }
     }
 
 
@@ -70,8 +79,10 @@ public abstract class GameObject implements RemovedMark {
     }
 
     public void setPosition(PointF position) {
-        mPosition = new PointF(position.x, position.y);
+        mPosition.x = position.x;
+        mPosition.y = position.y;
     }
+
 
     public void move(float dx, float dy) {
         mPosition.x += dx;
@@ -106,7 +117,6 @@ public abstract class GameObject implements RemovedMark {
     @Override
     public void markAsRemoved() {
         mMarkedAsRemoved = true;
-        onRemove();
     }
 
     @Override
@@ -126,9 +136,15 @@ public abstract class GameObject implements RemovedMark {
         mListeners.remove(listener);
     }
 
+    protected void onAdd() {
+        for (Listener l : mListeners) {
+            l.onAddObject(this);
+        }
+    }
+
     protected void onRemove() {
         for (Listener l : mListeners) {
-            l.onObjectRemove(this);
+            l.onRemoveObject(this);
         }
     }
 
@@ -143,12 +159,7 @@ public abstract class GameObject implements RemovedMark {
 
     @Attribute(name="x")
     private void setPositionX(float x) {
-        if (mPosition == null) {
-            mPosition = new PointF(x, 0);
-        }
-        else {
-            mPosition.x = x;
-        }
+        mPosition.x = x;
     }
 
     @Attribute(name="y")
@@ -158,11 +169,6 @@ public abstract class GameObject implements RemovedMark {
 
     @Attribute(name="y")
     private void setPositionY(float y) {
-        if (mPosition == null) {
-            mPosition = new PointF(0, y);
-        }
-        else {
-            mPosition.y = y;
-        }
+        mPosition.y = y;
     }
 }

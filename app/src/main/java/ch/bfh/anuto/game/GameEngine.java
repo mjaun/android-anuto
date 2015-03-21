@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.bfh.anuto.util.ConcurrentListMap;
+import ch.bfh.anuto.util.Predicate;
 
 public class GameEngine implements Runnable {
     /*
@@ -47,6 +48,7 @@ public class GameEngine implements Runnable {
 
         @Override
         protected void onItemRemoved(Integer key, GameObject value) {
+            value.clean();
             value.setGame(null);
         }
     }
@@ -97,6 +99,15 @@ public class GameEngine implements Runnable {
         return mGameObjects.getByKey(typeId);
     }
 
+    public Iterable<GameObject> getObjectsInRange(int typeId, final PointF center, final float range) {
+        return mGameObjects.getByKeyFiltered(typeId, new Predicate<GameObject>() {
+            @Override
+            public boolean input(GameObject value) {
+                return value.getDistanceTo(center) <= range;
+            }
+        });
+    }
+
 
     public void setGameSize(int width, int height) {
         mGameSize = new Point(width, height);
@@ -144,10 +155,6 @@ public class GameEngine implements Runnable {
 
         for (GameObject obj : mGameObjects.getAll()) {
             PointF pos = obj.getPosition();
-
-            if (pos == null) {
-                continue;
-            }
 
             canvas.save();
             canvas.translate(pos.x, pos.y);

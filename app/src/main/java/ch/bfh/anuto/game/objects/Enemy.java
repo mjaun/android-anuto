@@ -33,6 +33,7 @@ public abstract class Enemy extends GameObject {
 
     protected int mHealth = 100;
     protected int mHealthMax = 100;
+    protected float mSpeed = 1.0f;
 
     protected Paint mHealthBarBg;
     protected Paint mHealthBarFg;
@@ -81,19 +82,6 @@ public abstract class Enemy extends GameObject {
     }
 
 
-    protected float getDistanceToWayPoint() {
-        return getDistanceTo(getWayPoint());
-    }
-
-    protected PointF getDirectionToWayPoint() {
-        return getDirectionTo(getWayPoint());
-    }
-
-    protected float getAngleToWayPoint() {
-        return getAngleTo(getWayPoint());
-    }
-
-
     public void damage(int dmg) {
         mHealth -= dmg;
 
@@ -107,6 +95,28 @@ public abstract class Enemy extends GameObject {
     }
 
 
+    @Override
+    public void tick() {
+        if (!hasWayPoint()) {
+            remove();
+            return;
+        }
+
+        if (getDistanceTo(getWayPoint()) < mSpeed) {
+            setPosition(getWayPoint());
+            nextWayPoint();
+        }
+        else {
+            move(getDirectionTo(getWayPoint()), mSpeed);
+        }
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        drawHealthBar(canvas);
+        mSprite.draw(canvas);
+    }
+
     protected void drawHealthBar(Canvas canvas) {
         canvas.save();
         canvas.translate(-HEALTHBAR_WIDTH/2f, -HEALTHBAR_OFFSET);
@@ -115,12 +125,5 @@ public abstract class Enemy extends GameObject {
         canvas.drawRect(0, 0, mHealth * HEALTHBAR_WIDTH / mHealthMax, HEALTHBAR_HEIGHT, mHealthBarFg);
 
         canvas.restore();
-    }
-
-
-    @Override
-    public void draw(Canvas canvas) {
-        drawHealthBar(canvas);
-        mSprite.draw(canvas);
     }
 }
