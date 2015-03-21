@@ -83,6 +83,11 @@ public abstract class GameObject implements RemovedMark {
         mPosition.y = position.y;
     }
 
+    public void setPosition(float x, float y) {
+        mPosition.x = x;
+        mPosition.y = y;
+    }
+
 
     public void move(float dx, float dy) {
         mPosition.x += dx;

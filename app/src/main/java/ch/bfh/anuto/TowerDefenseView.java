@@ -9,6 +9,8 @@ import android.view.View;
 import java.io.InputStream;
 
 import ch.bfh.anuto.game.data.Level;
+import ch.bfh.anuto.game.objects.Enemy;
+import ch.bfh.anuto.game.objects.impl.BasicEnemy;
 import ch.bfh.anuto.game.objects.impl.BasicTower;
 import ch.bfh.anuto.game.objects.impl.LaserTower;
 import ch.bfh.anuto.game.objects.impl.AreaTower;
@@ -35,12 +37,37 @@ public class TowerDefenseView extends View implements GameEngine.Listener {
             mGame.addListener(this);
 
             mGame.addObject(new BasicTower(new PointF(5, 4)));
-            mGame.addObject(new LaserTower(new PointF(6, 5)));
+            mGame.addObject(new BasicTower(new PointF(6, 4)));
+            mGame.addObject(new BasicTower(new PointF(5, 5)));
+            mGame.addObject(new BasicTower(new PointF(6, 5)));
 
-            mGame.addObject(new AreaTower(new PointF(5, 9)));
-            mGame.addObject(new RocketTower(new PointF(2, 8)));
+            mGame.addObject(new BasicTower(new PointF(5, 9)));
+            mGame.addObject(new BasicTower(new PointF(6, 9)));
+            mGame.addObject(new BasicTower(new PointF(7, 9)));
+            mGame.addObject(new BasicTower(new PointF(8, 9)));
+
+            mGame.addObject(new BasicTower(new PointF(5, 10)));
+            mGame.addObject(new BasicTower(new PointF(6, 10)));
+            mGame.addObject(new BasicTower(new PointF(7, 10)));
+            mGame.addObject(new BasicTower(new PointF(8, 10)));
+
+            mGame.addObject(new BasicTower(new PointF(2, 8)));
+            mGame.addObject(new BasicTower(new PointF(2, 9)));
+            mGame.addObject(new BasicTower(new PointF(2, 10)));
+            mGame.addObject(new BasicTower(new PointF(2, 11)));
+            mGame.addObject(new BasicTower(new PointF(1, 8)));
+            mGame.addObject(new BasicTower(new PointF(1, 9)));
+            mGame.addObject(new BasicTower(new PointF(1, 10)));
+            mGame.addObject(new BasicTower(new PointF(1, 11)));
 
             lvl.startWave(mGame, 0);
+
+            for (int i = 0; i < 50; i++) {
+                Enemy e = new BasicEnemy();
+                e.setPosition(2f, -17f - 1.5f * i);
+                e.setPath(lvl.getPaths().get(0));
+                mGame.addObject(e);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
