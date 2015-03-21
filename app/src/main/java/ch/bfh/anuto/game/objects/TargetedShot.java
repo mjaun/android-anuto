@@ -8,13 +8,28 @@ public abstract class TargetedShot extends Shot implements GameObject.Listener {
     ------ Members ------
      */
 
-    protected GameObject mTarget;
+    protected Enemy mTarget;
 
     /*
     ------ Methods ------
      */
 
-    protected void setTarget(GameObject target) {
+    @Override
+    public void tick() {
+        super.tick();
+
+        if (hasTarget() && getDistanceTo(mTarget) <= mSpeed) {
+            onTargetReached();
+        }
+    }
+
+    @Override
+    protected void onRemove() {
+        setTarget(null);
+    }
+
+
+    protected void setTarget(Enemy target) {
         if (mTarget != null) {
             mTarget.removeListener(this);
         }
@@ -26,7 +41,7 @@ public abstract class TargetedShot extends Shot implements GameObject.Listener {
         }
     }
 
-    public GameObject getTarget() {
+    public Enemy getTarget() {
         return mTarget;
     }
 
@@ -34,15 +49,9 @@ public abstract class TargetedShot extends Shot implements GameObject.Listener {
         return mTarget != null;
     }
 
-    protected void onTargetLost() {
-        setTarget(null);
-    }
+    protected abstract void onTargetReached();
 
-
-    @Override
-    protected void onRemove() {
-        setTarget(null);
-    }
+    protected abstract void onTargetLost();
 
     /*
     ------ GameObject Listener ------

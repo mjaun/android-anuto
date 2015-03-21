@@ -17,7 +17,7 @@ public abstract class Enemy extends GameObject {
     ------ Constants ------
      */
 
-    public static final int TYPEID = 2;
+    public static final int TYPE_ID = 2;
 
     private static final float HEALTHBAR_WIDTH = 1.0f;
     private static final float HEALTHBAR_HEIGHT = 0.1f;
@@ -31,8 +31,8 @@ public abstract class Enemy extends GameObject {
     protected Path mPath = null;
     protected int mWayPointIndex = 0;
 
-    protected int mHealth = 100;
-    protected int mHealthMax = 100;
+    protected float mHealth = 100f;
+    protected float mHealthMax = 100f;
     protected float mSpeed = 1.0f;
 
     protected Paint mHealthBarBg;
@@ -55,45 +55,8 @@ public abstract class Enemy extends GameObject {
 
     @Override
     public int getTypeId() {
-        return TYPEID;
+        return TYPE_ID;
     }
-
-
-    public Path getPath() {
-        return mPath;
-    }
-
-    public void setPath(Path path) {
-        mPath = path;
-        mWayPointIndex = 0;
-    }
-
-
-    public PointF getWayPoint() {
-        return mPath.getWayPoints().get(mWayPointIndex);
-    }
-
-    protected void nextWayPoint() {
-        mWayPointIndex++;
-    }
-
-    protected boolean hasWayPoint() {
-        return mPath != null && mPath.getWayPoints().size() > mWayPointIndex;
-    }
-
-
-    public void damage(int dmg) {
-        mHealth -= dmg;
-
-        if (mHealth <= 0) {
-            remove();
-        }
-    }
-
-    public void heal(int val) {
-        mHealth += val;
-    }
-
 
     @Override
     public void tick() {
@@ -125,5 +88,45 @@ public abstract class Enemy extends GameObject {
         canvas.drawRect(0, 0, mHealth * HEALTHBAR_WIDTH / mHealthMax, HEALTHBAR_HEIGHT, mHealthBarFg);
 
         canvas.restore();
+    }
+
+
+    protected PointF getWayPoint() {
+        return mPath.getWayPoints().get(mWayPointIndex);
+    }
+
+    protected void nextWayPoint() {
+        mWayPointIndex++;
+    }
+
+    protected boolean hasWayPoint() {
+        return mPath != null && mPath.getWayPoints().size() > mWayPointIndex;
+    }
+
+
+    public Path getPath() {
+        return mPath;
+    }
+
+    public void setPath(Path path) {
+        mPath = path;
+        mWayPointIndex = 0;
+    }
+
+
+    public void damage(float dmg) {
+        mHealth -= dmg;
+
+        if (mHealth <= 0) {
+            remove();
+        }
+    }
+
+    public void heal(float val) {
+        mHealth += val;
+    }
+
+    public float getHealth() {
+        return mHealth;
     }
 }

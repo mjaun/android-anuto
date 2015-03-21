@@ -6,10 +6,10 @@ import ch.bfh.anuto.game.GameObject;
 
 @Root
 public abstract class Plateau extends GameObject {
-    public static final int TYPEID = 1;
+    public static final int TYPE_ID = 1;
 
     @Override
     public int getTypeId() {
-        return TYPEID;
+        return TYPE_ID;
     }
 }

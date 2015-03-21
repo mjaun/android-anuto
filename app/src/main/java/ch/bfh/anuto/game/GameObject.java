@@ -95,13 +95,25 @@ public abstract class GameObject implements RemovedMark {
     }
 
 
+    public float getDistanceTo(GameObject target) {
+        return getDistanceTo(target.mPosition);
+    }
+
     public float getDistanceTo(PointF target) {
         return (float)Math.sqrt(Math.pow(target.x - mPosition.x, 2) + Math.pow(target.y - mPosition.y, 2));
+    }
+
+    public PointF getDirectionTo(GameObject target) {
+        return getDirectionTo(target.mPosition);
     }
 
     public PointF getDirectionTo(PointF target) {
         float dist = getDistanceTo(target);
         return new PointF((target.x - mPosition.x) / dist, (target.y - mPosition.y) / dist);
+    }
+
+    public float getAngleTo(GameObject target) {
+        return getAngleTo(target. mPosition);
     }
 
     public float getAngleTo(PointF target) {

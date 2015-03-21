@@ -1,25 +1,37 @@
-package ch.bfh.anuto.game.objects;
+package ch.bfh.anuto.game.objects.impl;
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.graphics.PointF;
 
 import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.GameEngine;
 import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.game.Sprite;
+import ch.bfh.anuto.game.objects.Enemy;
+import ch.bfh.anuto.game.objects.TargetedShot;
 
 public class BasicShot extends TargetedShot {
+
     private final static int DAMAGE = 10;
-    private final static float SPAWN_OFFSET = 0.9f;
     private final static float MOVEMENT_SPEED = 3f / GameEngine.TARGET_FPS;
     private final static float ROTATION_SPEED = 360f / GameEngine.TARGET_FPS;
+    private final static float SPAWN_OFFSET = 0.9f;
 
     private Sprite mSprite;
     private float mAngle = 0f;
 
-    public BasicShot(Enemy target) {
+    public BasicShot() {
+        mSpeed = MOVEMENT_SPEED;
+    }
+
+    public BasicShot(PointF position, Enemy target) {
+        this();
+
+        setPosition(position);
         setTarget(target);
-        move(getDirectionTo(mTarget.getPosition()), SPAWN_OFFSET);
+
+        move(getDirectionTo(mTarget), SPAWN_OFFSET);
     }
 
     @Override
@@ -30,14 +42,10 @@ public class BasicShot extends TargetedShot {
 
     @Override
     public void tick() {
-        if (getDistanceTo(mTarget.getPosition()) < MOVEMENT_SPEED) {
-            ((Enemy)mTarget).damage(DAMAGE);
-            remove();
-        } else {
-            move(getDirectionTo(mTarget.getPosition()), MOVEMENT_SPEED);
-        }
-
+        mDirection = getDirectionTo(mTarget);
         mAngle += ROTATION_SPEED;
+
+        super.tick();
     }
 
     @Override
@@ -47,12 +55,19 @@ public class BasicShot extends TargetedShot {
     }
 
     @Override
-    public void onTargetLost() {
-        for (GameObject obj : mGame.getObjects(Enemy.TYPEID)) {
-            setTarget(obj);
-            return;
-        }
+    protected void onTargetLost() {
+        Enemy closest = getClosestEnemy();
 
+        if (closest != null) {
+            setTarget(closest);
+        } else {
+            remove();
+        }
+    }
+
+    @Override
+    protected void onTargetReached() {
+        mTarget.damage(DAMAGE);
         remove();
     }
 }

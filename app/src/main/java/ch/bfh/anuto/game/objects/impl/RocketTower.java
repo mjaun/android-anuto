@@ -1,4 +1,4 @@
-package ch.bfh.anuto.game.objects;
+package ch.bfh.anuto.game.objects.impl;
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -6,19 +6,21 @@ import android.graphics.PointF;
 
 import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.Sprite;
+import ch.bfh.anuto.game.objects.AimingTower;
 
-public class LaserTower extends Tower {
+public class RocketTower extends AimingTower {
+
     private final static int RELOAD_TIME = 20;
     private final static float RANGE = 5f;
 
     private float mAngle;
 
-    public LaserTower() {
+    public RocketTower() {
         mRange = RANGE;
         mReloadTime = RELOAD_TIME;
     }
 
-    public LaserTower(PointF position) {
+    public RocketTower(PointF position) {
         this();
         setPosition(position);
     }
@@ -27,16 +29,12 @@ public class LaserTower extends Tower {
     public void tick() {
         super.tick();
 
-        if (!hasTarget()) {
-            nextTarget();
-        }
-
         if (hasTarget()) {
             if (isReloaded()) {
-                shoot(new BasicShot(this, mTarget));
+                // TODO
             }
 
-            mAngle = getAngleToTarget();
+            mAngle = getAngleTo(mTarget);
         }
     }
 
@@ -48,11 +46,8 @@ public class LaserTower extends Tower {
 
     @Override
     public void init(Resources res) {
-        mSprite = Sprite.fromResources(res, R.drawable.laser_tower);
-    }
-
-    @Override
-    protected void onTargetLost() {
-        nextTarget();
+        mSprite = Sprite.fromResources(res, R.drawable.rocket_tower);
+        mSprite.getMatrix().postScale(2f, 2f);
+        mSprite.getMatrix().postTranslate(0f, -0.45f);
     }
 }

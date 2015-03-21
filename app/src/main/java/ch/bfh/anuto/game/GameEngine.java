@@ -99,15 +99,6 @@ public class GameEngine implements Runnable {
         return mGameObjects.getByKey(typeId);
     }
 
-    public Iterable<GameObject> getObjectsInRange(int typeId, final PointF center, final float range) {
-        return mGameObjects.getByKeyFiltered(typeId, new Predicate<GameObject>() {
-            @Override
-            public boolean input(GameObject value) {
-                return value.getDistanceTo(center) <= range;
-            }
-        });
-    }
-
 
     public void setGameSize(int width, int height) {
         mGameSize = new Point(width, height);

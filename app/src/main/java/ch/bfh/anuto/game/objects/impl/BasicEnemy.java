@@ -1,4 +1,4 @@
-package ch.bfh.anuto.game.objects;
+package ch.bfh.anuto.game.objects.impl;
 
 import android.content.res.Resources;
 import android.graphics.PointF;
@@ -7,8 +7,10 @@ import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.GameEngine;
 import ch.bfh.anuto.game.data.Path;
 import ch.bfh.anuto.game.Sprite;
+import ch.bfh.anuto.game.objects.Enemy;
 
 public class BasicEnemy extends Enemy {
+
     private final static int HEALTH = 100;
     private final static float MOVEMENT_SPEED = 1.5f / GameEngine.TARGET_FPS;
     private final static float ANIMATION_SPEED = 1f / GameEngine.TARGET_FPS;

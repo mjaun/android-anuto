@@ -9,10 +9,10 @@ import android.view.View;
 import java.io.InputStream;
 
 import ch.bfh.anuto.game.data.Level;
-import ch.bfh.anuto.game.objects.BasicTower;
-import ch.bfh.anuto.game.objects.LaserTower;
-import ch.bfh.anuto.game.objects.AreaTower;
-import ch.bfh.anuto.game.objects.RocketTower;
+import ch.bfh.anuto.game.objects.impl.BasicTower;
+import ch.bfh.anuto.game.objects.impl.LaserTower;
+import ch.bfh.anuto.game.objects.impl.AreaTower;
+import ch.bfh.anuto.game.objects.impl.RocketTower;
 import ch.bfh.anuto.game.GameEngine;
 
 

@@ -1,4 +1,4 @@
-package ch.bfh.anuto.game.objects;
+package ch.bfh.anuto.game.objects.impl;
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -6,27 +6,27 @@ import android.graphics.PointF;
 
 import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.Sprite;
+import ch.bfh.anuto.game.objects.AimingTower;
 
-public class BasicTower extends Tower {
+public class LaserTower extends AimingTower {
     private final static int RELOAD_TIME = 20;
     private final static float RANGE = 5f;
 
     private float mAngle;
 
-    public BasicTower() {
+    public LaserTower() {
         mRange = RANGE;
         mReloadTime = RELOAD_TIME;
     }
 
-    public BasicTower(PointF position) {
+    public LaserTower(PointF position) {
         this();
-
         setPosition(position);
     }
 
     @Override
     public void init(Resources res) {
-        mSprite = Sprite.fromResources(res, R.drawable.basic_tower);
+        mSprite = Sprite.fromResources(res, R.drawable.laser_tower);
     }
 
     @Override
@@ -39,10 +39,10 @@ public class BasicTower extends Tower {
 
         if (hasTarget()) {
             if (isReloaded()) {
-                shoot(new BasicShot(this, mTarget));
+                // TODO
             }
 
-            mAngle = getAngleToTarget();
+            mAngle = getAngleTo(mTarget);
         }
     }
 
@@ -50,10 +50,5 @@ public class BasicTower extends Tower {
     public void draw(Canvas canvas) {
         canvas.rotate(mAngle);
         mSprite.draw(canvas);
-    }
-
-    @Override
-    protected void onTargetLost() {
-        nextTarget();
     }
 }

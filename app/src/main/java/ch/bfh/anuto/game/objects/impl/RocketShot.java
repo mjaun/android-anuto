@@ -1,8 +1,10 @@
-package ch.bfh.anuto.game.objects;
+package ch.bfh.anuto.game.objects.impl;
 
 import android.content.res.Resources;
 
-public class EnemyBlob extends Enemy {
+import ch.bfh.anuto.game.objects.Shot;
+
+public class RocketShot extends Shot {
 
     // To be implemented ...
 

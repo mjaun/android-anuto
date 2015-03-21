@@ -1,11 +1,14 @@
-package ch.bfh.anuto.game.objects;
+package ch.bfh.anuto.game.objects.impl;
+
 import android.content.res.Resources;
 
-public class ShockWave extends Shot{
+import ch.bfh.anuto.game.objects.Enemy;
+
+public class EnemySprinter extends Enemy {
+
     // To be implemented ...
 
     @Override
     public void init(Resources res) {
-
     }
 }
