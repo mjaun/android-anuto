@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Point;
-import android.graphics.PointF;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -14,6 +13,7 @@ import java.util.List;
 
 import ch.bfh.anuto.util.ConcurrentListMap;
 import ch.bfh.anuto.util.Predicate;
+import ch.bfh.anuto.util.Vector2;
 
 public class GameEngine implements Runnable {
     /*
@@ -151,7 +151,7 @@ public class GameEngine implements Runnable {
 
         while (iterator.hasNext()) {
             GameObject obj = iterator.next();
-            PointF pos = obj.getPosition();
+            Vector2 pos = obj.getPosition();
 
             canvas.save();
             canvas.translate(pos.x, pos.y);
@@ -182,7 +182,7 @@ public class GameEngine implements Runnable {
 
     @Override
     public void run() {
-        Log.d(TAG, "Starting game loop");
+        Log.i(TAG, "Starting game loop");
 
         try {
             while (mRunning) {
@@ -205,7 +205,7 @@ public class GameEngine implements Runnable {
             mRunning = false;
         }
 
-        Log.d(TAG, "Stopping game loop");
+        Log.i(TAG, "Stopping game loop");
     }
 
     /*

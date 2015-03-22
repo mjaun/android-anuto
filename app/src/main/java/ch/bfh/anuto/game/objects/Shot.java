@@ -1,11 +1,10 @@
 package ch.bfh.anuto.game.objects;
 
-import android.graphics.PointF;
-
 import java.util.Iterator;
 import java.util.List;
 
 import ch.bfh.anuto.game.GameObject;
+import ch.bfh.anuto.util.Vector2;
 
 public abstract class Shot extends GameObject {
 
@@ -21,8 +20,8 @@ public abstract class Shot extends GameObject {
     ------ Members ------
      */
 
-    protected float mSpeed = 1f;
-    protected PointF mDirection = new PointF(1f, 0f);
+    protected float mSpeed;
+    protected Vector2 mDirection;
 
     /*
     ------ Methods ------

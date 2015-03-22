@@ -2,11 +2,11 @@ package ch.bfh.anuto.game.objects.impl;
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
-import android.graphics.PointF;
 
 import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.Sprite;
 import ch.bfh.anuto.game.objects.AimingTower;
+import ch.bfh.anuto.util.Vector2;
 
 public class RocketTower extends AimingTower {
 
@@ -20,7 +20,7 @@ public class RocketTower extends AimingTower {
         mReloadTime = RELOAD_TIME;
     }
 
-    public RocketTower(PointF position) {
+    public RocketTower(Vector2 position) {
         this();
         setPosition(position);
     }

@@ -2,11 +2,11 @@ package ch.bfh.anuto.game.objects.impl;
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
-import android.graphics.PointF;
 
 import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.Sprite;
 import ch.bfh.anuto.game.objects.AimingTower;
+import ch.bfh.anuto.util.Vector2;
 
 public class LaserTower extends AimingTower {
     private final static int RELOAD_TIME = 20;
@@ -19,7 +19,7 @@ public class LaserTower extends AimingTower {
         mReloadTime = RELOAD_TIME;
     }
 
-    public LaserTower(PointF position) {
+    public LaserTower(Vector2 position) {
         this();
         setPosition(position);
     }

@@ -3,12 +3,12 @@ package ch.bfh.anuto.game.objects;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PointF;
 
 import org.simpleframework.xml.Element;
 
 import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.game.data.Path;
+import ch.bfh.anuto.util.Vector2;
 
 
 public abstract class Enemy extends GameObject {
@@ -91,7 +91,7 @@ public abstract class Enemy extends GameObject {
     }
 
 
-    protected PointF getWayPoint() {
+    protected Vector2 getWayPoint() {
         return mPath.getWayPoints().get(mWayPointIndex);
     }
 

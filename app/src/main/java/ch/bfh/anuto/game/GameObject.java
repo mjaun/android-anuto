@@ -2,7 +2,6 @@ package ch.bfh.anuto.game;
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
-import android.graphics.PointF;
 
 import org.simpleframework.xml.Attribute;
 
@@ -10,6 +9,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.bfh.anuto.util.RemovedMark;
+import ch.bfh.anuto.util.Vector2;
 
 public abstract class GameObject implements RemovedMark {
 
@@ -26,7 +26,7 @@ public abstract class GameObject implements RemovedMark {
     ------ Members ------
      */
 
-    protected final PointF mPosition = new PointF();
+    protected final Vector2 mPosition = new Vector2();
     protected Sprite mSprite = null;
 
     protected GameEngine mGame = null;
@@ -74,13 +74,12 @@ public abstract class GameObject implements RemovedMark {
     }
 
 
-    public PointF getPosition() {
+    public Vector2 getPosition() {
         return mPosition;
     }
 
-    public void setPosition(PointF position) {
-        mPosition.x = position.x;
-        mPosition.y = position.y;
+    public void setPosition(Vector2 position) {
+        mPosition.set(position);
     }
 
     public void setPosition(float x, float y) {
@@ -94,7 +93,7 @@ public abstract class GameObject implements RemovedMark {
         mPosition.y += dy;
     }
 
-    public void move(PointF direction, float distance) {
+    public void move(Vector2 direction, float distance) {
         mPosition.x += direction.x * distance;
         mPosition.y += direction.y * distance;
     }
@@ -104,25 +103,24 @@ public abstract class GameObject implements RemovedMark {
         return getDistanceTo(target.mPosition);
     }
 
-    public float getDistanceTo(PointF target) {
-        return (float)Math.sqrt(Math.pow(target.x - mPosition.x, 2) + Math.pow(target.y - mPosition.y, 2));
+    public float getDistanceTo(Vector2 target) {
+        return target.copy().sub(mPosition).len();
     }
 
-    public PointF getDirectionTo(GameObject target) {
+    public Vector2 getDirectionTo(GameObject target) {
         return getDirectionTo(target.mPosition);
     }
 
-    public PointF getDirectionTo(PointF target) {
-        float dist = getDistanceTo(target);
-        return new PointF((target.x - mPosition.x) / dist, (target.y - mPosition.y) / dist);
+    public Vector2 getDirectionTo(Vector2 target) {
+        return target.copy().sub(mPosition).norm();
     }
 
     public float getAngleTo(GameObject target) {
-        return getAngleTo(target. mPosition);
+        return getAngleTo(target.mPosition);
     }
 
-    public float getAngleTo(PointF target) {
-        return (float)Math.atan2(target.x - mPosition.x, mPosition.y - target.y) / (float)Math.PI * 180f;
+    public float getAngleTo(Vector2 target) {
+        return target.copy().sub(mPosition).angle();
     }
 
 

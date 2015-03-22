@@ -1,12 +1,11 @@
 package ch.bfh.anuto.game.objects.impl;
 
 import android.content.res.Resources;
-import android.graphics.Canvas;
-import android.graphics.PointF;
 
 import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.Sprite;
 import ch.bfh.anuto.game.objects.Tower;
+import ch.bfh.anuto.util.Vector2;
 
 public class AreaTower extends Tower {
 
@@ -18,7 +17,7 @@ public class AreaTower extends Tower {
         mReloadTime = RELOAD_TIME;
     }
 
-    public AreaTower(PointF position) {
+    public AreaTower(Vector2 position) {
         this();
         setPosition(position);
     }
@@ -35,7 +34,6 @@ public class AreaTower extends Tower {
         if (isReloaded() && hasEnemiesInRange()) {
             // TODO
             //activate(new ShockWave(mPosition));
-
         }
     }
 }

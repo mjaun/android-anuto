@@ -2,14 +2,13 @@ package ch.bfh.anuto.game.objects.impl;
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
-import android.graphics.PointF;
 
 import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.GameEngine;
-import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.game.Sprite;
 import ch.bfh.anuto.game.objects.Enemy;
 import ch.bfh.anuto.game.objects.TargetedShot;
+import ch.bfh.anuto.util.Vector2;
 
 public class BasicShot extends TargetedShot {
 
@@ -25,7 +24,7 @@ public class BasicShot extends TargetedShot {
         mSpeed = MOVEMENT_SPEED;
     }
 
-    public BasicShot(PointF position, Enemy target) {
+    public BasicShot(Vector2 position, Enemy target) {
         this();
 
         setPosition(position);

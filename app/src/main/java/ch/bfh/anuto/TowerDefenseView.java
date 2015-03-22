@@ -2,7 +2,6 @@ package ch.bfh.anuto;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.PointF;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -16,6 +15,7 @@ import ch.bfh.anuto.game.objects.impl.LaserTower;
 import ch.bfh.anuto.game.objects.impl.AreaTower;
 import ch.bfh.anuto.game.objects.impl.RocketTower;
 import ch.bfh.anuto.game.GameEngine;
+import ch.bfh.anuto.util.Vector2;
 
 
 public class TowerDefenseView extends View implements GameEngine.Listener {
@@ -36,29 +36,29 @@ public class TowerDefenseView extends View implements GameEngine.Listener {
             mGame = lvl.createGame(getResources());
             mGame.addListener(this);
 
-            mGame.addObject(new BasicTower(new PointF(5, 4)));
-            mGame.addObject(new BasicTower(new PointF(6, 4)));
-            mGame.addObject(new BasicTower(new PointF(5, 5)));
-            mGame.addObject(new BasicTower(new PointF(6, 5)));
+            mGame.addObject(new BasicTower(new Vector2(5, 4)));
+            mGame.addObject(new BasicTower(new Vector2(6, 4)));
+            mGame.addObject(new BasicTower(new Vector2(5, 5)));
+            mGame.addObject(new BasicTower(new Vector2(6, 5)));
 
-            mGame.addObject(new BasicTower(new PointF(5, 9)));
-            mGame.addObject(new BasicTower(new PointF(6, 9)));
-            mGame.addObject(new BasicTower(new PointF(7, 9)));
-            mGame.addObject(new BasicTower(new PointF(8, 9)));
+            mGame.addObject(new BasicTower(new Vector2(5, 9)));
+            mGame.addObject(new BasicTower(new Vector2(6, 9)));
+            mGame.addObject(new BasicTower(new Vector2(7, 9)));
+            mGame.addObject(new BasicTower(new Vector2(8, 9)));
 
-            mGame.addObject(new BasicTower(new PointF(5, 10)));
-            mGame.addObject(new BasicTower(new PointF(6, 10)));
-            mGame.addObject(new BasicTower(new PointF(7, 10)));
-            mGame.addObject(new BasicTower(new PointF(8, 10)));
+            mGame.addObject(new BasicTower(new Vector2(5, 10)));
+            mGame.addObject(new BasicTower(new Vector2(6, 10)));
+            mGame.addObject(new BasicTower(new Vector2(7, 10)));
+            mGame.addObject(new BasicTower(new Vector2(8, 10)));
 
-            mGame.addObject(new BasicTower(new PointF(2, 8)));
-            mGame.addObject(new BasicTower(new PointF(2, 9)));
-            mGame.addObject(new BasicTower(new PointF(2, 10)));
-            mGame.addObject(new BasicTower(new PointF(2, 11)));
-            mGame.addObject(new BasicTower(new PointF(1, 8)));
-            mGame.addObject(new BasicTower(new PointF(1, 9)));
-            mGame.addObject(new BasicTower(new PointF(1, 10)));
-            mGame.addObject(new BasicTower(new PointF(1, 11)));
+            mGame.addObject(new BasicTower(new Vector2(2, 8)));
+            mGame.addObject(new BasicTower(new Vector2(2, 9)));
+            mGame.addObject(new BasicTower(new Vector2(2, 10)));
+            mGame.addObject(new BasicTower(new Vector2(2, 11)));
+            mGame.addObject(new BasicTower(new Vector2(1, 8)));
+            mGame.addObject(new BasicTower(new Vector2(1, 9)));
+            mGame.addObject(new BasicTower(new Vector2(1, 10)));
+            mGame.addObject(new BasicTower(new Vector2(1, 11)));
 
             lvl.startWave(mGame, 0);
 
