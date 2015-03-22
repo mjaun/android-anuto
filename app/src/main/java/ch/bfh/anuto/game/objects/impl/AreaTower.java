@@ -31,7 +31,7 @@ public class AreaTower extends Tower {
     public void tick() {
         super.tick();
 
-        if (isReloaded() && hasEnemiesInRange()) {
+        if (isReloaded() && getEnemiesInRange().hasNext()) {
             // TODO
             //activate(new ShockWave(mPosition));
         }

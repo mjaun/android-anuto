@@ -6,8 +6,12 @@ import android.graphics.Paint;
 
 import org.simpleframework.xml.Element;
 
+import java.util.Iterator;
+
 import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.game.data.Path;
+import ch.bfh.anuto.util.Function;
+import ch.bfh.anuto.util.Iterators;
 import ch.bfh.anuto.util.Vector2;
 
 
@@ -22,6 +26,28 @@ public abstract class Enemy extends GameObject {
     private static final float HEALTHBAR_WIDTH = 1.0f;
     private static final float HEALTHBAR_HEIGHT = 0.1f;
     private static final float HEALTHBAR_OFFSET = 0.6f;
+
+    /*
+    ------ Static ------
+     */
+
+    public static Enemy weakest(Iterator<Enemy> enemies) {
+        return Iterators.min(enemies, new Function<Enemy, Float>() {
+            @Override
+            public Float apply(Enemy input) {
+                return input.mHealth;
+            }
+        });
+    }
+
+    public static Enemy strongest(Iterator<Enemy> enemies) {
+        return Iterators.max(enemies, new Function<Enemy, Float>() {
+            @Override
+            public Float apply(Enemy input) {
+                return input.mHealth;
+            }
+        });
+    }
 
     /*
     ------ Members -----
@@ -101,16 +127,6 @@ public abstract class Enemy extends GameObject {
 
     protected boolean hasWayPoint() {
         return mPath != null && mPath.getWayPoints().size() > mWayPointIndex;
-    }
-
-
-    public Path getPath() {
-        return mPath;
-    }
-
-    public void setPath(Path path) {
-        mPath = path;
-        mWayPointIndex = 0;
     }
 
 

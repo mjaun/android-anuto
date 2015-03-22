@@ -14,8 +14,6 @@ public abstract class Shot extends GameObject {
 
     public static final int TYPE_ID = 4;
 
-    public static final float SHOT_INFLUENCE_RANGE = 0.5f;
-
     /*
     ------ Members ------
      */
@@ -35,38 +33,5 @@ public abstract class Shot extends GameObject {
     @Override
     public void tick() {
         move(mDirection, mSpeed);
-    }
-
-
-    protected Enemy getClosestEnemy() {
-        float closestDistance = 0f;
-        Enemy closest = null;
-
-        Iterator<GameObject> iterator = mGame.getObjects(Enemy.TYPE_ID);
-
-        while (iterator.hasNext()) {
-            GameObject obj = iterator.next();
-            float dist = getDistanceTo(obj);
-
-            if (closest == null || dist < closestDistance) {
-                closest = (Enemy)obj;
-                closestDistance = dist;
-            }
-        }
-
-        return closest;
-    }
-
-    protected void getEnemiesInInfluence(List<Enemy> enemies) {
-        enemies.clear();
-
-        Iterator<GameObject> iterator = mGame.getObjects(Enemy.TYPE_ID);
-
-        while (iterator.hasNext()) {
-            GameObject obj = iterator.next();
-            if (getDistanceTo(obj) <= SHOT_INFLUENCE_RANGE) {
-                enemies.add((Enemy)obj);
-            }
-        }
     }
 }

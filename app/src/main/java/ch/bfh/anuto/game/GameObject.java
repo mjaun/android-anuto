@@ -5,9 +5,14 @@ import android.graphics.Canvas;
 
 import org.simpleframework.xml.Attribute;
 
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.bfh.anuto.util.Function;
+import ch.bfh.anuto.util.Iterators;
+import ch.bfh.anuto.util.Predicate;
 import ch.bfh.anuto.util.RemovedMark;
 import ch.bfh.anuto.util.Vector2;
 
@@ -20,6 +25,44 @@ public abstract class GameObject implements RemovedMark {
     public interface Listener {
         void onAddObject(GameObject obj);
         void onRemoveObject(GameObject obj);
+    }
+
+    /*
+    ------ Static ------
+     */
+
+    public static <T extends GameObject> Iterator<T> inRange(Iterator<T> objects, final Vector2 center, final float range) {
+        return Iterators.filter(objects, new Predicate<GameObject>() {
+            @Override
+            public boolean apply(GameObject value) {
+                return value.getDistanceTo(center) <= range;
+            }
+        });
+    }
+
+    public static <T extends GameObject> Iterator<T> onLine(Iterator<T> objects, final Vector2 p1, final Vector2 p2, final float lineWidth) {
+        final Vector2 line = p2.copy().sub(p1);
+        final float lineLen2 = line.len2();
+
+        return Iterators.filter(objects, new Predicate<GameObject>() {
+            @Override
+            public boolean apply(GameObject value) {
+                Vector2 toObj = value.mPosition.copy().sub(p1);
+                Vector2 proj = line.copy().mul(toObj.dot(line) / lineLen2);
+
+                float dist = toObj.sub(proj).len();
+                return dist <= lineWidth;
+            }
+        });
+    }
+
+    public static <T extends GameObject> T closest(Iterator<T> objects, final Vector2 point) {
+        return Iterators.min(objects, new Function<T, Float>() {
+            @Override
+            public Float apply(GameObject input) {
+                return input.getDistanceTo(point);
+            }
+        });
     }
 
     /*

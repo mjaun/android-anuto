@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 
 import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.GameEngine;
+import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.game.Sprite;
 import ch.bfh.anuto.game.objects.Enemy;
 import ch.bfh.anuto.game.objects.TargetedShot;
@@ -55,12 +56,12 @@ public class BasicShot extends TargetedShot {
 
     @Override
     protected void onTargetLost() {
-        Enemy closest = getClosestEnemy();
+        Enemy closest = (Enemy)GameObject.closest(mGame.getObjects(Enemy.TYPE_ID), mPosition);
 
-        if (closest != null) {
-            setTarget(closest);
-        } else {
+        if (closest == null) {
             remove();
+        } else {
+            setTarget(closest);
         }
     }
 

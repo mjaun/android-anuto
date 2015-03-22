@@ -4,10 +4,10 @@ import java.util.Iterator;
 
 public class FilteringIterator<T> extends ComputingIterator<T> {
 
-    Predicate<T> mFilter;
+    Predicate<? super T> mFilter;
     Iterator<T> mOriginal;
 
-    public FilteringIterator(Iterator<T> original, Predicate<T> filter) {
+    public FilteringIterator(Iterator<T> original, Predicate<? super T> filter) {
         mOriginal = original;
         mFilter = filter;
     }

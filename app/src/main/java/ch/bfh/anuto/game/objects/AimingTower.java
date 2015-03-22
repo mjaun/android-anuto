@@ -1,6 +1,7 @@
 package ch.bfh.anuto.game.objects;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import ch.bfh.anuto.game.GameObject;
@@ -42,10 +43,6 @@ public abstract class AimingTower extends Tower implements GameObject.Listener {
     }
 
 
-    public Enemy getTarget() {
-        return mTarget;
-    }
-
     protected void setTarget(Enemy target) {
         if (mTarget != null) {
             mTarget.removeListener(this);
@@ -63,40 +60,21 @@ public abstract class AimingTower extends Tower implements GameObject.Listener {
     }
 
     protected void nextTarget() {
-        Enemy candidate = null;
-        float candidateDistance = 0f;
+        Iterator<Enemy> enemiesInRange = getEnemiesInRange();
 
-        getEnemiesInRange(mEnemies, mDistances);
+        switch (mStrategy) {
+            case Closest:
+                setTarget(GameObject.closest(enemiesInRange, mPosition));
+                break;
 
-        for (int i = 0; i < mEnemies.size(); i++) {
-            if (candidate == null) {
-                candidate = mEnemies.get(i);
-                candidateDistance = mDistances.get(i);
-                continue;
-            }
+            case Strongest:
+                setTarget(Enemy.strongest(enemiesInRange));
+                break;
 
-            switch (mStrategy) {
-                case Closest:
-                    if (mDistances.get(i) < candidateDistance) {
-                        candidate = mEnemies.get(i);
-                    }
-                    break;
-
-                case Weakest:
-                    if (mEnemies.get(i).getHealth() < candidate.getHealth()) {
-                        candidate = mEnemies.get(i);
-                    }
-                    break;
-
-                case Strongest:
-                    if (mEnemies.get(i).getHealth() > candidate.getHealth()) {
-                        candidate = mEnemies.get(i);
-                    }
-                    break;
-            }
+            case Weakest:
+                setTarget(Enemy.weakest(enemiesInRange));
+                break;
         }
-
-        setTarget(candidate);
      }
 
     protected void onTargetLost() {

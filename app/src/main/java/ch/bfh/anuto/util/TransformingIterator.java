@@ -4,10 +4,10 @@ import java.util.Iterator;
 
 public class TransformingIterator<F, T> implements Iterator<T> {
 
-    Function<F, T> mTransformation;
+    Function<? super F, ? extends T> mTransformation;
     Iterator<F> mOriginal;
 
-    public TransformingIterator(Iterator<F> original, Function<F, T> transformation) {
+    public TransformingIterator(Iterator<F> original, Function<? super F, ? extends T> transformation) {
         mOriginal = original;
         mTransformation = transformation;
     }

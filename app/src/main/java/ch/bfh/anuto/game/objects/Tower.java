@@ -5,6 +5,8 @@ import java.util.List;
 
 import ch.bfh.anuto.game.GameEngine;
 import ch.bfh.anuto.game.GameObject;
+import ch.bfh.anuto.util.Function;
+import ch.bfh.anuto.util.Iterators;
 
 public abstract class Tower extends GameObject {
 
@@ -42,36 +44,6 @@ public abstract class Tower extends GameObject {
     }
 
 
-    protected boolean hasEnemiesInRange() {
-        Iterator<GameObject> iterator = mGame.getObjects(Enemy.TYPE_ID);
-
-        while (iterator.hasNext()) {
-            GameObject obj = iterator.next();
-            if (getDistanceTo(obj) <= mRange) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    protected void getEnemiesInRange(List<Enemy> enemies, List<Float> distances) {
-        enemies.clear();
-        distances.clear();
-
-        Iterator<GameObject> iterator = mGame.getObjects(Enemy.TYPE_ID);
-
-        while (iterator.hasNext()) {
-            GameObject obj = iterator.next();
-            float dist = getDistanceTo(obj);
-
-            if (dist <= mRange) {
-                enemies.add((Enemy)obj);
-                distances.add(dist);
-            }
-        }
-    }
-
     protected boolean isReloaded() {
         return mReloadCounter <= 0;
     }
@@ -84,5 +56,17 @@ public abstract class Tower extends GameObject {
     protected void activate(AreaEffect effect) {
         mGame.addObject(effect);
         mReloadCounter = mReloadTime;
+    }
+
+    protected Iterator<Enemy> getEnemiesInRange() {
+        Iterator<GameObject> enemies = mGame.getObjects(Enemy.TYPE_ID);
+        Iterator<GameObject> inRange = GameObject.inRange(enemies, mPosition, mRange);
+
+        return Iterators.transform(inRange, new Function<GameObject, Enemy>() {
+            @Override
+            public Enemy apply(GameObject input) {
+                return (Enemy)input;
+            }
+        });
     }
 }
