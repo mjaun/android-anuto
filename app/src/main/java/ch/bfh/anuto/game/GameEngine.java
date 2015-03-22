@@ -178,46 +178,20 @@ public class GameEngine implements Runnable {
     public void run() {
         Log.d(TAG, "Starting game loop");
 
-        // see http://www.javacodegeeks.com/2011/07/android-game-development-game-loop.html
-
-        long beginTime;		// the time when the cycle begun
-        long timeDiff;		// the time it took for the cycle to execute
-        int sleepTime;		// ms to sleep (<0 if we're behind)
-        int framesSkipped;	// number of frames being skipped
-
         try {
             while (mRunning) {
-                beginTime = System.currentTimeMillis();
-                framesSkipped = 0;
+                long beginTime = System.currentTimeMillis();
 
-                // update game logic
                 tick();
-
-                // send render request
                 onRenderRequest();
 
-                // calculate the required sleep time for this cycle
-                timeDiff = System.currentTimeMillis() - beginTime;
-                sleepTime = (int)(FRAME_PERIOD - timeDiff);
+                long timeDiff = System.currentTimeMillis() - beginTime;
+                int sleepTime = (int)(FRAME_PERIOD - timeDiff);
 
                 if (sleepTime > 0) {
-                    // send the thread to sleep
                     Thread.sleep(sleepTime);
-                }
-
-                while (sleepTime < 0 && framesSkipped < MAX_FRAME_SKIPS) {
-                    // we need to catch up --> update without rendering
-                    tick();
-
-                    // recalculate sleep time
-                    timeDiff = System.currentTimeMillis() - beginTime;
-                    sleepTime = (int)((1 + framesSkipped) * FRAME_PERIOD - timeDiff);
-
-                    framesSkipped++;
-                }
-
-                if (framesSkipped > 0) {
-                    Log.w(TAG, String.format("rendering of %d frames skipped", framesSkipped));
+                } else {
+                    Log.w(TAG, "Frame did not finish in time!");
                 }
             }
         } catch (Exception e) {
