@@ -82,7 +82,7 @@ public abstract class Enemy extends GameObject {
 
     protected void drawHealthBar(Canvas canvas) {
         canvas.save();
-        canvas.translate(-HEALTHBAR_WIDTH/2f, -HEALTHBAR_OFFSET);
+        canvas.translate(-HEALTHBAR_WIDTH/2f, HEALTHBAR_OFFSET);
 
         canvas.drawRect(0, 0, HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT, mHealthBarBg);
         canvas.drawRect(0, 0, mHealth * HEALTHBAR_WIDTH / mHealthMax, HEALTHBAR_HEIGHT, mHealthBarFg);

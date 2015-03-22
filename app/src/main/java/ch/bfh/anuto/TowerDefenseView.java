@@ -36,38 +36,31 @@ public class TowerDefenseView extends View implements GameEngine.Listener {
             mGame = lvl.createGame(getResources());
             mGame.addListener(this);
 
-            mGame.addObject(new BasicTower(new Vector2(5, 4)));
-            mGame.addObject(new BasicTower(new Vector2(6, 4)));
-            mGame.addObject(new BasicTower(new Vector2(5, 5)));
-            mGame.addObject(new BasicTower(new Vector2(6, 5)));
-
-            mGame.addObject(new BasicTower(new Vector2(5, 9)));
-            mGame.addObject(new BasicTower(new Vector2(6, 9)));
-            mGame.addObject(new BasicTower(new Vector2(7, 9)));
-            mGame.addObject(new BasicTower(new Vector2(8, 9)));
-
             mGame.addObject(new BasicTower(new Vector2(5, 10)));
             mGame.addObject(new BasicTower(new Vector2(6, 10)));
-            mGame.addObject(new BasicTower(new Vector2(7, 10)));
-            mGame.addObject(new BasicTower(new Vector2(8, 10)));
+            mGame.addObject(new BasicTower(new Vector2(5, 9)));
+            mGame.addObject(new BasicTower(new Vector2(6, 9)));
 
-            mGame.addObject(new BasicTower(new Vector2(2, 8)));
-            mGame.addObject(new BasicTower(new Vector2(2, 9)));
-            mGame.addObject(new BasicTower(new Vector2(2, 10)));
-            mGame.addObject(new BasicTower(new Vector2(2, 11)));
-            mGame.addObject(new BasicTower(new Vector2(1, 8)));
-            mGame.addObject(new BasicTower(new Vector2(1, 9)));
-            mGame.addObject(new BasicTower(new Vector2(1, 10)));
-            mGame.addObject(new BasicTower(new Vector2(1, 11)));
+            mGame.addObject(new BasicTower(new Vector2(5, 5)));
+            mGame.addObject(new BasicTower(new Vector2(6, 5)));
+            mGame.addObject(new BasicTower(new Vector2(7, 5)));
+            mGame.addObject(new BasicTower(new Vector2(8, 5)));
+
+            mGame.addObject(new BasicTower(new Vector2(5, 4)));
+            mGame.addObject(new BasicTower(new Vector2(6, 4)));
+            mGame.addObject(new BasicTower(new Vector2(7, 4)));
+            mGame.addObject(new BasicTower(new Vector2(8, 4)));
+
+            mGame.addObject(new BasicTower(new Vector2(2, 6)));
+            mGame.addObject(new BasicTower(new Vector2(2, 5)));
+            mGame.addObject(new BasicTower(new Vector2(2, 4)));
+            mGame.addObject(new BasicTower(new Vector2(2, 3)));
+            mGame.addObject(new BasicTower(new Vector2(1, 6)));
+            mGame.addObject(new BasicTower(new Vector2(1, 5)));
+            mGame.addObject(new BasicTower(new Vector2(1, 4)));
+            mGame.addObject(new BasicTower(new Vector2(1, 3)));
 
             lvl.startWave(mGame, 0);
-
-            for (int i = 0; i < 50; i++) {
-                Enemy e = new BasicEnemy();
-                e.setPosition(2f, -17f - 1.5f * i);
-                e.setPath(lvl.getPaths().get(0));
-                mGame.addObject(e);
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }

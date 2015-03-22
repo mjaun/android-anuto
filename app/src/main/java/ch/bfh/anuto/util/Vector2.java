@@ -1,7 +1,5 @@
 package ch.bfh.anuto.util;
 
-import android.graphics.PointF;
-
 import org.simpleframework.xml.Attribute;
 
 public class Vector2 {
@@ -29,10 +27,6 @@ public class Vector2 {
 
     public Vector2(Vector2 v) {
         set(v);
-    }
-
-    public Vector2(PointF p) {
-        set(p.x, p.y);
     }
 
     /*
@@ -97,14 +91,6 @@ public class Vector2 {
     }
 
     public float angle() {
-        return (float)Math.atan2(x, -y) / (float)Math.PI * 180f;
-    }
-
-    public float angle(Vector2 ref) {
-        return this.angle() - ref.angle();
-    }
-
-    public PointF toPoint() {
-        return new PointF(x, y);
+        return (float)Math.atan2(y, x) / (float)Math.PI * 180f;
     }
 }

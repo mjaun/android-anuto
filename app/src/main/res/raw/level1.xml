@@ -4,169 +4,169 @@
         <width>10</width>
     </settings>
     <plateaus>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="0" y="0"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="0" y="1"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="0" y="2"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="0" y="3"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="0" y="4"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="0" y="5"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="0" y="6"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="0" y="7"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="0" y="8"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="0" y="9"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="0" y="10"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="0" y="11"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="0" y="12"/>
         <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="0" y="14"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="0" y="13"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="0" y="12"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="0" y="11"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="0" y="10"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="0" y="9"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="0" y="8"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="0" y="7"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="0" y="6"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="0" y="5"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="0" y="4"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="0" y="3"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="0" y="2"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="0" y="0"/>
 
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="1" y="0"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="1" y="1"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="1" y="2"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="1" y="3"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="1" y="4"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="1" y="8"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="1" y="9"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="1" y="10"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="1" y="11"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="1" y="12"/>
         <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="1" y="14"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="1" y="13"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="1" y="12"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="1" y="11"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="1" y="10"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="1" y="6"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="1" y="5"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="1" y="4"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="1" y="3"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="1" y="2"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="1" y="0"/>
 
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="2" y="3"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="2" y="4"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="2" y="6"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="2" y="8"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="2" y="9"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="2" y="10"/>
         <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="2" y="11"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="2" y="12"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="2" y="14"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="2" y="10"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="2" y="8"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="2" y="6"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="2" y="5"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="2" y="4"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="2" y="3"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="2" y="2"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="2" y="0"/>
 
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="3" y="0"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="3" y="1"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="3" y="3"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="3" y="4"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="3" y="12"/>
         <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="3" y="14"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="3" y="13"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="3" y="11"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="3" y="10"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="3" y="2"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="3" y="0"/>
 
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="4" y="0"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="4" y="1"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="4" y="3"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="4" y="4"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="4" y="5"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="4" y="6"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="4" y="8"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="4" y="9"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="4" y="10"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="4" y="12"/>
         <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="4" y="14"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="4" y="13"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="4" y="11"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="4" y="10"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="4" y="9"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="4" y="8"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="4" y="6"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="4" y="5"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="4" y="4"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="4" y="2"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="4" y="0"/>
 
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="5" y="0"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="5" y="1"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="5" y="3"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="5" y="4"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="5" y="5"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="5" y="6"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="5" y="8"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="5" y="9"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="5" y="10"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="5" y="12"/>
         <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="5" y="14"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="5" y="13"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="5" y="11"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="5" y="10"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="5" y="9"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="5" y="8"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="5" y="6"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="5" y="5"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="5" y="4"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="5" y="2"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="5" y="0"/>
 
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="6" y="0"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="6" y="1"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="6" y="3"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="6" y="4"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="6" y="5"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="6" y="6"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="6" y="8"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="6" y="9"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="6" y="10"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="6" y="12"/>
         <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="6" y="14"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="6" y="13"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="6" y="11"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="6" y="10"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="6" y="9"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="6" y="8"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="6" y="6"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="6" y="5"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="6" y="4"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="6" y="2"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="6" y="0"/>
 
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="7" y="0"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="7" y="1"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="7" y="3"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="7" y="4"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="7" y="5"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="7" y="6"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="7" y="8"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="7" y="9"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="7" y="10"/>
         <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="7" y="14"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="7" y="13"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="7" y="11"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="7" y="10"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="7" y="9"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="7" y="8"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="7" y="6"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="7" y="5"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="7" y="4"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="7" y="0"/>
 
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="8" y="0"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="8" y="1"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="8" y="8"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="8" y="9"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="8" y="10"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="8" y="11"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="8" y="12"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="8" y="13"/>
         <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="8" y="14"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="8" y="13"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="8" y="6"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="8" y="5"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="8" y="4"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="8" y="3"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="8" y="2"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="8" y="1"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="8" y="0"/>
 
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="9" y="0"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="9" y="1"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="9" y="2"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="9" y="3"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="9" y="4"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="9" y="5"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="9" y="6"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="9" y="7"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="9" y="8"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="9" y="9"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="9" y="10"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="9" y="11"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="9" y="12"/>
-        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="9" y="13"/>
         <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="9" y="14"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="9" y="13"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="9" y="12"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="9" y="11"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="9" y="10"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="9" y="9"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="9" y="8"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="9" y="7"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="9" y="6"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="9" y="5"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="9" y="4"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="9" y="3"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="9" y="2"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="9" y="1"/>
+        <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="9" y="0"/>
     </plateaus>
     <paths>
         <path id="1">
-            <vector2 x="2" y="-2"/>
-            <vector2 x="2" y="2"/>
-            <vector2 x="8" y="2"/>
+            <vector2 x="2" y="16"/>
+            <vector2 x="2" y="12"/>
+            <vector2 x="8" y="12"/>
             <vector2 x="8" y="7"/>
             <vector2 x="1" y="7"/>
-            <vector2 x="1" y="5"/>
-            <vector2 x="3" y="5"/>
-            <vector2 x="3" y="11"/>
-            <vector2 x="7" y="11"/>
-            <vector2 x="7" y="13"/>
-            <vector2 x="-2" y="13"/>
+            <vector2 x="1" y="9"/>
+            <vector2 x="3" y="9"/>
+            <vector2 x="3" y="3"/>
+            <vector2 x="7" y="3"/>
+            <vector2 x="7" y="1"/>
+            <vector2 x="-2" y="1"/>
         </path>
     </paths>
     <waves>
         <wave>
             <enemies>
-                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="-2">
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="16">
                     <path ref="1"/>
                 </enemy>
-                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="-3.5">
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="17.5">
                     <path ref="1"/>
                 </enemy>
-                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="-5">
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="19">
                     <path ref="1"/>
                 </enemy>
-                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="-6.5">
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="20.5">
                     <path ref="1"/>
                 </enemy>
-                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="-8">
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="22">
                     <path ref="1"/>
                 </enemy>
-                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="-9.5">
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="23.5">
                     <path ref="1"/>
                 </enemy>
-                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="-11">
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="25">
                     <path ref="1"/>
                 </enemy>
-                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="-12.5">
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="26.5">
                     <path ref="1"/>
                 </enemy>
-                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="-14">
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="28">
                     <path ref="1"/>
                 </enemy>
-                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="-15.5">
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="29.5">
                     <path ref="1"/>
                 </enemy>
             </enemies>

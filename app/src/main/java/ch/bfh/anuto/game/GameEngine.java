@@ -4,7 +4,6 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.Point;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -12,7 +11,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import ch.bfh.anuto.util.ConcurrentListMap;
-import ch.bfh.anuto.util.Predicate;
 import ch.bfh.anuto.util.Vector2;
 
 public class GameEngine implements Runnable {
@@ -62,8 +60,8 @@ public class GameEngine implements Runnable {
 
     private final GameObjectListMap mGameObjects = new GameObjectListMap();
 
-    private Point mGameSize;
-    private Point mScreenSize;
+    private Vector2 mGameSize;
+    private Vector2 mScreenSize;
     private Matrix mScreenMatrix;
 
     private final Resources mResources;
@@ -101,7 +99,7 @@ public class GameEngine implements Runnable {
 
 
     public void setGameSize(int width, int height) {
-        mGameSize = new Point(width, height);
+        mGameSize = new Vector2(width, height);
 
         if (mScreenSize != null) {
             calcScreenMatrix();
@@ -109,7 +107,7 @@ public class GameEngine implements Runnable {
     }
 
     public void setScreenSize(int width, int height) {
-        mScreenSize = new Point(width, height);
+        mScreenSize = new Vector2(width, height);
 
         if (mGameSize != null) {
             calcScreenMatrix();
@@ -126,6 +124,9 @@ public class GameEngine implements Runnable {
         float paddingLeft = (mScreenSize.x - (tileSize * mGameSize.x)) / 2f;
         float paddingTop = (mScreenSize.y - (tileSize * mGameSize.y)) / 2f;
         mScreenMatrix.postTranslate(paddingLeft, paddingTop);
+
+        mScreenMatrix.postScale(1f, -1f);
+        mScreenMatrix.postTranslate(0, mScreenSize.y);
     }
 
     /*
