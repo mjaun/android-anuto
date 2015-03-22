@@ -1,5 +1,6 @@
 package ch.bfh.anuto.game.objects;
 
+import java.util.Iterator;
 import java.util.List;
 
 import ch.bfh.anuto.game.GameObject;
@@ -49,7 +50,10 @@ public abstract class AreaEffect extends GameObject {
     protected void getEnemiesInRange(List<Enemy> enemies) {
         enemies.clear();
 
-        for (GameObject obj : mGame.getObjects(Enemy.TYPE_ID)) {
+        Iterator<GameObject> iterator = mGame.getObjects(Enemy.TYPE_ID);
+
+        while (iterator.hasNext()) {
+            GameObject obj = iterator.next();
             if (getDistanceTo(obj) <= mRange) {
                 enemies.add((Enemy)obj);
             }

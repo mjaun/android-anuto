@@ -1,5 +1,6 @@
 package ch.bfh.anuto.game.objects;
 
+import java.util.Iterator;
 import java.util.List;
 
 import ch.bfh.anuto.game.GameEngine;
@@ -42,7 +43,10 @@ public abstract class Tower extends GameObject {
 
 
     protected boolean hasEnemiesInRange() {
-        for (GameObject obj : mGame.getObjects(Enemy.TYPE_ID)) {
+        Iterator<GameObject> iterator = mGame.getObjects(Enemy.TYPE_ID);
+
+        while (iterator.hasNext()) {
+            GameObject obj = iterator.next();
             if (getDistanceTo(obj) <= mRange) {
                 return true;
             }
@@ -55,7 +59,10 @@ public abstract class Tower extends GameObject {
         enemies.clear();
         distances.clear();
 
-        for (GameObject obj : mGame.getObjects(Enemy.TYPE_ID)) {
+        Iterator<GameObject> iterator = mGame.getObjects(Enemy.TYPE_ID);
+
+        while (iterator.hasNext()) {
+            GameObject obj = iterator.next();
             float dist = getDistanceTo(obj);
 
             if (dist <= mRange) {

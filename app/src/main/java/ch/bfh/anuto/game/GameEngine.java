@@ -9,6 +9,7 @@ import android.graphics.PointF;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import ch.bfh.anuto.util.ConcurrentListMap;
@@ -21,9 +22,8 @@ public class GameEngine implements Runnable {
 
     public final static int TARGET_FPS = 30;
 
-    private final static int MAX_FRAME_SKIPS = 5;
-    private final static int FRAME_PERIOD = 1000 / TARGET_FPS;
     private final static int BACKGROUND_COLOR = Color.WHITE;
+    private final static int FRAME_PERIOD = 1000 / TARGET_FPS;
 
     private final static String TAG = GameEngine.class.getSimpleName();
 
@@ -91,11 +91,11 @@ public class GameEngine implements Runnable {
     }
 
 
-    public Iterable<GameObject> getObjects() {
+    public Iterator<GameObject> getObjects() {
         return mGameObjects.getAll();
     }
 
-    public Iterable<GameObject> getObjects(int typeId) {
+    public Iterator<GameObject> getObjects(int typeId) {
         return mGameObjects.getByKey(typeId);
     }
 
@@ -133,7 +133,10 @@ public class GameEngine implements Runnable {
      */
 
     private synchronized void tick() {
-        for (GameObject obj : mGameObjects.getAll()) {
+        Iterator<GameObject> iterator = mGameObjects.getAll();
+
+        while (iterator.hasNext()) {
+            GameObject obj = iterator.next();
             obj.tick();
         }
 
@@ -144,7 +147,10 @@ public class GameEngine implements Runnable {
         canvas.drawColor(BACKGROUND_COLOR);
         canvas.concat(mScreenMatrix);
 
-        for (GameObject obj : mGameObjects.getAll()) {
+        Iterator<GameObject> iterator = mGameObjects.getAll();
+
+        while (iterator.hasNext()) {
+            GameObject obj = iterator.next();
             PointF pos = obj.getPosition();
 
             canvas.save();

@@ -31,49 +31,7 @@ public class ConcurrentListMap<K, V extends RemovedMark> {
     ------ Iterators ------
      */
 
-    private abstract class ListMapIterator implements Iterator<V>, Iterable<V> {
-        private V mNext = null;
-        private boolean mNextComputed = false;
-
-        protected abstract V computeNext();
-
-        @Override
-        public boolean hasNext() {
-            if (!mNextComputed) {
-                mNext = computeNext();
-                mNextComputed = true;
-            }
-
-            return mNext != null;
-        }
-
-        @Override
-        public V next() {
-            if (!mNextComputed) {
-                mNext = computeNext();
-            }
-
-            if (mNext == null) {
-                throw new NoSuchElementException();
-            }
-
-            mNextComputed = false;
-
-            return mNext;
-        }
-
-        @Override
-        public void remove() {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public Iterator<V> iterator() {
-            return this;
-        }
-    }
-
-    private class ListMapAllIterator extends ListMapIterator {
+    private class ListMapAllIterator extends ComputingIterator<V> {
         Iterator<List<V>> mListIterator;
         Iterator<V> mObjectIterator;
 
@@ -109,7 +67,7 @@ public class ConcurrentListMap<K, V extends RemovedMark> {
         }
     }
 
-    private class ListMapKeyIterator extends ListMapIterator {
+    private class ListMapKeyIterator extends ComputingIterator<V> {
         Iterator<V> mObjectIterator;
 
         public ListMapKeyIterator(K key) {
@@ -129,32 +87,6 @@ public class ConcurrentListMap<K, V extends RemovedMark> {
                     return next;
                 }
             }
-        }
-    }
-
-    private class ListMapFilterIterator extends ListMapIterator {
-
-        Iterator<V> mUnfiltered;
-        Predicate<V> mFilter;
-
-        public ListMapFilterIterator(Iterator<V> unfiltered, Predicate<V> filter) {
-            mUnfiltered = unfiltered;
-            mFilter = filter;
-        }
-
-        @Override
-        protected V computeNext() {
-            V ret;
-
-            while (mUnfiltered.hasNext()) {
-                ret = mUnfiltered.next();
-
-                if (mFilter.input(ret)) {
-                    return ret;
-                }
-            }
-
-            return null;
         }
     }
 
@@ -203,20 +135,12 @@ public class ConcurrentListMap<K, V extends RemovedMark> {
         }
     }
 
-    public Iterable<V> getAll() {
+    public Iterator<V> getAll() {
         return new ListMapAllIterator();
     }
 
-    public Iterable<V> getByKey(K key) {
+    public Iterator<V> getByKey(K key) {
         return new ListMapKeyIterator(key);
-    }
-
-    public Iterable<V> getAllFiltered(Predicate<V> filter) {
-        return new ListMapFilterIterator(new ListMapAllIterator(), filter);
-    }
-
-    public Iterable<V> getByKeyFiltered(K key, Predicate<V> filter) {
-        return new ListMapFilterIterator(new ListMapKeyIterator(key), filter);
     }
 
     protected void onItemAdded(K key, V value) {

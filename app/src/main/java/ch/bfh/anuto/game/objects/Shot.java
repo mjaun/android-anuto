@@ -2,6 +2,7 @@ package ch.bfh.anuto.game.objects;
 
 import android.graphics.PointF;
 
+import java.util.Iterator;
 import java.util.List;
 
 import ch.bfh.anuto.game.GameObject;
@@ -42,7 +43,10 @@ public abstract class Shot extends GameObject {
         float closestDistance = 0f;
         Enemy closest = null;
 
-        for (GameObject obj : mGame.getObjects(Enemy.TYPE_ID)) {
+        Iterator<GameObject> iterator = mGame.getObjects(Enemy.TYPE_ID);
+
+        while (iterator.hasNext()) {
+            GameObject obj = iterator.next();
             float dist = getDistanceTo(obj);
 
             if (closest == null || dist < closestDistance) {
@@ -57,7 +61,10 @@ public abstract class Shot extends GameObject {
     protected void getEnemiesInInfluence(List<Enemy> enemies) {
         enemies.clear();
 
-        for (GameObject obj : mGame.getObjects(Enemy.TYPE_ID)) {
+        Iterator<GameObject> iterator = mGame.getObjects(Enemy.TYPE_ID);
+
+        while (iterator.hasNext()) {
+            GameObject obj = iterator.next();
             if (getDistanceTo(obj) <= SHOT_INFLUENCE_RANGE) {
                 enemies.add((Enemy)obj);
             }
