@@ -70,9 +70,9 @@ public abstract class GameObject implements RemovedMark {
      */
 
     protected final Vector2 mPosition = new Vector2();
-    protected Sprite mSprite = null;
 
     protected GameEngine mGame = null;
+    protected Sprite mSprite = null;
     private boolean mMarkedAsRemoved = false;
 
     private final List<Listener> mListeners = new CopyOnWriteArrayList<>();

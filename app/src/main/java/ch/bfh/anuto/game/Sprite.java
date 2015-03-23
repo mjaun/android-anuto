@@ -11,7 +11,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class Sprite {
+import ch.bfh.anuto.util.RemovedMark;
+
+public class Sprite implements RemovedMark {
 
     /*
     ------ Static ------
@@ -52,7 +54,7 @@ public class Sprite {
         m.postScale(scale, scale);
         m.postTranslate(-0.5f, 0.5f - height);
 
-        Sprite sprite = new Sprite(m, bmps);
+        Sprite sprite = new Sprite(id, m, bmps);
         spriteCache.put(id, sprite);
         return new Sprite(sprite);
     }
@@ -61,22 +63,27 @@ public class Sprite {
     ------ Members ------
      */
 
+    private final int mResourceId;
     private final Matrix mMatrix;
     private final List<Bitmap> mBitmaps;
+    private int mLayer = 0;
     private int mIndex = 0;
     private float mCycleCounter = 0;
     private boolean mCycleBackwards = false;
+    private boolean mRemovedMark = false;
 
     /*
     ------ Constructors ------
      */
 
-    private Sprite(Matrix matrix, Bitmap... bitmaps) {
+    private Sprite(int resId, Matrix matrix, Bitmap... bitmaps) {
+        mResourceId = resId;
         mMatrix = matrix;
         mBitmaps = new ArrayList<Bitmap>(Arrays.asList(bitmaps));
     }
 
     private Sprite(Sprite src) {
+        mResourceId = src.mResourceId;
         mMatrix = new Matrix(src.mMatrix);
         mBitmaps = src.mBitmaps;
     }
@@ -134,6 +141,15 @@ public class Sprite {
     }
 
 
+    public int getLayer() {
+        return mLayer;
+    }
+
+    public void setLayer(int layer) {
+        mLayer = layer;
+    }
+
+
     public Matrix getMatrix() {
         return mMatrix;
     }
@@ -145,5 +161,21 @@ public class Sprite {
 
     public void draw(Canvas canvas) {
         canvas.drawBitmap(mBitmaps.get(mIndex), mMatrix, null);
+    }
+
+
+    @Override
+    public void resetRemovedMark() {
+        mRemovedMark = false;
+    }
+
+    @Override
+    public void markAsRemoved() {
+        mRemovedMark = true;
+    }
+
+    @Override
+    public boolean hasRemovedMark() {
+        return mRemovedMark;
     }
 }

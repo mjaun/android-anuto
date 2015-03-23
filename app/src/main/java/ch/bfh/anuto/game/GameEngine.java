@@ -51,6 +51,10 @@ public class GameEngine implements Runnable {
         }
     }
 
+    private class SpriteListMap extends ConcurrentListMap<Integer, Sprite> {
+
+    }
+
     /*
     ------ Members ------
      */
@@ -59,6 +63,7 @@ public class GameEngine implements Runnable {
     private boolean mRunning = false;
 
     private final GameObjectListMap mGameObjects = new GameObjectListMap();
+    private final SpriteListMap mSprites = new SpriteListMap();
 
     private Vector2 mGameSize;
     private Vector2 mScreenSize;
@@ -86,6 +91,14 @@ public class GameEngine implements Runnable {
 
     public void removeObject(GameObject obj) {
         mGameObjects.removeDeferred(obj.getTypeId(), obj);
+    }
+
+    public void addSprite(Sprite sprite) {
+        mSprites.addDeferred(sprite.getLayer(), sprite);
+    }
+
+    public void removeSprite(Sprite sprite) {
+        mSprites.removeDeferred(sprite.getLayer(), sprite);
     }
 
 
@@ -148,15 +161,15 @@ public class GameEngine implements Runnable {
         canvas.drawColor(BACKGROUND_COLOR);
         canvas.concat(mScreenMatrix);
 
-        Iterator<GameObject> iterator = mGameObjects.getAll();
+        Iterator<Sprite> iterator = mSprites.getAll();
 
         while (iterator.hasNext()) {
-            GameObject obj = iterator.next();
-            Vector2 pos = obj.getPosition();
+            Sprite sprite = iterator.next();
+            //Vector2 pos = obj.getPosition();
 
             canvas.save();
-            canvas.translate(pos.x, pos.y);
-            obj.draw(canvas);
+            //canvas.translate(pos.x, pos.y);
+            //obj.draw(canvas);
             canvas.restore();
         }
     }
