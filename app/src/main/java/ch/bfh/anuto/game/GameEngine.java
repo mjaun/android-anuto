@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import ch.bfh.anuto.util.ConcurrentListMap;
+import ch.bfh.anuto.util.DeferredListMap;
 import ch.bfh.anuto.util.Vector2;
 
 public class GameEngine implements Runnable {
@@ -37,7 +37,7 @@ public class GameEngine implements Runnable {
     ------ Helper Classes ------
      */
 
-    private class GameObjectListMap extends ConcurrentListMap<Integer, GameObject> {
+    private class GameObjectListMap extends DeferredListMap<Integer, GameObject> {
         @Override
         protected void onItemAdded(Integer key, GameObject value) {
             value.setGame(GameEngine.this);
@@ -51,8 +51,11 @@ public class GameEngine implements Runnable {
         }
     }
 
-    private class SpriteListMap extends ConcurrentListMap<Integer, Sprite> {
-
+    private class DrawObjectListMap extends DeferredListMap<Integer, DrawObject> {
+        @Override
+        protected void onItemAdded(Integer key, DrawObject value) {
+            value.setLayer(key);
+        }
     }
 
     /*
@@ -63,7 +66,7 @@ public class GameEngine implements Runnable {
     private boolean mRunning = false;
 
     private final GameObjectListMap mGameObjects = new GameObjectListMap();
-    private final SpriteListMap mSprites = new SpriteListMap();
+    private final DrawObjectListMap mDrawObjects = new DrawObjectListMap();
 
     private Vector2 mGameSize;
     private Vector2 mScreenSize;
@@ -85,28 +88,24 @@ public class GameEngine implements Runnable {
     ------ Methods ------
      */
 
-    public void addObject(GameObject obj) {
+    public void addGameObject(GameObject obj) {
         mGameObjects.addDeferred(obj.getTypeId(), obj);
     }
 
-    public void removeObject(GameObject obj) {
+    public void removeGameObject(GameObject obj) {
         mGameObjects.removeDeferred(obj.getTypeId(), obj);
     }
 
-    public void addSprite(Sprite sprite) {
-        mSprites.addDeferred(sprite.getLayer(), sprite);
+    public void addDrawObject(DrawObject obj, int layer) {
+        mDrawObjects.addDeferred(obj.getLayer(), obj);
     }
 
-    public void removeSprite(Sprite sprite) {
-        mSprites.removeDeferred(sprite.getLayer(), sprite);
+    public void removeDrawObject(DrawObject obj) {
+        mDrawObjects.removeDeferred(obj.getLayer(), obj);
     }
 
 
-    public Iterator<GameObject> getObjects() {
-        return mGameObjects.getAll();
-    }
-
-    public Iterator<GameObject> getObjects(int typeId) {
+    public Iterator<GameObject> getGameObjects(int typeId) {
         return mGameObjects.getByKey(typeId);
     }
 
@@ -155,21 +154,20 @@ public class GameEngine implements Runnable {
         }
 
         mGameObjects.applyChanges();
+        mDrawObjects.applyChanges();
     }
 
     public synchronized void render(Canvas canvas) {
         canvas.drawColor(BACKGROUND_COLOR);
         canvas.concat(mScreenMatrix);
 
-        Iterator<Sprite> iterator = mSprites.getAll();
+        Iterator<DrawObject> iterator = mDrawObjects.getAll();
 
         while (iterator.hasNext()) {
-            Sprite sprite = iterator.next();
-            //Vector2 pos = obj.getPosition();
+            DrawObject obj = iterator.next();
 
             canvas.save();
-            //canvas.translate(pos.x, pos.y);
-            //obj.draw(canvas);
+            obj.draw(canvas);
             canvas.restore();
         }
     }

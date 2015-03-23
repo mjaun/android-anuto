@@ -1,8 +1,5 @@
 package ch.bfh.anuto.game.objects;
 
-import java.util.Iterator;
-import java.util.List;
-
 import ch.bfh.anuto.game.GameObject;
 
 public abstract class AreaEffect extends GameObject {
@@ -12,6 +9,7 @@ public abstract class AreaEffect extends GameObject {
      */
 
     public static final int TYPE_ID = 5;
+    public static final int LAYER = TYPE_ID * 100;
 
     /*
     ------ Members ------

@@ -1,8 +1,5 @@
 package ch.bfh.anuto.game.objects;
 
-import java.util.Iterator;
-import java.util.List;
-
 import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.util.Vector2;
 
@@ -13,6 +10,7 @@ public abstract class Shot extends GameObject {
      */
 
     public static final int TYPE_ID = 4;
+    public static final int LAYER = TYPE_ID * 100;
 
     /*
     ------ Members ------

@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 
 import org.simpleframework.xml.Attribute;
 
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -72,8 +71,7 @@ public abstract class GameObject implements RemovedMark {
     protected final Vector2 mPosition = new Vector2();
 
     protected GameEngine mGame = null;
-    protected Sprite mSprite = null;
-    private boolean mMarkedAsRemoved = false;
+    private boolean mMarkedAsRemoved = true;
 
     private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
@@ -85,20 +83,12 @@ public abstract class GameObject implements RemovedMark {
 
     public abstract void init(Resources res);
 
-    public void clean() {
-    }
+    public abstract void clean();
 
-    public void tick() {
-    }
+    public abstract void tick();
 
-    public void draw(Canvas canvas) {
-        mSprite.draw(canvas);
-    }
+    public void beforeDraw(Sprite sprite, Canvas canvas) {
 
-    public void remove() {
-        if (mGame != null) {
-            mGame.removeObject(this);
-        }
     }
 
 
@@ -121,13 +111,13 @@ public abstract class GameObject implements RemovedMark {
         return mPosition;
     }
 
-    public void setPosition(Vector2 position) {
-        mPosition.set(position);
-    }
-
     public void setPosition(float x, float y) {
         mPosition.x = x;
         mPosition.y = y;
+    }
+
+    public void setPosition(Vector2 position) {
+        mPosition.set(position);
     }
 
 

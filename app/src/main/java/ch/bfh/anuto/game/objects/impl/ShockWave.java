@@ -16,6 +16,11 @@ public class ShockWave extends AreaEffect {
     }
 
     @Override
+    public void clean() {
+        // TODO
+    }
+
+    @Override
     public void applyEffect() {
         // TODO
     }

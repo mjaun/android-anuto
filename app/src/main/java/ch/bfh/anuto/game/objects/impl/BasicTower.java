@@ -14,6 +14,7 @@ public class BasicTower extends AimingTower {
     private final static float RANGE = 5f;
 
     private float mAngle;
+    private Sprite mSprite;
 
     public BasicTower() {
         mRange = RANGE;
@@ -27,14 +28,19 @@ public class BasicTower extends AimingTower {
 
     @Override
     public void init(Resources res) {
-        mSprite = Sprite.fromResources(res, R.drawable.basic_tower);
+        mSprite = Sprite.fromResources(this, res, R.drawable.basic_tower);
+        mSprite.calcMatrix(null, 1f, new Vector2(0.5f, 0.5f));
+        mGame.addDrawObject(mSprite, LAYER);
     }
 
+    @Override
+    public void clean() {
+        mGame.removeDrawObject(mSprite);
+    }
 
     @Override
-    public void draw(Canvas canvas) {
+    public void beforeDraw(Sprite sprite, Canvas canvas) {
         canvas.rotate(mAngle);
-        mSprite.draw(canvas);
     }
 
     @Override

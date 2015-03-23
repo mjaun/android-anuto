@@ -8,8 +8,16 @@ import ch.bfh.anuto.game.objects.Plateau;
 
 public class BasicPlateau extends Plateau {
 
+    private Sprite mSprite;
+
     @Override
     public void init(Resources res) {
-        mSprite = Sprite.fromResources(res, R.drawable.basic_plateau);
+        mSprite = Sprite.fromResources(this, res, R.drawable.basic_plateau);
+        mGame.addDrawObject(mSprite, Plateau.LAYER);
+    }
+
+    @Override
+    public void clean() {
+        mGame.removeDrawObject(mSprite);
     }
 }

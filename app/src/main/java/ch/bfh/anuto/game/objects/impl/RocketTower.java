@@ -13,6 +13,7 @@ public class RocketTower extends AimingTower {
     private final static int RELOAD_TIME = 20;
     private final static float RANGE = 5f;
 
+    private Sprite mSprite;
     private float mAngle;
 
     public RocketTower() {
@@ -26,6 +27,23 @@ public class RocketTower extends AimingTower {
     }
 
     @Override
+    public void init(Resources res) {
+        mSprite = Sprite.fromResources(this, res, R.drawable.rocket_tower);
+        mSprite.calcMatrix(null, 1f, new Vector2(0.5f, 0.5f));
+        mGame.addDrawObject(mSprite, LAYER);
+    }
+
+    @Override
+    public void clean() {
+        mGame.removeDrawObject(mSprite);
+    }
+
+    @Override
+    public void beforeDraw(Sprite sprite, Canvas canvas) {
+        canvas.rotate(mAngle);
+    }
+
+    @Override
     public void tick() {
         super.tick();
 
@@ -36,18 +54,5 @@ public class RocketTower extends AimingTower {
 
             mAngle = getAngleTo(mTarget);
         }
-    }
-
-    @Override
-    public void draw(Canvas canvas) {
-        canvas.rotate(mAngle);
-        mSprite.draw(canvas);
-    }
-
-    @Override
-    public void init(Resources res) {
-        mSprite = Sprite.fromResources(res, R.drawable.rocket_tower);
-        mSprite.getMatrix().postScale(2f, 2f);
-        mSprite.getMatrix().postTranslate(0f, -0.45f);
     }
 }

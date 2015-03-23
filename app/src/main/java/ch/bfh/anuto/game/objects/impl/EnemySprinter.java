@@ -11,4 +11,9 @@ public class EnemySprinter extends Enemy {
     @Override
     public void init(Resources res) {
     }
+
+    @Override
+    public void clean() {
+
+    }
 }

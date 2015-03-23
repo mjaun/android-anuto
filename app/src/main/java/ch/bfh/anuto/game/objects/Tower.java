@@ -1,9 +1,7 @@
 package ch.bfh.anuto.game.objects;
 
 import java.util.Iterator;
-import java.util.List;
 
-import ch.bfh.anuto.game.GameEngine;
 import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.util.Function;
 import ch.bfh.anuto.util.Iterators;
@@ -15,6 +13,7 @@ public abstract class Tower extends GameObject {
      */
 
     public static final int TYPE_ID = 3;
+    public static final int LAYER = TYPE_ID * 100;
 
     /*
     ------ Members ------
@@ -36,8 +35,6 @@ public abstract class Tower extends GameObject {
 
     @Override
     public void tick() {
-        super.tick();
-
         if (mReloadCounter > 0) {
             mReloadCounter -= 1f;
         }
@@ -49,17 +46,17 @@ public abstract class Tower extends GameObject {
     }
 
     protected void shoot(Shot shot) {
-        mGame.addObject(shot);
+        mGame.addGameObject(shot);
         mReloadCounter += mReloadTime;
     }
 
     protected void activate(AreaEffect effect) {
-        mGame.addObject(effect);
+        mGame.addGameObject(effect);
         mReloadCounter = mReloadTime;
     }
 
     protected Iterator<Enemy> getEnemiesInRange() {
-        Iterator<GameObject> enemies = mGame.getObjects(Enemy.TYPE_ID);
+        Iterator<GameObject> enemies = mGame.getGameObjects(Enemy.TYPE_ID);
         Iterator<GameObject> inRange = GameObject.inRange(enemies, mPosition, mRange);
 
         return Iterators.transform(inRange, new Function<GameObject, Enemy>() {

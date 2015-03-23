@@ -12,4 +12,9 @@ public class RocketShot extends Shot {
     public void init(Resources res) {
 
     }
+
+    @Override
+    public void clean() {
+
+    }
 }

@@ -12,8 +12,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import ch.bfh.anuto.util.RemovedMark;
+import ch.bfh.anuto.util.Vector2;
 
-public class Sprite implements RemovedMark {
+public class Sprite extends DrawObject {
 
     /*
     ------ Static ------
@@ -21,13 +22,13 @@ public class Sprite implements RemovedMark {
 
     private static HashMap<Integer, Sprite> spriteCache = new HashMap<>();
 
-    public static Sprite fromResources(Resources res, int id) {
-        return fromResources(res, id, 1);
+    public static Sprite fromResources(GameObject owner, Resources res, int id) {
+        return fromResources(owner, res, id, 1);
     }
 
-    public static Sprite fromResources(Resources res, int id, int count) {
+    public static Sprite fromResources(GameObject owner, Resources res, int id, int count) {
         if (spriteCache.containsKey(id)) {
-            return new Sprite(spriteCache.get(id));
+            return new Sprite(owner, spriteCache.get(id));
         }
 
         Bitmap[] bmps;
@@ -47,50 +48,87 @@ public class Sprite implements RemovedMark {
             bmps[0] = BitmapFactory.decodeResource(res, id);
         }
 
-        float scale = 1f / bmps[0].getWidth();
-        float height = bmps[0].getHeight() * scale;
-
-        Matrix m = new Matrix();
-        m.postScale(scale, scale);
-        m.postTranslate(-0.5f, 0.5f - height);
-
-        Sprite sprite = new Sprite(id, m, bmps);
+        Sprite sprite = new Sprite(owner, bmps);
         spriteCache.put(id, sprite);
-        return new Sprite(sprite);
+        return new Sprite(owner, sprite);
     }
 
     /*
     ------ Members ------
      */
 
-    private final int mResourceId;
-    private final Matrix mMatrix;
+    private final GameObject mOwner;
     private final List<Bitmap> mBitmaps;
-    private int mLayer = 0;
+    private final Matrix mMatrix = new Matrix();
+
     private int mIndex = 0;
     private float mCycleCounter = 0;
     private boolean mCycleBackwards = false;
-    private boolean mRemovedMark = false;
 
     /*
     ------ Constructors ------
      */
 
-    private Sprite(int resId, Matrix matrix, Bitmap... bitmaps) {
-        mResourceId = resId;
-        mMatrix = matrix;
+    private Sprite(GameObject owner, Bitmap... bitmaps) {
+        mOwner = owner;
         mBitmaps = new ArrayList<Bitmap>(Arrays.asList(bitmaps));
+        calcMatrix();
     }
 
-    private Sprite(Sprite src) {
-        mResourceId = src.mResourceId;
-        mMatrix = new Matrix(src.mMatrix);
+    private Sprite(GameObject owner, Sprite src) {
+        mOwner = owner;
         mBitmaps = src.mBitmaps;
+        mMatrix.set(src.mMatrix);
     }
 
     /*
     ------ Methods ------
      */
+
+    public void calcMatrix() {
+        calcMatrix(1f, 1f, null);
+    }
+
+    public void calcMatrix(float length) {
+        calcMatrix(length, length, null);
+    }
+
+    public void calcMatrix(Float width, Float height) {
+        calcMatrix(width, height, null);
+    }
+
+    public void calcMatrix(Float width, Float height, Vector2 center) {
+        float aspect = (float)mBitmaps.get(0).getWidth() / mBitmaps.get(0).getHeight();
+
+        if (width == null && height == null) {
+            height = 1f;
+        }
+
+        if (width == null) {
+            width = height * aspect;
+        }
+
+        if (height == null) {
+            height = width / aspect;
+        }
+
+        if (center == null) {
+            center = new Vector2(width / 2, height / 2);
+        }
+
+        float scaleX = width / mBitmaps.get(0).getWidth();
+        float scaleY = height / mBitmaps.get(0).getHeight();
+
+        mMatrix.reset();
+        mMatrix.postScale(scaleX, scaleY);
+        mMatrix.postTranslate(-center.x, -center.y);
+
+    }
+
+    public Matrix getMatrix() {
+        return mMatrix;
+    }
+
 
     public void select(int index) {
         mIndex = index;
@@ -141,41 +179,10 @@ public class Sprite implements RemovedMark {
     }
 
 
-    public int getLayer() {
-        return mLayer;
-    }
-
-    public void setLayer(int layer) {
-        mLayer = layer;
-    }
-
-
-    public Matrix getMatrix() {
-        return mMatrix;
-    }
-
-    public List<Bitmap> getBitmaps() {
-        return mBitmaps;
-    }
-
-
+    @Override
     public void draw(Canvas canvas) {
+        canvas.translate(mOwner.getPosition().x, mOwner.getPosition().y);
+        mOwner.beforeDraw(this, canvas);
         canvas.drawBitmap(mBitmaps.get(mIndex), mMatrix, null);
-    }
-
-
-    @Override
-    public void resetRemovedMark() {
-        mRemovedMark = false;
-    }
-
-    @Override
-    public void markAsRemoved() {
-        mRemovedMark = true;
-    }
-
-    @Override
-    public boolean hasRemovedMark() {
-        return mRemovedMark;
     }
 }

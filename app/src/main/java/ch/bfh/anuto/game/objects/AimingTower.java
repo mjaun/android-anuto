@@ -1,9 +1,5 @@
 package ch.bfh.anuto.game.objects;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import ch.bfh.anuto.game.GameObject;
 
 public abstract class AimingTower extends Tower implements GameObject.Listener {
@@ -59,7 +55,7 @@ public abstract class AimingTower extends Tower implements GameObject.Listener {
     protected void nextTarget() {
         switch (mStrategy) {
             case Closest:
-                setTarget((Enemy)GameObject.closest(mGame.getObjects(Enemy.TYPE_ID), mPosition));
+                setTarget(GameObject.closest(getEnemiesInRange(), mPosition));
                 break;
 
             case Strongest:

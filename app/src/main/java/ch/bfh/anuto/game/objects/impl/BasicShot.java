@@ -36,8 +36,19 @@ public class BasicShot extends TargetedShot {
 
     @Override
     public void init(Resources res) {
-        mSprite = Sprite.fromResources(res, R.drawable.basic_shot);
-        mSprite.getMatrix().postScale(0.33f, 0.33f);
+        mSprite = Sprite.fromResources(this, res, R.drawable.basic_shot);
+        mSprite.calcMatrix(0.33f);
+        mGame.addDrawObject(mSprite, LAYER);
+    }
+
+    @Override
+    public void clean() {
+        mGame.removeDrawObject(mSprite);
+    }
+
+    @Override
+    public void beforeDraw(Sprite sprite, Canvas canvas) {
+        canvas.rotate(mAngle);
     }
 
     @Override
@@ -49,17 +60,11 @@ public class BasicShot extends TargetedShot {
     }
 
     @Override
-    public void draw(Canvas canvas) {
-        canvas.rotate(mAngle);
-        mSprite.draw(canvas);
-    }
-
-    @Override
     protected void onTargetLost() {
-        Enemy closest = (Enemy)GameObject.closest(mGame.getObjects(Enemy.TYPE_ID), mPosition);
+        Enemy closest = (Enemy)GameObject.closest(mGame.getGameObjects(Enemy.TYPE_ID), mPosition);
 
         if (closest == null) {
-            remove();
+            mGame.removeGameObject(this);
         } else {
             setTarget(closest);
         }
@@ -68,6 +73,6 @@ public class BasicShot extends TargetedShot {
     @Override
     protected void onTargetReached() {
         mTarget.damage(DAMAGE);
-        remove();
+        mGame.removeGameObject(this);
     }
 }

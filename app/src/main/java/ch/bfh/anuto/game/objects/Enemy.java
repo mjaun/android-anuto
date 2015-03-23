@@ -1,5 +1,6 @@
 package ch.bfh.anuto.game.objects;
 
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -8,6 +9,7 @@ import org.simpleframework.xml.Element;
 
 import java.util.Iterator;
 
+import ch.bfh.anuto.game.DrawObject;
 import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.game.data.Path;
 import ch.bfh.anuto.util.Function;
@@ -22,10 +24,37 @@ public abstract class Enemy extends GameObject {
      */
 
     public static final int TYPE_ID = 2;
+    public static final int LAYER = TYPE_ID * 100;
 
     private static final float HEALTHBAR_WIDTH = 1.0f;
     private static final float HEALTHBAR_HEIGHT = 0.1f;
     private static final float HEALTHBAR_OFFSET = 0.6f;
+
+    /*
+    ------ Healthbar Class ------
+     */
+
+    private class HealthBar extends DrawObject {
+        private Paint mHealthBarBg;
+        private Paint mHealthBarFg;
+
+        public HealthBar() {
+            mHealthBarBg = new Paint();
+            mHealthBarBg.setColor(Color.BLACK);
+            mHealthBarFg = new Paint();
+            mHealthBarFg.setColor(Color.GREEN);
+        }
+
+        @Override
+        public void draw(Canvas canvas) {
+            canvas.save();
+            canvas.translate(mPosition.x - HEALTHBAR_WIDTH/2f, mPosition.y + HEALTHBAR_OFFSET);
+
+            canvas.drawRect(0, 0, HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT, mHealthBarBg);
+            canvas.drawRect(0, 0, mHealth * HEALTHBAR_WIDTH / mHealthMax, HEALTHBAR_HEIGHT, mHealthBarFg);
+            canvas.restore();
+        }
+    }
 
     /*
     ------ Static ------
@@ -55,24 +84,20 @@ public abstract class Enemy extends GameObject {
 
     @Element(name="path")
     protected Path mPath = null;
-    protected int mWayPointIndex = 0;
+    private int mWayPointIndex = 0;
 
     protected float mHealth = 100f;
     protected float mHealthMax = 100f;
     protected float mSpeed = 1.0f;
 
-    protected Paint mHealthBarBg;
-    protected Paint mHealthBarFg;
+    private HealthBar mHealthBar;
 
     /*
     ------ Constructors ------
      */
 
     protected Enemy() {
-        mHealthBarBg = new Paint();
-        mHealthBarBg.setColor(Color.BLACK);
-        mHealthBarFg = new Paint();
-        mHealthBarFg.setColor(Color.GREEN);
+        mHealthBar = new HealthBar();
     }
 
     /*
@@ -85,9 +110,19 @@ public abstract class Enemy extends GameObject {
     }
 
     @Override
+    public void init(Resources res) {
+        mGame.addDrawObject(mHealthBar, LAYER);
+    }
+
+    @Override
+    public void clean() {
+        mGame.removeDrawObject(mHealthBar);
+    }
+
+    @Override
     public void tick() {
         if (!hasWayPoint()) {
-            remove();
+            mGame.removeGameObject(this);
             return;
         }
 
@@ -98,22 +133,6 @@ public abstract class Enemy extends GameObject {
         else {
             move(getDirectionTo(getWayPoint()), mSpeed);
         }
-    }
-
-    @Override
-    public void draw(Canvas canvas) {
-        drawHealthBar(canvas);
-        mSprite.draw(canvas);
-    }
-
-    protected void drawHealthBar(Canvas canvas) {
-        canvas.save();
-        canvas.translate(-HEALTHBAR_WIDTH/2f, HEALTHBAR_OFFSET);
-
-        canvas.drawRect(0, 0, HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT, mHealthBarBg);
-        canvas.drawRect(0, 0, mHealth * HEALTHBAR_WIDTH / mHealthMax, HEALTHBAR_HEIGHT, mHealthBarFg);
-
-        canvas.restore();
     }
 
 
@@ -134,7 +153,7 @@ public abstract class Enemy extends GameObject {
         mHealth -= dmg;
 
         if (mHealth <= 0) {
-            remove();
+            mGame.removeGameObject(this);
         }
     }
 

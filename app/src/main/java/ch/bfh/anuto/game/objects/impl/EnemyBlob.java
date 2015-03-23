@@ -12,4 +12,9 @@ public class EnemyBlob extends Enemy {
     public void init(Resources res) {
 
     }
+
+    @Override
+    public void clean() {
+
+    }
 }

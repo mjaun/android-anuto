@@ -11,7 +11,7 @@ import java.util.TreeMap;
 
 import ch.bfh.anuto.game.GameObject;
 
-public class ConcurrentListMap<K, V extends RemovedMark> {
+public class DeferredListMap<K, V extends RemovedMark> {
 
     /*
     ------ Entry Class ------
@@ -130,8 +130,10 @@ public class ConcurrentListMap<K, V extends RemovedMark> {
 
         while (!mObjectsToRemove.isEmpty()) {
             Entry<K, V> e = mObjectsToRemove.remove();
-            getList(e.key).remove(e.value);
-            onItemRemoved(e.key, e.value);
+
+            if (getList(e.key).remove(e.value)) {
+                onItemRemoved(e.key, e.value);
+            }
         }
     }
 

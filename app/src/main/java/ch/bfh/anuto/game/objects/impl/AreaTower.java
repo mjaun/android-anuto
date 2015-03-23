@@ -12,6 +12,8 @@ public class AreaTower extends Tower {
     private final static int RELOAD_TIME = 20;
     private final static float RANGE = 5f;
 
+    private Sprite mSprite;
+
     public AreaTower() {
         mRange = RANGE;
         mReloadTime = RELOAD_TIME;
@@ -24,7 +26,13 @@ public class AreaTower extends Tower {
 
     @Override
     public void init(Resources res) {
-        mSprite = Sprite.fromResources(res, R.drawable.area_tower);
+        mSprite = Sprite.fromResources(this, res, R.drawable.area_tower);
+        mGame.addDrawObject(mSprite, LAYER);
+    }
+
+    @Override
+    public void clean() {
+        mGame.removeDrawObject(mSprite);
     }
 
     @Override
