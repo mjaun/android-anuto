@@ -141,8 +141,4 @@ public abstract class Enemy extends GameObject {
     public void heal(float val) {
         mHealth += val;
     }
-
-    public float getHealth() {
-        return mHealth;
-    }
 }

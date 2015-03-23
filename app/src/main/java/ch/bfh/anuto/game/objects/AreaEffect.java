@@ -17,7 +17,6 @@ public abstract class AreaEffect extends GameObject {
     ------ Members ------
      */
 
-    protected float mRange;
     protected int mDelay = 0;
     protected boolean mEffectDone = false;
 
@@ -43,20 +42,5 @@ public abstract class AreaEffect extends GameObject {
     }
 
     protected void applyEffect() {
-
-    }
-
-
-    protected void getEnemiesInRange(List<Enemy> enemies) {
-        enemies.clear();
-
-        Iterator<GameObject> iterator = mGame.getObjects(Enemy.TYPE_ID);
-
-        while (iterator.hasNext()) {
-            GameObject obj = iterator.next();
-            if (getDistanceTo(obj) <= mRange) {
-                enemies.add((Enemy)obj);
-            }
-        }
     }
 }

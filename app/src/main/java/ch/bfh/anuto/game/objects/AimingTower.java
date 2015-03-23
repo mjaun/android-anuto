@@ -22,9 +22,6 @@ public abstract class AimingTower extends Tower implements GameObject.Listener {
     protected Strategy mStrategy = Strategy.Closest;
     protected boolean mLockOnTarget = true;
 
-    private List<Enemy> mEnemies = new ArrayList<>();
-    private List<Float> mDistances = new ArrayList<>();
-
     /*
     ------ Methods ------
      */
@@ -60,19 +57,17 @@ public abstract class AimingTower extends Tower implements GameObject.Listener {
     }
 
     protected void nextTarget() {
-        Iterator<Enemy> enemiesInRange = getEnemiesInRange();
-
         switch (mStrategy) {
             case Closest:
-                setTarget(GameObject.closest(enemiesInRange, mPosition));
+                setTarget((Enemy)GameObject.closest(mGame.getObjects(Enemy.TYPE_ID), mPosition));
                 break;
 
             case Strongest:
-                setTarget(Enemy.strongest(enemiesInRange));
+                setTarget(Enemy.strongest(getEnemiesInRange()));
                 break;
 
             case Weakest:
-                setTarget(Enemy.weakest(enemiesInRange));
+                setTarget(Enemy.weakest(getEnemiesInRange()));
                 break;
         }
      }

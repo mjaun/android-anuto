@@ -41,10 +41,6 @@ public abstract class TargetedShot extends Shot implements GameObject.Listener {
         }
     }
 
-    public Enemy getTarget() {
-        return mTarget;
-    }
-
     public boolean hasTarget() {
         return mTarget != null;
     }
