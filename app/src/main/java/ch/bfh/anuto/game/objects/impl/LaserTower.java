@@ -4,12 +4,13 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 
 import ch.bfh.anuto.R;
+import ch.bfh.anuto.game.GameEngine;
 import ch.bfh.anuto.game.Sprite;
 import ch.bfh.anuto.game.objects.AimingTower;
 import ch.bfh.anuto.util.Vector2;
 
 public class LaserTower extends AimingTower {
-    private final static int RELOAD_TIME = 20;
+    private final static float RELOAD_TIME = 2.0f * GameEngine.TARGET_FPS;
     private final static float RANGE = 5f;
 
     private Sprite mSprite;
@@ -52,7 +53,8 @@ public class LaserTower extends AimingTower {
 
         if (hasTarget()) {
             if (isReloaded()) {
-                // TODO
+                Vector2 direction = Vector2.createPolar(1f, mAngle);
+                activate(new LaserEffect(mPosition, direction));
             }
 
             mAngle = getAngleTo(mTarget);

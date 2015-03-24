@@ -10,6 +10,7 @@ import java.io.InputStream;
 import ch.bfh.anuto.game.data.Level;
 import ch.bfh.anuto.game.objects.impl.BasicTower;
 import ch.bfh.anuto.game.GameEngine;
+import ch.bfh.anuto.game.objects.impl.LaserTower;
 import ch.bfh.anuto.util.Vector2;
 
 
@@ -31,11 +32,8 @@ public class TowerDefenseView extends View implements GameEngine.Listener {
             mGame = lvl.createGame(getResources());
             mGame.addListener(this);
 
-            mGame.addGameObject(new BasicTower(new Vector2(5, 10)));
-            mGame.addGameObject(new BasicTower(new Vector2(6, 10)));
-            mGame.addGameObject(new BasicTower(new Vector2(5, 9)));
-            mGame.addGameObject(new BasicTower(new Vector2(6, 9)));
-
+            mGame.addGameObject(new LaserTower(new Vector2(9, 12)));
+            /*
             mGame.addGameObject(new BasicTower(new Vector2(5, 5)));
             mGame.addGameObject(new BasicTower(new Vector2(6, 5)));
             mGame.addGameObject(new BasicTower(new Vector2(7, 5)));
@@ -54,6 +52,7 @@ public class TowerDefenseView extends View implements GameEngine.Listener {
             mGame.addGameObject(new BasicTower(new Vector2(1, 5)));
             mGame.addGameObject(new BasicTower(new Vector2(1, 4)));
             mGame.addGameObject(new BasicTower(new Vector2(1, 3)));
+            */
 
             lvl.startWave(mGame, 0);
         } catch (Exception e) {
