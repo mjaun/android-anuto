@@ -42,14 +42,28 @@ public abstract class GameObject implements RemovedMark {
     public static <T extends GameObject> Iterator<T> onLine(Iterator<T> objects, final Vector2 p1, final Vector2 p2, final float lineWidth) {
         final Vector2 line = p2.copy().sub(p1);
         final float lineLen2 = line.len2();
+        final float lineLen = (float)Math.sqrt(lineLen2);
+        final float lineAngle = line.angle();
 
         return Iterators.filter(objects, new Predicate<GameObject>() {
             @Override
             public boolean apply(GameObject value) {
                 Vector2 toObj = value.mPosition.copy().sub(p1);
+
+                float angle = toObj.angle() - lineAngle;
+
+                if (Math.abs(angle) > 90) {
+                    return false;
+                }
+
                 Vector2 proj = line.copy().mul(toObj.dot(line) / lineLen2);
 
+                if (proj.len() > lineLen) {
+                    return false;
+                }
+
                 float dist = toObj.sub(proj).len();
+
                 return dist <= lineWidth;
             }
         });
