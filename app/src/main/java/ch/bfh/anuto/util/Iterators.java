@@ -14,6 +14,15 @@ public final class Iterators {
         return new TransformingIterator<>(original, transformation);
     }
 
+    public static <F, T> Iterator<T> cast(Iterator<F> original, final Class<T> castTo) {
+        return new TransformingIterator<>(original, new Function<F, T>() {
+            @Override
+            public T apply(F input) {
+                return castTo.cast(input);
+            }
+        });
+    }
+
     public static <T> T max(Iterator<T> original, Function<T, Float> scoreFunction) {
         T maxObject = null;
         float maxValue = 0f;
