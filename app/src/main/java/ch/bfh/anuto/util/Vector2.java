@@ -4,6 +4,22 @@ import org.simpleframework.xml.Attribute;
 
 public class Vector2 {
 
+    public static final float TO_RADIANS = (float)Math.PI / 180f;
+    public static final float TO_DEGREES = 180f / (float)Math.PI;
+
+    /*
+    ------ Static ------
+    */
+
+    public static Vector2 createCartesian(float x, float y) {
+        return new Vector2(x, y);
+    }
+
+    public static Vector2 createPolar(float length, float angle) {
+        return new Vector2((float)Math.cos(angle * TO_RADIANS) * length,
+                (float)Math.sin(angle * TO_RADIANS) * length);
+    }
+
     /*
     ------ Members ------
      */
@@ -91,6 +107,6 @@ public class Vector2 {
     }
 
     public float angle() {
-        return (float)Math.atan2(y, x) / (float)Math.PI * 180f;
+        return (float)Math.atan2(y, x) * TO_DEGREES;
     }
 }
