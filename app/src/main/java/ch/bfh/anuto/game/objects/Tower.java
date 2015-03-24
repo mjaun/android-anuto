@@ -1,8 +1,11 @@
 package ch.bfh.anuto.game.objects;
 
+import android.content.res.Resources;
+
 import java.util.Iterator;
 
 import ch.bfh.anuto.game.GameObject;
+import ch.bfh.anuto.game.TickTimer;
 import ch.bfh.anuto.util.Function;
 import ch.bfh.anuto.util.Iterators;
 
@@ -22,7 +25,8 @@ public abstract class Tower extends GameObject {
     protected float mRange;
     protected float mReloadTime;
 
-    protected float mReloadCounter = 0;
+    protected boolean mReloaded = true;
+    private TickTimer mReloadTimer;
 
     /*
     ------ Methods ------
@@ -34,36 +38,32 @@ public abstract class Tower extends GameObject {
     }
 
     @Override
+    public void init(Resources res) {
+        mReloadTimer = TickTimer.createInterval(mReloadTime);
+    }
+
+    @Override
     public void tick() {
-        if (mReloadCounter > 0) {
-            mReloadCounter -= 1f;
+        if (!mReloaded && mReloadTimer.tick()) {
+            mReloaded = true;
         }
     }
 
 
-    protected boolean isReloaded() {
-        return mReloadCounter <= 0;
-    }
-
     protected void shoot(Shot shot) {
         mGame.addGameObject(shot);
-        mReloadCounter += mReloadTime;
+        mReloaded = false;
     }
 
-    protected void activate(AreaEffect effect) {
+    protected void shoot(AreaEffect effect) {
         mGame.addGameObject(effect);
-        mReloadCounter = mReloadTime;
+        mReloaded = false;
     }
 
     protected Iterator<Enemy> getEnemiesInRange() {
         Iterator<GameObject> enemies = mGame.getGameObjects(Enemy.TYPE_ID);
         Iterator<GameObject> inRange = GameObject.inRange(enemies, mPosition, mRange);
 
-        return Iterators.transform(inRange, new Function<GameObject, Enemy>() {
-            @Override
-            public Enemy apply(GameObject input) {
-                return (Enemy)input;
-            }
-        });
+        return Iterators.cast(inRange, Enemy.class);
     }
 }

@@ -47,8 +47,8 @@ public class RocketTower extends AimingTower {
     public void tick() {
         super.tick();
 
-        if (hasTarget()) {
-            if (isReloaded()) {
+        if (mTarget != null) {
+            if (mReloaded) {
                 // TODO
             }
 

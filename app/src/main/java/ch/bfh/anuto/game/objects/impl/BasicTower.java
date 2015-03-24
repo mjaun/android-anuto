@@ -10,7 +10,8 @@ import ch.bfh.anuto.game.objects.AimingTower;
 import ch.bfh.anuto.util.Vector2;
 
 public class BasicTower extends AimingTower {
-    private final static float RELOAD_TIME = 0.2f * GameEngine.TARGET_FPS;
+
+    private final static float RELOAD_TIME = 0.2f;
     private final static float RANGE = 5f;
 
     private float mAngle;
@@ -28,6 +29,8 @@ public class BasicTower extends AimingTower {
 
     @Override
     public void init(Resources res) {
+        super.init(res);
+
         mSprite = Sprite.fromResources(this, res, R.drawable.basic_tower);
         mSprite.calcMatrix(null, 1f, new Vector2(0.5f, 0.5f));
         mGame.addDrawObject(mSprite, LAYER);
@@ -47,8 +50,8 @@ public class BasicTower extends AimingTower {
     public void tick() {
         super.tick();
 
-        if (hasTarget()) {
-            if (isReloaded()) {
+        if (mTarget != null) {
+            if (mReloaded) {
                 shoot(new BasicShot(mPosition, mTarget));
             }
 

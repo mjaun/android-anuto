@@ -26,11 +26,11 @@ public abstract class AimingTower extends Tower implements GameObject.Listener {
     public void tick() {
         super.tick();
 
-        if (hasTarget() && getDistanceTo(mTarget) > mRange) {
+        if (mTarget != null && getDistanceTo(mTarget) > mRange) {
             onTargetLost();
         }
 
-        if (!hasTarget() || !mLockOnTarget) {
+        if (mTarget == null || !mLockOnTarget) {
             nextTarget();
         }
     }
@@ -46,10 +46,6 @@ public abstract class AimingTower extends Tower implements GameObject.Listener {
         if (mTarget != null) {
             mTarget.addListener(this);
         }
-    }
-
-    public boolean hasTarget() {
-        return mTarget != null;
     }
 
     protected void nextTarget() {

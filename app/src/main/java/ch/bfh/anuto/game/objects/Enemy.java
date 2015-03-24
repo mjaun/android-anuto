@@ -10,6 +10,7 @@ import org.simpleframework.xml.Element;
 import java.util.Iterator;
 
 import ch.bfh.anuto.game.DrawObject;
+import ch.bfh.anuto.game.GameEngine;
 import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.game.data.Path;
 import ch.bfh.anuto.util.Function;
@@ -126,12 +127,12 @@ public abstract class Enemy extends GameObject {
             return;
         }
 
-        if (getDistanceTo(getWayPoint()) < mSpeed) {
+        if (getDistanceTo(getWayPoint()) < mSpeed / GameEngine.TARGET_FPS) {
             setPosition(getWayPoint());
             nextWayPoint();
         }
         else {
-            move(getDirectionTo(getWayPoint()), mSpeed);
+            moveSpeed(getDirectionTo(getWayPoint()), mSpeed);
         }
     }
 

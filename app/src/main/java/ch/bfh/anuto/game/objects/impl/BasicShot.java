@@ -14,9 +14,9 @@ import ch.bfh.anuto.util.Vector2;
 public class BasicShot extends TargetedShot {
 
     private final static float DAMAGE = 10f;
-    private final static float MOVEMENT_SPEED = 3f / GameEngine.TARGET_FPS;
-    private final static float ROTATION_SPEED = 360f / GameEngine.TARGET_FPS;
     private final static float SPAWN_OFFSET = 0.9f;
+    private final static float MOVEMENT_SPEED = 3f;
+    private final static float ROTATION_STEP = 360f / GameEngine.TARGET_FPS;
 
     private Sprite mSprite;
     private float mAngle = 0f;
@@ -54,7 +54,7 @@ public class BasicShot extends TargetedShot {
     @Override
     public void tick() {
         mDirection = getDirectionTo(mTarget);
-        mAngle += ROTATION_SPEED;
+        mAngle += ROTATION_STEP;
 
         super.tick();
     }

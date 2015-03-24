@@ -62,7 +62,6 @@ public class Sprite extends DrawObject {
     private final Matrix mMatrix = new Matrix();
 
     private int mIndex = 0;
-    private float mCycleCounter = 0;
     private boolean mCycleBackwards = false;
 
     /*
@@ -133,8 +132,16 @@ public class Sprite extends DrawObject {
     }
 
 
-    public void select(int index) {
+    public int getIndex() {
+        return mIndex;
+    }
+
+    public void setIndex(int index) {
         mIndex = index;
+    }
+
+    public int getCount() {
+        return mBitmaps.size();
     }
 
     public void cycle() {
@@ -142,15 +149,6 @@ public class Sprite extends DrawObject {
 
         if (mIndex >= mBitmaps.size()) {
             mIndex = 0;
-        }
-    }
-
-    public void cycle(float speed) {
-        mCycleCounter += speed * mBitmaps.size();
-
-        if (mCycleCounter > 1f) {
-            cycle();
-            mCycleCounter = 0;
         }
     }
 
@@ -169,15 +167,6 @@ public class Sprite extends DrawObject {
                 mIndex = mBitmaps.size() - 2;
                 mCycleBackwards = true;
             }
-        }
-    }
-
-    public void cycle2(float speed) {
-        mCycleCounter += speed * (mBitmaps.size() * 2 - 2);
-
-        if (mCycleCounter > 1f) {
-            cycle2();
-            mCycleCounter = 0;
         }
     }
 

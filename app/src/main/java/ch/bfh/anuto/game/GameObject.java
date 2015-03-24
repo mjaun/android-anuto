@@ -126,8 +126,7 @@ public abstract class GameObject implements RemovedMark {
     }
 
     public void setPosition(float x, float y) {
-        mPosition.x = x;
-        mPosition.y = y;
+        mPosition.set(x, y);
     }
 
     public void setPosition(Vector2 position) {
@@ -143,6 +142,11 @@ public abstract class GameObject implements RemovedMark {
     public void move(Vector2 direction, float distance) {
         mPosition.x += direction.x * distance;
         mPosition.y += direction.y * distance;
+    }
+
+    public void moveSpeed(Vector2 direction, float distance) {
+        mPosition.x += direction.x * distance / GameEngine.TARGET_FPS;
+        mPosition.y += direction.y * distance / GameEngine.TARGET_FPS;
     }
 
 

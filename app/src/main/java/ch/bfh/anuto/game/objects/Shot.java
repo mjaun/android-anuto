@@ -30,6 +30,6 @@ public abstract class Shot extends GameObject {
 
     @Override
     public void tick() {
-        move(mDirection, mSpeed);
+        moveSpeed(mDirection, mSpeed);
     }
 }
