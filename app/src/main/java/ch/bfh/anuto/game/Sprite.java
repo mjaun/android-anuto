@@ -120,9 +120,12 @@ public class Sprite extends DrawObject {
         float scaleY = height / mBitmaps.get(0).getHeight();
 
         mMatrix.reset();
+
+        mMatrix.postScale(1f, -1f);
+        mMatrix.postTranslate(0f, mBitmaps.get(0).getHeight());
+
         mMatrix.postScale(scaleX, scaleY);
         mMatrix.postTranslate(-center.x, -center.y);
-
     }
 
     public Matrix getMatrix() {
