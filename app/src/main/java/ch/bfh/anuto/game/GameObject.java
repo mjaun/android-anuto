@@ -64,7 +64,7 @@ public abstract class GameObject implements RemovedMark {
 
                 float dist = toObj.sub(proj).len();
 
-                return dist <= lineWidth;
+                return dist <= lineWidth / 2f;
             }
         });
     }
