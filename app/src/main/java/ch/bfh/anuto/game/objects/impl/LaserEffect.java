@@ -12,15 +12,14 @@ import ch.bfh.anuto.util.Vector2;
 
 public class LaserEffect extends AreaEffect {
 
-    private static float LASER_WIDTH = 1.0f;
-    private static float LASER_LENGTH = 1000f;
-    private static float DAMAGE = 100f;
+    private final static float LASER_WIDTH = 1.0f;
+    private final static float DAMAGE = 100f;
 
-    private final Vector2 mDirection = new Vector2();
+    private final Vector2 mLaserTo = new Vector2();
 
-    public LaserEffect(Vector2 position, Vector2 direction) {
+    public LaserEffect(Vector2 position, Vector2 laserTo) {
         mPosition.set(position);
-        mDirection.set(direction);
+        mLaserTo.set(laserTo);
     }
 
     @Override
@@ -35,9 +34,8 @@ public class LaserEffect extends AreaEffect {
 
     @Override
     protected void applyEffect() {
-        Vector2 lineTo = mDirection.copy().mul(LASER_LENGTH).add(mPosition);
         Iterator<Enemy> enemies = Iterators.cast(mGame.getGameObjects(Enemy.TYPE_ID), Enemy.class);
-        Iterator<Enemy> onLine = GameObject.onLine(enemies, mPosition, lineTo, LASER_WIDTH);
+        Iterator<Enemy> onLine = GameObject.onLine(enemies, mPosition, mLaserTo, LASER_WIDTH);
 
         while (onLine.hasNext()) {
             Enemy enemy = onLine.next();
