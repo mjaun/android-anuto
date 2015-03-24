@@ -39,6 +39,5 @@ public abstract class AreaEffect extends GameObject {
         }
     }
 
-    protected void applyEffect() {
-    }
+    protected abstract void applyEffect();
 }
