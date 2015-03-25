@@ -1,9 +1,9 @@
 package ch.bfh.anuto;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.os.Bundle;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
     TowerDefenseView tdView;
 
