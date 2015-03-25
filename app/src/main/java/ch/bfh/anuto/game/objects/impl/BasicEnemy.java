@@ -12,7 +12,7 @@ public class BasicEnemy extends Enemy {
 
     private final static int HEALTH = 1000;
     private final static float MOVEMENT_SPEED = 2.0f;
-    private final static float ANIMATION_SPEED = 1.5f * 23;
+    private final static float ANIMATION_SPEED = 1.5f;
 
     private Sprite mSprite;
     private TickTimer mSpriteTimer;
@@ -30,7 +30,7 @@ public class BasicEnemy extends Enemy {
         mSprite.calcMatrix(0.9f);
         mGame.addDrawObject(mSprite, LAYER);
 
-        mSpriteTimer = TickTimer.createFrequency(ANIMATION_SPEED);
+        mSpriteTimer = TickTimer.createFrequency(ANIMATION_SPEED * (mSprite.getCount() * 2 - 1));
     }
 
     @Override
