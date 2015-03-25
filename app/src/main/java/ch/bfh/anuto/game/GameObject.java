@@ -52,7 +52,7 @@ public abstract class GameObject implements RemovedMark {
 
                 float angle = toObj.angle() - lineAngle;
 
-                if (Math.abs(angle) > 90 && Math.abs(angle) < 270) {
+                if (Math.abs(Vector2.normalizeAngle(angle)) > 90) {
                     return false;
                 }
 

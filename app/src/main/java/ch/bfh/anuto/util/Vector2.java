@@ -20,6 +20,18 @@ public class Vector2 {
                 (float)Math.sin(angle * TO_RADIANS) * length);
     }
 
+    public static float normalizeAngle(float angle) {
+        float ret = angle % 360f;
+
+        if (ret > 180f) {
+            ret -= 360f;
+        } else if (ret < -180f) {
+            ret += 360f;
+        }
+
+        return ret;
+    }
+
     /*
     ------ Members ------
      */
