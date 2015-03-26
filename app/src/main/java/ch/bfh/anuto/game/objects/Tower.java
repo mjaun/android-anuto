@@ -32,8 +32,9 @@ public abstract class Tower extends GameObject {
         public RangeIndicator() {
             mRangeIndicatorPen = new Paint();
             mRangeIndicatorPen.setStyle(Paint.Style.STROKE);
-            mRangeIndicatorPen.setStrokeWidth(1f);
+            mRangeIndicatorPen.setStrokeWidth(0.05f);
             mRangeIndicatorPen.setColor(Color.GREEN);
+            mRangeIndicatorPen.setAlpha(128);
         }
 
         @Override
@@ -65,6 +66,11 @@ public abstract class Tower extends GameObject {
     @Override
     public void init(Resources res) {
         mReloadTimer = TickTimer.createInterval(mReloadTime);
+    }
+
+    @Override
+    public void clean() {
+        hideRange();
     }
 
     @Override

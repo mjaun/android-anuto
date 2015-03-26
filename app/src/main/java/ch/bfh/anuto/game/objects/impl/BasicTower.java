@@ -38,6 +38,8 @@ public class BasicTower extends AimingTower {
 
     @Override
     public void clean() {
+        super.clean();
+
         mGame.removeDrawObject(mSprite);
     }
 

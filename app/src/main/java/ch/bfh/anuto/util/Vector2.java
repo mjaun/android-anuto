@@ -121,4 +121,10 @@ public class Vector2 {
     public float angle() {
         return (float)Math.atan2(y, x) * TO_DEGREES;
     }
+
+    public Vector2 round() {
+        this.x = Math.round(this.x);
+        this.y = Math.round(this.y);
+        return this;
+    }
 }
