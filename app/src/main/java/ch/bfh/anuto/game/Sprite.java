@@ -11,8 +11,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import ch.bfh.anuto.util.RemovedMark;
-import ch.bfh.anuto.util.Vector2;
+import ch.bfh.anuto.util.math.Vector2;
 
 public class Sprite extends DrawObject {
 

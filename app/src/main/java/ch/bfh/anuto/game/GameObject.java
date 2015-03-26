@@ -9,11 +9,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.bfh.anuto.util.Function;
-import ch.bfh.anuto.util.Iterators;
-import ch.bfh.anuto.util.Predicate;
-import ch.bfh.anuto.util.RemovedMark;
-import ch.bfh.anuto.util.Vector2;
+import ch.bfh.anuto.util.iterator.Function;
+import ch.bfh.anuto.util.iterator.Iterators;
+import ch.bfh.anuto.util.iterator.Predicate;
+import ch.bfh.anuto.util.container.RemovedMark;
+import ch.bfh.anuto.util.math.Vector2;
 
 public abstract class GameObject implements RemovedMark {
 

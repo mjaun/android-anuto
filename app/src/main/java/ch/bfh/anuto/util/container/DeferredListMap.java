@@ -1,15 +1,14 @@
-package ch.bfh.anuto.util;
+package ch.bfh.anuto.util.container;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import ch.bfh.anuto.game.GameObject;
+import ch.bfh.anuto.util.iterator.ComputingIterator;
 
 public class DeferredListMap<K, V extends RemovedMark> {
 

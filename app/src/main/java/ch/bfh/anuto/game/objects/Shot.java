@@ -1,7 +1,7 @@
 package ch.bfh.anuto.game.objects;
 
 import ch.bfh.anuto.game.GameObject;
-import ch.bfh.anuto.util.Vector2;
+import ch.bfh.anuto.util.math.Vector2;
 
 public abstract class Shot extends GameObject {
 

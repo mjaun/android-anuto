@@ -5,7 +5,7 @@ import android.content.res.Resources;
 import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.Sprite;
 import ch.bfh.anuto.game.objects.Tower;
-import ch.bfh.anuto.util.Vector2;
+import ch.bfh.anuto.util.math.Vector2;
 
 public class AreaTower extends Tower {
 

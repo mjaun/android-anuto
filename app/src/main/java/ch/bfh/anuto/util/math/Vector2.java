@@ -1,4 +1,4 @@
-package ch.bfh.anuto.util;
+package ch.bfh.anuto.util.math;
 
 import org.simpleframework.xml.Attribute;
 

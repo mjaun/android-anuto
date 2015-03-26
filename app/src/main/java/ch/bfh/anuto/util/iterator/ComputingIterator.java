@@ -1,4 +1,4 @@
-package ch.bfh.anuto.util;
+package ch.bfh.anuto.util.iterator;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;

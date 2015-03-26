@@ -13,9 +13,9 @@ import ch.bfh.anuto.game.DrawObject;
 import ch.bfh.anuto.game.GameEngine;
 import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.game.data.Path;
-import ch.bfh.anuto.util.Function;
-import ch.bfh.anuto.util.Iterators;
-import ch.bfh.anuto.util.Vector2;
+import ch.bfh.anuto.util.iterator.Function;
+import ch.bfh.anuto.util.iterator.Iterators;
+import ch.bfh.anuto.util.math.Vector2;
 
 
 public abstract class Enemy extends GameObject {

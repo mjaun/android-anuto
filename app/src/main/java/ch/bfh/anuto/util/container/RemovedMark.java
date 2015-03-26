@@ -1,4 +1,4 @@
-package ch.bfh.anuto.util;
+package ch.bfh.anuto.util.container;
 
 public interface RemovedMark {
     void resetRemovedMark();

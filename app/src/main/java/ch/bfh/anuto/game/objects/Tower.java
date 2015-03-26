@@ -10,8 +10,7 @@ import java.util.Iterator;
 import ch.bfh.anuto.game.DrawObject;
 import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.game.TickTimer;
-import ch.bfh.anuto.util.Function;
-import ch.bfh.anuto.util.Iterators;
+import ch.bfh.anuto.util.iterator.Iterators;
 
 public abstract class Tower extends GameObject {
 

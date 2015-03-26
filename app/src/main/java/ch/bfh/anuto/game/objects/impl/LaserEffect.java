@@ -7,8 +7,8 @@ import java.util.Iterator;
 import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.game.objects.AreaEffect;
 import ch.bfh.anuto.game.objects.Enemy;
-import ch.bfh.anuto.util.Iterators;
-import ch.bfh.anuto.util.Vector2;
+import ch.bfh.anuto.util.iterator.Iterators;
+import ch.bfh.anuto.util.math.Vector2;
 
 public class LaserEffect extends AreaEffect {
 

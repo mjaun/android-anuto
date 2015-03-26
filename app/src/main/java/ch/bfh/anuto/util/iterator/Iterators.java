@@ -1,6 +1,5 @@
-package ch.bfh.anuto.util;
+package ch.bfh.anuto.util.iterator;
 
-import java.util.Comparator;
 import java.util.Iterator;
 
 public final class Iterators {

@@ -11,10 +11,7 @@ import java.io.InputStream;
 
 import ch.bfh.anuto.game.data.Level;
 import ch.bfh.anuto.game.objects.Tower;
-import ch.bfh.anuto.game.objects.impl.BasicTower;
 import ch.bfh.anuto.game.GameEngine;
-import ch.bfh.anuto.game.objects.impl.LaserTower;
-import ch.bfh.anuto.util.Vector2;
 
 
 public class TowerDefenseView extends View implements GameEngine.Listener, View.OnDragListener {

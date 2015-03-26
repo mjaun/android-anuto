@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import ch.bfh.anuto.util.DeferredListMap;
-import ch.bfh.anuto.util.Vector2;
+import ch.bfh.anuto.util.container.DeferredListMap;
+import ch.bfh.anuto.util.math.Vector2;
 
 public class GameEngine implements Runnable {
     /*

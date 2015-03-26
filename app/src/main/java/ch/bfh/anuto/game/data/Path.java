@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import ch.bfh.anuto.util.Vector2;
+import ch.bfh.anuto.util.math.Vector2;
 
 public class Path {
 

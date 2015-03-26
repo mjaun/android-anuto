@@ -2,7 +2,7 @@ package ch.bfh.anuto.game;
 
 import android.graphics.Canvas;
 
-import ch.bfh.anuto.util.RemovedMark;
+import ch.bfh.anuto.util.container.RemovedMark;
 
 public abstract class DrawObject implements RemovedMark {
     private boolean mRemovedMark = true;

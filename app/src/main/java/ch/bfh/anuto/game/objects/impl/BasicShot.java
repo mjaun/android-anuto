@@ -9,7 +9,7 @@ import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.game.Sprite;
 import ch.bfh.anuto.game.objects.Enemy;
 import ch.bfh.anuto.game.objects.TargetedShot;
-import ch.bfh.anuto.util.Vector2;
+import ch.bfh.anuto.util.math.Vector2;
 
 public class BasicShot extends TargetedShot {
 

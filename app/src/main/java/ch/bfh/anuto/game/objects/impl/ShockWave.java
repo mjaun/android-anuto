@@ -3,7 +3,7 @@ package ch.bfh.anuto.game.objects.impl;
 import android.content.res.Resources;
 
 import ch.bfh.anuto.game.objects.AreaEffect;
-import ch.bfh.anuto.util.Vector2;
+import ch.bfh.anuto.util.math.Vector2;
 
 public class ShockWave extends AreaEffect {
     public ShockWave(Vector2 position) {

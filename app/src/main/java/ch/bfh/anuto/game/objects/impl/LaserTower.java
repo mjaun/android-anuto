@@ -6,7 +6,7 @@ import android.graphics.Canvas;
 import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.Sprite;
 import ch.bfh.anuto.game.objects.AimingTower;
-import ch.bfh.anuto.util.Vector2;
+import ch.bfh.anuto.util.math.Vector2;
 
 public class LaserTower extends AimingTower {
 
