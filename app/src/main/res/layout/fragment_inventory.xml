@@ -1,14 +1,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="ch.bfh.anuto.InventoryFragment">
 
-    <ImageView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+    <view
+        class="ch.bfh.anuto.InventoryItemView"
         android:id="@+id/img_BasicTower"
         android:src="@drawable/basic_tower"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="20dp" />
+        android:layout_marginLeft="20dp"
+        app:itemClass="ch.bfh.anuto.game.objects.impl.BasicTower"/>
 </RelativeLayout>
