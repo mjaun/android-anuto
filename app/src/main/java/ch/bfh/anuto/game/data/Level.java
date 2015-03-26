@@ -70,15 +70,15 @@ public class Level {
         return mWaves;
     }
 
-    public GameEngine createGame(Resources res) {
-        GameEngine ret = new GameEngine(res);
-        ret.setGameSize(mSettings.width, mSettings.height);
+    public GameEngine initGame(Resources res) {
+        GameEngine game = new GameEngine(res);
+        game.setGameSize(mSettings.width, mSettings.height);
 
         for (Plateau p : mPlateaus) {
-            ret.addGameObject(p);
+            game.addGameObject(p);
         }
 
-        return ret;
+        return game;
     }
 
     public void startWave(GameEngine game, int idx) {
@@ -91,7 +91,6 @@ public class Level {
 
     public void serialize() {
         // TODO: this is just for testing
-
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 
         try {

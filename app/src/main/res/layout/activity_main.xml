@@ -8,7 +8,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         class="ch.bfh.anuto.TowerDefenseView"
-        android:id="@+id/td_view"
+        android:id="@+id/view_tower_defense"
         android:background="#ffffffff"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
@@ -19,7 +19,7 @@
         android:layout_width="fill_parent"
         android:layout_height="70dp"
         android:name="ch.bfh.anuto.InventoryFragment"
-        android:id="@+id/fragment"
+        android:id="@+id/fragment_inventory"
         android:layout_alignParentBottom="true"
         tools:layout="@layout/fragment_inventory" />
 

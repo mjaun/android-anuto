@@ -5,38 +5,31 @@ import android.graphics.Canvas;
 import android.graphics.PointF;
 import android.util.AttributeSet;
 import android.view.DragEvent;
+import android.view.MotionEvent;
 import android.view.View;
 
 import java.io.InputStream;
 
+import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.game.data.Level;
 import ch.bfh.anuto.game.objects.Tower;
 import ch.bfh.anuto.game.GameEngine;
+import ch.bfh.anuto.util.math.Vector2;
 
 
-public class TowerDefenseView extends View implements GameEngine.Listener, View.OnDragListener {
+public class TowerDefenseView extends View implements GameEngine.Listener, View.OnDragListener, View.OnTouchListener {
     private final static String TAG = TowerDefenseView.class.getName();
 
-    protected GameEngine mGame;
+    private GameEngine mGame;
+    private Tower mSelectedTower;
 
     public TowerDefenseView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        setFocusable(true);
-        setOnDragListener(this);
-
         if (!isInEditMode()) {
-            try {
-                InputStream inStream = getResources().openRawResource(R.raw.level1);
-                Level lvl = Level.deserialize(inStream);
-
-                mGame = lvl.createGame(getResources());
-                mGame.addListener(this);
-
-                //lvl.startWave(mGame, 0);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            setFocusable(true);
+            setOnDragListener(this);
+            setOnTouchListener(this);
         }
     }
 
@@ -44,12 +37,16 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
         return mGame;
     }
 
-    public void start() {
-        mGame.start();
-    }
+    public void setGame(GameEngine game) {
+        if (mGame != null) {
+            mGame.removeListener(this);
+        }
 
-    public void stop() {
-        mGame.stop();
+        mGame = game;
+
+        if (mGame != null) {
+            mGame.addListener(this);
+        }
     }
 
     @Override
@@ -65,7 +62,7 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        if (!isInEditMode()) {
+        if (!isInEditMode() && mGame != null) {
             mGame.render(canvas);
         }
     }
@@ -73,6 +70,26 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
     @Override
     public void onRenderRequest() {
         postInvalidate();
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            if (mSelectedTower != null) {
+                mSelectedTower.hideRange();
+                mSelectedTower = null;
+            }
+
+            Vector2 pos = mGame.getGameCoordinate(event.getX(), event.getY());
+            Tower closest = (Tower)GameObject.closest(mGame.getGameObjects(Tower.TYPE_ID), pos);
+
+            if (closest != null && closest.getDistanceTo(pos) < 0.5f) {
+                mSelectedTower = closest;
+                mSelectedTower.showRange();
+            }
+        }
+
+        return false;
     }
 
     @Override
@@ -94,8 +111,7 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
                 break;
 
             case DragEvent.ACTION_DRAG_LOCATION:
-                PointF pos = new PointF(event.getX(), event.getY());
-                tower.setPosition(mGame.getGameCoordinate(pos).round());
+                tower.setPosition(mGame.getGameCoordinate(event.getX(), event.getY()).round());
                 break;
         }
 

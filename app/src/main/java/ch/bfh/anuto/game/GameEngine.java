@@ -4,7 +4,6 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.PointF;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -43,10 +42,6 @@ public class GameEngine implements Runnable {
         public void addDeferred(Integer key, GameObject value) {
             super.addDeferred(key, value);
             value.setGame(GameEngine.this);
-        }
-
-        @Override
-        protected void onItemAdded(Integer key, GameObject value) {
             value.init(mResources);
         }
 
@@ -128,13 +123,9 @@ public class GameEngine implements Runnable {
         calcScreenMatrix();
     }
 
-    public Vector2 getGameCoordinate(PointF viewCoordinate) {
-        float[] pts = new float[2];
-        pts[0] = viewCoordinate.x;
-        pts[1] = viewCoordinate.y;
-
+    public Vector2 getGameCoordinate(float x, float y) {
+        float[] pts = {x, y};
         mScreenMatrixInverse.mapPoints(pts);
-
         return new Vector2(pts[0], pts[1]);
     }
 

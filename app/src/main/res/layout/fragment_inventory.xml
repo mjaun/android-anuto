@@ -7,11 +7,20 @@
 
     <view
         class="ch.bfh.anuto.InventoryItemView"
-        android:id="@+id/img_BasicTower"
+        android:id="@+id/img_basic_tower"
         android:src="@drawable/basic_tower"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="20dp"
         app:itemClass="ch.bfh.anuto.game.objects.impl.BasicTower"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next Wave"
+        android:id="@+id/btn_next_wave"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="onNextWaveClick" />
 </RelativeLayout>

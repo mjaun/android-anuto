@@ -119,6 +119,14 @@ public class DeferredListMap<K, V extends RemovedMark> {
         mObjectsToRemove.add(new Entry<>(key, value));
     }
 
+    public void clearDeferred() {
+        for (K key : mListMap.keySet()) {
+            for (V value : mListMap.get(key)) {
+                removeDeferred(key, value);
+            }
+        }
+    }
+
     public void applyChanges() {
         while (!mObjectsToAdd.isEmpty()) {
             Entry<K, V> e = mObjectsToAdd.remove();
