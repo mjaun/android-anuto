@@ -48,12 +48,10 @@ public abstract class Enemy extends GameObject {
 
         @Override
         public void draw(Canvas canvas) {
-            canvas.save();
             canvas.translate(mPosition.x - HEALTHBAR_WIDTH/2f, mPosition.y + HEALTHBAR_OFFSET);
 
             canvas.drawRect(0, 0, HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT, mHealthBarBg);
             canvas.drawRect(0, 0, mHealth * HEALTHBAR_WIDTH / mHealthMax, HEALTHBAR_HEIGHT, mHealthBarFg);
-            canvas.restore();
         }
     }
 
