@@ -92,14 +92,6 @@ public abstract class Enemy extends GameObject {
     private HealthBar mHealthBar;
 
     /*
-    ------ Constructors ------
-     */
-
-    protected Enemy() {
-        mHealthBar = new HealthBar();
-    }
-
-    /*
     ------ Public Methods ------
      */
 
@@ -110,6 +102,7 @@ public abstract class Enemy extends GameObject {
 
     @Override
     public void init(Resources res) {
+        mHealthBar = new HealthBar();
         mGame.addDrawObject(mHealthBar, LAYER);
     }
 
