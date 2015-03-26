@@ -1,6 +1,9 @@
 package ch.bfh.anuto.game.objects;
 
+import android.content.res.Resources;
+
 import ch.bfh.anuto.game.GameObject;
+import ch.bfh.anuto.game.TickTimer;
 
 public abstract class AimingTower extends Tower implements GameObject.Listener {
 
@@ -18,20 +21,31 @@ public abstract class AimingTower extends Tower implements GameObject.Listener {
     protected Strategy mStrategy = Strategy.Closest;
     protected boolean mLockOnTarget = true;
 
+    private TickTimer mNextTargetTimer;
+
     /*
     ------ Methods ------
      */
 
     @Override
+    public void init(Resources res) {
+        super.init(res);
+
+        mNextTargetTimer = TickTimer.createInterval(0.1f);
+    }
+
+    @Override
     public void tick() {
         super.tick();
 
-        if (mTarget != null && getDistanceTo(mTarget) > mRange) {
-            onTargetLost();
-        }
+        if (mNextTargetTimer.tick()) {
+            if (mTarget != null && getDistanceTo(mTarget) > mRange) {
+                onTargetLost();
+            }
 
-        if (mTarget == null || !mLockOnTarget) {
-            nextTarget();
+            if (mTarget == null || !mLockOnTarget) {
+                nextTarget();
+            }
         }
     }
 

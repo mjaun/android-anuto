@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.os.Looper;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -107,7 +108,6 @@ public class GameEngine implements Runnable {
     public void removeDrawObject(DrawObject obj) {
         mDrawObjects.removeDeferred(obj.getLayer(), obj);
     }
-
 
     public Iterator<GameObject> getGameObjects(int typeId) {
         return mGameObjects.getByKey(typeId);

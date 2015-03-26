@@ -55,13 +55,13 @@ public class BasicTower extends AimingTower {
         super.tick();
 
         if (mTarget != null) {
+            mAngle = getAngleTo(mTarget);
+
             if (mReloaded) {
                 Shot shot = new BasicShot(mPosition, mTarget);
                 shot.move(Vector2.createPolar(SHOT_SPAWN_OFFSET, mAngle));
                 shoot(shot);
             }
-
-            mAngle = getAngleTo(mTarget);
         }
     }
 }

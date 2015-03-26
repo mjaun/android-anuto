@@ -13,11 +13,11 @@
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
         android:layout_marginTop="0dp"
-        android:layout_marginBottom="70dp" />
+        android:layout_marginBottom="60dp" />
 
     <fragment
         android:layout_width="fill_parent"
-        android:layout_height="70dp"
+        android:layout_height="60dp"
         android:name="ch.bfh.anuto.InventoryFragment"
         android:id="@+id/fragment_inventory"
         android:layout_alignParentBottom="true"

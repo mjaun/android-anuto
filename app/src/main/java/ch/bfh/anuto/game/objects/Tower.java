@@ -49,8 +49,9 @@ public abstract class Tower extends GameObject {
 
     protected float mRange;
     protected float mReloadTime;
-    protected boolean mReloaded = true;
-    protected Plateau mPlateau;
+    protected boolean mReloaded = false;
+    protected boolean mEnabled = false;
+    protected Plateau mPlateau = null;
 
     private TickTimer mReloadTimer;
     private RangeIndicator mRangeIndicator;
@@ -72,11 +73,12 @@ public abstract class Tower extends GameObject {
     @Override
     public void clean() {
         hideRange();
+        setPosition((Plateau)null);
     }
 
     @Override
     public void tick() {
-        if (!mReloaded && mReloadTimer.tick()) {
+        if (mEnabled && !mReloaded && mReloadTimer.tick()) {
             mReloaded = true;
         }
     }
@@ -88,10 +90,20 @@ public abstract class Tower extends GameObject {
         }
 
         mPlateau = plateau;
-        mPlateau.setOccupant(this);
-        setPosition(mPlateau.getPosition());
+
+        if (mPlateau != null) {
+            mPlateau.setOccupant(this);
+            setPosition(mPlateau.getPosition());
+        }
     }
 
+    public boolean isEnabled() {
+        return mEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        mEnabled = enabled;
+    }
 
     public void showRange() {
         if (mRangeIndicator == null) {

@@ -48,6 +48,29 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
         }
     }
 
+    public void selectTower(float x, float y) {
+        Vector2 pos = mGame.getGameCoordinate(x, y);
+        Tower closest = (Tower)GameObject.closest(mGame.getGameObjects(Tower.TYPE_ID), pos);
+
+        if (closest != null && closest.getDistanceTo(pos) < 0.5f) {
+            selectTower(closest);
+        } else {
+            selectTower(null);
+        }
+    }
+
+    public void selectTower(Tower tower) {
+        if (mSelectedTower != null) {
+            mSelectedTower.hideRange();
+        }
+
+        mSelectedTower = tower;
+
+        if (mSelectedTower != null) {
+            mSelectedTower.showRange();
+        }
+    }
+
     @Override
     public void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
@@ -74,18 +97,7 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if (mSelectedTower != null) {
-                mSelectedTower.hideRange();
-                mSelectedTower = null;
-            }
-
-            Vector2 pos = mGame.getGameCoordinate(event.getX(), event.getY());
-            Tower closest = (Tower)GameObject.closest(mGame.getGameObjects(Tower.TYPE_ID), pos);
-
-            if (closest != null && closest.getDistanceTo(pos) < 0.5f) {
-                mSelectedTower = closest;
-                mSelectedTower.showRange();
-            }
+            selectTower(event.getX(), event.getY());
         }
 
         return false;
@@ -105,26 +117,34 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
             case DragEvent.ACTION_DRAG_ENTERED:
                 if (freePlateaus.hasNext()) {
                     mGame.addGameObject(tower);
-                    tower.showRange();
+                    selectTower(tower);
                 }
                 break;
 
             case DragEvent.ACTION_DRAG_EXITED:
-                mGame.removeGameObject(tower);
-                break;
-
-            case DragEvent.ACTION_DROP:
-                pos = mGame.getGameCoordinate(event.getX(), event.getY());
-                plateau = GameObject.closest(freePlateaus, pos);
-                tower.setPosition(plateau);
-
-                tower.hideRange();
+                if (tower.getGame() != null) {
+                    selectTower(null);
+                    mGame.removeGameObject(tower);
+                }
                 break;
 
             case DragEvent.ACTION_DRAG_LOCATION:
-                pos = mGame.getGameCoordinate(event.getX(), event.getY());
-                plateau = GameObject.closest(freePlateaus, pos);
-                tower.setPosition(plateau.getPosition());
+                if (tower.getGame() != null) {
+                    pos = mGame.getGameCoordinate(event.getX(), event.getY());
+                    plateau = GameObject.closest(freePlateaus, pos);
+                    tower.setPosition(plateau.getPosition());
+                }
+                break;
+
+            case DragEvent.ACTION_DROP:
+                if (tower.getGame() != null) {
+                    pos = mGame.getGameCoordinate(event.getX(), event.getY());
+                    plateau = GameObject.closest(freePlateaus, pos);
+                    tower.setPosition(plateau);
+
+                    tower.setEnabled(true);
+                    selectTower(null);
+                }
                 break;
         }
 
