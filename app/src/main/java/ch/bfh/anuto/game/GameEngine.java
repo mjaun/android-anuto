@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.PointF;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -68,9 +69,10 @@ public class GameEngine implements Runnable {
     private final GameObjectListMap mGameObjects = new GameObjectListMap();
     private final DrawObjectListMap mDrawObjects = new DrawObjectListMap();
 
-    private Vector2 mGameSize;
-    private Vector2 mScreenSize;
-    private Matrix mScreenMatrix;
+    private final Vector2 mGameSize = new Vector2(10, 10);
+    private final Vector2 mScreenSize = new Vector2(100, 100);
+    private final Matrix mScreenMatrix = new Matrix();
+    private final Matrix mScreenMatrixInverse = new Matrix();
 
     private final Resources mResources;
 
@@ -82,6 +84,7 @@ public class GameEngine implements Runnable {
 
     public GameEngine(Resources res) {
         mResources = res;
+        calcScreenMatrix();
     }
 
     /*
@@ -111,23 +114,27 @@ public class GameEngine implements Runnable {
 
 
     public void setGameSize(int width, int height) {
-        mGameSize = new Vector2(width, height);
-
-        if (mScreenSize != null) {
-            calcScreenMatrix();
-        }
+        mGameSize.set(width, height);
+        calcScreenMatrix();
     }
 
     public void setScreenSize(int width, int height) {
-        mScreenSize = new Vector2(width, height);
+        mScreenSize.set(width, height);
+        calcScreenMatrix();
+    }
 
-        if (mGameSize != null) {
-            calcScreenMatrix();
-        }
+    public Vector2 getGameCoordinate(PointF viewCoordinate) {
+        float[] pts = new float[2];
+        pts[0] = viewCoordinate.x;
+        pts[1] = viewCoordinate.y;
+
+        mScreenMatrixInverse.mapPoints(pts);
+
+        return new Vector2(pts[0], pts[1]);
     }
 
     private void calcScreenMatrix() {
-        mScreenMatrix = new Matrix();
+        mScreenMatrix.reset();
 
         float tileSize = Math.min(mScreenSize.x / mGameSize.x, mScreenSize.y / mGameSize.y);
         mScreenMatrix.postTranslate(0.5f, 0.5f);
@@ -139,6 +146,8 @@ public class GameEngine implements Runnable {
 
         mScreenMatrix.postScale(1f, -1f);
         mScreenMatrix.postTranslate(0, mScreenSize.y);
+
+        mScreenMatrix.invert(mScreenMatrixInverse);
     }
 
     /*
