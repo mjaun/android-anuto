@@ -15,7 +15,7 @@ import ch.bfh.anuto.util.iterator.Predicate;
 import ch.bfh.anuto.util.container.RemovedMark;
 import ch.bfh.anuto.util.math.Vector2;
 
-public abstract class GameObject implements RemovedMark {
+public abstract class GameObject implements RemovedMark, Sprite.Listener {
 
     /*
     ------ Listener Interface ------
@@ -101,8 +101,9 @@ public abstract class GameObject implements RemovedMark {
 
     public abstract void tick();
 
-    public void beforeDraw(Sprite sprite, Canvas canvas) {
-
+    @Override
+    public void onBeforeDraw(Sprite sprite, Canvas canvas) {
+        canvas.translate(mPosition.x, mPosition.y);
     }
 
 

@@ -42,7 +42,8 @@ public class LaserTower extends AimingTower {
     }
 
     @Override
-    public void beforeDraw(Sprite sprite, Canvas canvas) {
+    public void onBeforeDraw(Sprite sprite, Canvas canvas) {
+        super.onBeforeDraw(sprite, canvas);
         canvas.rotate(mAngle);
     }
 

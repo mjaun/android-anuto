@@ -16,18 +16,26 @@ import ch.bfh.anuto.util.math.Vector2;
 public class Sprite extends DrawObject {
 
     /*
+    ------ Listener Interface ------
+     */
+
+    public interface Listener {
+        void onBeforeDraw(Sprite sprite, Canvas canvas);
+    }
+
+    /*
     ------ Static ------
      */
 
     private static HashMap<Integer, Sprite> spriteCache = new HashMap<>();
 
-    public static Sprite fromResources(GameObject owner, Resources res, int id) {
-        return fromResources(owner, res, id, 1);
+    public static Sprite fromResources(Listener listener, Resources res, int id) {
+        return fromResources(listener, res, id, 1);
     }
 
-    public static Sprite fromResources(GameObject owner, Resources res, int id, int count) {
+    public static Sprite fromResources(Listener listener, Resources res, int id, int count) {
         if (spriteCache.containsKey(id)) {
-            return new Sprite(owner, spriteCache.get(id));
+            return new Sprite(listener, spriteCache.get(id));
         }
 
         Bitmap[] bmps;
@@ -47,16 +55,16 @@ public class Sprite extends DrawObject {
             bmps[0] = BitmapFactory.decodeResource(res, id);
         }
 
-        Sprite sprite = new Sprite(owner, bmps);
+        Sprite sprite = new Sprite(null, bmps);
         spriteCache.put(id, sprite);
-        return new Sprite(owner, sprite);
+        return new Sprite(listener, sprite);
     }
 
     /*
     ------ Members ------
      */
 
-    private final GameObject mOwner;
+    private final Listener mListener;
     private final List<Bitmap> mBitmaps;
     private final Matrix mMatrix = new Matrix();
 
@@ -67,14 +75,14 @@ public class Sprite extends DrawObject {
     ------ Constructors ------
      */
 
-    private Sprite(GameObject owner, Bitmap... bitmaps) {
-        mOwner = owner;
+    private Sprite(Listener listener, Bitmap... bitmaps) {
+        mListener = listener;
         mBitmaps = new ArrayList<Bitmap>(Arrays.asList(bitmaps));
         calcMatrix();
     }
 
-    private Sprite(GameObject owner, Sprite src) {
-        mOwner = owner;
+    private Sprite(Listener listener, Sprite src) {
+        mListener = listener;
         mBitmaps = src.mBitmaps;
         mMatrix.set(src.mMatrix);
     }
@@ -172,8 +180,7 @@ public class Sprite extends DrawObject {
 
     @Override
     public void draw(Canvas canvas) {
-        canvas.translate(mOwner.getPosition().x, mOwner.getPosition().y);
-        mOwner.beforeDraw(this, canvas);
+        mListener.onBeforeDraw(this, canvas);
         canvas.drawBitmap(mBitmaps.get(mIndex), mMatrix, null);
     }
 }
