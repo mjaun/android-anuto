@@ -35,7 +35,9 @@ public class Sprite extends DrawObject {
 
     public static Sprite fromResources(Listener listener, Resources res, int id, int count) {
         if (spriteCache.containsKey(id)) {
-            return new Sprite(listener, spriteCache.get(id));
+            Sprite ret = new Sprite(spriteCache.get(id));
+            ret.setListener(listener);
+            return ret;
         }
 
         Bitmap[] bmps;
@@ -55,34 +57,34 @@ public class Sprite extends DrawObject {
             bmps[0] = BitmapFactory.decodeResource(res, id);
         }
 
-        Sprite sprite = new Sprite(null, bmps);
+        Sprite sprite = new Sprite(bmps);
         spriteCache.put(id, sprite);
-        return new Sprite(listener, sprite);
+
+        return fromResources(listener, res, id, count);
     }
 
     /*
     ------ Members ------
      */
 
-    private final Listener mListener;
     private final List<Bitmap> mBitmaps;
     private final Matrix mMatrix = new Matrix();
 
     private int mIndex = 0;
     private boolean mCycleBackwards = false;
 
+    private Listener mListener;
+
     /*
     ------ Constructors ------
      */
 
-    private Sprite(Listener listener, Bitmap... bitmaps) {
-        mListener = listener;
+    private Sprite(Bitmap... bitmaps) {
         mBitmaps = new ArrayList<Bitmap>(Arrays.asList(bitmaps));
         calcMatrix();
     }
 
-    private Sprite(Listener listener, Sprite src) {
-        mListener = listener;
+    private Sprite(Sprite src) {
         mBitmaps = src.mBitmaps;
         mMatrix.set(src.mMatrix);
     }
@@ -180,7 +182,19 @@ public class Sprite extends DrawObject {
 
     @Override
     public void draw(Canvas canvas) {
-        mListener.onBeforeDraw(this, canvas);
+        if (mListener != null) {
+            mListener.onBeforeDraw(this, canvas);
+        }
+
         canvas.drawBitmap(mBitmaps.get(mIndex), mMatrix, null);
+    }
+
+
+    public Listener getListener() {
+        return mListener;
+    }
+
+    public void setListener(Listener listener) {
+        mListener = listener;
     }
 }
