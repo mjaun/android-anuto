@@ -140,14 +140,19 @@ public abstract class GameObject implements RemovedMark, Sprite.Listener {
         mPosition.y += dy;
     }
 
+    public void move(Vector2 offset) {
+        mPosition.x += offset.x;
+        mPosition.y += offset.y;
+    }
+
     public void move(Vector2 direction, float distance) {
         mPosition.x += direction.x * distance;
         mPosition.y += direction.y * distance;
     }
 
-    public void moveSpeed(Vector2 direction, float distance) {
-        mPosition.x += direction.x * distance / GameEngine.TARGET_FPS;
-        mPosition.y += direction.y * distance / GameEngine.TARGET_FPS;
+    public void moveSpeed(Vector2 direction, float speed) {
+        mPosition.x += direction.x * speed / GameEngine.TARGET_FPS;
+        mPosition.y += direction.y * speed / GameEngine.TARGET_FPS;
     }
 
 

@@ -40,13 +40,14 @@ public class GameEngine implements Runnable {
     private class GameObjectListMap extends DeferredListMap<Integer, GameObject> {
         @Override
         public void addDeferred(Integer key, GameObject value) {
-            super.addDeferred(key, value);
             value.setGame(GameEngine.this);
             value.init(mResources);
+            super.addDeferred(key, value);
         }
 
         @Override
         protected void onItemRemoved(Integer key, GameObject value) {
+            super.onItemRemoved(key, value);
             value.clean();
             value.setGame(null);
         }

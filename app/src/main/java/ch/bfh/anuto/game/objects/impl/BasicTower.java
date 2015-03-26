@@ -6,12 +6,14 @@ import android.graphics.Canvas;
 import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.Sprite;
 import ch.bfh.anuto.game.objects.AimingTower;
+import ch.bfh.anuto.game.objects.Shot;
 import ch.bfh.anuto.util.math.Vector2;
 
 public class BasicTower extends AimingTower {
 
     private final static float RELOAD_TIME = 0.2f;
     private final static float RANGE = 5f;
+    private final static float SHOT_SPAWN_OFFSET = 0.9f;
 
     private float mAngle;
     private Sprite mSprite;
@@ -54,7 +56,9 @@ public class BasicTower extends AimingTower {
 
         if (mTarget != null) {
             if (mReloaded) {
-                shoot(new BasicShot(mPosition, mTarget));
+                Shot shot = new BasicShot(mPosition, mTarget);
+                shot.move(Vector2.createPolar(SHOT_SPAWN_OFFSET, mAngle));
+                shoot(shot);
             }
 
             mAngle = getAngleTo(mTarget);

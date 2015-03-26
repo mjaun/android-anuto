@@ -11,6 +11,7 @@ import ch.bfh.anuto.game.DrawObject;
 import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.game.TickTimer;
 import ch.bfh.anuto.util.iterator.Iterators;
+import ch.bfh.anuto.util.math.Vector2;
 
 public abstract class Tower extends GameObject {
 
@@ -49,6 +50,7 @@ public abstract class Tower extends GameObject {
     protected float mRange;
     protected float mReloadTime;
     protected boolean mReloaded = true;
+    protected Plateau mPlateau;
 
     private TickTimer mReloadTimer;
     private RangeIndicator mRangeIndicator;
@@ -77,6 +79,17 @@ public abstract class Tower extends GameObject {
         if (!mReloaded && mReloadTimer.tick()) {
             mReloaded = true;
         }
+    }
+
+
+    public void setPosition(Plateau plateau) {
+        if (mPlateau != null) {
+            mPlateau.setOccupant(null);
+        }
+
+        mPlateau = plateau;
+        mPlateau.setOccupant(this);
+        setPosition(mPlateau.getPosition());
     }
 
 

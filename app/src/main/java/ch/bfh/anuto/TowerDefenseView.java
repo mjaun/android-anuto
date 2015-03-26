@@ -2,20 +2,19 @@ package ch.bfh.anuto;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.PointF;
 import android.util.AttributeSet;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
 
-import java.io.InputStream;
+import java.util.Iterator;
 
 import ch.bfh.anuto.game.GameObject;
-import ch.bfh.anuto.game.data.Level;
+import ch.bfh.anuto.game.objects.Plateau;
 import ch.bfh.anuto.game.objects.Tower;
 import ch.bfh.anuto.game.GameEngine;
+import ch.bfh.anuto.util.iterator.Iterators;
 import ch.bfh.anuto.util.math.Vector2;
-
 
 public class TowerDefenseView extends View implements GameEngine.Listener, View.OnDragListener, View.OnTouchListener {
     private final static String TAG = TowerDefenseView.class.getName();
@@ -96,10 +95,18 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
     public boolean onDrag(View v, DragEvent event) {
         Tower tower = (Tower)event.getLocalState();
 
+        Iterator<Plateau> plateaus = Iterators.cast(mGame.getGameObjects(Plateau.TYPE_ID), Plateau.class);
+        Iterator<Plateau> freePlateaus = Plateau.unoccupied(plateaus);
+
+        Vector2 pos;
+        Plateau plateau;
+
         switch (event.getAction()) {
             case DragEvent.ACTION_DRAG_ENTERED:
-                mGame.addGameObject(tower);
-                tower.showRange();
+                if (freePlateaus.hasNext()) {
+                    mGame.addGameObject(tower);
+                    tower.showRange();
+                }
                 break;
 
             case DragEvent.ACTION_DRAG_EXITED:
@@ -107,11 +114,17 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
                 break;
 
             case DragEvent.ACTION_DROP:
+                pos = mGame.getGameCoordinate(event.getX(), event.getY());
+                plateau = GameObject.closest(freePlateaus, pos);
+                tower.setPosition(plateau);
+
                 tower.hideRange();
                 break;
 
             case DragEvent.ACTION_DRAG_LOCATION:
-                tower.setPosition(mGame.getGameCoordinate(event.getX(), event.getY()).round());
+                pos = mGame.getGameCoordinate(event.getX(), event.getY());
+                plateau = GameObject.closest(freePlateaus, pos);
+                tower.setPosition(plateau.getPosition());
                 break;
         }
 

@@ -12,6 +12,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
         android:layout_marginLeft="20dp"
         app:itemClass="ch.bfh.anuto.game.objects.impl.BasicTower"/>
 
@@ -22,5 +23,6 @@
         android:id="@+id/btn_next_wave"
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
+        android:layout_marginRight="20dp"
         android:onClick="onNextWaveClick" />
 </RelativeLayout>

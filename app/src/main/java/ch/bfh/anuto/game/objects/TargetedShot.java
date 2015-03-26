@@ -1,5 +1,6 @@
 package ch.bfh.anuto.game.objects;
 
+import ch.bfh.anuto.game.GameEngine;
 import ch.bfh.anuto.game.GameObject;
 
 public abstract class TargetedShot extends Shot implements GameObject.Listener {
@@ -18,7 +19,7 @@ public abstract class TargetedShot extends Shot implements GameObject.Listener {
     public void tick() {
         super.tick();
 
-        if (hasTarget() && getDistanceTo(mTarget) <= mSpeed) {
+        if (hasTarget() && getDistanceTo(mTarget) <= mSpeed / GameEngine.TARGET_FPS) {
             onTargetReached();
         }
     }

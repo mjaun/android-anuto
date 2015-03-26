@@ -2,13 +2,14 @@ package ch.bfh.anuto;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 
 import java.io.InputStream;
 
 import ch.bfh.anuto.game.GameEngine;
 import ch.bfh.anuto.game.data.Level;
 
-public class MainActivity extends Activity implements InventoryFragment.Listener {
+public class MainActivity extends Activity {
 
     private TowerDefenseView view_tower_defense;
     private InventoryFragment fragment_inventory;
@@ -48,8 +49,8 @@ public class MainActivity extends Activity implements InventoryFragment.Listener
         mGame.stop();
     }
 
-    @Override
-    public void onNextWaveClick() {
+    public void onNextWaveClick(View view) {
         mLevel.startWave(mGame, 0);
+        view.setEnabled(false);
     }
 }
