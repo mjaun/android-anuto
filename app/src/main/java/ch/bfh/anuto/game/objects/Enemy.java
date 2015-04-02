@@ -7,8 +7,6 @@ import android.graphics.Paint;
 
 import org.simpleframework.xml.Element;
 
-import java.util.Iterator;
-
 import ch.bfh.anuto.game.DrawObject;
 import ch.bfh.anuto.game.GameEngine;
 import ch.bfh.anuto.game.GameObject;

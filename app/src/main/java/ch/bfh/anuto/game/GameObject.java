@@ -5,13 +5,12 @@ import android.graphics.Canvas;
 
 import org.simpleframework.xml.Attribute;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.bfh.anuto.util.container.RemovedMark;
 import ch.bfh.anuto.util.iterator.Function;
 import ch.bfh.anuto.util.iterator.Predicate;
-import ch.bfh.anuto.util.container.RemovedMark;
 import ch.bfh.anuto.util.math.Vector2;
 
 public abstract class GameObject implements RemovedMark, Sprite.Listener {

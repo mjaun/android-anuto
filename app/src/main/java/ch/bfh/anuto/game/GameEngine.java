@@ -7,7 +7,6 @@ import android.graphics.Matrix;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import ch.bfh.anuto.util.container.DeferredListMap;
@@ -31,7 +30,7 @@ public class GameEngine implements Runnable {
      */
 
     public interface Listener {
-        void onRenderRequest();
+        void onTick();
     }
 
     /*
@@ -151,7 +150,7 @@ public class GameEngine implements Runnable {
     ------ GameEngine Loop ------
      */
 
-    private synchronized void tick() {
+    public void tick() {
         mGameObjects.applyChanges();
 
         StreamIterator<GameObject> iterator = mGameObjects.getAll();
@@ -162,9 +161,11 @@ public class GameEngine implements Runnable {
         }
 
         iterator.close();
+
+        onTick();
     }
 
-    public synchronized void render(Canvas canvas) {
+    public void render(Canvas canvas) {
         canvas.drawColor(BACKGROUND_COLOR);
         canvas.concat(mScreenMatrix);
 
@@ -212,10 +213,9 @@ public class GameEngine implements Runnable {
                 long beginTime = System.currentTimeMillis();
 
                 tick();
-                onRenderRequest();
 
-                long timeDiff = System.currentTimeMillis() - beginTime;
-                int sleepTime = (int)(FRAME_PERIOD - timeDiff);
+                int timeDiff = (int)(System.currentTimeMillis() - beginTime);
+                int sleepTime = FRAME_PERIOD - timeDiff;
 
                 if (sleepTime > 0) {
                     Thread.sleep(sleepTime);
@@ -243,9 +243,9 @@ public class GameEngine implements Runnable {
         mListeners.remove(listener);
     }
 
-    private void onRenderRequest() {
+    private void onTick() {
         for (Listener l : mListeners) {
-            l.onRenderRequest();
+            l.onTick();
         }
     }
 }

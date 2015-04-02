@@ -1,7 +1,5 @@
 package ch.bfh.anuto.util.iterator;
 
-import java.util.Iterator;
-
 public class FilteringIterator<T> extends ComputingIterator<T> {
 
     Predicate<? super T> mFilter;

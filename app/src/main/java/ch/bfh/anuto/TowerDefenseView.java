@@ -7,13 +7,10 @@ import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
 
-import java.util.Iterator;
-
+import ch.bfh.anuto.game.GameEngine;
 import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.game.objects.Plateau;
 import ch.bfh.anuto.game.objects.Tower;
-import ch.bfh.anuto.game.GameEngine;
-import ch.bfh.anuto.util.iterator.StreamIterator;
 import ch.bfh.anuto.util.math.Vector2;
 
 public class TowerDefenseView extends View implements GameEngine.Listener, View.OnDragListener, View.OnTouchListener {
@@ -92,7 +89,7 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
     }
 
     @Override
-    public void onRenderRequest() {
+    public void onTick() {
         postInvalidate();
     }
 

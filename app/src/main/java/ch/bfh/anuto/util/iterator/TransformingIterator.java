@@ -1,7 +1,5 @@
 package ch.bfh.anuto.util.iterator;
 
-import java.util.Iterator;
-
 public class TransformingIterator<F, T> extends StreamIterator<T> {
 
     Function<? super F, ? extends T> mTransformation;

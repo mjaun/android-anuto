@@ -3,7 +3,6 @@ package ch.bfh.anuto.game.objects.impl;
 import android.content.res.Resources;
 
 import ch.bfh.anuto.R;
-import ch.bfh.anuto.game.GameEngine;
 import ch.bfh.anuto.game.Sprite;
 import ch.bfh.anuto.game.TickTimer;
 import ch.bfh.anuto.game.objects.Enemy;

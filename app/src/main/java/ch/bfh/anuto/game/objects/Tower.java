@@ -5,8 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import java.util.Iterator;
-
 import ch.bfh.anuto.game.DrawObject;
 import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.game.TickTimer;

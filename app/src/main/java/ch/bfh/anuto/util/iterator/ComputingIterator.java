@@ -1,6 +1,5 @@
 package ch.bfh.anuto.util.iterator;
 
-import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public abstract class ComputingIterator<T> extends StreamIterator<T> {

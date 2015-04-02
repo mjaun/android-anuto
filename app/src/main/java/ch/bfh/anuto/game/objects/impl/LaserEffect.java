@@ -2,8 +2,6 @@ package ch.bfh.anuto.game.objects.impl;
 
 import android.content.res.Resources;
 
-import java.util.Iterator;
-
 import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.game.objects.AreaEffect;
 import ch.bfh.anuto.game.objects.Enemy;

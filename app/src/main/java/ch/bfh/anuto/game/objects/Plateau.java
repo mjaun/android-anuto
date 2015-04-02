@@ -2,8 +2,6 @@ package ch.bfh.anuto.game.objects;
 
 import org.simpleframework.xml.Root;
 
-import java.util.Iterator;
-
 import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.util.iterator.Predicate;
 
