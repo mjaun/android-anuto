@@ -8,12 +8,11 @@ import org.simpleframework.xml.Attribute;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.bfh.anuto.util.container.RemovedMark;
 import ch.bfh.anuto.util.iterator.Function;
 import ch.bfh.anuto.util.iterator.Predicate;
 import ch.bfh.anuto.util.math.Vector2;
 
-public abstract class GameObject implements RemovedMark, Sprite.Listener {
+public abstract class GameObject implements Sprite.Listener {
 
     /*
     ------ Listener Interface ------
@@ -81,9 +80,7 @@ public abstract class GameObject implements RemovedMark, Sprite.Listener {
      */
 
     protected final Vector2 mPosition = new Vector2();
-
     protected GameEngine mGame = null;
-    private boolean mMarkedAsRemoved = true;
 
     private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
@@ -176,22 +173,6 @@ public abstract class GameObject implements RemovedMark, Sprite.Listener {
 
     public float getAngleTo(Vector2 target) {
         return target.copy().sub(mPosition).angle();
-    }
-
-
-    @Override
-    public void resetRemovedMark() {
-        mMarkedAsRemoved = false;
-    }
-
-    @Override
-    public void markAsRemoved() {
-        mMarkedAsRemoved = true;
-    }
-
-    @Override
-    public boolean hasRemovedMark() {
-        return mMarkedAsRemoved;
     }
 
     /*

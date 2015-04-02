@@ -13,7 +13,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import ch.bfh.anuto.util.iterator.ComputingIterator;
 import ch.bfh.anuto.util.iterator.StreamIterator;
 
-public class DeferredListMap<K, V extends RemovedMark> {
+public class DeferredListMap<K, V> {
 
     /*
     ------ Entry Class ------
@@ -62,19 +62,21 @@ public class DeferredListMap<K, V extends RemovedMark> {
                 return null;
             }
 
-            while (true) {
-                while (!mObjectIterator.hasNext()) {
-                    if (mListIterator.hasNext()) {
-                        mObjectIterator = mListIterator.next().iterator();
-                    } else {
-                        return null;
+            synchronized (mObjectsToRemove) {
+                while (true) {
+                    while (!mObjectIterator.hasNext()) {
+                        if (mListIterator.hasNext()) {
+                            mObjectIterator = mListIterator.next().iterator();
+                        } else {
+                            return null;
+                        }
                     }
-                }
 
-                V next = mObjectIterator.next();
+                    V next = mObjectIterator.next();
 
-                if (!next.hasRemovedMark()) {
-                    return next;
+                    if (!mObjectsToRemove.contains(next)) {
+                        return next;
+                    }
                 }
             }
         }
@@ -89,15 +91,17 @@ public class DeferredListMap<K, V extends RemovedMark> {
 
         @Override
         public V computeNext() {
-            while (true) {
-                if (!mObjectIterator.hasNext()) {
-                    return null;
-                }
+            synchronized (mObjectsToRemove) {
+                while (true) {
+                    if (!mObjectIterator.hasNext()) {
+                        return null;
+                    }
 
-                V next = mObjectIterator.next();
+                    V next = mObjectIterator.next();
 
-                if (!next.hasRemovedMark()) {
-                    return next;
+                    if (!mObjectsToRemove.contains(next)) {
+                        return next;
+                    }
                 }
             }
         }
@@ -127,29 +131,35 @@ public class DeferredListMap<K, V extends RemovedMark> {
     }
 
     public void addDeferred(K key, V value) {
-        mObjectsToAdd.add(new Entry<>(key, value));
+        synchronized (mObjectsToAdd) {
+            mObjectsToAdd.add(new Entry<>(key, value));
+        }
     }
 
     public void removeDeferred(K key, V value) {
-        value.markAsRemoved();
-        mObjectsToRemove.add(new Entry<>(key, value));
+        synchronized (mObjectsToRemove) {
+            mObjectsToRemove.add(new Entry<>(key, value));
+        }
     }
 
     public void applyChanges() {
         mLock.writeLock().lock();
 
-        while (!mObjectsToAdd.isEmpty()) {
-            Entry<K, V> e = mObjectsToAdd.remove();
-            getList(e.key).add(e.value);
-            e.value.resetRemovedMark();
-            onItemAdded(e.key, e.value);
+        synchronized (mObjectsToAdd) {
+            while (!mObjectsToAdd.isEmpty()) {
+                Entry<K, V> e = mObjectsToAdd.remove();
+                getList(e.key).add(e.value);
+                onItemAdded(e.key, e.value);
+            }
         }
 
-        while (!mObjectsToRemove.isEmpty()) {
-            Entry<K, V> e = mObjectsToRemove.remove();
+        synchronized (mObjectsToRemove) {
+            while (!mObjectsToRemove.isEmpty()) {
+                Entry<K, V> e = mObjectsToRemove.remove();
 
-            if (getList(e.key).remove(e.value)) {
-                onItemRemoved(e.key, e.value);
+                if (getList(e.key).remove(e.value)) {
+                    onItemRemoved(e.key, e.value);
+                }
             }
         }
 
