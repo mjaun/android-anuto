@@ -3,7 +3,7 @@ package ch.bfh.anuto.util.iterator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public abstract class ComputingIterator<T> implements Iterator<T> {
+public abstract class ComputingIterator<T> extends StreamIterator<T> {
 
     private T mNext = null;
     private boolean mNextComputed = false;
@@ -33,10 +33,5 @@ public abstract class ComputingIterator<T> implements Iterator<T> {
         mNextComputed = false;
 
         return mNext;
-    }
-
-    @Override
-    public void remove() {
-        throw new UnsupportedOperationException();
     }
 }

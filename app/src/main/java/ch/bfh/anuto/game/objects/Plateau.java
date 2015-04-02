@@ -5,8 +5,6 @@ import org.simpleframework.xml.Root;
 import java.util.Iterator;
 
 import ch.bfh.anuto.game.GameObject;
-import ch.bfh.anuto.util.iterator.Function;
-import ch.bfh.anuto.util.iterator.Iterators;
 import ch.bfh.anuto.util.iterator.Predicate;
 
 @Root
@@ -23,22 +21,13 @@ public abstract class Plateau extends GameObject {
     ------ Static ------
      */
 
-    public static Iterator<Plateau> occupied(Iterator<Plateau> plateaus) {
-        return Iterators.filter(plateaus, new Predicate<Plateau>() {
-            @Override
-            public boolean apply(Plateau value) {
-                return value.isOccupied();
-            }
-        });
-    }
-
-    public static Iterator<Plateau> unoccupied(Iterator<Plateau> plateaus) {
-        return Iterators.filter(plateaus, new Predicate<Plateau>() {
+    public static Predicate<Plateau> unoccupied() {
+        return new Predicate<Plateau>() {
             @Override
             public boolean apply(Plateau value) {
                 return !value.isOccupied();
             }
-        });
+        };
     }
 
     /*

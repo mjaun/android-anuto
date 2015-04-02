@@ -4,7 +4,6 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.os.Looper;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -12,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import ch.bfh.anuto.util.container.DeferredListMap;
+import ch.bfh.anuto.util.iterator.StreamIterator;
 import ch.bfh.anuto.util.math.Vector2;
 
 public class GameEngine implements Runnable {
@@ -109,7 +109,7 @@ public class GameEngine implements Runnable {
         mDrawObjects.removeDeferred(obj.getLayer(), obj);
     }
 
-    public Iterator<GameObject> getGameObjects(int typeId) {
+    public StreamIterator<GameObject> getGameObjects(int typeId) {
         return mGameObjects.getByKey(typeId);
     }
 
@@ -152,22 +152,25 @@ public class GameEngine implements Runnable {
      */
 
     private synchronized void tick() {
-        Iterator<GameObject> iterator = mGameObjects.getAll();
+        mGameObjects.applyChanges();
+
+        StreamIterator<GameObject> iterator = mGameObjects.getAll();
 
         while (iterator.hasNext()) {
             GameObject obj = iterator.next();
             obj.tick();
         }
 
-        mGameObjects.applyChanges();
-        mDrawObjects.applyChanges();
+        iterator.close();
     }
 
     public synchronized void render(Canvas canvas) {
         canvas.drawColor(BACKGROUND_COLOR);
         canvas.concat(mScreenMatrix);
 
-        Iterator<DrawObject> iterator = mDrawObjects.getAll();
+        mDrawObjects.applyChanges();
+
+        StreamIterator<DrawObject> iterator = mDrawObjects.getAll();
 
         while (iterator.hasNext()) {
             DrawObject obj = iterator.next();
@@ -176,6 +179,8 @@ public class GameEngine implements Runnable {
             obj.draw(canvas);
             canvas.restore();
         }
+
+        iterator.close();
     }
 
 

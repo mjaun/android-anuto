@@ -14,7 +14,6 @@ import ch.bfh.anuto.game.GameEngine;
 import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.game.data.Path;
 import ch.bfh.anuto.util.iterator.Function;
-import ch.bfh.anuto.util.iterator.Iterators;
 import ch.bfh.anuto.util.math.Vector2;
 
 
@@ -59,22 +58,13 @@ public abstract class Enemy extends GameObject {
     ------ Static ------
      */
 
-    public static Enemy weakest(Iterator<Enemy> enemies) {
-        return Iterators.min(enemies, new Function<Enemy, Float>() {
+    public static Function<Enemy, Float> health() {
+        return new Function<Enemy, Float>() {
             @Override
             public Float apply(Enemy input) {
                 return input.mHealth;
             }
-        });
-    }
-
-    public static Enemy strongest(Iterator<Enemy> enemies) {
-        return Iterators.max(enemies, new Function<Enemy, Float>() {
-            @Override
-            public Float apply(Enemy input) {
-                return input.mHealth;
-            }
-        });
+        };
     }
 
     /*

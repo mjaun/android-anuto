@@ -7,7 +7,7 @@ import java.util.Iterator;
 import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.game.objects.AreaEffect;
 import ch.bfh.anuto.game.objects.Enemy;
-import ch.bfh.anuto.util.iterator.Iterators;
+import ch.bfh.anuto.util.iterator.StreamIterator;
 import ch.bfh.anuto.util.math.Vector2;
 
 public class LaserEffect extends AreaEffect {
@@ -34,13 +34,16 @@ public class LaserEffect extends AreaEffect {
 
     @Override
     protected void applyEffect() {
-        Iterator<Enemy> enemies = Iterators.cast(mGame.getGameObjects(Enemy.TYPE_ID), Enemy.class);
-        Iterator<Enemy> onLine = GameObject.onLine(enemies, mPosition, mLaserTo, LASER_WIDTH);
+        StreamIterator<Enemy> enemies = mGame.getGameObjects(Enemy.TYPE_ID)
+                .filter(GameObject.onLine(mPosition, mLaserTo, LASER_WIDTH))
+                .cast(Enemy.class);
 
-        while (onLine.hasNext()) {
-            Enemy enemy = onLine.next();
+        while (enemies.hasNext()) {
+            Enemy enemy = enemies.next();
             enemy.damage(DAMAGE);
         }
+
+        enemies.close();
 
         mGame.removeGameObject(this);
     }

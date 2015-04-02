@@ -2,14 +2,19 @@ package ch.bfh.anuto.util.iterator;
 
 import java.util.Iterator;
 
-public class TransformingIterator<F, T> implements Iterator<T> {
+public class TransformingIterator<F, T> extends StreamIterator<T> {
 
     Function<? super F, ? extends T> mTransformation;
-    Iterator<F> mOriginal;
+    StreamIterator<F> mOriginal;
 
-    public TransformingIterator(Iterator<F> original, Function<? super F, ? extends T> transformation) {
+    public TransformingIterator(StreamIterator<F> original, Function<? super F, ? extends T> transformation) {
         mOriginal = original;
         mTransformation = transformation;
+    }
+
+    @Override
+    public void close() {
+        mOriginal.close();
     }
 
     @Override

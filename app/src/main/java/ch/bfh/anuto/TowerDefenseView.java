@@ -13,7 +13,7 @@ import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.game.objects.Plateau;
 import ch.bfh.anuto.game.objects.Tower;
 import ch.bfh.anuto.game.GameEngine;
-import ch.bfh.anuto.util.iterator.Iterators;
+import ch.bfh.anuto.util.iterator.StreamIterator;
 import ch.bfh.anuto.util.math.Vector2;
 
 public class TowerDefenseView extends View implements GameEngine.Listener, View.OnDragListener, View.OnTouchListener {
@@ -50,7 +50,9 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
 
     public void selectTower(float x, float y) {
         Vector2 pos = mGame.getGameCoordinate(x, y);
-        Tower closest = (Tower)GameObject.closest(mGame.getGameObjects(Tower.TYPE_ID), pos);
+
+        Tower closest = (Tower)mGame.getGameObjects(Tower.TYPE_ID)
+                .min(GameObject.distanceTo(pos));
 
         if (closest != null && closest.getDistanceTo(pos) < 0.5f) {
             selectTower(closest);
@@ -106,16 +108,16 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
     @Override
     public boolean onDrag(View v, DragEvent event) {
         Tower tower = (Tower)event.getLocalState();
+        Vector2 pos = mGame.getGameCoordinate(event.getX(), event.getY());
 
-        Iterator<Plateau> plateaus = Iterators.cast(mGame.getGameObjects(Plateau.TYPE_ID), Plateau.class);
-        Iterator<Plateau> freePlateaus = Plateau.unoccupied(plateaus);
-
-        Vector2 pos;
-        Plateau plateau;
+        Plateau closestPlateau = mGame.getGameObjects(Plateau.TYPE_ID)
+                .cast(Plateau.class)
+                .filter(Plateau.unoccupied())
+                .min(GameObject.distanceTo(pos));
 
         switch (event.getAction()) {
             case DragEvent.ACTION_DRAG_ENTERED:
-                if (freePlateaus.hasNext()) {
+                if (closestPlateau != null) {
                     mGame.addGameObject(tower);
                     selectTower(tower);
                 }
@@ -130,17 +132,13 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
 
             case DragEvent.ACTION_DRAG_LOCATION:
                 if (tower.getGame() != null) {
-                    pos = mGame.getGameCoordinate(event.getX(), event.getY());
-                    plateau = GameObject.closest(freePlateaus, pos);
-                    tower.setPosition(plateau.getPosition());
+                    tower.setPosition(closestPlateau.getPosition());
                 }
                 break;
 
             case DragEvent.ACTION_DROP:
                 if (tower.getGame() != null) {
-                    pos = mGame.getGameCoordinate(event.getX(), event.getY());
-                    plateau = GameObject.closest(freePlateaus, pos);
-                    tower.setPosition(plateau);
+                    tower.setPosition(closestPlateau);
 
                     tower.setEnabled(true);
                     selectTower(null);

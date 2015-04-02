@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.bfh.anuto.util.iterator.Function;
-import ch.bfh.anuto.util.iterator.Iterators;
 import ch.bfh.anuto.util.iterator.Predicate;
 import ch.bfh.anuto.util.container.RemovedMark;
 import ch.bfh.anuto.util.math.Vector2;
@@ -30,22 +29,22 @@ public abstract class GameObject implements RemovedMark, Sprite.Listener {
     ------ Static ------
      */
 
-    public static <T extends GameObject> Iterator<T> inRange(Iterator<T> objects, final Vector2 center, final float range) {
-        return Iterators.filter(objects, new Predicate<GameObject>() {
+    public static Predicate<GameObject> inRange(final Vector2 center, final float range) {
+        return new Predicate<GameObject>() {
             @Override
             public boolean apply(GameObject value) {
                 return value.getDistanceTo(center) <= range;
             }
-        });
+        };
     }
 
-    public static <T extends GameObject> Iterator<T> onLine(Iterator<T> objects, final Vector2 p1, final Vector2 p2, final float lineWidth) {
+    public static Predicate<GameObject> onLine(final Vector2 p1, final Vector2 p2, final float lineWidth) {
         final Vector2 line = p2.copy().sub(p1);
         final float lineLen2 = line.len2();
         final float lineLen = (float)Math.sqrt(lineLen2);
         final float lineAngle = line.angle();
 
-        return Iterators.filter(objects, new Predicate<GameObject>() {
+        return new Predicate<GameObject>() {
             @Override
             public boolean apply(GameObject value) {
                 Vector2 toObj = value.mPosition.copy().sub(p1);
@@ -66,16 +65,16 @@ public abstract class GameObject implements RemovedMark, Sprite.Listener {
 
                 return dist <= lineWidth / 2f;
             }
-        });
+        };
     }
 
-    public static <T extends GameObject> T closest(Iterator<T> objects, final Vector2 point) {
-        return Iterators.min(objects, new Function<T, Float>() {
+    public static Function<GameObject, Float> distanceTo(final Vector2 toPoint) {
+        return new Function<GameObject, Float>() {
             @Override
             public Float apply(GameObject input) {
-                return input.getDistanceTo(point);
+                return input.getDistanceTo(toPoint);
             }
-        });
+        };
     }
 
     /*

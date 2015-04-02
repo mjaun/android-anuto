@@ -5,11 +5,16 @@ import java.util.Iterator;
 public class FilteringIterator<T> extends ComputingIterator<T> {
 
     Predicate<? super T> mFilter;
-    Iterator<T> mOriginal;
+    StreamIterator<T> mOriginal;
 
-    public FilteringIterator(Iterator<T> original, Predicate<? super T> filter) {
+    public FilteringIterator(StreamIterator<T> original, Predicate<? super T> filter) {
         mOriginal = original;
         mFilter = filter;
+    }
+
+    @Override
+    public void close() {
+        mOriginal.close();
     }
 
     @Override

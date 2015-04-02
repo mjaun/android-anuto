@@ -7,8 +7,11 @@ import java.util.List;
 import java.util.Queue;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import ch.bfh.anuto.util.iterator.ComputingIterator;
+import ch.bfh.anuto.util.iterator.StreamIterator;
 
 public class DeferredListMap<K, V extends RemovedMark> {
 
@@ -30,7 +33,18 @@ public class DeferredListMap<K, V extends RemovedMark> {
     ------ Iterators ------
      */
 
-    private class ListMapAllIterator extends ComputingIterator<V> {
+    private abstract class ListMapIterator extends ComputingIterator<V> {
+        public ListMapIterator() {
+            mLock.readLock().lock();
+        }
+
+        @Override
+        public void close() {
+            mLock.readLock().unlock();
+        }
+    }
+
+    private class ListMapAllIterator extends ListMapIterator {
         Iterator<List<V>> mListIterator;
         Iterator<V> mObjectIterator;
 
@@ -66,7 +80,7 @@ public class DeferredListMap<K, V extends RemovedMark> {
         }
     }
 
-    private class ListMapKeyIterator extends ComputingIterator<V> {
+    private class ListMapKeyIterator extends ListMapIterator {
         Iterator<V> mObjectIterator;
 
         public ListMapKeyIterator(K key) {
@@ -92,6 +106,8 @@ public class DeferredListMap<K, V extends RemovedMark> {
     /*
     ------ Members ------
      */
+
+    private final ReadWriteLock mLock = new ReentrantReadWriteLock();
 
     private final SortedMap<K, List<V>> mListMap = new TreeMap<>();
 
@@ -119,15 +135,9 @@ public class DeferredListMap<K, V extends RemovedMark> {
         mObjectsToRemove.add(new Entry<>(key, value));
     }
 
-    public void clearDeferred() {
-        for (K key : mListMap.keySet()) {
-            for (V value : mListMap.get(key)) {
-                removeDeferred(key, value);
-            }
-        }
-    }
-
     public void applyChanges() {
+        mLock.writeLock().lock();
+
         while (!mObjectsToAdd.isEmpty()) {
             Entry<K, V> e = mObjectsToAdd.remove();
             getList(e.key).add(e.value);
@@ -142,13 +152,15 @@ public class DeferredListMap<K, V extends RemovedMark> {
                 onItemRemoved(e.key, e.value);
             }
         }
+
+        mLock.writeLock().unlock();
     }
 
-    public Iterator<V> getAll() {
+    public StreamIterator<V> getAll() {
         return new ListMapAllIterator();
     }
 
-    public Iterator<V> getByKey(K key) {
+    public StreamIterator<V> getByKey(K key) {
         return new ListMapKeyIterator(key);
     }
 

@@ -65,15 +65,15 @@ public abstract class AimingTower extends Tower implements GameObject.Listener {
     protected void nextTarget() {
         switch (mStrategy) {
             case Closest:
-                setTarget(GameObject.closest(getEnemiesInRange(), mPosition));
+                setTarget(getEnemiesInRange().min(GameObject.distanceTo(mPosition)));
                 break;
 
             case Strongest:
-                setTarget(Enemy.strongest(getEnemiesInRange()));
+                setTarget(getEnemiesInRange().max(Enemy.health()));
                 break;
 
             case Weakest:
-                setTarget(Enemy.weakest(getEnemiesInRange()));
+                setTarget(getEnemiesInRange().min(Enemy.health()));
                 break;
         }
      }

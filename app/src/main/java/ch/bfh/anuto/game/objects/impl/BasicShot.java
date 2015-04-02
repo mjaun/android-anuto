@@ -59,7 +59,8 @@ public class BasicShot extends TargetedShot {
 
     @Override
     protected void onTargetLost() {
-        Enemy closest = (Enemy)GameObject.closest(mGame.getGameObjects(Enemy.TYPE_ID), mPosition);
+        Enemy closest = (Enemy)mGame.getGameObjects(Enemy.TYPE_ID)
+                .min(GameObject.distanceTo(mPosition));
 
         if (closest == null) {
             mGame.removeGameObject(this);

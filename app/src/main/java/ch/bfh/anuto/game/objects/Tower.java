@@ -10,8 +10,7 @@ import java.util.Iterator;
 import ch.bfh.anuto.game.DrawObject;
 import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.game.TickTimer;
-import ch.bfh.anuto.util.iterator.Iterators;
-import ch.bfh.anuto.util.math.Vector2;
+import ch.bfh.anuto.util.iterator.StreamIterator;
 
 public abstract class Tower extends GameObject {
 
@@ -134,10 +133,9 @@ public abstract class Tower extends GameObject {
         mReloaded = false;
     }
 
-    protected Iterator<Enemy> getEnemiesInRange() {
-        Iterator<GameObject> enemies = mGame.getGameObjects(Enemy.TYPE_ID);
-        Iterator<GameObject> inRange = GameObject.inRange(enemies, mPosition, mRange);
-
-        return Iterators.cast(inRange, Enemy.class);
+    protected StreamIterator<Enemy> getEnemiesInRange() {
+        return mGame.getGameObjects(Enemy.TYPE_ID)
+                .filter(GameObject.inRange(mPosition, mRange))
+                .cast(Enemy.class);
     }
 }
