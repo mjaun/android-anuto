@@ -67,6 +67,11 @@ public class GameEngine implements Runnable {
     private Thread mGameThread;
     private boolean mRunning = false;
 
+    private int mLastTickTime;
+    private int mLastRenderTime;
+    private long mTickCount = 0;
+    private long mRenderCount = 0;
+
     private final GameObjectListMap mGameObjects = new GameObjectListMap();
     private final DrawObjectListMap mDrawObjects = new DrawObjectListMap();
 
@@ -151,6 +156,8 @@ public class GameEngine implements Runnable {
      */
 
     public void tick() {
+        long beginTime = System.currentTimeMillis();
+
         mGameObjects.applyChanges();
 
         StreamIterator<GameObject> iterator = mGameObjects.getAll();
@@ -163,9 +170,14 @@ public class GameEngine implements Runnable {
         iterator.close();
 
         onTick();
+
+        mTickCount++;
+        mLastTickTime = (int)(System.currentTimeMillis() - beginTime);
     }
 
     public void render(Canvas canvas) {
+        long beginTime = System.currentTimeMillis();
+
         canvas.drawColor(BACKGROUND_COLOR);
         canvas.concat(mScreenMatrix);
 
@@ -182,6 +194,9 @@ public class GameEngine implements Runnable {
         }
 
         iterator.close();
+
+        mRenderCount++;
+        mLastRenderTime = (int)(System.currentTimeMillis() - beginTime);
     }
 
 
@@ -210,17 +225,19 @@ public class GameEngine implements Runnable {
 
         try {
             while (mRunning) {
-                long beginTime = System.currentTimeMillis();
-
                 tick();
 
-                int timeDiff = (int)(System.currentTimeMillis() - beginTime);
-                int sleepTime = FRAME_PERIOD - timeDiff;
+                int sleepTime = FRAME_PERIOD - mLastTickTime;
 
                 if (sleepTime > 0) {
                     Thread.sleep(sleepTime);
                 } else {
                     Log.w(TAG, "Frame did not finish in time!");
+                }
+
+                if (mTickCount % (TARGET_FPS * 5) == 0) {
+                    Log.d(TAG, String.format("TT=%d ms, RT=%d ms, TC-RC=%d",
+                            mLastTickTime, mLastRenderTime, mTickCount - mRenderCount));
                 }
             }
         } catch (Exception e) {
