@@ -100,7 +100,7 @@ public abstract class GameObject implements RemovedMark, Sprite.Listener {
     public abstract void tick();
 
     @Override
-    public void onBeforeDraw(Sprite sprite, Canvas canvas) {
+    public void onDraw(Sprite sprite, Canvas canvas) {
         canvas.translate(mPosition.x, mPosition.y);
     }
 

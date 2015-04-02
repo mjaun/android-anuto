@@ -39,8 +39,8 @@ public class RocketTower extends AimingTower {
     }
 
     @Override
-    public void onBeforeDraw(Sprite sprite, Canvas canvas) {
-        super.onBeforeDraw(sprite, canvas);
+    public void onDraw(Sprite sprite, Canvas canvas) {
+        super.onDraw(sprite, canvas);
         canvas.rotate(mAngle);
     }
 

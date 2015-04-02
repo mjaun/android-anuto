@@ -20,7 +20,7 @@ public class Sprite extends DrawObject {
      */
 
     public interface Listener {
-        void onBeforeDraw(Sprite sprite, Canvas canvas);
+        void onDraw(Sprite sprite, Canvas canvas);
     }
 
     /*
@@ -183,7 +183,7 @@ public class Sprite extends DrawObject {
     @Override
     public void draw(Canvas canvas) {
         if (mListener != null) {
-            mListener.onBeforeDraw(this, canvas);
+            mListener.onDraw(this, canvas);
         }
 
         canvas.drawBitmap(mBitmaps.get(mIndex), mMatrix, null);
