@@ -9,7 +9,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.bfh.anuto.util.container.DeferredListMap;
+import ch.bfh.anuto.util.container.DeferredCollectionMap;
 import ch.bfh.anuto.util.iterator.StreamIterator;
 import ch.bfh.anuto.util.math.Vector2;
 
@@ -37,7 +37,7 @@ public class GameEngine implements Runnable {
     ------ Helper Classes ------
      */
 
-    private class GameObjectListMap extends DeferredListMap<Integer, GameObject> {
+    private class GameObjectMap extends DeferredCollectionMap<Integer, GameObject> {
         @Override
         public void addDeferred(Integer key, GameObject value) {
             value.setGame(GameEngine.this);
@@ -53,7 +53,7 @@ public class GameEngine implements Runnable {
         }
     }
 
-    private class DrawObjectListMap extends DeferredListMap<Integer, DrawObject> {
+    private class DrawObjectMap extends DeferredCollectionMap<Integer, DrawObject> {
         @Override
         protected void onItemAdded(Integer key, DrawObject value) {
             value.setLayer(key);
@@ -72,8 +72,8 @@ public class GameEngine implements Runnable {
     private long mTickCount = 0;
     private long mRenderCount = 0;
 
-    private final GameObjectListMap mGameObjects = new GameObjectListMap();
-    private final DrawObjectListMap mDrawObjects = new DrawObjectListMap();
+    private final GameObjectMap mGameObjects = new GameObjectMap();
+    private final DrawObjectMap mDrawObjects = new DrawObjectMap();
 
     private final Vector2 mGameSize = new Vector2(10, 10);
     private final Vector2 mScreenSize = new Vector2(100, 100);
@@ -114,7 +114,7 @@ public class GameEngine implements Runnable {
     }
 
     public StreamIterator<GameObject> getGameObjects(int typeId) {
-        return mGameObjects.getByKey(typeId);
+        return mGameObjects.iteratorKey(typeId);
     }
 
 
@@ -160,14 +160,9 @@ public class GameEngine implements Runnable {
 
         mGameObjects.applyChanges();
 
-        StreamIterator<GameObject> iterator = mGameObjects.getAll();
-
-        while (iterator.hasNext()) {
-            GameObject obj = iterator.next();
+        for (GameObject obj : mGameObjects) {
             obj.tick();
         }
-
-        iterator.close();
 
         onTick();
 
@@ -183,17 +178,11 @@ public class GameEngine implements Runnable {
 
         mDrawObjects.applyChanges();
 
-        StreamIterator<DrawObject> iterator = mDrawObjects.getAll();
-
-        while (iterator.hasNext()) {
-            DrawObject obj = iterator.next();
-
+        for (DrawObject obj : mDrawObjects) {
             canvas.save();
             obj.draw(canvas);
             canvas.restore();
         }
-
-        iterator.close();
 
         mRenderCount++;
         mLastRenderTime = (int)(System.currentTimeMillis() - beginTime);

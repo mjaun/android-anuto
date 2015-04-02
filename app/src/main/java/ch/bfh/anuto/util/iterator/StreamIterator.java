@@ -30,7 +30,6 @@ public abstract class StreamIterator<T> implements Iterator<T> {
             last = this.next();
         }
 
-        this.close();
         return last;
     }
 
@@ -48,8 +47,6 @@ public abstract class StreamIterator<T> implements Iterator<T> {
             }
         }
 
-        this.close();
-
         return minObject;
     }
 
@@ -66,8 +63,6 @@ public abstract class StreamIterator<T> implements Iterator<T> {
                 maxValue = value;
             }
         }
-
-        this.close();
 
         return maxObject;
     }

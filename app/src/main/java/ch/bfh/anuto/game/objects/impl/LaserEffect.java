@@ -41,8 +41,6 @@ public class LaserEffect extends AreaEffect {
             enemy.damage(DAMAGE);
         }
 
-        enemies.close();
-
         mGame.removeGameObject(this);
     }
 }
