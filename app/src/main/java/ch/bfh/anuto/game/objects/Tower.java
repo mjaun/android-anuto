@@ -84,6 +84,10 @@ public abstract class Tower extends GameObject {
     }
 
 
+    public Plateau getPlateau() {
+        return mPlateau;
+    }
+
     public void setPosition(Plateau plateau) {
         if (mPlateau != null) {
             mPlateau.setOccupant(null);
