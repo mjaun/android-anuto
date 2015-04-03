@@ -6,8 +6,8 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.bfh.anuto.util.container.DeferredCollectionMap;
 import ch.bfh.anuto.util.iterator.StreamIterator;
@@ -45,6 +45,8 @@ public class GameEngine implements Runnable {
             value.setGame(GameEngine.this);
             value.init(mResources);
             super.addDeferred(key, value);
+
+            onObjectAdded(value);
         }
 
         @Override
@@ -52,6 +54,8 @@ public class GameEngine implements Runnable {
             super.onItemRemoved(key, value);
             value.clean();
             value.setGame(null);
+
+            onObjectRemoved(value);
         }
     }
 
@@ -84,7 +88,7 @@ public class GameEngine implements Runnable {
 
     private final Resources mResources;
 
-    private final List<Listener> mListeners = new ArrayList<>();
+    private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
     /*
     ------ Constructors ------

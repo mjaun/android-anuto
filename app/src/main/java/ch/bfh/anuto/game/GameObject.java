@@ -79,7 +79,7 @@ public abstract class GameObject implements Sprite.Listener {
     ------ Members ------
      */
 
-    protected final Vector2 mPosition = new Vector2();
+    protected Vector2 mPosition = new Vector2();
     protected GameEngine mGame = null;
 
     private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
