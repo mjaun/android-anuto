@@ -98,8 +98,8 @@ public class Sprite extends DrawObject {
         return mLayer;
     }
 
-    public void setLayer(int mLayer) {
-        this.mLayer = mLayer;
+    public void setLayer(int layer) {
+        mLayer = layer;
     }
 
     public int getIndex() {
