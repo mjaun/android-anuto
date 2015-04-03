@@ -7,7 +7,9 @@ import android.graphics.Paint;
 
 import ch.bfh.anuto.game.DrawObject;
 import ch.bfh.anuto.game.GameObject;
+import ch.bfh.anuto.game.Layers;
 import ch.bfh.anuto.game.TickTimer;
+import ch.bfh.anuto.game.TypeIds;
 import ch.bfh.anuto.util.iterator.StreamIterator;
 
 public abstract class Tower extends GameObject {
@@ -16,8 +18,7 @@ public abstract class Tower extends GameObject {
     ------ Constants ------
      */
 
-    public static final int TYPE_ID = 3;
-    public static final int LAYER = TYPE_ID * 100;
+    public static final int TYPE_ID = TypeIds.TOWER;
 
     /*
     ------ RangeIndicator Class ------
@@ -109,7 +110,7 @@ public abstract class Tower extends GameObject {
     public void showRange() {
         if (mRangeIndicator == null) {
             mRangeIndicator = new RangeIndicator();
-            mGame.addDrawObject(mRangeIndicator, LAYER + 10);
+            mGame.addDrawObject(mRangeIndicator, Layers.TOWER_RANGE);
         }
     }
 

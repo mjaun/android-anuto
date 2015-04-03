@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 
 import ch.bfh.anuto.R;
+import ch.bfh.anuto.game.Layers;
 import ch.bfh.anuto.game.Sprite;
 import ch.bfh.anuto.game.objects.AimingTower;
 import ch.bfh.anuto.util.math.Vector2;
@@ -30,7 +31,7 @@ public class RocketTower extends AimingTower {
     public void init(Resources res) {
         mSprite = Sprite.fromResources(this, res, R.drawable.rocket_tower);
         mSprite.calcMatrix(null, 1f, new Vector2(0.5f, 0.5f));
-        mGame.addDrawObject(mSprite, LAYER);
+        mGame.addDrawObject(mSprite, Layers.TOWER);
     }
 
     @Override

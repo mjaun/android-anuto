@@ -1,6 +1,7 @@
 package ch.bfh.anuto.game.objects;
 
 import ch.bfh.anuto.game.GameObject;
+import ch.bfh.anuto.game.TypeIds;
 
 public abstract class AreaEffect extends GameObject {
 
@@ -8,8 +9,7 @@ public abstract class AreaEffect extends GameObject {
     ------ Constants ------
      */
 
-    public static final int TYPE_ID = 5;
-    public static final int LAYER = TYPE_ID * 100;
+    public static final int TYPE_ID = TypeIds.AREA_EFFECT;
 
     /*
     ------ Members ------

@@ -3,6 +3,7 @@ package ch.bfh.anuto.game.objects;
 import org.simpleframework.xml.Root;
 
 import ch.bfh.anuto.game.GameObject;
+import ch.bfh.anuto.game.TypeIds;
 import ch.bfh.anuto.util.iterator.Predicate;
 
 @Root
@@ -12,8 +13,7 @@ public abstract class Plateau extends GameObject {
     ------ Constants ------
      */
 
-    public static final int TYPE_ID = 1;
-    public static final int LAYER = TYPE_ID * 100;
+    public static final int TYPE_ID = TypeIds.PLATEAU;
 
     /*
     ------ Static ------

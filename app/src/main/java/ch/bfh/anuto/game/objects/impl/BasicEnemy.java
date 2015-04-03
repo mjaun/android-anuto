@@ -3,6 +3,7 @@ package ch.bfh.anuto.game.objects.impl;
 import android.content.res.Resources;
 
 import ch.bfh.anuto.R;
+import ch.bfh.anuto.game.Layers;
 import ch.bfh.anuto.game.Sprite;
 import ch.bfh.anuto.game.TickTimer;
 import ch.bfh.anuto.game.objects.Enemy;
@@ -27,7 +28,7 @@ public class BasicEnemy extends Enemy {
 
         mSprite = Sprite.fromResources(this, res, R.drawable.basic_enemy, 12);
         mSprite.calcMatrix(0.9f);
-        mGame.addDrawObject(mSprite, LAYER);
+        mGame.addDrawObject(mSprite, Layers.ENEMY);
 
         mSpriteTimer = TickTimer.createFrequency(ANIMATION_SPEED * (mSprite.getCount() * 2 - 1));
     }

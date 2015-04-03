@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.GameEngine;
 import ch.bfh.anuto.game.GameObject;
+import ch.bfh.anuto.game.Layers;
 import ch.bfh.anuto.game.Sprite;
 import ch.bfh.anuto.game.objects.Enemy;
 import ch.bfh.anuto.game.objects.TargetedShot;
@@ -35,7 +36,7 @@ public class BasicShot extends TargetedShot {
     public void init(Resources res) {
         mSprite = Sprite.fromResources(this, res, R.drawable.basic_shot);
         mSprite.calcMatrix(0.33f);
-        mGame.addDrawObject(mSprite, LAYER);
+        mGame.addDrawObject(mSprite, Layers.SHOT);
     }
 
     @Override

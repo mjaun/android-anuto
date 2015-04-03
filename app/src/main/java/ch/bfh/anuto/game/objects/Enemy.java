@@ -10,6 +10,8 @@ import org.simpleframework.xml.Element;
 import ch.bfh.anuto.game.DrawObject;
 import ch.bfh.anuto.game.GameEngine;
 import ch.bfh.anuto.game.GameObject;
+import ch.bfh.anuto.game.Layers;
+import ch.bfh.anuto.game.TypeIds;
 import ch.bfh.anuto.game.data.Path;
 import ch.bfh.anuto.util.iterator.Function;
 import ch.bfh.anuto.util.math.Vector2;
@@ -21,8 +23,7 @@ public abstract class Enemy extends GameObject {
     ------ Constants ------
      */
 
-    public static final int TYPE_ID = 2;
-    public static final int LAYER = TYPE_ID * 100;
+    public static final int TYPE_ID = TypeIds.ENEMY;
 
     private static final float HEALTHBAR_WIDTH = 1.0f;
     private static final float HEALTHBAR_HEIGHT = 0.1f;
@@ -91,7 +92,7 @@ public abstract class Enemy extends GameObject {
     @Override
     public void init(Resources res) {
         mHealthBar = new HealthBar();
-        mGame.addDrawObject(mHealthBar, LAYER);
+        mGame.addDrawObject(mHealthBar, Layers.ENEMY_HEALTHBAR);
     }
 
     @Override

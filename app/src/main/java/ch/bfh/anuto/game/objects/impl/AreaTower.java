@@ -3,6 +3,7 @@ package ch.bfh.anuto.game.objects.impl;
 import android.content.res.Resources;
 
 import ch.bfh.anuto.R;
+import ch.bfh.anuto.game.Layers;
 import ch.bfh.anuto.game.Sprite;
 import ch.bfh.anuto.game.objects.Tower;
 import ch.bfh.anuto.util.math.Vector2;
@@ -27,7 +28,7 @@ public class AreaTower extends Tower {
     @Override
     public void init(Resources res) {
         mSprite = Sprite.fromResources(this, res, R.drawable.area_tower);
-        mGame.addDrawObject(mSprite, LAYER);
+        mGame.addDrawObject(mSprite, Layers.TOWER);
     }
 
     @Override
