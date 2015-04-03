@@ -21,16 +21,6 @@ public class LaserEffect extends AreaEffect {
     }
 
     @Override
-    public void init(Resources res) {
-
-    }
-
-    @Override
-    public void clean() {
-
-    }
-
-    @Override
     protected void applyEffect() {
         StreamIterator<Enemy> enemies = mGame.getGameObjects(Enemy.TYPE_ID)
                 .filter(GameObject.onLine(mPosition, mLaserTo, LASER_WIDTH))

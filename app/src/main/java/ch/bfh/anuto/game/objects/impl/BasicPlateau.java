@@ -13,12 +13,14 @@ public class BasicPlateau extends Plateau {
 
     @Override
     public void init(Resources res) {
+        super.init(res);
         mSprite = Sprite.fromResources(this, res, R.drawable.basic_plateau);
         mGame.addDrawObject(mSprite, Layers.PLATEAU);
     }
 
     @Override
     public void clean() {
+        super.clean();
         mGame.removeDrawObject(mSprite);
     }
 }

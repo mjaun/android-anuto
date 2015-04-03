@@ -30,8 +30,13 @@ public abstract class AimingTower extends Tower implements GameObject.Listener {
     @Override
     public void init(Resources res) {
         super.init(res);
-
         mNextTargetTimer = TickTimer.createInterval(0.1f);
+    }
+
+    @Override
+    public void clean() {
+        super.clean();
+        setTarget(null);
     }
 
     @Override
@@ -79,12 +84,6 @@ public abstract class AimingTower extends Tower implements GameObject.Listener {
      }
 
     protected void onTargetLost() {
-        setTarget(null);
-    }
-
-
-    @Override
-    protected void onObjectRemoved() {
         setTarget(null);
     }
 

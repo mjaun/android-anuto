@@ -43,10 +43,6 @@ public abstract class Plateau extends GameObject {
         return TYPE_ID;
     }
 
-    @Override
-    public void tick() {
-
-    }
 
     public boolean isOccupied() {
         return mOccupant != null;

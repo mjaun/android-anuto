@@ -91,17 +91,21 @@ public abstract class Enemy extends GameObject {
 
     @Override
     public void init(Resources res) {
+        super.init(res);
         mHealthBar = new HealthBar();
         mGame.addDrawObject(mHealthBar, Layers.ENEMY_HEALTHBAR);
     }
 
     @Override
     public void clean() {
+        super.clean();
         mGame.removeDrawObject(mHealthBar);
     }
 
     @Override
     public void tick() {
+        super.tick();
+
         if (!hasWayPoint()) {
             mGame.removeGameObject(this);
             return;

@@ -90,11 +90,21 @@ public abstract class GameObject implements Sprite.Listener {
 
     public abstract int getTypeId();
 
-    public abstract void init(Resources res);
+    public void init(Resources res) {
+        for (Listener l : mListeners) {
+            l.onObjectAdded(this);
+        }
+    }
 
-    public abstract void clean();
+    public void clean() {
+        for (Listener l : mListeners) {
+            l.onObjectRemoved(this);
+        }
+    }
 
-    public abstract void tick();
+    public void tick() {
+
+    }
 
     @Override
     public void onDraw(Sprite sprite, Canvas canvas) {
@@ -108,12 +118,6 @@ public abstract class GameObject implements Sprite.Listener {
 
     public void setGame(GameEngine game) {
         mGame = game;
-
-        if (game != null) {
-            onObjectAdded();
-        } else {
-            onObjectRemoved();
-        }
     }
 
 
@@ -175,9 +179,6 @@ public abstract class GameObject implements Sprite.Listener {
         return target.copy().sub(mPosition).angle();
     }
 
-    /*
-    ------ Listener Stuff ------
-     */
 
     public void addListener(Listener listener) {
         mListeners.add(listener);
@@ -185,18 +186,6 @@ public abstract class GameObject implements Sprite.Listener {
 
     public void removeListener(Listener listener) {
         mListeners.remove(listener);
-    }
-
-    protected void onObjectAdded() {
-        for (Listener l : mListeners) {
-            l.onObjectAdded(this);
-        }
-    }
-
-    protected void onObjectRemoved() {
-        for (Listener l : mListeners) {
-            l.onObjectRemoved(this);
-        }
     }
 
     /*

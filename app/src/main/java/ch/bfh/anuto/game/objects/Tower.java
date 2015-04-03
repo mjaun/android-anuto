@@ -65,17 +65,21 @@ public abstract class Tower extends GameObject {
 
     @Override
     public void init(Resources res) {
+        super.init(res);
         mReloadTimer = TickTimer.createInterval(mReloadTime);
     }
 
     @Override
     public void clean() {
+        super.clean();
         hideRange();
         setPosition((Plateau)null);
     }
 
     @Override
     public void tick() {
+        super.tick();
+
         if (mEnabled && !mReloaded && mReloadTimer.tick()) {
             mReloaded = true;
         }

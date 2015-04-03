@@ -31,7 +31,6 @@ public class LaserTower extends AimingTower {
     @Override
     public void init(Resources res) {
         super.init(res);
-
         mSprite = Sprite.fromResources(this, res, R.drawable.laser_tower);
         mSprite.calcMatrix(null, 1f, new Vector2(0.5f, 0.5f));
         mGame.addDrawObject(mSprite, Layers.TOWER);
@@ -39,6 +38,7 @@ public class LaserTower extends AimingTower {
 
     @Override
     public void clean() {
+        super.clean();
         mGame.removeDrawObject(mSprite);
     }
 
