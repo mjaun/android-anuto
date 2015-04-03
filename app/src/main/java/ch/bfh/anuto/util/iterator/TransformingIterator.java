@@ -24,9 +24,4 @@ public class TransformingIterator<F, T> extends StreamIterator<T> {
     public T next() {
         return mTransformation.apply(mOriginal.next());
     }
-
-    @Override
-    public void remove() {
-        throw new UnsupportedOperationException();
-    }
 }
