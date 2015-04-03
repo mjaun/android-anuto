@@ -19,8 +19,8 @@ public abstract class GameObject implements Sprite.Listener {
      */
 
     public interface Listener {
-        void onAddObject(GameObject obj);
-        void onRemoveObject(GameObject obj);
+        void onObjectAdded(GameObject obj);
+        void onObjectRemoved(GameObject obj);
     }
 
     /*
@@ -110,9 +110,9 @@ public abstract class GameObject implements Sprite.Listener {
         mGame = game;
 
         if (game != null) {
-            onAdd();
+            onObjectAdded();
         } else {
-            onRemove();
+            onObjectRemoved();
         }
     }
 
@@ -187,15 +187,15 @@ public abstract class GameObject implements Sprite.Listener {
         mListeners.remove(listener);
     }
 
-    protected void onAdd() {
+    protected void onObjectAdded() {
         for (Listener l : mListeners) {
-            l.onAddObject(this);
+            l.onObjectAdded(this);
         }
     }
 
-    protected void onRemove() {
+    protected void onObjectRemoved() {
         for (Listener l : mListeners) {
-            l.onRemoveObject(this);
+            l.onObjectRemoved(this);
         }
     }
 

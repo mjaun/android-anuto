@@ -14,10 +14,12 @@ import ch.bfh.anuto.game.objects.Tower;
 import ch.bfh.anuto.util.math.Vector2;
 
 public class TowerDefenseView extends View implements GameEngine.Listener, View.OnDragListener, View.OnTouchListener {
+
     private final static String TAG = TowerDefenseView.class.getName();
 
     private GameEngine mGame;
     private Tower mSelectedTower;
+
 
     public TowerDefenseView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -28,6 +30,7 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
             setOnTouchListener(this);
         }
     }
+
 
     public GameEngine getGame() {
         return mGame;
@@ -44,6 +47,7 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
             mGame.addListener(this);
         }
     }
+
 
     public void selectTower(float x, float y) {
         Vector2 pos = mGame.getGameCoordinate(x, y);
@@ -70,6 +74,7 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
         }
     }
 
+
     @Override
     public void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
@@ -88,10 +93,22 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
         }
     }
 
+
     @Override
     public void onTick() {
         postInvalidate();
     }
+
+    @Override
+    public void onObjectAdded(GameObject object) {
+
+    }
+
+    @Override
+    public void onObjectRemoved(GameObject object) {
+
+    }
+
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {

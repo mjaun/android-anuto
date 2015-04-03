@@ -84,7 +84,7 @@ public abstract class AimingTower extends Tower implements GameObject.Listener {
 
 
     @Override
-    protected void onRemove() {
+    protected void onObjectRemoved() {
         setTarget(null);
     }
 
@@ -93,11 +93,11 @@ public abstract class AimingTower extends Tower implements GameObject.Listener {
      */
 
     @Override
-    public void onAddObject(GameObject obj) {
+    public void onObjectAdded(GameObject obj) {
     }
 
     @Override
-    public void onRemoveObject(GameObject obj) {
+    public void onObjectRemoved(GameObject obj) {
         onTargetLost();
     }
 }

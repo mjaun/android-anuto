@@ -31,6 +31,8 @@ public class GameEngine implements Runnable {
 
     public interface Listener {
         void onTick();
+        void onObjectAdded(GameObject object);
+        void onObjectRemoved(GameObject object);
     }
 
     /*
@@ -252,6 +254,18 @@ public class GameEngine implements Runnable {
     private void onTick() {
         for (Listener l : mListeners) {
             l.onTick();
+        }
+    }
+
+    private void onObjectAdded(GameObject object) {
+        for (Listener l : mListeners) {
+            l.onObjectAdded(object);
+        }
+    }
+
+    private void onObjectRemoved(GameObject object) {
+        for (Listener l : mListeners) {
+            l.onObjectRemoved(object);
         }
     }
 }
