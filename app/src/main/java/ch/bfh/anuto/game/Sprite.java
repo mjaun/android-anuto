@@ -16,30 +16,23 @@ import ch.bfh.anuto.util.math.Vector2;
 public class Sprite extends DrawObject {
 
     /*
-    ------ Listener Interface ------
-     */
-
-    public interface Listener {
-        void onDraw(Sprite sprite, Canvas canvas);
-    }
-
-    /*
     ------ Static ------
      */
 
     private static HashMap<Integer, Sprite> spriteCache = new HashMap<>();
 
-    public static Sprite fromResources(Listener listener, Resources res, int id) {
-        return fromResources(listener, res, id, 1);
+    public static Sprite fromResources(GameObject owner, int id) {
+        return fromResources(owner, id, 1);
     }
 
-    public static Sprite fromResources(Listener listener, Resources res, int id, int count) {
+    public static Sprite fromResources(GameObject owner, int id, int count) {
         if (spriteCache.containsKey(id)) {
             Sprite ret = new Sprite(spriteCache.get(id));
-            ret.setListener(listener);
+            ret.mOwner = owner;
             return ret;
         }
 
+        Resources res = owner.getGame().getResources();
         Bitmap[] bmps;
 
         if (count > 1) {
@@ -60,21 +53,21 @@ public class Sprite extends DrawObject {
         Sprite sprite = new Sprite(bmps);
         spriteCache.put(id, sprite);
 
-        return fromResources(listener, res, id, count);
+        return fromResources(owner, id, count);
     }
 
     /*
     ------ Members ------
      */
 
-    private final List<Bitmap> mBitmaps;
-    private final Matrix mMatrix = new Matrix();
-
     private int mIndex = 0;
     private int mLayer = 0;
     private boolean mCycleBackwards = false;
 
-    private Listener mListener;
+    private GameObject mOwner;
+
+    private final List<Bitmap> mBitmaps;
+    private final Matrix mMatrix = new Matrix();
 
     /*
     ------ Constructors ------
@@ -93,6 +86,11 @@ public class Sprite extends DrawObject {
     /*
     ------ Methods ------
      */
+
+    public GameObject getOwner() {
+        return mOwner;
+    }
+
 
     public int getLayer() {
         return mLayer;
@@ -192,19 +190,10 @@ public class Sprite extends DrawObject {
 
     @Override
     public void draw(Canvas canvas) {
-        if (mListener != null) {
-            mListener.onDraw(this, canvas);
+        if (mOwner != null) {
+            mOwner.onDraw(this, canvas);
         }
 
         canvas.drawBitmap(mBitmaps.get(mIndex), mMatrix, null);
-    }
-
-
-    public Listener getListener() {
-        return mListener;
-    }
-
-    public void setListener(Listener listener) {
-        mListener = listener;
     }
 }

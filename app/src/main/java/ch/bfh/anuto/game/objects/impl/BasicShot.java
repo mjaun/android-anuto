@@ -36,7 +36,7 @@ public class BasicShot extends TargetedShot {
     public void init() {
         super.init();
 
-        mSprite = Sprite.fromResources(this, mGame.getResources(), R.drawable.basic_shot);
+        mSprite = Sprite.fromResources(this, R.drawable.basic_shot);
         mSprite.calcMatrix(0.33f);
         mSprite.setLayer(Layers.SHOT);
         mGame.add(mSprite);

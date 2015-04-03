@@ -29,7 +29,7 @@ public class AreaTower extends Tower {
     public void init() {
         super.init();
 
-        mSprite = Sprite.fromResources(this, mGame.getResources(), R.drawable.area_tower);
+        mSprite = Sprite.fromResources(this, R.drawable.area_tower);
         mSprite.setLayer(Layers.TOWER);
         mGame.add(mSprite);
     }

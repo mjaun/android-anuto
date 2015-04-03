@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.bfh.anuto.game.objects.Tower;
-import ch.bfh.anuto.util.math.Vector2;
 
 public class GameManager {
 
@@ -13,13 +12,17 @@ public class GameManager {
      */
 
     public interface Listener {
-        void onTick();
+        void onCreditsChanged();
+        void onLivesChanged();
+        void onTowerSelected();
     }
 
     /*
     ------ Members ------
      */
 
+    private int mCredits;
+    private int mLives;
     private Tower mSelectedTower;
 
     private final GameEngine mGame;
@@ -38,6 +41,50 @@ public class GameManager {
     ------ Methods ------
      */
 
+    public int getCredits() {
+        return mCredits;
+    }
+
+    public void setCredits(int credits) {
+        mCredits = credits;
+        onCreditsChanged();
+    }
+
+    public void giveCredits(int amount) {
+        mCredits += amount;
+        onCreditsChanged();
+    }
+
+    public void takeCredits(int amount) {
+        mCredits -= amount;
+        onCreditsChanged();
+    }
+
+
+    public int getLives() {
+        return mLives;
+    }
+
+    public void setLives(int lives) {
+        mLives = lives;
+        onLivesChanged();
+    }
+
+    public void giveLives(int count) {
+        mLives += count;
+        onLivesChanged();
+    }
+
+    public void takeLives(int count) {
+        mLives -= count;
+        onLivesChanged();
+    }
+
+
+    public Tower getSelectedTower() {
+        return mSelectedTower;
+    }
+
     public void selectTower(Tower tower) {
         if (mSelectedTower != null) {
             mSelectedTower.hideRange();
@@ -48,6 +95,8 @@ public class GameManager {
         if (mSelectedTower != null) {
             mSelectedTower.showRange();
         }
+
+        onTowerSelected();
     }
 
     /*
@@ -62,9 +111,21 @@ public class GameManager {
         mListeners.remove(listener);
     }
 
-    private void onTick() {
+    private void onCreditsChanged() {
         for (Listener l : mListeners) {
-            l.onTick();
+            l.onCreditsChanged();
+        }
+    }
+
+    private void onLivesChanged() {
+        for (Listener l : mListeners) {
+            l.onLivesChanged();
+        }
+    }
+
+    private void onTowerSelected() {
+        for (Listener l : mListeners) {
+            l.onTowerSelected();
         }
     }
 }

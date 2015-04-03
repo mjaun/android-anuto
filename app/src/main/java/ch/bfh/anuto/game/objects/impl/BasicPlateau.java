@@ -14,7 +14,7 @@ public class BasicPlateau extends Plateau {
     @Override
     public void init() {
         super.init();
-        mSprite = Sprite.fromResources(this, mGame.getResources(), R.drawable.basic_plateau);
+        mSprite = Sprite.fromResources(this, R.drawable.basic_plateau);
         mSprite.setLayer(Layers.PLATEAU);
         mGame.add(mSprite);
     }
