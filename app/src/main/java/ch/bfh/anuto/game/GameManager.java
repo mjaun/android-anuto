@@ -38,19 +38,6 @@ public class GameManager {
     ------ Methods ------
      */
 
-    public void selectTower(float x, float y) {
-        Vector2 pos = mGame.getGameCoordinate(x, y);
-
-        Tower closest = (Tower)mGame.getGameObjects(Tower.TYPE_ID)
-                .min(GameObject.distanceTo(pos));
-
-        if (closest != null && closest.getDistanceTo(pos) < 0.5f) {
-            selectTower(closest);
-        } else {
-            selectTower(null);
-        }
-    }
-
     public void selectTower(Tower tower) {
         if (mSelectedTower != null) {
             mSelectedTower.hideRange();

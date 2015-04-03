@@ -15,11 +15,21 @@ import ch.bfh.anuto.util.math.Vector2;
 
 public class TowerDefenseView extends View implements GameEngine.Listener, View.OnDragListener, View.OnTouchListener {
 
+    /*
+    ------ Constants ------
+     */
+
     private final static String TAG = TowerDefenseView.class.getName();
 
-    private GameEngine mGame;
-    private Tower mSelectedTower;
+    /*
+    ------ Members ------
+     */
 
+    private GameEngine mGame;
+
+    /*
+    ------ Constructors ------
+     */
 
     public TowerDefenseView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -31,6 +41,9 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
         }
     }
 
+    /*
+    ------ Methods ------
+    */
 
     public GameEngine getGame() {
         return mGame;
@@ -45,32 +58,6 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
 
         if (mGame != null) {
             mGame.addListener(this);
-        }
-    }
-
-
-    public void selectTower(float x, float y) {
-        Vector2 pos = mGame.getGameCoordinate(x, y);
-
-        Tower closest = (Tower)mGame.getGameObjects(Tower.TYPE_ID)
-                .min(GameObject.distanceTo(pos));
-
-        if (closest != null && closest.getDistanceTo(pos) < 0.5f) {
-            selectTower(closest);
-        } else {
-            selectTower(null);
-        }
-    }
-
-    public void selectTower(Tower tower) {
-        if (mSelectedTower != null) {
-            mSelectedTower.hideRange();
-        }
-
-        mSelectedTower = tower;
-
-        if (mSelectedTower != null) {
-            mSelectedTower.showRange();
         }
     }
 
@@ -93,27 +80,19 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
         }
     }
 
-
-    @Override
-    public void onTick() {
-        postInvalidate();
-    }
-
-    @Override
-    public void onObjectAdded(GameObject object) {
-
-    }
-
-    @Override
-    public void onObjectRemoved(GameObject object) {
-
-    }
-
-
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            selectTower(event.getX(), event.getY());
+            Vector2 pos = mGame.getGameCoordinate(event.getX(), event.getY());
+
+            Tower closest = (Tower)mGame.getGameObjects(Tower.TYPE_ID)
+                    .min(GameObject.distanceTo(pos));
+
+            if (closest != null && closest.getDistanceTo(pos) < 0.5f) {
+                mGame.getManager().selectTower(closest);
+            } else {
+                mGame.getManager().selectTower(null);
+            }
         }
 
         return false;
@@ -133,13 +112,13 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
             case DragEvent.ACTION_DRAG_ENTERED:
                 if (closestPlateau != null) {
                     mGame.add(tower);
-                    selectTower(tower);
+                    mGame.getManager().selectTower(tower);
                 }
                 break;
 
             case DragEvent.ACTION_DRAG_EXITED:
                 if (tower.getGame() != null) {
-                    selectTower(null);
+                    mGame.getManager().selectTower(null);
                     tower.remove();
                 }
                 break;
@@ -155,11 +134,17 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
                     tower.setPosition(closestPlateau);
 
                     tower.setEnabled(true);
-                    selectTower(null);
+                    mGame.getManager().selectTower(null);
                 }
                 break;
         }
 
         return true;
+    }
+
+
+    @Override
+    public void onTick() {
+        postInvalidate();
     }
 }
