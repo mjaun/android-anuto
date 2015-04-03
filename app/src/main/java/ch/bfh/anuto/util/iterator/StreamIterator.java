@@ -33,6 +33,18 @@ public abstract class StreamIterator<T> implements Iterator<T> {
         return last;
     }
 
+    public int count() {
+        int cnt = 0;
+
+        while (this.hasNext()) {
+            this.next();
+            cnt++;
+        }
+
+        return cnt;
+    }
+
+
     public T min(Function<? super T, Float> scoreFunction) {
         T minObject = null;
         float minValue = 0f;
