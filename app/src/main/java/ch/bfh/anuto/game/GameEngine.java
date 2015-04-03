@@ -45,8 +45,6 @@ public class GameEngine implements Runnable {
             value.setGame(GameEngine.this);
             value.init(mResources);
             super.addDeferred(key, value);
-
-            onObjectAdded(value);
         }
 
         @Override
@@ -54,16 +52,11 @@ public class GameEngine implements Runnable {
             super.onItemRemoved(key, value);
             value.clean();
             value.setGame(null);
-
-            onObjectRemoved(value);
         }
     }
 
     private class DrawObjectMap extends DeferredCollectionMap<Integer, DrawObject> {
-        @Override
-        protected void onItemAdded(Integer key, DrawObject value) {
-            value.setLayer(key);
-        }
+
     }
 
     /*
@@ -103,19 +96,19 @@ public class GameEngine implements Runnable {
     ------ Methods ------
      */
 
-    public void addGameObject(GameObject obj) {
+    public void add(GameObject obj) {
         mGameObjects.addDeferred(obj.getTypeId(), obj);
     }
 
-    public void removeGameObject(GameObject obj) {
+    public void remove(GameObject obj) {
         mGameObjects.removeDeferred(obj.getTypeId(), obj);
     }
 
-    public void addDrawObject(DrawObject obj, int layer) {
+    public void add(DrawObject obj) {
         mDrawObjects.addDeferred(obj.getLayer(), obj);
     }
 
-    public void removeDrawObject(DrawObject obj) {
+    public void remove(DrawObject obj) {
         mDrawObjects.removeDeferred(obj.getLayer(), obj);
     }
 
@@ -139,6 +132,7 @@ public class GameEngine implements Runnable {
         mScreenMatrixInverse.mapPoints(pts);
         return new Vector2(pts[0], pts[1]);
     }
+
 
     private void calcScreenMatrix() {
         mScreenMatrix.reset();

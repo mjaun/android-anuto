@@ -45,6 +45,11 @@ public abstract class Enemy extends GameObject {
         }
 
         @Override
+        public int getLayer() {
+            return Layers.ENEMY_HEALTHBAR;
+        }
+
+        @Override
         public void draw(Canvas canvas) {
             canvas.translate(mPosition.x - HEALTHBAR_WIDTH/2f, mPosition.y + HEALTHBAR_OFFSET);
 
@@ -93,13 +98,13 @@ public abstract class Enemy extends GameObject {
     public void init(Resources res) {
         super.init(res);
         mHealthBar = new HealthBar();
-        mGame.addDrawObject(mHealthBar, Layers.ENEMY_HEALTHBAR);
+        mGame.add(mHealthBar);
     }
 
     @Override
     public void clean() {
         super.clean();
-        mGame.removeDrawObject(mHealthBar);
+        mGame.remove(mHealthBar);
     }
 
     @Override
@@ -107,7 +112,7 @@ public abstract class Enemy extends GameObject {
         super.tick();
 
         if (!hasWayPoint()) {
-            mGame.removeGameObject(this);
+            this.remove();
             return;
         }
 
@@ -138,7 +143,7 @@ public abstract class Enemy extends GameObject {
         mHealth -= dmg;
 
         if (mHealth <= 0) {
-            mGame.removeGameObject(this);
+            this.remove();
         }
     }
 

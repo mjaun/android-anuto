@@ -71,6 +71,7 @@ public class Sprite extends DrawObject {
     private final Matrix mMatrix = new Matrix();
 
     private int mIndex = 0;
+    private int mLayer = 0;
     private boolean mCycleBackwards = false;
 
     private Listener mListener;
@@ -92,6 +93,23 @@ public class Sprite extends DrawObject {
     /*
     ------ Methods ------
      */
+
+    public int getLayer() {
+        return mLayer;
+    }
+
+    public void setLayer(int mLayer) {
+        this.mLayer = mLayer;
+    }
+
+    public int getIndex() {
+        return mIndex;
+    }
+
+    public void setIndex(int index) {
+        mIndex = index;
+    }
+
 
     public void calcMatrix() {
         calcMatrix(1f, 1f, null);
@@ -140,14 +158,6 @@ public class Sprite extends DrawObject {
         return mMatrix;
     }
 
-
-    public int getIndex() {
-        return mIndex;
-    }
-
-    public void setIndex(int index) {
-        mIndex = index;
-    }
 
     public int getCount() {
         return mBitmaps.size();

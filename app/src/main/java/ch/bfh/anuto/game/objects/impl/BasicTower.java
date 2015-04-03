@@ -35,14 +35,15 @@ public class BasicTower extends AimingTower {
 
         mSprite = Sprite.fromResources(this, res, R.drawable.basic_tower);
         mSprite.calcMatrix(null, 1f, new Vector2(0.5f, 0.5f));
-        mGame.addDrawObject(mSprite, Layers.TOWER);
+        mSprite.setLayer(Layers.TOWER);
+        mGame.add(mSprite);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        mGame.removeDrawObject(mSprite);
+        mGame.remove(mSprite);
     }
 
     @Override

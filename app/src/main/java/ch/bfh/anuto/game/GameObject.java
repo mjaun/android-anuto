@@ -106,6 +106,10 @@ public abstract class GameObject implements Sprite.Listener {
 
     }
 
+    public void remove() {
+        mGame.remove(this);
+    }
+
     @Override
     public void onDraw(Sprite sprite, Canvas canvas) {
         canvas.translate(mPosition.x, mPosition.y);

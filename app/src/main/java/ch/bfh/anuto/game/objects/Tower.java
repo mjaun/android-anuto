@@ -36,6 +36,11 @@ public abstract class Tower extends GameObject {
         }
 
         @Override
+        public int getLayer() {
+            return Layers.TOWER_RANGE;
+        }
+
+        @Override
         public void draw(Canvas canvas) {
             canvas.drawCircle(mPosition.x, mPosition.y, mRange, mRangeIndicatorPen);
         }
@@ -114,25 +119,25 @@ public abstract class Tower extends GameObject {
     public void showRange() {
         if (mRangeIndicator == null) {
             mRangeIndicator = new RangeIndicator();
-            mGame.addDrawObject(mRangeIndicator, Layers.TOWER_RANGE);
+            mGame.add(mRangeIndicator);
         }
     }
 
     public void hideRange() {
         if (mRangeIndicator != null) {
-            mGame.removeDrawObject(mRangeIndicator);
+            mGame.remove(mRangeIndicator);
             mRangeIndicator = null;
         }
     }
 
 
     protected void shoot(Shot shot) {
-        mGame.addGameObject(shot);
+        mGame.add(shot);
         mReloaded = false;
     }
 
     protected void shoot(AreaEffect effect) {
-        mGame.addGameObject(effect);
+        mGame.add(effect);
         mReloaded = false;
     }
 

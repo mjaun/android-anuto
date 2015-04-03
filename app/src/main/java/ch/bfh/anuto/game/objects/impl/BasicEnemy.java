@@ -28,7 +28,8 @@ public class BasicEnemy extends Enemy {
 
         mSprite = Sprite.fromResources(this, res, R.drawable.basic_enemy, 12);
         mSprite.calcMatrix(0.9f);
-        mGame.addDrawObject(mSprite, Layers.ENEMY);
+        mSprite.setLayer(Layers.ENEMY);
+        mGame.add(mSprite);
 
         mSpriteTimer = TickTimer.createFrequency(ANIMATION_SPEED * (mSprite.getCount() * 2 - 1));
     }
@@ -36,7 +37,7 @@ public class BasicEnemy extends Enemy {
     @Override
     public void clean() {
         super.clean();
-        mGame.removeDrawObject(mSprite);
+        mGame.remove(mSprite);
     }
 
     @Override

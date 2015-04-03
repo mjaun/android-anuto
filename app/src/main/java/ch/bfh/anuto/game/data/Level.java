@@ -75,7 +75,7 @@ public class Level {
         game.setGameSize(mSettings.width, mSettings.height);
 
         for (Plateau p : mPlateaus) {
-            game.addGameObject(p);
+            game.add(p);
         }
 
         return game;
@@ -85,7 +85,7 @@ public class Level {
         Wave wave = mWaves.get(idx);
 
         for (Enemy e : wave.getEnemies()) {
-            game.addGameObject(e);
+            game.add(e);
         }
     }
 

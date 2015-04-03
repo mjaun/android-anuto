@@ -31,6 +31,6 @@ public class LaserEffect extends AreaEffect {
             enemy.damage(DAMAGE);
         }
 
-        mGame.removeGameObject(this);
+        this.remove();
     }
 }

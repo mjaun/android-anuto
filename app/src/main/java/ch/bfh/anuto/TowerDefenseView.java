@@ -132,7 +132,7 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
         switch (event.getAction()) {
             case DragEvent.ACTION_DRAG_ENTERED:
                 if (closestPlateau != null) {
-                    mGame.addGameObject(tower);
+                    mGame.add(tower);
                     selectTower(tower);
                 }
                 break;
@@ -140,7 +140,7 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
             case DragEvent.ACTION_DRAG_EXITED:
                 if (tower.getGame() != null) {
                     selectTower(null);
-                    mGame.removeGameObject(tower);
+                    tower.remove();
                 }
                 break;
 

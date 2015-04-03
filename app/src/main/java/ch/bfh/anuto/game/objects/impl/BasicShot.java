@@ -37,13 +37,14 @@ public class BasicShot extends TargetedShot {
         super.init(res);
         mSprite = Sprite.fromResources(this, res, R.drawable.basic_shot);
         mSprite.calcMatrix(0.33f);
-        mGame.addDrawObject(mSprite, Layers.SHOT);
+        mSprite.setLayer(Layers.SHOT);
+        mGame.add(mSprite);
     }
 
     @Override
     public void clean() {
         super.clean();
-        mGame.removeDrawObject(mSprite);
+        mGame.remove(mSprite);
     }
 
     @Override
@@ -65,7 +66,7 @@ public class BasicShot extends TargetedShot {
                 .min(GameObject.distanceTo(mPosition));
 
         if (closest == null) {
-            mGame.removeGameObject(this);
+            this.remove();
         } else {
             setTarget(closest);
         }
@@ -74,6 +75,6 @@ public class BasicShot extends TargetedShot {
     @Override
     protected void onTargetReached() {
         mTarget.damage(DAMAGE);
-        mGame.removeGameObject(this);
+        this.remove();
     }
 }
