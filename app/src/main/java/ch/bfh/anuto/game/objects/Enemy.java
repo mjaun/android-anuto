@@ -95,8 +95,8 @@ public abstract class Enemy extends GameObject {
     }
 
     @Override
-    public void init(Resources res) {
-        super.init(res);
+    public void init() {
+        super.init();
         mHealthBar = new HealthBar();
         mGame.add(mHealthBar);
     }

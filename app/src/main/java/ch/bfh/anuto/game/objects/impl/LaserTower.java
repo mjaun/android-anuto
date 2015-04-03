@@ -29,9 +29,10 @@ public class LaserTower extends AimingTower {
     }
 
     @Override
-    public void init(Resources res) {
-        super.init(res);
-        mSprite = Sprite.fromResources(this, res, R.drawable.laser_tower);
+    public void init() {
+        super.init();
+
+        mSprite = Sprite.fromResources(this, mGame.getResources(), R.drawable.laser_tower);
         mSprite.calcMatrix(null, 1f, new Vector2(0.5f, 0.5f));
         mSprite.setLayer(Layers.TOWER);
         mGame.add(mSprite);

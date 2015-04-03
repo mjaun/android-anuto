@@ -8,13 +8,4 @@ public class RocketShot extends Shot {
 
     // To be implemented ...
 
-    @Override
-    public void init(Resources res) {
-
-    }
-
-    @Override
-    public void clean() {
-
-    }
 }

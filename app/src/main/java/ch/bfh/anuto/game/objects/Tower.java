@@ -69,8 +69,8 @@ public abstract class Tower extends GameObject {
     }
 
     @Override
-    public void init(Resources res) {
-        super.init(res);
+    public void init() {
+        super.init();
         mReloadTimer = TickTimer.createInterval(mReloadTime);
     }
 

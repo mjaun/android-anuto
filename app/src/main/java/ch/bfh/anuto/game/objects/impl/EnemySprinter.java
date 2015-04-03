@@ -8,12 +8,4 @@ public class EnemySprinter extends Enemy {
 
     // To be implemented ...
 
-    @Override
-    public void init(Resources res) {
-    }
-
-    @Override
-    public void clean() {
-
-    }
 }

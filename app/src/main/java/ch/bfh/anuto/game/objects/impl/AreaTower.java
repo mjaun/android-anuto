@@ -26,14 +26,18 @@ public class AreaTower extends Tower {
     }
 
     @Override
-    public void init(Resources res) {
-        mSprite = Sprite.fromResources(this, res, R.drawable.area_tower);
+    public void init() {
+        super.init();
+
+        mSprite = Sprite.fromResources(this, mGame.getResources(), R.drawable.area_tower);
         mSprite.setLayer(Layers.TOWER);
         mGame.add(mSprite);
     }
 
     @Override
     public void clean() {
+        super.clean();
+
         mGame.remove(mSprite);
     }
 

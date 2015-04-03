@@ -28,8 +28,10 @@ public class RocketTower extends AimingTower {
     }
 
     @Override
-    public void init(Resources res) {
-        mSprite = Sprite.fromResources(this, res, R.drawable.rocket_tower);
+    public void init() {
+        super.init();
+
+        mSprite = Sprite.fromResources(this, mGame.getResources(), R.drawable.rocket_tower);
         mSprite.calcMatrix(null, 1f, new Vector2(0.5f, 0.5f));
         mSprite.setLayer(Layers.TOWER);
         mGame.add(mSprite);
@@ -37,6 +39,7 @@ public class RocketTower extends AimingTower {
 
     @Override
     public void clean() {
+        super.clean();
         mGame.remove(mSprite);
     }
 

@@ -23,10 +23,10 @@ public class BasicEnemy extends Enemy {
     }
 
     @Override
-    public void init(Resources res) {
-        super.init(res);
+    public void init() {
+        super.init();
 
-        mSprite = Sprite.fromResources(this, res, R.drawable.basic_enemy, 12);
+        mSprite = Sprite.fromResources(this, mGame.getResources(), R.drawable.basic_enemy, 12);
         mSprite.calcMatrix(0.9f);
         mSprite.setLayer(Layers.ENEMY);
         mGame.add(mSprite);

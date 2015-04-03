@@ -30,10 +30,10 @@ public class BasicTower extends AimingTower {
     }
 
     @Override
-    public void init(Resources res) {
-        super.init(res);
+    public void init() {
+        super.init();
 
-        mSprite = Sprite.fromResources(this, res, R.drawable.basic_tower);
+        mSprite = Sprite.fromResources(this, mGame.getResources(), R.drawable.basic_tower);
         mSprite.calcMatrix(null, 1f, new Vector2(0.5f, 0.5f));
         mSprite.setLayer(Layers.TOWER);
         mGame.add(mSprite);

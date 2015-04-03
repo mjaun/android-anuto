@@ -41,7 +41,7 @@ public class GameEngine implements Runnable {
         @Override
         public void addDeferred(Integer key, GameObject value) {
             value.setGame(GameEngine.this);
-            value.init(mResources);
+            value.init();
             super.addDeferred(key, value);
         }
 
@@ -98,6 +98,10 @@ public class GameEngine implements Runnable {
 
     public GameManager getManager() {
         return mManager;
+    }
+
+    public Resources getResources() {
+        return mResources;
     }
 
 

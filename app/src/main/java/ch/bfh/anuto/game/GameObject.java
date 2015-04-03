@@ -90,7 +90,7 @@ public abstract class GameObject implements Sprite.Listener {
 
     public abstract int getTypeId();
 
-    public void init(Resources res) {
+    public void init() {
         for (Listener l : mListeners) {
             l.onObjectAdded(this);
         }
