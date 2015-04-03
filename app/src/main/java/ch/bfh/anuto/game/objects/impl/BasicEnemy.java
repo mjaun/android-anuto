@@ -1,7 +1,5 @@
 package ch.bfh.anuto.game.objects.impl;
 
-import android.content.res.Resources;
-
 import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.Layers;
 import ch.bfh.anuto.game.Sprite;

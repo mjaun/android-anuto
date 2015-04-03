@@ -1,11 +1,10 @@
 package ch.bfh.anuto.game.objects;
 
-import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Attribute;
 
 import ch.bfh.anuto.game.DrawObject;
 import ch.bfh.anuto.game.GameEngine;
@@ -75,9 +74,11 @@ public abstract class Enemy extends GameObject {
     ------ Members -----
      */
 
-    @Element(name="path")
+    @Attribute(name="path")
+    private int mPathIndex;
+
     protected Path mPath = null;
-    private int mWayPointIndex = 0;
+    protected int mWayPointIndex = 0;
 
     protected float mHealth = 100f;
     protected float mHealthMax = 100f;
@@ -97,6 +98,9 @@ public abstract class Enemy extends GameObject {
     @Override
     public void init() {
         super.init();
+
+        mPath = mGame.getManager().getLevel().getPaths().get(mPathIndex);
+
         mHealthBar = new HealthBar();
         mGame.add(mHealthBar);
     }
@@ -112,6 +116,7 @@ public abstract class Enemy extends GameObject {
         super.tick();
 
         if (!hasWayPoint()) {
+            mGame.getManager().takeLives(1);
             this.remove();
             return;
         }

@@ -1,6 +1,5 @@
 package ch.bfh.anuto.game.objects.impl;
 
-import android.content.res.Resources;
 import android.graphics.Canvas;
 
 import ch.bfh.anuto.R;
@@ -12,6 +11,7 @@ import ch.bfh.anuto.util.math.Vector2;
 
 public class BasicTower extends AimingTower {
 
+    private final static int VALUE = 100;
     private final static float RELOAD_TIME = 0.2f;
     private final static float RANGE = 5f;
     private final static float SHOT_SPAWN_OFFSET = 0.9f;
@@ -20,6 +20,7 @@ public class BasicTower extends AimingTower {
     private Sprite mSprite;
 
     public BasicTower() {
+        mValue = VALUE;
         mRange = RANGE;
         mReloadTime = RELOAD_TIME;
     }

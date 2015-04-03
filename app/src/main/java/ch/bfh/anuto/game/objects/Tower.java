@@ -1,6 +1,5 @@
 package ch.bfh.anuto.game.objects;
 
-import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -50,6 +49,7 @@ public abstract class Tower extends GameObject {
     ------ Members ------
      */
 
+    protected int mValue;
     protected float mRange;
     protected float mReloadTime;
     protected boolean mReloaded = false;
@@ -78,7 +78,7 @@ public abstract class Tower extends GameObject {
     public void clean() {
         super.clean();
         hideRange();
-        setPosition((Plateau)null);
+        setPlateau(null);
     }
 
     @Override
@@ -91,11 +91,26 @@ public abstract class Tower extends GameObject {
     }
 
 
+    public int getValue() {
+        return mValue;
+    }
+
+    public void buy() {
+        mGame.getManager().takeCredits(mValue);
+        setEnabled(true);
+    }
+
+    public void sell() {
+        mGame.getManager().giveCredits(mValue);
+        this.remove();
+    }
+
+
     public Plateau getPlateau() {
         return mPlateau;
     }
 
-    public void setPosition(Plateau plateau) {
+    public void setPlateau(Plateau plateau) {
         if (mPlateau != null) {
             mPlateau.setOccupant(null);
         }
@@ -108,6 +123,7 @@ public abstract class Tower extends GameObject {
         }
     }
 
+
     public boolean isEnabled() {
         return mEnabled;
     }
@@ -115,6 +131,7 @@ public abstract class Tower extends GameObject {
     public void setEnabled(boolean enabled) {
         mEnabled = enabled;
     }
+
 
     public void showRange() {
         if (mRangeIndicator == null) {

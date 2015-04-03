@@ -1,7 +1,5 @@
 package ch.bfh.anuto.game.objects;
 
-import android.content.res.Resources;
-
 import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.game.TickTimer;
 

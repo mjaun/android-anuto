@@ -34,6 +34,5 @@
         android:id="@+id/btn_next_wave"
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="10dp"
-        android:onClick="onNextWaveClick" />
+        android:layout_marginRight="10dp"/>
 </RelativeLayout>

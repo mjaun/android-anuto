@@ -13,6 +13,7 @@ public class MainActivity extends Activity {
 
     private TowerDefenseView view_tower_defense;
     private InventoryFragment fragment_inventory;
+    private StatusFragment fragment_status;
 
     private GameEngine mGame;
     private Level mLevel;
@@ -29,12 +30,18 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
 
-        mGame = mLevel.initGame(getResources());
+        mGame = new GameEngine(getResources());
 
         view_tower_defense = (TowerDefenseView)findViewById(R.id.view_tower_defense);
         view_tower_defense.setGame(mGame);
 
         fragment_inventory = (InventoryFragment)getFragmentManager().findFragmentById(R.id.fragment_inventory);
+        fragment_inventory.setGame(mGame);
+
+        fragment_status = (StatusFragment)getFragmentManager().findFragmentById(R.id.fragment_status);
+        fragment_status.setGame(mGame);
+
+        mGame.getManager().loadLevel(mLevel);
     }
 
     @Override
@@ -49,8 +56,7 @@ public class MainActivity extends Activity {
         mGame.stop();
     }
 
-    public void onNextWaveClick(View view) {
-        mLevel.startWave(mGame, 0);
-        view.setEnabled(false);
+    public GameEngine getGame() {
+        return mGame;
     }
 }

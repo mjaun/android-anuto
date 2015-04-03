@@ -1,6 +1,5 @@
 package ch.bfh.anuto.game.data;
 
-import android.content.res.Resources;
 import android.util.Log;
 
 import org.simpleframework.xml.Element;
@@ -17,8 +16,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.bfh.anuto.game.GameEngine;
-import ch.bfh.anuto.game.objects.Enemy;
 import ch.bfh.anuto.game.objects.Plateau;
 
 @Root
@@ -28,30 +25,19 @@ public class Level {
      */
 
     @Element(name="settings")
-    private GameSettings mSettings;
+    private GameSettings mSettings = new GameSettings();
 
     @ElementList(name="plateaus")
-    private ArrayList<Plateau> mPlateaus;
+    private ArrayList<Plateau> mPlateaus = new ArrayList<>();
 
     @ElementList(name="paths")
-    private ArrayList<Path> mPaths;
+    private ArrayList<Path> mPaths = new ArrayList<>();
 
     @ElementList(name="waves")
-    private ArrayList<Wave> mWaves;
+    private ArrayList<Wave> mWaves = new ArrayList<>();
 
     /*
-    ------ Constructors ------
-     */
-
-    public Level() {
-        mSettings = new GameSettings();
-        mPlateaus = new ArrayList<>();
-        mPaths = new ArrayList<>();
-        mWaves = new ArrayList<>();
-    }
-
-    /*
-    ------ Public Methods ------
+    ------ Methods ------
      */
 
     public GameSettings getSettings() {
@@ -70,27 +56,8 @@ public class Level {
         return mWaves;
     }
 
-    public GameEngine initGame(Resources res) {
-        GameEngine game = new GameEngine(res);
-        game.setGameSize(mSettings.width, mSettings.height);
-
-        for (Plateau p : mPlateaus) {
-            game.add(p);
-        }
-
-        return game;
-    }
-
-    public void startWave(GameEngine game, int idx) {
-        Wave wave = mWaves.get(idx);
-
-        for (Enemy e : wave.getEnemies()) {
-            game.add(e);
-        }
-    }
 
     public void serialize() {
-        // TODO: this is just for testing
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 
         try {
@@ -99,7 +66,7 @@ public class Level {
             e.printStackTrace();
         }
 
-        Log.i("XML", outStream.toString());
+        Log.d("XML", outStream.toString());
     }
 
     public void serialize(OutputStream outStream) throws Exception {

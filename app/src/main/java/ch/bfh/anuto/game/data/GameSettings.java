@@ -8,4 +8,10 @@ public class GameSettings {
 
     @Element
     public int height = 15;
+
+    @Element
+    public int credits = 200;
+
+    @Element
+    public int lives = 20;
 }

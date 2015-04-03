@@ -2,6 +2,8 @@
     <settings>
         <height>15</height>
         <width>10</width>
+        <credits>200</credits>
+        <lives>20</lives>
     </settings>
     <plateaus>
         <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="0" y="14"/>
@@ -122,7 +124,7 @@
         <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="9" y="0"/>
     </plateaus>
     <paths>
-        <path id="1">
+        <path>
             <vector2 x="2" y="16"/>
             <vector2 x="2" y="12"/>
             <vector2 x="8" y="12"/>
@@ -139,36 +141,16 @@
     <waves>
         <wave>
             <enemies>
-                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="16">
-                    <path ref="1"/>
-                </enemy>
-                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="17.5">
-                    <path ref="1"/>
-                </enemy>
-                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="19">
-                    <path ref="1"/>
-                </enemy>
-                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="20.5">
-                    <path ref="1"/>
-                </enemy>
-                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="22">
-                    <path ref="1"/>
-                </enemy>
-                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="23.5">
-                    <path ref="1"/>
-                </enemy>
-                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="25">
-                    <path ref="1"/>
-                </enemy>
-                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="26.5">
-                    <path ref="1"/>
-                </enemy>
-                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="28">
-                    <path ref="1"/>
-                </enemy>
-                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="29.5">
-                    <path ref="1"/>
-                </enemy>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="16" path="0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="17.5" path="0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="19" path="0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="20.5" path="0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="22" path="0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="23.5" path="0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="25" path="0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="26.5" path="0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="28" path="0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="29.5" path="0"/>
             </enemies>
         </wave>
     </waves>

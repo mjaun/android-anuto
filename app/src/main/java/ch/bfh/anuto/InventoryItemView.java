@@ -8,9 +8,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
+import ch.bfh.anuto.game.objects.Tower;
+
 public class InventoryItemView extends ImageView implements View.OnTouchListener {
 
-    private Class<?> mItemClass;
+    private Class<? extends Tower> mItemClass;
 
     public InventoryItemView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -19,7 +21,7 @@ public class InventoryItemView extends ImageView implements View.OnTouchListener
             TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.InventoryItemView);
 
             try {
-                mItemClass = Class.forName(a.getString(R.styleable.InventoryItemView_itemClass));
+                mItemClass = (Class<? extends Tower>)Class.forName(a.getString(R.styleable.InventoryItemView_itemClass));
             } catch (ClassNotFoundException e) {}
 
             a.recycle();
@@ -28,34 +30,36 @@ public class InventoryItemView extends ImageView implements View.OnTouchListener
         }
     }
 
-    public void setItemClass(Class<?> itemClass) {
+    public void setItemClass(Class<? extends Tower> itemClass) {
         mItemClass = itemClass;
     }
 
-    public Class<?> getItemClass() {
+    public Class<? extends Tower> getItemClass() {
         return mItemClass;
+    }
+
+    public Tower getItem() {
+        Tower item;
+
+        try {
+            item = mItemClass.getConstructor().newInstance();
+        } catch (NoSuchMethodException e) {
+            throw new NoSuchMethodError("Class " + mItemClass.getName() + " has no default constructor!");
+        } catch (Exception e) {
+            throw new RuntimeException("Could not instantiate object!", e);
+        }
+
+        return item;
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            Object item;
+        if (event.getAction() == MotionEvent.ACTION_DOWN && isEnabled()) {
+            ClipData data = ClipData.newPlainText("", "");
+            View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(this);
+            this.startDrag(data, shadowBuilder, getItem(), 0);
 
-            try {
-                item = mItemClass.getConstructor().newInstance();
-            } catch (NoSuchMethodException e) {
-                throw new NoSuchMethodError("Class " + mItemClass.getName() + " has no default constructor!");
-            } catch (Exception e) {
-                throw new RuntimeException("Could not instantiate object!", e);
-            }
-
-            if (item != null) {
-                ClipData data = ClipData.newPlainText("", "");
-                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(this);
-                this.startDrag(data, shadowBuilder, item, 0);
-
-                return true;
-            }
+            return true;
         }
 
         return false;

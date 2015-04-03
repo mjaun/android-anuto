@@ -1,6 +1,5 @@
 package ch.bfh.anuto.game;
 
-import android.content.res.Resources;
 import android.graphics.Canvas;
 
 import org.simpleframework.xml.Attribute;

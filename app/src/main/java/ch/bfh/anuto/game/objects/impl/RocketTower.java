@@ -1,6 +1,5 @@
 package ch.bfh.anuto.game.objects.impl;
 
-import android.content.res.Resources;
 import android.graphics.Canvas;
 
 import ch.bfh.anuto.R;

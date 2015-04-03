@@ -4,6 +4,14 @@
     tools:context=".MainActivity"
     android:padding="0dp">
 
+    <fragment
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:name="ch.bfh.anuto.StatusFragment"
+        android:id="@+id/fragment_status"
+        android:layout_alignParentTop="true"
+        tools:layout="@layout/fragment_status" />
+
     <view
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -12,7 +20,7 @@
         android:background="#ffffffff"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="30dp"
         android:layout_marginBottom="60dp" />
 
     <fragment

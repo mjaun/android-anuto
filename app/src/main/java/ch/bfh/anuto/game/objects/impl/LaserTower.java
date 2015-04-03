@@ -1,6 +1,5 @@
 package ch.bfh.anuto.game.objects.impl;
 
-import android.content.res.Resources;
 import android.graphics.Canvas;
 
 import ch.bfh.anuto.R;
@@ -11,6 +10,7 @@ import ch.bfh.anuto.util.math.Vector2;
 
 public class LaserTower extends AimingTower {
 
+    private final static int VALUE = 150;
     private final static float RELOAD_TIME = 2.0f;
     private final static float RANGE = 5f;
     private final static float LASER_LENGTH = 1000f;
@@ -19,6 +19,7 @@ public class LaserTower extends AimingTower {
     private float mAngle;
 
     public LaserTower() {
+        mValue = VALUE;
         mRange = RANGE;
         mReloadTime = RELOAD_TIME;
     }

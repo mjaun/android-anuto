@@ -3,6 +3,11 @@ package ch.bfh.anuto.game;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.bfh.anuto.game.data.GameSettings;
+import ch.bfh.anuto.game.data.Level;
+import ch.bfh.anuto.game.data.Wave;
+import ch.bfh.anuto.game.objects.Enemy;
+import ch.bfh.anuto.game.objects.Plateau;
 import ch.bfh.anuto.game.objects.Tower;
 
 public class GameManager {
@@ -12,15 +17,17 @@ public class GameManager {
      */
 
     public interface Listener {
+        void onWaveChanged();
         void onCreditsChanged();
         void onLivesChanged();
-        void onTowerSelected();
     }
 
     /*
     ------ Members ------
      */
 
+    private Level mLevel;
+    private int mWave;
     private int mCredits;
     private int mLives;
     private Tower mSelectedTower;
@@ -40,6 +47,45 @@ public class GameManager {
     /*
     ------ Methods ------
      */
+
+    public Level getLevel() {
+        return mLevel;
+    }
+
+    public void loadLevel(Level level) {
+        mLevel = level;
+
+        GameSettings settings = mLevel.getSettings();
+        mGame.setGameSize(settings.width, settings.height);
+        this.setCredits(settings.credits);
+        this.setLives(settings.lives);
+
+        for (Plateau p : level.getPlateaus()) {
+            mGame.add(p);
+        }
+
+        mWave = 0;
+    }
+
+
+    public int getWave() {
+        return mWave;
+    }
+
+    public void nextWave() {
+        if (mWave >= mLevel.getWaves().size()) {
+            return;
+        }
+
+        Wave wave = mLevel.getWaves().get(mWave);
+        for (Enemy e : wave.getEnemies()) {
+            mGame.add(e);
+        }
+
+        mWave++;
+        onWaveChanged();
+    }
+
 
     public int getCredits() {
         return mCredits;
@@ -95,8 +141,6 @@ public class GameManager {
         if (mSelectedTower != null) {
             mSelectedTower.showRange();
         }
-
-        onTowerSelected();
     }
 
     /*
@@ -111,6 +155,12 @@ public class GameManager {
         mListeners.remove(listener);
     }
 
+    private void onWaveChanged() {
+        for (Listener l : mListeners) {
+            l.onWaveChanged();
+        }
+    }
+
     private void onCreditsChanged() {
         for (Listener l : mListeners) {
             l.onCreditsChanged();
@@ -120,12 +170,6 @@ public class GameManager {
     private void onLivesChanged() {
         for (Listener l : mListeners) {
             l.onLivesChanged();
-        }
-    }
-
-    private void onTowerSelected() {
-        for (Listener l : mListeners) {
-            l.onTowerSelected();
         }
     }
 }
