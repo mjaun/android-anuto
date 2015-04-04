@@ -140,6 +140,7 @@
     </paths>
     <waves>
         <wave>
+            <reward>100</reward>
             <enemies>
                 <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="16" path="0"/>
                 <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="17.5" path="0"/>
@@ -151,6 +152,31 @@
                 <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="26.5" path="0"/>
                 <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="28" path="0"/>
                 <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="29.5" path="0"/>
+            </enemies>
+        </wave>
+        <wave>
+            <reward>200</reward>
+            <enemies>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="16" path="0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="17.5" path="0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="19" path="0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="20.5" path="0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="22" path="0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="23.5" path="0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="25" path="0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="26.5" path="0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="28" path="0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="29.5" path="0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="31" path="0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="32.5" path="0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="34" path="0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="35.5" path="0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="37" path="0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="38.5" path="0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="40" path="0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="41.5" path="0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="43" path="0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="44.5" path="0"/>
             </enemies>
         </wave>
     </waves>

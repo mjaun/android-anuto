@@ -84,6 +84,8 @@ public abstract class Enemy extends GameObject {
     protected float mHealthMax = 100f;
     protected float mSpeed = 1.0f;
 
+    protected int mReward = 0;
+
     private HealthBar mHealthBar;
 
     /*
@@ -109,6 +111,7 @@ public abstract class Enemy extends GameObject {
     public void clean() {
         super.clean();
         mGame.remove(mHealthBar);
+        mGame.getManager().reportEnemyGone(this);
     }
 
     @Override
@@ -148,6 +151,7 @@ public abstract class Enemy extends GameObject {
         mHealth -= dmg;
 
         if (mHealth <= 0) {
+            mGame.getManager().giveCredits(mReward);
             this.remove();
         }
     }

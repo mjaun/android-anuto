@@ -2,7 +2,6 @@ package ch.bfh.anuto;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
 
 import java.io.InputStream;
 

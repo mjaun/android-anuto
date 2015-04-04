@@ -1,20 +1,19 @@
 package ch.bfh.anuto;
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
-import ch.bfh.anuto.game.GameEngine;
 import ch.bfh.anuto.game.GameManager;
 
-public class StatusFragment extends Fragment implements GameManager.Listener {
+public class StatusFragment extends Fragment implements GameManager.CreditsListener,
+        GameManager.LivesListener, GameManager.WaveListener {
 
-    private GameEngine mGame;
+    private GameManager mManager;
 
     private TextView txt_credits;
     private TextView txt_lives;
@@ -26,9 +25,9 @@ public class StatusFragment extends Fragment implements GameManager.Listener {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_status, container, false);
 
-        txt_credits = (TextView)v.findViewById(R.id.txt_credits);
-        txt_lives = (TextView)v.findViewById(R.id.txt_lives);
-        txt_wave = (TextView)v.findViewById(R.id.txt_wave);
+        txt_credits = (TextView) v.findViewById(R.id.txt_credits);
+        txt_lives = (TextView) v.findViewById(R.id.txt_lives);
+        txt_wave = (TextView) v.findViewById(R.id.txt_wave);
 
         return v;
     }
@@ -37,26 +36,36 @@ public class StatusFragment extends Fragment implements GameManager.Listener {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        mGame = ((MainActivity)activity).getGame();
-        mGame.getManager().addListener(this);
+        mManager = ((MainActivity) activity).getGame().getManager();
+        mManager.addListener(this);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
 
-        mGame.getManager().removeListener(this);
+        mManager.removeListener(this);
     }
 
 
     @Override
-    public void onWaveChanged() {
+    public void onGameOver() {
+
+    }
+
+    @Override
+    public void onNextWave() {
         txt_wave.post(new Runnable() {
             @Override
             public void run() {
-                txt_wave.setText("Wave: " + mGame.getManager().getWave());
+                txt_wave.setText("Wave: " + mManager.getWaveNum());
             }
         });
+
+    }
+
+    @Override
+    public void onWaveDone() {
 
     }
 
@@ -65,7 +74,7 @@ public class StatusFragment extends Fragment implements GameManager.Listener {
         txt_credits.post(new Runnable() {
             @Override
             public void run() {
-                txt_credits.setText("Credits: " + mGame.getManager().getCredits());
+                txt_credits.setText("Credits: " + mManager.getCredits());
             }
         });
     }
@@ -75,13 +84,8 @@ public class StatusFragment extends Fragment implements GameManager.Listener {
         txt_lives.post(new Runnable() {
             @Override
             public void run() {
-                txt_lives.setText("Lives: " + mGame.getManager().getLives());
+                txt_lives.setText("Lives: " + mManager.getLives());
             }
         });
-    }
-
-    @Override
-    public void onGameOver() {
-
     }
 }

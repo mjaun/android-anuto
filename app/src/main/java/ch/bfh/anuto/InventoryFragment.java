@@ -8,12 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import ch.bfh.anuto.game.GameEngine;
 import ch.bfh.anuto.game.GameManager;
 
-public class InventoryFragment extends Fragment implements View.OnClickListener, GameManager.Listener {
+public class InventoryFragment extends Fragment implements View.OnClickListener, GameManager.WaveListener, GameManager.CreditsListener {
 
-    private GameEngine mGame;
+    private GameManager mManager;
 
     private InventoryItemView img_basic_tower;
     private InventoryItemView img_laser_tower;
@@ -38,35 +37,42 @@ public class InventoryFragment extends Fragment implements View.OnClickListener,
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        mGame = ((MainActivity)activity).getGame();
-        mGame.getManager().addListener(this);
+        mManager = ((MainActivity)activity).getGame().getManager();
+        mManager.addListener(this);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
 
-        mGame.getManager().removeListener(this);
+        mManager.removeListener(this);
     }
 
     @Override
     public void onClick(View v) {
         if (v == btn_next_wave) {
-            mGame.getManager().nextWave();
+            mManager.nextWave();
         }
     }
 
 
     @Override
-    public void onWaveChanged() {
-        if (!mGame.getManager().isGameOver()) {
-            final int wave = mGame.getManager().getWave();
-            final int waveCount = mGame.getManager().getLevel().getWaves().size();
+    public void onNextWave() {
+        btn_next_wave.post(new Runnable() {
+                @Override
+                public void run() {
+                    btn_next_wave.setEnabled(false);
+                }
+            });
+    }
 
+    @Override
+    public void onWaveDone() {
+        if (!mManager.isGameOver() && mManager.hasWaves()) {
             btn_next_wave.post(new Runnable() {
                 @Override
                 public void run() {
-                    btn_next_wave.setEnabled(wave < waveCount);
+                    btn_next_wave.setEnabled(true);
                 }
             });
         }
@@ -74,8 +80,8 @@ public class InventoryFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onCreditsChanged() {
-        if (!mGame.getManager().isGameOver()) {
-            final int credits = mGame.getManager().getCredits();
+        if (!mManager.isGameOver()) {
+            final int credits = mManager.getCredits();
 
             img_basic_tower.post(new Runnable() {
                 @Override
@@ -85,11 +91,6 @@ public class InventoryFragment extends Fragment implements View.OnClickListener,
                 }
             });
         }
-    }
-
-    @Override
-    public void onLivesChanged() {
-
     }
 
     @Override

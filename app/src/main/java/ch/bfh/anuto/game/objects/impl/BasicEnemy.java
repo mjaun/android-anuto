@@ -8,6 +8,7 @@ import ch.bfh.anuto.game.objects.Enemy;
 
 public class BasicEnemy extends Enemy {
 
+    private final static int REWARD = 10;
     private final static int HEALTH = 1000;
     private final static float MOVEMENT_SPEED = 2.0f;
     private final static float ANIMATION_SPEED = 1.5f;
@@ -18,6 +19,7 @@ public class BasicEnemy extends Enemy {
     public BasicEnemy() {
         mHealth = mHealthMax = HEALTH;
         mSpeed = MOVEMENT_SPEED;
+        mReward = REWARD;
     }
 
     @Override

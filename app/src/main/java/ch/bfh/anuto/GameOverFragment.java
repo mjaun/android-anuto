@@ -1,18 +1,17 @@
 package ch.bfh.anuto;
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import ch.bfh.anuto.game.GameEngine;
 import ch.bfh.anuto.game.GameManager;
 
 public class GameOverFragment extends Fragment implements GameManager.Listener {
 
-    private GameEngine mGame;
+    private GameManager mManager;
 
 
     @Override
@@ -29,30 +28,15 @@ public class GameOverFragment extends Fragment implements GameManager.Listener {
                 .hide(this)
                 .commit();
 
-        mGame = ((MainActivity)activity).getGame();
-        mGame.getManager().addListener(this);
+        mManager = ((MainActivity)activity).getGame().getManager();
+        mManager.addListener(this);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
 
-        mGame.getManager().removeListener(this);
-    }
-
-    @Override
-    public void onWaveChanged() {
-
-    }
-
-    @Override
-    public void onCreditsChanged() {
-
-    }
-
-    @Override
-    public void onLivesChanged() {
-
+        mManager.removeListener(this);
     }
 
     @Override

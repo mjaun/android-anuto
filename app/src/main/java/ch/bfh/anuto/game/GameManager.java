@@ -17,10 +17,20 @@ public class GameManager {
      */
 
     public interface Listener {
-        void onWaveChanged();
-        void onCreditsChanged();
-        void onLivesChanged();
         void onGameOver();
+    }
+
+    public interface WaveListener extends Listener {
+        void onNextWave();
+        void onWaveDone();
+    }
+
+    public interface CreditsListener extends Listener {
+        void onCreditsChanged();
+    }
+
+    public interface LivesListener extends Listener {
+        void onLivesChanged();
     }
 
     /*
@@ -28,14 +38,18 @@ public class GameManager {
      */
 
     private Level mLevel;
-    private int mWave;
+
+    private Wave mWave;
+    private int mNextWaveIndex;
+
     private int mCredits;
     private int mLives;
-    private Tower mSelectedTower;
+
     private boolean mGameOver = false;
 
-    private final GameEngine mGame;
+    private Tower mSelectedTower;
 
+    private final GameEngine mGame;
     private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
     /*
@@ -66,26 +80,38 @@ public class GameManager {
             mGame.add(p);
         }
 
-        mWave = 0;
+        mNextWaveIndex = 0;
     }
 
 
-    public int getWave() {
+    public Wave getWave() {
         return mWave;
     }
 
+    public int getWaveNum() {
+        return mNextWaveIndex;
+    }
+
+    public boolean hasWaves() {
+        return mNextWaveIndex < mLevel.getWaves().size();
+    }
+
     public void nextWave() {
-        if (mWave >= mLevel.getWaves().size()) {
+        if (mWave != null) {
             return;
         }
 
-        Wave wave = mLevel.getWaves().get(mWave);
-        for (Enemy e : wave.getEnemies()) {
+        if (mNextWaveIndex >= mLevel.getWaves().size()) {
+            return;
+        }
+
+        mWave = mLevel.getWaves().get(mNextWaveIndex);
+        for (Enemy e : mWave.getEnemies()) {
             mGame.add(e);
         }
 
-        mWave++;
-        onWaveChanged();
+        mNextWaveIndex++;
+        onNextWave();
     }
 
 
@@ -134,6 +160,17 @@ public class GameManager {
     }
 
 
+    public void reportEnemyGone(Enemy enemy) {
+        mWave.getEnemies().remove(enemy);
+
+        if (mWave.getEnemies().isEmpty()) {
+            onWaveDone();
+            giveCredits(mWave.getReward());
+            mWave = null;
+        }
+    }
+
+
     public boolean isGameOver() {
         return mGameOver;
     }
@@ -174,27 +211,45 @@ public class GameManager {
         mListeners.remove(listener);
     }
 
-    private void onWaveChanged() {
-        for (Listener l : mListeners) {
-            l.onWaveChanged();
-        }
-    }
-
-    private void onCreditsChanged() {
-        for (Listener l : mListeners) {
-            l.onCreditsChanged();
-        }
-    }
-
-    private void onLivesChanged() {
-        for (Listener l : mListeners) {
-            l.onLivesChanged();
-        }
-    }
 
     private void onGameOver() {
         for (Listener l : mListeners) {
             l.onGameOver();
+        }
+    }
+
+
+    private void onNextWave() {
+        for (Listener l : mListeners) {
+            if (l instanceof WaveListener) {
+                ((WaveListener)l).onNextWave();
+            }
+        }
+    }
+
+    private void onWaveDone() {
+        for (Listener l : mListeners) {
+            if (l instanceof WaveListener) {
+                ((WaveListener)l).onWaveDone();
+            }
+        }
+    }
+
+
+    private void onCreditsChanged() {
+        for (Listener l : mListeners) {
+            if (l instanceof CreditsListener) {
+                ((CreditsListener)l).onCreditsChanged();
+            }
+        }
+    }
+
+
+    private void onLivesChanged() {
+        for (Listener l : mListeners) {
+            if (l instanceof LivesListener) {
+                ((LivesListener)l).onLivesChanged();
+            }
         }
     }
 }
