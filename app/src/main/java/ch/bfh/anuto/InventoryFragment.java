@@ -19,6 +19,7 @@ public class InventoryFragment extends Fragment implements View.OnClickListener,
     private InventoryItemView img_laser_tower;
     private Button btn_next_wave;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -33,9 +34,19 @@ public class InventoryFragment extends Fragment implements View.OnClickListener,
         return v;
     }
 
-    public void setGame(GameEngine game) {
-        mGame = game;
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        mGame = ((MainActivity)activity).getGame();
         mGame.getManager().addListener(this);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        mGame.getManager().removeListener(this);
     }
 
     @Override
@@ -45,34 +56,51 @@ public class InventoryFragment extends Fragment implements View.OnClickListener,
         }
     }
 
+
     @Override
     public void onWaveChanged() {
-        final int wave = mGame.getManager().getWave();
-        final int waveCount = mGame.getManager().getLevel().getWaves().size();
+        if (!mGame.getManager().isGameOver()) {
+            final int wave = mGame.getManager().getWave();
+            final int waveCount = mGame.getManager().getLevel().getWaves().size();
 
-        btn_next_wave.post(new Runnable() {
-            @Override
-            public void run() {
-                btn_next_wave.setEnabled(wave < waveCount);
-            }
-        });
+            btn_next_wave.post(new Runnable() {
+                @Override
+                public void run() {
+                    btn_next_wave.setEnabled(wave < waveCount);
+                }
+            });
+        }
     }
 
     @Override
     public void onCreditsChanged() {
-        final int credits = mGame.getManager().getCredits();
+        if (!mGame.getManager().isGameOver()) {
+            final int credits = mGame.getManager().getCredits();
 
-        img_basic_tower.post(new Runnable() {
-            @Override
-            public void run() {
-                img_basic_tower.setEnabled(credits >= img_basic_tower.getItem().getValue());
-                img_laser_tower.setEnabled(credits >= img_laser_tower.getItem().getValue());
-            }
-        });
+            img_basic_tower.post(new Runnable() {
+                @Override
+                public void run() {
+                    img_basic_tower.setEnabled(credits >= img_basic_tower.getItem().getValue());
+                    img_laser_tower.setEnabled(credits >= img_laser_tower.getItem().getValue());
+                }
+            });
+        }
     }
 
     @Override
     public void onLivesChanged() {
 
+    }
+
+    @Override
+    public void onGameOver() {
+        img_basic_tower.post(new Runnable() {
+            @Override
+            public void run() {
+                img_basic_tower.setEnabled(false);
+                img_laser_tower.setEnabled(false);
+                btn_next_wave.setEnabled(false);
+            }
+        });
     }
 }

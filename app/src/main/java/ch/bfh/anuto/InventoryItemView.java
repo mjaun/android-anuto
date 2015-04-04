@@ -14,6 +14,7 @@ public class InventoryItemView extends ImageView implements View.OnTouchListener
 
     private Class<? extends Tower> mItemClass;
 
+
     public InventoryItemView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -29,6 +30,7 @@ public class InventoryItemView extends ImageView implements View.OnTouchListener
             setOnTouchListener(this);
         }
     }
+
 
     public void setItemClass(Class<? extends Tower> itemClass) {
         mItemClass = itemClass;
@@ -51,6 +53,7 @@ public class InventoryItemView extends ImageView implements View.OnTouchListener
 
         return item;
     }
+
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {

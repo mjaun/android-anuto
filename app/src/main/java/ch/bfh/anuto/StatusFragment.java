@@ -20,6 +20,7 @@ public class StatusFragment extends Fragment implements GameManager.Listener {
     private TextView txt_lives;
     private TextView txt_wave;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -32,10 +33,21 @@ public class StatusFragment extends Fragment implements GameManager.Listener {
         return v;
     }
 
-    public void setGame(GameEngine game) {
-        mGame = game;
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        mGame = ((MainActivity)activity).getGame();
         mGame.getManager().addListener(this);
     }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        mGame.getManager().removeListener(this);
+    }
+
 
     @Override
     public void onWaveChanged() {
@@ -66,5 +78,10 @@ public class StatusFragment extends Fragment implements GameManager.Listener {
                 txt_lives.setText("Lives: " + mGame.getManager().getLives());
             }
         });
+    }
+
+    @Override
+    public void onGameOver() {
+
     }
 }

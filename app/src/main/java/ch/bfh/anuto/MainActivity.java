@@ -11,37 +11,36 @@ import ch.bfh.anuto.game.data.Level;
 
 public class MainActivity extends Activity {
 
-    private TowerDefenseView view_tower_defense;
-    private InventoryFragment fragment_inventory;
-    private StatusFragment fragment_status;
-
     private GameEngine mGame;
     private Level mLevel;
+
+    private TowerDefenseView view_tower_defense;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        try {
-            InputStream inStream = getResources().openRawResource(R.raw.level1);
-            mLevel = Level.deserialize(inStream);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         mGame = new GameEngine(getResources());
+        setContentView(R.layout.activity_main);
 
         view_tower_defense = (TowerDefenseView)findViewById(R.id.view_tower_defense);
         view_tower_defense.setGame(mGame);
 
-        fragment_inventory = (InventoryFragment)getFragmentManager().findFragmentById(R.id.fragment_inventory);
-        fragment_inventory.setGame(mGame);
+        try {
+            InputStream inStream = getResources().openRawResource(R.raw.level1);
+            mLevel = Level.deserialize(inStream);
+            mGame.getManager().loadLevel(mLevel);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Couldn't load level!");
+        }
+    }
 
-        fragment_status = (StatusFragment)getFragmentManager().findFragmentById(R.id.fragment_status);
-        fragment_status.setGame(mGame);
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
-        mGame.getManager().loadLevel(mLevel);
+        view_tower_defense.setGame(null);
     }
 
     @Override

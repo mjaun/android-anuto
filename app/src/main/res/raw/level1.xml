@@ -2,8 +2,8 @@
     <settings>
         <height>15</height>
         <width>10</width>
-        <credits>200</credits>
-        <lives>20</lives>
+        <credits>4000</credits>
+        <lives>5</lives>
     </settings>
     <plateaus>
         <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="0" y="14"/>

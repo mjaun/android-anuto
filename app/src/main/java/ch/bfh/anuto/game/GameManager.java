@@ -20,6 +20,7 @@ public class GameManager {
         void onWaveChanged();
         void onCreditsChanged();
         void onLivesChanged();
+        void onGameOver();
     }
 
     /*
@@ -31,6 +32,7 @@ public class GameManager {
     private int mCredits;
     private int mLives;
     private Tower mSelectedTower;
+    private boolean mGameOver = false;
 
     private final GameEngine mGame;
 
@@ -123,7 +125,24 @@ public class GameManager {
 
     public void takeLives(int count) {
         mLives -= count;
+
+        if (mLives < 0) {
+            setGameOver();
+        }
+
         onLivesChanged();
+    }
+
+
+    public boolean isGameOver() {
+        return mGameOver;
+    }
+
+    public void setGameOver() {
+        if (!mGameOver) {
+            mGameOver = true;
+            onGameOver();
+        }
     }
 
 
@@ -170,6 +189,12 @@ public class GameManager {
     private void onLivesChanged() {
         for (Listener l : mListeners) {
             l.onLivesChanged();
+        }
+    }
+
+    private void onGameOver() {
+        for (Listener l : mListeners) {
+            l.onGameOver();
         }
     }
 }
