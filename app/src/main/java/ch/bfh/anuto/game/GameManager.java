@@ -17,6 +17,11 @@ public class GameManager {
      */
 
     public interface Listener {
+
+    }
+
+    public interface GameListener extends Listener {
+        void onGameStart();
         void onGameOver();
     }
 
@@ -71,16 +76,21 @@ public class GameManager {
     public void loadLevel(Level level) {
         mLevel = level;
 
+        mGame.clear();
         GameSettings settings = mLevel.getSettings();
         mGame.setGameSize(settings.width, settings.height);
-        this.setCredits(settings.credits);
-        this.setLives(settings.lives);
 
         for (Plateau p : level.getPlateaus()) {
             mGame.add(p);
         }
 
+        mWave = null;
         mNextWaveIndex = 0;
+
+        mGameOver = false;
+        onGameStart();
+        setCredits(settings.credits);
+        setLives(settings.lives);
     }
 
 
@@ -160,7 +170,11 @@ public class GameManager {
     }
 
 
-    public void reportEnemyGone(Enemy enemy) {
+    public void reportEnemyRemoved(Enemy enemy) {
+        if (mWave == null) {
+            return;
+        }
+
         mWave.getEnemies().remove(enemy);
 
         if (mWave.getEnemies().isEmpty()) {
@@ -212,9 +226,19 @@ public class GameManager {
     }
 
 
+    private void onGameStart() {
+        for (Listener l : mListeners) {
+            if (l instanceof GameListener) {
+                ((GameListener) l).onGameStart();
+            }
+        }
+    }
+
     private void onGameOver() {
         for (Listener l : mListeners) {
-            l.onGameOver();
+            if (l instanceof GameListener) {
+                ((GameListener) l).onGameOver();
+            }
         }
     }
 

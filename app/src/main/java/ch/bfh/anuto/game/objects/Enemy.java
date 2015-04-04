@@ -111,7 +111,7 @@ public abstract class Enemy extends GameObject {
     public void clean() {
         super.clean();
         mGame.remove(mHealthBar);
-        mGame.getManager().reportEnemyGone(this);
+        mGame.getManager().reportEnemyRemoved(this);
     }
 
     @Override

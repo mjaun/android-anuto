@@ -125,6 +125,12 @@ public class GameEngine implements Runnable {
         return mGameObjects.iteratorKey(typeId);
     }
 
+    public void clear() {
+        for (GameObject obj : mGameObjects) {
+            remove(obj);
+        }
+    }
+
 
     public void setGameSize(int width, int height) {
         mGameSize.set(width, height);

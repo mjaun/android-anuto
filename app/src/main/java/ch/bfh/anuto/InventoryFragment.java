@@ -10,7 +10,8 @@ import android.widget.Button;
 
 import ch.bfh.anuto.game.GameManager;
 
-public class InventoryFragment extends Fragment implements View.OnClickListener, GameManager.WaveListener, GameManager.CreditsListener {
+public class InventoryFragment extends Fragment implements View.OnClickListener,
+        GameManager.GameListener, GameManager.WaveListener, GameManager.CreditsListener {
 
     private GameManager mManager;
 
@@ -57,6 +58,30 @@ public class InventoryFragment extends Fragment implements View.OnClickListener,
 
 
     @Override
+    public void onGameStart() {
+        if (mManager.hasWaves()) {
+            btn_next_wave.post(new Runnable() {
+                @Override
+                public void run() {
+                    btn_next_wave.setEnabled(true);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onGameOver() {
+        img_basic_tower.post(new Runnable() {
+            @Override
+            public void run() {
+                img_basic_tower.setEnabled(false);
+                img_laser_tower.setEnabled(false);
+                btn_next_wave.setEnabled(false);
+            }
+        });
+    }
+
+    @Override
     public void onNextWave() {
         btn_next_wave.post(new Runnable() {
                 @Override
@@ -91,17 +116,5 @@ public class InventoryFragment extends Fragment implements View.OnClickListener,
                 }
             });
         }
-    }
-
-    @Override
-    public void onGameOver() {
-        img_basic_tower.post(new Runnable() {
-            @Override
-            public void run() {
-                img_basic_tower.setEnabled(false);
-                img_laser_tower.setEnabled(false);
-                btn_next_wave.setEnabled(false);
-            }
-        });
     }
 }

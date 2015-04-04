@@ -49,11 +49,6 @@ public class StatusFragment extends Fragment implements GameManager.CreditsListe
 
 
     @Override
-    public void onGameOver() {
-
-    }
-
-    @Override
     public void onNextWave() {
         txt_wave.post(new Runnable() {
             @Override
