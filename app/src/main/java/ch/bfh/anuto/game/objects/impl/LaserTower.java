@@ -22,6 +22,9 @@ public class LaserTower extends AimingTower {
         mValue = VALUE;
         mRange = RANGE;
         mReloadTime = RELOAD_TIME;
+
+        mStrategy = Strategy.Last;
+        mLockOnTarget = false;
     }
 
     public LaserTower(Vector2 position) {

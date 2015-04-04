@@ -8,7 +8,9 @@ public abstract class AimingTower extends Tower implements GameObject.Listener {
     public enum Strategy {
         Closest,
         Weakest,
-        Strongest
+        Strongest,
+        First,
+        Last
     }
 
     /*
@@ -78,6 +80,13 @@ public abstract class AimingTower extends Tower implements GameObject.Listener {
             case Weakest:
                 setTarget(getEnemiesInRange().min(Enemy.health()));
                 break;
+
+            case First:
+                setTarget(getEnemiesInRange().min(Enemy.distanceRemaining()));
+                break;
+
+            case Last:
+                setTarget(getEnemiesInRange().max(Enemy.distanceRemaining()));
         }
      }
 

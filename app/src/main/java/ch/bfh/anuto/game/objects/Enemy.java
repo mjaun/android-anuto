@@ -70,6 +70,15 @@ public abstract class Enemy extends GameObject {
         };
     }
 
+    public static Function<Enemy, Float> distanceRemaining() {
+        return new Function<Enemy, Float>() {
+            @Override
+            public Float apply(Enemy input) {
+                return input.getDistanceRemaining();
+            }
+        };
+    }
+
     /*
     ------ Members -----
      */
@@ -144,6 +153,23 @@ public abstract class Enemy extends GameObject {
 
     protected boolean hasWayPoint() {
         return mPath != null && mPath.getWayPoints().size() > mWayPointIndex;
+    }
+
+    public float getDistanceRemaining() {
+        if (!hasWayPoint()) {
+            return 0;
+        }
+
+        float dist = getDistanceTo(getWayPoint());
+
+        for (int i = mWayPointIndex + 1; i < mPath.getWayPoints().size(); i++) {
+            Vector2 wThis = mPath.getWayPoints().get(i);
+            Vector2 wLast = mPath.getWayPoints().get(i - 1);
+
+            dist += wThis.copy().sub(wLast).len();
+        }
+
+        return dist;
     }
 
 
