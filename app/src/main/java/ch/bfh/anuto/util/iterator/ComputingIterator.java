@@ -23,6 +23,7 @@ public abstract class ComputingIterator<T> extends StreamIterator<T> {
     public T next() {
         if (!mNextComputed) {
             mNext = computeNext();
+            mNextComputed = true;
         }
 
         if (mNext == null) {
