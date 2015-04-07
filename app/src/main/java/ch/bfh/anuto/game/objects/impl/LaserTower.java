@@ -14,6 +14,7 @@ public class LaserTower extends AimingTower {
     private final static float RELOAD_TIME = 2.0f;
     private final static float RANGE = 5f;
     private final static float LASER_LENGTH = 1000f;
+    private final static float LASER_SPAWN_OFFSET = 0.8f;
 
     private Sprite mSprite;
     private float mAngle;
@@ -22,9 +23,6 @@ public class LaserTower extends AimingTower {
         mValue = VALUE;
         mRange = RANGE;
         mReloadTime = RELOAD_TIME;
-
-        mStrategy = Strategy.Last;
-        mLockOnTarget = false;
     }
 
     public LaserTower(Vector2 position) {
@@ -66,8 +64,9 @@ public class LaserTower extends AimingTower {
             mAngle = getAngleTo(mTarget);
 
             if (mReloaded) {
-                Vector2 laserTo = Vector2.createPolar(LASER_LENGTH, mAngle);
-                shoot(new LaserEffect(mPosition, laserTo));
+                Vector2 laserFrom = Vector2.createPolar(LASER_SPAWN_OFFSET, mAngle).add(mPosition);
+                Vector2 laserTo = Vector2.createPolar(LASER_LENGTH, mAngle).add(mPosition);
+                shoot(new LaserEffect(laserFrom, laserTo));
             }
         }
     }
