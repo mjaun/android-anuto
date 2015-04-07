@@ -70,7 +70,7 @@ public class InventoryFragment extends Fragment implements View.OnClickListener,
     }
 
     @Override
-    public void onGameOver() {
+    public void onGameOver(boolean won) {
         img_basic_tower.post(new Runnable() {
             @Override
             public void run() {
@@ -93,7 +93,7 @@ public class InventoryFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onWaveDone() {
-        if (!mManager.isGameOver() && mManager.hasWaves()) {
+        if (!mManager.isGameOver()) {
             btn_next_wave.post(new Runnable() {
                 @Override
                 public void run() {
@@ -104,10 +104,8 @@ public class InventoryFragment extends Fragment implements View.OnClickListener,
     }
 
     @Override
-    public void onCreditsChanged() {
+    public void onCreditsChanged(final int credits) {
         if (!mManager.isGameOver()) {
-            final int credits = mManager.getCredits();
-
             img_basic_tower.post(new Runnable() {
                 @Override
                 public void run() {

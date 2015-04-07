@@ -11,8 +11,9 @@
         class="ch.bfh.anuto.InventoryItemView"
         android:id="@+id/img_basic_tower"
         android:src="@drawable/basic_tower"
+        android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         app:itemClass="ch.bfh.anuto.game.objects.impl.BasicTower" />
 
     <view
@@ -20,16 +21,17 @@
         class="ch.bfh.anuto.InventoryItemView"
         android:id="@+id/img_laser_tower"
         android:src="@drawable/laser_tower"
+        android:layout_centerVertical="true"
         android:layout_toEndOf="@+id/img_basic_tower"
-        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         app:itemClass="ch.bfh.anuto.game.objects.impl.LaserTower" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Next Wave"
+        android:text="@string/next_wave"
         android:id="@+id/btn_next_wave"
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="10dp"/>
+        android:layout_marginEnd="10dp"/>
 </RelativeLayout>

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import ch.bfh.anuto.game.GameManager;
 
@@ -14,6 +15,7 @@ public class GameOverFragment extends Fragment implements GameManager.GameListen
 
     private GameManager mManager;
 
+    private TextView txt_game_over;
     private Button btn_restart;
 
     @Override
@@ -23,6 +25,8 @@ public class GameOverFragment extends Fragment implements GameManager.GameListen
 
         btn_restart = (Button)v.findViewById(R.id.btn_restart);
         btn_restart.setOnClickListener(this);
+
+        txt_game_over = (TextView)v.findViewById(R.id.txt_game_over);
 
         return v;
     }
@@ -63,7 +67,13 @@ public class GameOverFragment extends Fragment implements GameManager.GameListen
     }
 
     @Override
-    public void onGameOver() {
+    public void onGameOver(boolean won) {
+        if (won) {
+            txt_game_over.setText(R.string.game_over_won);
+        } else {
+            txt_game_over.setText(R.string.game_over_lost);
+        }
+
         getFragmentManager().beginTransaction()
                 .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
                 .show(this)

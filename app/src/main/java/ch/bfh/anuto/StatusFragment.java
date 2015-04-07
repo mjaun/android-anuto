@@ -53,7 +53,7 @@ public class StatusFragment extends Fragment implements GameManager.CreditsListe
         txt_wave.post(new Runnable() {
             @Override
             public void run() {
-                txt_wave.setText("Wave: " + mManager.getWaveNum());
+                txt_wave.setText(getResources().getString(R.string.status_wave) + mManager.getWaveNum());
             }
         });
 
@@ -65,21 +65,21 @@ public class StatusFragment extends Fragment implements GameManager.CreditsListe
     }
 
     @Override
-    public void onCreditsChanged() {
+    public void onCreditsChanged(final int credits) {
         txt_credits.post(new Runnable() {
             @Override
             public void run() {
-                txt_credits.setText("Credits: " + mManager.getCredits());
+                txt_credits.setText(getResources().getString(R.string.status_credits) + credits);
             }
         });
     }
 
     @Override
-    public void onLivesChanged() {
+    public void onLivesChanged(final int lives) {
         txt_lives.post(new Runnable() {
             @Override
             public void run() {
-                txt_lives.setText("Lives: " + mManager.getLives());
+                txt_lives.setText(getResources().getString(R.string.status_lives) + lives);
             }
         });
     }

@@ -22,7 +22,7 @@ public class GameManager {
 
     public interface GameListener extends Listener {
         void onGameStart();
-        void onGameOver();
+        void onGameOver(boolean won);
     }
 
     public interface WaveListener extends Listener {
@@ -31,11 +31,11 @@ public class GameManager {
     }
 
     public interface CreditsListener extends Listener {
-        void onCreditsChanged();
+        void onCreditsChanged(int credits);
     }
 
     public interface LivesListener extends Listener {
-        void onLivesChanged();
+        void onLivesChanged(int lives);
     }
 
     /*
@@ -50,7 +50,7 @@ public class GameManager {
     private int mCredits;
     private int mLives;
 
-    private boolean mGameOver = false;
+    private boolean mGameOver = true;
 
     private Tower mSelectedTower;
 
@@ -163,7 +163,7 @@ public class GameManager {
         mLives -= count;
 
         if (mLives < 0) {
-            setGameOver();
+            onGameOver(false);
         }
 
         onLivesChanged();
@@ -181,19 +181,15 @@ public class GameManager {
             onWaveDone();
             giveCredits(mWave.getReward());
             mWave = null;
+
+            if (!hasWaves()) {
+                onGameOver(true);
+            }
         }
     }
-
 
     public boolean isGameOver() {
         return mGameOver;
-    }
-
-    public void setGameOver() {
-        if (!mGameOver) {
-            mGameOver = true;
-            onGameOver();
-        }
     }
 
 
@@ -234,10 +230,12 @@ public class GameManager {
         }
     }
 
-    private void onGameOver() {
+    private void onGameOver(boolean won) {
+        mGameOver = true;
+
         for (Listener l : mListeners) {
             if (l instanceof GameListener) {
-                ((GameListener) l).onGameOver();
+                ((GameListener) l).onGameOver(won);
             }
         }
     }
@@ -263,7 +261,7 @@ public class GameManager {
     private void onCreditsChanged() {
         for (Listener l : mListeners) {
             if (l instanceof CreditsListener) {
-                ((CreditsListener)l).onCreditsChanged();
+                ((CreditsListener)l).onCreditsChanged(mCredits);
             }
         }
     }
@@ -272,7 +270,7 @@ public class GameManager {
     private void onLivesChanged() {
         for (Listener l : mListeners) {
             if (l instanceof LivesListener) {
-                ((LivesListener)l).onLivesChanged();
+                ((LivesListener)l).onLivesChanged(mLives);
             }
         }
     }
