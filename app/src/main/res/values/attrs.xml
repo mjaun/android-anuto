@@ -2,5 +2,7 @@
 <resources>
     <declare-styleable name="InventoryItemView">
         <attr name="itemClass" format="string" />
+        <attr name="itemDrawable" format="reference" />
+        <attr name="rotate" format="boolean" />
     </declare-styleable>
 </resources>

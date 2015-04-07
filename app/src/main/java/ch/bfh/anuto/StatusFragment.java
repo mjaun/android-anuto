@@ -11,7 +11,7 @@ import android.widget.TextView;
 import ch.bfh.anuto.game.GameManager;
 
 public class StatusFragment extends Fragment implements GameManager.CreditsListener,
-        GameManager.LivesListener, GameManager.WaveListener {
+        GameManager.LivesListener, GameManager.WaveListener, GameManager.GameListener {
 
     private GameManager mManager;
 
@@ -53,10 +53,9 @@ public class StatusFragment extends Fragment implements GameManager.CreditsListe
         txt_wave.post(new Runnable() {
             @Override
             public void run() {
-                txt_wave.setText(getResources().getString(R.string.status_wave) + mManager.getWaveNum());
+                txt_wave.setText(getResources().getString(R.string.status_wave) + " " + mManager.getWaveNum());
             }
         });
-
     }
 
     @Override
@@ -69,7 +68,7 @@ public class StatusFragment extends Fragment implements GameManager.CreditsListe
         txt_credits.post(new Runnable() {
             @Override
             public void run() {
-                txt_credits.setText(getResources().getString(R.string.status_credits) + credits);
+                txt_credits.setText(getResources().getString(R.string.status_credits) + " " + credits);
             }
         });
     }
@@ -79,8 +78,23 @@ public class StatusFragment extends Fragment implements GameManager.CreditsListe
         txt_lives.post(new Runnable() {
             @Override
             public void run() {
-                txt_lives.setText(getResources().getString(R.string.status_lives) + lives);
+                txt_lives.setText(getResources().getString(R.string.status_lives) + " " + lives);
             }
         });
+    }
+
+    @Override
+    public void onGameStart() {
+        txt_wave.post(new Runnable() {
+            @Override
+            public void run() {
+                txt_wave.setText(getResources().getString(R.string.status_wave) + " " + mManager.getWaveNum());
+            }
+        });
+    }
+
+    @Override
+    public void onGameOver(boolean won) {
+
     }
 }

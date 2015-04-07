@@ -67,12 +67,17 @@ public class GameOverFragment extends Fragment implements GameManager.GameListen
     }
 
     @Override
-    public void onGameOver(boolean won) {
-        if (won) {
-            txt_game_over.setText(R.string.game_over_won);
-        } else {
-            txt_game_over.setText(R.string.game_over_lost);
-        }
+    public void onGameOver(final boolean won) {
+        txt_game_over.post(new Runnable() {
+            @Override
+            public void run() {
+                if (won) {
+                    txt_game_over.setText(R.string.game_over_won);
+                } else {
+                    txt_game_over.setText(R.string.game_over_lost);
+                }
+            }
+        });
 
         getFragmentManager().beginTransaction()
                 .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
