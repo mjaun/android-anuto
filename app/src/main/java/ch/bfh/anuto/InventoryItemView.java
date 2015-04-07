@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -92,8 +93,17 @@ public class InventoryItemView extends View implements View.OnTouchListener {
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN && isEnabled()) {
+            View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder() {
+                @Override
+                public void onProvideShadowMetrics(Point shadowSize, Point shadowTouchPoint) {
+                }
+
+                @Override
+                public void onDrawShadow(Canvas canvas) {
+                }
+            };
+
             ClipData data = ClipData.newPlainText("", "");
-            View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder();
             this.startDrag(data, shadowBuilder, getItem(), 0);
 
             return true;
