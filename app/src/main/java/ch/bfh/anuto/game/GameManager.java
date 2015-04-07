@@ -182,7 +182,7 @@ public class GameManager {
             giveCredits(mWave.getReward());
             mWave = null;
 
-            if (!hasWaves()) {
+            if (!hasWaves() && !isGameOver()) {
                 onGameOver(true);
             }
         }
