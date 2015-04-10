@@ -139,10 +139,10 @@
     <waves>
         <wave>
             <enemies>
-                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="16">
+                <enemy class="ch.bfh.anuto.game.objects.impl.EnemySprinter" x="2" y="16">
                     <path ref="1"/>
                 </enemy>
-                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="17.5">
+                <enemy class="ch.bfh.anuto.game.objects.impl.EnemySprinter" x="2" y="17.5">
                     <path ref="1"/>
                 </enemy>
                 <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="19">
@@ -154,19 +154,19 @@
                 <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="22">
                     <path ref="1"/>
                 </enemy>
-                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="23.5">
+                <enemy class="ch.bfh.anuto.game.objects.impl.EnemyBlob" x="2" y="23.5">
                     <path ref="1"/>
                 </enemy>
-                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="25">
+                <enemy class="ch.bfh.anuto.game.objects.impl.EnemyBlob" x="2" y="25">
                     <path ref="1"/>
                 </enemy>
-                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="26.5">
+                <enemy class="ch.bfh.anuto.game.objects.impl.EnemyBlob" x="2" y="26.5">
                     <path ref="1"/>
                 </enemy>
-                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="28">
+                <enemy class="ch.bfh.anuto.game.objects.impl.EnemyBlob" x="2" y="28">
                     <path ref="1"/>
                 </enemy>
-                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" x="2" y="29.5">
+                <enemy class="ch.bfh.anuto.game.objects.impl.EnemyBlob" x="2" y="29.5">
                     <path ref="1"/>
                 </enemy>
             </enemies>
