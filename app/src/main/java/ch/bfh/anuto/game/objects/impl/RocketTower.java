@@ -29,7 +29,7 @@ public class RocketTower extends AimingTower {
     @Override
     public void init(Resources res) {
         mSprite = Sprite.fromResources(this, res, R.drawable.rocket_tower);
-        mSprite.calcMatrix(null, 1f, new Vector2(0.5f, 0.5f));
+        mSprite.calcMatrix(null, 1.5f, new Vector2(0.4f, 0.7f));
         mGame.addDrawObject(mSprite, LAYER);
     }
 
@@ -42,14 +42,13 @@ public class RocketTower extends AimingTower {
     public void beforeDraw(Sprite sprite, Canvas canvas) {
         canvas.rotate(mAngle);
     }
-
     @Override
     public void tick() {
         super.tick();
 
         if (hasTarget()) {
             if (isReloaded()) {
-                // TODO
+                shoot(new RocketShot(mPosition, mTarget));
             }
 
             mAngle = getAngleTo(mTarget);
