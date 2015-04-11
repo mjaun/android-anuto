@@ -34,11 +34,9 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
     public TowerDefenseView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        if (!isInEditMode()) {
-            setFocusable(true);
-            setOnDragListener(this);
-            setOnTouchListener(this);
-        }
+        setFocusable(true);
+        setOnDragListener(this);
+        setOnTouchListener(this);
     }
 
     /*
@@ -75,7 +73,7 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        if (!isInEditMode() && mGame != null) {
+        if (mGame != null) {
             mGame.render(canvas);
         }
     }
