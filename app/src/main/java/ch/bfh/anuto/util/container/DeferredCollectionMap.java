@@ -42,8 +42,10 @@ public class DeferredCollectionMap<K, V> implements Iterable<V> {
 
         @Override
         public void close() {
-            mClosed = true;
-            mLock.readLock().unlock();
+            if (!mClosed) {
+                mClosed = true;
+                mLock.readLock().unlock();
+            }
         }
     }
 
