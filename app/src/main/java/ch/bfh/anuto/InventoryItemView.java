@@ -3,8 +3,6 @@ package ch.bfh.anuto;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -13,7 +11,6 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
 
 import ch.bfh.anuto.game.objects.Tower;
 
@@ -40,7 +37,7 @@ public class InventoryItemView extends View implements View.OnTouchListener {
         mDrawable.setBounds(0, 0, mDrawable.getIntrinsicWidth() - 1, mDrawable.getIntrinsicHeight() - 1);
 
         mPaintText = new Paint();
-        mPaintText.setColor(Color.GREEN);
+        mPaintText.setColor(Color.BLACK);
         mPaintText.setTextAlign(Paint.Align.CENTER);
         mPaintText.setTextSize(70);
 

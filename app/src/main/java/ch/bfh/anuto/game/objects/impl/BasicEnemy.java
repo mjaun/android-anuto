@@ -31,12 +31,13 @@ public class BasicEnemy extends Enemy {
         mSprite.setLayer(Layers.ENEMY);
         mGame.add(mSprite);
 
-        mSpriteTimer = TickTimer.createFrequency(ANIMATION_SPEED * (mSprite.getCount() * 2 - 1));
+        mSpriteTimer = TickTimer.createFrequency(ANIMATION_SPEED, mSprite);
     }
 
     @Override
     public void clean() {
         super.clean();
+
         mGame.remove(mSprite);
     }
 

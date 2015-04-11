@@ -6,12 +6,15 @@ import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.Layers;
 import ch.bfh.anuto.game.Sprite;
 import ch.bfh.anuto.game.objects.AimingTower;
+import ch.bfh.anuto.game.objects.Shot;
 import ch.bfh.anuto.util.math.Vector2;
 
 public class RocketTower extends AimingTower {
 
-    private final static int RELOAD_TIME = 20;
+    private final static int VALUE = 200;
+    private final static float RELOAD_TIME = 2f;
     private final static float RANGE = 5f;
+    private final static float SHOT_SPAWN_OFFSET = 0.9f;
 
     private Sprite mSprite;
     private float mAngle;
@@ -19,6 +22,7 @@ public class RocketTower extends AimingTower {
     public RocketTower() {
         mRange = RANGE;
         mReloadTime = RELOAD_TIME;
+        mValue = VALUE;
     }
 
     public RocketTower(Vector2 position) {
@@ -31,7 +35,7 @@ public class RocketTower extends AimingTower {
         super.init();
 
         mSprite = Sprite.fromResources(this, R.drawable.rocket_tower);
-        mSprite.calcMatrix(null, 1f, new Vector2(0.5f, 0.5f));
+        mSprite.calcMatrix(null, 1f, new Vector2(0.31f, 0.5f));
         mSprite.setLayer(Layers.TOWER);
         mGame.add(mSprite);
     }
@@ -39,22 +43,25 @@ public class RocketTower extends AimingTower {
     @Override
     public void clean() {
         super.clean();
+
         mGame.remove(mSprite);
     }
 
     @Override
     public void onDraw(Sprite sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
+
         canvas.rotate(mAngle);
     }
-
     @Override
     public void tick() {
         super.tick();
 
         if (mTarget != null) {
             if (mReloaded) {
-                // TODO
+                Shot shot = new RocketShot(mPosition, mTarget);
+                shot.move(Vector2.createPolar(SHOT_SPAWN_OFFSET, mAngle));
+                shoot(shot);
             }
 
             mAngle = getAngleTo(mTarget);

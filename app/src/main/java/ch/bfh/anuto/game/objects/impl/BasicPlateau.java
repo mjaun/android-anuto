@@ -12,6 +12,7 @@ public class BasicPlateau extends Plateau {
     @Override
     public void init() {
         super.init();
+
         mSprite = Sprite.fromResources(this, R.drawable.basic_plateau);
         mSprite.setLayer(Layers.PLATEAU);
         mGame.add(mSprite);
@@ -20,6 +21,7 @@ public class BasicPlateau extends Plateau {
     @Override
     public void clean() {
         super.clean();
+
         mGame.remove(mSprite);
     }
 }

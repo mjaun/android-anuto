@@ -43,12 +43,14 @@ public class LaserTower extends AimingTower {
     @Override
     public void clean() {
         super.clean();
+
         mGame.remove(mSprite);
     }
 
     @Override
     public void onDraw(Sprite sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
+
         canvas.rotate(mAngle);
     }
 

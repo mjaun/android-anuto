@@ -34,11 +34,9 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
     public TowerDefenseView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        if (!isInEditMode()) {
-            setFocusable(true);
-            setOnDragListener(this);
-            setOnTouchListener(this);
-        }
+        setFocusable(true);
+        setOnDragListener(this);
+        setOnTouchListener(this);
     }
 
     /*
@@ -66,7 +64,7 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
     public void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
 
-        if (!isInEditMode()) {
+        if (mGame != null) {
             mGame.setScreenSize(w, h);
         }
     }
@@ -75,13 +73,17 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        if (!isInEditMode() && mGame != null) {
+        if (mGame != null) {
             mGame.render(canvas);
         }
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        if (mGame == null) {
+            return false;
+        }
+
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             Vector2 pos = mGame.getGameCoordinate(event.getX(), event.getY());
 
@@ -93,6 +95,8 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
             } else {
                 mGame.getManager().selectTower(null);
             }
+
+            return true;
         }
 
         return false;
@@ -100,6 +104,10 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
 
     @Override
     public boolean onDrag(View v, DragEvent event) {
+        if (mGame == null) {
+            return false;
+        }
+
         Tower tower = (Tower)event.getLocalState();
         Vector2 pos = mGame.getGameCoordinate(event.getX(), event.getY());
 

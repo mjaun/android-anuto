@@ -45,7 +45,6 @@ public class AreaTower extends Tower {
 
         if (mReloaded && getEnemiesInRange().hasNext()) {
             // TODO
-            //shoot(new ShockWave(mPosition));
         }
     }
 }

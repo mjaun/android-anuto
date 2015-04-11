@@ -44,12 +44,14 @@ public class BasicShot extends TargetedShot {
     @Override
     public void clean() {
         super.clean();
+
         mGame.remove(mSprite);
     }
 
     @Override
     public void onDraw(Sprite sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
+
         canvas.rotate(mAngle);
     }
 
@@ -57,6 +59,7 @@ public class BasicShot extends TargetedShot {
     public void tick() {
         mDirection = getDirectionTo(mTarget);
         mAngle += ROTATION_STEP;
+
         super.tick();
     }
 

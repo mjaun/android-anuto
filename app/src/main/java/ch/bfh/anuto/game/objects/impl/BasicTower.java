@@ -50,6 +50,7 @@ public class BasicTower extends AimingTower {
     @Override
     public void onDraw(Sprite sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
+
         canvas.rotate(mAngle);
     }
 

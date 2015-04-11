@@ -23,9 +23,20 @@
         android:id="@+id/img_laser_tower"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@+id/img_basic_tower"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="0dp"
         app:itemDrawable="@drawable/laser_tower"
         app:itemClass="ch.bfh.anuto.game.objects.impl.LaserTower"
+        app:rotate="true" />
+
+    <view
+        style="@style/InventoryItem"
+        class="ch.bfh.anuto.InventoryItemView"
+        android:id="@+id/img_rocket_tower"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/img_laser_tower"
+        android:layout_marginStart="0dp"
+        app:itemDrawable="@drawable/rocket_tower"
+        app:itemClass="ch.bfh.anuto.game.objects.impl.RocketTower"
         app:rotate="true" />
 
     <Button
