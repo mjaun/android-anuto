@@ -24,8 +24,8 @@ public class AreaTower extends Tower {
     }
 
     @Override
-    public void init() {
-        super.init();
+    public void onInit() {
+        super.onInit();
 
         mSprite = Sprite.fromResources(this, R.drawable.area_tower);
         mSprite.setLayer(Layers.TOWER);
@@ -33,15 +33,15 @@ public class AreaTower extends Tower {
     }
 
     @Override
-    public void clean() {
-        super.clean();
+    public void onClean() {
+        super.onClean();
 
         mGame.remove(mSprite);
     }
 
     @Override
-    public void tick() {
-        super.tick();
+    public void onTick() {
+        super.onTick();
 
         if (mReloaded && getEnemiesInRange().hasNext()) {
             // TODO

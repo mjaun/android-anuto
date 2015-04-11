@@ -64,8 +64,8 @@ public class LaserEffect extends AreaEffect {
     }
 
     @Override
-    public void init() {
-        super.init();
+    public void onInit() {
+        super.onInit();
 
         mDrawObject = new LaserDrawObject();
         mGame.add(mDrawObject);
@@ -75,15 +75,15 @@ public class LaserEffect extends AreaEffect {
     }
 
     @Override
-    public void clean() {
-        super.clean();
+    public void onClean() {
+        super.onClean();
 
         mGame.remove(mDrawObject);
     }
 
     @Override
-    public void tick() {
-        super.tick();
+    public void onTick() {
+        super.onTick();
 
         mDrawObject.decreaseVisibility();
 

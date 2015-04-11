@@ -10,8 +10,8 @@ public class BasicPlateau extends Plateau {
     private Sprite mSprite;
 
     @Override
-    public void init() {
-        super.init();
+    public void onInit() {
+        super.onInit();
 
         mSprite = Sprite.fromResources(this, R.drawable.basic_plateau);
         mSprite.setLayer(Layers.PLATEAU);
@@ -19,8 +19,8 @@ public class BasicPlateau extends Plateau {
     }
 
     @Override
-    public void clean() {
-        super.clean();
+    public void onClean() {
+        super.onClean();
 
         mGame.remove(mSprite);
     }

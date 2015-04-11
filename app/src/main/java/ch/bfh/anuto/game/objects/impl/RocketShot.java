@@ -3,11 +3,9 @@ package ch.bfh.anuto.game.objects.impl;
 import android.graphics.Canvas;
 
 import ch.bfh.anuto.R;
-import ch.bfh.anuto.game.GameEngine;
 import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.game.Layers;
 import ch.bfh.anuto.game.Sprite;
-import ch.bfh.anuto.game.TickTimer;
 import ch.bfh.anuto.game.objects.Enemy;
 import ch.bfh.anuto.game.objects.TargetedShot;
 import ch.bfh.anuto.util.math.Vector2;
@@ -34,15 +32,15 @@ public class RocketShot extends TargetedShot {
     }
 
     @Override
-    public void clean() {
-        super.clean();
+    public void onClean() {
+        super.onClean();
 
         mGame.remove(mSprite);
     }
 
     @Override
-    public void init() {
-        super.init();
+    public void onInit() {
+        super.onInit();
 
         mSprite = Sprite.fromResources(this, R.drawable.rocket_shot, 4);
         mSprite.calcMatrix(1f);
@@ -58,11 +56,11 @@ public class RocketShot extends TargetedShot {
     }
 
     @Override
-    public void tick() {
+    public void onTick() {
         mDirection = getDirectionTo(mTarget);
         mAngle = mDirection.angle();
 
-        super.tick();
+        super.onTick();
     }
 
     @Override

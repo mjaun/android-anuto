@@ -23,8 +23,8 @@ public class BasicEnemy extends Enemy {
     }
 
     @Override
-    public void init() {
-        super.init();
+    public void onInit() {
+        super.onInit();
 
         mSprite = Sprite.fromResources(this, R.drawable.basic_enemy, 12);
         mSprite.calcMatrix(0.9f);
@@ -35,15 +35,15 @@ public class BasicEnemy extends Enemy {
     }
 
     @Override
-    public void clean() {
-        super.clean();
+    public void onClean() {
+        super.onClean();
 
         mGame.remove(mSprite);
     }
 
     @Override
-    public void tick() {
-        super.tick();
+    public void onTick() {
+        super.onTick();
 
         if (mSpriteTimer.tick()) {
             mSprite.cycle2();

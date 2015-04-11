@@ -28,20 +28,20 @@ public abstract class AimingTower extends Tower implements GameObject.Listener {
      */
 
     @Override
-    public void init() {
-        super.init();
+    public void onInit() {
+        super.onInit();
         mNextTargetTimer = TickTimer.createInterval(0.1f);
     }
 
     @Override
-    public void clean() {
-        super.clean();
+    public void onClean() {
+        super.onClean();
         setTarget(null);
     }
 
     @Override
-    public void tick() {
-        super.tick();
+    public void onTick() {
+        super.onTick();
 
         if (mNextTargetTimer.tick()) {
             if (mTarget != null && getDistanceTo(mTarget) > mRange) {

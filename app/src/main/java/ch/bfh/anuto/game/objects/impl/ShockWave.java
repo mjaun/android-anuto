@@ -9,14 +9,14 @@ public class ShockWave extends AreaEffect {
     }
 
     @Override
-    public void init() {
-        super.init();
+    public void onInit() {
+        super.onInit();
         // TODO
     }
 
     @Override
-    public void clean() {
-        super.clean();
+    public void onClean() {
+        super.onClean();
         // TODO
     }
 

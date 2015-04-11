@@ -90,13 +90,13 @@ public abstract class GameObject {
     public abstract int getTypeId();
 
 
-    public void init() {
+    public void onInit() {
         for (Listener l : mListeners) {
             l.onObjectAdded(this);
         }
     }
 
-    public void clean() {
+    public void onClean() {
         for (Listener l : mListeners) {
             l.onObjectRemoved(this);
         }
@@ -106,9 +106,10 @@ public abstract class GameObject {
         canvas.translate(mPosition.x, mPosition.y);
     }
 
-    public void tick() {
+    public void onTick() {
 
     }
+
 
     public void remove() {
         mGame.remove(this);

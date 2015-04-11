@@ -31,8 +31,8 @@ public class LaserTower extends AimingTower {
     }
 
     @Override
-    public void init() {
-        super.init();
+    public void onInit() {
+        super.onInit();
 
         mSprite = Sprite.fromResources(this, R.drawable.laser_tower);
         mSprite.calcMatrix(null, 1f, new Vector2(0.5f, 0.5f));
@@ -41,8 +41,8 @@ public class LaserTower extends AimingTower {
     }
 
     @Override
-    public void clean() {
-        super.clean();
+    public void onClean() {
+        super.onClean();
 
         mGame.remove(mSprite);
     }
@@ -55,8 +55,8 @@ public class LaserTower extends AimingTower {
     }
 
     @Override
-    public void tick() {
-        super.tick();
+    public void onTick() {
+        super.onTick();
 
         if (mTarget == null) {
             nextTarget();

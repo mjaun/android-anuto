@@ -107,8 +107,8 @@ public abstract class Enemy extends GameObject {
     }
 
     @Override
-    public void init() {
-        super.init();
+    public void onInit() {
+        super.onInit();
 
         mPath = mGame.getManager().getLevel().getPaths().get(mPathIndex);
 
@@ -117,15 +117,15 @@ public abstract class Enemy extends GameObject {
     }
 
     @Override
-    public void clean() {
-        super.clean();
+    public void onClean() {
+        super.onClean();
         mGame.remove(mHealthBar);
         mGame.getManager().reportEnemyRemoved(this);
     }
 
     @Override
-    public void tick() {
-        super.tick();
+    public void onTick() {
+        super.onTick();
 
         if (!hasWayPoint()) {
             mGame.getManager().takeLives(1);

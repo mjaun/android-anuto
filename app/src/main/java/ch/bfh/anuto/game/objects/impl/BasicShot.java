@@ -32,8 +32,8 @@ public class BasicShot extends TargetedShot {
     }
 
     @Override
-    public void init() {
-        super.init();
+    public void onInit() {
+        super.onInit();
 
         mSprite = Sprite.fromResources(this, R.drawable.basic_shot);
         mSprite.calcMatrix(0.33f);
@@ -42,8 +42,8 @@ public class BasicShot extends TargetedShot {
     }
 
     @Override
-    public void clean() {
-        super.clean();
+    public void onClean() {
+        super.onClean();
 
         mGame.remove(mSprite);
     }
@@ -56,11 +56,11 @@ public class BasicShot extends TargetedShot {
     }
 
     @Override
-    public void tick() {
+    public void onTick() {
         mDirection = getDirectionTo(mTarget);
         mAngle += ROTATION_STEP;
 
-        super.tick();
+        super.onTick();
     }
 
     @Override

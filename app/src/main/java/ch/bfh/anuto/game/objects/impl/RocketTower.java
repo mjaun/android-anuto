@@ -31,8 +31,8 @@ public class RocketTower extends AimingTower {
     }
 
     @Override
-    public void init() {
-        super.init();
+    public void onInit() {
+        super.onInit();
 
         mSprite = Sprite.fromResources(this, R.drawable.rocket_tower);
         mSprite.calcMatrix(null, 1f, new Vector2(0.31f, 0.5f));
@@ -41,8 +41,8 @@ public class RocketTower extends AimingTower {
     }
 
     @Override
-    public void clean() {
-        super.clean();
+    public void onClean() {
+        super.onClean();
 
         mGame.remove(mSprite);
     }
@@ -54,8 +54,8 @@ public class RocketTower extends AimingTower {
         canvas.rotate(mAngle);
     }
     @Override
-    public void tick() {
-        super.tick();
+    public void onTick() {
+        super.onTick();
 
         if (mTarget != null) {
             if (mReloaded) {

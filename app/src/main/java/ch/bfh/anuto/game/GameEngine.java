@@ -41,14 +41,14 @@ public class GameEngine implements Runnable {
         @Override
         public void addDeferred(Integer key, GameObject value) {
             value.setGame(GameEngine.this);
-            value.init();
+            value.onInit();
             super.addDeferred(key, value);
         }
 
         @Override
         protected void onItemRemoved(Integer key, GameObject value) {
             super.onItemRemoved(key, value);
-            value.clean();
+            value.onClean();
             value.setGame(null);
         }
     }
@@ -176,7 +176,7 @@ public class GameEngine implements Runnable {
         mGameObjects.applyChanges();
 
         for (GameObject obj : mGameObjects) {
-            obj.tick();
+            obj.onTick();
         }
 
         onTick();

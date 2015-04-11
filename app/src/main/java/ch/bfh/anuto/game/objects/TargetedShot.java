@@ -16,14 +16,14 @@ public abstract class TargetedShot extends Shot implements GameObject.Listener {
      */
 
     @Override
-    public void clean() {
-        super.clean();
+    public void onClean() {
+        super.onClean();
         setTarget(null);
     }
 
     @Override
-    public void tick() {
-        super.tick();
+    public void onTick() {
+        super.onTick();
 
         if (hasTarget() && getDistanceTo(mTarget) <= mSpeed / GameEngine.TARGET_FPS) {
             onTargetReached();

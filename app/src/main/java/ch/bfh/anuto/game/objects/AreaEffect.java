@@ -28,8 +28,8 @@ public abstract class AreaEffect extends GameObject {
     }
 
     @Override
-    public void tick() {
-        super.tick();
+    public void onTick() {
+        super.onTick();
 
         if (mDelay > 0) {
             mDelay--;
