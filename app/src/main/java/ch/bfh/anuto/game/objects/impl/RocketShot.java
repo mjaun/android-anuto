@@ -1,6 +1,7 @@
 package ch.bfh.anuto.game.objects.impl;
 
 import android.content.res.Resources;
+import android.graphics.Canvas;
 
 import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.GameEngine;
@@ -46,10 +47,14 @@ public class RocketShot extends TargetedShot {
     }
 
     @Override
+    public void beforeDraw(Sprite sprite, Canvas canvas) {
+        canvas.rotate(mAngle);
+    }
+
+    @Override
     public void tick() {
         mDirection = getDirectionTo(mTarget);
-        mAngle += ROTATION_SPEED;
-
+        mAngle = getAngleTo(mTarget);
         super.tick();
     }
 

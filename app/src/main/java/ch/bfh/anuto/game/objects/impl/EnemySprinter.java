@@ -1,6 +1,7 @@
 package ch.bfh.anuto.game.objects.impl;
 
 import android.content.res.Resources;
+import android.graphics.Canvas;
 
 import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.GameEngine;
@@ -31,9 +32,13 @@ public class EnemySprinter extends Enemy {
     }
 
     @Override
+    public void beforeDraw(Sprite sprite, Canvas canvas) {
+        canvas.rotate(mAngle);
+    }
+
+    @Override
     public void clean() {
         super.clean();
-
         mGame.removeDrawObject(mSprite);
     }
 
@@ -41,5 +46,6 @@ public class EnemySprinter extends Enemy {
     public void tick() {
         super.tick();
         mSprite.cycle2(ANIMATION_SPEED);
+        mAngle = getDirectionTo(getWayPoint()).angle();
     }
 }

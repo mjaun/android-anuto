@@ -11,7 +11,7 @@ public class EnemyBlob extends Enemy {
 
     private final static int HEALTH = 10000;
     private final static float MOVEMENT_SPEED = 1f / GameEngine.TARGET_FPS;
-    private final static float ANIMATION_SPEED = 1.5f / GameEngine.TARGET_FPS;
+    private final static float ANIMATION_SPEED = 1f / GameEngine.TARGET_FPS;
 
     private Sprite mSprite;
 
