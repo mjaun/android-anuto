@@ -7,8 +7,8 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
+            <option value="/media/Data1/6_Dokumente/0_Programmieren/6_Android/android-anuto" />
+            <option value="/media/Data1/6_Dokumente/0_Programmieren/6_Android/android-anuto/app" />
           </set>
         </option>
       </GradleProjectSettings>
