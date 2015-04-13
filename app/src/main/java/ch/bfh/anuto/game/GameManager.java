@@ -173,7 +173,7 @@ public class GameManager implements GameEngine.Listener {
             return;
         }
 
-        if (mGame.getGameObjects(Enemy.TYPE_ID).isEmpty()) {
+        if (mGame.getGameObjects(Enemy.TYPE_ID).isEmpty() && mWave.getEnemies().isEmpty()) {
             onWaveDone();
             giveCredits(mWave.getReward());
             mWave = null;
