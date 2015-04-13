@@ -15,8 +15,8 @@ import ch.bfh.anuto.util.math.Vector2;
 
 public class ExplosionEffect extends AreaEffect {
 
-    private final static float EXPLOSION_RADIUS = 2.0f;
-    private final static float DAMAGE = 100f;
+    private final static float EXPLOSION_RADIUS = 1.0f;
+    private final static float DAMAGE = 400f;
 
     private final static float EXPLOSION_VISIBLE_TIME = 0.2f;
 

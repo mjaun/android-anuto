@@ -16,7 +16,7 @@ import ch.bfh.anuto.util.math.Vector2;
 public class LaserEffect extends AreaEffect {
 
     private final static float LASER_WIDTH = 1.0f;
-    private final static float DAMAGE = 100f;
+    private final static float DAMAGE = 300f;
 
     private final static float LASER_DRAW_WIDTH = 0.1f;
     private final static float LASER_VISIBLE_TIME = 0.5f;

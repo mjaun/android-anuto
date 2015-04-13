@@ -9,13 +9,15 @@ import ch.bfh.anuto.game.objects.Enemy;
 
 public class SprinterEnemy extends Enemy {
 
+    private final static int REWARD = 5;
     private final static int HEALTH = 500;
-    private final static float MOVEMENT_SPEED = 2.5f;
+    private final static float MOVEMENT_SPEED = 3.0f;
 
     private float mAngle;
     private Sprite mSprite;
 
     public SprinterEnemy() {
+        mReward = REWARD;
         mHealth = mHealthMax = HEALTH;
         mSpeed = MOVEMENT_SPEED;
     }

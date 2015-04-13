@@ -13,8 +13,8 @@ import ch.bfh.anuto.util.math.Vector2;
 
 public class BasicShot extends TargetedShot {
 
-    private final static float DAMAGE = 10f;
-    private final static float MOVEMENT_SPEED = 3f;
+    private final static float DAMAGE = 60f;
+    private final static float MOVEMENT_SPEED = 4.0f;
     private final static float ROTATION_STEP = 360f / GameEngine.TARGET_FPS;
 
     private Sprite mSprite;

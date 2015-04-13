@@ -19,8 +19,8 @@ public class Wave {
     @ElementList(name="enemies")
     private ArrayList<Enemy> mEnemies;
 
-    @Element(name="reward")
-    private int mReward;
+    @Element(name="reward", required=false)
+    private int mReward = 0;
 
     @Element(name="healthMultiplier", required=false)
     private float mHealthMultiplier = 1f;

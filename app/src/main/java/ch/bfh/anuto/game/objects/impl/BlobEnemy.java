@@ -8,14 +8,16 @@ import ch.bfh.anuto.game.objects.Enemy;
 
 public class BlobEnemy extends Enemy {
 
-    private final static int HEALTH = 3000;
+    private final static int REWARD = 20;
+    private final static int HEALTH = 2000;
     private final static float MOVEMENT_SPEED = 1f;
-    private final static float ANIMATION_SPEED = 1f;
+    private final static float ANIMATION_SPEED = 1.5f;
 
     private Sprite mSprite;
     private TickTimer mSpriteTimer;
 
     public BlobEnemy() {
+        mReward = REWARD;
         mHealth = mHealthMax = HEALTH;
         mSpeed = MOVEMENT_SPEED;
     }

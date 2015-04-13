@@ -2,8 +2,8 @@
     <settings>
         <height>15</height>
         <width>10</width>
-        <credits>1000</credits>
-        <lives>20</lives>
+        <credits>500</credits>
+        <lives>5</lives>
     </settings>
     <plateaus>
         <plateau class="ch.bfh.anuto.game.objects.impl.BasicPlateau" x="0" y="14"/>
@@ -139,8 +139,9 @@
         </path>
     </paths>
     <waves>
+        <!-- Wave 1 -->
         <wave>
-            <reward>200</reward>
+            <reward>100</reward>
             <enemies>
                 <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy"/>
                 <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
@@ -148,6 +149,337 @@
                 <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
                 <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
                 <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+            </enemies>
+        </wave>
+        <!-- Wave 2 -->
+        <wave>
+            <reward>100</reward>
+            <enemies>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="3.0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+            </enemies>
+        </wave>
+        <!-- Wave 3 -->
+        <wave>
+            <reward>200</reward>
+            <enemies>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="1.0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="1.0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="1.0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="6.0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+            </enemies>
+        </wave>
+        <!-- Wave 4 -->
+        <wave>
+            <reward>100</reward>
+            <enemies>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="1.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="1.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="1.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="1.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="1.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="1.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="2.0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="5.0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+            </enemies>
+        </wave>
+        <!-- Wave 5 -->
+        <wave>
+            <healthMultiplier>1.2</healthMultiplier>
+            <enemies>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="2.0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="2.0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="2.0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="2.0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="8.0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+            </enemies>
+        </wave>
+        <!-- Wave 6 -->
+        <wave>
+            <reward>100</reward>
+            <healthMultiplier>1.2</healthMultiplier>
+            <enemies>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="2.0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="2.0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="2.0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="2.0"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+            </enemies>
+        </wave>
+        <!-- Wave 7 -->
+        <wave>
+            <rewardMultiplier>3.0</rewardMultiplier>
+            <healthMultiplier>3.0</healthMultiplier>
+            <reward>500</reward>
+            <enemies>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+            </enemies>
+        </wave>
+        <!-- Wave 8 -->
+        <wave>
+            <rewardMultiplier>1.5</rewardMultiplier>
+            <healthMultiplier>1.5</healthMultiplier>
+            <enemies>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="3.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="5.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="5.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="5.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="5.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="5.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="5.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+            </enemies>
+        </wave>
+        <!-- Wave 9 -->
+        <wave>
+            <rewardMultiplier>1.5</rewardMultiplier>
+            <healthMultiplier>2.0</healthMultiplier>
+            <reward>1000</reward>
+            <enemies>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="3.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="5.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="5.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="5.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="5.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="5.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="5.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+            </enemies>
+        </wave>
+        <!-- Wave 10 -->
+        <wave>
+            <healthMultiplier>3.0</healthMultiplier>
+            <enemies>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="3.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="5.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="5.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy" delay="0.5"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
+                <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
             </enemies>
         </wave>
     </waves>

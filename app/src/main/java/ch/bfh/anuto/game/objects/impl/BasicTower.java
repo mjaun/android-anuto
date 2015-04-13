@@ -12,8 +12,8 @@ import ch.bfh.anuto.util.math.Vector2;
 public class BasicTower extends AimingTower {
 
     private final static int VALUE = 100;
-    private final static float RELOAD_TIME = 0.2f;
-    private final static float RANGE = 5f;
+    private final static float RELOAD_TIME = 0.3f;
+    private final static float RANGE = 3.5f;
     private final static float SHOT_SPAWN_OFFSET = 0.9f;
 
     private float mAngle;

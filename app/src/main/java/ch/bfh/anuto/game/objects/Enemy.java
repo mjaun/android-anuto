@@ -193,6 +193,10 @@ public abstract class Enemy extends GameObject {
 
     public void setHealth(float health) {
         mHealth = health;
+
+        if (mHealth > mHealthMax) {
+            mHealthMax = mHealth;
+        }
     }
 
     public void damage(float dmg) {

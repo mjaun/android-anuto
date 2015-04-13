@@ -11,9 +11,9 @@ import ch.bfh.anuto.util.math.Vector2;
 
 public class RocketTower extends AimingTower {
 
-    private final static int VALUE = 200;
-    private final static float RELOAD_TIME = 2f;
-    private final static float RANGE = 5f;
+    private final static int VALUE = 300;
+    private final static float RELOAD_TIME = 3f;
+    private final static float RANGE = 2.5f;
     private final static float SHOT_SPAWN_OFFSET = 0.9f;
 
     private Sprite mSprite;

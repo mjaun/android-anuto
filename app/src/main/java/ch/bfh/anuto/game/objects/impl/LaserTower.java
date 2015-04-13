@@ -10,9 +10,9 @@ import ch.bfh.anuto.util.math.Vector2;
 
 public class LaserTower extends AimingTower {
 
-    private final static int VALUE = 150;
+    private final static int VALUE = 700;
     private final static float RELOAD_TIME = 2.0f;
-    private final static float RANGE = 5f;
+    private final static float RANGE = 6.5f;
     private final static float LASER_LENGTH = 1000f;
     private final static float LASER_SPAWN_OFFSET = 0.8f;
 

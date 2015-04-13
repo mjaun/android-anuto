@@ -13,8 +13,7 @@ import ch.bfh.anuto.util.math.Vector2;
 
 public class RocketShot extends TargetedShot {
 
-    private final static float DAMAGE = 200f;
-    private final static float MOVEMENT_SPEED = 3f;
+    private final static float MOVEMENT_SPEED = 2.5f;
     private final static float ANIMATION_SPEED = 3f;
 
     private Sprite mSprite;
