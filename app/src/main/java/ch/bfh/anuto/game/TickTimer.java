@@ -14,6 +14,12 @@ public class TickTimer {
         return ret;
     }
 
+    public static TickTimer createInterval2(float interval, Sprite sprite) {
+        TickTimer ret = new TickTimer();
+        ret.setInterval2(interval, sprite);
+        return ret;
+    }
+
     public static TickTimer createFrequency(float frequency) {
         TickTimer ret = new TickTimer();
         ret.setFrequency(frequency);
@@ -23,6 +29,12 @@ public class TickTimer {
     public static TickTimer createFrequency(float frequency, Sprite sprite) {
         TickTimer ret = new TickTimer();
         ret.setFrequency(frequency, sprite);
+        return ret;
+    }
+
+    public static TickTimer createFrequency2(float frequency, Sprite sprite) {
+        TickTimer ret = new TickTimer();
+        ret.setFrequency2(frequency, sprite);
         return ret;
     }
 
@@ -41,10 +53,18 @@ public class TickTimer {
     }
 
     public void setInterval(float interval, Sprite sprite) {
-        setInterval(interval / (sprite.getCount() * 2 - 1));
+        setInterval(interval / sprite.getCount());
     }
 
     public void setFrequency(float frequency, Sprite sprite) {
+        setFrequency(frequency * sprite.getCount());
+    }
+
+    public void setInterval2(float interval, Sprite sprite) {
+        setInterval(interval / (sprite.getCount() * 2 - 1));
+    }
+
+    public void setFrequency2(float frequency, Sprite sprite) {
         setFrequency(frequency * (sprite.getCount() * 2 - 1));
     }
 

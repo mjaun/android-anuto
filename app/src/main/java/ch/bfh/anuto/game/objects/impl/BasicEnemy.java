@@ -31,7 +31,7 @@ public class BasicEnemy extends Enemy {
         mSprite.setLayer(Layers.ENEMY);
         mGame.add(mSprite);
 
-        mSpriteTimer = TickTimer.createFrequency(ANIMATION_SPEED, mSprite);
+        mSpriteTimer = TickTimer.createFrequency2(ANIMATION_SPEED, mSprite);
     }
 
     @Override
