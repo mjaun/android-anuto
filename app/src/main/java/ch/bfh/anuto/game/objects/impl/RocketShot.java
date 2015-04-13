@@ -77,7 +77,7 @@ public class RocketShot extends TargetedShot {
 
     @Override
     protected void onTargetReached() {
-        mTarget.damage(DAMAGE);
+        mGame.add(new ExplosionEffect(mTarget.getPosition()));
         mGame.remove(this);
     }
 }
