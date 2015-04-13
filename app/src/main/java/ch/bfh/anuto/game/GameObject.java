@@ -196,22 +196,22 @@ public abstract class GameObject {
     ------ XML Serialization ------
      */
 
-    @Attribute(name="x")
+    @Attribute(name="x", required=false)
     private float getPositionX() {
         return mPosition.x;
     }
 
-    @Attribute(name="x")
+    @Attribute(name="x", required=false)
     private void setPositionX(float x) {
         mPosition.x = x;
     }
 
-    @Attribute(name="y")
+    @Attribute(name="y", required=false)
     private float getPositionY() {
         return mPosition.y;
     }
 
-    @Attribute(name="y")
+    @Attribute(name="y", required=false)
     private void setPositionY(float y) {
         mPosition.y = y;
     }

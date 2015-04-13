@@ -10,7 +10,7 @@ import ch.bfh.anuto.game.objects.Enemy;
 import ch.bfh.anuto.game.objects.Plateau;
 import ch.bfh.anuto.game.objects.Tower;
 
-public class GameManager {
+public class GameManager implements GameEngine.Listener {
 
     /*
     ------ Listener Interface ------
@@ -63,6 +63,7 @@ public class GameManager {
 
     public GameManager(GameEngine game) {
         mGame = game;
+        mGame.addListener(this);
     }
 
     /*
@@ -116,9 +117,6 @@ public class GameManager {
         }
 
         mWave = mLevel.getWaves().get(mNextWaveIndex);
-        for (Enemy e : mWave.getEnemies()) {
-            mGame.add(e);
-        }
 
         mNextWaveIndex++;
         onNextWave();
@@ -175,9 +173,7 @@ public class GameManager {
             return;
         }
 
-        mWave.getEnemies().remove(enemy);
-
-        if (mWave.getEnemies().isEmpty()) {
+        if (mGame.getGameObjects(Enemy.TYPE_ID).isEmpty()) {
             onWaveDone();
             giveCredits(mWave.getReward());
             mWave = null;
@@ -206,6 +202,22 @@ public class GameManager {
 
         if (mSelectedTower != null) {
             mSelectedTower.showRange();
+        }
+    }
+
+    /*
+    ------ GameEngine.Listener Interface ------
+     */
+
+    @Override
+    public void onTick() {
+        if (mWave == null) {
+            return;
+        }
+
+        List<Enemy> enemies = mWave.getEnemies();
+        while (!enemies.isEmpty() && enemies.get(0).tickAddDelay()) {
+            mGame.add(enemies.remove(0));
         }
     }
 

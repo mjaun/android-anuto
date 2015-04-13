@@ -83,8 +83,11 @@ public abstract class Enemy extends GameObject {
     ------ Members -----
      */
 
-    @Attribute(name="path")
-    private int mPathIndex;
+    @Attribute(name="path", required=false)
+    private int mPathIndex = 0;
+
+    @Attribute(name="delay", required=false)
+    private float mAddDelay = 0;
 
     protected Path mPath = null;
     protected int mWayPointIndex = 0;
@@ -111,6 +114,8 @@ public abstract class Enemy extends GameObject {
         super.onInit();
 
         mPath = mGame.getManager().getLevel().getPaths().get(mPathIndex);
+        mPosition.set(mPath.getWayPoints().get(0));
+        mWayPointIndex = 1;
 
         mHealthBar = new HealthBar();
         mGame.add(mHealthBar);
@@ -201,5 +206,15 @@ public abstract class Enemy extends GameObject {
 
     public void heal(float val) {
         mHealth += val;
+    }
+
+
+    public boolean tickAddDelay() {
+        if (mAddDelay <= 0) {
+            return true;
+        }
+
+        mAddDelay -= 1f / GameEngine.TARGET_FPS;
+        return false;
     }
 }

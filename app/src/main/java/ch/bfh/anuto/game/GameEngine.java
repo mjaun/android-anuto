@@ -69,7 +69,7 @@ public class GameEngine implements Runnable {
     private long mTickCount = 0;
     private long mRenderCount = 0;
 
-    private final GameManager mManager = new GameManager(this);
+    private final GameManager mManager;
 
     private final GameObjectMap mGameObjects = new GameObjectMap();
     private final DrawObjectMap mDrawObjects = new DrawObjectMap();
@@ -89,6 +89,8 @@ public class GameEngine implements Runnable {
 
     public GameEngine(Resources res) {
         mResources = res;
+        mManager = new GameManager(this);
+
         calcScreenMatrix();
     }
 
@@ -102,6 +104,10 @@ public class GameEngine implements Runnable {
 
     public Resources getResources() {
         return mResources;
+    }
+
+    public long getTickCount() {
+        return mTickCount;
     }
 
 

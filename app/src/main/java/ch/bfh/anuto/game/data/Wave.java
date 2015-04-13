@@ -3,6 +3,7 @@ package ch.bfh.anuto.game.data;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.core.Commit;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +21,12 @@ public class Wave {
 
     @Element(name="reward")
     private int mReward;
+
+    @Element(name="healthMultiplier", required=false)
+    private float mHealthMultiplier = 1f;
+
+    @Element(name="rewardMultiplier", required=false)
+    private float mRewardMultiplier = 1f;
 
     /*
     ------ Constructors ------
@@ -49,17 +56,22 @@ public class Wave {
         mReward = reward;
     }
 
-    @Element(name="healthMultiplier", required=false)
+
     public void multiplyHealth(float factor) {
         for (Enemy e : mEnemies) {
             e.setHealth(e.getHealth() * factor);
         }
     }
 
-    @Element(name="rewardMultiplier", required=false)
     public void multiplyReward(float factor) {
         for (Enemy e : mEnemies) {
             e.setReward(Math.round(e.getReward() * factor));
         }
+    }
+
+    @Commit
+    private void onCommit() {
+        multiplyHealth(mHealthMultiplier);
+        multiplyReward(mRewardMultiplier);
     }
 }

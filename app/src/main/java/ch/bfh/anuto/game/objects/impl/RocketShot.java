@@ -50,7 +50,7 @@ public class RocketShot extends TargetedShot {
         mSprite.setLayer(Layers.SHOT);
         mGame.add(mSprite);
 
-        mSpriteTimer = TickTimer.createFrequency2(ANIMATION_SPEED, mSprite);
+        mSpriteTimer = TickTimer.createFrequency(ANIMATION_SPEED * (mSprite.getCount() * 2 - 1));
     }
 
     @Override
