@@ -44,6 +44,12 @@ public abstract class StreamIterator<T> implements Iterator<T> {
         return cnt;
     }
 
+    public boolean isEmpty() {
+        boolean empty = !this.hasNext();
+        this.close();
+        return empty;
+    }
+
 
     public T min(Function<? super T, Float> scoreFunction) {
         T minObject = null;
