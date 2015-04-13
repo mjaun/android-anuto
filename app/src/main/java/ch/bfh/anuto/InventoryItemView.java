@@ -37,10 +37,12 @@ public class InventoryItemView extends View implements View.OnTouchListener {
 
         mDrawable.setBounds(0, 0, mDrawable.getIntrinsicWidth() - 1, mDrawable.getIntrinsicHeight() - 1);
 
+        float density = context.getResources().getDisplayMetrics().density;
+
         mPaintText = new Paint();
         mPaintText.setColor(Color.BLACK);
         mPaintText.setTextAlign(Paint.Align.CENTER);
-        mPaintText.setTextSize(70);
+        mPaintText.setTextSize(25f * density);
 
         setOnTouchListener(this);
     }
