@@ -1,5 +1,6 @@
 package ch.bfh.anuto.game.data;
 
+import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 
@@ -46,5 +47,19 @@ public class Wave {
 
     public void setReward(int reward) {
         mReward = reward;
+    }
+
+    @Element(name="healthMultiplier", required=false)
+    public void multiplyHealth(float factor) {
+        for (Enemy e : mEnemies) {
+            e.setHealth(e.getHealth() * factor);
+        }
+    }
+
+    @Element(name="rewardMultiplier", required=false)
+    public void multiplyReward(float factor) {
+        for (Enemy e : mEnemies) {
+            e.setReward(Math.round(e.getReward() * factor));
+        }
     }
 }

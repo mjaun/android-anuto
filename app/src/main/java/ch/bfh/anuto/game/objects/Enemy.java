@@ -173,6 +173,23 @@ public abstract class Enemy extends GameObject {
     }
 
 
+    public int getReward() {
+        return mReward;
+    }
+
+    public void setReward(int reward) {
+        mReward = reward;
+    }
+
+
+    public float getHealth() {
+        return mHealth;
+    }
+
+    public void setHealth(float health) {
+        mHealth = health;
+    }
+
     public void damage(float dmg) {
         mHealth -= dmg;
 
