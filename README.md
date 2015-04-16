@@ -3,7 +3,7 @@ A project for the embedded android module at bern university of applied sciences
 
 ##Description
 ANUTO is yet another tower defense game for android. However it features astonishing hand-drawn graphics and a smooth gameplay.
-Originally it was built to run on a beaglebone black based embedded system
+Originally it was built to run on a beaglebone black based embedded system.
 
 ![alt text](https://raw.githubusercontent.com/oojeiph/android-anuto/master/images/screen1.png "Overview")
 
@@ -84,7 +84,7 @@ Currently there is only one map included in the game. But maps are based on xml 
 ##How to Install
 The whole repository consists of an android studio project and the game is still under heavy development. So the easiest way to install the game at this point would probably be to import the project into android studio and load it to your phone/beaglebone.
 
-However you can also clone the repository and issue 'adb install /[path to repo]/app/build/outputs/apk/app-debug.apk' to install the game. 
+However you can also clone the repository and issue **adb install ./app/build/outputs/apk/app-debug.apk** from within the repository folder to install the game. 
 
 ###Installation for the beaglebone
 To get the latest version of the game including the colorsensor support, make sure to clone the ColorsensorDev-branch.
