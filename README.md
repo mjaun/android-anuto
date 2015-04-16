@@ -55,6 +55,7 @@ The sprinter is the fastest enemy. It is said that this enemy even outruns rocke
 |:--------:|:--------:|
 | Value    | 100      |
 | Reload   | fast     |
+| Range    | normal   |
 
 The basic cannon is fast at aim fires quickly, but doesn't deal a lot of damage at all. However the cannonballs will follow their targets, which is pretty cool for a cannon isn't it?
 
@@ -65,6 +66,7 @@ The basic cannon is fast at aim fires quickly, but doesn't deal a lot of damage 
 |:--------:|:--------:|
 | Value    | 300      |
 | Reload   | slow     |
+| Reload   | large    |
 
 The rocket launcher will fire rockets which explode on impact. A rocket will deal a fairly large amount of area damage to a group of nearby enemies.
 
@@ -75,6 +77,7 @@ The rocket launcher will fire rockets which explode on impact. A rocket will dea
 |:--------:|:--------:|
 | Value    | 700      |
 | Reload   | middle   |
+| Range    | insane   |
 
 The laser basically mows through everything in front and behind his target. It is recommended to use this ability on straight tracks.
 
@@ -89,7 +92,6 @@ However you can also clone the repository and issue **adb install ./app/build/ou
 ###Installation for the beaglebone
 To get the latest version of the game including the colorsensor support, make sure to clone the ColorsensorDev-branch.
 
-##Imoprtant
 ###Colorsensor support
 There is support for a i2c based color sensor which will change some game colors for you. But its only available on the ColorsensorDev branch and you'll need a bfh beaglebone black kit in order to use it.
 
