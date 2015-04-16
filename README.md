@@ -37,7 +37,7 @@ The basic enemy is not that strong but commonly emerges in great quantity.
 The wobbly enemy is very slow but has a huge amout of healthpoints compared to the basic enemy. Also it will attack in small groups.
 
 ####The sprinter
-![alt text](https://raw.githubusercontent.com/oojeiph/android-anuto/images/sprinter_enemy.png "sprinter enemy")
+![alt text](https://raw.githubusercontent.com/oojeiph/android-anuto/master/images/sprinter_enemy.png "sprinter enemy")
 
 | Property | Quantity |
 |:--------:|:--------:|
