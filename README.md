@@ -5,7 +5,7 @@ A project for the embedded android module at bern university of applied sciences
 ANUTO is yet another tower defense game for android. However it features astonishing hand-drawn graphics and a smooth gameplay.
 Originally it was built to run on a beaglebone black based embedded system
 
-![alt text](https://github.com/oojeiph/android-anuto/tree/master/images/screen1.png "Overview")
+![alt text](https://raw.githubusercontent.com/oojeiph/android-anuto/tree/master/images/screen1.png "Overview")
 
 ##The Game
 The game principle is simple. Just like in each other TD your job is to prevent the enemies from getting to the map exit.
@@ -15,7 +15,7 @@ Of course there is a moneysystem which prevents you from filling up the map with
 
 ###Enemies
 ####The basic enemy
-![alt text](https://github.com/oojeiph/android-anuto/tree/master/images/basic_enemy.png "basic enemy")
+![alt text](https://raw.githubusercontent.com/oojeiph/android-anuto/tree/master/images/basic_enemy.png "basic enemy")
 
 | Property | Quantity |
 |:--------:|:--------:|
@@ -26,7 +26,7 @@ Of course there is a moneysystem which prevents you from filling up the map with
 The basic enemy is not that strong but commonly emerges in great quantity.
 
 ####The wobbly enemy
-![alt text](https://github.com/oojeiph/android-anuto/tree/master/images/blob_enemy.png "blob enemy")
+![alt text](https://raw.githubusercontent.com/oojeiph/android-anuto/tree/master/images/blob_enemy.png "blob enemy")
 
 | Property | Quantity |
 |:--------:|:--------:|
@@ -37,7 +37,7 @@ The basic enemy is not that strong but commonly emerges in great quantity.
 The wobbly enemy is very slow but has a huge amout of healthpoints compared to the basic enemy. Also it will attack in small groups.
 
 ####The sprinter
-![alt text](https://github.com/oojeiph/android-anuto/tree/master/images/sprinter_enemy.png "sprinter enemy")
+![alt text](https://raw.githubusercontent.com/oojeiph/android-anuto/tree/master/images/sprinter_enemy.png "sprinter enemy")
 
 | Property | Quantity |
 |:--------:|:--------:|
@@ -49,7 +49,7 @@ The sprinter is the fastest enemy. It is said that this enemy even outruns rocke
 
 ###Towers
 ####The cannon
-![alt text](https://github.com/oojeiph/android-anuto/tree/master/images/basic_tower.png "cannon")
+![alt text](https://raw.githubusercontent.com/oojeiph/android-anuto/tree/master/images/basic_tower.png "cannon")
 
 | Property | Quantity |
 |:--------:|:--------:|
@@ -59,7 +59,7 @@ The sprinter is the fastest enemy. It is said that this enemy even outruns rocke
 The basic cannon is fast at aim fires quickly, but doesn't deal a lot of damage at all. However the cannonballs will follow their targets, which is pretty cool for a cannon isn't it?
 
 ####The rocket launcher
-![alt text](https://github.com/oojeiph/android-anuto/tree/master/images/rocket_tower.png "rocket launcher")
+![alt text](https://raw.githubusercontent.com/oojeiph/android-anuto/tree/master/images/rocket_tower.png "rocket launcher")
 
 | Property | Quantity |
 |:--------:|:--------:|
@@ -69,7 +69,7 @@ The basic cannon is fast at aim fires quickly, but doesn't deal a lot of damage 
 The rocket launcher will fire rockets which explode on impact. A rocket will deal a fairly large amount of area damage to a group of nearby enemies.
 
 ####The laser
-![alt text](https://github.com/oojeiph/android-anuto/tree/master/images/laser_tower.png "laser tower")
+![alt text](https://raw.githubusercontent.com/oojeiph/android-anuto/tree/master/images/laser_tower.png "laser tower")
 
 | Property | Quantity |
 |:--------:|:--------:|
