@@ -1,20 +1,27 @@
 #ANUTO Another Ugly Tower Defense
-A project for the embedded android module at bern university of applied sciences.
+A project for the embedded android module at Bern university of applied sciences.
 
 ##Description
-ANUTO is yet another tower defense game for android. However it features astonishing hand-drawn graphics and a smooth gameplay.
-Originally it was built to run on a beaglebone black based embedded system.
+ANUTO is yet another tower defense game for android. However it features astonishing hand-drawn graphics and a smooth gameplay. Originally it was built to run on a beaglebone black based embedded system (BFH cape).
 
 ![alt text](https://raw.githubusercontent.com/oojeiph/android-anuto/master/images/screen1.png "Overview")
 
 ##The Game
-The game principle is simple. Just like in each other TD your job is to prevent the enemies from getting to the map exit.
-To do so we provided you a small set of neat towers with different properties. However there are also different types of enemies.
-During the gameplay the enemies will emerge in waves. Each wave consists of different groups of enemies. So try to prepare your defense lines accordingly. 
-Of course there is a moneysystem which prevents you from filling up the map with towers. You'll also get money from each fallen enemy.
+The game principle is simple. Just like in each other TD your job is to prevent the enemies from getting to the map exit. To do so we provided you a small set of neat towers with different properties. However there are also different types of enemies. During the gameplay the enemies will emerge in waves. Each wave consists of different groups of enemies. So try to prepare your defense lines accordingly.
+
+You have a certain amount lives and you lose one life for each enemy who sneaks through your defense. If the counter goes below zero the game is over. Of course there is a credit system which prevents you from filling up the map with towers. You'll also get credits from finished waves and fallen enemies.
+
+##How to play
+Your inventory resides at the bottom of the screen. Each tower is marked with a price tag. If the tag is red you don't have enough credits to buy this tower. To place the tower simply drag it onto the map and drop it on a free location. A green circle indicates the range of the tower. If you change your mind while placing the tower simply drop the tower in the inventory.
+
+There is a status bar at the top of the screen indicating the amount of credits available, the number of lives left and the number of the current wave.
+
+Press the button to the right of your inventory to call in the next wave. Currently you have to wait until the current wave is finished in order to call the next one. Once the game is finished you can restart it using the button which appears in the center of the screen. An option to restart the game at any time will be implemented soon.
+
+Good luck and have fun!
 
 ###Enemies
-####The basic enemy
+####The Basic Enemy
 ![alt text](https://raw.githubusercontent.com/oojeiph/android-anuto/master/images/basic_enemy.png "basic enemy")
 
 | Property | Quantity |
@@ -25,7 +32,7 @@ Of course there is a moneysystem which prevents you from filling up the map with
 
 The basic enemy is not that strong but commonly emerges in great quantity.
 
-####The wobbly enemy
+####The Wobbly Enemy
 ![alt text](https://raw.githubusercontent.com/oojeiph/android-anuto/master/images/blob_enemy.png "blob enemy")
 
 | Property | Quantity |
@@ -36,7 +43,7 @@ The basic enemy is not that strong but commonly emerges in great quantity.
 
 The wobbly enemy is very slow but has a huge amout of healthpoints compared to the basic enemy. Also it will attack in small groups.
 
-####The sprinter
+####The Sprinter
 ![alt text](https://raw.githubusercontent.com/oojeiph/android-anuto/master/images/sprinter_enemy.png "sprinter enemy")
 
 | Property | Quantity |
@@ -45,32 +52,32 @@ The wobbly enemy is very slow but has a huge amout of healthpoints compared to t
 | Speed    | 3        |
 | Reward   | 5        |
 
-The sprinter is the fastest enemy. It is said that this enemy even outruns rocketswith ease. Luckily his healthpoints are very low.
+The sprinter is the fastest enemy. It is said that this enemy even outruns rockets with ease. Luckily his healthpoints are very low.
 
 ###Towers
-####The cannon
+####The Cannon
 ![alt text](https://raw.githubusercontent.com/oojeiph/android-anuto/master/images/basic_tower.png "cannon")
 
 | Property | Quantity |
 |:--------:|:--------:|
 | Value    | 100      |
 | Reload   | fast     |
-| Range    | normal   |
+| Range    | large    |
 
 The basic cannon is fast at aim fires quickly, but doesn't deal a lot of damage at all. However the cannonballs will follow their targets, which is pretty cool for a cannon isn't it?
 
-####The rocket launcher
+####The Rocket Launcher
 ![alt text](https://raw.githubusercontent.com/oojeiph/android-anuto/master/images/rocket_tower.png "rocket launcher")
 
 | Property | Quantity |
 |:--------:|:--------:|
 | Value    | 300      |
 | Reload   | slow     |
-| Reload   | large    |
+| Range    | normal   |
 
 The rocket launcher will fire rockets which explode on impact. A rocket will deal a fairly large amount of area damage to a group of nearby enemies.
 
-####The laser
+####The Laser Tower
 ![alt text](https://raw.githubusercontent.com/oojeiph/android-anuto/master/images/laser_tower.png "laser tower")
 
 | Property | Quantity |
@@ -82,18 +89,17 @@ The rocket launcher will fire rockets which explode on impact. A rocket will dea
 The laser basically mows through everything in front and behind his target. It is recommended to use this ability on straight tracks.
 
 ###Maps
-Currently there is only one map included in the game. But maps are based on xml and should be very easy to build.
+Currently there is only one map included in the game. Since maps are based on XML files it should be straight forward to create new ones, so feel free to do so.
+
+###Color Sensor Support
+There is support for a i2c based color sensor which will make your "next wave" button a little bit fancier. It's only available on the ColorsensorDev branch and you'll need a beaglebone black kit with BFH cape in order to use it.
+
+Note that this branch will not receive any further updates since we would like to make the game available for anyone who has an Android mobile phone.
 
 ##How to Install
-The whole repository consists of an android studio project and the game is still under heavy development. So the easiest way to install the game at this point would probably be to import the project into android studio and load it to your phone/beaglebone.
+The whole repository consists of an Android Studio project and the game is still under heavy development. So the easiest way to install the game at this point would probably be to import the project into Android Studio and load it to your phone/beaglebone. If you got a beaglebone with BFH cape make sure you choose the ColorsensorDev branch in order to use the color sensor.
 
-However you can also clone the repository and issue **adb install ./app/build/outputs/apk/app-debug.apk** from within the repository folder to install the game. 
-
-###Installation for the beaglebone
-To get the latest version of the game including the colorsensor support, make sure to clone the ColorsensorDev-branch.
-
-###Colorsensor support
-There is support for a i2c based color sensor which will change some game colors for you. But its only available on the ColorsensorDev branch and you'll need a bfh beaglebone black kit in order to use it.
+If you received a signed APK file simply issue **adb install <path to apk>** to install the game.
 
 ##Contributors
 - oojeiph   https://github.com/oojeiph
