@@ -99,7 +99,7 @@ Note that this branch will not receive any further updates since we would like t
 ##How to Install
 The whole repository consists of an Android Studio project and the game is still under heavy development. So the easiest way to install the game at this point would probably be to import the project into Android Studio and load it to your phone/beaglebone. If you got a beaglebone with BFH cape make sure you choose the ColorsensorDev branch in order to use the color sensor.
 
-If you received a signed APK file simply issue **adb install <path to apk>** to install the game.
+If you received a signed APK file simply issue **adb install [path to apk file]** to install the game.
 
 ##Contributors
 - oojeiph   https://github.com/oojeiph
