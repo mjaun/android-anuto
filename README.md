@@ -64,7 +64,7 @@ The sprinter is the fastest enemy. It is said that this enemy even outruns rocke
 | Reload   | fast     |
 | Range    | large    |
 
-The basic cannon is fast at aim fires quickly, but doesn't deal a lot of damage at all. However the cannonballs will follow their targets, which is pretty cool for a cannon isn't it?
+The basic cannon is fast at aim and fires quickly, but doesn't deal a lot of damage at all. However the shots will follow their targets, which is pretty cool for a cannon isn't it?
 
 ####The Rocket Launcher
 ![alt text](https://raw.githubusercontent.com/oojeiph/android-anuto/master/images/rocket_tower.png "rocket launcher")
@@ -92,7 +92,7 @@ The laser basically mows through everything in front and behind his target. It i
 Currently there is only one map included in the game. Since maps are based on XML files it should be straight forward to create new ones, so feel free to do so.
 
 ###Color Sensor Support
-There is support for a i2c based color sensor which will make your "next wave" button a little bit fancier. It's only available on the ColorsensorDev branch and you'll need a beaglebone black kit with BFH cape in order to use it.
+There is support for a I2C based color sensor which will make your "next wave" button a little bit fancier. It's only available on the ColorsensorDev branch and you'll need a beaglebone black kit with BFH cape in order to use it.
 
 Note that this branch will not receive any further updates since we would like to make the game available for anyone who has an Android mobile phone.
 
