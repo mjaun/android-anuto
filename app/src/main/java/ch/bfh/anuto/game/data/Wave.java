@@ -59,7 +59,8 @@ public class Wave {
 
     public void multiplyHealth(float factor) {
         for (Enemy e : mEnemies) {
-            e.setHealth(e.getHealth() * factor);
+            e.setHealthMax(e.getHealthMax() * factor);
+            e.setHealth(e.getHealthMax());
         }
     }
 

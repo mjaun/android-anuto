@@ -199,6 +199,14 @@ public abstract class Enemy extends GameObject {
         }
     }
 
+    public float getHealthMax() {
+        return mHealthMax;
+    }
+
+    public void setHealthMax(float healthMax) {
+        mHealthMax = healthMax;
+    }
+
     public void damage(float dmg) {
         mHealth -= dmg;
 
