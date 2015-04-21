@@ -1,6 +1,5 @@
 package ch.bfh.anuto.game.data;
 
-import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.core.Commit;
@@ -8,10 +7,23 @@ import org.simpleframework.xml.core.Commit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.bfh.anuto.game.GameEngine;
+import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.game.objects.Enemy;
 
-public class Wave {
+public class Wave implements GameEngine.Listener, GameObject.Listener {
+
+    /*
+    ------ Listener Interface
+     */
+
+    public interface Listener {
+        void onWaveStarted(Wave wave);
+        void onWaveDone(Wave wave);
+    }
+
     /*
     ------ Members ------
      */
@@ -27,6 +39,13 @@ public class Wave {
 
     @Element(name="rewardMultiplier", required=false)
     private float mRewardMultiplier = 1f;
+
+    private GameEngine mGame;
+    private ArrayList<Enemy> mEnemiesToAdd = new ArrayList<>();
+    private ArrayList<Enemy> mEnemiesInGame = new ArrayList<>();
+
+    private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
+
 
     /*
     ------ Constructors ------
@@ -44,9 +63,31 @@ public class Wave {
     ------ Public Methods ------
      */
 
+    public GameEngine getGame() {
+        return mGame;
+    }
+
+    public void setGame(GameEngine game) {
+        mGame = game;
+    }
+
+    public void start() {
+        mEnemiesToAdd.addAll(mEnemies);
+        mGame.addListener(this);
+
+        onWaveStarted();
+    }
+
+    public void stop() {
+        mGame.removeListener(this);
+        mEnemiesToAdd.clear();
+    }
+
+
     public List<Enemy> getEnemies() {
         return mEnemies;
     }
+
 
     public int getReward() {
         return mReward;
@@ -71,8 +112,64 @@ public class Wave {
     }
 
     @Commit
-    private void onCommit() {
+    private void onXmlCommit() {
         multiplyHealth(mHealthMultiplier);
         multiplyReward(mRewardMultiplier);
+    }
+
+
+    @Override
+    public void onTick() {
+        while (!mEnemiesToAdd.isEmpty() && mEnemiesToAdd.get(0).tickAddDelay()) {
+            Enemy e = mEnemies.remove(0);
+            mEnemiesInGame.add(e);
+            mGame.add(e);
+
+            e.addListener(this);
+        }
+
+        if (mEnemiesToAdd.isEmpty()) {
+            mGame.removeListener(this);
+        }
+    }
+
+    @Override
+    public void onObjectAdded(GameObject obj) {
+
+    }
+
+    @Override
+    public void onObjectRemoved(GameObject obj) {
+        Enemy e = (Enemy)obj;
+
+        e.removeListener(this);
+        mEnemiesInGame.remove(e);
+
+        if (mEnemiesToAdd.isEmpty() && mEnemiesInGame.isEmpty()) {
+            onWaveDone();
+        }
+    }
+
+
+    public void addListener(Listener listener) {
+        mListeners.add(listener);
+    }
+
+    public void removeListener(Listener listener) {
+        mListeners.remove(listener);
+    }
+
+    private void onWaveStarted() {
+        for (Listener l : mListeners) {
+            l.onWaveStarted(this);
+        }
+    }
+
+    private void onWaveDone() {
+        mGame.getManager().giveCredits(mReward);
+
+        for (Listener l : mListeners) {
+            l.onWaveDone(this);
+        }
     }
 }

@@ -59,7 +59,6 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
         }
     }
 
-
     @Override
     public void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
@@ -91,9 +90,9 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
                     .min(GameObject.distanceTo(pos));
 
             if (closest != null && closest.getDistanceTo(pos) < 0.5f) {
-                mGame.getManager().selectTower(closest);
+                mGame.getManager().setSelectedTower(closest);
             } else {
-                mGame.getManager().selectTower(null);
+                mGame.getManager().setSelectedTower(null);
             }
 
             return true;
@@ -120,14 +119,14 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
             case DragEvent.ACTION_DRAG_ENTERED:
                 if (closestPlateau != null) {
                     mGame.add(tower);
-                    mGame.getManager().selectTower(tower);
+                    mGame.getManager().setSelectedTower(tower);
                 }
                 break;
 
             case DragEvent.ACTION_DRAG_EXITED:
                 if (tower.getGame() != null) {
                     tower.remove();
-                    mGame.getManager().selectTower(null);
+                    mGame.getManager().setSelectedTower(null);
                 }
                 break;
 
@@ -141,7 +140,7 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
                 if (tower.getGame() != null) {
                     tower.setPlateau(closestPlateau);
                     tower.buy();
-                    mGame.getManager().selectTower(null);
+                    mGame.getManager().setSelectedTower(null);
                 }
                 break;
         }

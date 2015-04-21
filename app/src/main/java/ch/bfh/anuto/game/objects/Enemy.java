@@ -125,7 +125,6 @@ public abstract class Enemy extends GameObject {
     public void onClean() {
         super.onClean();
         mGame.remove(mHealthBar);
-        mGame.getManager().reportEnemyRemoved(this);
     }
 
     @Override
@@ -186,7 +185,6 @@ public abstract class Enemy extends GameObject {
         mReward = reward;
     }
 
-
     public float getHealth() {
         return mHealth;
     }
@@ -220,6 +218,14 @@ public abstract class Enemy extends GameObject {
         mHealth += val;
     }
 
+
+    public float getAddDelay() {
+        return mAddDelay;
+    }
+
+    public void setAddDelay(float addDelay) {
+        mAddDelay = addDelay;
+    }
 
     public boolean tickAddDelay() {
         if (mAddDelay <= 0) {

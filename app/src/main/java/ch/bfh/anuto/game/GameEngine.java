@@ -87,9 +87,9 @@ public class GameEngine implements Runnable {
     ------ Constructors ------
      */
 
-    public GameEngine(Resources res) {
+    public GameEngine(Resources res, GameManager manager) {
         mResources = res;
-        mManager = new GameManager(this);
+        mManager = manager;
 
         calcScreenMatrix();
     }
@@ -211,21 +211,30 @@ public class GameEngine implements Runnable {
 
 
     public void start() {
-        mRunning = true;
+        if (!mRunning) {
+            mRunning = true;
 
-        mGameThread = new Thread(this);
-        mGameThread.start();
+            mGameThread = new Thread(this);
+            mGameThread.start();
+        }
     }
 
     public void stop() {
-        mRunning = false;
+        if (mRunning) {
+            mRunning = false;
 
-        while (true) {
-            try {
-                mGameThread.join();
-                break;
-            } catch (InterruptedException e) {}
+            while (true) {
+                try {
+                    mGameThread.join();
+                    break;
+                } catch (InterruptedException e) {
+                }
+            }
         }
+    }
+
+    public boolean isRunning() {
+        return mRunning;
     }
 
 

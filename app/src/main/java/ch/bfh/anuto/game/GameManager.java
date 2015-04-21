@@ -1,16 +1,17 @@
 package ch.bfh.anuto.game;
 
+import android.content.res.Resources;
+
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.bfh.anuto.game.data.GameSettings;
 import ch.bfh.anuto.game.data.Level;
 import ch.bfh.anuto.game.data.Wave;
-import ch.bfh.anuto.game.objects.Enemy;
 import ch.bfh.anuto.game.objects.Plateau;
 import ch.bfh.anuto.game.objects.Tower;
 
-public class GameManager implements GameEngine.Listener {
+public class GameManager implements Wave.Listener {
 
     /*
     ------ Listener Interface ------
@@ -26,8 +27,8 @@ public class GameManager implements GameEngine.Listener {
     }
 
     public interface WaveListener extends Listener {
-        void onNextWave();
-        void onWaveDone();
+        void onWaveStarted(Wave wave);
+        void onWaveDone(Wave wave);
     }
 
     public interface CreditsListener extends Listener {
@@ -44,7 +45,6 @@ public class GameManager implements GameEngine.Listener {
 
     private Level mLevel;
 
-    private Wave mWave;
     private int mNextWaveIndex;
 
     private int mCredits;
@@ -55,71 +55,82 @@ public class GameManager implements GameEngine.Listener {
     private Tower mSelectedTower;
 
     private final GameEngine mGame;
+    private final List<Wave> mActiveWaves = new CopyOnWriteArrayList<>();
+
     private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
     /*
     ------ Constructors ------
      */
 
-    public GameManager(GameEngine game) {
-        mGame = game;
-        mGame.addListener(this);
+    public GameManager(Resources res) {
+        mGame = new GameEngine(res, this);
+        reset();
     }
 
     /*
     ------ Methods ------
      */
 
+    public void reset() {
+        mLevel = null;
+
+        for (Wave w : mActiveWaves) {
+            w.stop();
+        }
+
+        mActiveWaves.clear();
+        mGame.clear();
+
+        mSelectedTower = null;
+        mNextWaveIndex = 0;
+        mGameOver = false;
+    }
+
+    public GameEngine getGame() {
+        return mGame;
+    }
+
     public Level getLevel() {
         return mLevel;
     }
 
     public void loadLevel(Level level) {
-        mLevel = level;
+        reset();
 
-        mGame.clear();
-        GameSettings settings = mLevel.getSettings();
-        mGame.setGameSize(settings.width, settings.height);
+        mLevel = level;
 
         for (Plateau p : level.getPlateaus()) {
             mGame.add(p);
         }
 
-        mWave = null;
-        mNextWaveIndex = 0;
+        GameSettings settings = mLevel.getSettings();
+        mGame.setGameSize(settings.width, settings.height);
 
-        mGameOver = false;
-        onGameStart();
         setCredits(settings.credits);
         setLives(settings.lives);
+
+        onGameStart();
     }
 
 
-    public Wave getWave() {
-        return mWave;
-    }
-
-    public int getWaveNum() {
+    public int getWaveNumber() {
         return mNextWaveIndex;
     }
 
-    public boolean hasWaves() {
+    public boolean hasWavesRemaining() {
         return mNextWaveIndex < mLevel.getWaves().size();
     }
 
-    public void nextWave() {
-        if (mWave != null) {
-            return;
-        }
-
-        if (mNextWaveIndex >= mLevel.getWaves().size()) {
-            return;
-        }
-
-        mWave = mLevel.getWaves().get(mNextWaveIndex);
-
+    public void callNextWave() {
+        Wave wave = mLevel.getWaves().get(mNextWaveIndex);
         mNextWaveIndex++;
-        onNextWave();
+
+        wave.addListener(this);
+        wave.setGame(mGame);
+        wave.start();
+
+        mActiveWaves.add(wave);
     }
 
 
@@ -168,22 +179,6 @@ public class GameManager implements GameEngine.Listener {
     }
 
 
-    public void reportEnemyRemoved(Enemy enemy) {
-        if (mWave == null) {
-            return;
-        }
-
-        if (mGame.getGameObjects(Enemy.TYPE_ID).isEmpty() && mWave.getEnemies().isEmpty()) {
-            onWaveDone();
-            giveCredits(mWave.getReward());
-            mWave = null;
-
-            if (!hasWaves() && !isGameOver()) {
-                onGameOver(true);
-            }
-        }
-    }
-
     public boolean isGameOver() {
         return mGameOver;
     }
@@ -193,7 +188,7 @@ public class GameManager implements GameEngine.Listener {
         return mSelectedTower;
     }
 
-    public void selectTower(Tower tower) {
+    public void setSelectedTower(Tower tower) {
         if (mSelectedTower != null) {
             mSelectedTower.hideRange();
         }
@@ -202,22 +197,6 @@ public class GameManager implements GameEngine.Listener {
 
         if (mSelectedTower != null) {
             mSelectedTower.showRange();
-        }
-    }
-
-    /*
-    ------ GameEngine.Listener Interface ------
-     */
-
-    @Override
-    public void onTick() {
-        if (mWave == null) {
-            return;
-        }
-
-        List<Enemy> enemies = mWave.getEnemies();
-        while (!enemies.isEmpty() && enemies.get(0).tickAddDelay()) {
-            mGame.add(enemies.remove(0));
         }
     }
 
@@ -252,24 +231,6 @@ public class GameManager implements GameEngine.Listener {
         }
     }
 
-
-    private void onNextWave() {
-        for (Listener l : mListeners) {
-            if (l instanceof WaveListener) {
-                ((WaveListener)l).onNextWave();
-            }
-        }
-    }
-
-    private void onWaveDone() {
-        for (Listener l : mListeners) {
-            if (l instanceof WaveListener) {
-                ((WaveListener)l).onWaveDone();
-            }
-        }
-    }
-
-
     private void onCreditsChanged() {
         for (Listener l : mListeners) {
             if (l instanceof CreditsListener) {
@@ -278,12 +239,36 @@ public class GameManager implements GameEngine.Listener {
         }
     }
 
-
     private void onLivesChanged() {
         for (Listener l : mListeners) {
             if (l instanceof LivesListener) {
                 ((LivesListener)l).onLivesChanged(mLives);
             }
         }
+    }
+
+    @Override
+    public void onWaveStarted(Wave wave) {
+        for (Listener l : mListeners) {
+            if (l instanceof WaveListener) {
+                ((WaveListener)l).onWaveStarted(wave);
+            }
+        }
+    }
+
+    @Override
+    public void onWaveDone(Wave wave) {
+        for (Listener l : mListeners) {
+            if (l instanceof WaveListener) {
+                ((WaveListener)l).onWaveDone(wave);
+            }
+        }
+
+        if (!hasWavesRemaining() && !isGameOver()) {
+            onGameOver(true);
+        }
+
+        wave.removeListener(this);
+        mActiveWaves.remove(wave);
     }
 }

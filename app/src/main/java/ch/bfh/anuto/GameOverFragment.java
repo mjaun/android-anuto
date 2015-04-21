@@ -39,7 +39,7 @@ public class GameOverFragment extends Fragment implements GameManager.GameListen
                 .hide(this)
                 .commit();
 
-        mManager = ((MainActivity)activity).getGame().getManager();
+        mManager = ((MainActivity)activity).getManager();
         mManager.addListener(this);
     }
 

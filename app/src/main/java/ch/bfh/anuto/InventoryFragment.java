@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import ch.bfh.anuto.game.GameManager;
+import ch.bfh.anuto.game.data.Wave;
 
 public class InventoryFragment extends Fragment implements View.OnClickListener,
         GameManager.GameListener, GameManager.WaveListener, GameManager.CreditsListener {
@@ -40,7 +41,7 @@ public class InventoryFragment extends Fragment implements View.OnClickListener,
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        mManager = ((MainActivity)activity).getGame().getManager();
+        mManager = ((MainActivity)activity).getManager();
         mManager.addListener(this);
     }
 
@@ -54,14 +55,14 @@ public class InventoryFragment extends Fragment implements View.OnClickListener,
     @Override
     public void onClick(View v) {
         if (v == btn_next_wave) {
-            mManager.nextWave();
+            mManager.callNextWave();
         }
     }
 
 
     @Override
     public void onGameStart() {
-        if (mManager.hasWaves()) {
+        if (mManager.hasWavesRemaining()) {
             btn_next_wave.post(new Runnable() {
                 @Override
                 public void run() {
@@ -85,25 +86,20 @@ public class InventoryFragment extends Fragment implements View.OnClickListener,
     }
 
     @Override
-    public void onNextWave() {
-        btn_next_wave.post(new Runnable() {
+    public void onWaveStarted(Wave wave) {
+        if (!mManager.hasWavesRemaining()) {
+            btn_next_wave.post(new Runnable() {
                 @Override
                 public void run() {
                     btn_next_wave.setEnabled(false);
                 }
             });
+        }
     }
 
     @Override
-    public void onWaveDone() {
-        if (!mManager.isGameOver()) {
-            btn_next_wave.post(new Runnable() {
-                @Override
-                public void run() {
-                    btn_next_wave.setEnabled(true);
-                }
-            });
-        }
+    public void onWaveDone(Wave wave) {
+
     }
 
     @Override

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import ch.bfh.anuto.game.GameManager;
+import ch.bfh.anuto.game.data.Wave;
 
 public class StatusFragment extends Fragment implements GameManager.CreditsListener,
         GameManager.LivesListener, GameManager.WaveListener, GameManager.GameListener {
@@ -36,7 +37,7 @@ public class StatusFragment extends Fragment implements GameManager.CreditsListe
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        mManager = ((MainActivity) activity).getGame().getManager();
+        mManager = ((MainActivity) activity).getManager();
         mManager.addListener(this);
     }
 
@@ -49,17 +50,17 @@ public class StatusFragment extends Fragment implements GameManager.CreditsListe
 
 
     @Override
-    public void onNextWave() {
+    public void onWaveStarted(Wave wave) {
         txt_wave.post(new Runnable() {
             @Override
             public void run() {
-                txt_wave.setText(getResources().getString(R.string.status_wave) + " " + mManager.getWaveNum());
+                txt_wave.setText(getResources().getString(R.string.status_wave) + " " + mManager.getWaveNumber());
             }
         });
     }
 
     @Override
-    public void onWaveDone() {
+    public void onWaveDone(Wave wave) {
 
     }
 
@@ -88,7 +89,7 @@ public class StatusFragment extends Fragment implements GameManager.CreditsListe
         txt_wave.post(new Runnable() {
             @Override
             public void run() {
-                txt_wave.setText(getResources().getString(R.string.status_wave) + " " + mManager.getWaveNum());
+                txt_wave.setText(getResources().getString(R.string.status_wave) + " " + mManager.getWaveNumber());
             }
         });
     }
