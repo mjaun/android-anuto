@@ -138,6 +138,7 @@ public class Wave implements GameEngine.Listener, GameObject.Listener {
         }
 
         if (mAddTimer.tick()) {
+            mNextEnemy.addListener(this);
             mGame.add(mNextEnemy);
             mEnemiesInGame.add(mNextEnemy);
             mNextEnemy = null;
@@ -156,7 +157,7 @@ public class Wave implements GameEngine.Listener, GameObject.Listener {
         e.removeListener(this);
         mEnemiesInGame.remove(e);
 
-        if (mEnemiesToAdd.isEmpty() && mEnemiesInGame.isEmpty()) {
+        if (mEnemiesInGame.isEmpty() && mEnemiesToAdd.isEmpty() && mNextEnemy == null) {
             onWaveDone();
         }
     }
