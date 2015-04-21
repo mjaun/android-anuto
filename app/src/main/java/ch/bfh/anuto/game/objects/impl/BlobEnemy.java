@@ -3,8 +3,8 @@ package ch.bfh.anuto.game.objects.impl;
 import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.Layers;
 import ch.bfh.anuto.game.Sprite;
-import ch.bfh.anuto.game.TickTimer;
 import ch.bfh.anuto.game.objects.Enemy;
+import ch.bfh.anuto.game.TickTimer;
 
 public class BlobEnemy extends Enemy {
 

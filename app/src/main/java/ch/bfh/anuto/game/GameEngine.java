@@ -9,6 +9,8 @@ import android.util.Log;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.bfh.anuto.game.objects.DrawObject;
+import ch.bfh.anuto.game.objects.GameObject;
 import ch.bfh.anuto.util.container.DeferredCollectionMap;
 import ch.bfh.anuto.util.iterator.StreamIterator;
 import ch.bfh.anuto.util.math.Vector2;

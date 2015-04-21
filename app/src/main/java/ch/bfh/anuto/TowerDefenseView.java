@@ -8,7 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import ch.bfh.anuto.game.GameEngine;
-import ch.bfh.anuto.game.GameObject;
+import ch.bfh.anuto.game.objects.GameObject;
 import ch.bfh.anuto.game.objects.Plateau;
 import ch.bfh.anuto.game.objects.Tower;
 import ch.bfh.anuto.util.math.Vector2;

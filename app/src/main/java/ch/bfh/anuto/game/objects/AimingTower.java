@@ -1,6 +1,5 @@
 package ch.bfh.anuto.game.objects;
 
-import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.game.TickTimer;
 
 public abstract class AimingTower extends Tower implements GameObject.Listener {

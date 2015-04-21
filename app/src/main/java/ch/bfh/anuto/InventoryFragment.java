@@ -6,10 +6,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import ch.bfh.anuto.game.GameManager;
-import ch.bfh.anuto.game.data.Wave;
 
 public class InventoryFragment extends Fragment implements GameManager.GameListener,
         GameManager.CreditsListener {

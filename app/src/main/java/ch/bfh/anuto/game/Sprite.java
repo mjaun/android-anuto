@@ -11,6 +11,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import ch.bfh.anuto.game.objects.DrawObject;
+import ch.bfh.anuto.game.objects.GameObject;
 import ch.bfh.anuto.util.math.Vector2;
 
 public class Sprite extends DrawObject {
@@ -108,6 +110,10 @@ public class Sprite extends DrawObject {
         mIndex = index;
     }
 
+    public int getCount() {
+        return mBitmaps.size();
+    }
+
 
     public void calcMatrix() {
         calcMatrix(1f, 1f, null);
@@ -156,10 +162,6 @@ public class Sprite extends DrawObject {
         return mMatrix;
     }
 
-
-    public int getCount() {
-        return mBitmaps.size();
-    }
 
     public void cycle() {
         mIndex++;

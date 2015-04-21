@@ -1,6 +1,5 @@
 package ch.bfh.anuto.game.objects;
 
-import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.game.TypeIds;
 
 public abstract class AreaEffect extends GameObject {

@@ -3,7 +3,6 @@ package ch.bfh.anuto.game.data;
 import org.simpleframework.xml.ElementList;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import ch.bfh.anuto.util.math.Vector2;

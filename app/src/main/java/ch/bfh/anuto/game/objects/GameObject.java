@@ -1,4 +1,4 @@
-package ch.bfh.anuto.game;
+package ch.bfh.anuto.game.objects;
 
 import android.graphics.Canvas;
 
@@ -7,6 +7,8 @@ import org.simpleframework.xml.Attribute;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.bfh.anuto.game.GameEngine;
+import ch.bfh.anuto.game.Sprite;
 import ch.bfh.anuto.util.iterator.Function;
 import ch.bfh.anuto.util.iterator.Predicate;
 import ch.bfh.anuto.util.math.Vector2;

@@ -1,6 +1,5 @@
 package ch.bfh.anuto.game.objects;
 
-import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.game.TypeIds;
 import ch.bfh.anuto.util.math.Vector2;
 

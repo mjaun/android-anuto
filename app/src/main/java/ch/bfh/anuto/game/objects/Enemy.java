@@ -6,12 +6,9 @@ import android.graphics.Paint;
 
 import org.simpleframework.xml.Attribute;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import ch.bfh.anuto.game.DrawObject;
 import ch.bfh.anuto.game.GameEngine;
-import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.game.Layers;
 import ch.bfh.anuto.game.TypeIds;
 import ch.bfh.anuto.game.data.Path;

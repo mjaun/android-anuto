@@ -4,11 +4,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import ch.bfh.anuto.game.DrawObject;
-import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.game.Layers;
-import ch.bfh.anuto.game.TickTimer;
 import ch.bfh.anuto.game.TypeIds;
+import ch.bfh.anuto.game.TickTimer;
 import ch.bfh.anuto.util.iterator.StreamIterator;
 
 public abstract class Tower extends GameObject {

@@ -1,7 +1,6 @@
 package ch.bfh.anuto.game.objects;
 
 import ch.bfh.anuto.game.GameEngine;
-import ch.bfh.anuto.game.GameObject;
 
 public abstract class TargetedShot extends Shot implements GameObject.Listener {
 

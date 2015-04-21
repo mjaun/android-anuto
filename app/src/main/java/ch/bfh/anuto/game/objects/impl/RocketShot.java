@@ -3,12 +3,12 @@ package ch.bfh.anuto.game.objects.impl;
 import android.graphics.Canvas;
 
 import ch.bfh.anuto.R;
-import ch.bfh.anuto.game.GameObject;
 import ch.bfh.anuto.game.Layers;
 import ch.bfh.anuto.game.Sprite;
-import ch.bfh.anuto.game.TickTimer;
 import ch.bfh.anuto.game.objects.Enemy;
+import ch.bfh.anuto.game.objects.GameObject;
 import ch.bfh.anuto.game.objects.TargetedShot;
+import ch.bfh.anuto.game.TickTimer;
 import ch.bfh.anuto.util.math.Vector2;
 
 public class RocketShot extends TargetedShot {
