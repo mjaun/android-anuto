@@ -36,13 +36,4 @@
         app:itemDrawable="@drawable/laser_tower"
         app:itemClass="ch.bfh.anuto.game.objects.impl.LaserTower"
         app:rotate="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/next_wave"
-        android:id="@+id/btn_next_wave"
-        android:layout_centerVertical="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="10dp"/>
 </RelativeLayout>

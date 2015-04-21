@@ -12,14 +12,14 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="#ffffffff"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="25dp"
         android:layout_marginBottom="40dp" />
 
     <fragment
         android:id="@+id/fragment_status"
         android:name="ch.bfh.anuto.StatusFragment"
         android:layout_width="fill_parent"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         tools:layout="@layout/fragment_status" />
 

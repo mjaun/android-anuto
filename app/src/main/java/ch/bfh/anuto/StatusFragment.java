@@ -6,19 +6,23 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import ch.bfh.anuto.game.GameManager;
 import ch.bfh.anuto.game.data.Wave;
 
 public class StatusFragment extends Fragment implements GameManager.CreditsListener,
-        GameManager.LivesListener, GameManager.WaveListener, GameManager.GameListener {
+        GameManager.LivesListener, GameManager.WaveListener, GameManager.GameListener, View.OnClickListener {
 
     private GameManager mManager;
 
     private TextView txt_credits;
     private TextView txt_lives;
     private TextView txt_wave;
+
+    private Button btn_next_wave;
+    private Button btn_restart;
 
 
     @Override
@@ -29,6 +33,12 @@ public class StatusFragment extends Fragment implements GameManager.CreditsListe
         txt_credits = (TextView) v.findViewById(R.id.txt_credits);
         txt_lives = (TextView) v.findViewById(R.id.txt_lives);
         txt_wave = (TextView) v.findViewById(R.id.txt_wave);
+
+        btn_next_wave = (Button) v.findViewById(R.id.btn_next_wave);
+        btn_restart = (Button) v.findViewById(R.id.btn_restart);
+
+        btn_next_wave.setOnClickListener(this);
+        btn_restart.setOnClickListener(this);
 
         return v;
     }
@@ -48,6 +58,16 @@ public class StatusFragment extends Fragment implements GameManager.CreditsListe
         mManager.removeListener(this);
     }
 
+    @Override
+    public void onClick(View v) {
+        if (v == btn_next_wave) {
+            mManager.callNextWave();
+        }
+
+        if (v == btn_restart) {
+            mManager.restart();
+        }
+    }
 
     @Override
     public void onWaveStarted(Wave wave) {
@@ -55,6 +75,7 @@ public class StatusFragment extends Fragment implements GameManager.CreditsListe
             @Override
             public void run() {
                 txt_wave.setText(getResources().getString(R.string.status_wave) + " " + mManager.getWaveNumber());
+                btn_next_wave.setEnabled(mManager.hasWavesRemaining());
             }
         });
     }
@@ -90,12 +111,18 @@ public class StatusFragment extends Fragment implements GameManager.CreditsListe
             @Override
             public void run() {
                 txt_wave.setText(getResources().getString(R.string.status_wave) + " " + mManager.getWaveNumber());
+                btn_next_wave.setEnabled(mManager.hasWavesRemaining());
             }
         });
     }
 
     @Override
     public void onGameOver(boolean won) {
-
+        btn_next_wave.post(new Runnable() {
+            @Override
+            public void run() {
+                btn_next_wave.setEnabled(false);
+            }
+        });
     }
 }

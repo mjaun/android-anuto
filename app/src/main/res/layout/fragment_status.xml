@@ -1,38 +1,70 @@
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffffff"
-    tools:context="ch.bfh.anuto.StatusFragment">
+    tools:context="ch.bfh.anuto.StatusFragment"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/txt_wave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="10dp"
-        android:textAppearance="?android:attr/textAppearanceSmallInverse"
-        android:text="@string/status_wave"/>
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="25dp"
+        android:background="#ffffffff">
 
-    <TextView
-        android:id="@+id/txt_credits"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="10dp"
-        android:textAppearance="?android:attr/textAppearanceSmallInverse"
-        android:text="@string/status_credits"/>
+        <TextView
+            android:id="@+id/txt_lives"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/txt_credits"
+            android:layout_marginStart="25dp"
+            android:textAppearance="?android:attr/textAppearanceSmallInverse"
+            android:text="@string/status_lives"/>
 
-    <TextView
-        android:id="@+id/txt_lives"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/txt_credits"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:textAppearance="?android:attr/textAppearanceSmallInverse"
+            android:text="@string/status_credits"/>
+
+        <TextView
+            android:id="@+id/txt_wave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:textAppearance="?android:attr/textAppearanceSmallInverse"
+            android:text="@string/status_wave"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/txt_credits"
-        android:layout_marginStart="25dp"
-        android:textAppearance="?android:attr/textAppearanceSmallInverse"
-        android:text="@string/status_lives"/>
-</RelativeLayout>
+        android:layout_margin="10dp">
+
+        <Button
+            android:id="@+id/btn_next_wave"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:text="@string/next_wave" />
+
+        <Button
+            android:id="@+id/btn_restart"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/btn_next_wave"
+            android:layout_marginEnd="5dp"
+            android:text="@string/restart" />
+    </RelativeLayout>
+
+</LinearLayout>

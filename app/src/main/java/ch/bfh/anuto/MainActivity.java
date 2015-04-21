@@ -55,7 +55,7 @@ public class MainActivity extends Activity {
         try {
             InputStream inStream = getResources().openRawResource(R.raw.level1);
             Level lvl = Level.deserialize(inStream);
-            mManager.loadLevel(lvl);
+            mManager.setLevel(lvl);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Couldn't load level!");

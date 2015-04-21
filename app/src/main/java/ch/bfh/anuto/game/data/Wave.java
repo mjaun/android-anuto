@@ -11,6 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.bfh.anuto.game.GameEngine;
 import ch.bfh.anuto.game.GameObject;
+import ch.bfh.anuto.game.TickTimer;
 import ch.bfh.anuto.game.objects.Enemy;
 
 public class Wave implements GameEngine.Listener, GameObject.Listener {
@@ -41,6 +42,10 @@ public class Wave implements GameEngine.Listener, GameObject.Listener {
     private float mRewardMultiplier = 1f;
 
     private GameEngine mGame;
+
+    private Enemy mNextEnemy;
+    private TickTimer mAddTimer = new TickTimer();
+
     private ArrayList<Enemy> mEnemiesToAdd = new ArrayList<>();
     private ArrayList<Enemy> mEnemiesInGame = new ArrayList<>();
 
@@ -80,7 +85,9 @@ public class Wave implements GameEngine.Listener, GameObject.Listener {
 
     public void stop() {
         mGame.removeListener(this);
+
         mEnemiesToAdd.clear();
+        mNextEnemy = null;
     }
 
 
@@ -120,16 +127,20 @@ public class Wave implements GameEngine.Listener, GameObject.Listener {
 
     @Override
     public void onTick() {
-        while (!mEnemiesToAdd.isEmpty() && mEnemiesToAdd.get(0).tickAddDelay()) {
-            Enemy e = mEnemies.remove(0);
-            mEnemiesInGame.add(e);
-            mGame.add(e);
-
-            e.addListener(this);
+        if (mEnemiesToAdd.isEmpty() && mNextEnemy == null) {
+            mGame.removeListener(this);
+            return;
         }
 
-        if (mEnemiesToAdd.isEmpty()) {
-            mGame.removeListener(this);
+        if (mNextEnemy == null) {
+            mNextEnemy = mEnemiesToAdd.remove(0);
+            mAddTimer.setInterval(mNextEnemy.getAddDelay());
+        }
+
+        if (mAddTimer.tick()) {
+            mGame.add(mNextEnemy);
+            mEnemiesInGame.add(mNextEnemy);
+            mNextEnemy = null;
         }
     }
 

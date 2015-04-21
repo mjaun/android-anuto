@@ -6,6 +6,9 @@ import android.graphics.Paint;
 
 import org.simpleframework.xml.Attribute;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ch.bfh.anuto.game.DrawObject;
 import ch.bfh.anuto.game.GameEngine;
 import ch.bfh.anuto.game.GameObject;
@@ -117,6 +120,8 @@ public abstract class Enemy extends GameObject {
         mPosition.set(mPath.getWayPoints().get(0));
         mWayPointIndex = 1;
 
+        mHealth = mHealthMax;
+
         mHealthBar = new HealthBar();
         mGame.add(mHealthBar);
     }
@@ -166,9 +171,10 @@ public abstract class Enemy extends GameObject {
 
         float dist = getDistanceTo(getWayPoint());
 
-        for (int i = mWayPointIndex + 1; i < mPath.getWayPoints().size(); i++) {
-            Vector2 wThis = mPath.getWayPoints().get(i);
-            Vector2 wLast = mPath.getWayPoints().get(i - 1);
+        List<Vector2> wayPoints = mPath.getWayPoints();
+        for (int i = mWayPointIndex + 1; i < wayPoints.size(); i++) {
+            Vector2 wThis = wayPoints.get(i);
+            Vector2 wLast = wayPoints.get(i - 1);
 
             dist += wThis.copy().sub(wLast).len();
         }
@@ -225,14 +231,5 @@ public abstract class Enemy extends GameObject {
 
     public void setAddDelay(float addDelay) {
         mAddDelay = addDelay;
-    }
-
-    public boolean tickAddDelay() {
-        if (mAddDelay <= 0) {
-            return true;
-        }
-
-        mAddDelay -= 1f / GameEngine.TARGET_FPS;
-        return false;
     }
 }

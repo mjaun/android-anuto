@@ -133,16 +133,26 @@ public class DeferredCollectionMap<K, V> implements Iterable<V> {
 
     }
 
+    protected void onItemAddDeferred(K key, V value) {
+
+    }
+
+    protected void onItemRemoveDeferred(K key, V value) {
+
+    }
+
 
     public void addDeferred(K key, V value) {
         synchronized (mItemsToAdd) {
             mItemsToAdd.add(new Entry<>(key, value));
+            onItemAddDeferred(key, value);
         }
     }
 
     public void removeDeferred(K key, V value) {
         synchronized (mItemsToRemove) {
             mItemsToRemove.add(new Entry<>(key, value));
+            onItemRemoveDeferred(key, value);
         }
     }
 

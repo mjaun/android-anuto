@@ -13,14 +13,4 @@
         android:textColor="#000000"
         android:textSize="50sp"
         android:text="@string/game_over_lost"/>
-
-    <Button
-        android:id="@+id/btn_restart"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/restart"
-        android:layout_below="@+id/txt_game_over"
-        android:layout_centerHorizontal="true" />
-
 </RelativeLayout>

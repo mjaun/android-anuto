@@ -72,7 +72,7 @@ public class GameManager implements Wave.Listener {
     ------ Methods ------
      */
 
-    public void reset() {
+    private void reset() {
         mLevel = null;
 
         for (Wave w : mActiveWaves) {
@@ -87,6 +87,10 @@ public class GameManager implements Wave.Listener {
         mGameOver = false;
     }
 
+    public void restart() {
+        setLevel(mLevel);
+    }
+
     public GameEngine getGame() {
         return mGame;
     }
@@ -95,7 +99,7 @@ public class GameManager implements Wave.Listener {
         return mLevel;
     }
 
-    public void loadLevel(Level level) {
+    public void setLevel(Level level) {
         reset();
 
         mLevel = level;

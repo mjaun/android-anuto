@@ -11,20 +11,16 @@ import android.widget.TextView;
 
 import ch.bfh.anuto.game.GameManager;
 
-public class GameOverFragment extends Fragment implements GameManager.GameListener, View.OnClickListener {
+public class GameOverFragment extends Fragment implements GameManager.GameListener {
 
     private GameManager mManager;
 
     private TextView txt_game_over;
-    private Button btn_restart;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_game_over, container, false);
-
-        btn_restart = (Button)v.findViewById(R.id.btn_restart);
-        btn_restart.setOnClickListener(this);
 
         txt_game_over = (TextView)v.findViewById(R.id.txt_game_over);
 
@@ -49,14 +45,6 @@ public class GameOverFragment extends Fragment implements GameManager.GameListen
 
         mManager.removeListener(this);
     }
-
-    @Override
-    public void onClick(View v) {
-        if (v == btn_restart) {
-            ((MainActivity)getActivity()).restart();
-        }
-    }
-
 
     @Override
     public void onGameStart() {
