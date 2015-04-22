@@ -1,4 +1,4 @@
-package ch.bfh.anuto.game;
+package ch.bfh.anuto.game.objects;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -11,8 +11,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import ch.bfh.anuto.game.objects.DrawObject;
-import ch.bfh.anuto.game.objects.GameObject;
+import ch.bfh.anuto.game.GameEngine;
+import ch.bfh.anuto.game.TickTimer;
 import ch.bfh.anuto.util.math.Vector2;
 
 public class Sprite extends DrawObject {
@@ -21,15 +21,15 @@ public class Sprite extends DrawObject {
     ------ Static ------
      */
 
-    private static HashMap<Integer, Sprite> spriteCache = new HashMap<>();
+    private static HashMap<Integer, Sprite> sSpriteCache = new HashMap<>();
 
     public static Sprite fromResources(Resources res, int id) {
         return fromResources(res, id, 1);
     }
 
     public static Sprite fromResources(Resources res, int id, int count) {
-        if (spriteCache.containsKey(id)) {
-            return new Sprite(spriteCache.get(id));
+        if (sSpriteCache.containsKey(id)) {
+            return new Sprite(sSpriteCache.get(id));
         }
 
         Bitmap[] bmps;
@@ -50,7 +50,7 @@ public class Sprite extends DrawObject {
         }
 
         Sprite sprite = new Sprite(bmps);
-        spriteCache.put(id, sprite);
+        sSpriteCache.put(id, sprite);
 
         return fromResources(res, id, count);
     }
@@ -72,6 +72,13 @@ public class Sprite extends DrawObject {
         private int[] mSequence;
         private TickTimer mTimer = new TickTimer();
 
+        private long mLastTick;
+        private GameEngine mGame;
+
+        public Animator(GameEngine game) {
+            mGame = game;
+        }
+
         public void setSequence(int[] sequence) {
             mSequence = sequence;
             mSeqIndex = 0;
@@ -82,6 +89,16 @@ public class Sprite extends DrawObject {
         }
 
         private void tick() {
+            if (mGame != null) {
+                long tick = mGame.getTickCount();
+
+                if (tick == mLastTick) {
+                    return;
+                }
+
+                mLastTick = tick;
+            }
+
             if (mTimer.tick()) {
                 mSeqIndex++;
 
@@ -100,8 +117,8 @@ public class Sprite extends DrawObject {
     ------ Members ------
      */
 
-    private int mIndex = 0;
-    private int mLayer = 0;
+    private int mIndex;
+    private int mLayer;
 
     private Animator mAnimator;
     private Listener mListener;
@@ -209,7 +226,7 @@ public class Sprite extends DrawObject {
 
     public Animator getAnimator() {
         if (mAnimator == null) {
-            mAnimator = new Animator();
+            mAnimator = new Animator(null);
         }
 
         return mAnimator;
@@ -222,7 +239,7 @@ public class Sprite extends DrawObject {
     public int[] sequenceForward() {
         int ret[] = new int[count()];
 
-        for (int i = 0; i < count(); i++) {
+        for (int i = 0; i < ret.length; i++) {
             ret[i] = i;
         }
 
@@ -232,11 +249,11 @@ public class Sprite extends DrawObject {
     public int[] sequenceForwardBackward() {
         int ret[] = new int[count() * 2 - 2];
 
-        for (int i = 0; i < count(); i++) {
+        for (int i = 0; i < ret.length; i++) {
             if (i < count()) {
                 ret[i] = i;
             } else {
-                ret[i] = count() * 2 - 1 - i;
+                ret[i] = count() * 2 - 2 - i;
             }
         }
 

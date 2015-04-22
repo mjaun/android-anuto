@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 
 import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.Layers;
-import ch.bfh.anuto.game.Sprite;
+import ch.bfh.anuto.game.objects.Sprite;
 import ch.bfh.anuto.game.objects.AimingTower;
 import ch.bfh.anuto.util.math.Vector2;
 

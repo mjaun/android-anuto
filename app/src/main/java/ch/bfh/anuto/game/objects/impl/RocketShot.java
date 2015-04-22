@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 
 import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.Layers;
-import ch.bfh.anuto.game.Sprite;
+import ch.bfh.anuto.game.objects.Sprite;
 import ch.bfh.anuto.game.objects.Enemy;
 import ch.bfh.anuto.game.objects.GameObject;
 import ch.bfh.anuto.game.objects.TargetedShot;
@@ -60,10 +60,10 @@ public class RocketShot extends TargetedShot {
 
     @Override
     public void onTick() {
-        super.onTick();
-
         mDirection = getDirectionTo(mTarget);
         mAngle = mDirection.angle();
+
+        super.onTick();
 
         mSprite.animate();
     }
