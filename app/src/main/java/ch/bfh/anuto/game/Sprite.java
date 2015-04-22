@@ -23,18 +23,15 @@ public class Sprite extends DrawObject {
 
     private static HashMap<Integer, Sprite> spriteCache = new HashMap<>();
 
-    public static Sprite fromResources(GameObject owner, int id) {
-        return fromResources(owner, id, 1);
+    public static Sprite fromResources(Resources res, int id) {
+        return fromResources(res, id, 1);
     }
 
-    public static Sprite fromResources(GameObject owner, int id, int count) {
+    public static Sprite fromResources(Resources res, int id, int count) {
         if (spriteCache.containsKey(id)) {
-            Sprite ret = new Sprite(spriteCache.get(id));
-            ret.mOwner = owner;
-            return ret;
+            return new Sprite(spriteCache.get(id));
         }
 
-        Resources res = owner.getGame().getResources();
         Bitmap[] bmps;
 
         if (count > 1) {
@@ -55,7 +52,48 @@ public class Sprite extends DrawObject {
         Sprite sprite = new Sprite(bmps);
         spriteCache.put(id, sprite);
 
-        return fromResources(owner, id, count);
+        return fromResources(res, id, count);
+    }
+
+    /*
+    ------ Listener Interface ------
+     */
+
+    public interface Listener {
+        void onDraw(Sprite sprite, Canvas canvas);
+    }
+
+    /*
+    ------ Animator Class ------
+     */
+
+    public static class Animator {
+        private int mSeqIndex;
+        private int[] mSequence;
+        private TickTimer mTimer = new TickTimer();
+
+        public void setSequence(int[] sequence) {
+            mSequence = sequence;
+            mSeqIndex = 0;
+        }
+
+        public void setSpeed(float speed) {
+            mTimer.setFrequency(speed * mSequence.length);
+        }
+
+        private void tick() {
+            if (mTimer.tick()) {
+                mSeqIndex++;
+
+                if (mSeqIndex >= mSequence.length) {
+                    mSeqIndex = 0;
+                }
+            }
+        }
+
+        private int getIndex() {
+            return mSequence[mSeqIndex];
+        }
     }
 
     /*
@@ -65,11 +103,8 @@ public class Sprite extends DrawObject {
     private int mIndex = 0;
     private int mLayer = 0;
 
-    private int mAnimationIndex;
-    private int[] mAnimationSequence;
-    private TickTimer mAnimationTimer;
-
-    private GameObject mOwner;
+    private Animator mAnimator;
+    private Listener mListener;
 
     private final List<Bitmap> mBitmaps;
     private final Matrix mMatrix = new Matrix();
@@ -80,7 +115,7 @@ public class Sprite extends DrawObject {
 
     private Sprite(Bitmap... bitmaps) {
         mBitmaps = new ArrayList<Bitmap>(Arrays.asList(bitmaps));
-        calcMatrix();
+        setMatrix(1f);
     }
 
     private Sprite(Sprite src) {
@@ -91,10 +126,6 @@ public class Sprite extends DrawObject {
     /*
     ------ Methods ------
      */
-
-    public GameObject getOwner() {
-        return mOwner;
-    }
 
     @Override
     public int getLayer() {
@@ -114,25 +145,28 @@ public class Sprite extends DrawObject {
         mIndex = index;
     }
 
-
     public int count() {
         return mBitmaps.size();
     }
 
 
-    public void calcMatrix() {
-        calcMatrix(1f, 1f, null);
+    public Matrix getMatrix() {
+        return mMatrix;
     }
 
-    public void calcMatrix(float length) {
-        calcMatrix(length, length, null);
+    public void setMatrix(Matrix src) {
+        mMatrix.set(src);
     }
 
-    public void calcMatrix(Float width, Float height) {
-        calcMatrix(width, height, null);
+    public void setMatrix(float length) {
+        setMatrix(length, length, null);
     }
 
-    public void calcMatrix(Float width, Float height, Vector2 center) {
+    public void setMatrix(Float width, Float height) {
+        setMatrix(width, height, null);
+    }
+
+    public void setMatrix(Float width, Float height, Vector2 center) {
         float aspect = (float)mBitmaps.get(0).getWidth() / mBitmaps.get(0).getHeight();
 
         if (width == null && height == null) {
@@ -163,10 +197,27 @@ public class Sprite extends DrawObject {
         mMatrix.postTranslate(-center.x, -center.y);
     }
 
-    public Matrix getMatrix() {
-        return mMatrix;
+
+    public Listener getListener() {
+        return mListener;
     }
 
+    public void setListener(Listener listener) {
+        mListener = listener;
+    }
+
+
+    public Animator getAnimator() {
+        if (mAnimator == null) {
+            mAnimator = new Animator();
+        }
+
+        return mAnimator;
+    }
+
+    public void setAnimator(Animator animator) {
+        mAnimator = animator;
+    }
 
     public int[] sequenceForward() {
         int ret[] = new int[count()];
@@ -192,38 +243,15 @@ public class Sprite extends DrawObject {
         return ret;
     }
 
-    public void setAnimationSequence(int[] sequence) {
-        mAnimationSequence = sequence;
-        mAnimationIndex = 0;
-    }
-
-    public void setAnimationSpeed(float speed) {
-        if (mAnimationTimer == null) {
-            mAnimationTimer = new TickTimer();
-        }
-
-        mAnimationTimer.setFrequency(speed);
-    }
-
-    public void tick() {
-        if (mAnimationTimer.tick()) {
-            mAnimationIndex++;
-
-            if (mAnimationIndex >= mAnimationSequence.length) {
-                mAnimationIndex = 0;
-            }
-
-            setIndex(mAnimationSequence[mAnimationIndex]);
-        }
+    public void animate() {
+        mAnimator.tick();
+        mIndex = mAnimator.getIndex();
     }
 
 
     @Override
     public void onDraw(Canvas canvas) {
-        if (mOwner != null) {
-            mOwner.onDraw(this, canvas);
-        }
-
+        mListener.onDraw(this, canvas);
         canvas.drawBitmap(mBitmaps.get(mIndex), mMatrix, null);
     }
 }

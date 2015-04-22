@@ -8,7 +8,6 @@ import ch.bfh.anuto.game.Sprite;
 import ch.bfh.anuto.game.objects.Enemy;
 import ch.bfh.anuto.game.objects.GameObject;
 import ch.bfh.anuto.game.objects.TargetedShot;
-import ch.bfh.anuto.game.TickTimer;
 import ch.bfh.anuto.util.math.Vector2;
 
 public class RocketShot extends TargetedShot {
@@ -43,13 +42,13 @@ public class RocketShot extends TargetedShot {
     public void onInit() {
         super.onInit();
 
-        mSprite = Sprite.fromResources(this, R.drawable.rocket_shot, 4);
-        mSprite.calcMatrix(1f);
+        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.rocket_shot, 4);
+        mSprite.setListener(this);
+        mSprite.setMatrix(1f);
         mSprite.setLayer(Layers.SHOT);
+        mSprite.getAnimator().setSequence(mSprite.sequenceForward());
+        mSprite.getAnimator().setSpeed(ANIMATION_SPEED);
         mGame.add(mSprite);
-
-        mSprite.setAnimationSequence(mSprite.sequenceForward());
-        mSprite.setAnimationSpeed(ANIMATION_SPEED);
     }
 
     @Override
@@ -66,7 +65,7 @@ public class RocketShot extends TargetedShot {
         mDirection = getDirectionTo(mTarget);
         mAngle = mDirection.angle();
 
-        mSprite.tick();
+        mSprite.animate();
     }
 
     @Override

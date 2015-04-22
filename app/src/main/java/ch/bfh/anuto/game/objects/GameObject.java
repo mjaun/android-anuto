@@ -13,7 +13,7 @@ import ch.bfh.anuto.util.iterator.Function;
 import ch.bfh.anuto.util.iterator.Predicate;
 import ch.bfh.anuto.util.math.Vector2;
 
-public abstract class GameObject {
+public abstract class GameObject implements Sprite.Listener {
 
     /*
     ------ Listener Interface ------
@@ -104,12 +104,13 @@ public abstract class GameObject {
         }
     }
 
-    public void onDraw(Sprite sprite, Canvas canvas) {
-        canvas.translate(mPosition.x, mPosition.y);
-    }
-
     public void onTick() {
 
+    }
+
+    @Override
+    public void onDraw(Sprite sprite, Canvas canvas) {
+        canvas.translate(mPosition.x, mPosition.y);
     }
 
 

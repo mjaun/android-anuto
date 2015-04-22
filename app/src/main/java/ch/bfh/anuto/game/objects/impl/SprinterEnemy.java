@@ -26,8 +26,9 @@ public class SprinterEnemy extends Enemy {
     public void onInit() {
         super.onInit();
 
-        mSprite = Sprite.fromResources(this, R.drawable.sprinter_enemy);
-        mSprite.calcMatrix(0.9f);
+        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.sprinter_enemy);
+        mSprite.setListener(this);
+        mSprite.setMatrix(0.9f);
         mSprite.setLayer(Layers.ENEMY);
         mGame.add(mSprite);
     }

@@ -4,7 +4,6 @@ import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.Layers;
 import ch.bfh.anuto.game.Sprite;
 import ch.bfh.anuto.game.objects.Enemy;
-import ch.bfh.anuto.game.TickTimer;
 
 public class BlobEnemy extends Enemy {
 
@@ -25,13 +24,13 @@ public class BlobEnemy extends Enemy {
     public void onInit() {
         super.onInit();
 
-        mSprite = Sprite.fromResources(this, R.drawable.blob_enemy, 9);
-        mSprite.calcMatrix(0.9f);
+        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.blob_enemy, 9);
+        mSprite.setListener(this);
+        mSprite.setMatrix(0.9f);
         mSprite.setLayer(Layers.ENEMY);
+        mSprite.getAnimator().setSequence(mSprite.sequenceForward());
+        mSprite.getAnimator().setSpeed(ANIMATION_SPEED);
         mGame.add(mSprite);
-
-        mSprite.setAnimationSequence(mSprite.sequenceForward());
-        mSprite.setAnimationSpeed(ANIMATION_SPEED);
     }
 
     @Override
@@ -45,6 +44,6 @@ public class BlobEnemy extends Enemy {
     public void onTick() {
         super.onTick();
 
-        mSprite.tick();
+        mSprite.animate();
     }
 }

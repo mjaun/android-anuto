@@ -13,7 +13,8 @@ public class BasicPlateau extends Plateau {
     public void onInit() {
         super.onInit();
 
-        mSprite = Sprite.fromResources(this, R.drawable.basic_plateau);
+        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.basic_plateau);
+        mSprite.setListener(this);
         mSprite.setLayer(Layers.PLATEAU);
         mGame.add(mSprite);
     }
