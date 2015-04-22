@@ -272,11 +272,11 @@ public class GameManager implements Wave.Listener {
             }
         }
 
-        if (!hasWavesRemaining() && !isGameOver()) {
-            onGameOver(true);
-        }
-
         wave.removeListener(this);
         mActiveWaves.remove(wave);
+
+        if (!hasWavesRemaining() && !isGameOver() && mActiveWaves.isEmpty()) {
+            onGameOver(true);
+        }
     }
 }
