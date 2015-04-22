@@ -127,6 +127,10 @@ public class GameManager implements Wave.Listener {
     }
 
     public void callNextWave() {
+        if (!mActiveWaves.isEmpty()) {
+            mActiveWaves.get(mActiveWaves.size() - 1).giveReward();
+        }
+
         Wave wave = mLevel.getWaves().get(mNextWaveIndex);
         mNextWaveIndex++;
 
