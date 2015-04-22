@@ -32,8 +32,8 @@ public class Wave implements GameEngine.Listener, GameObject.Listener {
     @ElementList(name="enemies")
     private ArrayList<Enemy> mEnemies;
 
-    @Element(name="reward", required=false)
-    private int mReward = 0;
+    @Element(name="waveReward", required=false)
+    private int mWaveReward = 0;
 
     @Element(name="healthMultiplier", required=false)
     private float mHealthMultiplier = 1f;
@@ -43,7 +43,7 @@ public class Wave implements GameEngine.Listener, GameObject.Listener {
 
     private GameEngine mGame;
 
-    private boolean mRewardGiven;
+    private boolean mWaveRewardGiven;
     private Enemy mNextEnemy;
     private TickTimer mAddTimer = new TickTimer();
 
@@ -78,7 +78,7 @@ public class Wave implements GameEngine.Listener, GameObject.Listener {
     }
 
     public void start() {
-        mRewardGiven = false;
+        mWaveRewardGiven = false;
         mEnemiesToAdd.addAll(mEnemies);
         mGame.addListener(this);
 
@@ -104,18 +104,18 @@ public class Wave implements GameEngine.Listener, GameObject.Listener {
     }
 
 
-    public int getReward() {
-        return mReward;
+    public int getWaveReward() {
+        return mWaveReward;
     }
 
-    public void setReward(int reward) {
-        mReward = reward;
+    public void setWaveReward(int reward) {
+        mWaveReward = reward;
     }
 
-    public void giveReward() {
-        if (!mRewardGiven) {
-            mGame.getManager().giveCredits(mReward);
-            mRewardGiven = true;
+    public void giveWaveReward() {
+        if (!mWaveRewardGiven) {
+            mGame.getManager().giveCredits(mWaveReward);
+            mWaveRewardGiven = true;
         }
     }
 

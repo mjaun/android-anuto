@@ -52,6 +52,7 @@ public class GameManager implements Wave.Listener {
     private int mLives;
 
     private boolean mGameOver = true;
+    private int mEarlyBonus;
 
     private Tower mSelectedTower;
 
@@ -125,6 +126,10 @@ public class GameManager implements Wave.Listener {
 
     public boolean hasWavesRemaining() {
         return mNextWaveIndex < mLevel.getWaves().size();
+    }
+
+    public Wave getNextWave() {
+        return mLevel.getWaves().get(mNextWaveIndex);
     }
 
     public void callNextWave() {
@@ -255,9 +260,17 @@ public class GameManager implements Wave.Listener {
     @Override
     public void onWaveStarted(Wave wave) {
         if (mActiveWaves.size() > 1) {
-            mActiveWaves.get(mActiveWaves.size() - 2).giveReward();
+            mActiveWaves.get(mActiveWaves.size() - 2).giveWaveReward();
+
+            if (mEarlyBonus > 0) {
+                giveCredits(mEarlyBonus);
+            }
         }
 
+        if (hasWavesRemaining()) {
+            float factor = mLevel.getSettings().earlyBonusFactor;
+            mEarlyBonus = (int)(getNextWave().getWaveReward() * factor);
+        }
 
         Iterator<Tower> it = mGame.getGameObjects(TypeIds.TOWER).cast(Tower.class);
         while (it.hasNext()) {
@@ -275,7 +288,7 @@ public class GameManager implements Wave.Listener {
 
     @Override
     public void onWaveDone(Wave wave) {
-        wave.giveReward();
+        wave.giveWaveReward();
         wave.removeListener(this);
         mActiveWaves.remove(wave);
 

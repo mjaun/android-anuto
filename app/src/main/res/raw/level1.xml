@@ -141,7 +141,7 @@
     <waves>
         <!-- Wave 1 -->
         <wave>
-            <reward>100</reward>
+            <waveReward>100</waveReward>
             <healthMultiplier>0.6</healthMultiplier>
             <enemies>
                 <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy"/>
@@ -154,7 +154,7 @@
         </wave>
         <!-- Wave 2 -->
         <wave>
-            <reward>100</reward>
+            <waveReward>100</waveReward>
             <healthMultiplier>0.8</healthMultiplier>
             <enemies>
                 <enemy class="ch.bfh.anuto.game.objects.impl.BasicEnemy"/>
@@ -173,7 +173,7 @@
         </wave>
         <!-- Wave 3 -->
         <wave>
-            <reward>200</reward>
+            <waveReward>200</waveReward>
             <enemies>
                 <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy"/>
                 <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="1.0"/>
@@ -189,7 +189,7 @@
         </wave>
         <!-- Wave 4 -->
         <wave>
-            <reward>100</reward>
+            <waveReward>100</waveReward>
             <enemies>
                 <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy"/>
                 <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="1.5"/>
@@ -236,7 +236,7 @@
         </wave>
         <!-- Wave 6 -->
         <wave>
-            <reward>100</reward>
+            <waveReward>100</waveReward>
             <healthMultiplier>1.2</healthMultiplier>
             <enemies>
                 <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.5"/>
@@ -267,7 +267,7 @@
         <wave>
             <rewardMultiplier>3.0</rewardMultiplier>
             <healthMultiplier>3.0</healthMultiplier>
-            <reward>500</reward>
+            <waveReward>500</waveReward>
             <enemies>
                 <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
                 <enemy class="ch.bfh.anuto.game.objects.impl.SprinterEnemy" delay="0.3"/>
@@ -324,7 +324,7 @@
         <wave>
             <rewardMultiplier>1.5</rewardMultiplier>
             <healthMultiplier>2.0</healthMultiplier>
-            <reward>1000</reward>
+            <waveReward>1000</waveReward>
             <enemies>
                 <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
                 <enemy class="ch.bfh.anuto.game.objects.impl.BlobEnemy" delay="0.5"/>
