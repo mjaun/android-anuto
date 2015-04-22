@@ -14,7 +14,6 @@ public class BasicEnemy extends Enemy {
     private final static float ANIMATION_SPEED = 1.5f;
 
     private Sprite mSprite;
-    private TickTimer mSpriteTimer;
 
     public BasicEnemy() {
         mHealth = mHealthMax = HEALTH;
@@ -31,7 +30,8 @@ public class BasicEnemy extends Enemy {
         mSprite.setLayer(Layers.ENEMY);
         mGame.add(mSprite);
 
-        mSpriteTimer = TickTimer.createFrequency(ANIMATION_SPEED * (mSprite.count() * 2 - 1));
+        mSprite.setAnimationSequence(mSprite.sequenceForwardBackward());
+        mSprite.setAnimationSpeed(ANIMATION_SPEED);
     }
 
     @Override
@@ -45,8 +45,6 @@ public class BasicEnemy extends Enemy {
     public void onTick() {
         super.onTick();
 
-        if (mSpriteTimer.tick()) {
-            mSprite.cycle2();
-        }
+        mSprite.tick();
     }
 }

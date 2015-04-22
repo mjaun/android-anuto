@@ -64,7 +64,10 @@ public class Sprite extends DrawObject {
 
     private int mIndex = 0;
     private int mLayer = 0;
-    private boolean mCycleBackwards = false;
+
+    private int mAnimationIndex;
+    private int[] mAnimationSequence;
+    private TickTimer mAnimationTimer;
 
     private GameObject mOwner;
 
@@ -165,29 +168,52 @@ public class Sprite extends DrawObject {
     }
 
 
-    public void cycle() {
-        mIndex++;
+    public int[] sequenceForward() {
+        int ret[] = new int[count()];
 
-        if (mIndex >= mBitmaps.size()) {
-            mIndex = 0;
+        for (int i = 0; i < count(); i++) {
+            ret[i] = i;
         }
+
+        return ret;
     }
 
-    public void cycle2() {
-        if (mCycleBackwards) {
-            mIndex--;
+    public int[] sequenceForwardBackward() {
+        int ret[] = new int[count() * 2 - 2];
 
-            if (mIndex < 0) {
-                mIndex = 1;
-                mCycleBackwards = false;
+        for (int i = 0; i < count(); i++) {
+            if (i < count()) {
+                ret[i] = i;
+            } else {
+                ret[i] = count() * 2 - 1 - i;
             }
-        } else {
-            mIndex++;
+        }
 
-            if (mIndex >= mBitmaps.size()) {
-                mIndex = mBitmaps.size() - 2;
-                mCycleBackwards = true;
+        return ret;
+    }
+
+    public void setAnimationSequence(int[] sequence) {
+        mAnimationSequence = sequence;
+        mAnimationIndex = 0;
+    }
+
+    public void setAnimationSpeed(float speed) {
+        if (mAnimationTimer == null) {
+            mAnimationTimer = new TickTimer();
+        }
+
+        mAnimationTimer.setFrequency(speed);
+    }
+
+    public void tick() {
+        if (mAnimationTimer.tick()) {
+            mAnimationIndex++;
+
+            if (mAnimationIndex >= mAnimationSequence.length) {
+                mAnimationIndex = 0;
             }
+
+            setIndex(mAnimationSequence[mAnimationIndex]);
         }
     }
 

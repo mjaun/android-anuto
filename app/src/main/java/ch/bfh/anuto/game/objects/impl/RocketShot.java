@@ -18,7 +18,6 @@ public class RocketShot extends TargetedShot {
 
     private Sprite mSprite;
     private float mAngle = 0f;
-    private TickTimer mSpriteTimer;
 
     public RocketShot() {
         mSpeed = MOVEMENT_SPEED;
@@ -49,7 +48,8 @@ public class RocketShot extends TargetedShot {
         mSprite.setLayer(Layers.SHOT);
         mGame.add(mSprite);
 
-        mSpriteTimer = TickTimer.createFrequency(ANIMATION_SPEED * (mSprite.count() * 2 - 1));
+        mSprite.setAnimationSequence(mSprite.sequenceForward());
+        mSprite.setAnimationSpeed(ANIMATION_SPEED);
     }
 
     @Override
@@ -61,14 +61,12 @@ public class RocketShot extends TargetedShot {
 
     @Override
     public void onTick() {
+        super.onTick();
+
         mDirection = getDirectionTo(mTarget);
         mAngle = mDirection.angle();
 
-        super.onTick();
-
-        if (mSpriteTimer.tick()) {
-            mSprite.cycle2();
-        }
+        mSprite.tick();
     }
 
     @Override
