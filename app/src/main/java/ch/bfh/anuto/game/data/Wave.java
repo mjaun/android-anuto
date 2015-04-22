@@ -85,9 +85,15 @@ public class Wave implements GameEngine.Listener, GameObject.Listener {
         onWaveStarted();
     }
 
-    public void stop() {
+    public void abort() {
         mGame.removeListener(this);
 
+        for (Enemy e : mEnemiesInGame) {
+            e.removeListener(this);
+            e.remove();
+        }
+
+        mEnemiesInGame.clear();
         mEnemiesToAdd.clear();
         mNextEnemy = null;
     }
@@ -187,8 +193,6 @@ public class Wave implements GameEngine.Listener, GameObject.Listener {
     }
 
     private void onWaveDone() {
-        giveReward();
-
         for (Listener l : mListeners) {
             l.onWaveDone(this);
         }

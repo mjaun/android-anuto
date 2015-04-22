@@ -77,7 +77,7 @@ public class GameManager implements Wave.Listener {
         mLevel = null;
 
         for (Wave w : mActiveWaves) {
-            w.stop();
+            w.abort();
         }
 
         mActiveWaves.clear();
@@ -128,10 +128,6 @@ public class GameManager implements Wave.Listener {
     }
 
     public void callNextWave() {
-        if (!mActiveWaves.isEmpty()) {
-            mActiveWaves.get(mActiveWaves.size() - 1).giveReward();
-        }
-
         Wave wave = mLevel.getWaves().get(mNextWaveIndex);
         mNextWaveIndex++;
 
@@ -140,13 +136,6 @@ public class GameManager implements Wave.Listener {
         wave.start();
 
         mActiveWaves.add(wave);
-
-        Iterator<Tower> it = mGame.getGameObjects(TypeIds.TOWER).cast(Tower.class);
-        while (it.hasNext()) {
-            Tower t = it.next();
-
-            t.setValue((int)(t.getValue() * mLevel.getSettings().agingFactor));
-        }
     }
 
 
@@ -265,6 +254,18 @@ public class GameManager implements Wave.Listener {
 
     @Override
     public void onWaveStarted(Wave wave) {
+        if (mActiveWaves.size() > 1) {
+            mActiveWaves.get(mActiveWaves.size() - 2).giveReward();
+        }
+
+
+        Iterator<Tower> it = mGame.getGameObjects(TypeIds.TOWER).cast(Tower.class);
+        while (it.hasNext()) {
+            Tower t = it.next();
+
+            t.setValue((int)(t.getValue() * mLevel.getSettings().agingFactor));
+        }
+
         for (Listener l : mListeners) {
             if (l instanceof WaveListener) {
                 ((WaveListener)l).onWaveStarted(wave);
@@ -274,14 +275,15 @@ public class GameManager implements Wave.Listener {
 
     @Override
     public void onWaveDone(Wave wave) {
+        wave.giveReward();
+        wave.removeListener(this);
+        mActiveWaves.remove(wave);
+
         for (Listener l : mListeners) {
             if (l instanceof WaveListener) {
                 ((WaveListener)l).onWaveDone(wave);
             }
         }
-
-        wave.removeListener(this);
-        mActiveWaves.remove(wave);
 
         if (!hasWavesRemaining() && !isGameOver() && mActiveWaves.isEmpty()) {
             onGameOver(true);
