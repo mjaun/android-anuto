@@ -2,6 +2,7 @@ package ch.bfh.anuto.game;
 
 import android.content.res.Resources;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -139,6 +140,13 @@ public class GameManager implements Wave.Listener {
         wave.start();
 
         mActiveWaves.add(wave);
+
+        Iterator<Tower> it = mGame.getGameObjects(TypeIds.TOWER).cast(Tower.class);
+        while (it.hasNext()) {
+            Tower t = it.next();
+
+            t.setValue((int)(t.getValue() * mLevel.getSettings().agingFactor));
+        }
     }
 
 

@@ -4,14 +4,23 @@ import org.simpleframework.xml.Element;
 
 public class GameSettings {
     @Element
-    public int width = 10;
+    public int width;
 
     @Element
-    public int height = 15;
+    public int height;
 
     @Element
-    public int credits = 200;
+    public int credits;
 
     @Element
-    public int lives = 20;
+    public int lives;
+
+    @Element(required=false)
+    public float agingFactor = 0.95f;
+
+    @Element(required=false)
+    public float earlyBonusFactor = 2.0f;
+
+    @Element(required=false)
+    public float earlyBonusDecreaseFactor = 0.7f;
 }

@@ -93,6 +93,10 @@ public abstract class Tower extends GameObject {
         return mValue;
     }
 
+    public void setValue(int value) {
+        mValue = value;
+    }
+
     public void buy() {
         mGame.getManager().takeCredits(mValue);
         setEnabled(true);
