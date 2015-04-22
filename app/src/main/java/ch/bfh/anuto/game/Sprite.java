@@ -93,7 +93,7 @@ public class Sprite extends DrawObject {
         return mOwner;
     }
 
-
+    @Override
     public int getLayer() {
         return mLayer;
     }
@@ -101,6 +101,7 @@ public class Sprite extends DrawObject {
     public void setLayer(int layer) {
         mLayer = layer;
     }
+
 
     public int getIndex() {
         return mIndex;
@@ -110,7 +111,8 @@ public class Sprite extends DrawObject {
         mIndex = index;
     }
 
-    public int getCount() {
+
+    public int count() {
         return mBitmaps.size();
     }
 
@@ -191,7 +193,7 @@ public class Sprite extends DrawObject {
 
 
     @Override
-    public void draw(Canvas canvas) {
+    public void onDraw(Canvas canvas) {
         if (mOwner != null) {
             mOwner.onDraw(this, canvas);
         }

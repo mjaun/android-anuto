@@ -38,7 +38,7 @@ public abstract class Tower extends GameObject {
         }
 
         @Override
-        public void draw(Canvas canvas) {
+        public void onDraw(Canvas canvas) {
             canvas.drawCircle(mPosition.x, mPosition.y, mRange, mRangeIndicatorPen);
         }
     }

@@ -31,7 +31,7 @@ public class BlobEnemy extends Enemy {
         mSprite.setLayer(Layers.ENEMY);
         mGame.add(mSprite);
 
-        mSpriteTimer = TickTimer.createFrequency(ANIMATION_SPEED * (mSprite.getCount() * 2 - 1));
+        mSpriteTimer = TickTimer.createFrequency(ANIMATION_SPEED * (mSprite.count() * 2 - 1));
     }
 
     @Override

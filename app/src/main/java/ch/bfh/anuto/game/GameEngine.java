@@ -201,7 +201,7 @@ public class GameEngine implements Runnable {
 
         for (DrawObject obj : mDrawObjects) {
             canvas.save();
-            obj.draw(canvas);
+            obj.onDraw(canvas);
             canvas.restore();
         }
 

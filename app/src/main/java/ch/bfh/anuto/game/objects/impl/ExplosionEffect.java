@@ -46,7 +46,7 @@ public class ExplosionEffect extends AreaEffect {
         }
 
         @Override
-        public void draw(Canvas canvas) {
+        public void onDraw(Canvas canvas) {
             canvas.drawCircle(mPosition.x, mPosition.y, EXPLOSION_RADIUS, mPaint);
         }
     }

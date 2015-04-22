@@ -48,7 +48,7 @@ public class LaserEffect extends AreaEffect {
         }
 
         @Override
-        public void draw(Canvas canvas) {
+        public void onDraw(Canvas canvas) {
             canvas.drawLine(mPosition.x, mPosition.y, mLaserTo.x, mLaserTo.y, mPaint);
         }
     }

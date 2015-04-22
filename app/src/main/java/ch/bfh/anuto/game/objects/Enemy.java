@@ -49,7 +49,7 @@ public abstract class Enemy extends GameObject {
         }
 
         @Override
-        public void draw(Canvas canvas) {
+        public void onDraw(Canvas canvas) {
             canvas.translate(mPosition.x - HEALTHBAR_WIDTH/2f, mPosition.y + HEALTHBAR_OFFSET);
 
             canvas.drawRect(0, 0, HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT, mHealthBarBg);
