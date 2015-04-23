@@ -13,7 +13,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import ch.bfh.anuto.util.iterator.ComputingIterator;
 import ch.bfh.anuto.util.iterator.StreamIterator;
 
-public class DeferredCollectionMap<K, V> implements Iterable<V> {
+public class DeferredCollectionMap<K, V> extends CollectionMap<K, V> {
 
     /*
     ------ Entry Class ------
@@ -30,85 +30,8 @@ public class DeferredCollectionMap<K, V> implements Iterable<V> {
     }
 
     /*
-    ------ Iterators ------
-     */
-
-    private abstract class Itr extends ComputingIterator<V> {
-        protected boolean mClosed = false;
-
-        public Itr() {
-            mLock.readLock().lock();
-        }
-
-        @Override
-        public void close() {
-            if (!mClosed) {
-                mClosed = true;
-                mLock.readLock().unlock();
-            }
-        }
-    }
-
-    private class AllItr extends Itr {
-        Iterator<Collection<V>> mCollectionIterator;
-        Iterator<V> mItemIterator;
-
-        public AllItr() {
-            mCollectionIterator = mItems.values().iterator();
-        }
-
-        @Override
-        public V computeNext() {
-            if (mClosed) {
-                return null;
-            }
-
-            while (mItemIterator == null || !mItemIterator.hasNext()) {
-                if (mCollectionIterator.hasNext()) {
-                    mItemIterator = mCollectionIterator.next().iterator();
-                } else {
-                    close();
-                    return null;
-                }
-            }
-
-            return mItemIterator.next();
-        }
-    }
-
-    private class KeyItr extends Itr {
-        Iterator<V> mItemIterator;
-
-        public KeyItr(K key) {
-            if (!mItems.containsKey(key)) {
-                mItemIterator = null;
-            } else {
-                mItemIterator = mItems.get(key).iterator();
-            }
-        }
-
-        @Override
-        public V computeNext() {
-            if (mClosed) {
-                return null;
-            }
-
-            if (mItemIterator == null || !mItemIterator.hasNext()) {
-                close();
-                return null;
-            }
-
-            return mItemIterator.next();
-        }
-    }
-
-    /*
     ------ Members ------
      */
-
-    private final ReadWriteLock mLock = new ReentrantReadWriteLock();
-
-    private final SortedMap<K, Collection<V>> mItems = new TreeMap<>();
 
     private final Queue<Entry<K, V>> mItemsToAdd = new ArrayDeque<>();
     private final Queue<Entry<K, V>> mItemsToRemove = new ArrayDeque<>();
@@ -116,22 +39,6 @@ public class DeferredCollectionMap<K, V> implements Iterable<V> {
     /*
     ------ Methods ------
      */
-
-    private Collection<V> getOrPutCollection(K key) {
-        if (!mItems.containsKey(key)) {
-            mItems.put(key, new ArrayList<V>());
-        }
-
-        return mItems.get(key);
-    }
-
-    protected void onItemAdded(K key, V value) {
-
-    }
-
-    protected void onItemRemoved(K key, V value) {
-
-    }
 
     protected void onItemAddDeferred(K key, V value) {
 
@@ -162,7 +69,7 @@ public class DeferredCollectionMap<K, V> implements Iterable<V> {
         synchronized (mItemsToAdd) {
             while (!mItemsToAdd.isEmpty()) {
                 Entry<K, V> e = mItemsToAdd.remove();
-                getOrPutCollection(e.key).add(e.value);
+                getCollection(e.key).add(e.value);
                 onItemAdded(e.key, e.value);
             }
         }
@@ -171,22 +78,12 @@ public class DeferredCollectionMap<K, V> implements Iterable<V> {
             while (!mItemsToRemove.isEmpty()) {
                 Entry<K, V> e = mItemsToRemove.remove();
 
-                if (getOrPutCollection(e.key).remove(e.value)) {
+                if (getCollection(e.key).remove(e.value)) {
                     onItemRemoved(e.key, e.value);
                 }
             }
         }
 
         mLock.writeLock().unlock();
-    }
-
-
-    @Override
-    public StreamIterator<V> iterator() {
-        return new AllItr();
-    }
-
-    public StreamIterator<V> iteratorKey(K key) {
-        return new KeyItr(key);
     }
 }

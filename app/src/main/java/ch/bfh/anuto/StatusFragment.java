@@ -12,8 +12,9 @@ import android.widget.TextView;
 import ch.bfh.anuto.game.GameManager;
 import ch.bfh.anuto.game.data.Wave;
 
-public class StatusFragment extends Fragment implements GameManager.CreditsListener,
-        GameManager.LivesListener, GameManager.WaveListener, GameManager.GameListener, View.OnClickListener {
+public class StatusFragment extends Fragment implements GameManager.WaveStartedListener,
+        GameManager.CreditsChangedListener, GameManager.LivesChangedListener,
+        GameManager.GameStartListener, GameManager.GameOverListener, View.OnClickListener {
 
     private GameManager mManager;
 
@@ -78,11 +79,6 @@ public class StatusFragment extends Fragment implements GameManager.CreditsListe
                 btn_next_wave.setEnabled(mManager.hasWavesRemaining());
             }
         });
-    }
-
-    @Override
-    public void onWaveDone(Wave wave) {
-
     }
 
     @Override

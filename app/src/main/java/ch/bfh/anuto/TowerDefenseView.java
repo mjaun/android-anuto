@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import ch.bfh.anuto.game.GameEngine;
+import ch.bfh.anuto.game.GameManager;
 import ch.bfh.anuto.game.objects.GameObject;
 import ch.bfh.anuto.game.objects.Plateau;
 import ch.bfh.anuto.game.objects.Tower;
@@ -89,10 +90,15 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
             Tower closest = (Tower)mGame.getGameObjects(Tower.TYPE_ID)
                     .min(GameObject.distanceTo(pos));
 
+            GameManager manager = mGame.getManager();
             if (closest != null && closest.getDistanceTo(pos) < 0.5f) {
-                mGame.getManager().setSelectedTower(closest);
+                if (manager.getSelectedTower() == closest) {
+                    manager.showTowerInfo(closest);
+                } else {
+                    manager.setSelectedTower(closest);
+                }
             } else {
-                mGame.getManager().setSelectedTower(null);
+                manager.setSelectedTower(null);
             }
 
             return true;

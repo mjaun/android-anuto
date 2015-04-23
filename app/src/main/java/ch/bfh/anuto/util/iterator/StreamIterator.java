@@ -4,6 +4,24 @@ import java.util.Iterator;
 
 public abstract class StreamIterator<T> implements Iterator<T> {
 
+    public static <T> StreamIterator<T> fromIterator(final Iterator<T> it) {
+        return new StreamIterator<T>() {
+            @Override
+            public void close() {
+            }
+
+            @Override
+            public boolean hasNext() {
+                return it.hasNext();
+            }
+
+            @Override
+            public T next() {
+                return it.next();
+            }
+        };
+    }
+
     public abstract void close();
 
     @Override
@@ -101,5 +119,16 @@ public abstract class StreamIterator<T> implements Iterator<T> {
                 return castTo.cast(input);
             }
         });
+    }
+
+    public <F> StreamIterator<F> ofType(final Class<F> type) {
+        Predicate<T> predicate = new Predicate<T>() {
+            @Override
+            public boolean apply(T value) {
+                return type.isInstance(value);
+            }
+        };
+
+        return this.filter(predicate).cast(type);
     }
 }

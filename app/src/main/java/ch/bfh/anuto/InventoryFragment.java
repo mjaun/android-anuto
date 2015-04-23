@@ -8,9 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import ch.bfh.anuto.game.GameManager;
+import ch.bfh.anuto.game.data.Wave;
 
-public class InventoryFragment extends Fragment implements GameManager.GameListener,
-        GameManager.CreditsListener {
+public class InventoryFragment extends Fragment implements GameManager.GameOverListener,
+        GameManager.CreditsChangedListener {
 
     private GameManager mManager;
 
@@ -43,11 +44,6 @@ public class InventoryFragment extends Fragment implements GameManager.GameListe
         super.onDetach();
 
         mManager.removeListener(this);
-    }
-
-    @Override
-    public void onGameStart() {
-
     }
 
     @Override
