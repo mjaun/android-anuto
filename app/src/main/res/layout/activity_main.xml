@@ -40,4 +40,13 @@
         android:layout_centerVertical="true"
         tools:layout="@layout/fragment_game_over" />
 
+    <fragment
+        android:id="@+id/fragment_tower_info"
+        android:name="ch.bfh.anuto.TowerInfoFragment"
+        android:layout_width="200dp"
+        android:layout_height="125dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        tools:layout="@layout/fragment_tower_info" />
+
 </RelativeLayout>

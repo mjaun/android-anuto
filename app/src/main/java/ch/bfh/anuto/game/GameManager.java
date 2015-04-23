@@ -47,6 +47,10 @@ public class GameManager implements Wave.Listener {
         void onLivesChanged(int lives);
     }
 
+    public interface ShowTowerInfoListener extends Listener {
+        void onShowTowerInfo(Tower tower);
+    }
+
     /*
     ------ Members ------
      */
@@ -219,6 +223,7 @@ public class GameManager implements Wave.Listener {
     }
 
     public void showTowerInfo(Tower tower) {
+        onShowTowerInfo(tower);
     }
 
     /*
@@ -305,6 +310,13 @@ public class GameManager implements Wave.Listener {
 
         if (!hasWavesRemaining() && !isGameOver() && mActiveWaves.isEmpty()) {
             onGameOver(true);
+        }
+    }
+
+    private void onShowTowerInfo(Tower tower) {
+        Iterator<ShowTowerInfoListener> it = mListeners.get(ShowTowerInfoListener.class);
+        while (it.hasNext()) {
+            it.next().onShowTowerInfo(tower);
         }
     }
 }
