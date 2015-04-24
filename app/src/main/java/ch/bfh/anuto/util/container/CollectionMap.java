@@ -135,16 +135,27 @@ public class CollectionMap<K, V> implements Iterable<V> {
 
     public void add(K key, V value) {
         mLock.writeLock().lock();
-        createCollection(key).add(value);
+        getCollection(key).add(value);
         onItemAdded(key, value);
         mLock.writeLock().unlock();
     }
 
     public void remove(K key, V value) {
         mLock.writeLock().lock();
-        if (createCollection(key).remove(key)) {
+        if (getCollection(key).remove(key)) {
             onItemRemoved(key, value);
         }
+        mLock.writeLock().unlock();
+    }
+
+    public void clear() {
+        mLock.writeLock().lock();
+        for (K key : mItems.keySet()) {
+            for (V value : mItems.get(key)) {
+                onItemRemoved(key, value);
+            }
+        }
+        mItems.clear();
         mLock.writeLock().unlock();
     }
 

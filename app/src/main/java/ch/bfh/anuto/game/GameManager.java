@@ -82,7 +82,6 @@ public class GameManager implements Wave.Listener {
 
     public GameManager(Resources res) {
         mGame = new GameEngine(res, this);
-        reset();
     }
 
     /*
@@ -102,7 +101,8 @@ public class GameManager implements Wave.Listener {
         }
 
         mActiveWaves.clear();
-        mGame.clear();
+
+        mGame.reset();
 
         mSelectedTower = null;
         mNextWaveIndex = 0;
@@ -118,7 +118,9 @@ public class GameManager implements Wave.Listener {
     }
 
     public void setLevel(Level level) {
-        reset();
+        if (mLevel != null) {
+            reset();
+        }
 
         mLevel = level;
 

@@ -37,8 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmallInverse"
-                android:text="Value:"
-                android:id="@+id/textView"
+                android:text="@string/value"
                 android:layout_column="0"
                 android:paddingRight="10dp" />
 
@@ -47,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmallInverse"
                 android:text="\?"
-                android:id="@+id/textView5"
+                android:id="@+id/txt_value"
                 android:layout_column="1" />
         </TableRow>
 
@@ -59,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmallInverse"
-                android:text="Damage:"
+                android:text="@string/damage"
                 android:id="@+id/textView2"
                 android:layout_column="0"
                 android:paddingRight="10dp" />
@@ -69,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmallInverse"
                 android:text="\?"
-                android:id="@+id/textView6"
+                android:id="@+id/txt_damage"
                 android:layout_column="1" />
         </TableRow>
 
@@ -81,8 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmallInverse"
-                android:text="Reload:"
-                android:id="@+id/textView3"
+                android:text="@string/reload"
                 android:layout_column="0"
                 android:paddingRight="10dp" />
 
@@ -91,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmallInverse"
                 android:text="\?"
-                android:id="@+id/textView7"
+                android:id="@+id/txt_reload"
                 android:layout_column="1" />
         </TableRow>
 
@@ -103,8 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmallInverse"
-                android:text="Range:"
-                android:id="@+id/textView4"
+                android:text="@string/range"
                 android:layout_column="0"
                 android:paddingRight="10dp" />
 
@@ -113,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmallInverse"
                 android:text="\?"
-                android:id="@+id/textView8"
+                android:id="@+id/txt_range"
                 android:layout_column="1" />
         </TableRow>
     </TableLayout>

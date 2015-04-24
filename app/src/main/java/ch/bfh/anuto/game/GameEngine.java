@@ -4,6 +4,8 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.os.Handler;
+import android.os.MessageQueue;
 import android.util.Log;
 
 import java.util.List;
@@ -131,12 +133,6 @@ public class GameEngine implements Runnable {
         return mGameObjects.iteratorKey(typeId);
     }
 
-    public void clear() {
-        for (GameObject obj : mGameObjects) {
-            remove(obj);
-        }
-    }
-
 
     public void setGameSize(int width, int height) {
         mGameSize.set(width, height);
@@ -231,6 +227,11 @@ public class GameEngine implements Runnable {
                 }
             }
         }
+    }
+
+    public void reset() {
+        mGameObjects.clearDeferred();
+        mGameObjects.waitForChanges();
     }
 
     public boolean isRunning() {

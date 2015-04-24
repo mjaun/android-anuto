@@ -89,25 +89,6 @@ public abstract class Tower extends GameObject {
     }
 
 
-    public int getValue() {
-        return mValue;
-    }
-
-    public void setValue(int value) {
-        mValue = value;
-    }
-
-    public void buy() {
-        mGame.getManager().takeCredits(mValue);
-        setEnabled(true);
-    }
-
-    public void sell() {
-        mGame.getManager().giveCredits(mValue);
-        this.remove();
-    }
-
-
     public Plateau getPlateau() {
         return mPlateau;
     }
@@ -135,6 +116,33 @@ public abstract class Tower extends GameObject {
     }
 
 
+    public int getValue() {
+        return mValue;
+    }
+
+    public void setValue(int value) {
+        mValue = value;
+    }
+
+    public void buy() {
+        mGame.getManager().takeCredits(mValue);
+        setEnabled(true);
+    }
+
+    public void sell() {
+        mGame.getManager().giveCredits(mValue);
+        this.remove();
+    }
+
+
+    public float getRange() {
+        return mRange;
+    }
+
+    public void setRange(float range) {
+        mRange = range;
+    }
+
     public void showRange() {
         if (mRangeIndicator == null) {
             mRangeIndicator = new RangeIndicator();
@@ -147,6 +155,15 @@ public abstract class Tower extends GameObject {
             mGame.remove(mRangeIndicator);
             mRangeIndicator = null;
         }
+    }
+
+
+    public float getReloadTime() {
+        return mReloadTime;
+    }
+
+    public void setReloadTime(float reloadTime) {
+        mReloadTime = reloadTime;
     }
 
 

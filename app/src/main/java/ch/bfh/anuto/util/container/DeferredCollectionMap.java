@@ -49,41 +49,54 @@ public class DeferredCollectionMap<K, V> extends CollectionMap<K, V> {
     }
 
 
-    public void addDeferred(K key, V value) {
-        synchronized (mItemsToAdd) {
-            mItemsToAdd.add(new Entry<>(key, value));
-            onItemAddDeferred(key, value);
-        }
+    public synchronized void addDeferred(K key, V value) {
+        mItemsToAdd.add(new Entry<>(key, value));
+        onItemAddDeferred(key, value);
     }
 
-    public void removeDeferred(K key, V value) {
-        synchronized (mItemsToRemove) {
-            mItemsToRemove.add(new Entry<>(key, value));
-            onItemRemoveDeferred(key, value);
-        }
+    public synchronized void removeDeferred(K key, V value) {
+        mItemsToRemove.add(new Entry<>(key, value));
+        onItemRemoveDeferred(key, value);
     }
 
-    public void applyChanges() {
-        mLock.writeLock().lock();
+    public synchronized void clearDeferred() {
+        mLock.readLock().lock();
 
-        synchronized (mItemsToAdd) {
-            while (!mItemsToAdd.isEmpty()) {
-                Entry<K, V> e = mItemsToAdd.remove();
-                getCollection(e.key).add(e.value);
-                onItemAdded(e.key, e.value);
+        for (K key : mItems.keySet()) {
+            for (V value : mItems.get(key)) {
+                removeDeferred(key, value);
             }
         }
 
-        synchronized (mItemsToRemove) {
-            while (!mItemsToRemove.isEmpty()) {
-                Entry<K, V> e = mItemsToRemove.remove();
+        mLock.readLock().unlock();
+    }
 
-                if (getCollection(e.key).remove(e.value)) {
-                    onItemRemoved(e.key, e.value);
-                }
+    public synchronized void applyChanges() {
+        mLock.writeLock().lock();
+
+        while (!mItemsToAdd.isEmpty()) {
+            Entry<K, V> e = mItemsToAdd.remove();
+            getCollection(e.key).add(e.value);
+            onItemAdded(e.key, e.value);
+        }
+
+        while (!mItemsToRemove.isEmpty()) {
+            Entry<K, V> e = mItemsToRemove.remove();
+            if (getCollection(e.key).remove(e.value)) {
+                onItemRemoved(e.key, e.value);
             }
         }
 
         mLock.writeLock().unlock();
+
+        this.notifyAll();
+    }
+
+    public synchronized void waitForChanges() {
+        try {
+            this.wait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
