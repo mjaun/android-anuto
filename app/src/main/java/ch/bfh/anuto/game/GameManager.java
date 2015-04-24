@@ -51,6 +51,10 @@ public class GameManager implements Wave.Listener {
         void onShowTowerInfo(Tower tower);
     }
 
+    public interface HideTowerInfoListener extends Listener {
+        void onHideTowerInfo();
+    }
+
     /*
     ------ Members ------
      */
@@ -226,6 +230,10 @@ public class GameManager implements Wave.Listener {
         onShowTowerInfo(tower);
     }
 
+    public void hideTowerInfo() {
+        onHideTowerInfo();
+    }
+
     /*
     ------ Listener Stuff ------
      */
@@ -317,6 +325,13 @@ public class GameManager implements Wave.Listener {
         Iterator<ShowTowerInfoListener> it = mListeners.get(ShowTowerInfoListener.class);
         while (it.hasNext()) {
             it.next().onShowTowerInfo(tower);
+        }
+    }
+
+    private void onHideTowerInfo() {
+        Iterator<HideTowerInfoListener> it = mListeners.get(HideTowerInfoListener.class);
+        while (it.hasNext()) {
+            it.next().onHideTowerInfo();
         }
     }
 }

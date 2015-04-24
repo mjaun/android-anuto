@@ -91,6 +91,7 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
                     .min(GameObject.distanceTo(pos));
 
             GameManager manager = mGame.getManager();
+            manager.hideTowerInfo();
             if (closest != null && closest.getDistanceTo(pos) < 0.5f) {
                 if (manager.getSelectedTower() == closest) {
                     manager.showTowerInfo(closest);
