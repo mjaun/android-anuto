@@ -117,10 +117,7 @@ public class GameManager implements Wave.Listener {
     }
 
     public void setLevel(Level level) {
-        if (mLevel != null) {
-            reset();
-        }
-
+        reset();
         mLevel = level;
 
         for (Plateau p : level.getPlateaus()) {
