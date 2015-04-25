@@ -4,8 +4,6 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.os.Handler;
-import android.os.MessageQueue;
 import android.util.Log;
 
 import java.util.List;
@@ -13,7 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.bfh.anuto.game.objects.DrawObject;
 import ch.bfh.anuto.game.objects.GameObject;
-import ch.bfh.anuto.util.container.DeferredCollectionMap;
+import ch.bfh.anuto.util.container.ConcurrentCollectionMap;
 import ch.bfh.anuto.util.iterator.StreamIterator;
 import ch.bfh.anuto.util.math.Vector2;
 
@@ -41,21 +39,29 @@ public class GameEngine implements Runnable {
     ------ Helper Classes ------
      */
 
-    private class GameObjectMap extends DeferredCollectionMap<Integer, GameObject> {
+    private class GameObjectMap extends ConcurrentCollectionMap<Integer, GameObject> {
         @Override
-        public void onItemAddDeferred(Integer key, GameObject value) {
+        public boolean add(Integer key, GameObject value) {
+            boolean ret = super.add(key, value);
             value.setGame(GameEngine.this);
             value.onInit();
+            return ret;
         }
 
         @Override
-        protected void onItemRemoved(Integer key, GameObject value) {
-            value.onClean();
-            value.setGame(null);
+        public boolean remove(Integer key, GameObject value) {
+            boolean ret = super.remove(key, value);
+
+            if (ret) {
+                value.onClean();
+                value.setGame(null);
+            }
+
+            return ret;
         }
     }
 
-    private class DrawObjectMap extends DeferredCollectionMap<Integer, DrawObject> {
+    private class DrawObjectMap extends ConcurrentCollectionMap<Integer, DrawObject> {
 
     }
 
@@ -114,23 +120,29 @@ public class GameEngine implements Runnable {
 
 
     public void add(GameObject obj) {
-        mGameObjects.addDeferred(obj.getTypeId(), obj);
+        mGameObjects.add(obj.getTypeId(), obj);
     }
 
     public void remove(GameObject obj) {
-        mGameObjects.removeDeferred(obj.getTypeId(), obj);
+        mGameObjects.remove(obj.getTypeId(), obj);
     }
 
     public void add(DrawObject obj) {
-        mDrawObjects.addDeferred(obj.getLayer(), obj);
+        mDrawObjects.add(obj.getLayer(), obj);
     }
 
     public void remove(DrawObject obj) {
-        mDrawObjects.removeDeferred(obj.getLayer(), obj);
+        mDrawObjects.remove(obj.getLayer(), obj);
     }
 
     public StreamIterator<GameObject> getGameObjects(int typeId) {
         return mGameObjects.iteratorKey(typeId);
+    }
+
+    public void clear() {
+        for (GameObject obj : mGameObjects) {
+            mGameObjects.remove(obj.getTypeId(), obj);
+        }
     }
 
 
@@ -175,8 +187,6 @@ public class GameEngine implements Runnable {
     public void tick() {
         long beginTime = System.currentTimeMillis();
 
-        mGameObjects.applyChanges();
-
         for (GameObject obj : mGameObjects) {
             obj.onTick();
         }
@@ -192,8 +202,6 @@ public class GameEngine implements Runnable {
 
         canvas.drawColor(BACKGROUND_COLOR);
         canvas.concat(mScreenMatrix);
-
-        mDrawObjects.applyChanges();
 
         for (DrawObject obj : mDrawObjects) {
             canvas.save();
@@ -227,11 +235,6 @@ public class GameEngine implements Runnable {
                 }
             }
         }
-    }
-
-    public void reset() {
-        mGameObjects.clearDeferred();
-        mGameObjects.waitForChanges();
     }
 
     public boolean isRunning() {

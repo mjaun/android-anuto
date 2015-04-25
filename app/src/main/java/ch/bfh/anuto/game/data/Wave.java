@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.bfh.anuto.game.GameEngine;
+import ch.bfh.anuto.game.TickTimer;
 import ch.bfh.anuto.game.objects.Enemy;
 import ch.bfh.anuto.game.objects.GameObject;
-import ch.bfh.anuto.game.TickTimer;
 
 public class Wave implements GameEngine.Listener, GameObject.Listener {
 

@@ -4,9 +4,9 @@ import android.graphics.Canvas;
 
 import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.Layers;
-import ch.bfh.anuto.game.objects.Sprite;
 import ch.bfh.anuto.game.objects.Enemy;
 import ch.bfh.anuto.game.objects.GameObject;
+import ch.bfh.anuto.game.objects.Sprite;
 import ch.bfh.anuto.game.objects.TargetedShot;
 import ch.bfh.anuto.util.math.Vector2;
 

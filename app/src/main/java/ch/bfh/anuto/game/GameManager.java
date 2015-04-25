@@ -101,8 +101,7 @@ public class GameManager implements Wave.Listener {
         }
 
         mActiveWaves.clear();
-
-        mGame.reset();
+        mGame.clear();
 
         mSelectedTower = null;
         mNextWaveIndex = 0;

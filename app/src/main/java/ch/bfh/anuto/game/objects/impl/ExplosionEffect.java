@@ -5,17 +5,17 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import ch.bfh.anuto.game.Layers;
+import ch.bfh.anuto.game.TickTimer;
 import ch.bfh.anuto.game.objects.AreaEffect;
 import ch.bfh.anuto.game.objects.DrawObject;
 import ch.bfh.anuto.game.objects.Enemy;
 import ch.bfh.anuto.game.objects.GameObject;
-import ch.bfh.anuto.game.TickTimer;
 import ch.bfh.anuto.util.iterator.StreamIterator;
 import ch.bfh.anuto.util.math.Vector2;
 
 public class ExplosionEffect extends AreaEffect {
 
-    private final static float EXPLOSION_RADIUS = 1.0f;
+    private final static float EXPLOSION_RADIUS = 1.1f;
     private final static float DAMAGE = 400f;
 
     private final static float EXPLOSION_VISIBLE_TIME = 0.2f;

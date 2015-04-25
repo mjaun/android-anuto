@@ -4,8 +4,8 @@ import android.graphics.Canvas;
 
 import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.Layers;
-import ch.bfh.anuto.game.objects.Sprite;
 import ch.bfh.anuto.game.objects.Enemy;
+import ch.bfh.anuto.game.objects.Sprite;
 
 public class SprinterEnemy extends Enemy {
 

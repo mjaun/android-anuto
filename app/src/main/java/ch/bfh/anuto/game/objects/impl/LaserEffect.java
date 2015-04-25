@@ -5,11 +5,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import ch.bfh.anuto.game.Layers;
+import ch.bfh.anuto.game.TickTimer;
 import ch.bfh.anuto.game.objects.AreaEffect;
 import ch.bfh.anuto.game.objects.DrawObject;
 import ch.bfh.anuto.game.objects.Enemy;
 import ch.bfh.anuto.game.objects.GameObject;
-import ch.bfh.anuto.game.TickTimer;
 import ch.bfh.anuto.util.iterator.StreamIterator;
 import ch.bfh.anuto.util.math.Vector2;
 

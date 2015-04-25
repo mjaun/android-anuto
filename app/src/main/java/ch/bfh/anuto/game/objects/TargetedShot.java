@@ -9,6 +9,7 @@ public abstract class TargetedShot extends Shot implements GameObject.Listener {
      */
 
     protected Enemy mTarget;
+    private boolean mReached;
 
     /*
     ------ Methods ------
@@ -25,6 +26,7 @@ public abstract class TargetedShot extends Shot implements GameObject.Listener {
         super.onTick();
 
         if (hasTarget() && getDistanceTo(mTarget) <= mSpeed / GameEngine.TARGET_FPS) {
+            mReached = true;
             onTargetReached();
         }
     }
@@ -36,6 +38,7 @@ public abstract class TargetedShot extends Shot implements GameObject.Listener {
         }
 
         mTarget = target;
+        mReached = false;
 
         if (mTarget != null) {
             mTarget.addListener(this);
@@ -60,6 +63,8 @@ public abstract class TargetedShot extends Shot implements GameObject.Listener {
 
     @Override
     public void onObjectRemoved(GameObject obj) {
-        onTargetLost();
+        if (!mReached) {
+            onTargetLost();
+        }
     }
 }

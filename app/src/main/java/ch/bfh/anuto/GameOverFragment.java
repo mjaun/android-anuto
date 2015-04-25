@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import ch.bfh.anuto.game.GameManager;
-import ch.bfh.anuto.game.data.Wave;
 
 public class GameOverFragment extends Fragment implements GameManager.GameStartListener,
         GameManager.GameOverListener {

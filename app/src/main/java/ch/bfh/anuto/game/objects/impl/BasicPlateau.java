@@ -2,8 +2,8 @@ package ch.bfh.anuto.game.objects.impl;
 
 import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.Layers;
-import ch.bfh.anuto.game.objects.Sprite;
 import ch.bfh.anuto.game.objects.Plateau;
+import ch.bfh.anuto.game.objects.Sprite;
 
 public class BasicPlateau extends Plateau {
 

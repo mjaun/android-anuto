@@ -2,8 +2,8 @@ package ch.bfh.anuto.game.objects.impl;
 
 import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.Layers;
-import ch.bfh.anuto.game.objects.Sprite;
 import ch.bfh.anuto.game.objects.Enemy;
+import ch.bfh.anuto.game.objects.Sprite;
 
 public class BlobEnemy extends Enemy {
 
