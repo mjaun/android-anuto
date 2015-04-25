@@ -4,6 +4,8 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.util.Log;
 
 import java.util.List;
@@ -15,7 +17,7 @@ import ch.bfh.anuto.util.container.ConcurrentCollectionMap;
 import ch.bfh.anuto.util.iterator.StreamIterator;
 import ch.bfh.anuto.util.math.Vector2;
 
-public class GameEngine implements Runnable {
+public class GameEngine {
     /*
     ------ Constants ------
      */
@@ -69,15 +71,16 @@ public class GameEngine implements Runnable {
     ------ Members ------
      */
 
-    private Thread mGameThread;
+    private static int sInstance = 0;
+
+    private HandlerThread mGameThread;
+    private Handler mGameHandler;
     private boolean mRunning = false;
 
     private int mLastTickTime;
     private int mLastRenderTime;
     private long mTickCount = 0;
     private long mRenderCount = 0;
-
-    private final GameManager mManager;
 
     private final GameObjectMap mGameObjects = new GameObjectMap();
     private final DrawObjectMap mDrawObjects = new DrawObjectMap();
@@ -88,6 +91,7 @@ public class GameEngine implements Runnable {
     private final Matrix mScreenMatrixInverse = new Matrix();
 
     private final Resources mResources;
+    private final GameManager mManager;
 
     private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
@@ -135,14 +139,14 @@ public class GameEngine implements Runnable {
         mDrawObjects.remove(obj.getLayer(), obj);
     }
 
-    public StreamIterator<GameObject> getGameObjects(int typeId) {
-        return mGameObjects.iteratorKey(typeId);
-    }
-
     public void clear() {
         for (GameObject obj : mGameObjects) {
             mGameObjects.remove(obj.getTypeId(), obj);
         }
+    }
+
+    public StreamIterator<GameObject> getGameObjects(int typeId) {
+        return mGameObjects.iteratorKey(typeId);
     }
 
 
@@ -185,16 +189,44 @@ public class GameEngine implements Runnable {
      */
 
     public void tick() {
-        long beginTime = System.currentTimeMillis();
+        try {
+            long beginTime = System.currentTimeMillis();
 
-        for (GameObject obj : mGameObjects) {
-            obj.onTick();
+            for (GameObject obj : mGameObjects) {
+                obj.onTick();
+            }
+
+            onTick();
+
+            if (mTickCount % (TARGET_FPS * 5) == 0) {
+                Log.d(TAG, String.format("TT=%d ms, RT=%d ms, TC-RC=%d",
+                        mLastTickTime, mLastRenderTime, mTickCount - mRenderCount));
+            }
+
+            mTickCount++;
+            mLastTickTime = (int) (System.currentTimeMillis() - beginTime);
+
+            int sleepTime = FRAME_PERIOD - mLastTickTime;
+
+            if (sleepTime < 0) {
+                Log.w(TAG, "Frame did not finish in time!");
+                mGameHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        tick();
+                    }
+                });
+            } else {
+                mGameHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        tick();
+                    }
+                }, sleepTime);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        onTick();
-
-        mTickCount++;
-        mLastTickTime = (int)(System.currentTimeMillis() - beginTime);
     }
 
     public void render(Canvas canvas) {
@@ -218,8 +250,18 @@ public class GameEngine implements Runnable {
         if (!mRunning) {
             mRunning = true;
 
-            mGameThread = new Thread(this);
+            Log.i(TAG, "Starting game loop");
+
+            mGameThread = new HandlerThread("GameThread-" + sInstance++);
             mGameThread.start();
+
+            mGameHandler = new Handler(mGameThread.getLooper());
+            mGameHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    tick();
+                }
+            });
         }
     }
 
@@ -227,13 +269,12 @@ public class GameEngine implements Runnable {
         if (mRunning) {
             mRunning = false;
 
-            while (true) {
-                try {
-                    mGameThread.join();
-                    break;
-                } catch (InterruptedException e) {
-                }
-            }
+            Log.i(TAG, "Stopping game loop");
+
+            mGameThread.quit();
+
+            mGameThread = null;
+            mGameHandler = null;
         }
     }
 
@@ -241,34 +282,8 @@ public class GameEngine implements Runnable {
         return mRunning;
     }
 
-
-    @Override
-    public void run() {
-        Log.i(TAG, "Starting game loop");
-
-        try {
-            while (mRunning) {
-                tick();
-
-                int sleepTime = FRAME_PERIOD - mLastTickTime;
-
-                if (sleepTime > 0) {
-                    Thread.sleep(sleepTime);
-                } else {
-                    Log.w(TAG, "Frame did not finish in time!");
-                }
-
-                if (mTickCount % (TARGET_FPS * 5) == 0) {
-                    Log.d(TAG, String.format("TT=%d ms, RT=%d ms, TC-RC=%d",
-                            mLastTickTime, mLastRenderTime, mTickCount - mRenderCount));
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            mRunning = false;
-        }
-
-        Log.i(TAG, "Stopping game loop");
+    public Handler getHandler() {
+        return mGameHandler;
     }
 
     /*
