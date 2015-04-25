@@ -43,7 +43,6 @@ public class Wave implements GameEngine.Listener, GameObject.Listener {
 
     private GameEngine mGame;
 
-    private boolean mWaveRewardGiven;
     private Enemy mNextEnemy;
     private TickTimer mAddTimer = new TickTimer();
 
@@ -78,7 +77,6 @@ public class Wave implements GameEngine.Listener, GameObject.Listener {
     }
 
     public void start() {
-        mWaveRewardGiven = false;
         mEnemiesToAdd.addAll(mEnemies);
         mGame.addListener(this);
 
@@ -110,13 +108,6 @@ public class Wave implements GameEngine.Listener, GameObject.Listener {
 
     public void setWaveReward(int reward) {
         mWaveReward = reward;
-    }
-
-    public void giveWaveReward() {
-        if (!mWaveRewardGiven) {
-            mGame.getManager().giveCredits(mWaveReward);
-            mWaveRewardGiven = true;
-        }
     }
 
 
@@ -193,6 +184,8 @@ public class Wave implements GameEngine.Listener, GameObject.Listener {
     }
 
     private void onWaveDone() {
+        mGame.getManager().giveCredits(mWaveReward);
+
         for (Listener l : mListeners) {
             l.onWaveDone(this);
         }

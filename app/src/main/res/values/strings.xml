@@ -10,6 +10,7 @@
     <string name="status_credits">Credits:</string>
     <string name="status_lives">Lives:</string>
     <string name="status_wave">Wave:</string>
+    <string name="status_bonus">Bonus:</string>
 
     <string name="value">Value:</string>
     <string name="damage">Damage:</string>

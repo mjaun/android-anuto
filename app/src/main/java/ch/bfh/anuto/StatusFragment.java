@@ -14,13 +14,15 @@ import ch.bfh.anuto.game.data.Wave;
 
 public class StatusFragment extends Fragment implements GameManager.WaveStartedListener,
         GameManager.CreditsChangedListener, GameManager.LivesChangedListener,
-        GameManager.GameStartListener, GameManager.GameOverListener, View.OnClickListener {
+        GameManager.GameStartListener, GameManager.GameOverListener,
+        GameManager.BonusChangedListener, View.OnClickListener {
 
     private GameManager mManager;
 
     private TextView txt_credits;
     private TextView txt_lives;
     private TextView txt_wave;
+    private TextView txt_bonus;
 
     private Button btn_next_wave;
     private Button btn_restart;
@@ -34,6 +36,7 @@ public class StatusFragment extends Fragment implements GameManager.WaveStartedL
         txt_credits = (TextView) v.findViewById(R.id.txt_credits);
         txt_lives = (TextView) v.findViewById(R.id.txt_lives);
         txt_wave = (TextView) v.findViewById(R.id.txt_wave);
+        txt_bonus = (TextView) v.findViewById(R.id.txt_bonus);
 
         btn_next_wave = (Button) v.findViewById(R.id.btn_next_wave);
         btn_restart = (Button) v.findViewById(R.id.btn_restart);
@@ -118,6 +121,16 @@ public class StatusFragment extends Fragment implements GameManager.WaveStartedL
             @Override
             public void run() {
                 btn_next_wave.setEnabled(false);
+            }
+        });
+    }
+
+    @Override
+    public void onBonusChanged(final int bonus) {
+        txt_bonus.post(new Runnable() {
+            @Override
+            public void run() {
+                txt_bonus.setText(getResources().getString(R.string.status_bonus) + " " + bonus);
             }
         });
     }

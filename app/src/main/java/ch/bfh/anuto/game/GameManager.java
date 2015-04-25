@@ -9,6 +9,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import ch.bfh.anuto.game.data.GameSettings;
 import ch.bfh.anuto.game.data.Level;
 import ch.bfh.anuto.game.data.Wave;
+import ch.bfh.anuto.game.objects.Enemy;
 import ch.bfh.anuto.game.objects.Plateau;
 import ch.bfh.anuto.game.objects.Tower;
 import ch.bfh.anuto.util.container.ListenerList;
@@ -43,6 +44,10 @@ public class GameManager implements Wave.Listener {
         void onCreditsChanged(int credits);
     }
 
+    public interface BonusChangedListener extends Listener {
+        void onBonusChanged(int bonus);
+    }
+
     public interface LivesChangedListener extends Listener {
         void onLivesChanged(int lives);
     }
@@ -62,12 +67,9 @@ public class GameManager implements Wave.Listener {
     private Level mLevel;
 
     private int mNextWaveIndex;
-
     private int mCredits;
     private int mLives;
-
     private boolean mGameOver = true;
-    private int mEarlyBonus;
 
     private Tower mSelectedTower;
 
@@ -130,6 +132,8 @@ public class GameManager implements Wave.Listener {
         setCredits(settings.credits);
         setLives(settings.lives);
 
+        onBonusChanged();
+
         onGameStart();
     }
 
@@ -140,6 +144,14 @@ public class GameManager implements Wave.Listener {
 
     public boolean hasWavesRemaining() {
         return mNextWaveIndex < mLevel.getWaves().size();
+    }
+
+    public Wave getCurrentWave() {
+        if (mActiveWaves.isEmpty()) {
+            return null;
+        }
+
+        return mActiveWaves.get(mActiveWaves.size() - 1);
     }
 
     public Wave getNextWave() {
@@ -153,8 +165,6 @@ public class GameManager implements Wave.Listener {
         wave.addListener(this);
         wave.setGame(mGame);
         wave.start();
-
-        mActiveWaves.add(wave);
     }
 
 
@@ -175,6 +185,15 @@ public class GameManager implements Wave.Listener {
     public void takeCredits(int amount) {
         mCredits -= amount;
         onCreditsChanged();
+    }
+
+
+    public int getBonus() {
+        if (getNextWave() != null && getCurrentWave() != null) {
+            return getCurrentWave().getWaveReward();
+        } else {
+            return 0;
+        }
     }
 
 
@@ -268,6 +287,13 @@ public class GameManager implements Wave.Listener {
         }
     }
 
+    private void onBonusChanged() {
+        Iterator<BonusChangedListener> it = mListeners.get(BonusChangedListener.class);
+        while (it.hasNext()) {
+            it.next().onBonusChanged(getBonus());
+        }
+    }
+
     private void onLivesChanged() {
         Iterator<LivesChangedListener> it = mListeners.get(LivesChangedListener.class);
         while (it.hasNext()) {
@@ -277,37 +303,32 @@ public class GameManager implements Wave.Listener {
 
     @Override
     public void onWaveStarted(Wave wave) {
-        if (mActiveWaves.size() > 1) {
-            mActiveWaves.get(mActiveWaves.size() - 2).giveWaveReward();
-
-            if (mEarlyBonus > 0) {
-                giveCredits(mEarlyBonus);
-            }
+        Wave current = getCurrentWave();
+        if (current != null) {
+            giveCredits(current.getWaveReward());
+            current.setWaveReward(0);
         }
 
-        if (hasWavesRemaining()) {
-            float factor = mLevel.getSettings().earlyBonusFactor;
-            mEarlyBonus = (int)(getNextWave().getWaveReward() * factor);
-        }
-
-        Iterator<Tower> it = mGame.getGameObjects(TypeIds.TOWER).cast(Tower.class);
-        while (it.hasNext()) {
-            Tower t = it.next();
-
-            t.setValue((int)(t.getValue() * mLevel.getSettings().agingFactor));
-        }
+        mActiveWaves.add(wave);
 
         Iterator<WaveStartedListener> it2 = mListeners.get(WaveStartedListener.class);
         while (it2.hasNext()) {
             it2.next().onWaveStarted(wave);
         }
+
+        Iterator<Tower> it = mGame.getGameObjects(TypeIds.TOWER).cast(Tower.class);
+        while (it.hasNext()) {
+            Tower t = it.next();
+            t.setValue((int)(t.getValue() * mLevel.getSettings().agingFactor));
+        }
+
+        onBonusChanged();
     }
 
     @Override
     public void onWaveDone(Wave wave) {
-        wave.giveWaveReward();
-        wave.removeListener(this);
         mActiveWaves.remove(wave);
+        wave.removeListener(this);
 
         Iterator<WaveDoneListener> it = mListeners.get(WaveDoneListener.class);
         while (it.hasNext()) {
@@ -317,6 +338,8 @@ public class GameManager implements Wave.Listener {
         if (!hasWavesRemaining() && !isGameOver() && mActiveWaves.isEmpty()) {
             onGameOver(true);
         }
+
+        onBonusChanged();
     }
 
     private void onShowTowerInfo(Tower tower) {

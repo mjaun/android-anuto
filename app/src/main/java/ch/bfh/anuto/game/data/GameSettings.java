@@ -16,11 +16,5 @@ public class GameSettings {
     public int lives;
 
     @Element(required=false)
-    public float agingFactor = 0.95f;
-
-    @Element(required=false)
-    public float earlyBonusFactor = 2.0f;
-
-    @Element(required=false)
-    public float earlyBonusDecreaseFactor = 0.7f;
+    public float agingFactor = 0.9f;
 }
