@@ -134,6 +134,10 @@ public abstract class Tower extends GameObject {
         this.remove();
     }
 
+    public void devalue(float factor) {
+        mValue *= factor;
+    }
+
 
     public float getRange() {
         return mRange;

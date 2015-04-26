@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 
 import ch.bfh.anuto.game.GameManager;
 
-public class InventoryFragment extends Fragment implements GameManager.GameOverListener,
-        GameManager.CreditsChangedListener {
+public class InventoryFragment extends Fragment implements GameManager.OnGameOverListener,
+        GameManager.OnCreditsChangedListener {
 
     private GameManager mManager;
 

@@ -17,4 +17,7 @@ public class GameSettings {
 
     @Element(required=false)
     public float agingFactor = 0.9f;
+
+    @Element(required=false)
+    public float earlyFactor = 1.0f;
 }

@@ -6,6 +6,7 @@ import org.simpleframework.xml.core.Commit;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -22,6 +23,8 @@ public class Wave implements GameEngine.Listener, GameObject.Listener {
 
     public interface Listener {
         void onWaveStarted(Wave wave);
+        void onWaveAllEnemiesAdded(Wave wave);
+        void onWaveEnemyRemoved(Wave wave, Enemy enemy);
         void onWaveDone(Wave wave);
     }
 
@@ -42,12 +45,13 @@ public class Wave implements GameEngine.Listener, GameObject.Listener {
     private float mRewardMultiplier = 1f;
 
     private GameEngine mGame;
+    private boolean mWaveRewardGiven = false;
 
     private Enemy mNextEnemy;
     private TickTimer mAddTimer = new TickTimer();
 
-    private ArrayList<Enemy> mEnemiesToAdd = new ArrayList<>();
-    private ArrayList<Enemy> mEnemiesInGame = new ArrayList<>();
+    private final ArrayList<Enemy> mEnemiesToAdd = new ArrayList<>();
+    private final ArrayList<Enemy> mEnemiesInGame = new ArrayList<>();
 
     private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
@@ -68,15 +72,8 @@ public class Wave implements GameEngine.Listener, GameObject.Listener {
     ------ Public Methods ------
      */
 
-    public GameEngine getGame() {
-        return mGame;
-    }
-
-    public void setGame(GameEngine game) {
-        mGame = game;
-    }
-
     public void start() {
+        mWaveRewardGiven = false;
         mEnemiesToAdd.addAll(mEnemies);
         mGame.addListener(this);
 
@@ -97,20 +94,6 @@ public class Wave implements GameEngine.Listener, GameObject.Listener {
     }
 
 
-    public List<Enemy> getEnemies() {
-        return mEnemies;
-    }
-
-
-    public int getWaveReward() {
-        return mWaveReward;
-    }
-
-    public void setWaveReward(int reward) {
-        mWaveReward = reward;
-    }
-
-
     public void multiplyHealth(float factor) {
         for (Enemy e : mEnemies) {
             e.setHealthMax(e.getHealthMax() * factor);
@@ -124,16 +107,49 @@ public class Wave implements GameEngine.Listener, GameObject.Listener {
         }
     }
 
-    @Commit
-    private void onXmlCommit() {
-        multiplyHealth(mHealthMultiplier);
-        multiplyReward(mRewardMultiplier);
+
+    public GameEngine getGame() {
+        return mGame;
+    }
+
+    public void setGame(GameEngine game) {
+        mGame = game;
+    }
+
+
+    public List<Enemy> getEnemies() {
+        return mEnemies;
+    }
+
+    public List<Enemy> getEnemiesToAdd() {
+        return Collections.unmodifiableList(mEnemiesToAdd);
+    }
+
+    public List<Enemy> getEnemiesInGame() {
+        return Collections.unmodifiableList(mEnemiesInGame);
+    }
+
+
+    public int getWaveReward() {
+        return mWaveReward;
+    }
+
+    public void setWaveReward(int reward) {
+        mWaveReward = reward;
+    }
+
+    public void giveWaveReward() {
+        if (!mWaveRewardGiven) {
+            mWaveRewardGiven = true;
+            mGame.getManager().giveCredits(mWaveReward);
+        }
     }
 
 
     @Override
     public void onTick() {
         if (mEnemiesToAdd.isEmpty() && mNextEnemy == null) {
+            onWaveAllEnemiesAdded();
             mGame.removeListener(this);
             return;
         }
@@ -163,6 +179,8 @@ public class Wave implements GameEngine.Listener, GameObject.Listener {
         e.removeListener(this);
         mEnemiesInGame.remove(e);
 
+        onWaveEnemyRemoved(e);
+
         if (mEnemiesInGame.isEmpty() && mEnemiesToAdd.isEmpty() && mNextEnemy == null) {
             onWaveDone();
         }
@@ -183,11 +201,30 @@ public class Wave implements GameEngine.Listener, GameObject.Listener {
         }
     }
 
+    private void onWaveAllEnemiesAdded() {
+        for (Listener l : mListeners) {
+            l.onWaveAllEnemiesAdded(this);
+        }
+    }
+
+    private void onWaveEnemyRemoved(Enemy enemy) {
+        for (Listener l : mListeners) {
+            l.onWaveEnemyRemoved(this, enemy);
+        }
+    }
+
     private void onWaveDone() {
-        mGame.getManager().giveCredits(mWaveReward);
+        giveWaveReward();
 
         for (Listener l : mListeners) {
             l.onWaveDone(this);
         }
+    }
+
+
+    @Commit
+    private void onXmlCommit() {
+        multiplyHealth(mHealthMultiplier);
+        multiplyReward(mRewardMultiplier);
     }
 }

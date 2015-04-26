@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import ch.bfh.anuto.game.GameManager;
 
-public class GameOverFragment extends Fragment implements GameManager.GameStartListener,
-        GameManager.GameOverListener {
+public class GameOverFragment extends Fragment implements GameManager.OnGameStartedListener,
+        GameManager.OnGameOverListener {
 
     private GameManager mManager;
 
@@ -47,7 +47,7 @@ public class GameOverFragment extends Fragment implements GameManager.GameStartL
     }
 
     @Override
-    public void onGameStart() {
+    public void onGameStarted() {
         getFragmentManager().beginTransaction()
                 .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
                 .hide(this)

@@ -15,7 +15,7 @@ import ch.bfh.anuto.game.objects.Tower;
 
 public class TowerInfoFragment extends Fragment implements
         View.OnTouchListener, View.OnClickListener,
-        GameManager.ShowTowerInfoListener, GameManager.HideTowerInfoListener {
+        GameManager.OnShowTowerInfoListener, GameManager.OnHideTowerInfoListener {
 
     private GameManager mManager;
     private Tower mTower;

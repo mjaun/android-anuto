@@ -1,5 +1,6 @@
 package ch.bfh.anuto.util.container;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -16,8 +17,12 @@ public class ListenerList<T> {
         mListeners.remove(listener);
     }
 
-    public <S> StreamIterator<S> get(final Class<S> type) {
-        return StreamIterator.fromIterator(mListeners.iterator())
-                .ofType(type);
+    public <S> Iterable<S> get(final Class<S> type) {
+        return new Iterable<S>() {
+            @Override
+            public Iterator<S> iterator() {
+                return StreamIterator.fromIterator(mListeners.iterator()).ofType(type);
+            }
+        };
     }
 }

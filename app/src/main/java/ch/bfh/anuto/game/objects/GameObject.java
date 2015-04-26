@@ -126,6 +126,10 @@ public abstract class GameObject implements Sprite.Listener {
         mGame = game;
     }
 
+    public boolean isInGame() {
+        return mGame != null;
+    }
+
 
     public Vector2 getPosition() {
         return mPosition;
