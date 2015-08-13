@@ -9,6 +9,7 @@ import org.simpleframework.xml.Attribute;
 import java.util.List;
 
 import ch.bfh.anuto.game.GameEngine;
+import ch.bfh.anuto.game.GameManager;
 import ch.bfh.anuto.game.Layers;
 import ch.bfh.anuto.game.TypeIds;
 import ch.bfh.anuto.game.data.Path;
@@ -113,7 +114,7 @@ public abstract class Enemy extends GameObject {
     public void onInit() {
         super.onInit();
 
-        mPath = mGame.getManager().getLevel().getPaths().get(mPathIndex);
+        mPath = GameManager.getInstance().getLevel().getPaths().get(mPathIndex);
         mPosition.set(mPath.getWayPoints().get(0));
         mWayPointIndex = 1;
 
@@ -134,12 +135,12 @@ public abstract class Enemy extends GameObject {
         super.onTick();
 
         if (!hasWayPoint()) {
-            mGame.getManager().takeLives(1);
+            GameManager.getInstance().takeLives(1);
             this.remove();
             return;
         }
 
-        if (getDistanceTo(getWayPoint()) < mSpeed / GameEngine.TARGET_FPS) {
+        if (getDistanceTo(getWayPoint()) < mSpeed / GameEngine.TARGET_FRAME_RATE) {
             setPosition(getWayPoint());
             nextWayPoint();
         }
@@ -212,7 +213,7 @@ public abstract class Enemy extends GameObject {
         mHealth -= dmg;
 
         if (mHealth <= 0) {
-            mGame.getManager().giveCredits(mReward);
+            GameManager.getInstance().giveCredits(mReward);
             this.remove();
         }
     }

@@ -35,7 +35,7 @@ public class GameOverFragment extends Fragment implements GameManager.OnGameStar
                 .hide(this)
                 .commit();
 
-        mManager = ((MainActivity)activity).getManager();
+        mManager = GameManager.getInstance();
         mManager.addListener(this);
     }
 
@@ -44,6 +44,7 @@ public class GameOverFragment extends Fragment implements GameManager.OnGameStar
         super.onDetach();
 
         mManager.removeListener(this);
+        mManager = null;
     }
 
     @Override

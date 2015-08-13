@@ -21,11 +21,11 @@ public class TickTimer {
     }
 
     public void setInterval(float interval) {
-        mValue = mReloadValue = GameEngine.TARGET_FPS * interval;
+        mValue = mReloadValue = GameEngine.TARGET_FRAME_RATE * interval;
     }
 
     public void setFrequency(float frequency) {
-        mValue = mReloadValue = GameEngine.TARGET_FPS / frequency;
+        mValue = mReloadValue = GameEngine.TARGET_FRAME_RATE / frequency;
     }
 
     public boolean tick() {

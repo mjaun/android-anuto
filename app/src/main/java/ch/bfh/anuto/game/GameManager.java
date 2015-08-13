@@ -66,6 +66,20 @@ public class GameManager implements Wave.Listener {
     }
 
     /*
+    ------ Static ------
+     */
+
+    private static GameManager sInstance;
+
+    public static GameManager getInstance() {
+        if (sInstance == null) {
+            sInstance = new GameManager();
+        }
+
+        return sInstance;
+    }
+
+    /*
     ------ Members ------
      */
 
@@ -87,8 +101,8 @@ public class GameManager implements Wave.Listener {
     ------ Constructors ------
      */
 
-    public GameManager(Resources res) {
-        mGame = new GameEngine(res, this);
+    public GameManager() {
+        mGame = GameEngine.getInstance();
     }
 
     /*
@@ -113,11 +127,6 @@ public class GameManager implements Wave.Listener {
 
     public void restart() {
         setLevel(mLevel);
-    }
-
-
-    public GameEngine getGame() {
-        return mGame;
     }
 
 

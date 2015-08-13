@@ -19,14 +19,15 @@ import ch.bfh.anuto.util.iterator.StreamIterator;
 import ch.bfh.anuto.util.math.Vector2;
 
 public class GameEngine {
+
     /*
     ------ Constants ------
      */
 
-    public final static int TARGET_FPS = 30;
+    public final static int TARGET_FRAME_RATE = 30;
+    public final static int TARGET_FRAME_PERIOD_MS = 1000 / TARGET_FRAME_RATE;
 
     private final static int BACKGROUND_COLOR = Color.WHITE;
-    private final static int FRAME_PERIOD = 1000 / TARGET_FPS;
 
     private final static String TAG = GameEngine.class.getSimpleName();
 
@@ -46,8 +47,11 @@ public class GameEngine {
         @Override
         public boolean add(Integer key, GameObject value) {
             boolean ret = super.add(key, value);
-            value.setGame(GameEngine.this);
-            value.onInit();
+
+            if (ret) {
+                value.onInit();
+            }
+
             return ret;
         }
 
@@ -57,7 +61,6 @@ public class GameEngine {
 
             if (ret) {
                 value.onClean();
-                value.setGame(null);
             }
 
             return ret;
@@ -69,10 +72,22 @@ public class GameEngine {
     }
 
     /*
-    ------ Members ------
+    ------ Static ------
      */
 
-    private static int sInstance = 0;
+    private static GameEngine sInstance;
+
+    public static GameEngine getInstance() {
+        if (sInstance == null) {
+            sInstance = new GameEngine();
+        }
+
+        return sInstance;
+    }
+
+    /*
+    ------ Members ------
+     */
 
     private HandlerThread mGameThread;
     private Handler mGameHandler;
@@ -91,9 +106,8 @@ public class GameEngine {
     private final Matrix mScreenMatrix = new Matrix();
     private final Matrix mScreenMatrixInverse = new Matrix();
 
-    private final Random mRandom;
-    private final Resources mResources;
-    private final GameManager mManager;
+    private Resources mResources;
+    private final Random mRandom = new Random();
 
     private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
@@ -101,11 +115,7 @@ public class GameEngine {
     ------ Constructors ------
      */
 
-    public GameEngine(Resources res, GameManager manager) {
-        mResources = res;
-        mManager = manager;
-        mRandom = new Random();
-
+    private GameEngine() {
         calcScreenMatrix();
     }
 
@@ -113,16 +123,24 @@ public class GameEngine {
     ------ Methods ------
      */
 
-    public GameManager getManager() {
-        return mManager;
-    }
-
     public Resources getResources() {
         return mResources;
     }
 
+    public void setResources(Resources res) {
+        mResources = res;
+    }
+
     public Random getRandom() {
         return mRandom;
+    }
+
+    public int getRandom(int n) {
+        return mRandom.nextInt(n);
+    }
+
+    public float getRandom(float n) {
+        return mRandom.nextFloat() * n;
     }
 
     public long getTickCount() {
@@ -152,14 +170,27 @@ public class GameEngine {
         }
     }
 
+
+    public StreamIterator<GameObject> getGameObjects() {
+        return mGameObjects.iterator();
+    }
+
     public StreamIterator<GameObject> getGameObjects(int typeId) {
         return mGameObjects.iteratorKey(typeId);
     }
 
 
+    public Vector2 getGameSize() {
+        return new Vector2(mGameSize);
+    }
+
     public void setGameSize(int width, int height) {
         mGameSize.set(width, height);
         calcScreenMatrix();
+    }
+
+    public Vector2 getScreenSize() {
+        return new Vector2(mScreenSize);
     }
 
     public void setScreenSize(int width, int height) {
@@ -167,9 +198,15 @@ public class GameEngine {
         calcScreenMatrix();
     }
 
-    public Vector2 getGameCoordinate(float x, float y) {
-        float[] pts = {x, y};
+    public Vector2 screenToGame(Vector2 pos) {
+        float[] pts = {pos.x, pos.y};
         mScreenMatrixInverse.mapPoints(pts);
+        return new Vector2(pts[0], pts[1]);
+    }
+
+    public Vector2 gameToScreen(Vector2 pos) {
+        float[] pts = {pos.x, pos.y};
+        mScreenMatrix.mapPoints(pts);
         return new Vector2(pts[0], pts[1]);
     }
 
@@ -205,7 +242,7 @@ public class GameEngine {
 
             onTick();
 
-            if (mTickCount % (TARGET_FPS * 5) == 0) {
+            if (mTickCount % (TARGET_FRAME_RATE * 5) == 0) {
                 Log.d(TAG, String.format("TT=%d ms, RT=%d ms, TC-RC=%d",
                         mLastTickTime, mLastRenderTime, mTickCount - mRenderCount));
             }
@@ -213,7 +250,7 @@ public class GameEngine {
             mTickCount++;
             mLastTickTime = (int) (System.currentTimeMillis() - beginTime);
 
-            int sleepTime = FRAME_PERIOD - mLastTickTime;
+            int sleepTime = TARGET_FRAME_PERIOD_MS - mLastTickTime;
 
             if (sleepTime < 0) {
                 Log.w(TAG, "Frame did not finish in time!");
@@ -249,7 +286,7 @@ public class GameEngine {
         }
 
         mRenderCount++;
-        mLastRenderTime = (int)(System.currentTimeMillis() - beginTime);
+        mLastRenderTime = (int) (System.currentTimeMillis() - beginTime);
     }
 
 
@@ -259,7 +296,7 @@ public class GameEngine {
 
             Log.i(TAG, "Starting game loop");
 
-            mGameThread = new HandlerThread("GameThread-" + sInstance++);
+            mGameThread = new HandlerThread("GameThread-0");
             mGameThread.start();
 
             mGameHandler = new Handler(mGameThread.getLooper());

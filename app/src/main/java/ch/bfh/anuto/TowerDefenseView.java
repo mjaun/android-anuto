@@ -27,6 +27,7 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
      */
 
     private GameEngine mGame;
+    private GameManager mManager;
 
     /*
     ------ Constructors ------
@@ -44,20 +45,18 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
     ------ Methods ------
     */
 
-    public GameEngine getGame() {
-        return mGame;
+    public void start() {
+        mGame = GameEngine.getInstance();
+        mManager = GameManager.getInstance();
+
+        mGame.addListener(this);
     }
 
-    public void setGame(GameEngine game) {
-        if (mGame != null) {
-            mGame.removeListener(this);
-        }
+    public void stop() {
+        mGame.removeListener(this);
 
-        mGame = game;
-
-        if (mGame != null) {
-            mGame.addListener(this);
-        }
+        mGame = null;
+        mManager = null;
     }
 
     @Override
@@ -85,21 +84,20 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
         }
 
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            Vector2 pos = mGame.getGameCoordinate(event.getX(), event.getY());
+            Vector2 pos = mGame.screenToGame(new Vector2(event.getX(), event.getY()));
 
             Tower closest = (Tower)mGame.getGameObjects(Tower.TYPE_ID)
                     .min(GameObject.distanceTo(pos));
 
-            GameManager manager = mGame.getManager();
-            manager.hideTowerInfo();
+            mManager.hideTowerInfo();
             if (closest != null && closest.getDistanceTo(pos) < 0.5f) {
-                if (manager.getSelectedTower() == closest) {
-                    manager.showTowerInfo(closest);
+                if (mManager.getSelectedTower() == closest) {
+                    mManager.showTowerInfo(closest);
                 } else {
-                    manager.setSelectedTower(closest);
+                    mManager.setSelectedTower(closest);
                 }
             } else {
-                manager.setSelectedTower(null);
+                mManager.setSelectedTower(null);
             }
 
             return true;
@@ -115,7 +113,7 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
         }
 
         Tower tower = (Tower)event.getLocalState();
-        Vector2 pos = mGame.getGameCoordinate(event.getX(), event.getY());
+        Vector2 pos = mGame.screenToGame(new Vector2(event.getX(), event.getY()));
 
         Plateau closestPlateau = mGame.getGameObjects(Plateau.TYPE_ID)
                 .cast(Plateau.class)
@@ -126,28 +124,29 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
             case DragEvent.ACTION_DRAG_ENTERED:
                 if (closestPlateau != null) {
                     mGame.add(tower);
-                    mGame.getManager().setSelectedTower(tower);
+                    mManager.setSelectedTower(tower);
                 }
                 break;
 
             case DragEvent.ACTION_DRAG_EXITED:
-                if (tower.getGame() != null) {
+                if (tower.isActive()) {
                     tower.remove();
-                    mGame.getManager().setSelectedTower(null);
+                    mManager.setSelectedTower(null);
                 }
                 break;
 
             case DragEvent.ACTION_DRAG_LOCATION:
-                if (tower.getGame() != null) {
+                if (tower.isActive()) {
                     tower.setPosition(closestPlateau.getPosition());
                 }
                 break;
 
             case DragEvent.ACTION_DROP:
-                if (tower.getGame() != null) {
+                if (tower.isActive()) {
                     tower.setPlateau(closestPlateau);
                     tower.buy();
-                    mGame.getManager().setSelectedTower(null);
+                    tower.setEnabled(true);
+                    mManager.setSelectedTower(null);
                 }
                 break;
         }

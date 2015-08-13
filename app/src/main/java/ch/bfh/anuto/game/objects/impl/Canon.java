@@ -3,6 +3,7 @@ package ch.bfh.anuto.game.objects.impl;
 import android.graphics.Canvas;
 
 import ch.bfh.anuto.R;
+import ch.bfh.anuto.game.GameEngine;
 import ch.bfh.anuto.game.Layers;
 import ch.bfh.anuto.game.objects.AimingTower;
 import ch.bfh.anuto.game.objects.Shot;
@@ -16,7 +17,12 @@ public class Canon extends AimingTower {
     private final static float RANGE = 3.5f;
     private final static float SHOT_SPAWN_OFFSET = 0.9f;
 
+    private final static float REBOUND_RANGE = 0.25f;
+    private final static float REBOUND_DURATION = 0.2f;
+
     private float mAngle;
+    private float mRebound;
+    private float mReboundValue;
     private Sprite mSpriteBase;
     private Sprite mSpriteCanon;
 
@@ -24,6 +30,8 @@ public class Canon extends AimingTower {
         mValue = VALUE;
         mRange = RANGE;
         mReloadTime = RELOAD_TIME;
+
+        mAngle = mGame.getRandom(360f);
     }
 
     public Canon(Vector2 position) {
@@ -63,11 +71,22 @@ public class Canon extends AimingTower {
         super.onDraw(sprite, canvas);
 
         canvas.rotate(mAngle);
+
+        if (sprite == mSpriteCanon && mReboundValue > 0) {
+            canvas.translate(-mReboundValue, 0);
+        }
     }
 
     @Override
     public void onTick() {
         super.onTick();
+
+        if (mRebound > 0) {
+            mRebound -= Math.PI / GameEngine.TARGET_FRAME_RATE / REBOUND_DURATION;
+            mReboundValue = (float)Math.sin(mRebound) * REBOUND_RANGE;
+        } else {
+            mReboundValue = 0f;
+        }
 
         if (mTarget != null) {
             mAngle = getAngleTo(mTarget);
@@ -76,6 +95,8 @@ public class Canon extends AimingTower {
                 Shot shot = new CanonShot(mPosition, mTarget);
                 shot.move(Vector2.createPolar(SHOT_SPAWN_OFFSET, mAngle));
                 shoot(shot);
+
+                mRebound = (float)Math.PI;
             }
         }
     }

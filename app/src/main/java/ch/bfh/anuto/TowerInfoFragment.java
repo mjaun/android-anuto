@@ -66,7 +66,7 @@ public class TowerInfoFragment extends Fragment implements
 
         hide();
 
-        mManager = ((MainActivity)activity).getManager();
+        mManager = GameManager.getInstance();
         mManager.addListener(this);
     }
 

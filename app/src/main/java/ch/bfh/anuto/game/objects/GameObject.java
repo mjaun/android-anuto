@@ -79,8 +79,10 @@ public abstract class GameObject implements Sprite.Listener {
     ------ Members ------
      */
 
-    protected Vector2 mPosition = new Vector2();
-    protected GameEngine mGame = null;
+    private boolean mActive = false;
+    protected boolean mEnabled = true;
+    protected final Vector2 mPosition = new Vector2();
+    protected final GameEngine mGame = GameEngine.getInstance();
 
     private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
@@ -92,12 +94,16 @@ public abstract class GameObject implements Sprite.Listener {
 
 
     public void onInit() {
+        mActive = true;
+
         for (Listener l : mListeners) {
             l.onObjectAdded(this);
         }
     }
 
     public void onClean() {
+        mActive = false;
+
         for (Listener l : mListeners) {
             l.onObjectRemoved(this);
         }
@@ -113,21 +119,20 @@ public abstract class GameObject implements Sprite.Listener {
     }
 
 
+    public boolean isEnabled() {
+        return mEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        mEnabled = enabled;
+    }
+
+    public boolean isActive() {
+        return mActive;
+    }
+
     public void remove() {
         mGame.remove(this);
-    }
-
-
-    public GameEngine getGame() {
-        return mGame;
-    }
-
-    public void setGame(GameEngine game) {
-        mGame = game;
-    }
-
-    public boolean isInGame() {
-        return mGame != null;
     }
 
 
@@ -160,8 +165,8 @@ public abstract class GameObject implements Sprite.Listener {
     }
 
     public void moveSpeed(Vector2 direction, float speed) {
-        mPosition.x += direction.x * speed / GameEngine.TARGET_FPS;
-        mPosition.y += direction.y * speed / GameEngine.TARGET_FPS;
+        mPosition.x += direction.x * speed / GameEngine.TARGET_FRAME_RATE;
+        mPosition.y += direction.y * speed / GameEngine.TARGET_FRAME_RATE;
     }
 
 

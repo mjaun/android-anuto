@@ -58,7 +58,7 @@ public class StatusFragment extends Fragment implements GameManager.OnWaveStarte
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        mManager = ((MainActivity) activity).getManager();
+        mManager = GameManager.getInstance();
         mManager.addListener(this);
     }
 

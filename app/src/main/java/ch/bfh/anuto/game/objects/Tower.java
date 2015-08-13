@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import ch.bfh.anuto.game.GameManager;
 import ch.bfh.anuto.game.Layers;
 import ch.bfh.anuto.game.TickTimer;
 import ch.bfh.anuto.game.TypeIds;
@@ -51,7 +52,6 @@ public abstract class Tower extends GameObject {
     protected float mRange;
     protected float mReloadTime;
     protected boolean mReloaded = false;
-    protected boolean mEnabled = false;
     protected Plateau mPlateau = null;
 
     private TickTimer mReloadTimer;
@@ -107,15 +107,6 @@ public abstract class Tower extends GameObject {
     }
 
 
-    public boolean isEnabled() {
-        return mEnabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        mEnabled = enabled;
-    }
-
-
     public int getValue() {
         return mValue;
     }
@@ -125,12 +116,12 @@ public abstract class Tower extends GameObject {
     }
 
     public void buy() {
-        mGame.getManager().takeCredits(mValue);
+        GameManager.getInstance().takeCredits(mValue);
         setEnabled(true);
     }
 
     public void sell() {
-        mGame.getManager().giveCredits(mValue);
+        GameManager.getInstance().giveCredits(mValue);
         this.remove();
     }
 

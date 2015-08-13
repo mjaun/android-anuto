@@ -25,7 +25,7 @@ public abstract class TargetedShot extends Shot implements GameObject.Listener {
     public void onTick() {
         super.onTick();
 
-        if (hasTarget() && getDistanceTo(mTarget) <= mSpeed / GameEngine.TARGET_FPS) {
+        if (hasTarget() && getDistanceTo(mTarget) <= mSpeed / GameEngine.TARGET_FRAME_RATE) {
             mReached = true;
             onTargetReached();
         }

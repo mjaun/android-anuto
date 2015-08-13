@@ -15,7 +15,7 @@ public class CanonShot extends TargetedShot {
 
     private final static float DAMAGE = 60f;
     private final static float MOVEMENT_SPEED = 4.0f;
-    private final static float ROTATION_STEP = 360f / GameEngine.TARGET_FPS;
+    private final static float ROTATION_STEP = 360f / GameEngine.TARGET_FRAME_RATE;
 
     private Sprite mSprite;
     private float mAngle = 0f;

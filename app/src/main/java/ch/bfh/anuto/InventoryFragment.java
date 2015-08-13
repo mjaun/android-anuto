@@ -34,7 +34,7 @@ public class InventoryFragment extends Fragment implements GameManager.OnGameOve
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        mManager = ((MainActivity)activity).getManager();
+        mManager = GameManager.getInstance();
         mManager.addListener(this);
     }
 
