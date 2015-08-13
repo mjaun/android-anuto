@@ -14,18 +14,18 @@ public class InventoryFragment extends Fragment implements GameManager.OnGameOve
 
     private GameManager mManager;
 
-    private InventoryItemView img_basic_tower;
-    private InventoryItemView img_laser_tower;
-    private InventoryItemView img_rocket_tower;
+    //private InventoryItemView img_basic_tower;
+    //private InventoryItemView img_laser_tower;
+    //private InventoryItemView img_rocket_tower;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_inventory, container, false);
 
-        img_basic_tower = (InventoryItemView)v.findViewById(R.id.img_basic_tower);
-        img_laser_tower = (InventoryItemView)v.findViewById(R.id.img_laser_tower);
-        img_rocket_tower = (InventoryItemView)v.findViewById(R.id.img_rocket_tower);
+        //img_basic_tower = (InventoryItemView)v.findViewById(R.id.base1);
+        //img_laser_tower = (InventoryItemView)v.findViewById(R.id.base2);
+        //img_rocket_tower = (InventoryItemView)v.findViewById(R.id.base3);
 
         return v;
     }
@@ -47,27 +47,31 @@ public class InventoryFragment extends Fragment implements GameManager.OnGameOve
 
     @Override
     public void onGameOver(boolean won) {
+        /*
         img_basic_tower.post(new Runnable() {
             @Override
             public void run() {
-                img_basic_tower.setEnabled(false);
-                img_laser_tower.setEnabled(false);
-                img_rocket_tower.setEnabled(false);
+                //img_basic_tower.setEnabled(false);
+                //img_laser_tower.setEnabled(false);
+                //img_rocket_tower.setEnabled(false);
             }
         });
+        */
     }
 
     @Override
     public void onCreditsChanged(final int credits) {
         if (!mManager.isGameOver()) {
+            /*
             img_basic_tower.post(new Runnable() {
                 @Override
                 public void run() {
-                    img_basic_tower.setEnabled(credits >= img_basic_tower.getItem().getValue());
-                    img_laser_tower.setEnabled(credits >= img_laser_tower.getItem().getValue());
-                    img_rocket_tower.setEnabled(credits >= img_rocket_tower.getItem().getValue());
+                    //img_basic_tower.setEnabled(credits >= img_basic_tower.getItem().getValue());
+                    //img_laser_tower.setEnabled(credits >= img_laser_tower.getItem().getValue());
+                    //img_rocket_tower.setEnabled(credits >= img_rocket_tower.getItem().getValue());
                 }
             });
+            */
         }
     }
 }

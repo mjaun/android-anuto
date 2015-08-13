@@ -29,7 +29,13 @@ public class Sprite extends DrawObject {
 
     public static Sprite fromResources(Resources res, int id, int count) {
         if (sSpriteCache.containsKey(id)) {
-            return new Sprite(sSpriteCache.get(id));
+            Sprite ret = new Sprite(sSpriteCache.get(id));
+
+            if (ret.count() != count) {
+                throw new IllegalArgumentException();
+            }
+
+            return ret;
         }
 
         Bitmap[] bmps;
@@ -176,7 +182,7 @@ public class Sprite extends DrawObject {
     }
 
     public void setMatrix(float length) {
-        setMatrix(length, length, null);
+        setMatrix(length, length);
     }
 
     public void setMatrix(Float width, Float height) {
@@ -184,6 +190,10 @@ public class Sprite extends DrawObject {
     }
 
     public void setMatrix(Float width, Float height, Vector2 center) {
+        setMatrix(width, height, center, null);
+    }
+
+    public void setMatrix(Float width, Float height, Vector2 center, Float rotate) {
         float aspect = (float)mBitmaps.get(0).getWidth() / mBitmaps.get(0).getHeight();
 
         if (width == null && height == null) {
@@ -212,6 +222,10 @@ public class Sprite extends DrawObject {
 
         mMatrix.postScale(scaleX, scaleY);
         mMatrix.postTranslate(-center.x, -center.y);
+
+        if (rotate != null) {
+            mMatrix.postRotate(rotate);
+        }
     }
 
 
@@ -264,7 +278,6 @@ public class Sprite extends DrawObject {
         mAnimator.tick();
         mIndex = mAnimator.getIndex();
     }
-
 
     @Override
     public void onDraw(Canvas canvas) {

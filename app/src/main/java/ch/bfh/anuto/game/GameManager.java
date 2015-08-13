@@ -12,6 +12,7 @@ import ch.bfh.anuto.game.data.Wave;
 import ch.bfh.anuto.game.objects.Enemy;
 import ch.bfh.anuto.game.objects.Plateau;
 import ch.bfh.anuto.game.objects.Tower;
+import ch.bfh.anuto.game.objects.impl.Canon;
 import ch.bfh.anuto.util.container.ListenerList;
 
 public class GameManager implements Wave.Listener {
@@ -136,6 +137,11 @@ public class GameManager implements Wave.Listener {
         mGame.setGameSize(settings.width, settings.height);
 
         onGameStarted();
+
+        Tower t = new Canon();
+        t.setPosition(5, 10);
+        t.setEnabled(true);
+        mGame.add(t);
     }
 
 

@@ -45,7 +45,7 @@ public abstract class TargetedShot extends Shot implements GameObject.Listener {
         }
     }
 
-    public boolean hasTarget() {
+    protected boolean hasTarget() {
         return mTarget != null;
     }
 

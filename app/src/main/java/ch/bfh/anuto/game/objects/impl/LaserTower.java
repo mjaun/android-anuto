@@ -34,7 +34,7 @@ public class LaserTower extends AimingTower {
     public void onInit() {
         super.onInit();
 
-        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.laser_tower);
+        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.base1);
         mSprite.setListener(this);
         mSprite.setMatrix(null, 1f, new Vector2(0.5f, 0.5f));
         mSprite.setLayer(Layers.TOWER);

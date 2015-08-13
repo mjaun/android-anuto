@@ -11,7 +11,6 @@ import ch.bfh.anuto.game.data.Level;
 public class MainActivity extends Activity {
 
     private GameManager mManager;
-    private Level mLevel;
 
     private TowerDefenseView view_tower_defense;
 

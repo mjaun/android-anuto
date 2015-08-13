@@ -9,6 +9,7 @@ import android.os.HandlerThread;
 import android.util.Log;
 
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.bfh.anuto.game.objects.DrawObject;
@@ -90,6 +91,7 @@ public class GameEngine {
     private final Matrix mScreenMatrix = new Matrix();
     private final Matrix mScreenMatrixInverse = new Matrix();
 
+    private final Random mRandom;
     private final Resources mResources;
     private final GameManager mManager;
 
@@ -102,6 +104,7 @@ public class GameEngine {
     public GameEngine(Resources res, GameManager manager) {
         mResources = res;
         mManager = manager;
+        mRandom = new Random();
 
         calcScreenMatrix();
     }
@@ -116,6 +119,10 @@ public class GameEngine {
 
     public Resources getResources() {
         return mResources;
+    }
+
+    public Random getRandom() {
+        return mRandom;
     }
 
     public long getTickCount() {

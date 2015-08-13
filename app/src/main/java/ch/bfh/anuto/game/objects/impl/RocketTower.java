@@ -34,7 +34,7 @@ public class RocketTower extends AimingTower {
     public void onInit() {
         super.onInit();
 
-        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.rocket_tower);
+        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.base1);
         mSprite.setListener(this);
         mSprite.setMatrix(null, 1.5f, new Vector2(0.45f, 0.75f));
         mSprite.setLayer(Layers.TOWER);

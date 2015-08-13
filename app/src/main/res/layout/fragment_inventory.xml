@@ -6,6 +6,7 @@
     android:background="#ffffffff"
     tools:context="ch.bfh.anuto.InventoryFragment">
 
+    <!--
     <view
         style="@style/InventoryItem"
         class="ch.bfh.anuto.InventoryItemView"
@@ -14,8 +15,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginStart="10dp"
         app:itemDrawable="@drawable/basic_tower"
-        app:itemClass="ch.bfh.anuto.game.objects.impl.BasicTower"
-        app:rotate="true" />
+        app:itemClass="ch.bfh.anuto.game.objects.impl.Canon     app:rotate="true" />
 
     <view
         style="@style/InventoryItem"
@@ -36,4 +36,5 @@
         app:itemDrawable="@drawable/laser_tower"
         app:itemClass="ch.bfh.anuto.game.objects.impl.LaserTower"
         app:rotate="true" />
+        -->
 </RelativeLayout>
