@@ -111,10 +111,18 @@ public class Vector2 {
         float len = len();
 
         if (len != 0) {
-            x /= len;
-            y /= len;
+            this.x /= len;
+            this.y /= len;
         }
 
+        return this;
+    }
+
+    public Vector2 proj(Vector2 v) {
+        float f = this.dot(v) / v.len2();
+
+        this.x = v.x * f;
+        this.y = v.y * f;
         return this;
     }
 

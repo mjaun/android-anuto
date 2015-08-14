@@ -37,25 +37,21 @@ public abstract class GameObject implements Sprite.Listener {
     }
 
     public static Predicate<GameObject> onLine(final Vector2 p1, final Vector2 p2, final float lineWidth) {
-        final Vector2 line = p2.copy().sub(p1);
-        final float lineLen2 = line.len2();
-        final float lineLen = (float)Math.sqrt(lineLen2);
-        final float lineAngle = line.angle();
-
         return new Predicate<GameObject>() {
             @Override
             public boolean apply(GameObject value) {
-                Vector2 toObj = value.mPosition.copy().sub(p1);
+                Vector2 line = p2.copy().sub(p1);
+                Vector2 toObj = value.getPosition().sub(p1);
 
-                float angle = toObj.angle() - lineAngle;
+                float angle = toObj.angle() - line.angle();
 
                 if (Math.abs(Vector2.normalizeAngle(angle)) > 90) {
                     return false;
                 }
 
-                Vector2 proj = line.copy().mul(toObj.dot(line) / lineLen2);
+                Vector2 proj = toObj.proj(line);
 
-                if (proj.len() > lineLen) {
+                if (proj.len() > line.len()) {
                     return false;
                 }
 
@@ -137,7 +133,7 @@ public abstract class GameObject implements Sprite.Listener {
 
 
     public Vector2 getPosition() {
-        return mPosition;
+        return new Vector2(mPosition);
     }
 
     public void setPosition(float x, float y) {
