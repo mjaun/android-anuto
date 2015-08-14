@@ -37,4 +37,8 @@ public class TickTimer {
             return false;
         }
     }
+
+    public void reset() {
+        mValue = mReloadValue;
+    }
 }
