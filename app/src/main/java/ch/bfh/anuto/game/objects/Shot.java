@@ -1,6 +1,8 @@
 package ch.bfh.anuto.game.objects;
 
+import ch.bfh.anuto.game.GameEngine;
 import ch.bfh.anuto.game.TypeIds;
+import ch.bfh.anuto.util.iterator.StreamIterator;
 import ch.bfh.anuto.util.math.Vector2;
 
 public abstract class Shot extends GameObject {
@@ -30,6 +32,19 @@ public abstract class Shot extends GameObject {
     @Override
     public void onTick() {
         super.onTick();
-        moveSpeed(mDirection, mSpeed);
+
+        if (mEnabled) {
+            moveSpeed(mDirection, mSpeed);
+        }
+    }
+
+    public StreamIterator<Enemy> getEncounteredEnemies(float shotWidth) {
+        Vector2 nextPosition = mDirection.copy()
+                .mul(mSpeed / GameEngine.TARGET_FRAME_RATE)
+                .add(mPosition);
+
+        return mGame.getGameObjects(TypeIds.ENEMY)
+                .filter(GameObject.onLine(mPosition, nextPosition, shotWidth))
+                .cast(Enemy.class);
     }
 }
