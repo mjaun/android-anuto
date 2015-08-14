@@ -3,7 +3,6 @@ package ch.bfh.anuto.game.objects.impl;
 import android.graphics.Canvas;
 
 import ch.bfh.anuto.R;
-import ch.bfh.anuto.game.GameEngine;
 import ch.bfh.anuto.game.Layers;
 import ch.bfh.anuto.game.objects.AimingTower;
 import ch.bfh.anuto.game.objects.Shot;
@@ -90,7 +89,7 @@ public class CanonMG extends AimingTower {
 
             if (mReloaded) {
                 Shot shot = new CanonShotMG(mPosition, getDirectionTo(mTarget));
-                shot.move(Vector2.createPolar(SHOT_SPAWN_OFFSET, mAngle));
+                shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
                 shoot(shot);
             }
         }

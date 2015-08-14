@@ -11,13 +11,17 @@ public class Vector2 {
     ------ Static ------
     */
 
-    public static Vector2 createCartesian(float x, float y) {
+    public static Vector2 cartesian(float x, float y) {
         return new Vector2(x, y);
     }
 
-    public static Vector2 createPolar(float length, float angle) {
+    public static Vector2 polar(float length, float angle) {
         return new Vector2((float)Math.cos(angle * TO_RADIANS) * length,
                 (float)Math.sin(angle * TO_RADIANS) * length);
+    }
+
+    public static Vector2 fromTo(Vector2 p1, Vector2 p2) {
+        return new Vector2(p2.x - p1.x, p2.y - p1.y);
     }
 
     public static float normalizeAngle(float angle) {

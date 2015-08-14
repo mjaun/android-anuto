@@ -40,8 +40,8 @@ public abstract class GameObject implements Sprite.Listener {
         return new Predicate<GameObject>() {
             @Override
             public boolean apply(GameObject value) {
-                Vector2 line = p2.copy().sub(p1);
-                Vector2 toObj = value.getPosition().sub(p1);
+                Vector2 line = Vector2.fromTo(p1, p2);
+                Vector2 toObj = Vector2.fromTo(p1, value.mPosition);
 
                 float angle = toObj.angle() - line.angle();
 
@@ -171,7 +171,7 @@ public abstract class GameObject implements Sprite.Listener {
     }
 
     public float getDistanceTo(Vector2 target) {
-        return target.copy().sub(mPosition).len();
+        return Vector2.fromTo(mPosition, target).len();
     }
 
     public Vector2 getDirectionTo(GameObject target) {
@@ -179,7 +179,7 @@ public abstract class GameObject implements Sprite.Listener {
     }
 
     public Vector2 getDirectionTo(Vector2 target) {
-        return target.copy().sub(mPosition).norm();
+        return Vector2.fromTo(mPosition, target).norm();
     }
 
     public float getAngleTo(GameObject target) {
@@ -187,7 +187,7 @@ public abstract class GameObject implements Sprite.Listener {
     }
 
     public float getAngleTo(Vector2 target) {
-        return target.copy().sub(mPosition).angle();
+        return Vector2.fromTo(mPosition, target).angle();
     }
 
 

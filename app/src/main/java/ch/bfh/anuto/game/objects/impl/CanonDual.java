@@ -127,8 +127,8 @@ public class CanonDual extends AimingTower {
 
             if (mReloaded && !mShoot2) {
                 Shot shot = new CanonShot(mPosition, mTarget);
-                shot.move(Vector2.createPolar(SHOT_SPAWN_OFFSET, mAngle));
-                shot.move(Vector2.createPolar(0.3f, mAngle - 90f));
+                shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
+                shot.move(Vector2.polar(0.3f, mAngle - 90f));
                 shoot(shot);
 
                 mCanons[0].mReboundActive = true;
@@ -137,8 +137,8 @@ public class CanonDual extends AimingTower {
 
             if (mReloaded && mShoot2) {
                 Shot shot = new CanonShot(mPosition, mTarget);
-                shot.move(Vector2.createPolar(SHOT_SPAWN_OFFSET, mAngle));
-                shot.move(Vector2.createPolar(0.3f, mAngle + 90f));
+                shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
+                shot.move(Vector2.polar(0.3f, mAngle + 90f));
                 shoot(shot);
 
                 mCanons[1].mReboundActive = true;

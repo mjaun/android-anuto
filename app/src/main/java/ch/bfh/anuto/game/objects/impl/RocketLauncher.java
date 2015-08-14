@@ -74,7 +74,7 @@ public class RocketLauncher extends AimingTower {
 
             if (mReloaded) {
                 Shot shot = new Rocket(mPosition, mTarget);
-                shot.move(Vector2.createPolar(SHOT_SPAWN_OFFSET, mAngle));
+                shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
                 shoot(shot);
             }
         }
