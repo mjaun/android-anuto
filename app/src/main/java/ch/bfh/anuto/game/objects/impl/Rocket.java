@@ -7,22 +7,23 @@ import ch.bfh.anuto.game.Layers;
 import ch.bfh.anuto.game.objects.Enemy;
 import ch.bfh.anuto.game.objects.GameObject;
 import ch.bfh.anuto.game.objects.Sprite;
-import ch.bfh.anuto.game.objects.TargetedShot;
+import ch.bfh.anuto.game.objects.HomingShot;
 import ch.bfh.anuto.util.math.Vector2;
 
-public class RocketShot extends TargetedShot {
+public class Rocket extends HomingShot {
 
     private final static float MOVEMENT_SPEED = 2.5f;
     private final static float ANIMATION_SPEED = 3f;
 
     private Sprite mSprite;
+    private Sprite mSpriteFire;
     private float mAngle = 0f;
 
-    public RocketShot() {
+    public Rocket() {
         mSpeed = MOVEMENT_SPEED;
     }
 
-    public RocketShot(Vector2 position, Enemy target) {
+    public Rocket(Vector2 position, Enemy target) {
         this();
 
         setPosition(position);
@@ -31,11 +32,8 @@ public class RocketShot extends TargetedShot {
         mAngle = getDirectionTo(mTarget).angle();
     }
 
-    @Override
-    public void onClean() {
-        super.onClean();
-
-        mGame.remove(mSprite);
+    public void setAngle(float angle) {
+        mAngle = angle;
     }
 
     @Override
@@ -44,11 +42,48 @@ public class RocketShot extends TargetedShot {
 
         mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.rocket_shot, 4);
         mSprite.setListener(this);
-        mSprite.setMatrix(1f);
+        mSprite.setIndex(mGame.getRandom(4));
+        mSprite.setMatrix(1f, 1f, null, null);
         mSprite.setLayer(Layers.SHOT);
-        mSprite.getAnimator().setSequence(mSprite.sequenceForward());
-        mSprite.getAnimator().setSpeed(ANIMATION_SPEED);
         mGame.add(mSprite);
+
+        mSpriteFire = Sprite.fromResources(mGame.getResources(), R.drawable.rocket_fire, 4);
+        mSpriteFire.setListener(this);
+        mSpriteFire.setMatrix(0.3f, 0.3f, new Vector2(0.15f, 0.4f), -90f);
+        mSpriteFire.setLayer(Layers.SHOT_LOWER);
+
+        if (mEnabled) {
+            mGame.add(mSpriteFire);
+        }
+
+        Sprite.Animator animator = new Sprite.Animator();
+        animator.setSequence(mSpriteFire.sequenceForward());
+        animator.setSpeed(ANIMATION_SPEED);
+        mSpriteFire.setAnimator(animator);
+    }
+
+    @Override
+    public void onClean() {
+        super.onClean();
+
+        mGame.remove(mSprite);
+
+        if (mEnabled) {
+            mGame.remove(mSpriteFire);
+        }
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+
+        if (isActive() && !enabled) {
+            mGame.remove(mSpriteFire);
+        }
+
+        if (isActive() && enabled) {
+            mGame.add(mSpriteFire);
+        }
     }
 
     @Override
@@ -60,12 +95,14 @@ public class RocketShot extends TargetedShot {
 
     @Override
     public void onTick() {
-        mDirection = getDirectionTo(mTarget);
-        mAngle = mDirection.angle();
+        if (mEnabled) {
+            mDirection = getDirectionTo(mTarget);
+            mAngle = mDirection.angle();
+
+            mSpriteFire.animate();
+        }
 
         super.onTick();
-
-        mSprite.animate();
     }
 
     @Override

@@ -9,23 +9,25 @@ import ch.bfh.anuto.game.objects.Shot;
 import ch.bfh.anuto.game.objects.Sprite;
 import ch.bfh.anuto.util.math.Vector2;
 
-public class RocketTower extends AimingTower {
+public class RocketLauncher extends AimingTower {
 
     private final static int VALUE = 300;
     private final static float RELOAD_TIME = 2.5f;
     private final static float RANGE = 2.5f;
     private final static float SHOT_SPAWN_OFFSET = 0.9f;
 
-    private Sprite mSprite;
     private float mAngle;
 
-    public RocketTower() {
+    private Sprite mSprite;
+    private Rocket mRocket;
+
+    public RocketLauncher() {
         mRange = RANGE;
         mReloadTime = RELOAD_TIME;
         mValue = VALUE;
     }
 
-    public RocketTower(Vector2 position) {
+    public RocketLauncher(Vector2 position) {
         this();
         setPosition(position);
     }
@@ -34,9 +36,12 @@ public class RocketTower extends AimingTower {
     public void onInit() {
         super.onInit();
 
-        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.base1);
+        mAngle = mGame.getRandom(360f);
+
+        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.rocket_launcher, 4);
         mSprite.setListener(this);
-        mSprite.setMatrix(null, 1.5f, new Vector2(0.45f, 0.75f));
+        mSprite.setIndex(mGame.getRandom(4));
+        mSprite.setMatrix(1f, 1f, null, -90f);
         mSprite.setLayer(Layers.TOWER);
         mGame.add(mSprite);
     }
@@ -58,14 +63,20 @@ public class RocketTower extends AimingTower {
     public void onTick() {
         super.onTick();
 
+        if (mReloaded && mRocket != null) {
+            mRocket = new Rocket(mPosition, null);
+            mRocket.setEnabled(false);
+            mGame.add(mRocket);
+        }
+
         if (mTarget != null) {
+            mAngle = getAngleTo(mTarget);
+
             if (mReloaded) {
-                Shot shot = new RocketShot(mPosition, mTarget);
+                Shot shot = new Rocket(mPosition, mTarget);
                 shot.move(Vector2.createPolar(SHOT_SPAWN_OFFSET, mAngle));
                 shoot(shot);
             }
-
-            mAngle = getAngleTo(mTarget);
         }
     }
 }

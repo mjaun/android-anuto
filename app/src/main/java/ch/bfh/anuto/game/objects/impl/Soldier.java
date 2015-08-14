@@ -28,11 +28,11 @@ public class Soldier extends Enemy {
 
         mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.soldier, 12);
         mSprite.setListener(this);
-        mSprite.setMatrix(0.9f);
+        mSprite.setMatrix(0.9f, 0.9f, null, null);
         mSprite.setLayer(Layers.ENEMY);
 
         if (sSpriteAnimator == null) {
-            sSpriteAnimator = new Sprite.Animator(mGame);
+            sSpriteAnimator = new Sprite.Animator();
             sSpriteAnimator.setSequence(mSprite.sequenceForwardBackward());
             sSpriteAnimator.setSpeed(ANIMATION_SPEED);
         }

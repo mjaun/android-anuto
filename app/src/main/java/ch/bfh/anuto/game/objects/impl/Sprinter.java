@@ -28,7 +28,7 @@ public class Sprinter extends Enemy {
 
         mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.base1);
         mSprite.setListener(this);
-        mSprite.setMatrix(0.9f);
+        mSprite.setMatrix(0.9f, 0.9f, null, null);
         mSprite.setLayer(Layers.ENEMY);
         mGame.add(mSprite);
     }

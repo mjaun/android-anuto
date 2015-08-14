@@ -8,28 +8,23 @@ import ch.bfh.anuto.game.Layers;
 import ch.bfh.anuto.game.objects.AimingTower;
 import ch.bfh.anuto.game.objects.Shot;
 import ch.bfh.anuto.game.objects.Sprite;
-import ch.bfh.anuto.util.math.SineFunction;
 import ch.bfh.anuto.util.math.Vector2;
 
-public class Canon extends AimingTower {
+public class CanonMG extends AimingTower {
 
     private final static int VALUE = 200;
-    private final static float RELOAD_TIME = 0.4f;
+    private final static float RELOAD_TIME = 0.1f;
     private final static float RANGE = 3.5f;
-    private final static float SHOT_SPAWN_OFFSET = 0.9f;
+    private final static float SHOT_SPAWN_OFFSET = 0.7f;
 
-    private final static float REBOUND_RANGE = 0.25f;
-    private final static float REBOUND_DURATION = 0.2f;
+    private final static float MG_ROTATION_SPEED = 10f;
 
     private float mAngle;
-
-    private boolean mReboundActive;
-    private SineFunction mReboundFunction;
-
     private Sprite mSpriteBase;
+    private Sprite mSpriteTower;
     private Sprite mSpriteCanon;
 
-    public Canon() {
+    public CanonMG() {
         mValue = VALUE;
         mRange = RANGE;
         mReloadTime = RELOAD_TIME;
@@ -40,11 +35,6 @@ public class Canon extends AimingTower {
         super.onInit();
 
         mAngle = mGame.getRandom(360f);
-        mReboundActive = false;
-
-        mReboundFunction = new SineFunction();
-        mReboundFunction.setProperties(0f, (float)Math.PI, REBOUND_RANGE, 0f);
-        mReboundFunction.setSection(GameEngine.TARGET_FRAME_RATE * REBOUND_DURATION);
 
         mSpriteBase = Sprite.fromResources(mGame.getResources(), R.drawable.base1, 4);
         mSpriteBase.setListener(this);
@@ -53,12 +43,23 @@ public class Canon extends AimingTower {
         mSpriteBase.setLayer(Layers.TOWER_BASE);
         mGame.add(mSpriteBase);
 
-        mSpriteCanon = Sprite.fromResources(mGame.getResources(), R.drawable.canon, 4);
+        mSpriteTower = Sprite.fromResources(mGame.getResources(), R.drawable.canon_mg_base, 4);
+        mSpriteTower.setListener(this);
+        mSpriteTower.setIndex(mGame.getRandom().nextInt(4));
+        mSpriteTower.setMatrix(0.7f, 0.7f, new Vector2(0.35f, 0.45f), -90f);
+        mSpriteTower.setLayer(Layers.TOWER);
+        mGame.add(mSpriteTower);
+
+        mSpriteCanon = Sprite.fromResources(mGame.getResources(), R.drawable.canon_mg_gun, 5);
         mSpriteCanon.setListener(this);
-        mSpriteCanon.setIndex(mGame.getRandom().nextInt(4));
-        mSpriteCanon.setMatrix(0.3f, 1.0f, new Vector2(0.15f, 0.2f), -90f);
+        mSpriteCanon.setMatrix(0.8f, 0.9f, new Vector2(0.4f, 0.25f), -90f);
         mSpriteCanon.setLayer(Layers.TOWER);
         mGame.add(mSpriteCanon);
+
+        Sprite.Animator animator = new Sprite.Animator();
+        animator.setSequence(mSpriteCanon.sequenceForward());
+        animator.setSpeed(MG_ROTATION_SPEED);
+        mSpriteCanon.setAnimator(animator);
     }
 
     @Override
@@ -66,6 +67,7 @@ public class Canon extends AimingTower {
         super.onClean();
 
         mGame.remove(mSpriteBase);
+        mGame.remove(mSpriteTower);
         mGame.remove(mSpriteCanon);
     }
 
@@ -74,10 +76,6 @@ public class Canon extends AimingTower {
         super.onDraw(sprite, canvas);
 
         canvas.rotate(mAngle);
-
-        if (sprite == mSpriteCanon && mReboundActive) {
-            canvas.translate(-mReboundFunction.getValue(), 0);
-        }
     }
 
     @Override
@@ -85,21 +83,15 @@ public class Canon extends AimingTower {
         super.onTick();
 
         if (mTarget != null) {
+
+
             mAngle = getAngleTo(mTarget);
+            mSpriteCanon.animate();
 
             if (mReloaded) {
-                Shot shot = new CanonShot(mPosition, mTarget);
+                Shot shot = new CanonShotMG(mPosition, getDirectionTo(mTarget));
                 shot.move(Vector2.createPolar(SHOT_SPAWN_OFFSET, mAngle));
                 shoot(shot);
-
-                mReboundActive = true;
-            }
-        }
-
-        if (mReboundActive) {
-            if (mReboundFunction.step()) {
-                mReboundFunction.reset();
-                mReboundActive = false;
             }
         }
     }

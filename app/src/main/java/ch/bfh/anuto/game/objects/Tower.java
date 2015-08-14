@@ -163,7 +163,12 @@ public abstract class Tower extends GameObject {
 
 
     protected void shoot(Shot shot) {
-        mGame.add(shot);
+        if (!shot.isActive()) {
+            mGame.add(shot);
+        }
+
+        shot.setEnabled(true);
+
         mReloaded = false;
     }
 

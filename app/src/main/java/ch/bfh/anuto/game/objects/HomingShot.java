@@ -2,7 +2,7 @@ package ch.bfh.anuto.game.objects;
 
 import ch.bfh.anuto.game.GameEngine;
 
-public abstract class TargetedShot extends Shot implements GameObject.Listener {
+public abstract class HomingShot extends Shot implements GameObject.Listener {
 
     /*
     ------ Members ------
@@ -25,14 +25,14 @@ public abstract class TargetedShot extends Shot implements GameObject.Listener {
     public void onTick() {
         super.onTick();
 
-        if (hasTarget() && getDistanceTo(mTarget) <= mSpeed / GameEngine.TARGET_FRAME_RATE) {
+        if (mEnabled && hasTarget() && getDistanceTo(mTarget) <= mSpeed / GameEngine.TARGET_FRAME_RATE) {
             mReached = true;
             onTargetReached();
         }
     }
 
 
-    protected void setTarget(Enemy target) {
+    public void setTarget(Enemy target) {
         if (mTarget != null) {
             mTarget.removeListener(this);
         }
@@ -45,7 +45,7 @@ public abstract class TargetedShot extends Shot implements GameObject.Listener {
         }
     }
 
-    protected boolean hasTarget() {
+    public boolean hasTarget() {
         return mTarget != null;
     }
 

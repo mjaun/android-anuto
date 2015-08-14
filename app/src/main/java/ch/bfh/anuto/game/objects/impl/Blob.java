@@ -26,7 +26,7 @@ public class Blob extends Enemy {
 
         mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.blob, 9);
         mSprite.setListener(this);
-        mSprite.setMatrix(0.9f);
+        mSprite.setMatrix(0.9f, 0.9f, null, null);
         mSprite.setLayer(Layers.ENEMY);
         mSprite.getAnimator().setSequence(mSprite.sequenceForward());
         mSprite.getAnimator().setSpeed(ANIMATION_SPEED);

@@ -8,27 +8,24 @@ import ch.bfh.anuto.game.Layers;
 import ch.bfh.anuto.game.objects.Enemy;
 import ch.bfh.anuto.game.objects.GameObject;
 import ch.bfh.anuto.game.objects.Sprite;
-import ch.bfh.anuto.game.objects.TargetedShot;
+import ch.bfh.anuto.game.objects.HomingShot;
 import ch.bfh.anuto.util.math.Vector2;
 
-public class CanonShot extends TargetedShot {
+public class CanonShot extends HomingShot {
 
     private final static float DAMAGE = 60f;
     private final static float MOVEMENT_SPEED = 4.0f;
+
     private final static float ROTATION_STEP = 360f / GameEngine.TARGET_FRAME_RATE;
 
     private Sprite mSprite;
     private float mAngle = 0f;
 
-    public CanonShot() {
-        mSpeed = MOVEMENT_SPEED;
-    }
-
     public CanonShot(Vector2 position, Enemy target) {
-        this();
-
         setPosition(position);
         setTarget(target);
+
+        mSpeed = MOVEMENT_SPEED;
     }
 
     @Override
@@ -38,7 +35,7 @@ public class CanonShot extends TargetedShot {
         mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.canon_shot, 4);
         mSprite.setListener(this);
         mSprite.setIndex(mGame.getRandom().nextInt(4));
-        mSprite.setMatrix(0.33f);
+        mSprite.setMatrix(0.33f, 0.33f, null, null);
         mSprite.setLayer(Layers.SHOT);
         mGame.add(mSprite);
     }
