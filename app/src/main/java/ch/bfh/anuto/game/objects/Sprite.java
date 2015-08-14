@@ -74,48 +74,59 @@ public class Sprite extends DrawObject {
      */
 
     public static class Animator {
-        private int mSeqIndex;
+        private int mPosition;
         private int[] mSequence;
         private TickTimer mTimer = new TickTimer();
 
         private long mLastTick;
         private GameEngine mGame;
 
-        public Animator(GameEngine game) {
-            mGame = game;
+        public Animator() {
+            mGame = GameEngine.getInstance();
         }
 
         public void setSequence(int[] sequence) {
             mSequence = sequence;
-            mSeqIndex = 0;
+            reset();
         }
 
         public void setSpeed(float speed) {
             mTimer.setFrequency(speed * mSequence.length);
         }
 
-        private void tick() {
-            if (mGame != null) {
-                long tick = mGame.getTickCount();
-
-                if (tick == mLastTick) {
-                    return;
-                }
-
-                mLastTick = tick;
-            }
-
-            if (mTimer.tick()) {
-                mSeqIndex++;
-
-                if (mSeqIndex >= mSequence.length) {
-                    mSeqIndex = 0;
-                }
-            }
+        public void reset() {
+            mTimer.reset();
+            mPosition = 0;
         }
 
-        private int getIndex() {
-            return mSequence[mSeqIndex];
+        public int getIndex() {
+            return mSequence[mPosition];
+        }
+
+        public int getPosition() {
+            return mPosition;
+        }
+
+        public int count() {
+            return mSequence.length;
+        }
+
+        public boolean tick() {
+            long tick = mGame.getTickCount();
+            if (tick == mLastTick) {
+                return mPosition == mSequence.length - 1;
+            }
+            mLastTick = tick;
+
+            if (mTimer.tick()) {
+                mPosition++;
+
+                if (mPosition >= mSequence.length) {
+                    mPosition = 0;
+                }
+            }
+
+            return mPosition == mSequence.length - 1;
         }
     }
 
@@ -138,12 +149,10 @@ public class Sprite extends DrawObject {
 
     private Sprite(Bitmap... bitmaps) {
         mBitmaps = new ArrayList<Bitmap>(Arrays.asList(bitmaps));
-        setMatrix(1f);
     }
 
     private Sprite(Sprite src) {
         mBitmaps = src.mBitmaps;
-        mMatrix.set(src.mMatrix);
     }
 
     /*
@@ -179,18 +188,6 @@ public class Sprite extends DrawObject {
 
     public void setMatrix(Matrix src) {
         mMatrix.set(src);
-    }
-
-    public void setMatrix(float length) {
-        setMatrix(length, length);
-    }
-
-    public void setMatrix(Float width, Float height) {
-        setMatrix(width, height, null);
-    }
-
-    public void setMatrix(Float width, Float height, Vector2 center) {
-        setMatrix(width, height, center, null);
     }
 
     public void setMatrix(Float width, Float height, Vector2 center, Float rotate) {
@@ -239,10 +236,6 @@ public class Sprite extends DrawObject {
 
 
     public Animator getAnimator() {
-        if (mAnimator == null) {
-            mAnimator = new Animator(null);
-        }
-
         return mAnimator;
     }
 
@@ -274,9 +267,20 @@ public class Sprite extends DrawObject {
         return ret;
     }
 
-    public void animate() {
-        mAnimator.tick();
+    public int[] sequenceBackward() {
+        int ret[] = new int[count()];
+
+        for (int i = 0; i < ret.length; i++) {
+            ret[i] = count() - 1 - i;
+        }
+
+        return ret;
+    }
+
+    public boolean animate() {
+        boolean ret = mAnimator.tick();
         mIndex = mAnimator.getIndex();
+        return ret;
     }
 
     @Override
