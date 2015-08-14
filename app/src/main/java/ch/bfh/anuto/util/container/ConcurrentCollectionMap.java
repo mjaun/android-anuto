@@ -2,9 +2,9 @@ package ch.bfh.anuto.util.container;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -17,7 +17,7 @@ public class ConcurrentCollectionMap<K, V> implements Iterable<V> {
     ------ Members ------
      */
 
-    private final Map<K, ConcurrentCollection<V>> mItems = new TreeMap<>();
+    private final Map<K, ConcurrentCollection<V>> mItems = new HashMap<>();
     private final List<K> mKeys = new ArrayList<>();
     private final ReadWriteLock mLock = new ReentrantReadWriteLock();
 
@@ -76,16 +76,27 @@ public class ConcurrentCollectionMap<K, V> implements Iterable<V> {
     ------ Methods ------
      */
 
-    protected Collection<V> getCollection(K key) {
+    private Collection<V> getCollection(K key) {
         mLock.writeLock().lock();
         if (!mItems.containsKey(key)) {
             mItems.put(key, new ConcurrentCollection<V>());
-            mKeys.add(key);
+
+            int i = 0;
+
+            while (i < mKeys.size() && compareKeys(mKeys.get(i), key) > 0) {
+                i++;
+            }
+
+            mKeys.add(i, key);
         }
 
         Collection<V> ret = mItems.get(key);
         mLock.writeLock().unlock();
         return ret;
+    }
+
+    protected int compareKeys(K k1, K k2) {
+        return 0;
     }
 
     public boolean add(K key, V value) {
