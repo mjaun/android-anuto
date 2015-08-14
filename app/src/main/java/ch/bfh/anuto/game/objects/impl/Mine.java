@@ -27,6 +27,7 @@ public class Mine extends Shot {
     private boolean mFlying = true;
     private float mAngle;
     private float mRotationStep;
+    private int mTicksToTarget;
     private ParabolaFunction mHeightScalingFunction;
 
     private TickTimer mCheckTimer;
@@ -38,6 +39,7 @@ public class Mine extends Shot {
 
         mSpeed = getDistanceTo(target) / TIME_TO_TARGET;
         mDirection = getDirectionTo(target);
+        mTicksToTarget = Math.round(GameEngine.TARGET_FRAME_RATE * TIME_TO_TARGET);
     }
 
     @Override
@@ -83,8 +85,10 @@ public class Mine extends Shot {
 
         if (mFlying) {
             mAngle += mRotationStep;
+            mHeightScalingFunction.step();
+            mTicksToTarget--;
 
-            if (mHeightScalingFunction.step()) {
+            if (mTicksToTarget <= 0) {
                 mFlying = false;
                 mHeightScalingFunction.reset();
                 mSpeed = 0f;

@@ -1,7 +1,5 @@
 package ch.bfh.anuto.game;
 
-import android.content.res.Resources;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -12,7 +10,9 @@ import ch.bfh.anuto.game.data.Wave;
 import ch.bfh.anuto.game.objects.Enemy;
 import ch.bfh.anuto.game.objects.Plateau;
 import ch.bfh.anuto.game.objects.Tower;
-import ch.bfh.anuto.game.objects.impl.Canon;
+import ch.bfh.anuto.game.objects.impl.MineLayer;
+import ch.bfh.anuto.game.objects.impl.Mortar;
+import ch.bfh.anuto.game.objects.impl.RocketLauncher;
 import ch.bfh.anuto.util.container.ListenerList;
 
 public class GameManager implements Wave.Listener {
@@ -147,8 +147,15 @@ public class GameManager implements Wave.Listener {
 
         onGameStarted();
 
-        Tower t = new Canon();
+        Tower t;
+
+        t = new MineLayer();
         t.setPosition(5, 10);
+        t.setEnabled(true);
+        mGame.add(t);
+
+        t = new RocketLauncher();
+        t.setPosition(4, 10);
         t.setEnabled(true);
         mGame.add(t);
     }

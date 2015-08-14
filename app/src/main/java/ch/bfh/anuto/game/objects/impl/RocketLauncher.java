@@ -63,19 +63,19 @@ public class RocketLauncher extends AimingTower {
     public void onTick() {
         super.onTick();
 
-        if (mReloaded && mRocket != null) {
-            mRocket = new Rocket(mPosition, null);
-            mRocket.setEnabled(false);
+        if (mReloaded && mRocket == null) {
+            mRocket = new Rocket(mPosition);
+            mRocket.setAngle(mAngle);
             mGame.add(mRocket);
         }
 
         if (mTarget != null) {
             mAngle = getAngleTo(mTarget);
 
-            if (mReloaded) {
-                Shot shot = new Rocket(mPosition, mTarget);
-                shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
-                shoot(shot);
+            if (mRocket != null) {
+                mRocket.setTarget(mTarget);
+                shoot(mRocket);
+                mRocket = null;
             }
         }
     }

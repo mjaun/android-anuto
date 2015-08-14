@@ -10,6 +10,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import ch.bfh.anuto.game.GameEngine;
 import ch.bfh.anuto.util.iterator.Function;
 import ch.bfh.anuto.util.iterator.Predicate;
+import ch.bfh.anuto.util.math.MathUtils;
 import ch.bfh.anuto.util.math.Vector2;
 
 public abstract class GameObject implements Sprite.Listener {
@@ -43,21 +44,17 @@ public abstract class GameObject implements Sprite.Listener {
                 Vector2 line = Vector2.fromTo(p1, p2);
                 Vector2 toObj = Vector2.fromTo(p1, value.mPosition);
 
-                float angle = toObj.angle() - line.angle();
-
-                if (Math.abs(Vector2.normalizeAngle(angle)) > 90) {
-                    return false;
-                }
-
                 Vector2 proj = toObj.proj(line);
-
                 if (proj.len() > line.len()) {
                     return false;
                 }
 
-                float dist = toObj.sub(proj).len();
+                float angle = toObj.angle() - line.angle();
+                if (Math.abs(Vector2.normalizeAngle(angle)) > 90) {
+                    return false;
+                }
 
-                return dist <= lineWidth / 2f;
+                return toObj.sub(proj).len() <= lineWidth / 2f;
             }
         };
     }

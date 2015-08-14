@@ -23,13 +23,11 @@ public class Rocket extends HomingShot {
         mSpeed = MOVEMENT_SPEED;
     }
 
-    public Rocket(Vector2 position, Enemy target) {
+    public Rocket(Vector2 position) {
         this();
 
         setPosition(position);
-        setTarget(target);
-
-        mAngle = getDirectionTo(mTarget).angle();
+        mEnabled = false;
     }
 
     public void setAngle(float angle) {
@@ -43,13 +41,13 @@ public class Rocket extends HomingShot {
         mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.rocket_shot, 4);
         mSprite.setListener(this);
         mSprite.setIndex(mGame.getRandom(4));
-        mSprite.setMatrix(1f, 1f, null, null);
+        mSprite.setMatrix(0.8f, 1f, null, -90f);
         mSprite.setLayer(Layers.SHOT);
         mGame.add(mSprite);
 
         mSpriteFire = Sprite.fromResources(mGame.getResources(), R.drawable.rocket_fire, 4);
         mSpriteFire.setListener(this);
-        mSpriteFire.setMatrix(0.3f, 0.3f, new Vector2(0.15f, 0.4f), -90f);
+        mSpriteFire.setMatrix(0.3f, 0.3f, new Vector2(0.15f, 0.6f), -90f);
         mSpriteFire.setLayer(Layers.SHOT_LOWER);
 
         if (mEnabled) {
