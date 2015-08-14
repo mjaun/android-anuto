@@ -22,9 +22,9 @@ public class CanonDual extends AimingTower {
     private final static float REBOUND_DURATION = 0.2f;
 
     private class SubCanon {
-        private boolean mReboundActive;
-        private SineFunction mReboundFunction;
-        private Sprite mSprite;
+        boolean reboundActive;
+        SineFunction reboundFunction;
+        Sprite sprite;
     }
 
     private float mAngle;
@@ -63,30 +63,30 @@ public class CanonDual extends AimingTower {
         mCanons = new SubCanon[2];
 
         mCanons[0] = new SubCanon();
-        mCanons[0].mReboundFunction = new SineFunction();
-        mCanons[0].mReboundFunction.setProperties(0, (float) Math.PI, REBOUND_RANGE, 0f);
-        mCanons[0].mReboundFunction.setSection(GameEngine.TARGET_FRAME_RATE * REBOUND_DURATION);
-        mCanons[0].mReboundActive = false;
+        mCanons[0].reboundFunction = new SineFunction();
+        mCanons[0].reboundFunction.setProperties(0, (float) Math.PI, REBOUND_RANGE, 0f);
+        mCanons[0].reboundFunction.setSection(GameEngine.TARGET_FRAME_RATE * REBOUND_DURATION);
+        mCanons[0].reboundActive = false;
 
-        mCanons[0].mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.canon, 4);
-        mCanons[0].mSprite.setListener(this);
-        mCanons[0].mSprite.setIndex(mGame.getRandom().nextInt(4));
-        mCanons[0].mSprite.setMatrix(0.3f, 1.0f, new Vector2(0.15f, 0.4f), -90f);
-        mCanons[0].mSprite.setLayer(Layers.TOWER);
-        mGame.add(mCanons[0].mSprite);
+        mCanons[0].sprite = Sprite.fromResources(mGame.getResources(), R.drawable.canon, 4);
+        mCanons[0].sprite.setListener(this);
+        mCanons[0].sprite.setIndex(mGame.getRandom().nextInt(4));
+        mCanons[0].sprite.setMatrix(0.3f, 1.0f, new Vector2(0.15f, 0.4f), -90f);
+        mCanons[0].sprite.setLayer(Layers.TOWER);
+        mGame.add(mCanons[0].sprite);
 
         mCanons[1] = new SubCanon();
-        mCanons[1].mReboundFunction = new SineFunction();
-        mCanons[1].mReboundFunction.setProperties(0, (float)Math.PI, REBOUND_RANGE, 0f);
-        mCanons[1].mReboundFunction.setSection(GameEngine.TARGET_FRAME_RATE * REBOUND_DURATION);
-        mCanons[1].mReboundActive = false;
+        mCanons[1].reboundFunction = new SineFunction();
+        mCanons[1].reboundFunction.setProperties(0, (float) Math.PI, REBOUND_RANGE, 0f);
+        mCanons[1].reboundFunction.setSection(GameEngine.TARGET_FRAME_RATE * REBOUND_DURATION);
+        mCanons[1].reboundActive = false;
 
-        mCanons[1].mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.canon, 4);
-        mCanons[1].mSprite.setListener(this);
-        mCanons[1].mSprite.setIndex(mGame.getRandom().nextInt(4));
-        mCanons[1].mSprite.setMatrix(0.3f, 1.0f, new Vector2(-0.15f, 0.4f), -90f);
-        mCanons[1].mSprite.setLayer(Layers.TOWER);
-        mGame.add(mCanons[0].mSprite);
+        mCanons[1].sprite = Sprite.fromResources(mGame.getResources(), R.drawable.canon, 4);
+        mCanons[1].sprite.setListener(this);
+        mCanons[1].sprite.setIndex(mGame.getRandom().nextInt(4));
+        mCanons[1].sprite.setMatrix(0.3f, 1.0f, new Vector2(-0.15f, 0.4f), -90f);
+        mCanons[1].sprite.setLayer(Layers.TOWER);
+        mGame.add(mCanons[0].sprite);
     }
 
     @Override
@@ -97,7 +97,7 @@ public class CanonDual extends AimingTower {
         mGame.remove(mSpriteTower);
 
         for (SubCanon c : mCanons) {
-            mGame.remove(c.mSprite);
+            mGame.remove(c.sprite);
         }
 
         mCanons = null;
@@ -109,12 +109,12 @@ public class CanonDual extends AimingTower {
 
         canvas.rotate(mAngle);
 
-        if (sprite == mCanons[0].mSprite && mCanons[0].mReboundActive) {
-            canvas.translate(-mCanons[0].mReboundFunction.getValue(), 0);
+        if (sprite == mCanons[0].sprite && mCanons[0].reboundActive) {
+            canvas.translate(-mCanons[0].reboundFunction.getValue(), 0);
         }
 
-        if (sprite == mCanons[1].mSprite && mCanons[1].mReboundActive) {
-            canvas.translate(-mCanons[1].mReboundFunction.getValue(), 0);
+        if (sprite == mCanons[1].sprite && mCanons[1].reboundActive) {
+            canvas.translate(-mCanons[1].reboundFunction.getValue(), 0);
         }
     }
 
@@ -131,7 +131,7 @@ public class CanonDual extends AimingTower {
                 shot.move(Vector2.polar(0.3f, mAngle - 90f));
                 shoot(shot);
 
-                mCanons[0].mReboundActive = true;
+                mCanons[0].reboundActive = true;
                 mShoot2 = true;
             }
 
@@ -141,22 +141,22 @@ public class CanonDual extends AimingTower {
                 shot.move(Vector2.polar(0.3f, mAngle + 90f));
                 shoot(shot);
 
-                mCanons[1].mReboundActive = true;
+                mCanons[1].reboundActive = true;
                 mShoot2 = false;
             }
         }
 
-        if (mCanons[0].mReboundActive) {
-            if (mCanons[0].mReboundFunction.step()) {
-                mCanons[0].mReboundFunction.reset();
-                mCanons[0].mReboundActive = false;
+        if (mCanons[0].reboundActive) {
+            if (mCanons[0].reboundFunction.step()) {
+                mCanons[0].reboundFunction.reset();
+                mCanons[0].reboundActive = false;
             }
         }
 
-        if (mCanons[1].mReboundActive) {
-            if (mCanons[1].mReboundFunction.step()) {
-                mCanons[1].mReboundFunction.reset();
-                mCanons[1].mReboundActive = false;
+        if (mCanons[1].reboundActive) {
+            if (mCanons[1].reboundFunction.step()) {
+                mCanons[1].reboundFunction.reset();
+                mCanons[1].reboundActive = false;
             }
         }
     }
