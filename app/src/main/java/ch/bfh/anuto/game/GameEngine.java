@@ -65,10 +65,22 @@ public class GameEngine {
 
             return ret;
         }
+
+        @Override
+        protected int compareKeys(Integer k1, Integer k2) {
+            if (k1 > k2) return -1;
+            if (k1 < k2) return 1;
+            return 0;
+        }
     }
 
     private class DrawObjectMap extends ConcurrentCollectionMap<Integer, DrawObject> {
-
+        @Override
+        protected int compareKeys(Integer k1, Integer k2) {
+            if (k1 > k2) return -1;
+            if (k1 < k2) return 1;
+            return 0;
+        }
     }
 
     /*
@@ -135,12 +147,20 @@ public class GameEngine {
         return mRandom;
     }
 
-    public int getRandom(int n) {
-        return mRandom.nextInt(n);
+    public int getRandom(int max) {
+        return mRandom.nextInt(max);
     }
 
-    public float getRandom(float n) {
-        return mRandom.nextFloat() * n;
+    public int getRandom(int min, int max) {
+        return mRandom.nextInt(max - min) + min;
+    }
+
+    public float getRandom(float max) {
+        return mRandom.nextFloat() * max;
+    }
+
+    public float getRandom(float min, float max) {
+        return mRandom.nextFloat() * (max - min) + min;
     }
 
     public long getTickCount() {
@@ -208,6 +228,11 @@ public class GameEngine {
         float[] pts = {pos.x, pos.y};
         mScreenMatrix.mapPoints(pts);
         return new Vector2(pts[0], pts[1]);
+    }
+
+    public boolean inGame(Vector2 pos) {
+        return pos.x >= -0.5f && pos.y >= -0.5f &&
+                pos.x < mGameSize.x + 0.5f && pos.y < mGameSize.y + 0.5f;
     }
 
 
