@@ -134,18 +134,19 @@ public abstract class Enemy extends GameObject {
     public void onTick() {
         super.onTick();
 
-        if (!hasWayPoint()) {
-            GameManager.getInstance().takeLives(1);
-            this.remove();
-            return;
-        }
+        if (mEnabled) {
+            if (!hasWayPoint()) {
+                GameManager.getInstance().takeLives(1);
+                this.remove();
+                return;
+            }
 
-        if (getDistanceTo(getWayPoint()) < mSpeed / GameEngine.TARGET_FRAME_RATE) {
-            setPosition(getWayPoint());
-            nextWayPoint();
-        }
-        else {
-            moveSpeed(getDirectionTo(getWayPoint()), mSpeed);
+            if (getDistanceTo(getWayPoint()) < mSpeed / GameEngine.TARGET_FRAME_RATE) {
+                setPosition(getWayPoint());
+                nextWayPoint();
+            } else {
+                moveSpeed(getDirectionTo(getWayPoint()), mSpeed);
+            }
         }
     }
 
@@ -159,7 +160,7 @@ public abstract class Enemy extends GameObject {
     }
 
     protected boolean hasWayPoint() {
-        return mPath != null && mPath.getWayPoints().size() > mWayPointIndex;
+        return mPath != null && mWayPointIndex < mPath.getWayPoints().size();
     }
 
     public float getDistanceRemaining() {
@@ -178,6 +179,48 @@ public abstract class Enemy extends GameObject {
         }
 
         return dist;
+    }
+
+    public float getSpeed() {
+        return mSpeed;
+    }
+
+    public Vector2 getDirection() {
+        if (!hasWayPoint()) {
+            return null;
+        }
+
+        return getDirectionTo(getWayPoint());
+    }
+
+    public Vector2 getPositionAfter(float sec) {
+        return mPosition.copy().add(getDirection().mul(mSpeed * sec));
+    }
+
+    public Vector2 getPositionAfter2(float sec) {
+        if (mPath == null) {
+            return mPosition;
+        }
+
+        float distance = sec * mSpeed;
+        List<Vector2> waypoints = mPath.getWayPoints();
+        int index = mWayPointIndex;
+        Vector2 position = mPosition.copy();
+
+        while (index < waypoints.size()) {
+            Vector2 toWaypoint = waypoints.get(index).copy().sub(position);
+            float toWaypointDist = toWaypoint.len();
+
+            if (distance < toWaypointDist) {
+                return position.add(toWaypoint.mul(distance / toWaypointDist));
+            } else {
+                distance -= toWaypointDist;
+                position.set(waypoints.get(index));
+                index++;
+            }
+        }
+
+        return position;
     }
 
 
