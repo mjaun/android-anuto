@@ -43,20 +43,20 @@ public abstract class AimingTower extends Tower {
      */
 
     @Override
-    public void onInit() {
-        super.onInit();
+    public void init() {
+        super.init();
         mNextTargetTimer = TickTimer.createInterval(0.1f);
     }
 
     @Override
-    public void onClean() {
-        super.onClean();
+    public void clean() {
+        super.clean();
         setTarget(null);
     }
 
     @Override
-    public void onTick() {
-        super.onTick();
+    public void tick() {
+        super.tick();
 
         if (mNextTargetTimer.tick()) {
             if (mTarget != null && getDistanceTo(mTarget) > mRange) {

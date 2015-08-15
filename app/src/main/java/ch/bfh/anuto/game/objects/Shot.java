@@ -30,8 +30,8 @@ public abstract class Shot extends GameObject {
     }
 
     @Override
-    public void onTick() {
-        super.onTick();
+    public void tick() {
+        super.tick();
 
         if (mEnabled) {
             moveSpeed(mDirection, mSpeed);

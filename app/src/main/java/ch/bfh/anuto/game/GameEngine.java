@@ -49,7 +49,7 @@ public class GameEngine {
             boolean ret = super.add(key, value);
 
             if (ret) {
-                value.onInit();
+                value.init();
             }
 
             return ret;
@@ -60,7 +60,7 @@ public class GameEngine {
             boolean ret = super.remove(key, value);
 
             if (ret) {
-                value.onClean();
+                value.clean();
             }
 
             return ret;
@@ -262,7 +262,7 @@ public class GameEngine {
             long beginTime = System.currentTimeMillis();
 
             for (GameObject obj : mGameObjects) {
-                obj.onTick();
+                obj.tick();
             }
 
             onTick();
@@ -305,9 +305,7 @@ public class GameEngine {
         canvas.concat(mScreenMatrix);
 
         for (DrawObject obj : mDrawObjects) {
-            canvas.save();
-            obj.onDraw(canvas);
-            canvas.restore();
+            obj.draw(canvas);
         }
 
         mRenderCount++;

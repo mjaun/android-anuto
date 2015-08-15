@@ -148,7 +148,7 @@ public class Sprite extends DrawObject {
      */
 
     private Sprite(Bitmap... bitmaps) {
-        mBitmaps = new ArrayList<Bitmap>(Arrays.asList(bitmaps));
+        mBitmaps = new ArrayList<>(Arrays.asList(bitmaps));
     }
 
     private Sprite(Sprite src) {
@@ -284,8 +284,14 @@ public class Sprite extends DrawObject {
     }
 
     @Override
-    public void onDraw(Canvas canvas) {
-        mListener.onDraw(this, canvas);
+    public void draw(Canvas canvas) {
+        canvas.save();
+
+        if (mListener != null) {
+            mListener.onDraw(this, canvas);
+        }
+
         canvas.drawBitmap(mBitmaps.get(mIndex), mMatrix, null);
+        canvas.restore();
     }
 }

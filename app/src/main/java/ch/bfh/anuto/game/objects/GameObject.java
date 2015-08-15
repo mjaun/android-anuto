@@ -4,7 +4,6 @@ import android.graphics.Canvas;
 
 import org.simpleframework.xml.Attribute;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -50,11 +49,8 @@ public abstract class GameObject implements Sprite.Listener {
                 }
 
                 float angle = toObj.angle() - line.angle();
-                if (Math.abs(Vector2.normalizeAngle(angle)) > 90) {
-                    return false;
-                }
+                return Math.abs(Vector2.normalizeAngle(angle)) <= 90 && toObj.sub(proj).len() <= lineWidth / 2f;
 
-                return toObj.sub(proj).len() <= lineWidth / 2f;
             }
         };
     }
@@ -86,7 +82,7 @@ public abstract class GameObject implements Sprite.Listener {
     public abstract int getTypeId();
 
 
-    public void onInit() {
+    public void init() {
         mInGame = true;
 
         for (Listener l : mListeners) {
@@ -94,7 +90,7 @@ public abstract class GameObject implements Sprite.Listener {
         }
     }
 
-    public void onClean() {
+    public void clean() {
         mInGame = false;
 
         for (Listener l : mListeners) {
@@ -102,7 +98,7 @@ public abstract class GameObject implements Sprite.Listener {
         }
     }
 
-    public void onTick() {
+    public void tick() {
 
     }
 

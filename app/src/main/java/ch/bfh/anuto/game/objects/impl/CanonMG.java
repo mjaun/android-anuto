@@ -27,33 +27,25 @@ public class CanonMG extends AimingTower {
         mValue = VALUE;
         mRange = RANGE;
         mReloadTime = RELOAD_TIME;
-    }
 
-    @Override
-    public void onInit() {
-        super.onInit();
-
-        mAngle = mGame.getRandom(360f);
+        mAngle = 90f;
 
         mSpriteBase = Sprite.fromResources(mGame.getResources(), R.drawable.base1, 4);
         mSpriteBase.setListener(this);
         mSpriteBase.setIndex(mGame.getRandom().nextInt(4));
         mSpriteBase.setMatrix(1f, 1f, null, null);
         mSpriteBase.setLayer(Layers.TOWER_BASE);
-        mGame.add(mSpriteBase);
 
         mSpriteTower = Sprite.fromResources(mGame.getResources(), R.drawable.canon_mg_base, 4);
         mSpriteTower.setListener(this);
         mSpriteTower.setIndex(mGame.getRandom().nextInt(4));
         mSpriteTower.setMatrix(0.7f, 0.7f, new Vector2(0.35f, 0.45f), -90f);
         mSpriteTower.setLayer(Layers.TOWER);
-        mGame.add(mSpriteTower);
 
         mSpriteCanon = Sprite.fromResources(mGame.getResources(), R.drawable.canon_mg_gun, 5);
         mSpriteCanon.setListener(this);
         mSpriteCanon.setMatrix(0.8f, 0.9f, new Vector2(0.4f, 0.25f), -90f);
         mSpriteCanon.setLayer(Layers.TOWER);
-        mGame.add(mSpriteCanon);
 
         Sprite.Animator animator = new Sprite.Animator();
         animator.setSequence(mSpriteCanon.sequenceForward());
@@ -62,8 +54,17 @@ public class CanonMG extends AimingTower {
     }
 
     @Override
-    public void onClean() {
-        super.onClean();
+    public void init() {
+        super.init();
+
+        mGame.add(mSpriteBase);
+        mGame.add(mSpriteTower);
+        mGame.add(mSpriteCanon);
+    }
+
+    @Override
+    public void clean() {
+        super.clean();
 
         mGame.remove(mSpriteBase);
         mGame.remove(mSpriteTower);
@@ -78,8 +79,8 @@ public class CanonMG extends AimingTower {
     }
 
     @Override
-    public void onTick() {
-        super.onTick();
+    public void tick() {
+        super.tick();
 
         if (mTarget != null) {
             mAngle = getAngleTo(mTarget);
@@ -93,5 +94,12 @@ public class CanonMG extends AimingTower {
                 mReloaded = false;
             }
         }
+    }
+
+    @Override
+    public void drawPreview(Canvas canvas) {
+        mSpriteBase.draw(canvas);
+        mSpriteTower.draw(canvas);
+        mSpriteCanon.draw(canvas);
     }
 }

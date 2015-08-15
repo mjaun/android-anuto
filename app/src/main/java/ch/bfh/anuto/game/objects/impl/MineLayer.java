@@ -57,31 +57,34 @@ public class MineLayer extends Tower {
         mValue = VALUE;
         mRange = RANGE;
         mReloadTime = RELOAD_TIME;
-    }
 
-    @Override
-    public void onInit() {
-        super.onInit();
-
-        mAngle = mGame.getRandom(360f);
+        mAngle = 90f;
 
         mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.catapult, 6);
         mSprite.setListener(this);
         mSprite.setMatrix(1f, 1f, null, null);
         mSprite.setLayer(Layers.TOWER);
-        mGame.add(mSprite);
 
         mAnimator = new Sprite.Animator();
         mAnimator.setSequence(mSprite.sequenceForwardBackward());
         mAnimator.setSpeed(ANIMATION_SPEED);
         mSprite.setAnimator(mAnimator);
+    }
+
+    @Override
+    public void init() {
+        super.init();
+
+        mAngle = mGame.getRandom(360f);
+
+        mGame.add(mSprite);
 
         determineSections();
     }
 
     @Override
-    public void onClean() {
-        super.onClean();
+    public void clean() {
+        super.clean();
 
         mGame.remove(mSprite);
 
@@ -98,8 +101,8 @@ public class MineLayer extends Tower {
     }
 
     @Override
-    public void onTick() {
-        super.onTick();
+    public void tick() {
+        super.tick();
 
         if (mReloaded && mMines.size() < MAX_MINE_COUNT) {
             mShooting = true;
@@ -122,6 +125,11 @@ public class MineLayer extends Tower {
         if (mAnimator.getPosition() != 0) {
             mSprite.animate();
         }
+    }
+
+    @Override
+    public void drawPreview(Canvas canvas) {
+        mSprite.draw(canvas);
     }
 
     private void determineSections() {

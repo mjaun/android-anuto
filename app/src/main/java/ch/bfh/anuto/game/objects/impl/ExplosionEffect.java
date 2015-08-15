@@ -46,7 +46,7 @@ public class ExplosionEffect extends AreaEffect {
         }
 
         @Override
-        public void onDraw(Canvas canvas) {
+        public void draw(Canvas canvas) {
             canvas.drawCircle(mPosition.x, mPosition.y, EXPLOSION_RADIUS, mPaint);
         }
     }
@@ -59,8 +59,8 @@ public class ExplosionEffect extends AreaEffect {
     }
 
     @Override
-    public void onInit() {
-        super.onInit();
+    public void init() {
+        super.init();
 
         mDrawObject = new ExplosionDrawObject();
         mGame.add(mDrawObject);
@@ -70,15 +70,15 @@ public class ExplosionEffect extends AreaEffect {
     }
 
     @Override
-    public void onClean() {
-        super.onClean();
+    public void clean() {
+        super.clean();
 
         mGame.remove(mDrawObject);
     }
 
     @Override
-    public void onTick() {
-        super.onTick();
+    public void tick() {
+        super.tick();
 
         mDrawObject.decreaseVisibility();
 

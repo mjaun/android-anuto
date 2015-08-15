@@ -43,8 +43,8 @@ public class Mine extends Shot {
     }
 
     @Override
-    public void onInit() {
-        super.onInit();
+    public void init() {
+        super.init();
 
         mAngle = mGame.getRandom(360f);
         mRotationStep = mGame.getRandom(ROTATION_RATE_MIN, ROTATION_RATE_MAX) * 360f / GameEngine.TARGET_FRAME_RATE;
@@ -64,8 +64,8 @@ public class Mine extends Shot {
     }
 
     @Override
-    public void onClean() {
-        super.onClean();
+    public void clean() {
+        super.clean();
 
         mGame.remove(mSprite);
     }
@@ -80,8 +80,8 @@ public class Mine extends Shot {
     }
 
     @Override
-    public void onTick() {
-        super.onTick();
+    public void tick() {
+        super.tick();
 
         if (mFlying) {
             mAngle += mRotationStep;

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="InventoryTowerView">
+    <declare-styleable name="TowerView">
         <attr name="itemClass" format="string" />
-        <attr name="itemDrawable" format="reference" />
-        <attr name="rotate" format="boolean" />
     </declare-styleable>
 </resources>

@@ -29,8 +29,8 @@ public class CanonShotMG extends Shot {
     }
 
     @Override
-    public void onInit() {
-        super.onInit();
+    public void init() {
+        super.init();
 
         mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.canon_mg_shot, 4);
         mSprite.setListener(this);
@@ -41,8 +41,8 @@ public class CanonShotMG extends Shot {
     }
 
     @Override
-    public void onClean() {
-        super.onClean();
+    public void clean() {
+        super.clean();
 
         mGame.remove(mSprite);
     }
@@ -55,13 +55,8 @@ public class CanonShotMG extends Shot {
     }
 
     @Override
-    public void onTick() {
-        super.onTick();
-
-        if (!mGame.inGame(mPosition)) {
-            this.remove();
-            return;
-        }
+    public void tick() {
+        super.tick();
 
         StreamIterator<Enemy> encountered = getEncounteredEnemies(SHOT_WIDTH);
         if (encountered.hasNext()) {
@@ -70,7 +65,10 @@ public class CanonShotMG extends Shot {
 
             enemy.damage(DAMAGE);
             this.remove();
-            return;
+        }
+
+        if (!mGame.inGame(mPosition)) {
+            this.remove();
         }
     }
 }

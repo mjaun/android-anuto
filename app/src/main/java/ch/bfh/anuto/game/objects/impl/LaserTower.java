@@ -31,8 +31,8 @@ public class LaserTower extends AimingTower {
     }
 
     @Override
-    public void onInit() {
-        super.onInit();
+    public void init() {
+        super.init();
 
         mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.base1);
         mSprite.setListener(this);
@@ -42,8 +42,8 @@ public class LaserTower extends AimingTower {
     }
 
     @Override
-    public void onClean() {
-        super.onClean();
+    public void clean() {
+        super.clean();
 
         mGame.remove(mSprite);
     }
@@ -56,8 +56,8 @@ public class LaserTower extends AimingTower {
     }
 
     @Override
-    public void onTick() {
-        super.onTick();
+    public void tick() {
+        super.tick();
 
         if (mTarget != null) {
             mAngle = getAngleTo(mTarget);
@@ -69,5 +69,10 @@ public class LaserTower extends AimingTower {
                 mReloaded = false;
             }
         }
+    }
+
+    @Override
+    public void drawPreview(Canvas canvas) {
+
     }
 }

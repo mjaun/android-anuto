@@ -50,7 +50,7 @@ public abstract class Enemy extends GameObject {
         }
 
         @Override
-        public void onDraw(Canvas canvas) {
+        public void draw(Canvas canvas) {
             canvas.translate(mPosition.x - HEALTHBAR_WIDTH/2f, mPosition.y + HEALTHBAR_OFFSET);
 
             canvas.drawRect(0, 0, HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT, mHealthBarBg);
@@ -111,8 +111,8 @@ public abstract class Enemy extends GameObject {
     }
 
     @Override
-    public void onInit() {
-        super.onInit();
+    public void init() {
+        super.init();
 
         mPath = GameManager.getInstance().getLevel().getPaths().get(mPathIndex);
         mPosition.set(mPath.getWayPoints().get(0));
@@ -125,14 +125,14 @@ public abstract class Enemy extends GameObject {
     }
 
     @Override
-    public void onClean() {
-        super.onClean();
+    public void clean() {
+        super.clean();
         mGame.remove(mHealthBar);
     }
 
     @Override
-    public void onTick() {
-        super.onTick();
+    public void tick() {
+        super.tick();
 
         if (mEnabled) {
             if (!hasWayPoint()) {

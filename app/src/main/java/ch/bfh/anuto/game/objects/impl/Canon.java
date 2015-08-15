@@ -22,48 +22,48 @@ public class Canon extends AimingTower {
     private final static float REBOUND_DURATION = 0.2f;
 
     private float mAngle;
-
     private boolean mReboundActive;
-    private SineFunction mReboundFunction;
 
-    private Sprite mSpriteBase;
-    private Sprite mSpriteCanon;
+    private final SineFunction mReboundFunction;
+
+    private final Sprite mSpriteBase;
+    private final Sprite mSpriteCanon;
 
     public Canon() {
         mValue = VALUE;
         mRange = RANGE;
         mReloadTime = RELOAD_TIME;
-    }
-
-    @Override
-    public void onInit() {
-        super.onInit();
-
-        mAngle = mGame.getRandom(360f);
-        mReboundActive = false;
-
-        mReboundFunction = new SineFunction();
-        mReboundFunction.setProperties(0f, (float)Math.PI, REBOUND_RANGE, 0f);
-        mReboundFunction.setSection(GameEngine.TARGET_FRAME_RATE * REBOUND_DURATION);
-
-        mSpriteBase = Sprite.fromResources(mGame.getResources(), R.drawable.base1, 4);
-        mSpriteBase.setListener(this);
-        mSpriteBase.setIndex(mGame.getRandom().nextInt(4));
-        mSpriteBase.setMatrix(1f, 1f, null, null);
-        mSpriteBase.setLayer(Layers.TOWER_BASE);
-        mGame.add(mSpriteBase);
 
         mSpriteCanon = Sprite.fromResources(mGame.getResources(), R.drawable.canon, 4);
         mSpriteCanon.setListener(this);
         mSpriteCanon.setIndex(mGame.getRandom().nextInt(4));
         mSpriteCanon.setMatrix(0.3f, 1.0f, new Vector2(0.15f, 0.2f), -90f);
         mSpriteCanon.setLayer(Layers.TOWER);
+
+        mSpriteBase = Sprite.fromResources(mGame.getResources(), R.drawable.base1, 4);
+        mSpriteBase.setListener(this);
+        mSpriteBase.setIndex(mGame.getRandom().nextInt(4));
+        mSpriteBase.setMatrix(1f, 1f, null, null);
+        mSpriteBase.setLayer(Layers.TOWER_BASE);
+
+        mReboundFunction = new SineFunction();
+        mReboundFunction.setProperties(0f, (float) Math.PI, REBOUND_RANGE, 0f);
+        mReboundFunction.setSection(GameEngine.TARGET_FRAME_RATE * REBOUND_DURATION);
+
+        mAngle = 90f;
+    }
+
+    @Override
+    public void init() {
+        super.init();
+
+        mGame.add(mSpriteBase);
         mGame.add(mSpriteCanon);
     }
 
     @Override
-    public void onClean() {
-        super.onClean();
+    public void clean() {
+        super.clean();
 
         mGame.remove(mSpriteBase);
         mGame.remove(mSpriteCanon);
@@ -81,8 +81,8 @@ public class Canon extends AimingTower {
     }
 
     @Override
-    public void onTick() {
-        super.onTick();
+    public void tick() {
+        super.tick();
 
         if (mTarget != null) {
             mAngle = getAngleTo(mTarget);
@@ -103,5 +103,11 @@ public class Canon extends AimingTower {
                 mReboundActive = false;
             }
         }
+    }
+
+    @Override
+    public void drawPreview(Canvas canvas) {
+        mSpriteBase.draw(canvas);
+        mSpriteCanon.draw(canvas);
     }
 }

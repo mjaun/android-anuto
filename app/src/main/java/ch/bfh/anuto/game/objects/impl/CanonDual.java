@@ -16,7 +16,7 @@ public class CanonDual extends AimingTower {
     private final static int VALUE = 200;
     private final static float RELOAD_TIME = 0.2f;
     private final static float RANGE = 3.5f;
-    private final static float SHOT_SPAWN_OFFSET = 0.9f;
+    private final static float SHOT_SPAWN_OFFSET = 0.7f;
 
     private final static float REBOUND_RANGE = 0.25f;
     private final static float REBOUND_DURATION = 0.2f;
@@ -38,27 +38,20 @@ public class CanonDual extends AimingTower {
         mValue = VALUE;
         mRange = RANGE;
         mReloadTime = RELOAD_TIME;
-    }
 
-    @Override
-    public void onInit() {
-        super.onInit();
-
-        mAngle = mGame.getRandom(360f);
+        mAngle = 90f;
 
         mSpriteBase = Sprite.fromResources(mGame.getResources(), R.drawable.base1, 4);
         mSpriteBase.setListener(this);
         mSpriteBase.setIndex(mGame.getRandom().nextInt(4));
         mSpriteBase.setMatrix(1f, 1f, null, null);
         mSpriteBase.setLayer(Layers.TOWER_BASE);
-        mGame.add(mSpriteBase);
 
         mSpriteTower = Sprite.fromResources(mGame.getResources(), R.drawable.canon_dual, 4);
         mSpriteTower.setListener(this);
         mSpriteTower.setIndex(mGame.getRandom().nextInt(4));
         mSpriteTower.setMatrix(0.5f, 0.5f, null, -90f);
         mSpriteTower.setLayer(Layers.TOWER_BASE);
-        mGame.add(mSpriteTower);
 
         mCanons = new SubCanon[2];
 
@@ -71,9 +64,8 @@ public class CanonDual extends AimingTower {
         mCanons[0].sprite = Sprite.fromResources(mGame.getResources(), R.drawable.canon, 4);
         mCanons[0].sprite.setListener(this);
         mCanons[0].sprite.setIndex(mGame.getRandom().nextInt(4));
-        mCanons[0].sprite.setMatrix(0.3f, 1.0f, new Vector2(0.15f, 0.4f), -90f);
+        mCanons[0].sprite.setMatrix(0.3f, 1.0f, new Vector2(0.45f, 0.4f), -90f);
         mCanons[0].sprite.setLayer(Layers.TOWER);
-        mGame.add(mCanons[0].sprite);
 
         mCanons[1] = new SubCanon();
         mCanons[1].reboundFunction = new SineFunction();
@@ -86,12 +78,21 @@ public class CanonDual extends AimingTower {
         mCanons[1].sprite.setIndex(mGame.getRandom().nextInt(4));
         mCanons[1].sprite.setMatrix(0.3f, 1.0f, new Vector2(-0.15f, 0.4f), -90f);
         mCanons[1].sprite.setLayer(Layers.TOWER);
-        mGame.add(mCanons[0].sprite);
     }
 
     @Override
-    public void onClean() {
-        super.onClean();
+    public void init() {
+        super.init();
+
+        mGame.add(mSpriteBase);
+        mGame.add(mSpriteTower);
+        mGame.add(mCanons[0].sprite);
+        mGame.add(mCanons[1].sprite);
+    }
+
+    @Override
+    public void clean() {
+        super.clean();
 
         mGame.remove(mSpriteBase);
         mGame.remove(mSpriteTower);
@@ -119,32 +120,32 @@ public class CanonDual extends AimingTower {
     }
 
     @Override
-    public void onTick() {
-        super.onTick();
+    public void tick() {
+        super.tick();
 
         if (mTarget != null) {
             mAngle = getAngleTo(mTarget);
 
-            if (mReloaded && !mShoot2) {
-                Shot shot = new CanonShot(mPosition, mTarget);
-                shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
-                shot.move(Vector2.polar(0.3f, mAngle - 90f));
-                mGame.add(shot);
+            if (mReloaded) {
+                if (!mShoot2) {
+                    Shot shot = new CanonShot(mPosition, mTarget);
+                    shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
+                    shot.move(Vector2.polar(0.3f, mAngle + 90f));
+                    mGame.add(shot);
 
-                mReloaded = false;
-                mCanons[0].reboundActive = true;
-                mShoot2 = true;
-            }
+                    mReloaded = false;
+                    mCanons[0].reboundActive = true;
+                    mShoot2 = true;
+                } else {
+                    Shot shot = new CanonShot(mPosition, mTarget);
+                    shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
+                    shot.move(Vector2.polar(0.3f, mAngle - 90f));
+                    mGame.add(shot);
 
-            if (mReloaded && mShoot2) {
-                Shot shot = new CanonShot(mPosition, mTarget);
-                shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
-                shot.move(Vector2.polar(0.3f, mAngle + 90f));
-                mGame.add(shot);
-
-                mReloaded = false;
-                mCanons[1].reboundActive = true;
-                mShoot2 = false;
+                    mReloaded = false;
+                    mCanons[1].reboundActive = true;
+                    mShoot2 = false;
+                }
             }
         }
 
@@ -161,5 +162,13 @@ public class CanonDual extends AimingTower {
                 mCanons[1].reboundActive = false;
             }
         }
+    }
+
+    @Override
+    public void drawPreview(Canvas canvas) {
+        mSpriteBase.draw(canvas);
+        mSpriteTower.draw(canvas);
+        mCanons[0].sprite.draw(canvas);
+        mCanons[1].sprite.draw(canvas);
     }
 }

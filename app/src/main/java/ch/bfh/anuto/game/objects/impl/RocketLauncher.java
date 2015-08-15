@@ -6,40 +6,28 @@ import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.Layers;
 import ch.bfh.anuto.game.TickTimer;
 import ch.bfh.anuto.game.objects.AimingTower;
-import ch.bfh.anuto.game.objects.Shot;
 import ch.bfh.anuto.game.objects.Sprite;
-import ch.bfh.anuto.util.math.Vector2;
 
 public class RocketLauncher extends AimingTower {
 
-    private final static int VALUE = 300;
+    private final static int VALUE = 200;
     private final static float ROCKET_LOAD_TIME = 1.0f;
     private final static float RELOAD_TIME = 2.5f;
     private final static float RANGE = 2.5f;
-    private final static float SHOT_SPAWN_OFFSET = 0.9f;
 
     private float mAngle;
     private Rocket mRocket;
     private TickTimer mRocketLoadTimer;
 
     private Sprite mSprite;
+    private Sprite mRocketSprite; // used for preview only
 
     public RocketLauncher() {
         mRange = RANGE;
         mReloadTime = RELOAD_TIME;
         mValue = VALUE;
-    }
 
-    public RocketLauncher(Vector2 position) {
-        this();
-        setPosition(position);
-    }
-
-    @Override
-    public void onInit() {
-        super.onInit();
-
-        mAngle = mGame.getRandom(360f);
+        mAngle = 90f;
         mRocketLoadTimer = TickTimer.createInterval(ROCKET_LOAD_TIME);
 
         mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.rocket_launcher, 4);
@@ -47,12 +35,18 @@ public class RocketLauncher extends AimingTower {
         mSprite.setIndex(mGame.getRandom(4));
         mSprite.setMatrix(1f, 1f, null, -90f);
         mSprite.setLayer(Layers.TOWER);
+    }
+
+    @Override
+    public void init() {
+        super.init();
+
         mGame.add(mSprite);
     }
 
     @Override
-    public void onClean() {
-        super.onClean();
+    public void clean() {
+        super.clean();
 
         mGame.remove(mSprite);
     }
@@ -64,8 +58,8 @@ public class RocketLauncher extends AimingTower {
         canvas.rotate(mAngle);
     }
     @Override
-    public void onTick() {
-        super.onTick();
+    public void tick() {
+        super.tick();
 
         if (mRocket == null && mRocketLoadTimer.tick()) {
             mRocket = new Rocket(mPosition);
@@ -88,5 +82,18 @@ public class RocketLauncher extends AimingTower {
                 }
             }
         }
+    }
+
+    @Override
+    public void drawPreview(Canvas canvas) {
+        if (mRocketSprite == null) {
+            mRocketSprite = Sprite.fromResources(mGame.getResources(), R.drawable.rocket_shot, 4);
+            mRocketSprite.setListener(this);
+            mRocketSprite.setIndex(mGame.getRandom(4));
+            mRocketSprite.setMatrix(0.8f, 1f, null, -90f);
+        }
+
+        mSprite.draw(canvas);
+        mRocketSprite.draw(canvas);
     }
 }

@@ -36,14 +36,14 @@ public abstract class HomingShot extends Shot {
      */
 
     @Override
-    public void onClean() {
-        super.onClean();
+    public void clean() {
+        super.clean();
         setTarget(null);
     }
 
     @Override
-    public void onTick() {
-        super.onTick();
+    public void tick() {
+        super.tick();
 
         if (mEnabled && hasTarget() && getDistanceTo(mTarget) <= mSpeed / GameEngine.TARGET_FRAME_RATE) {
             mTargetReached = true;

@@ -39,7 +39,7 @@ public abstract class Tower extends GameObject {
         }
 
         @Override
-        public void onDraw(Canvas canvas) {
+        public void draw(Canvas canvas) {
             canvas.drawCircle(mPosition.x, mPosition.y, mRange, mRangeIndicatorPen);
         }
     }
@@ -67,25 +67,30 @@ public abstract class Tower extends GameObject {
     }
 
     @Override
-    public void onInit() {
-        super.onInit();
+    public void init() {
+        super.init();
         mReloadTimer = TickTimer.createInterval(mReloadTime);
     }
 
     @Override
-    public void onClean() {
-        super.onClean();
+    public void clean() {
+        super.clean();
         hideRange();
         setPlateau(null);
     }
 
     @Override
-    public void onTick() {
-        super.onTick();
+    public void tick() {
+        super.tick();
 
         if (mEnabled && !mReloaded && mReloadTimer.tick()) {
             mReloaded = true;
         }
+    }
+
+
+    public void drawPreview(Canvas canvas) {
+
     }
 
 

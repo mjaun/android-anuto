@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.Layers;
 import ch.bfh.anuto.game.objects.AimingTower;
-import ch.bfh.anuto.game.objects.Shot;
 import ch.bfh.anuto.game.objects.Sprite;
 import ch.bfh.anuto.util.math.Vector2;
 
@@ -30,26 +29,19 @@ public class Mortar extends AimingTower {
         mValue = VALUE;
         mRange = RANGE;
         mReloadTime = RELOAD_TIME;
-    }
 
-    @Override
-    public void onInit() {
-        super.onInit();
-
-        mAngle = mGame.getRandom(360f);
+        mAngle = 90f;
 
         mSpriteBase = Sprite.fromResources(mGame.getResources(), R.drawable.base2, 4);
         mSpriteBase.setListener(this);
         mSpriteBase.setIndex(mGame.getRandom().nextInt(4));
         mSpriteBase.setMatrix(1f, 1f, null, null);
         mSpriteBase.setLayer(Layers.TOWER_BASE);
-        mGame.add(mSpriteBase);
 
         mSpriteCanon = Sprite.fromResources(mGame.getResources(), R.drawable.mortar2, 8);
         mSpriteCanon.setListener(this);
         mSpriteCanon.setMatrix(0.8f, null, new Vector2(0.4f, 0.2f), -90f);
         mSpriteCanon.setLayer(Layers.TOWER);
-        mGame.add(mSpriteCanon);
 
         mAnimator = new Sprite.Animator();
         mAnimator.setSequence(mSpriteCanon.sequenceForwardBackward());
@@ -58,8 +50,16 @@ public class Mortar extends AimingTower {
     }
 
     @Override
-    public void onClean() {
-        super.onClean();
+    public void init() {
+        super.init();
+
+        mGame.add(mSpriteBase);
+        mGame.add(mSpriteCanon);
+    }
+
+    @Override
+    public void clean() {
+        super.clean();
 
         mGame.remove(mSpriteBase);
         mGame.remove(mSpriteCanon);
@@ -75,8 +75,8 @@ public class Mortar extends AimingTower {
     }
 
     @Override
-    public void onTick() {
-        super.onTick();
+    public void tick() {
+        super.tick();
 
         if (mTarget != null && mReloaded) {
             Vector2 targetPos = mTarget.getPositionAfter2(Mine.TIME_TO_TARGET + 1f);
@@ -94,5 +94,11 @@ public class Mortar extends AimingTower {
         } else if (mAnimator.getPosition() != 0) {
             mSpriteCanon.animate();
         }
+    }
+
+    @Override
+    public void drawPreview(Canvas canvas) {
+        mSpriteBase.draw(canvas);
+        mSpriteCanon.draw(canvas);
     }
 }

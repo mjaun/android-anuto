@@ -23,8 +23,8 @@ public class Sprinter extends Enemy {
     }
 
     @Override
-    public void onInit() {
-        super.onInit();
+    public void init() {
+        super.init();
 
         mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.base1);
         mSprite.setListener(this);
@@ -41,15 +41,15 @@ public class Sprinter extends Enemy {
     }
 
     @Override
-    public void onClean() {
-        super.onClean();
+    public void clean() {
+        super.clean();
 
         mGame.remove(mSprite);
     }
 
     @Override
-    public void onTick() {
-        super.onTick();
+    public void tick() {
+        super.tick();
 
         if (hasWayPoint()) {
             mAngle = getDirectionTo(getWayPoint()).angle();

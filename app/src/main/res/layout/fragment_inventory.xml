@@ -6,35 +6,51 @@
     android:background="#ffffffff"
     tools:context="ch.bfh.anuto.InventoryFragment">
 
-    <!--
     <view
         style="@style/InventoryItem"
-        class="ch.bfh.anuto.InventoryItemView"
-        android:id="@+id/img_basic_tower"
+        class="ch.bfh.anuto.TowerView"
+        android:id="@+id/view_canon"
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="10dp"
-        app:itemDrawable="@drawable/rocket_fire"
-        app:itemClass="ch.bfh.anuto.game.objects.impl.Canon     app:rotate="true" />
+        app:itemClass="ch.bfh.anuto.game.objects.impl.Canon" />
 
     <view
         style="@style/InventoryItem"
-        class="ch.bfh.anuto.InventoryItemView"
-        android:id="@+id/img_rocket_tower"
+        class="ch.bfh.anuto.TowerView"
+        android:id="@+id/view_canon_dual"
         android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/img_basic_tower"
-        app:itemDrawable="@drawable/rocket_tower"
-        app:itemClass="ch.bfh.anuto.game.objects.impl.RocketLauncherher"
-        app:rotate="true" />
+        android:layout_toEndOf="@+id/view_canon"
+        app:itemClass="ch.bfh.anuto.game.objects.impl.CanonDual" />
 
     <view
         style="@style/InventoryItem"
-        class="ch.bfh.anuto.InventoryItemView"
-        android:id="@+id/img_laser_tower"
+        class="ch.bfh.anuto.TowerView"
+        android:id="@+id/view_canon_mg"
         android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/img_rocket_tower"
-        app:itemDrawable="@drawable/laser_tower"
-        app:itemClass="ch.bfh.anuto.game.objects.impl.LaserTower"
-        app:rotate="true" />
-        -->
+        android:layout_toEndOf="@+id/view_canon_dual"
+        app:itemClass="ch.bfh.anuto.game.objects.impl.CanonMG" />
+
+    <view
+        style="@style/InventoryItem"
+        class="ch.bfh.anuto.TowerView"
+        android:id="@+id/view_mortar"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/view_canon_mg"
+        app:itemClass="ch.bfh.anuto.game.objects.impl.Mortar" />
+
+    <view
+        style="@style/InventoryItem"
+        class="ch.bfh.anuto.TowerView"
+        android:id="@+id/view_rocket_launcher"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/view_mortar"
+        app:itemClass="ch.bfh.anuto.game.objects.impl.RocketLauncher" />
+
+    <view
+        style="@style/InventoryItem"
+        class="ch.bfh.anuto.TowerView"
+        android:id="@+id/view_mine_layer"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/view_rocket_launcher"
+        app:itemClass="ch.bfh.anuto.game.objects.impl.MineLayer" />
 </RelativeLayout>
