@@ -73,7 +73,7 @@ public class GameView extends View implements GameEngine.Listener, View.OnDragLi
         super.onDraw(canvas);
 
         if (mGame != null) {
-            mGame.render(canvas);
+            mGame.draw(canvas);
         }
     }
 

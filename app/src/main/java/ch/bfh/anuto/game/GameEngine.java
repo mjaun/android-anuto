@@ -305,7 +305,7 @@ public class GameEngine {
         }
     }
 
-    public void render(Canvas canvas) {
+    public void draw(Canvas canvas) {
         long beginTime = System.currentTimeMillis();
 
         canvas.drawColor(BACKGROUND_COLOR);
