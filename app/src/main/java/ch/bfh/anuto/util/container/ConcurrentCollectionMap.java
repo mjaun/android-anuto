@@ -52,6 +52,7 @@ public class ConcurrentCollectionMap<K, V> implements Iterable<V> {
                 mLock.readLock().unlock();
 
                 if (mCollectionIterator == null) {
+                    close();
                     return null;
                 }
             }

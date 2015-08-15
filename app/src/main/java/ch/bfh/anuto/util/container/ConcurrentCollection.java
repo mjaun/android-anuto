@@ -58,6 +58,8 @@ public class ConcurrentCollection<T> implements Collection<T> {
 
             if (mIndex < mItems.size()) {
                 ret = mItems.get(mIndex++);
+            } else {
+                close();
             }
 
             mLock.readLock().unlock();
