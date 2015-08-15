@@ -103,6 +103,7 @@ public class MineLayer extends Tower {
 
         if (mReloaded && mMines.size() < MAX_MINE_COUNT) {
             mShooting = true;
+            mReloaded = false;
         }
 
         if (mShooting) {
@@ -110,9 +111,9 @@ public class MineLayer extends Tower {
 
             if (mAnimator.getPosition() == 5) {
                 Mine m = new Mine(mPosition, getTarget());
-                mMines.add(m);
                 m.addListener(mMineListener);
-                shoot(m);
+                mMines.add(m);
+                mGame.add(m);
 
                 mShooting = false;
             }

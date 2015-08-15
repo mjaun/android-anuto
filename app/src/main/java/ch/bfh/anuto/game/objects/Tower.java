@@ -115,6 +115,23 @@ public abstract class Tower extends GameObject {
         mValue = value;
     }
 
+    public float getRange() {
+        return mRange;
+    }
+
+    public void setRange(float range) {
+        mRange = range;
+    }
+
+    public float getReloadTime() {
+        return mReloadTime;
+    }
+
+    public void setReloadTime(float reloadTime) {
+        mReloadTime = reloadTime;
+    }
+
+
     public void buy() {
         GameManager.getInstance().takeCredits(mValue);
         setEnabled(true);
@@ -127,15 +144,6 @@ public abstract class Tower extends GameObject {
 
     public void devalue(float factor) {
         mValue *= factor;
-    }
-
-
-    public float getRange() {
-        return mRange;
-    }
-
-    public void setRange(float range) {
-        mRange = range;
     }
 
     public void showRange() {
@@ -152,30 +160,6 @@ public abstract class Tower extends GameObject {
         }
     }
 
-
-    public float getReloadTime() {
-        return mReloadTime;
-    }
-
-    public void setReloadTime(float reloadTime) {
-        mReloadTime = reloadTime;
-    }
-
-
-    protected void shoot(Shot shot) {
-        if (!shot.isActive()) {
-            mGame.add(shot);
-        }
-
-        shot.setEnabled(true);
-
-        mReloaded = false;
-    }
-
-    protected void shoot(AreaEffect effect) {
-        mGame.add(effect);
-        mReloaded = false;
-    }
 
     protected StreamIterator<Enemy> getEnemiesInRange() {
         return mGame.getGameObjects(Enemy.TYPE_ID)

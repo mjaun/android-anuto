@@ -83,9 +83,9 @@ public class Mortar extends AimingTower {
             mAngle = getAngleTo(targetPos);
 
             Vector2 shotPos = mPosition.copy().add(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
-            Shot shot = new MortarShot(shotPos, targetPos);
-            shoot(shot);
+            mGame.add(new MortarShot(shotPos, targetPos));
 
+            mReloaded = false;
             mRebounding = true;
         }
 

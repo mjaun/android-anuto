@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 
 import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.Layers;
+import ch.bfh.anuto.game.TickTimer;
 import ch.bfh.anuto.game.objects.AimingTower;
 import ch.bfh.anuto.game.objects.Shot;
 import ch.bfh.anuto.game.objects.Sprite;
@@ -12,14 +13,16 @@ import ch.bfh.anuto.util.math.Vector2;
 public class RocketLauncher extends AimingTower {
 
     private final static int VALUE = 300;
+    private final static float ROCKET_LOAD_TIME = 1.0f;
     private final static float RELOAD_TIME = 2.5f;
     private final static float RANGE = 2.5f;
     private final static float SHOT_SPAWN_OFFSET = 0.9f;
 
     private float mAngle;
+    private Rocket mRocket;
+    private TickTimer mRocketLoadTimer;
 
     private Sprite mSprite;
-    private Rocket mRocket;
 
     public RocketLauncher() {
         mRange = RANGE;
@@ -37,6 +40,7 @@ public class RocketLauncher extends AimingTower {
         super.onInit();
 
         mAngle = mGame.getRandom(360f);
+        mRocketLoadTimer = TickTimer.createInterval(ROCKET_LOAD_TIME);
 
         mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.rocket_launcher, 4);
         mSprite.setListener(this);
@@ -63,7 +67,7 @@ public class RocketLauncher extends AimingTower {
     public void onTick() {
         super.onTick();
 
-        if (mReloaded && mRocket == null) {
+        if (mRocket == null && mRocketLoadTimer.tick()) {
             mRocket = new Rocket(mPosition);
             mRocket.setAngle(mAngle);
             mGame.add(mRocket);
@@ -73,9 +77,15 @@ public class RocketLauncher extends AimingTower {
             mAngle = getAngleTo(mTarget);
 
             if (mRocket != null) {
-                mRocket.setTarget(mTarget);
-                shoot(mRocket);
-                mRocket = null;
+                mRocket.setAngle(mAngle);
+
+                if (mReloaded) {
+                    mRocket.setTarget(mTarget);
+                    mRocket.setEnabled(true);
+                    mRocket = null;
+
+                    mReloaded = false;
+                }
             }
         }
     }

@@ -4,13 +4,13 @@ import android.graphics.Canvas;
 
 import org.simpleframework.xml.Attribute;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.bfh.anuto.game.GameEngine;
 import ch.bfh.anuto.util.iterator.Function;
 import ch.bfh.anuto.util.iterator.Predicate;
-import ch.bfh.anuto.util.math.MathUtils;
 import ch.bfh.anuto.util.math.Vector2;
 
 public abstract class GameObject implements Sprite.Listener {
@@ -72,7 +72,7 @@ public abstract class GameObject implements Sprite.Listener {
     ------ Members ------
      */
 
-    private boolean mActive = false;
+    private boolean mInGame = false;
     protected boolean mEnabled = true;
     protected final Vector2 mPosition = new Vector2();
     protected final GameEngine mGame = GameEngine.getInstance();
@@ -87,7 +87,7 @@ public abstract class GameObject implements Sprite.Listener {
 
 
     public void onInit() {
-        mActive = true;
+        mInGame = true;
 
         for (Listener l : mListeners) {
             l.onObjectAdded(this);
@@ -95,7 +95,7 @@ public abstract class GameObject implements Sprite.Listener {
     }
 
     public void onClean() {
-        mActive = false;
+        mInGame = false;
 
         for (Listener l : mListeners) {
             l.onObjectRemoved(this);
@@ -120,8 +120,9 @@ public abstract class GameObject implements Sprite.Listener {
         mEnabled = enabled;
     }
 
-    public boolean isActive() {
-        return mActive;
+
+    public boolean isInGame() {
+        return mInGame;
     }
 
     public void remove() {

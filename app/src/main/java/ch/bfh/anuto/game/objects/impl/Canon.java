@@ -90,8 +90,9 @@ public class Canon extends AimingTower {
             if (mReloaded) {
                 Shot shot = new CanonShot(mPosition, mTarget);
                 shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
-                shoot(shot);
+                mGame.add(shot);
 
+                mReloaded = false;
                 mReboundActive = true;
             }
         }

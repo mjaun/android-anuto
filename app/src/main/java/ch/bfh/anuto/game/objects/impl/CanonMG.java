@@ -82,15 +82,15 @@ public class CanonMG extends AimingTower {
         super.onTick();
 
         if (mTarget != null) {
-
-
             mAngle = getAngleTo(mTarget);
             mSpriteCanon.animate();
 
             if (mReloaded) {
                 Shot shot = new CanonShotMG(mPosition, getDirectionTo(mTarget));
                 shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
-                shoot(shot);
+                mGame.add(shot);
+
+                mReloaded = false;
             }
         }
     }

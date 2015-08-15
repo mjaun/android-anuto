@@ -59,17 +59,14 @@ public class LaserTower extends AimingTower {
     public void onTick() {
         super.onTick();
 
-        if (mTarget == null) {
-            nextTarget();
-        }
-
         if (mTarget != null) {
             mAngle = getAngleTo(mTarget);
 
             if (mReloaded) {
                 Vector2 laserFrom = Vector2.polar(LASER_SPAWN_OFFSET, mAngle).add(mPosition);
                 Vector2 laserTo = Vector2.polar(LASER_LENGTH, mAngle).add(mPosition);
-                shoot(new LaserEffect(laserFrom, laserTo));
+                mGame.add(new LaserEffect(laserFrom, laserTo));
+                mReloaded = false;
             }
         }
     }
