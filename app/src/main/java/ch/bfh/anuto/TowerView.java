@@ -24,8 +24,6 @@ public class TowerView extends View implements View.OnTouchListener {
 
     private final Paint mPaintText;
     private final Matrix mScreenMatrix;
-
-    @SuppressWarnings("unchecked")
     private final Class<? extends Tower> mTowerClass;
 
     public TowerView(Context context, AttributeSet attrs) throws ClassNotFoundException{
@@ -59,7 +57,7 @@ public class TowerView extends View implements View.OnTouchListener {
                         mPaintText.setColor(Color.RED);
                     }
 
-                    TowerView.this.invalidate();
+                    TowerView.this.postInvalidate();
                 }
             });
         } else {

@@ -49,6 +49,10 @@ public class RocketLauncher extends AimingTower {
         super.clean();
 
         mGame.remove(mSprite);
+
+        if (mRocket != null) {
+            mGame.remove(mRocket);
+        }
     }
 
     @Override

@@ -143,8 +143,8 @@ public class GameView extends View implements GameEngine.Listener, View.OnDragLi
 
             case DragEvent.ACTION_DROP:
                 if (tower.isInGame()) {
-                    tower.setPlateau(closestPlateau);
                     tower.buy();
+                    tower.setPlateau(closestPlateau);
                     tower.setEnabled(true);
                     mManager.setSelectedTower(null);
                 }

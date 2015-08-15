@@ -16,7 +16,7 @@ public class Canon extends AimingTower {
     private final static int VALUE = 200;
     private final static float RELOAD_TIME = 0.4f;
     private final static float RANGE = 3.5f;
-    private final static float SHOT_SPAWN_OFFSET = 0.9f;
+    private final static float SHOT_SPAWN_OFFSET = 0.7f;
 
     private final static float REBOUND_RANGE = 0.25f;
     private final static float REBOUND_DURATION = 0.2f;
@@ -34,17 +34,17 @@ public class Canon extends AimingTower {
         mRange = RANGE;
         mReloadTime = RELOAD_TIME;
 
-        mSpriteCanon = Sprite.fromResources(mGame.getResources(), R.drawable.canon, 4);
-        mSpriteCanon.setListener(this);
-        mSpriteCanon.setIndex(mGame.getRandom().nextInt(4));
-        mSpriteCanon.setMatrix(0.3f, 1.0f, new Vector2(0.15f, 0.2f), -90f);
-        mSpriteCanon.setLayer(Layers.TOWER);
-
         mSpriteBase = Sprite.fromResources(mGame.getResources(), R.drawable.base1, 4);
         mSpriteBase.setListener(this);
         mSpriteBase.setIndex(mGame.getRandom().nextInt(4));
         mSpriteBase.setMatrix(1f, 1f, null, null);
         mSpriteBase.setLayer(Layers.TOWER_BASE);
+
+        mSpriteCanon = Sprite.fromResources(mGame.getResources(), R.drawable.canon, 4);
+        mSpriteCanon.setListener(this);
+        mSpriteCanon.setIndex(mGame.getRandom().nextInt(4));
+        mSpriteCanon.setMatrix(0.3f, 1.0f, new Vector2(0.15f, 0.4f), -90f);
+        mSpriteCanon.setLayer(Layers.TOWER);
 
         mReboundFunction = new SineFunction();
         mReboundFunction.setProperties(0f, (float) Math.PI, REBOUND_RANGE, 0f);

@@ -17,7 +17,9 @@ public class MortarShot extends Shot {
     private final static float ROTATION_RATE_MIN = 0.5f;
     private final static float ROTATION_RATE_MAX = 2.0f;
 
-    private final static float HEIGHT_SCALING = 2.0f;
+    private final static float HEIGHT_SCALING_START = 0.5f;
+    private final static float HEIGHT_SCALING_STOP = 1.0f;
+    private final static float HEIGHT_SCALING_PEAK = 1.5f;
 
     private float mAngle;
     private float mRotationStep;
@@ -47,7 +49,7 @@ public class MortarShot extends Shot {
         mGame.add(mSprite);
 
         mHeightScalingFunction = new ParabolaFunction();
-        mHeightScalingFunction.setProperties(1f, 1f, HEIGHT_SCALING);
+        mHeightScalingFunction.setProperties(HEIGHT_SCALING_START, HEIGHT_SCALING_STOP, HEIGHT_SCALING_PEAK);
         mHeightScalingFunction.setSection(GameEngine.TARGET_FRAME_RATE * TIME_TO_TARGET);
     }
 

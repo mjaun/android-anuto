@@ -1,6 +1,8 @@
 package ch.bfh.anuto.game.objects.impl;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +11,7 @@ import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.GameManager;
 import ch.bfh.anuto.game.Layers;
 import ch.bfh.anuto.game.data.Path;
+import ch.bfh.anuto.game.objects.DrawObject;
 import ch.bfh.anuto.game.objects.GameObject;
 import ch.bfh.anuto.game.objects.Sprite;
 import ch.bfh.anuto.game.objects.Tower;
@@ -76,10 +79,7 @@ public class MineLayer extends Tower {
         super.init();
 
         mAngle = mGame.getRandom(360f);
-
         mGame.add(mSprite);
-
-        determineSections();
     }
 
     @Override
@@ -104,7 +104,7 @@ public class MineLayer extends Tower {
     public void tick() {
         super.tick();
 
-        if (mReloaded && mMines.size() < MAX_MINE_COUNT) {
+        if (mReloaded && mMines.size() < MAX_MINE_COUNT && mSections.size() > 0) {
             mShooting = true;
             mReloaded = false;
         }
@@ -128,6 +128,15 @@ public class MineLayer extends Tower {
     }
 
     @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+
+        if (enabled) {
+            determineSections();
+        }
+    }
+
+    @Override
     public void drawPreview(Canvas canvas) {
         mSprite.draw(canvas);
     }
@@ -146,17 +155,14 @@ public class MineLayer extends Tower {
                 boolean p1in = p1.len2() <= r2;
                 boolean p2in = p2.len2() <= r2;
 
-                Section s;
-
-                if (p1in && p2in) {
-                    s = new Section();
-                    s.p1 = p1.add(mPosition);
-                    s.p2 = p2.add(mPosition);
-                }
-
                 Vector2[] is = Intersections.lineCircle(p1, p2, mRange);
 
-                if (!p1in && !p2in) {
+                Section s = new Section();
+
+                if (p1in && p2in) {
+                    s.p1 = p1.add(mPosition);
+                    s.p2 = p2.add(mPosition);
+                } else if (!p1in && !p2in) {
                     if (is == null) {
                         continue;
                     }
@@ -168,31 +174,28 @@ public class MineLayer extends Tower {
                         continue;
                     }
 
-                    s = new Section();
                     s.p1 = is[0].add(mPosition);
                     s.p2 = is[1].add(mPosition);
                 }
                 else {
                     float angle = Vector2.fromTo(p1, p2).angle();
 
-                    s = new Section();
-
                     if (p1in) {
-                        s.p1 = p1.add(mPosition);
-
                         if (MathUtils.equals(angle, Vector2.fromTo(p1, is[0]).angle(), 10f)) {
                             s.p2 = is[0].add(mPosition);
                         } else {
                             s.p2 = is[1].add(mPosition);
                         }
-                    } else {
-                        s.p2 = p2.add(mPosition);
 
+                        s.p1 = p1.add(mPosition);
+                    } else {
                         if (MathUtils.equals(angle, Vector2.fromTo(is[0], p2).angle(), 10f)) {
                             s.p1 = is[0].add(mPosition);
                         } else {
                             s.p1 = is[1].add(mPosition);
                         }
+
+                        s.p2 = p2.add(mPosition);
                     }
                 }
 
@@ -215,7 +218,34 @@ public class MineLayer extends Tower {
             }
         }
 
-        // not possible
         return null;
+    }
+
+    private void debugSections() {
+        mGame.add(new DrawObject() {
+            Paint mPen;
+
+            @Override
+            public int getLayer() {
+                return Layers.TOWER_RANGE;
+            }
+
+            @Override
+            public void draw(Canvas canvas) {
+                if (mPen == null) {
+                    mPen = new Paint();
+                    mPen.setStyle(Paint.Style.STROKE);
+                    mPen.setStrokeWidth(0.05f);
+                    mPen.setColor(Color.RED);
+                    mPen.setAlpha(128);
+                }
+
+                canvas.drawCircle(mPosition.x, mPosition.y, mRange, mPen);
+
+                for (Section s : mSections) {
+                    canvas.drawLine(s.p1.x, s.p1.y, s.p2.x, s.p2.y, mPen);
+                }
+            }
+        });
     }
 }

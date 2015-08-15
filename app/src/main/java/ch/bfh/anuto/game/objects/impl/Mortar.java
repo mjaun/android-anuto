@@ -3,6 +3,7 @@ package ch.bfh.anuto.game.objects.impl;
 import android.graphics.Canvas;
 
 import ch.bfh.anuto.R;
+import ch.bfh.anuto.game.GameEngine;
 import ch.bfh.anuto.game.Layers;
 import ch.bfh.anuto.game.objects.AimingTower;
 import ch.bfh.anuto.game.objects.Sprite;
@@ -13,6 +14,7 @@ public class Mortar extends AimingTower {
     private final static int VALUE = 200;
     private final static float RELOAD_TIME = 1.5f;
     private final static float RANGE = 3.5f;
+    private final static float INACCURACY = 1.0f;
 
     private final static float SHOT_SPAWN_OFFSET = 0.6f;
     private final static float REBOUND_DURATION = 0.2f;
@@ -79,10 +81,12 @@ public class Mortar extends AimingTower {
         super.tick();
 
         if (mTarget != null && mReloaded) {
-            Vector2 targetPos = mTarget.getPositionAfter2(Mine.TIME_TO_TARGET + 1f);
+            Vector2 targetPos = mTarget.getPositionAfter2(Mine.TIME_TO_TARGET);
+            targetPos.add(Vector2.polar(mGame.getRandom(INACCURACY), mGame.getRandom(360f)));
             mAngle = getAngleTo(targetPos);
 
             Vector2 shotPos = mPosition.copy().add(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
+
             mGame.add(new MortarShot(shotPos, targetPos));
 
             mReloaded = false;

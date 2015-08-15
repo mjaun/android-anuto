@@ -20,7 +20,6 @@ public class CanonMG extends AimingTower {
 
     private float mAngle;
     private Sprite mSpriteBase;
-    private Sprite mSpriteTower;
     private Sprite mSpriteCanon;
 
     public CanonMG() {
@@ -36,15 +35,9 @@ public class CanonMG extends AimingTower {
         mSpriteBase.setMatrix(1f, 1f, null, null);
         mSpriteBase.setLayer(Layers.TOWER_BASE);
 
-        mSpriteTower = Sprite.fromResources(mGame.getResources(), R.drawable.canon_mg_base, 4);
-        mSpriteTower.setListener(this);
-        mSpriteTower.setIndex(mGame.getRandom().nextInt(4));
-        mSpriteTower.setMatrix(0.7f, 0.7f, new Vector2(0.35f, 0.45f), -90f);
-        mSpriteTower.setLayer(Layers.TOWER);
-
         mSpriteCanon = Sprite.fromResources(mGame.getResources(), R.drawable.canon_mg_gun, 5);
         mSpriteCanon.setListener(this);
-        mSpriteCanon.setMatrix(0.8f, 0.9f, new Vector2(0.4f, 0.25f), -90f);
+        mSpriteCanon.setMatrix(0.8f, 1.0f, new Vector2(0.4f, 0.4f), -90f);
         mSpriteCanon.setLayer(Layers.TOWER);
 
         Sprite.Animator animator = new Sprite.Animator();
@@ -58,7 +51,6 @@ public class CanonMG extends AimingTower {
         super.init();
 
         mGame.add(mSpriteBase);
-        mGame.add(mSpriteTower);
         mGame.add(mSpriteCanon);
     }
 
@@ -67,7 +59,6 @@ public class CanonMG extends AimingTower {
         super.clean();
 
         mGame.remove(mSpriteBase);
-        mGame.remove(mSpriteTower);
         mGame.remove(mSpriteCanon);
     }
 
@@ -99,7 +90,6 @@ public class CanonMG extends AimingTower {
     @Override
     public void drawPreview(Canvas canvas) {
         mSpriteBase.draw(canvas);
-        mSpriteTower.draw(canvas);
         mSpriteCanon.draw(canvas);
     }
 }

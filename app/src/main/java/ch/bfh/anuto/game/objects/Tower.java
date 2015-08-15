@@ -23,14 +23,14 @@ public abstract class Tower extends GameObject {
      */
 
     private class RangeIndicator extends DrawObject {
-        private Paint mRangeIndicatorPen;
+        private Paint mPen;
 
         public RangeIndicator() {
-            mRangeIndicatorPen = new Paint();
-            mRangeIndicatorPen.setStyle(Paint.Style.STROKE);
-            mRangeIndicatorPen.setStrokeWidth(0.05f);
-            mRangeIndicatorPen.setColor(Color.GREEN);
-            mRangeIndicatorPen.setAlpha(128);
+            mPen = new Paint();
+            mPen.setStyle(Paint.Style.STROKE);
+            mPen.setStrokeWidth(0.05f);
+            mPen.setColor(Color.GREEN);
+            mPen.setAlpha(128);
         }
 
         @Override
@@ -40,7 +40,7 @@ public abstract class Tower extends GameObject {
 
         @Override
         public void draw(Canvas canvas) {
-            canvas.drawCircle(mPosition.x, mPosition.y, mRange, mRangeIndicatorPen);
+            canvas.drawCircle(mPosition.x, mPosition.y, mRange, mPen);
         }
     }
 
