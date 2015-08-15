@@ -1,6 +1,8 @@
 package ch.bfh.anuto.util.iterator;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public abstract class StreamIterator<T> implements Iterator<T> {
 
@@ -66,6 +68,16 @@ public abstract class StreamIterator<T> implements Iterator<T> {
         boolean empty = !this.hasNext();
         this.close();
         return empty;
+    }
+
+    public List<T> toList() {
+        List<T> ret = new ArrayList<>();
+
+        while (this.hasNext()) {
+            ret.add(this.next());
+        }
+
+        return ret;
     }
 
 
