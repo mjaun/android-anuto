@@ -38,6 +38,19 @@ public class MineLayer extends Tower {
 
     private Sprite mSprite;
     private Sprite.Animator mAnimator;
+    
+    private Listener mMineListener = new Listener() {
+        @Override
+        public void onObjectAdded(GameObject obj) {
+
+        }
+
+        @Override
+        public void onObjectRemoved(GameObject obj) {
+            mMines.remove(obj);
+            obj.removeListener(this);
+        }
+    };
 
     public MineLayer() {
         mValue = VALUE;
@@ -70,6 +83,10 @@ public class MineLayer extends Tower {
         super.onClean();
 
         mGame.remove(mSprite);
+
+        for (Mine m : mMines) {
+            m.removeListener(mMineListener);
+        }
     }
 
     @Override
@@ -93,17 +110,7 @@ public class MineLayer extends Tower {
             if (mAnimator.getPosition() == 5) {
                 Mine m = new Mine(mPosition, getTarget());
                 mMines.add(m);
-                m.addListener(new Listener() {
-                    @Override
-                    public void onObjectAdded(GameObject obj) {
-
-                    }
-
-                    @Override
-                    public void onObjectRemoved(GameObject obj) {
-                        mMines.remove((Mine) obj);
-                    }
-                });
+                m.addListener(mMineListener);
                 shoot(m);
 
                 mShooting = false;

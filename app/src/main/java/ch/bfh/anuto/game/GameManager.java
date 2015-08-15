@@ -192,7 +192,6 @@ public class GameManager implements Wave.Listener {
     public void startNextWave() {
         Wave wave = getNextWave();
         wave.addListener(this);
-        wave.setGame(mGame);
         wave.start();
     }
 

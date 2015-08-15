@@ -2,7 +2,7 @@ package ch.bfh.anuto.game.objects;
 
 import ch.bfh.anuto.game.TickTimer;
 
-public abstract class AimingTower extends Tower implements GameObject.Listener {
+public abstract class AimingTower extends Tower {
 
     public enum Strategy {
         Closest,
@@ -21,6 +21,22 @@ public abstract class AimingTower extends Tower implements GameObject.Listener {
     protected boolean mLockOnTarget = true;
 
     private TickTimer mNextTargetTimer;
+
+    /*
+    ------ Listener Implementations ------
+     */
+
+    private GameObject.Listener mTargetListener = new Listener() {
+        @Override
+        public void onObjectAdded(GameObject obj) {
+
+        }
+
+        @Override
+        public void onObjectRemoved(GameObject obj) {
+            onTargetLost();
+        }
+    };
 
     /*
     ------ Methods ------
@@ -56,13 +72,13 @@ public abstract class AimingTower extends Tower implements GameObject.Listener {
 
     protected void setTarget(Enemy target) {
         if (mTarget != null) {
-            mTarget.removeListener(this);
+            mTarget.removeListener(mTargetListener);
         }
 
         mTarget = target;
 
         if (mTarget != null) {
-            mTarget.addListener(this);
+            mTarget.addListener(mTargetListener);
         }
     }
 
@@ -91,18 +107,5 @@ public abstract class AimingTower extends Tower implements GameObject.Listener {
 
     protected void onTargetLost() {
         setTarget(null);
-    }
-
-    /*
-    ------ GameObject Listener ------
-     */
-
-    @Override
-    public void onObjectAdded(GameObject obj) {
-    }
-
-    @Override
-    public void onObjectRemoved(GameObject obj) {
-        onTargetLost();
     }
 }

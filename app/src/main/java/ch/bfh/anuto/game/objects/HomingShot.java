@@ -2,14 +2,34 @@ package ch.bfh.anuto.game.objects;
 
 import ch.bfh.anuto.game.GameEngine;
 
-public abstract class HomingShot extends Shot implements GameObject.Listener {
+public abstract class HomingShot extends Shot {
 
     /*
     ------ Members ------
      */
 
     protected Enemy mTarget;
-    private boolean mReached;
+    private boolean mTargetReached;
+
+    /*
+    ------ Listener Implementations ------
+     */
+
+    private Listener mTargetListener = new Listener() {
+        @Override
+        public void onObjectAdded(GameObject obj) {
+
+        }
+
+        @Override
+        public void onObjectRemoved(GameObject obj) {
+            if (!mTargetReached) {
+                onTargetLost();
+            }
+
+            obj.removeListener(this);
+        }
+    };
 
     /*
     ------ Methods ------
@@ -26,7 +46,7 @@ public abstract class HomingShot extends Shot implements GameObject.Listener {
         super.onTick();
 
         if (mEnabled && hasTarget() && getDistanceTo(mTarget) <= mSpeed / GameEngine.TARGET_FRAME_RATE) {
-            mReached = true;
+            mTargetReached = true;
             onTargetReached();
         }
     }
@@ -34,14 +54,14 @@ public abstract class HomingShot extends Shot implements GameObject.Listener {
 
     public void setTarget(Enemy target) {
         if (mTarget != null) {
-            mTarget.removeListener(this);
+            mTarget.removeListener(mTargetListener);
         }
 
         mTarget = target;
-        mReached = false;
+        mTargetReached = false;
 
         if (mTarget != null) {
-            mTarget.addListener(this);
+            mTarget.addListener(mTargetListener);
         }
     }
 
@@ -52,19 +72,4 @@ public abstract class HomingShot extends Shot implements GameObject.Listener {
     protected abstract void onTargetReached();
 
     protected abstract void onTargetLost();
-
-    /*
-    ------ GameObject Listener ------
-     */
-
-    @Override
-    public void onObjectAdded(GameObject obj) {
-    }
-
-    @Override
-    public void onObjectRemoved(GameObject obj) {
-        if (!mReached) {
-            onTargetLost();
-        }
-    }
 }

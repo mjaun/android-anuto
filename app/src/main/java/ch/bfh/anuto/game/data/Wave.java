@@ -16,10 +16,10 @@ import ch.bfh.anuto.game.TickTimer;
 import ch.bfh.anuto.game.objects.Enemy;
 import ch.bfh.anuto.game.objects.GameObject;
 
-public class Wave implements GameEngine.Listener, GameObject.Listener {
+public class Wave {
 
     /*
-    ------ Listener Interface
+    ------ Listener Interface ------
      */
 
     public interface Listener {
@@ -56,7 +56,6 @@ public class Wave implements GameEngine.Listener, GameObject.Listener {
 
     private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
-
     /*
     ------ Constructors ------
      */
@@ -70,22 +69,70 @@ public class Wave implements GameEngine.Listener, GameObject.Listener {
     }
 
     /*
-    ------ Public Methods ------
+    ------ Listener Implementations ------
+     */
+
+    private final GameObject.Listener mObjectListener = new GameObject.Listener() {
+        @Override
+        public void onObjectAdded(GameObject obj) {
+
+        }
+
+        @Override
+        public void onObjectRemoved(GameObject obj) {
+            Enemy e = (Enemy)obj;
+
+            e.removeListener(this);
+            mEnemiesInGame.remove(e);
+
+            onWaveEnemyRemoved(e);
+
+            if (mEnemiesInGame.isEmpty() && mEnemiesToAdd.isEmpty() && mNextEnemy == null) {
+                onWaveDone();
+            }
+        }
+    };
+
+    private final GameEngine.Listener mGameListener = new GameEngine.Listener() {
+        @Override
+        public void onTick() {
+            if (mEnemiesToAdd.isEmpty() && mNextEnemy == null) {
+                onWaveAllEnemiesAdded();
+                mGame.removeListener(this);
+                return;
+            }
+
+            if (mNextEnemy == null) {
+                mNextEnemy = mEnemiesToAdd.remove(0);
+                mAddTimer.setInterval(mNextEnemy.getAddDelay());
+            }
+
+            if (mAddTimer.tick()) {
+                mNextEnemy.addListener(mObjectListener);
+                mGame.add(mNextEnemy);
+                mEnemiesInGame.add(mNextEnemy);
+                mNextEnemy = null;
+            }
+        }
+    };
+
+    /*
+    ------ Methods ------
      */
 
     public void start() {
         mWaveRewardGiven = false;
         mEnemiesToAdd.addAll(mEnemies);
-        mGame.addListener(this);
+        mGame.addListener(mGameListener);
 
         onWaveStarted();
     }
 
     public void abort() {
-        mGame.removeListener(this);
+        mGame.removeListener(mGameListener);
 
         for (Enemy e : mEnemiesInGame) {
-            e.removeListener(this);
+            e.removeListener(mObjectListener);
             e.remove();
         }
 
@@ -106,15 +153,6 @@ public class Wave implements GameEngine.Listener, GameObject.Listener {
         for (Enemy e : mEnemies) {
             e.setReward(Math.round(e.getReward() * factor));
         }
-    }
-
-
-    public GameEngine getGame() {
-        return mGame;
-    }
-
-    public void setGame(GameEngine game) {
-        mGame = game;
     }
 
 
@@ -143,47 +181,6 @@ public class Wave implements GameEngine.Listener, GameObject.Listener {
         if (!mWaveRewardGiven) {
             mWaveRewardGiven = true;
             GameManager.getInstance().giveCredits(mWaveReward);
-        }
-    }
-
-
-    @Override
-    public void onTick() {
-        if (mEnemiesToAdd.isEmpty() && mNextEnemy == null) {
-            onWaveAllEnemiesAdded();
-            mGame.removeListener(this);
-            return;
-        }
-
-        if (mNextEnemy == null) {
-            mNextEnemy = mEnemiesToAdd.remove(0);
-            mAddTimer.setInterval(mNextEnemy.getAddDelay());
-        }
-
-        if (mAddTimer.tick()) {
-            mNextEnemy.addListener(this);
-            mGame.add(mNextEnemy);
-            mEnemiesInGame.add(mNextEnemy);
-            mNextEnemy = null;
-        }
-    }
-
-    @Override
-    public void onObjectAdded(GameObject obj) {
-
-    }
-
-    @Override
-    public void onObjectRemoved(GameObject obj) {
-        Enemy e = (Enemy)obj;
-
-        e.removeListener(this);
-        mEnemiesInGame.remove(e);
-
-        onWaveEnemyRemoved(e);
-
-        if (mEnemiesInGame.isEmpty() && mEnemiesToAdd.isEmpty() && mNextEnemy == null) {
-            onWaveDone();
         }
     }
 
