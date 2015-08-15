@@ -26,7 +26,7 @@ public abstract class AimingTower extends Tower {
     ------ Listener Implementations ------
      */
 
-    private GameObject.Listener mTargetListener = new Listener() {
+    private final GameObject.Listener mTargetListener = new Listener() {
         @Override
         public void onObjectAdded(GameObject obj) {
 

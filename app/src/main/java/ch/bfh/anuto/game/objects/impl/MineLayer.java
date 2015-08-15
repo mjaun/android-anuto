@@ -3,6 +3,7 @@ package ch.bfh.anuto.game.objects.impl;
 import android.graphics.Canvas;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.GameManager;
@@ -33,13 +34,13 @@ public class MineLayer extends Tower {
     private float mAngle;
     private boolean mShooting;
     private float mSectionTotalLength;
-    private final ArrayList<Mine> mMines = new ArrayList<>();
-    private final ArrayList<Section> mSections = new ArrayList<>();
+    private final List<Mine> mMines = new ArrayList<>();
+    private final List<Section> mSections = new ArrayList<>();
 
     private Sprite mSprite;
     private Sprite.Animator mAnimator;
-    
-    private Listener mMineListener = new Listener() {
+
+    private final Listener mMineListener = new Listener() {
         @Override
         public void onObjectAdded(GameObject obj) {
 

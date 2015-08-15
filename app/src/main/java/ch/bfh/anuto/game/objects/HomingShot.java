@@ -15,7 +15,7 @@ public abstract class HomingShot extends Shot {
     ------ Listener Implementations ------
      */
 
-    private Listener mTargetListener = new Listener() {
+    private final Listener mTargetListener = new Listener() {
         @Override
         public void onObjectAdded(GameObject obj) {
 
