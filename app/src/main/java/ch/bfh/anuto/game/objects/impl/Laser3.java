@@ -13,7 +13,7 @@ import ch.bfh.anuto.game.objects.GameObject;
 import ch.bfh.anuto.util.iterator.StreamIterator;
 import ch.bfh.anuto.util.math.Vector2;
 
-public class LaserEffect extends AreaEffect {
+public class Laser3 extends AreaEffect {
 
     private final static float LASER_WIDTH = 1.0f;
     private final static float DAMAGE = 300f;
@@ -58,20 +58,21 @@ public class LaserEffect extends AreaEffect {
     private LaserDrawObject mDrawObject;
     private TickTimer mTimer;
 
-    public LaserEffect(Vector2 position, Vector2 laserTo) {
+    public Laser3(Vector2 position, Vector2 laserTo) {
         mPosition.set(position);
         mLaserTo.set(laserTo);
+
+        mTimer = new TickTimer();
+        mTimer.setInterval(LASER_VISIBLE_TIME);
+
+        mDrawObject = new LaserDrawObject();
     }
 
     @Override
     public void init() {
         super.init();
 
-        mDrawObject = new LaserDrawObject();
         mGame.add(mDrawObject);
-
-        mTimer = new TickTimer();
-        mTimer.setInterval(LASER_VISIBLE_TIME);
     }
 
     @Override

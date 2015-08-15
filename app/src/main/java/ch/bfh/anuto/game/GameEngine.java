@@ -120,6 +120,7 @@ public class GameEngine {
 
     private Resources mResources;
     private final Random mRandom = new Random();
+    private final TickTimer mTimer100ms = TickTimer.createInterval(0.1f);
 
     private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
@@ -165,6 +166,10 @@ public class GameEngine {
 
     public long getTickCount() {
         return mTickCount;
+    }
+
+    public TickTimer getTimer100ms() {
+        return mTimer100ms;
     }
 
 
@@ -260,6 +265,8 @@ public class GameEngine {
     public void tick() {
         try {
             long beginTime = System.currentTimeMillis();
+
+            mTimer100ms.tick();
 
             for (GameObject obj : mGameObjects) {
                 obj.tick();

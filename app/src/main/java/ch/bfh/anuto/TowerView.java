@@ -116,26 +116,22 @@ public class TowerView extends View implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN &&
-                isEnabled() &&
-                mTower != null &&
-                mManager.getCredits() >= mTower.getValue()) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            if (isEnabled() && mTower != null && mManager.getCredits() >= mTower.getValue()) {
+                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder() {
+                    @Override
+                    public void onProvideShadowMetrics(Point shadowSize, Point shadowTouchPoint) {
+                    }
 
-            View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder() {
-                @Override
-                public void onProvideShadowMetrics(Point shadowSize, Point shadowTouchPoint) {
-                }
+                    @Override
+                    public void onDrawShadow(Canvas canvas) {
+                    }
+                };
 
-                @Override
-                public void onDrawShadow(Canvas canvas) {
-                }
-            };
-
-            ClipData data = ClipData.newPlainText("", "");
-            this.startDrag(data, shadowBuilder, mTower, 0);
-            newTower();
-
-            return true;
+                ClipData data = ClipData.newPlainText("", "");
+                startDrag(data, shadowBuilder, mTower, 0);
+                newTower();
+            }
         }
 
         return false;

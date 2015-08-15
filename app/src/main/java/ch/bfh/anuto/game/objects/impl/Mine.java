@@ -32,8 +32,6 @@ public class Mine extends Shot {
     private int mTicksToTarget;
     private final ParabolaFunction mHeightScalingFunction;
 
-    private final TickTimer mCheckTimer;
-
     private final Sprite mSprite;
 
     public Mine(Vector2 position, Vector2 target) {
@@ -54,8 +52,6 @@ public class Mine extends Shot {
         mHeightScalingFunction = new ParabolaFunction();
         mHeightScalingFunction.setProperties(HEIGHT_SCALING_START, HEIGHT_SCALING_STOP, HEIGHT_SCALING_PEAK);
         mHeightScalingFunction.setSection(GameEngine.TARGET_FRAME_RATE * TIME_TO_TARGET);
-
-        mCheckTimer = TickTimer.createInterval(0.1f);
     }
 
     @Override
@@ -95,7 +91,7 @@ public class Mine extends Shot {
                 mHeightScalingFunction.reset();
                 mSpeed = 0f;
             }
-        } else if (mCheckTimer.tick()) {
+        } else if (mGame.getTimer100ms().tick()) {
             StreamIterator<Enemy> enemiesInRange = mGame.getGameObjects(TypeIds.ENEMY)
                     .filter(GameObject.inRange(mPosition, 0.5f))
                     .cast(Enemy.class);

@@ -66,14 +66,7 @@ public class CanonShot extends HomingShot {
 
     @Override
     protected void onTargetLost() {
-        Enemy closest = (Enemy)mGame.getGameObjects(Enemy.TYPE_ID)
-                .min(GameObject.distanceTo(mPosition));
-
-        if (closest == null) {
-            this.remove();
-        } else {
-            setTarget(closest);
-        }
+        this.remove();
     }
 
     @Override

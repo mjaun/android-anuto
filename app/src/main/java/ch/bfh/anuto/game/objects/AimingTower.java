@@ -20,8 +20,6 @@ public abstract class AimingTower extends Tower {
     protected Strategy mStrategy = Strategy.Closest;
     protected boolean mLockOnTarget = true;
 
-    private TickTimer mNextTargetTimer;
-
     /*
     ------ Listener Implementations ------
      */
@@ -45,7 +43,6 @@ public abstract class AimingTower extends Tower {
     @Override
     public void init() {
         super.init();
-        mNextTargetTimer = TickTimer.createInterval(0.1f);
     }
 
     @Override
@@ -58,7 +55,7 @@ public abstract class AimingTower extends Tower {
     public void tick() {
         super.tick();
 
-        if (mNextTargetTimer.tick()) {
+        if (mGame.getTimer100ms().tick()) {
             if (mTarget != null && getDistanceTo(mTarget) > mRange) {
                 onTargetLost();
             }

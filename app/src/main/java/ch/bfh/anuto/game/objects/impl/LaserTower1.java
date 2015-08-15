@@ -2,42 +2,40 @@ package ch.bfh.anuto.game.objects.impl;
 
 import android.graphics.Canvas;
 
+import java.util.List;
+
 import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.Layers;
-import ch.bfh.anuto.game.objects.AimingTower;
+import ch.bfh.anuto.game.TickTimer;
+import ch.bfh.anuto.game.objects.Enemy;
 import ch.bfh.anuto.game.objects.Sprite;
+import ch.bfh.anuto.game.objects.Tower;
 import ch.bfh.anuto.util.math.Vector2;
 
-public class LaserTower extends AimingTower {
+public class LaserTower1 extends Tower {
 
     private final static int VALUE = 200;
-    private final static float RELOAD_TIME = 2.0f;
+    private final static float RELOAD_TIME = 0.1f;
     private final static float RANGE = 6.5f;
-    private final static float LASER_LENGTH = 1000f;
-    private final static float LASER_SPAWN_OFFSET = 0.7f;
-
-    private float mAngle;
 
     private final Sprite mSpriteBase;
     private final Sprite mSpriteTower;
 
-    public LaserTower() {
+    public LaserTower1() {
         mValue = VALUE;
         mRange = RANGE;
         mReloadTime = RELOAD_TIME;
 
-        mAngle = 90f;
-
         mSpriteBase = Sprite.fromResources(mGame.getResources(), R.drawable.base5, 4);
         mSpriteBase.setListener(this);
         mSpriteBase.setIndex(mGame.getRandom(4));
-        mSpriteBase.setMatrix(1f, 1f, new Vector2(0.5f, 0.5f), null);
+        mSpriteBase.setMatrix(1f, 1f, null, null);
         mSpriteBase.setLayer(Layers.TOWER_BASE);
 
-        mSpriteTower = Sprite.fromResources(mGame.getResources(), R.drawable.laser_tower3, 4);
+        mSpriteTower = Sprite.fromResources(mGame.getResources(), R.drawable.laser_tower1, 4);
         mSpriteTower.setListener(this);
         mSpriteBase.setIndex(mGame.getRandom(4));
-        mSpriteTower.setMatrix(0.4f, 1f, new Vector2(0.2f, 0.3f), -90f);
+        mSpriteTower.setMatrix(0.4f, 0.4f, null, null);
         mSpriteTower.setLayer(Layers.TOWER);
     }
 
@@ -58,23 +56,15 @@ public class LaserTower extends AimingTower {
     }
 
     @Override
-    public void onDraw(Sprite sprite, Canvas canvas) {
-        super.onDraw(sprite, canvas);
-
-        canvas.rotate(mAngle);
-    }
-
-    @Override
     public void tick() {
         super.tick();
 
-        if (mTarget != null) {
-            mAngle = getAngleTo(mTarget);
+        if (mReloaded && mGame.getTimer100ms().tick()) {
+            List<Enemy> enemies = getEnemiesInRange().toList();
 
-            if (mReloaded) {
-                Vector2 laserFrom = Vector2.polar(LASER_SPAWN_OFFSET, mAngle).add(mPosition);
-                Vector2 laserTo = Vector2.polar(LASER_LENGTH, mAngle).add(mPosition);
-                mGame.add(new LaserEffect(laserFrom, laserTo));
+            if (enemies.size() > 0) {
+                Enemy target = enemies.get(mGame.getRandom(enemies.size()));
+                mGame.add(new Laser1(mPosition, target));
                 mReloaded = false;
             }
         }
