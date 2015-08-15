@@ -120,15 +120,31 @@ public class GameEngine {
 
     private Resources mResources;
     private final Random mRandom = new Random();
-    private final TickTimer mTimer100ms = TickTimer.createInterval(0.1f);
 
     private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
+
+    private final TickTimer mTimer100ms = new TickTimer() {
+        long mLastTick = -1;
+        boolean mLastResult;
+
+        @Override
+        public boolean tick() {
+            if (mLastTick == mTickCount) {
+                return mLastResult;
+            }
+            mLastTick = mTickCount;
+
+            mLastResult = super.tick();
+            return mLastResult;
+        }
+    };
 
     /*
     ------ Constructors ------
      */
 
     private GameEngine() {
+        mTimer100ms.setInterval(0.1f);
         calcScreenMatrix();
     }
 

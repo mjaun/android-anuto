@@ -6,11 +6,9 @@ import java.util.List;
 
 import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.Layers;
-import ch.bfh.anuto.game.TickTimer;
 import ch.bfh.anuto.game.objects.Enemy;
 import ch.bfh.anuto.game.objects.Sprite;
 import ch.bfh.anuto.game.objects.Tower;
-import ch.bfh.anuto.util.math.Vector2;
 
 public class LaserTower1 extends Tower {
 

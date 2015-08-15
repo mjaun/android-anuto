@@ -90,7 +90,10 @@ public class MineLayer extends Tower {
 
         for (Mine m : mMines) {
             m.removeListener(mMineListener);
+            m.remove();
         }
+
+        mMines.clear();
     }
 
     @Override

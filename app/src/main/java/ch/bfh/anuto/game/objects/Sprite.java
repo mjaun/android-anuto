@@ -76,10 +76,10 @@ public class Sprite extends DrawObject {
     public static class Animator {
         private int mPosition;
         private int[] mSequence;
-        private TickTimer mTimer = new TickTimer();
+        private long mLastTick = -1;
 
-        private long mLastTick;
-        private GameEngine mGame;
+        private final TickTimer mTimer = new TickTimer();
+        private final GameEngine mGame;
 
         public Animator() {
             mGame = GameEngine.getInstance();

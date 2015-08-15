@@ -12,6 +12,7 @@ public class Sprinter extends Enemy {
     private final static int REWARD = 5;
     private final static int HEALTH = 500;
     private final static float MOVEMENT_SPEED = 3.0f;
+    private final static float ANIMATION_SPEED = 1.0f;
 
     private float mAngle;
 
@@ -22,10 +23,15 @@ public class Sprinter extends Enemy {
         mHealth = mHealthMax = HEALTH;
         mSpeed = MOVEMENT_SPEED;
 
-        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.base1, 4);
+        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.sprinter, 8);
         mSprite.setListener(this);
         mSprite.setMatrix(0.9f, 0.9f, null, null);
         mSprite.setLayer(Layers.ENEMY);
+
+        Sprite.Animator animator = new Sprite.Animator();
+        animator.setSequence(mSprite.sequenceForwardBackward());
+        animator.setSpeed(ANIMATION_SPEED);
+        mSprite.setAnimator(animator);
     }
 
     @Override
@@ -55,6 +61,7 @@ public class Sprinter extends Enemy {
 
         if (hasWayPoint()) {
             mAngle = getDirectionTo(getWayPoint()).angle();
+            mSprite.animate();
         }
     }
 }

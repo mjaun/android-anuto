@@ -13,7 +13,7 @@ import ch.bfh.anuto.util.math.Vector2;
 
 public class Laser1 extends HomingShot {
 
-    private final static float DAMAGE = 60f;
+    private final static float DAMAGE = 10f;
     private final static float MOVEMENT_SPEED = 8.0f;
 
     private class LaserDrawObject extends DrawObject {
