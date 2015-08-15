@@ -34,7 +34,7 @@ public class Wave {
      */
 
     @ElementList(name="enemies")
-    private ArrayList<Enemy> mEnemies;
+    private ArrayList<Enemy> mEnemies = new ArrayList<>();
 
     @Element(name="waveReward", required=false)
     private int mWaveReward = 0;
@@ -55,18 +55,6 @@ public class Wave {
     private final ArrayList<Enemy> mEnemiesInGame = new ArrayList<>();
 
     private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
-
-    /*
-    ------ Constructors ------
-     */
-
-    public Wave() {
-        mEnemies = new ArrayList<>();
-    }
-
-    public Wave(Enemy... enemies) {
-        mEnemies = new ArrayList<>(Arrays.asList(enemies));
-    }
 
     /*
     ------ Listener Implementations ------
@@ -123,6 +111,7 @@ public class Wave {
     public void start() {
         mWaveRewardGiven = false;
         mEnemiesToAdd.addAll(mEnemies);
+        mGame = GameEngine.getInstance();
         mGame.addListener(mGameListener);
 
         onWaveStarted();
