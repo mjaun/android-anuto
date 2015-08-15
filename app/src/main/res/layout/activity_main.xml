@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
     <view
-        class="ch.bfh.anuto.TowerDefenseView"
+        class="ch.bfh.anuto.GameView"
         android:id="@+id/view_tower_defense"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

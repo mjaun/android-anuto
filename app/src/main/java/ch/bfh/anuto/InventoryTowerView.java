@@ -15,7 +15,7 @@ import android.view.View;
 
 import ch.bfh.anuto.game.objects.Tower;
 
-public class InventoryItemView extends View implements View.OnTouchListener {
+public class InventoryTowerView extends View implements View.OnTouchListener {
 
     private boolean mRotate;
     private Drawable mDrawable;
@@ -24,14 +24,14 @@ public class InventoryItemView extends View implements View.OnTouchListener {
     private Class<? extends Tower> mItemClass;
 
 
-    public InventoryItemView(Context context, AttributeSet attrs) {
+    public InventoryTowerView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.InventoryItemView);
-        mRotate = a.getBoolean(R.styleable.InventoryItemView_rotate, false);
-        mDrawable = a.getDrawable(R.styleable.InventoryItemView_itemDrawable);
+        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.InventoryTowerView);
+        mRotate = a.getBoolean(R.styleable.InventoryTowerView_rotate, false);
+        mDrawable = a.getDrawable(R.styleable.InventoryTowerView_itemDrawable);
         try {
-            mItemClass = (Class<? extends Tower>)Class.forName(a.getString(R.styleable.InventoryItemView_itemClass));
+            mItemClass = (Class<? extends Tower>)Class.forName(a.getString(R.styleable.InventoryTowerView_itemClass));
         } catch (ClassNotFoundException e) {}
         a.recycle();
 

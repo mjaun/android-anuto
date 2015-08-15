@@ -11,7 +11,7 @@ import ch.bfh.anuto.game.data.Level;
 
 public class MainActivity extends Activity {
 
-    TowerDefenseView view_tower_defense;
+    GameView view_tower_defense;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +20,7 @@ public class MainActivity extends Activity {
         GameEngine.getInstance().setResources(getResources());
         setContentView(R.layout.activity_main);
 
-        view_tower_defense = (TowerDefenseView)findViewById(R.id.view_tower_defense);
+        view_tower_defense = (GameView)findViewById(R.id.view_tower_defense);
 
         restart();
     }

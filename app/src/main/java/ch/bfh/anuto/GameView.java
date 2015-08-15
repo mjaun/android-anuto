@@ -14,13 +14,13 @@ import ch.bfh.anuto.game.objects.Plateau;
 import ch.bfh.anuto.game.objects.Tower;
 import ch.bfh.anuto.util.math.Vector2;
 
-public class TowerDefenseView extends View implements GameEngine.Listener, View.OnDragListener, View.OnTouchListener {
+public class GameView extends View implements GameEngine.Listener, View.OnDragListener, View.OnTouchListener {
 
     /*
     ------ Constants ------
      */
 
-    private final static String TAG = TowerDefenseView.class.getName();
+    private final static String TAG = GameView.class.getName();
 
     /*
     ------ Members ------
@@ -33,7 +33,7 @@ public class TowerDefenseView extends View implements GameEngine.Listener, View.
     ------ Constructors ------
      */
 
-    public TowerDefenseView(Context context, AttributeSet attrs) {
+    public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         setFocusable(true);
