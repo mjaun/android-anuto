@@ -14,22 +14,24 @@ public class Sprinter extends Enemy {
     private final static float MOVEMENT_SPEED = 3.0f;
 
     private float mAngle;
-    private Sprite mSprite;
+
+    private final Sprite mSprite;
 
     public Sprinter() {
         mReward = REWARD;
         mHealth = mHealthMax = HEALTH;
         mSpeed = MOVEMENT_SPEED;
+
+        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.base1, 4);
+        mSprite.setListener(this);
+        mSprite.setMatrix(0.9f, 0.9f, null, null);
+        mSprite.setLayer(Layers.ENEMY);
     }
 
     @Override
     public void init() {
         super.init();
 
-        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.base1);
-        mSprite.setListener(this);
-        mSprite.setMatrix(0.9f, 0.9f, null, null);
-        mSprite.setLayer(Layers.ENEMY);
         mGame.add(mSprite);
     }
 

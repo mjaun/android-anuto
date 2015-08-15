@@ -53,4 +53,12 @@
         android:layout_centerVertical="true"
         android:layout_toEndOf="@+id/view_rocket_launcher"
         app:itemClass="ch.bfh.anuto.game.objects.impl.MineLayer" />
+
+    <view
+        style="@style/InventoryItem"
+        class="ch.bfh.anuto.TowerView"
+        android:id="@+id/view_laser_tower"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/view_mine_layer"
+        app:itemClass="ch.bfh.anuto.game.objects.impl.LaserTower" />
 </RelativeLayout>

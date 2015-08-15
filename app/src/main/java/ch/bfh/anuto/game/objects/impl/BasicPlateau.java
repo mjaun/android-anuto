@@ -7,17 +7,20 @@ import ch.bfh.anuto.game.objects.Sprite;
 
 public class BasicPlateau extends Plateau {
 
-    private Sprite mSprite;
+    private final Sprite mSprite;
 
-    @Override
-    public void init() {
-        super.init();
-
+    public BasicPlateau() {
         mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.plateau1, 4);
         mSprite.setListener(this);
         mSprite.setMatrix(1f, 1f, null, null);
         mSprite.setIndex(mGame.getRandom().nextInt(4));
         mSprite.setLayer(Layers.PLATEAU);
+    }
+
+    @Override
+    public void init() {
+        super.init();
+
         mGame.add(mSprite);
     }
 

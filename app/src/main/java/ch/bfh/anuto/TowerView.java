@@ -2,6 +2,7 @@ package ch.bfh.anuto;
 
 import android.content.ClipData;
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -20,78 +21,78 @@ public class TowerView extends View implements View.OnTouchListener {
     private final static float DRAW_SIZE = 1.3f;
 
     private Tower mTower;
+    private Class<? extends Tower> mTowerClass;
     private GameManager mManager;
 
     private final Paint mPaintText;
     private final Matrix mScreenMatrix;
-    private final Class<? extends Tower> mTowerClass;
 
     public TowerView(Context context, AttributeSet attrs) throws ClassNotFoundException{
         super(context, attrs);
 
+        float density = context.getResources().getDisplayMetrics().density;
+        mPaintText = new Paint();
+        mPaintText.setColor(Color.BLACK);
+        mPaintText.setTextAlign(Paint.Align.CENTER);
+        mPaintText.setTextSize(25f * density);
+
+        mScreenMatrix = new Matrix();
+
+        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.TowerView);
+
         if (!isInEditMode()) {
-            TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.TowerView);
-            mTowerClass = (Class<? extends Tower>)Class.forName(a.getString(R.styleable.TowerView_itemClass));
-            a.recycle();
-
-            float density = context.getResources().getDisplayMetrics().density;
-            mPaintText = new Paint();
-            mPaintText.setColor(Color.BLACK);
-            mPaintText.setTextAlign(Paint.Align.CENTER);
-            mPaintText.setTextSize(25f * density);
-
-            mScreenMatrix = new Matrix();
-
-            setOnTouchListener(this);
-
-            newTower();
+            String className = a.getString(R.styleable.TowerView_itemClass);
+            if (className != null) {
+                mTowerClass = (Class<? extends Tower>) Class.forName(className);
+                newTower();
+            }
 
             mManager = GameManager.getInstance();
             // TODO: how to remove this thing?
             mManager.addListener(new GameManager.OnCreditsChangedListener() {
                 @Override
                 public void onCreditsChanged(int credits) {
-                    if (credits >= mTower.getValue()) {
-                        mPaintText.setColor(Color.BLACK);
-                    } else {
-                        mPaintText.setColor(Color.RED);
-                    }
+                    if (mTower != null) {
+                        if (credits >= mTower.getValue()) {
+                            mPaintText.setColor(Color.BLACK);
+                        } else {
+                            mPaintText.setColor(Color.RED);
+                        }
 
-                    TowerView.this.postInvalidate();
+                        TowerView.this.postInvalidate();
+                    }
                 }
             });
-        } else {
-            mPaintText = null;
-            mTowerClass = null;
-            mScreenMatrix = null;
         }
+
+        setOnTouchListener(this);
+
+        a.recycle();
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
 
-        if (!isInEditMode()) {
-            mScreenMatrix.reset();
+        mScreenMatrix.reset();
 
-            float tileSize = Math.min(w, h);
-            mScreenMatrix.postTranslate(DRAW_SIZE / 2, DRAW_SIZE / 2);
-            mScreenMatrix.postScale(tileSize / DRAW_SIZE, tileSize / DRAW_SIZE);
+        float tileSize = Math.min(w, h);
+        mScreenMatrix.postTranslate(DRAW_SIZE / 2, DRAW_SIZE / 2);
+        mScreenMatrix.postScale(tileSize / DRAW_SIZE, tileSize / DRAW_SIZE);
 
-            float paddingLeft = (w - tileSize) / 2f;
-            float paddingTop = (h - tileSize) / 2f;
-            mScreenMatrix.postTranslate(paddingLeft, paddingTop);
+        float paddingLeft = (w - tileSize) / 2f;
+        float paddingTop = (h - tileSize) / 2f;
+        mScreenMatrix.postTranslate(paddingLeft, paddingTop);
 
-            mScreenMatrix.postScale(1f, -1f);
-            mScreenMatrix.postTranslate(0, h);
-        }
+        mScreenMatrix.postScale(1f, -1f);
+        mScreenMatrix.postTranslate(0, h);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        if (!isInEditMode()) {
+        if (mTower != null) {
             Paint p = new Paint();
             p.setColor(Color.GRAY);
 
@@ -115,8 +116,11 @@ public class TowerView extends View implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN && isEnabled() &&
+        if (event.getAction() == MotionEvent.ACTION_DOWN &&
+                isEnabled() &&
+                mTower != null &&
                 mManager.getCredits() >= mTower.getValue()) {
+
             View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder() {
                 @Override
                 public void onProvideShadowMetrics(Point shadowSize, Point shadowTouchPoint) {
@@ -137,6 +141,14 @@ public class TowerView extends View implements View.OnTouchListener {
         return false;
     }
 
+    public Class<? extends Tower> getTowerClass() {
+        return mTowerClass;
+    }
+
+    public void setTowerClass(Class<? extends Tower> clazz) {
+        mTowerClass = clazz;
+        newTower();
+    }
 
     private void newTower() {
         try {
@@ -146,5 +158,7 @@ public class TowerView extends View implements View.OnTouchListener {
         } catch (Exception e) {
             throw new RuntimeException("Could not instantiate object!", e);
         }
+
+        this.postInvalidate();
     }
 }

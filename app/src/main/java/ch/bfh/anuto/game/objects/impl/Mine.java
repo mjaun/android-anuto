@@ -30,11 +30,11 @@ public class Mine extends Shot {
     private float mAngle;
     private float mRotationStep;
     private int mTicksToTarget;
-    private ParabolaFunction mHeightScalingFunction;
+    private final ParabolaFunction mHeightScalingFunction;
 
-    private TickTimer mCheckTimer;
+    private final TickTimer mCheckTimer;
 
-    private Sprite mSprite;
+    private final Sprite mSprite;
 
     public Mine(Vector2 position, Vector2 target) {
         setPosition(position);
@@ -42,13 +42,7 @@ public class Mine extends Shot {
         mSpeed = getDistanceTo(target) / TIME_TO_TARGET;
         mDirection = getDirectionTo(target);
         mTicksToTarget = Math.round(GameEngine.TARGET_FRAME_RATE * TIME_TO_TARGET);
-    }
 
-    @Override
-    public void init() {
-        super.init();
-
-        mAngle = mGame.getRandom(360f);
         mRotationStep = mGame.getRandom(ROTATION_RATE_MIN, ROTATION_RATE_MAX) * 360f / GameEngine.TARGET_FRAME_RATE;
 
         mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.mortar_shot, 4);
@@ -56,13 +50,19 @@ public class Mine extends Shot {
         mSprite.setIndex(mGame.getRandom().nextInt(4));
         mSprite.setMatrix(0.7f, 0.7f, null, null);
         mSprite.setLayer(Layers.SHOT);
-        mGame.add(mSprite);
 
         mHeightScalingFunction = new ParabolaFunction();
         mHeightScalingFunction.setProperties(HEIGHT_SCALING_START, HEIGHT_SCALING_STOP, HEIGHT_SCALING_PEAK);
         mHeightScalingFunction.setSection(GameEngine.TARGET_FRAME_RATE * TIME_TO_TARGET);
 
         mCheckTimer = TickTimer.createInterval(0.1f);
+    }
+
+    @Override
+    public void init() {
+        super.init();
+
+        mGame.add(mSprite);
     }
 
     @Override

@@ -90,7 +90,6 @@ public abstract class Tower extends GameObject {
 
 
     public void drawPreview(Canvas canvas) {
-
     }
 
 

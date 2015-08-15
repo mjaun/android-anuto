@@ -28,6 +28,8 @@ public class TowerInfoFragment extends Fragment implements
     private Button btn_upgrade;
     private Button btn_sell;
 
+    private TowerView view_tower;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_tower_info, container, false);
@@ -40,10 +42,13 @@ public class TowerInfoFragment extends Fragment implements
         btn_upgrade = (Button)v.findViewById(R.id.btn_upgrade);
         btn_sell = (Button)v.findViewById(R.id.btn_sell);
 
+        view_tower = (TowerView)v.findViewById(R.id.view_tower);
+
         btn_upgrade.setOnClickListener(this);
         btn_sell.setOnClickListener(this);
 
         btn_upgrade.setEnabled(false);
+        view_tower.setEnabled(false);
 
         return v;
     }
@@ -97,6 +102,7 @@ public class TowerInfoFragment extends Fragment implements
     @Override
     public void onShowTowerInfo(Tower tower) {
         mTower = tower;
+        view_tower.setTowerClass(mTower.getClass());
 
         txt_value.post(new Runnable() {
             @Override

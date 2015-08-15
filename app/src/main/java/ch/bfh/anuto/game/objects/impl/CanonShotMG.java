@@ -18,25 +18,26 @@ public class CanonShotMG extends Shot {
 
     private float mAngle;
 
-    private Sprite mSprite;
+    private final Sprite mSprite;
 
     public CanonShotMG(Vector2 position, Vector2 direction) {
+        setPosition(position);
+
         mSpeed = MOVEMENT_SPEED;
         mDirection = direction;
         mAngle = mDirection.angle();
-
-        setPosition(position);
-    }
-
-    @Override
-    public void init() {
-        super.init();
 
         mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.canon_mg_shot, 4);
         mSprite.setListener(this);
         mSprite.setIndex(mGame.getRandom().nextInt(4));
         mSprite.setMatrix(0.2f, null, null, -90f);
         mSprite.setLayer(Layers.SHOT);
+    }
+
+    @Override
+    public void init() {
+        super.init();
+
         mGame.add(mSprite);
     }
 

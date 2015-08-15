@@ -14,17 +14,12 @@ public class Soldier extends Enemy {
 
     private static Sprite.Animator sSpriteAnimator;
 
-    private Sprite mSprite;
+    private final Sprite mSprite;
 
     public Soldier() {
         mHealth = mHealthMax = HEALTH;
         mSpeed = MOVEMENT_SPEED;
         mReward = REWARD;
-    }
-
-    @Override
-    public void init() {
-        super.init();
 
         mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.soldier, 12);
         mSprite.setListener(this);
@@ -38,6 +33,12 @@ public class Soldier extends Enemy {
         }
 
         mSprite.setAnimator(sSpriteAnimator);
+    }
+
+    @Override
+    public void init() {
+        super.init();
+
         mGame.add(mSprite);
     }
 

@@ -18,12 +18,19 @@ public class CanonShot extends HomingShot {
 
     private final static float ROTATION_STEP = 360f / GameEngine.TARGET_FRAME_RATE;
 
-    private Sprite mSprite;
     private float mAngle = 0f;
+
+    private final Sprite mSprite;
 
     public CanonShot(Vector2 position, Enemy target) {
         setPosition(position);
         setTarget(target);
+
+        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.canon_shot, 4);
+        mSprite.setListener(this);
+        mSprite.setIndex(mGame.getRandom().nextInt(4));
+        mSprite.setMatrix(0.33f, 0.33f, null, null);
+        mSprite.setLayer(Layers.SHOT);
 
         mSpeed = MOVEMENT_SPEED;
     }
@@ -32,11 +39,6 @@ public class CanonShot extends HomingShot {
     public void init() {
         super.init();
 
-        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.canon_shot, 4);
-        mSprite.setListener(this);
-        mSprite.setIndex(mGame.getRandom().nextInt(4));
-        mSprite.setMatrix(0.33f, 0.33f, null, null);
-        mSprite.setLayer(Layers.SHOT);
         mGame.add(mSprite);
     }
 

@@ -12,24 +12,28 @@ public class Blob extends Enemy {
     private final static float MOVEMENT_SPEED = 1f;
     private final static float ANIMATION_SPEED = 1.5f;
 
-    private Sprite mSprite;
+    private final Sprite mSprite;
 
     public Blob() {
         mReward = REWARD;
         mHealth = mHealthMax = HEALTH;
         mSpeed = MOVEMENT_SPEED;
+
+        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.blob, 9);
+        mSprite.setListener(this);
+        mSprite.setMatrix(0.9f, 0.9f, null, null);
+        mSprite.setLayer(Layers.ENEMY);
+
+        Sprite.Animator animator = new Sprite.Animator();
+        animator.setSequence(mSprite.sequenceForward());
+        animator.setSpeed(ANIMATION_SPEED);
+        mSprite.setAnimator(animator);
     }
 
     @Override
     public void init() {
         super.init();
 
-        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.blob, 9);
-        mSprite.setListener(this);
-        mSprite.setMatrix(0.9f, 0.9f, null, null);
-        mSprite.setLayer(Layers.ENEMY);
-        mSprite.getAnimator().setSequence(mSprite.sequenceForward());
-        mSprite.getAnimator().setSpeed(ANIMATION_SPEED);
         mGame.add(mSprite);
     }
 
