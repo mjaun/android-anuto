@@ -14,15 +14,11 @@ public class MortarShot extends Shot {
 
     public final static float TIME_TO_TARGET = 1.5f;
 
-    private final static float ROTATION_RATE_MIN = 0.5f;
-    private final static float ROTATION_RATE_MAX = 2.0f;
-
     private final static float HEIGHT_SCALING_START = 0.5f;
     private final static float HEIGHT_SCALING_STOP = 1.0f;
     private final static float HEIGHT_SCALING_PEAK = 1.5f;
 
     private float mAngle;
-    private float mRotationStep;
     private ParabolaFunction mHeightScalingFunction;
 
     private Sprite mSprite;
@@ -39,7 +35,6 @@ public class MortarShot extends Shot {
         super.init();
 
         mAngle = mGame.getRandom(360f);
-        mRotationStep = mGame.getRandom(ROTATION_RATE_MIN, ROTATION_RATE_MAX) * 360f / GameEngine.TARGET_FRAME_RATE;
 
         mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.catapult_shot, 4);
         mSprite.setListener(this);
@@ -72,8 +67,6 @@ public class MortarShot extends Shot {
     @Override
     public void tick() {
         super.tick();
-
-        mAngle += mRotationStep;
 
         if (mHeightScalingFunction.step()) {
             mGame.add(new ExplosionEffect(mPosition));
