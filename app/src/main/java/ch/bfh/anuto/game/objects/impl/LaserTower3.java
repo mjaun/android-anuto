@@ -31,13 +31,13 @@ public class LaserTower3 extends AimingTower {
         mSpriteBase = Sprite.fromResources(mGame.getResources(), R.drawable.base5, 4);
         mSpriteBase.setListener(this);
         mSpriteBase.setIndex(mGame.getRandom(4));
-        mSpriteBase.setMatrix(1f, 1f, null, null);
+        mSpriteBase.setMatrix(1.1f, 1.1f, null, null);
         mSpriteBase.setLayer(Layers.TOWER_BASE);
 
         mSpriteTower = Sprite.fromResources(mGame.getResources(), R.drawable.laser_tower3, 4);
         mSpriteTower.setListener(this);
         mSpriteBase.setIndex(mGame.getRandom(4));
-        mSpriteTower.setMatrix(0.4f, 1f, new Vector2(0.2f, 0.3f), -90f);
+        mSpriteTower.setMatrix(0.4f, 1f, new Vector2(0.2f, 0.2f), -90f);
         mSpriteTower.setLayer(Layers.TOWER);
     }
 

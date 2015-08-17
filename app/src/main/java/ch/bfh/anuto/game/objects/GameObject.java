@@ -43,13 +43,19 @@ public abstract class GameObject implements Sprite.Listener {
                 Vector2 line = Vector2.fromTo(p1, p2);
                 Vector2 toObj = Vector2.fromTo(p1, value.mPosition);
 
-                Vector2 proj = toObj.proj(line);
+                Vector2 proj = toObj.copy().proj(line);
+
                 if (proj.len() > line.len()) {
                     return false;
                 }
 
                 float angle = toObj.angle() - line.angle();
-                return Math.abs(Vector2.normalizeAngle(angle)) <= 90 && toObj.sub(proj).len() <= lineWidth / 2f;
+
+                if (Math.abs(Vector2.normalizeAngle(angle)) > 90f) {
+                    return false;
+                }
+
+                return toObj.sub(proj).len() <= lineWidth / 2f;
 
             }
         };

@@ -37,14 +37,4 @@ public abstract class Shot extends GameObject {
             moveSpeed(mDirection, mSpeed);
         }
     }
-
-    public StreamIterator<Enemy> getEncounteredEnemies(float shotWidth) {
-        Vector2 nextPosition = mDirection.copy()
-                .mul(mSpeed / GameEngine.TARGET_FRAME_RATE)
-                .add(mPosition);
-
-        return mGame.getGameObjects(TypeIds.ENEMY)
-                .filter(GameObject.onLine(mPosition, nextPosition, shotWidth))
-                .cast(Enemy.class);
-    }
 }

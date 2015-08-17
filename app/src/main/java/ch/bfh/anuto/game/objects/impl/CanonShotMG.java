@@ -4,7 +4,9 @@ import android.graphics.Canvas;
 
 import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.Layers;
+import ch.bfh.anuto.game.TypeIds;
 import ch.bfh.anuto.game.objects.Enemy;
+import ch.bfh.anuto.game.objects.GameObject;
 import ch.bfh.anuto.game.objects.Shot;
 import ch.bfh.anuto.game.objects.Sprite;
 import ch.bfh.anuto.util.iterator.StreamIterator;
@@ -14,7 +16,6 @@ public class CanonShotMG extends Shot {
 
     private final static float DAMAGE = 60f;
     private final static float MOVEMENT_SPEED = 8.0f;
-    private final static float SHOT_WIDTH = 1f;
 
     private float mAngle;
 
@@ -59,7 +60,10 @@ public class CanonShotMG extends Shot {
     public void tick() {
         super.tick();
 
-        StreamIterator<Enemy> encountered = getEncounteredEnemies(SHOT_WIDTH);
+        StreamIterator<Enemy> encountered = mGame.getGameObjects(TypeIds.ENEMY)
+                .filter(GameObject.inRange(mPosition, 0.5f))
+                .cast(Enemy.class);
+
         if (encountered.hasNext()) {
             Enemy enemy = encountered.next();
             encountered.close();

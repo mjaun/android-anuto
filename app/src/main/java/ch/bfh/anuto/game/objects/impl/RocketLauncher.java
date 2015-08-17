@@ -33,7 +33,7 @@ public class RocketLauncher extends AimingTower {
         mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.rocket_launcher, 4);
         mSprite.setListener(this);
         mSprite.setIndex(mGame.getRandom(4));
-        mSprite.setMatrix(1f, 1f, null, -90f);
+        mSprite.setMatrix(1.1f, 1.1f, null, -90f);
         mSprite.setLayer(Layers.TOWER);
     }
 
