@@ -87,20 +87,20 @@ public abstract class Enemy extends GameObject {
      */
 
     @Attribute(name="path", required=false)
-    private int mPathIndex = 0;
+    private int mPathIndex;
 
     @Attribute(name="delay", required=false)
-    private float mAddDelay = 0;
+    private float mAddDelay;
 
     private Path mPath = null;
-    private int mWayPointIndex = 0;
+    private int mWayPointIndex;
 
     protected float mHealth = 100f;
     protected float mHealthMax = 100f;
     protected float mSpeed = 1.0f;
     protected float mSpeedModifier = 1.0f;
 
-    protected int mReward = 0;
+    protected int mReward;
 
     private HealthBar mHealthBar;
 
@@ -189,10 +189,6 @@ public abstract class Enemy extends GameObject {
         return mSpeed;
     }
 
-    public void modifySpeed(float f) {
-        mSpeedModifier *= f;
-    }
-
     public Vector2 getDirection() {
         if (!hasWayPoint()) {
             return null;
@@ -225,6 +221,35 @@ public abstract class Enemy extends GameObject {
         }
 
         return position;
+    }
+
+    public void modifySpeed(float f) {
+        mSpeedModifier *= f;
+    }
+
+    public void sendBack(float dist) {
+        int index = mWayPointIndex - 1;
+        Vector2 pos = mPosition;
+
+        while (index > 0) {
+            Vector2 wp = mPath.getWayPoints().get(index);
+            Vector2 toWp = Vector2.fromTo(pos, wp);
+            float toWpLen = toWp.len();
+
+            if (dist > toWpLen) {
+                dist -= toWpLen;
+                pos = wp;
+                index--;
+            } else {
+                pos = toWp.norm().mul(dist).add(pos);
+                setPosition(pos);
+                mWayPointIndex = index + 1;
+                return;
+            }
+        }
+
+        setPosition(mPath.getWayPoints().get(0));
+        mWayPointIndex = 1;
     }
 
 

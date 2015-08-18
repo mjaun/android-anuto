@@ -80,23 +80,23 @@ public abstract class AimingTower extends Tower {
     protected void nextTarget() {
         switch (mStrategy) {
             case Closest:
-                setTarget(getEnemiesInRange().min(GameObject.distanceTo(mPosition)));
+                setTarget(getPossibleTargets().min(GameObject.distanceTo(mPosition)));
                 break;
 
             case Strongest:
-                setTarget(getEnemiesInRange().max(Enemy.health()));
+                setTarget(getPossibleTargets().max(Enemy.health()));
                 break;
 
             case Weakest:
-                setTarget(getEnemiesInRange().min(Enemy.health()));
+                setTarget(getPossibleTargets().min(Enemy.health()));
                 break;
 
             case First:
-                setTarget(getEnemiesInRange().min(Enemy.distanceRemaining()));
+                setTarget(getPossibleTargets().min(Enemy.distanceRemaining()));
                 break;
 
             case Last:
-                setTarget(getEnemiesInRange().max(Enemy.distanceRemaining()));
+                setTarget(getPossibleTargets().max(Enemy.distanceRemaining()));
         }
      }
 

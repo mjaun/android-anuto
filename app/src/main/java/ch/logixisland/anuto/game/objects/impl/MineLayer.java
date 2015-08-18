@@ -87,7 +87,7 @@ public class MineLayer extends Tower {
         super.setEnabled(enabled);
 
         if (enabled) {
-            mSections = getSectionsInRange();
+            mSections = getPathSections();
         }
     }
 

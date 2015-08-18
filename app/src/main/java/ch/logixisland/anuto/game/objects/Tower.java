@@ -182,11 +182,11 @@ public abstract class Tower extends GameObject {
     }
 
 
-    public StreamIterator<Enemy> getEnemiesInRange() {
+    public StreamIterator<Enemy> getPossibleTargets() {
         return getEnemiesInRange(mRange);
     }
 
-    public List<PathSection> getSectionsInRange() {
+    public List<PathSection> getPathSections() {
         List<PathSection> ret = new ArrayList<>();
 
         float r2 = MathUtils.square(mRange);

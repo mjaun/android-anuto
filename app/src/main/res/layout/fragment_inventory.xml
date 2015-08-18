@@ -19,7 +19,7 @@
         android:id="@+id/view_tower_2"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@id/view_tower_1"
-        app:itemClass="ch.logixisland.anuto.game.objects.impl.CanonDual" />
+        app:itemClass="ch.logixisland.anuto.game.objects.impl.GlueTower" />
 
     <view
         style="@style/InventoryItem"
@@ -27,7 +27,7 @@
         android:id="@+id/view_tower_3"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@id/view_tower_2"
-        app:itemClass="ch.logixisland.anuto.game.objects.impl.CanonMG" />
+        app:itemClass="ch.logixisland.anuto.game.objects.impl.TeleportTower" />
 
     <view
         style="@style/InventoryItem"

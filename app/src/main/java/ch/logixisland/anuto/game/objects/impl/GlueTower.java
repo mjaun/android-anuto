@@ -145,7 +145,7 @@ public class GlueTower extends Tower {
     }
 
     private void determineTargets() {
-        List<PathSection> sections = getSectionsInRange();
+        List<PathSection> sections = getPathSections();
         float dist = 0f;
 
         mTargets.clear();
@@ -160,7 +160,7 @@ public class GlueTower extends Tower {
                         .filter(new Predicate<Vector2>() {
                             @Override
                             public boolean apply(Vector2 value) {
-                                return value.copy().sub(target).len() < 0.5f;
+                                return Vector2.fromTo(value, target).len() < 0.5f;
                             }
                         })
                         .isEmpty();

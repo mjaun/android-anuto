@@ -62,6 +62,15 @@ public abstract class GameObject implements Sprite.Listener {
         };
     }
 
+    public static Predicate<GameObject> enabled() {
+        return new Predicate<GameObject>() {
+            @Override
+            public boolean apply(GameObject value) {
+                return value.isEnabled();
+            }
+        };
+    }
+
     public static Function<GameObject, Float> distanceTo(final Vector2 toPoint) {
         return new Function<GameObject, Float>() {
             @Override
