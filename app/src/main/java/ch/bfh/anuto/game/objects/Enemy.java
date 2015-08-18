@@ -92,8 +92,8 @@ public abstract class Enemy extends GameObject {
     @Attribute(name="delay", required=false)
     private float mAddDelay = 0;
 
-    protected Path mPath = null;
-    protected int mWayPointIndex = 0;
+    private Path mPath = null;
+    private int mWayPointIndex = 0;
 
     protected float mHealth = 100f;
     protected float mHealthMax = 100f;

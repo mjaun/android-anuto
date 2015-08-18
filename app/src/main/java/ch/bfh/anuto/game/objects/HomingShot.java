@@ -24,10 +24,9 @@ public abstract class HomingShot extends Shot {
         @Override
         public void onObjectRemoved(GameObject obj) {
             if (!mTargetReached) {
+                setTarget(null);
                 onTargetLost();
             }
-
-            obj.removeListener(this);
         }
     };
 
@@ -45,7 +44,8 @@ public abstract class HomingShot extends Shot {
     public void tick() {
         super.tick();
 
-        if (mEnabled && hasTarget() && getDistanceTo(mTarget) <= mSpeed / GameEngine.TARGET_FRAME_RATE) {
+        if (mEnabled && mTarget != null &&
+                getDistanceTo(mTarget) <= mSpeed / GameEngine.TARGET_FRAME_RATE) {
             mTargetReached = true;
             onTargetReached();
         }
@@ -63,10 +63,6 @@ public abstract class HomingShot extends Shot {
         if (mTarget != null) {
             mTarget.addListener(mTargetListener);
         }
-    }
-
-    public boolean hasTarget() {
-        return mTarget != null;
     }
 
     protected abstract void onTargetReached();

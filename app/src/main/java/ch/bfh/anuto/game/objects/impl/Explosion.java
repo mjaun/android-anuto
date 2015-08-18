@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import ch.bfh.anuto.game.GameEngine;
 import ch.bfh.anuto.game.Layers;
 import ch.bfh.anuto.game.TickTimer;
 import ch.bfh.anuto.game.objects.AreaEffect;
@@ -13,16 +14,19 @@ import ch.bfh.anuto.game.objects.GameObject;
 import ch.bfh.anuto.util.iterator.StreamIterator;
 import ch.bfh.anuto.util.math.Vector2;
 
-public class ExplosionEffect extends AreaEffect {
+public class Explosion extends AreaEffect {
 
     private final static float EXPLOSION_RADIUS = 1.1f;
     private final static float DAMAGE = 400f;
 
     private final static float EXPLOSION_VISIBLE_TIME = 0.2f;
 
+    private final static int ALPHA_START = 180;
+    private final static int ALPHA_STEP = (int)(ALPHA_START / GameEngine.TARGET_FRAME_RATE * EXPLOSION_VISIBLE_TIME);
+
     private class ExplosionDrawObject extends DrawObject {
         private Paint mPaint;
-        private int mAlpha = 180;
+        private int mAlpha = ALPHA_START;
 
         public ExplosionDrawObject() {
             mPaint = new Paint();
@@ -31,7 +35,7 @@ public class ExplosionEffect extends AreaEffect {
         }
 
         public void decreaseVisibility() {
-            mAlpha -= 20;
+            mAlpha -= ALPHA_STEP;
 
             if (mAlpha < 0) {
                 mAlpha = 0;
@@ -52,21 +56,19 @@ public class ExplosionEffect extends AreaEffect {
     }
 
     private ExplosionDrawObject mDrawObject;
-    private TickTimer mTimer;
 
-    public ExplosionEffect(Vector2 position) {
+    public Explosion(Vector2 position) {
         mPosition.set(position);
+        mDuration = EXPLOSION_VISIBLE_TIME;
+
+        mDrawObject = new ExplosionDrawObject();
     }
 
     @Override
     public void init() {
         super.init();
 
-        mDrawObject = new ExplosionDrawObject();
         mGame.add(mDrawObject);
-
-        mTimer = new TickTimer();
-        mTimer.setInterval(EXPLOSION_VISIBLE_TIME);
     }
 
     @Override
@@ -81,14 +83,10 @@ public class ExplosionEffect extends AreaEffect {
         super.tick();
 
         mDrawObject.decreaseVisibility();
-
-        if (mTimer.tick()) {
-            this.remove();
-        }
     }
 
     @Override
-    protected void applyEffect() {
+    protected void effectBegin() {
         StreamIterator<Enemy> enemies = mGame.getGameObjects(Enemy.TYPE_ID)
                 .filter(GameObject.inRange(mPosition, EXPLOSION_RADIUS))
                 .cast(Enemy.class);
@@ -97,5 +95,10 @@ public class ExplosionEffect extends AreaEffect {
             Enemy enemy = enemies.next();
             enemy.damage(DAMAGE);
         }
+    }
+
+    @Override
+    protected void effectEnd() {
+
     }
 }

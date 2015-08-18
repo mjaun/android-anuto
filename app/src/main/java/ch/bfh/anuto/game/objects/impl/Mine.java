@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.GameEngine;
 import ch.bfh.anuto.game.Layers;
-import ch.bfh.anuto.game.TickTimer;
 import ch.bfh.anuto.game.TypeIds;
 import ch.bfh.anuto.game.objects.Enemy;
 import ch.bfh.anuto.game.objects.GameObject;
@@ -97,7 +96,7 @@ public class Mine extends Shot {
                     .cast(Enemy.class);
 
             if (enemiesInRange.hasNext()) {
-                mGame.add(new ExplosionEffect(mPosition));
+                mGame.add(new Explosion(mPosition));
                 this.remove();
             }
         }

@@ -1,5 +1,6 @@
 package ch.bfh.anuto.game.objects;
 
+import ch.bfh.anuto.game.TickTimer;
 import ch.bfh.anuto.game.TypeIds;
 
 public abstract class AreaEffect extends GameObject {
@@ -14,8 +15,10 @@ public abstract class AreaEffect extends GameObject {
     ------ Members ------
      */
 
-    protected int mDelay = 0;
-    protected boolean mEffectDone = false;
+    private TickTimer mTimer;
+    private boolean mEffectBegun = false;
+
+    protected float mDuration = 0f;
 
     /*
     ------ Methods ------
@@ -27,18 +30,30 @@ public abstract class AreaEffect extends GameObject {
     }
 
     @Override
-    public void tick() {
-        super.tick();
+    public void init() {
+        super.init();
 
-        if (mDelay > 0) {
-            mDelay--;
-        }
-
-        if (mDelay <= 0 && !mEffectDone) {
-            applyEffect();
-            mEffectDone = true;
+        if (mDuration > 0f) {
+            mTimer = TickTimer.createInterval(mDuration);
         }
     }
 
-    protected abstract void applyEffect();
+    @Override
+    public void tick() {
+        super.tick();
+
+        if (!mEffectBegun) {
+            effectBegin();
+            mEffectBegun = true;
+        }
+
+        if (mTimer != null && mTimer.tick()) {
+            effectEnd();
+            this.remove();
+        }
+    }
+
+    protected abstract void effectBegin();
+
+    protected abstract void effectEnd();
 }

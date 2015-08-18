@@ -5,25 +5,26 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import ch.bfh.anuto.game.Layers;
+import ch.bfh.anuto.game.objects.AreaEffect;
 import ch.bfh.anuto.game.objects.DrawObject;
 import ch.bfh.anuto.game.objects.Enemy;
-import ch.bfh.anuto.game.objects.GameObject;
-import ch.bfh.anuto.game.objects.HomingShot;
-import ch.bfh.anuto.util.math.Vector2;
 
-public class Laser1 extends HomingShot {
+public class Laser1 extends AreaEffect {
 
-    private final static float DAMAGE = 10f;
-    private final static float MOVEMENT_SPEED = 8.0f;
+    private final static float DAMAGE = 1f;
+
+    private final static float LASER_DRAW_WIDTH = 0.1f;
+    private final static int LASER_DRAW_ALPHA = 180;
 
     private class LaserDrawObject extends DrawObject {
         private Paint mPaint;
 
         public LaserDrawObject() {
             mPaint = new Paint();
-            mPaint.setStyle(Paint.Style.FILL);
-            mPaint.setColor(Color.RED);
-            mPaint.setAlpha(200);
+            mPaint.setStyle(Paint.Style.STROKE);
+            mPaint.setStrokeWidth(LASER_DRAW_WIDTH);
+            mPaint.setColor(Color.MAGENTA);
+            mPaint.setAlpha(LASER_DRAW_ALPHA);
         }
 
         @Override
@@ -33,17 +34,23 @@ public class Laser1 extends HomingShot {
 
         @Override
         public void draw(Canvas canvas) {
-            canvas.drawCircle(mPosition.x, mPosition.y, 0.1f, mPaint);
+            canvas.drawLine(mPosition.x, mPosition.y,
+                    mTarget.getPosition().x, mTarget.getPosition().y, mPaint);
         }
     }
 
-    private LaserDrawObject mDrawObject;
+    private final Enemy mOrigin;
+    private final Enemy mTarget;
 
-    public Laser1(Vector2 position, Enemy target) {
-        setPosition(position);
-        setTarget(target);
+    private final LaserDrawObject mDrawObject;
 
-        mSpeed = MOVEMENT_SPEED;
+    public Laser1(Enemy origin, Enemy target) {
+        mOrigin = origin;
+        mTarget = target;
+
+        if (mOrigin != null) {
+            setPosition(mOrigin.getPosition());
+        }
 
         mDrawObject = new LaserDrawObject();
     }
@@ -64,25 +71,22 @@ public class Laser1 extends HomingShot {
 
     @Override
     public void tick() {
-        mDirection = getDirectionTo(mTarget);
         super.tick();
-    }
 
-    @Override
-    protected void onTargetLost() {
-        Enemy closest = (Enemy)mGame.getGameObjects(Enemy.TYPE_ID)
-                .min(GameObject.distanceTo(mPosition));
-
-        if (closest == null) {
-            this.remove();
-        } else {
-            setTarget(closest);
+        if (mOrigin != null) {
+            setPosition(mOrigin.getPosition());
         }
+
+        mTarget.damage(DAMAGE);
     }
 
     @Override
-    protected void onTargetReached() {
-        mTarget.damage(DAMAGE);
-        this.remove();
+    protected void effectBegin() {
+
+    }
+
+    @Override
+    protected void effectEnd() {
+
     }
 }

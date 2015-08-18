@@ -117,7 +117,7 @@ public class Rocket extends HomingShot {
 
     @Override
     protected void onTargetReached() {
-        mGame.add(new ExplosionEffect(mTarget.getPosition()));
+        mGame.add(new Explosion(mTarget.getPosition()));
         mGame.remove(this);
     }
 }

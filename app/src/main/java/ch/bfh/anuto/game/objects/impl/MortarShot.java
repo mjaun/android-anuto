@@ -69,7 +69,7 @@ public class MortarShot extends Shot {
         super.tick();
 
         if (mHeightScalingFunction.step()) {
-            mGame.add(new ExplosionEffect(mPosition));
+            mGame.add(new Explosion(mPosition));
             this.remove();
         }
     }
