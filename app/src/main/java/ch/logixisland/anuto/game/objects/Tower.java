@@ -165,9 +165,7 @@ public abstract class Tower extends GameObject {
     }
 
 
-    protected StreamIterator<Enemy> getEnemiesInRange() {
-        return mGame.getGameObjects(Enemy.TYPE_ID)
-                .filter(GameObject.inRange(mPosition, mRange))
-                .cast(Enemy.class);
+    public StreamIterator<Enemy> getEnemiesInRange() {
+        return getEnemiesInRange(mRange);
     }
 }

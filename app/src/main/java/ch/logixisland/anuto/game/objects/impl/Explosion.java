@@ -6,14 +6,14 @@ import android.graphics.Paint;
 
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.Layers;
-import ch.logixisland.anuto.game.objects.AreaEffect;
 import ch.logixisland.anuto.game.objects.DrawObject;
+import ch.logixisland.anuto.game.objects.Effect;
 import ch.logixisland.anuto.game.objects.Enemy;
 import ch.logixisland.anuto.game.objects.GameObject;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class Explosion extends AreaEffect {
+public class Explosion extends Effect {
 
     private final static float EXPLOSION_RADIUS = 1.1f;
     private final static float DAMAGE = 400f;

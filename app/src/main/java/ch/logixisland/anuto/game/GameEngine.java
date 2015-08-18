@@ -27,6 +27,8 @@ public class GameEngine {
     public final static int TARGET_FRAME_RATE = 30;
     public final static int TARGET_FRAME_PERIOD_MS = 1000 / TARGET_FRAME_RATE;
 
+    private final static int TICKS_100MS = Math.round(TARGET_FRAME_RATE * 0.1f);
+
     private final static int BACKGROUND_COLOR = Color.WHITE;
 
     private final static String TAG = GameEngine.class.getSimpleName();
@@ -123,28 +125,11 @@ public class GameEngine {
 
     private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
-    private final TickTimer mTimer100ms = new TickTimer() {
-        long mLastTick = -1;
-        boolean mLastResult;
-
-        @Override
-        public boolean tick() {
-            if (mLastTick == mTickCount) {
-                return mLastResult;
-            }
-            mLastTick = mTickCount;
-
-            mLastResult = super.tick();
-            return mLastResult;
-        }
-    };
-
     /*
     ------ Constructors ------
      */
 
     private GameEngine() {
-        mTimer100ms.setInterval(0.1f);
         calcScreenMatrix();
     }
 
@@ -184,8 +169,8 @@ public class GameEngine {
         return mTickCount;
     }
 
-    public TickTimer getTimer100ms() {
-        return mTimer100ms;
+    public boolean tick100ms(Object caller) {
+        return (mTickCount + System.identityHashCode(caller)) % TICKS_100MS == 0;
     }
 
 
@@ -281,8 +266,6 @@ public class GameEngine {
     public void tick() {
         try {
             long beginTime = System.currentTimeMillis();
-
-            mTimer100ms.tick();
 
             for (GameObject obj : mGameObjects) {
                 obj.tick();

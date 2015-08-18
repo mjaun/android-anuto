@@ -1,59 +1,87 @@
 package ch.logixisland.anuto.game.objects;
 
-import ch.logixisland.anuto.game.TickTimer;
-import ch.logixisland.anuto.game.TypeIds;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-public abstract class AreaEffect extends GameObject {
+import ch.logixisland.anuto.util.iterator.StreamIterator;
 
-    /*
-    ------ Constants ------
-     */
-
-    public static final int TYPE_ID = TypeIds.AREA_EFFECT;
+public abstract class AreaEffect extends Effect {
 
     /*
     ------ Members ------
      */
 
-    private TickTimer mTimer;
-    private boolean mEffectBegun = false;
+    protected float mRange = 1f;
 
-    protected float mDuration = 0f;
+    protected final List<Enemy> mAffectedEnemies = new CopyOnWriteArrayList<>();
+
+    private final GameObject.Listener mEnemyListener = new Listener() {
+        @Override
+        public void onObjectAdded(GameObject obj) {
+
+        }
+
+        @Override
+        public void onObjectRemoved(GameObject obj) {
+            obj.removeListener(this);
+            mAffectedEnemies.remove(obj);
+            enemyExit((Enemy)obj);
+        }
+    };
 
     /*
     ------ Methods ------
      */
 
-    @Override
-    public int getTypeId() {
-        return TYPE_ID;
+    public StreamIterator<Enemy> getEnemiesInRange() {
+        return StreamIterator.fromIterator(mAffectedEnemies.iterator());
     }
 
-    @Override
-    public void init() {
-        super.init();
-
-        if (mDuration > 0f) {
-            mTimer = TickTimer.createInterval(mDuration);
-        }
-    }
 
     @Override
     public void tick() {
         super.tick();
 
-        if (!mEffectBegun) {
-            effectBegin();
-            mEffectBegun = true;
-        }
+        if (mGame.tick100ms(this) && isInGame()) {
+            for (Enemy e : mAffectedEnemies) {
+                if (getDistanceTo(e) > mRange) {
+                    mAffectedEnemies.remove(e);
+                    e.removeListener(mEnemyListener);
+                    enemyExit(e);
+                }
+            }
 
-        if (mTimer != null && mTimer.tick()) {
-            effectEnd();
-            this.remove();
+            StreamIterator<Enemy> enemies = getEnemiesInRange(mRange);
+
+            while (enemies.hasNext()) {
+                Enemy e = enemies.next();
+
+                if (!mAffectedEnemies.contains(e)) {
+                    mAffectedEnemies.add(e);
+                    e.addListener(mEnemyListener);
+                    enemyEnter(e);
+                }
+            }
         }
     }
 
-    protected abstract void effectBegin();
+    @Override
+    protected void effectBegin() {
 
-    protected abstract void effectEnd();
+    }
+
+    @Override
+    protected void effectEnd() {
+        for (Enemy e : mAffectedEnemies) {
+            e.removeListener(mEnemyListener);
+            enemyExit(e);
+        }
+
+        mAffectedEnemies.clear();
+    }
+
+
+    protected abstract void enemyEnter(Enemy e);
+
+    protected abstract void enemyExit(Enemy e);
 }

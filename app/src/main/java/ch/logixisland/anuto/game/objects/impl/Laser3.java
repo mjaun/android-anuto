@@ -6,14 +6,14 @@ import android.graphics.Paint;
 
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.Layers;
-import ch.logixisland.anuto.game.objects.AreaEffect;
 import ch.logixisland.anuto.game.objects.DrawObject;
+import ch.logixisland.anuto.game.objects.Effect;
 import ch.logixisland.anuto.game.objects.Enemy;
 import ch.logixisland.anuto.game.objects.GameObject;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class Laser3 extends AreaEffect {
+public class Laser3 extends Effect {
 
     private final static float LASER_WIDTH = 1.0f;
     private final static float DAMAGE = 300f;

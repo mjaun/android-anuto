@@ -5,11 +5,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import ch.logixisland.anuto.game.Layers;
-import ch.logixisland.anuto.game.objects.AreaEffect;
 import ch.logixisland.anuto.game.objects.DrawObject;
+import ch.logixisland.anuto.game.objects.Effect;
 import ch.logixisland.anuto.game.objects.Enemy;
 
-public class Laser1 extends AreaEffect {
+public class Laser1 extends Effect {
 
     private final static float DAMAGE = 1f;
 

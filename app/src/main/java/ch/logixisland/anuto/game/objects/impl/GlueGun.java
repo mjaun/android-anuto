@@ -5,49 +5,47 @@ import android.graphics.Canvas;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.AimingTower;
+import ch.logixisland.anuto.game.objects.Shot;
 import ch.logixisland.anuto.game.objects.Sprite;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class Mortar extends AimingTower {
+public class GlueGun extends AimingTower {
 
     private final static int VALUE = 200;
-    private final static float RELOAD_TIME = 1.5f;
+    private final static float RELOAD_TIME = 4f;
     private final static float RANGE = 3.5f;
-    private final static float INACCURACY = 1.0f;
 
-    private final static float SHOT_SPAWN_OFFSET = 0.6f;
+    private final static float SHOT_SPAWN_OFFSET = 0.7f;
     private final static float REBOUND_DURATION = 0.5f;
 
     private float mAngle;
     private boolean mRebounding;
 
-    private Sprite mSpriteBase;
-    private Sprite mSpriteCanon;
+    private final Sprite mSpriteBase;
+    private final Sprite mSpriteCanon;
 
-    private Sprite.Animator mAnimator;
-
-    public Mortar() {
+    public GlueGun() {
         mValue = VALUE;
         mRange = RANGE;
         mReloadTime = RELOAD_TIME;
 
-        mAngle = 90f;
-
-        mSpriteBase = Sprite.fromResources(mGame.getResources(), R.drawable.base2, 4);
+        mSpriteBase = Sprite.fromResources(mGame.getResources(), R.drawable.base4, 4);
         mSpriteBase.setListener(this);
         mSpriteBase.setIndex(mGame.getRandom().nextInt(4));
         mSpriteBase.setMatrix(1f, 1f, null, null);
         mSpriteBase.setLayer(Layers.TOWER_BASE);
 
-        mSpriteCanon = Sprite.fromResources(mGame.getResources(), R.drawable.mortar, 8);
+        mSpriteCanon = Sprite.fromResources(mGame.getResources(), R.drawable.glue_gun, 6);
         mSpriteCanon.setListener(this);
-        mSpriteCanon.setMatrix(0.8f, null, new Vector2(0.4f, 0.2f), -90f);
+        mSpriteCanon.setMatrix(0.8f, 1.0f, new Vector2(0.4f, 0.4f), -90f);
         mSpriteCanon.setLayer(Layers.TOWER);
 
-        mAnimator = new Sprite.Animator();
-        mAnimator.setSequence(mSpriteCanon.sequenceForwardBackward());
-        mAnimator.setInterval(REBOUND_DURATION);
-        mSpriteCanon.setAnimator(mAnimator);
+        Sprite.Animator animator = new Sprite.Animator();
+        animator.setSequence(mSpriteCanon.sequenceForwardBackward());
+        animator.setInterval(REBOUND_DURATION);
+        mSpriteCanon.setAnimator(animator);
+
+        mAngle = 90f;
     }
 
     @Override
@@ -70,23 +68,21 @@ public class Mortar extends AimingTower {
     public void onDraw(Sprite sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
 
-        if (sprite == mSpriteCanon) {
-            canvas.rotate(mAngle);
-        }
+        canvas.rotate(mAngle);
     }
 
     @Override
     public void tick() {
         super.tick();
 
-        if (mTarget != null && mReloaded) {
-            Vector2 targetPos = mTarget.getPositionAfter(Mine.TIME_TO_TARGET);
-            targetPos.add(Vector2.polar(mGame.getRandom(INACCURACY), mGame.getRandom(360f)));
-            mAngle = getAngleTo(targetPos);
+        if (mReloaded && mTarget != null) {
+            Vector2 target = mTarget.getPositionAfter(1.0f);
 
-            Vector2 shotPos = mPosition.copy().add(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
+            mAngle = getAngleTo(target);
 
-            mGame.add(new MortarShot(shotPos, targetPos));
+            Shot shot = new GlueShot(mPosition, target);
+            shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
+            mGame.add(shot);
 
             mReloaded = false;
             mRebounding = true;

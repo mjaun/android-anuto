@@ -10,6 +10,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.util.iterator.Function;
 import ch.logixisland.anuto.util.iterator.Predicate;
+import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.Vector2;
 
 public abstract class GameObject implements Sprite.Listener {
@@ -160,11 +161,6 @@ public abstract class GameObject implements Sprite.Listener {
         mPosition.y += direction.y * distance;
     }
 
-    public void moveSpeed(Vector2 direction, float speed) {
-        mPosition.x += direction.x * speed / GameEngine.TARGET_FRAME_RATE;
-        mPosition.y += direction.y * speed / GameEngine.TARGET_FRAME_RATE;
-    }
-
 
     public float getDistanceTo(GameObject target) {
         return getDistanceTo(target.mPosition);
@@ -188,6 +184,13 @@ public abstract class GameObject implements Sprite.Listener {
 
     public float getAngleTo(Vector2 target) {
         return Vector2.fromTo(mPosition, target).angle();
+    }
+
+
+    protected StreamIterator<Enemy> getEnemiesInRange(float range) {
+        return mGame.getGameObjects(Enemy.TYPE_ID)
+                .filter(GameObject.inRange(mPosition, range))
+                .cast(Enemy.class);
     }
 
 

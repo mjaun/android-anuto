@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -146,6 +147,8 @@ public class Sprite extends DrawObject {
     private int mIndex;
     private int mLayer;
 
+    private Paint mPaint;
+
     private Animator mAnimator;
     private Listener mListener;
 
@@ -235,6 +238,15 @@ public class Sprite extends DrawObject {
     }
 
 
+    public Paint getPaint() {
+        return mPaint;
+    }
+
+    public void setPaint(Paint paint) {
+        mPaint = paint;
+    }
+
+
     public Listener getListener() {
         return mListener;
     }
@@ -300,7 +312,7 @@ public class Sprite extends DrawObject {
             mListener.onDraw(this, canvas);
         }
 
-        canvas.drawBitmap(mBitmaps.get(mIndex), mMatrix, null);
+        canvas.drawBitmap(mBitmaps.get(mIndex), mMatrix, mPaint);
         canvas.restore();
     }
 }

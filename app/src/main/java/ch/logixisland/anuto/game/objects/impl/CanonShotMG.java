@@ -4,7 +4,6 @@ import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.Layers;
-import ch.logixisland.anuto.game.TypeIds;
 import ch.logixisland.anuto.game.objects.Enemy;
 import ch.logixisland.anuto.game.objects.GameObject;
 import ch.logixisland.anuto.game.objects.Shot;
@@ -60,7 +59,7 @@ public class CanonShotMG extends Shot {
     public void tick() {
         super.tick();
 
-        StreamIterator<Enemy> encountered = mGame.getGameObjects(TypeIds.ENEMY)
+        StreamIterator<Enemy> encountered = mGame.getGameObjects(Enemy.TYPE_ID)
                 .filter(GameObject.inRange(mPosition, 0.5f))
                 .cast(Enemy.class);
 

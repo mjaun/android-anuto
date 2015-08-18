@@ -8,5 +8,5 @@ public final class TypeIds {
     public static final int ENEMY = 2;
     public static final int TOWER = 3;
     public static final int SHOT = 4;
-    public static final int AREA_EFFECT = 5;
+    public static final int EFFECT = 5;
 }

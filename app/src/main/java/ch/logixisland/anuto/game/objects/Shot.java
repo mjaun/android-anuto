@@ -1,5 +1,6 @@
 package ch.logixisland.anuto.game.objects;
 
+import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.TypeIds;
 import ch.logixisland.anuto.util.math.Vector2;
 
@@ -32,7 +33,7 @@ public abstract class Shot extends GameObject {
         super.tick();
 
         if (mEnabled) {
-            moveSpeed(mDirection, mSpeed);
+            move(mDirection, mSpeed / GameEngine.TARGET_FRAME_RATE);
         }
     }
 }

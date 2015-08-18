@@ -98,6 +98,7 @@ public abstract class Enemy extends GameObject {
     protected float mHealth = 100f;
     protected float mHealthMax = 100f;
     protected float mSpeed = 1.0f;
+    protected float mSpeedModifier = 1.0f;
 
     protected int mReward = 0;
 
@@ -143,11 +144,12 @@ public abstract class Enemy extends GameObject {
                 return;
             }
 
-            if (getDistanceTo(getWayPoint()) < mSpeed / GameEngine.TARGET_FRAME_RATE) {
+            float stepSize = mSpeed * mSpeedModifier / GameEngine.TARGET_FRAME_RATE;
+            if (getDistanceTo(getWayPoint()) < stepSize) {
                 setPosition(getWayPoint());
                 nextWayPoint();
             } else {
-                moveSpeed(getDirectionTo(getWayPoint()), mSpeed);
+                move(getDirectionTo(getWayPoint()), stepSize);
             }
         }
     }
@@ -187,6 +189,10 @@ public abstract class Enemy extends GameObject {
         return mSpeed;
     }
 
+    public void modifySpeed(float f) {
+        mSpeedModifier *= f;
+    }
+
     public Vector2 getDirection() {
         if (!hasWayPoint()) {
             return null;
@@ -196,15 +202,11 @@ public abstract class Enemy extends GameObject {
     }
 
     public Vector2 getPositionAfter(float sec) {
-        return mPosition.copy().add(getDirection().mul(mSpeed * sec));
-    }
-
-    public Vector2 getPositionAfter2(float sec) {
         if (mPath == null) {
             return mPosition;
         }
 
-        float distance = sec * mSpeed;
+        float distance = sec * mSpeed * mSpeedModifier;
         List<Vector2> waypoints = mPath.getWayPoints();
         int index = mWayPointIndex;
         Vector2 position = mPosition.copy();

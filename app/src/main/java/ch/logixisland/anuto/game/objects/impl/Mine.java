@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.Layers;
-import ch.logixisland.anuto.game.TypeIds;
 import ch.logixisland.anuto.game.objects.Enemy;
 import ch.logixisland.anuto.game.objects.GameObject;
 import ch.logixisland.anuto.game.objects.Shot;
@@ -90,8 +89,8 @@ public class Mine extends Shot {
                 mHeightScalingFunction.reset();
                 mSpeed = 0f;
             }
-        } else if (mGame.getTimer100ms().tick()) {
-            StreamIterator<Enemy> enemiesInRange = mGame.getGameObjects(TypeIds.ENEMY)
+        } else if (mGame.tick100ms(this)) {
+            StreamIterator<Enemy> enemiesInRange = mGame.getGameObjects(Enemy.TYPE_ID)
                     .filter(GameObject.inRange(mPosition, 0.5f))
                     .cast(Enemy.class);
 
