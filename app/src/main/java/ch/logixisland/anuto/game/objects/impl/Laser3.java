@@ -22,7 +22,7 @@ public class Laser3 extends AreaEffect {
     private final static float LASER_VISIBLE_TIME = 0.5f;
 
     private final static int ALPHA_START = 180;
-    private final static int ALPHA_STEP = (int)(ALPHA_START / GameEngine.TARGET_FRAME_RATE * LASER_VISIBLE_TIME);
+    private final static int ALPHA_STEP = (int)(ALPHA_START / GameEngine.TARGET_FRAME_RATE / LASER_VISIBLE_TIME);
 
     private class LaserDrawObject extends DrawObject {
         private Paint mPaint;
