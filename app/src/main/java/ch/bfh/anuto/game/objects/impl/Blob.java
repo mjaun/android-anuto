@@ -26,7 +26,7 @@ public class Blob extends Enemy {
 
         Sprite.Animator animator = new Sprite.Animator();
         animator.setSequence(mSprite.sequenceForward());
-        animator.setSpeed(ANIMATION_SPEED);
+        animator.setFrequency(ANIMATION_SPEED);
         mSprite.setAnimator(animator);
     }
 

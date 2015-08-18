@@ -32,7 +32,7 @@ public class Sprite extends DrawObject {
             Sprite ret = new Sprite(sSpriteCache.get(id));
 
             if (ret.count() != count) {
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("This Sprite is already initialized with another count value!");
             }
 
             return ret;
@@ -77,6 +77,7 @@ public class Sprite extends DrawObject {
         private int mPosition;
         private int[] mSequence;
         private long mLastTick = -1;
+        private boolean mReset;
 
         private final TickTimer mTimer = new TickTimer();
         private final GameEngine mGame;
@@ -90,13 +91,18 @@ public class Sprite extends DrawObject {
             reset();
         }
 
-        public void setSpeed(float speed) {
-            mTimer.setFrequency(speed * mSequence.length);
+        public void setFrequency(float frequency) {
+            mTimer.setFrequency(frequency * mSequence.length);
+        }
+
+        public void setInterval(float interval) {
+            mTimer.setInterval(interval / mSequence.length);
         }
 
         public void reset() {
             mTimer.reset();
             mPosition = 0;
+            mReset = true;
         }
 
         public int getIndex() {
@@ -114,19 +120,22 @@ public class Sprite extends DrawObject {
         public boolean tick() {
             long tick = mGame.getTickCount();
             if (tick == mLastTick) {
-                return mPosition == mSequence.length - 1;
+                return mReset;
             }
             mLastTick = tick;
+
+            mReset = false;
 
             if (mTimer.tick()) {
                 mPosition++;
 
                 if (mPosition >= mSequence.length) {
                     mPosition = 0;
+                    mReset = true;
                 }
             }
 
-            return mPosition == mSequence.length - 1;
+            return mReset;
         }
     }
 

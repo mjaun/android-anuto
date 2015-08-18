@@ -59,7 +59,7 @@ public class Wave {
     ------ Listener Implementations ------
      */
 
-    private final GameObject.Listener mObjectListener = new GameObject.Listener() {
+    private final GameObject.Listener mEnemyListener = new GameObject.Listener() {
         @Override
         public void onObjectAdded(GameObject obj) {
 
@@ -90,12 +90,20 @@ public class Wave {
             }
 
             if (mNextEnemy == null) {
-                mNextEnemy = mEnemiesToAdd.remove(0);
-                mAddTimer.setInterval(mNextEnemy.getAddDelay());
+                Enemy e = mEnemiesToAdd.remove(0);
+
+                if (e.getAddDelay() < 0.1f) {
+                    e.addListener(mEnemyListener);
+                    mGame.add(e);
+                    mEnemiesInGame.add(e);
+                } else {
+                    mNextEnemy = e;
+                    mAddTimer.setInterval(mNextEnemy.getAddDelay());
+                }
             }
 
-            if (mAddTimer.tick()) {
-                mNextEnemy.addListener(mObjectListener);
+            if (mNextEnemy != null && mAddTimer.tick()) {
+                mNextEnemy.addListener(mEnemyListener);
                 mGame.add(mNextEnemy);
                 mEnemiesInGame.add(mNextEnemy);
                 mNextEnemy = null;
@@ -120,7 +128,7 @@ public class Wave {
         mGame.removeListener(mGameListener);
 
         for (Enemy e : mEnemiesInGame) {
-            e.removeListener(mObjectListener);
+            e.removeListener(mEnemyListener);
             e.remove();
         }
 

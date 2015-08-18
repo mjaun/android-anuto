@@ -6,8 +6,8 @@ import ch.bfh.anuto.R;
 import ch.bfh.anuto.game.Layers;
 import ch.bfh.anuto.game.objects.Enemy;
 import ch.bfh.anuto.game.objects.GameObject;
-import ch.bfh.anuto.game.objects.Sprite;
 import ch.bfh.anuto.game.objects.HomingShot;
+import ch.bfh.anuto.game.objects.Sprite;
 import ch.bfh.anuto.util.math.Vector2;
 
 public class Rocket extends HomingShot {
@@ -56,7 +56,7 @@ public class Rocket extends HomingShot {
 
         Sprite.Animator animator = new Sprite.Animator();
         animator.setSequence(mSpriteFire.sequenceForward());
-        animator.setSpeed(ANIMATION_SPEED);
+        animator.setFrequency(ANIMATION_SPEED);
         mSpriteFire.setAnimator(animator);
     }
 

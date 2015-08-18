@@ -32,7 +32,7 @@ public class Sprinter extends Enemy {
         if (sAnimator == null) {
             sAnimator = new Sprite.Animator();
             sAnimator.setSequence(mSprite.sequenceForwardBackward());
-            sAnimator.setSpeed(ANIMATION_SPEED);
+            sAnimator.setFrequency(ANIMATION_SPEED);
         }
 
         mSprite.setAnimator(sAnimator);

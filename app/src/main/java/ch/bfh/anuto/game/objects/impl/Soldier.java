@@ -10,7 +10,7 @@ public class Soldier extends Enemy {
     private final static int REWARD = 10;
     private final static int HEALTH = 1000;
     private final static float MOVEMENT_SPEED = 2f;
-    private final static float ANIMATION_SPEED = 1.5f;
+    private final static float ANIMATION_SPEED = 1f;
 
     private static Sprite.Animator sSpriteAnimator;
 
@@ -29,7 +29,7 @@ public class Soldier extends Enemy {
         if (sSpriteAnimator == null) {
             sSpriteAnimator = new Sprite.Animator();
             sSpriteAnimator.setSequence(mSprite.sequenceForwardBackward());
-            sSpriteAnimator.setSpeed(ANIMATION_SPEED);
+            sSpriteAnimator.setFrequency(ANIMATION_SPEED);
         }
 
         mSprite.setAnimator(sSpriteAnimator);

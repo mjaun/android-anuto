@@ -16,7 +16,7 @@ public class CanonMG extends AimingTower {
     private final static float RANGE = 3.5f;
     private final static float SHOT_SPAWN_OFFSET = 0.7f;
 
-    private final static float MG_ROTATION_SPEED = 10f;
+    private final static float MG_ROTATION_SPEED = 2f;
 
     private float mAngle;
     private Sprite mSpriteBase;
@@ -42,7 +42,7 @@ public class CanonMG extends AimingTower {
 
         Sprite.Animator animator = new Sprite.Animator();
         animator.setSequence(mSpriteCanon.sequenceForward());
-        animator.setSpeed(MG_ROTATION_SPEED);
+        animator.setFrequency(MG_ROTATION_SPEED);
         mSpriteCanon.setAnimator(animator);
     }
 

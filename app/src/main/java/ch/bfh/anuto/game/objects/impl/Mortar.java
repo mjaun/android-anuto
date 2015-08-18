@@ -3,7 +3,6 @@ package ch.bfh.anuto.game.objects.impl;
 import android.graphics.Canvas;
 
 import ch.bfh.anuto.R;
-import ch.bfh.anuto.game.GameEngine;
 import ch.bfh.anuto.game.Layers;
 import ch.bfh.anuto.game.objects.AimingTower;
 import ch.bfh.anuto.game.objects.Sprite;
@@ -17,7 +16,7 @@ public class Mortar extends AimingTower {
     private final static float INACCURACY = 1.0f;
 
     private final static float SHOT_SPAWN_OFFSET = 0.6f;
-    private final static float REBOUND_DURATION = 0.2f;
+    private final static float REBOUND_DURATION = 0.5f;
 
     private float mAngle;
     private boolean mRebounding;
@@ -47,7 +46,7 @@ public class Mortar extends AimingTower {
 
         mAnimator = new Sprite.Animator();
         mAnimator.setSequence(mSpriteCanon.sequenceForwardBackward());
-        mAnimator.setSpeed(1f / REBOUND_DURATION);
+        mAnimator.setInterval(REBOUND_DURATION);
         mSpriteCanon.setAnimator(mAnimator);
     }
 
@@ -95,8 +94,6 @@ public class Mortar extends AimingTower {
 
         if (mRebounding && mSpriteCanon.animate()) {
             mRebounding = false;
-        } else if (mAnimator.getPosition() != 0) {
-            mSpriteCanon.animate();
         }
     }
 

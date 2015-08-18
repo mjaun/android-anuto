@@ -26,7 +26,7 @@ public class MineLayer extends Tower {
     private final static float RANGE = 3.5f;
     private final static int MAX_MINE_COUNT = 3;
 
-    private final static float ANIMATION_SPEED = 2.0f;
+    private final static float ANIMATION_DURATION = 0.5f;
 
     private class Section {
         Vector2 p1;
@@ -70,7 +70,7 @@ public class MineLayer extends Tower {
 
         mAnimator = new Sprite.Animator();
         mAnimator.setSequence(mSprite.sequenceForwardBackward());
-        mAnimator.setSpeed(ANIMATION_SPEED);
+        mAnimator.setInterval(ANIMATION_DURATION);
         mSprite.setAnimator(mAnimator);
     }
 
