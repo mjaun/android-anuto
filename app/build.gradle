@@ -5,7 +5,7 @@ android {
     buildToolsVersion "22.0.1"
 
     defaultConfig {
-        applicationId "ch.bfh.anuto"
+        applicationId "ch.logixisland.anuto"
         minSdkVersion 19
         targetSdkVersion 21
         versionCode 1

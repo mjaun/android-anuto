@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffffff"
-    tools:context="ch.bfh.anuto.InventoryFragment">
+    tools:context="ch.logixisland.anuto.InventoryFragment">
 
     <HorizontalScrollView
         android:layout_width="wrap_content"
@@ -12,77 +12,53 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-<!--
-            <view
-                style="@style/InventoryItem"
-                class="ch.bfh.anuto.TowerView"
-                android:id="@+id/view_canon"
-                android:layout_centerVertical="true"
-                android:layout_alignParentStart="true"
-                app:itemClass="ch.bfh.anuto.game.objects.impl.Canon" />
 
             <view
                 style="@style/InventoryItem"
-                class="ch.bfh.anuto.TowerView"
-                android:id="@+id/view_canon_dual"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/view_canon"
-                app:itemClass="ch.bfh.anuto.game.objects.impl.CanonDual" />
-
-            <view
-                style="@style/InventoryItem"
-                class="ch.bfh.anuto.TowerView"
-                android:id="@+id/view_canon_mg"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/view_canon_dual"
-                app:itemClass="ch.bfh.anuto.game.objects.impl.CanonMG" />
--->
-            <view
-                style="@style/InventoryItem"
-                class="ch.bfh.anuto.TowerView"
+                class="ch.logixisland.anuto.TowerView"
                 android:id="@+id/view_tower_1"
                 android:layout_centerVertical="true"
-                app:itemClass="ch.bfh.anuto.game.objects.impl.Canon" />
+                app:itemClass="ch.logixisland.anuto.game.objects.impl.Canon" />
 
             <view
                 style="@style/InventoryItem"
-                class="ch.bfh.anuto.TowerView"
+                class="ch.logixisland.anuto.TowerView"
                 android:id="@+id/view_tower_2"
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@id/view_tower_1"
-                app:itemClass="ch.bfh.anuto.game.objects.impl.CanonDual" />
+                app:itemClass="ch.logixisland.anuto.game.objects.impl.CanonDual" />
 
             <view
                 style="@style/InventoryItem"
-                class="ch.bfh.anuto.TowerView"
+                class="ch.logixisland.anuto.TowerView"
                 android:id="@+id/view_tower_3"
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@id/view_tower_2"
-                app:itemClass="ch.bfh.anuto.game.objects.impl.CanonMG" />
+                app:itemClass="ch.logixisland.anuto.game.objects.impl.CanonMG" />
 
             <view
                 style="@style/InventoryItem"
-                class="ch.bfh.anuto.TowerView"
+                class="ch.logixisland.anuto.TowerView"
                 android:id="@+id/view_tower_4"
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@id/view_tower_3"
-                app:itemClass="ch.bfh.anuto.game.objects.impl.Mortar" />
+                app:itemClass="ch.logixisland.anuto.game.objects.impl.Mortar" />
 
             <view
                 style="@style/InventoryItem"
-                class="ch.bfh.anuto.TowerView"
+                class="ch.logixisland.anuto.TowerView"
                 android:id="@+id/view_tower_5"
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@id/view_tower_4"
-                app:itemClass="ch.bfh.anuto.game.objects.impl.RocketLauncher" />
+                app:itemClass="ch.logixisland.anuto.game.objects.impl.RocketLauncher" />
 
             <view
                 style="@style/InventoryItem"
-                class="ch.bfh.anuto.TowerView"
+                class="ch.logixisland.anuto.TowerView"
                 android:id="@+id/view_tower_6"
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@id/view_tower_5"
-                app:itemClass="ch.bfh.anuto.game.objects.impl.MineLayer" />
+                app:itemClass="ch.logixisland.anuto.game.objects.impl.MineLayer" />
         </RelativeLayout>
     </HorizontalScrollView>
 </RelativeLayout>

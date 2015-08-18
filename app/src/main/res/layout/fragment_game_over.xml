@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ch.bfh.anuto.GameOverFragment">
+    tools:context="ch.logixisland.anuto.GameOverFragment">
 
     <TextView
         android:id="@+id/txt_game_over"
