@@ -35,7 +35,7 @@ public class CanonMG extends AimingTower {
         mSpriteBase.setMatrix(1f, 1f, null, null);
         mSpriteBase.setLayer(Layers.TOWER_BASE);
 
-        mSpriteCanon = Sprite.fromResources(mGame.getResources(), R.drawable.canon_mg_gun, 5);
+        mSpriteCanon = Sprite.fromResources(mGame.getResources(), R.drawable.canon_mg, 5);
         mSpriteCanon.setListener(this);
         mSpriteCanon.setMatrix(0.8f, 1.0f, new Vector2(0.4f, 0.4f), -90f);
         mSpriteCanon.setLayer(Layers.TOWER);

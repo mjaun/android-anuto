@@ -42,7 +42,7 @@ public class Mine extends Shot {
 
         mRotationStep = mGame.getRandom(ROTATION_RATE_MIN, ROTATION_RATE_MAX) * 360f / GameEngine.TARGET_FRAME_RATE;
 
-        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.mortar_shot, 4);
+        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.mine, 4);
         mSprite.setListener(this);
         mSprite.setIndex(mGame.getRandom().nextInt(4));
         mSprite.setMatrix(0.7f, 0.7f, null, null);

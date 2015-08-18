@@ -36,7 +36,7 @@ public class MortarShot extends Shot {
 
         mAngle = mGame.getRandom(360f);
 
-        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.catapult_shot, 4);
+        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.grenade, 4);
         mSprite.setListener(this);
         mSprite.setIndex(mGame.getRandom().nextInt(4));
         mSprite.setMatrix(0.7f, 0.7f, null, null);

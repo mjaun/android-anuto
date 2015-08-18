@@ -63,7 +63,7 @@ public class MineLayer extends Tower {
 
         mAngle = 90f;
 
-        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.catapult, 6);
+        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.minelayer, 6);
         mSprite.setListener(this);
         mSprite.setMatrix(1f, 1f, null, null);
         mSprite.setLayer(Layers.TOWER);

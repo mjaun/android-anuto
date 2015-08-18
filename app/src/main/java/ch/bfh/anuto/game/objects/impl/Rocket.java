@@ -38,7 +38,7 @@ public class Rocket extends HomingShot {
     public void init() {
         super.init();
 
-        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.rocket_shot, 4);
+        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.rocket, 4);
         mSprite.setListener(this);
         mSprite.setIndex(mGame.getRandom(4));
         mSprite.setMatrix(0.8f, 1f, null, -90f);

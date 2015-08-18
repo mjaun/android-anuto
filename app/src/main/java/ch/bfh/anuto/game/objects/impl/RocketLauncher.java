@@ -91,7 +91,7 @@ public class RocketLauncher extends AimingTower {
     @Override
     public void drawPreview(Canvas canvas) {
         if (mRocketSprite == null) {
-            mRocketSprite = Sprite.fromResources(mGame.getResources(), R.drawable.rocket_shot, 4);
+            mRocketSprite = Sprite.fromResources(mGame.getResources(), R.drawable.rocket, 4);
             mRocketSprite.setListener(this);
             mRocketSprite.setIndex(mGame.getRandom(4));
             mRocketSprite.setMatrix(0.8f, 1f, null, -90f);
