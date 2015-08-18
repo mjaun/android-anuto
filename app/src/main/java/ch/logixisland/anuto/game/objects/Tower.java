@@ -192,9 +192,9 @@ public abstract class Tower extends GameObject {
         float r2 = MathUtils.square(mRange);
 
         for (Path p : GameManager.getInstance().getLevel().getPaths()) {
-            for (int i = 1; i < p.getWayPoints().size(); i++) {
-                Vector2 p1 = p.getWayPoints().get(i - 1).copy().sub(mPosition);
-                Vector2 p2 = p.getWayPoints().get(i).copy().sub(mPosition);
+            for (int i = 1; i < p.count(); i++) {
+                Vector2 p1 = p.get(i - 1).copy().sub(mPosition);
+                Vector2 p2 = p.get(i).copy().sub(mPosition);
 
                 boolean p1in = p1.len2() <= r2;
                 boolean p2in = p2.len2() <= r2;

@@ -6,8 +6,6 @@ import android.graphics.Paint;
 
 import org.simpleframework.xml.Attribute;
 
-import java.util.List;
-
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.GameManager;
 import ch.logixisland.anuto.game.Layers;
@@ -118,7 +116,7 @@ public abstract class Enemy extends GameObject {
         super.init();
 
         mPath = GameManager.getInstance().getLevel().getPaths().get(mPathIndex);
-        mPosition.set(mPath.getWayPoints().get(0));
+        mPosition.set(mPath.get(0));
         mWayPointIndex = 1;
 
         mHealth = mHealthMax;
@@ -156,7 +154,7 @@ public abstract class Enemy extends GameObject {
 
 
     protected Vector2 getWayPoint() {
-        return mPath.getWayPoints().get(mWayPointIndex);
+        return mPath.get(mWayPointIndex);
     }
 
     protected void nextWayPoint() {
@@ -164,7 +162,7 @@ public abstract class Enemy extends GameObject {
     }
 
     protected boolean hasWayPoint() {
-        return mPath != null && mWayPointIndex < mPath.getWayPoints().size();
+        return mPath != null && mWayPointIndex < mPath.count();
     }
 
     public float getDistanceRemaining() {
@@ -174,10 +172,9 @@ public abstract class Enemy extends GameObject {
 
         float dist = getDistanceTo(getWayPoint());
 
-        List<Vector2> wayPoints = mPath.getWayPoints();
-        for (int i = mWayPointIndex + 1; i < wayPoints.size(); i++) {
-            Vector2 wThis = wayPoints.get(i);
-            Vector2 wLast = wayPoints.get(i - 1);
+        for (int i = mWayPointIndex + 1; i < mPath.count(); i++) {
+            Vector2 wThis = mPath.get(i);
+            Vector2 wLast = mPath.get(i - 1);
 
             dist += wThis.copy().sub(wLast).len();
         }
@@ -203,19 +200,18 @@ public abstract class Enemy extends GameObject {
         }
 
         float distance = sec * mSpeed * mSpeedModifier;
-        List<Vector2> waypoints = mPath.getWayPoints();
         int index = mWayPointIndex;
         Vector2 position = mPosition.copy();
 
-        while (index < waypoints.size()) {
-            Vector2 toWaypoint = waypoints.get(index).copy().sub(position);
+        while (index < mPath.count()) {
+            Vector2 toWaypoint = mPath.get(index).copy().sub(position);
             float toWaypointDist = toWaypoint.len();
 
             if (distance < toWaypointDist) {
                 return position.add(toWaypoint.mul(distance / toWaypointDist));
             } else {
                 distance -= toWaypointDist;
-                position.set(waypoints.get(index));
+                position.set(mPath.get(index));
                 index++;
             }
         }
@@ -232,7 +228,7 @@ public abstract class Enemy extends GameObject {
         Vector2 pos = mPosition;
 
         while (index > 0) {
-            Vector2 wp = mPath.getWayPoints().get(index);
+            Vector2 wp = mPath.get(index);
             Vector2 toWp = Vector2.fromTo(pos, wp);
             float toWpLen = toWp.len();
 
@@ -248,7 +244,7 @@ public abstract class Enemy extends GameObject {
             }
         }
 
-        setPosition(mPath.getWayPoints().get(0));
+        setPosition(mPath.get(0));
         mWayPointIndex = 1;
     }
 
