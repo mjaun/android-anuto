@@ -1,7 +1,6 @@
 package ch.logixisland.anuto.util.math;
 
-public class Intersections {
-
+public final class Intersections {
     private Intersections() {
     }
 

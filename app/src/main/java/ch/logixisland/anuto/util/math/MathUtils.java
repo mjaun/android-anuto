@@ -1,7 +1,6 @@
 package ch.logixisland.anuto.util.math;
 
-public class MathUtils {
-
+public final class MathUtils {
     private MathUtils() {
     }
 
