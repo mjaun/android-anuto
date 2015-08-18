@@ -40,7 +40,7 @@ public class Mortar extends AimingTower {
         mSpriteBase.setMatrix(1f, 1f, null, null);
         mSpriteBase.setLayer(Layers.TOWER_BASE);
 
-        mSpriteCanon = Sprite.fromResources(mGame.getResources(), R.drawable.mortar2, 8);
+        mSpriteCanon = Sprite.fromResources(mGame.getResources(), R.drawable.mortar, 8);
         mSpriteCanon.setListener(this);
         mSpriteCanon.setMatrix(0.8f, null, new Vector2(0.4f, 0.2f), -90f);
         mSpriteCanon.setLayer(Layers.TOWER);
