@@ -4,11 +4,18 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ch.logixisland.anuto.game.GameManager;
 import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.TickTimer;
 import ch.logixisland.anuto.game.TypeIds;
+import ch.logixisland.anuto.game.data.Path;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
+import ch.logixisland.anuto.util.math.Intersections;
+import ch.logixisland.anuto.util.math.MathUtils;
+import ch.logixisland.anuto.util.math.Vector2;
 
 public abstract class Tower extends GameObject {
 
@@ -42,6 +49,16 @@ public abstract class Tower extends GameObject {
         public void draw(Canvas canvas) {
             canvas.drawCircle(mPosition.x, mPosition.y, mRange, mPen);
         }
+    }
+
+    /*
+    ------ PathSection Class ------
+     */
+
+    public class PathSection {
+        public Vector2 p1;
+        public Vector2 p2;
+        public float len;
     }
 
     /*
@@ -167,5 +184,70 @@ public abstract class Tower extends GameObject {
 
     public StreamIterator<Enemy> getEnemiesInRange() {
         return getEnemiesInRange(mRange);
+    }
+
+    public List<PathSection> getSectionsInRange() {
+        List<PathSection> ret = new ArrayList<>();
+
+        float r2 = MathUtils.square(mRange);
+
+        for (Path p : GameManager.getInstance().getLevel().getPaths()) {
+            for (int i = 1; i < p.getWayPoints().size(); i++) {
+                Vector2 p1 = p.getWayPoints().get(i - 1).copy().sub(mPosition);
+                Vector2 p2 = p.getWayPoints().get(i).copy().sub(mPosition);
+
+                boolean p1in = p1.len2() <= r2;
+                boolean p2in = p2.len2() <= r2;
+
+                Vector2[] is = Intersections.lineCircle(p1, p2, mRange);
+
+                PathSection s = new PathSection();
+
+                if (p1in && p2in) {
+                    s.p1 = p1.add(mPosition);
+                    s.p2 = p2.add(mPosition);
+                } else if (!p1in && !p2in) {
+                    if (is == null) {
+                        continue;
+                    }
+
+                    float a1 = Vector2.fromTo(is[0], p1).angle();
+                    float a2 = Vector2.fromTo(is[0], p2).angle();
+
+                    if (MathUtils.equals(a1, a2, 10f)) {
+                        continue;
+                    }
+
+                    s.p1 = is[0].add(mPosition);
+                    s.p2 = is[1].add(mPosition);
+                }
+                else {
+                    float angle = Vector2.fromTo(p1, p2).angle();
+
+                    if (p1in) {
+                        if (MathUtils.equals(angle, Vector2.fromTo(p1, is[0]).angle(), 10f)) {
+                            s.p2 = is[0].add(mPosition);
+                        } else {
+                            s.p2 = is[1].add(mPosition);
+                        }
+
+                        s.p1 = p1.add(mPosition);
+                    } else {
+                        if (MathUtils.equals(angle, Vector2.fromTo(is[0], p2).angle(), 10f)) {
+                            s.p1 = is[0].add(mPosition);
+                        } else {
+                            s.p1 = is[1].add(mPosition);
+                        }
+
+                        s.p2 = p2.add(mPosition);
+                    }
+                }
+
+                s.len = Vector2.fromTo(s.p1, s.p2).len();
+                ret.add(s);
+            }
+        }
+
+        return ret;
     }
 }

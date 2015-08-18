@@ -145,7 +145,6 @@ public class GameView extends View implements GameEngine.Listener, View.OnDragLi
                 if (tower.isInGame()) {
                     tower.buy();
                     tower.setPlateau(closestPlateau);
-                    tower.setEnabled(true);
                     mManager.setSelectedTower(null);
                 }
                 break;

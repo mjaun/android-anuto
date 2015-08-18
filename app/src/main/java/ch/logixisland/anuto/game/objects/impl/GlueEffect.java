@@ -19,7 +19,7 @@ public class GlueEffect extends AreaEffect {
     private final static float EFFECT_DURATION = 2f;
     private final static float SPEED_MODIFIER = 0.5f;
 
-    private final static int ALPHA_START = 200;
+    private final static int ALPHA_START = 150;
     private final static int ALPHA_STEP = (int)(ALPHA_START / GameEngine.TARGET_FRAME_RATE / EFFECT_DURATION);
 
     private float mAngle;

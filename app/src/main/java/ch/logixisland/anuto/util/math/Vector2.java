@@ -139,4 +139,18 @@ public class Vector2 {
         this.y = Math.round(this.y);
         return this;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Vector2) {
+            Vector2 v = (Vector2)o;
+            return this.x == v.x && this.y == v.y;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean equals(Vector2 v, float d) {
+        return MathUtils.equals(this.x, v.x, d) && MathUtils.equals(this.y, v.y, d);
+    }
 }
