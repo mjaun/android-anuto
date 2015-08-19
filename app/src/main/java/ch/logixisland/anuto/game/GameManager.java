@@ -273,7 +273,7 @@ public class GameManager implements Wave.Listener {
     }
 
     public void ageTowers() {
-        Iterator<Tower> it = mGame.getGameObjects(TypeIds.TOWER).cast(Tower.class);
+        Iterator<Tower> it = mGame.get(TypeIds.TOWER).cast(Tower.class);
         while (it.hasNext()) {
             it.next().devalue(mLevel.getSettings().agingFactor);
         }

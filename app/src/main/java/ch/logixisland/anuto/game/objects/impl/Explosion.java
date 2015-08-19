@@ -86,7 +86,7 @@ public class Explosion extends Effect {
 
     @Override
     protected void effectBegin() {
-        StreamIterator<Enemy> enemies = mGame.getGameObjects(Enemy.TYPE_ID)
+        StreamIterator<Enemy> enemies = mGame.get(Enemy.TYPE_ID)
                 .filter(GameObject.inRange(mPosition, EXPLOSION_RADIUS))
                 .cast(Enemy.class);
 

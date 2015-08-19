@@ -59,7 +59,7 @@ public class CanonShotMG extends Shot {
     public void tick() {
         super.tick();
 
-        StreamIterator<Enemy> encountered = mGame.getGameObjects(Enemy.TYPE_ID)
+        StreamIterator<Enemy> encountered = mGame.get(Enemy.TYPE_ID)
                 .filter(GameObject.inRange(mPosition, 0.5f))
                 .cast(Enemy.class);
 

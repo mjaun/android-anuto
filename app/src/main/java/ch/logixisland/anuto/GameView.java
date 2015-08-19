@@ -86,7 +86,7 @@ public class GameView extends View implements GameEngine.Listener, View.OnDragLi
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             Vector2 pos = mGame.screenToGame(new Vector2(event.getX(), event.getY()));
 
-            Tower closest = (Tower)mGame.getGameObjects(Tower.TYPE_ID)
+            Tower closest = (Tower)mGame.get(Tower.TYPE_ID)
                     .min(GameObject.distanceTo(pos));
 
             mManager.hideTowerInfo();
@@ -115,7 +115,7 @@ public class GameView extends View implements GameEngine.Listener, View.OnDragLi
         Tower tower = (Tower)event.getLocalState();
         Vector2 pos = mGame.screenToGame(new Vector2(event.getX(), event.getY()));
 
-        Plateau closestPlateau = mGame.getGameObjects(Plateau.TYPE_ID)
+        Plateau closestPlateau = mGame.get(Plateau.TYPE_ID)
                 .cast(Plateau.class)
                 .filter(Plateau.unoccupied())
                 .min(GameObject.distanceTo(pos));

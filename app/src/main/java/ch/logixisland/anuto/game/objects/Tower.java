@@ -183,7 +183,9 @@ public abstract class Tower extends GameObject {
 
 
     public StreamIterator<Enemy> getPossibleTargets() {
-        return getEnemiesInRange(mRange);
+        return mGame.get(Enemy.TYPE_ID)
+                .filter(GameObject.inRange(mPosition, mRange))
+                .cast(Enemy.class);
     }
 
     public List<PathSection> getPathSections() {

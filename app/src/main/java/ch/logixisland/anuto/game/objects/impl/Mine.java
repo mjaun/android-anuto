@@ -90,7 +90,7 @@ public class Mine extends Shot {
                 mSpeed = 0f;
             }
         } else if (mGame.tick100ms(this)) {
-            StreamIterator<Enemy> enemiesInRange = mGame.getGameObjects(Enemy.TYPE_ID)
+            StreamIterator<Enemy> enemiesInRange = mGame.get(Enemy.TYPE_ID)
                     .filter(GameObject.inRange(mPosition, 0.5f))
                     .cast(Enemy.class);
 

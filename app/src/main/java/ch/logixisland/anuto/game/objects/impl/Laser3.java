@@ -92,7 +92,7 @@ public class Laser3 extends Effect {
 
     @Override
     protected void effectBegin() {
-        StreamIterator<Enemy> enemies = mGame.getGameObjects(Enemy.TYPE_ID)
+        StreamIterator<Enemy> enemies = mGame.get(Enemy.TYPE_ID)
                 .filter(GameObject.onLine(mPosition, mLaserTo, LASER_WIDTH))
                 .cast(Enemy.class);
 

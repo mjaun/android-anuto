@@ -105,7 +105,7 @@ public class Rocket extends HomingShot {
 
     @Override
     protected void onTargetLost() {
-        Enemy closest = (Enemy)mGame.getGameObjects(Enemy.TYPE_ID)
+        Enemy closest = (Enemy)mGame.get(Enemy.TYPE_ID)
                 .min(GameObject.distanceTo(mPosition));
 
         if (closest == null) {

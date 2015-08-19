@@ -174,6 +174,14 @@ public class GameEngine {
     }
 
 
+    public StreamIterator<GameObject> get() {
+        return mGameObjects.iterator();
+    }
+
+    public StreamIterator<GameObject> get(int typeId) {
+        return mGameObjects.iteratorKey(typeId);
+    }
+
     public void add(GameObject obj) {
         mGameObjects.add(obj.getTypeId(), obj);
     }
@@ -194,15 +202,6 @@ public class GameEngine {
         for (GameObject obj : mGameObjects) {
             mGameObjects.remove(obj.getTypeId(), obj);
         }
-    }
-
-
-    public StreamIterator<GameObject> getGameObjects() {
-        return mGameObjects.iterator();
-    }
-
-    public StreamIterator<GameObject> getGameObjects(int typeId) {
-        return mGameObjects.iteratorKey(typeId);
     }
 
 

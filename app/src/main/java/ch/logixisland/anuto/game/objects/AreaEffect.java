@@ -51,7 +51,9 @@ public abstract class AreaEffect extends Effect {
                 }
             }
 
-            StreamIterator<Enemy> enemies = getEnemiesInRange(mRange);
+            StreamIterator<Enemy> enemies = mGame.get(Enemy.TYPE_ID)
+                    .filter(GameObject.inRange(mPosition, mRange))
+                    .cast(Enemy.class);
 
             while (enemies.hasNext()) {
                 Enemy e = enemies.next();
