@@ -9,18 +9,10 @@ import ch.logixisland.anuto.game.objects.Sprite;
 
 public class TeleportTower extends AimingTower {
 
-    private final static int VALUE = 200;
-    private final static float RELOAD_TIME = 4f;
-    private final static float RANGE = 3.5f;
-
     private final Sprite mSpriteBase;
     private final Sprite mSpriteTower;
 
     public TeleportTower() {
-        mValue = VALUE;
-        mRange = RANGE;
-        mReloadTime = RELOAD_TIME;
-
         mSpriteBase = Sprite.fromResources(mGame.getResources(), R.drawable.base4, 4);
         mSpriteBase.setListener(this);
         mSpriteBase.setIndex(mGame.getRandom().nextInt(4));
@@ -55,10 +47,10 @@ public class TeleportTower extends AimingTower {
         super.tick();
 
         if (mReloaded && mTarget != null) {
-            if (!mTarget.isEnabled() || getDistanceTo(mTarget) > mRange) {
+            if (!mTarget.isEnabled() || getDistanceTo(mTarget) > mConfig.range) {
                 setTarget(null);
             } else {
-                mGame.add(new TeleportEffect(mPosition, mTarget));
+                mGame.add(new TeleportEffect(mPosition, mTarget, mConfig.damage));
                 mReloaded = false;
             }
         }

@@ -17,23 +17,20 @@ import ch.logixisland.anuto.util.math.Vector2;
 public class GlueEffect extends AreaEffect {
 
     private final static float EFFECT_DURATION = 2f;
-    private final static float SPEED_MODIFIER = 0.5f;
 
     private final static int ALPHA_START = 150;
     private final static int ALPHA_STEP = (int)(ALPHA_START / GameEngine.TARGET_FRAME_RATE / EFFECT_DURATION);
 
     private float mAngle;
+    private float mSpeedModifier;
 
     private final List<Enemy> mAffected = new ArrayList<>();
 
     private final Paint mPaint;
     private final Sprite mSprite;
 
-    public GlueEffect(Vector2 position) {
+    public GlueEffect(Vector2 position, float speedModifier) {
         setPosition(position);
-
-        mDuration = EFFECT_DURATION;
-        mAngle = mGame.getRandom(360f);
 
         mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.glue_effect, 4);
         mSprite.setListener(this);
@@ -44,6 +41,10 @@ public class GlueEffect extends AreaEffect {
         mPaint = new Paint();
         mPaint.setAlpha(ALPHA_START);
         mSprite.setPaint(mPaint);
+
+        mDuration = EFFECT_DURATION;
+        mAngle = mGame.getRandom(360f);
+        mSpeedModifier = speedModifier;
     }
 
     @Override
@@ -76,11 +77,11 @@ public class GlueEffect extends AreaEffect {
 
     @Override
     protected void enemyEnter(Enemy e) {
-        e.modifySpeed(SPEED_MODIFIER);
+        e.modifySpeed(mSpeedModifier);
     }
 
     @Override
     protected void enemyExit(Enemy e) {
-        e.modifySpeed(1f / SPEED_MODIFIER);
+        e.modifySpeed(1f / mSpeedModifier);
     }
 }

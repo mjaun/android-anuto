@@ -10,10 +10,7 @@ import ch.logixisland.anuto.game.objects.Sprite;
 
 public class RocketLauncher extends AimingTower {
 
-    private final static int VALUE = 200;
     private final static float ROCKET_LOAD_TIME = 1.0f;
-    private final static float RELOAD_TIME = 2.5f;
-    private final static float RANGE = 2.5f;
 
     private float mAngle;
     private Rocket mRocket;
@@ -23,10 +20,6 @@ public class RocketLauncher extends AimingTower {
     private Sprite mRocketSprite; // used for preview only
 
     public RocketLauncher() {
-        mRange = RANGE;
-        mReloadTime = RELOAD_TIME;
-        mValue = VALUE;
-
         mAngle = 90f;
         mRocketLoadTimer = TickTimer.createInterval(ROCKET_LOAD_TIME);
 
@@ -66,7 +59,7 @@ public class RocketLauncher extends AimingTower {
         super.tick();
 
         if (mRocket == null && mRocketLoadTimer.tick()) {
-            mRocket = new Rocket(mPosition);
+            mRocket = new Rocket(mPosition, mConfig.damage);
             mRocket.setAngle(mAngle);
             mGame.add(mRocket);
         }

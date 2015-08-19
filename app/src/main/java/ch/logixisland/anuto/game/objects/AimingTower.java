@@ -54,7 +54,7 @@ public abstract class AimingTower extends Tower {
         super.tick();
 
         if (mGame.tick100ms(this)) {
-            if (mTarget != null && getDistanceTo(mTarget) > mRange) {
+            if (mTarget != null && getDistanceTo(mTarget) > mConfig.range) {
                 onTargetLost();
             }
 

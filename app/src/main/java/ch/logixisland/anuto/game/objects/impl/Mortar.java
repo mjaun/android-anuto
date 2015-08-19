@@ -10,9 +10,6 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class Mortar extends AimingTower {
 
-    private final static int VALUE = 200;
-    private final static float RELOAD_TIME = 1.5f;
-    private final static float RANGE = 3.5f;
     private final static float INACCURACY = 1.0f;
 
     private final static float SHOT_SPAWN_OFFSET = 0.6f;
@@ -27,10 +24,6 @@ public class Mortar extends AimingTower {
     private Sprite.Animator mAnimator;
 
     public Mortar() {
-        mValue = VALUE;
-        mRange = RANGE;
-        mReloadTime = RELOAD_TIME;
-
         mAngle = 90f;
 
         mSpriteBase = Sprite.fromResources(mGame.getResources(), R.drawable.base2, 4);
@@ -86,7 +79,7 @@ public class Mortar extends AimingTower {
 
             Vector2 shotPos = mPosition.copy().add(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
 
-            mGame.add(new MortarShot(shotPos, targetPos));
+            mGame.add(new MortarShot(shotPos, targetPos, mConfig.damage));
 
             mReloaded = false;
             mRebounding = true;

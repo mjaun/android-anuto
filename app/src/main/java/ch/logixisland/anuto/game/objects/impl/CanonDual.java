@@ -13,9 +13,6 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class CanonDual extends AimingTower {
 
-    private final static int VALUE = 200;
-    private final static float RELOAD_TIME = 0.2f;
-    private final static float RANGE = 3.5f;
     private final static float SHOT_SPAWN_OFFSET = 0.7f;
 
     private final static float REBOUND_RANGE = 0.25f;
@@ -35,10 +32,6 @@ public class CanonDual extends AimingTower {
     private Sprite mSpriteTower;
 
     public CanonDual() {
-        mValue = VALUE;
-        mRange = RANGE;
-        mReloadTime = RELOAD_TIME;
-
         mAngle = 90f;
 
         mSpriteBase = Sprite.fromResources(mGame.getResources(), R.drawable.base1, 4);
@@ -128,7 +121,7 @@ public class CanonDual extends AimingTower {
 
             if (mReloaded) {
                 if (!mShoot2) {
-                    Shot shot = new CanonShot(mPosition, mTarget);
+                    Shot shot = new CanonShot(mPosition, mTarget, mConfig.damage);
                     shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
                     shot.move(Vector2.polar(0.3f, mAngle + 90f));
                     mGame.add(shot);
@@ -137,7 +130,7 @@ public class CanonDual extends AimingTower {
                     mCanons[0].reboundActive = true;
                     mShoot2 = true;
                 } else {
-                    Shot shot = new CanonShot(mPosition, mTarget);
+                    Shot shot = new CanonShot(mPosition, mTarget, mConfig.damage);
                     shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
                     shot.move(Vector2.polar(0.3f, mAngle - 90f));
                     mGame.add(shot);

@@ -13,9 +13,6 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class Canon extends AimingTower {
 
-    private final static int VALUE = 200;
-    private final static float RELOAD_TIME = 0.4f;
-    private final static float RANGE = 3.5f;
     private final static float SHOT_SPAWN_OFFSET = 0.7f;
 
     private final static float REBOUND_RANGE = 0.25f;
@@ -30,10 +27,6 @@ public class Canon extends AimingTower {
     private final Sprite mSpriteCanon;
 
     public Canon() {
-        mValue = VALUE;
-        mRange = RANGE;
-        mReloadTime = RELOAD_TIME;
-
         mSpriteBase = Sprite.fromResources(mGame.getResources(), R.drawable.base1, 4);
         mSpriteBase.setListener(this);
         mSpriteBase.setIndex(mGame.getRandom().nextInt(4));
@@ -88,7 +81,7 @@ public class Canon extends AimingTower {
             mAngle = getAngleTo(mTarget);
 
             if (mReloaded) {
-                Shot shot = new CanonShot(mPosition, mTarget);
+                Shot shot = new CanonShot(mPosition, mTarget, mConfig.damage);
                 shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
                 mGame.add(shot);
 

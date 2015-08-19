@@ -15,7 +15,6 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class LaserStraight extends Effect {
 
-    private final static float DAMAGE = 300f;
     private final static float LASER_WIDTH = 0.7f;
 
     private final static float LASER_DRAW_WIDTH = 0.1f;
@@ -56,16 +55,18 @@ public class LaserStraight extends Effect {
         }
     }
 
-    private final Vector2 mLaserTo = new Vector2();
+    private float mDamage;
+    private Vector2 mLaserTo;
 
-    private LaserDrawObject mDrawObject;
+    private final LaserDrawObject mDrawObject;
 
-    public LaserStraight(Vector2 position, Vector2 laserTo) {
-        mPosition.set(position);
-        mLaserTo.set(laserTo);
+    public LaserStraight(Vector2 position, Vector2 laserTo, float damage) {
+        setPosition(position);
+        mLaserTo = new Vector2(laserTo);
 
         mDrawObject = new LaserDrawObject();
 
+        mDamage = damage;
         mDuration = LASER_VISIBLE_TIME;
     }
 
@@ -98,7 +99,7 @@ public class LaserStraight extends Effect {
 
         while (enemies.hasNext()) {
             Enemy enemy = enemies.next();
-            enemy.damage(DAMAGE);
+            enemy.damage(mDamage);
         }
     }
 

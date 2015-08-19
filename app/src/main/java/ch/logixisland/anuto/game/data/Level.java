@@ -25,7 +25,7 @@ public class Level {
      */
 
     @Element(name="settings")
-    private GameSettings mSettings = new GameSettings();
+    private Settings mSettings = new Settings();
 
     @ElementList(name="plateaus")
     private ArrayList<Plateau> mPlateaus = new ArrayList<>();
@@ -40,7 +40,7 @@ public class Level {
     ------ Methods ------
      */
 
-    public GameSettings getSettings() {
+    public Settings getSettings() {
         return mSettings;
     }
 

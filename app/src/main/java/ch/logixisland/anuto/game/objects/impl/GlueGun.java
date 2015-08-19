@@ -11,10 +11,6 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class GlueGun extends AimingTower {
 
-    private final static int VALUE = 200;
-    private final static float RELOAD_TIME = 4f;
-    private final static float RANGE = 3.5f;
-
     private final static float SHOT_SPAWN_OFFSET = 0.7f;
     private final static float REBOUND_DURATION = 0.5f;
 
@@ -25,10 +21,6 @@ public class GlueGun extends AimingTower {
     private final Sprite mSpriteCanon;
 
     public GlueGun() {
-        mValue = VALUE;
-        mRange = RANGE;
-        mReloadTime = RELOAD_TIME;
-
         mSpriteBase = Sprite.fromResources(mGame.getResources(), R.drawable.base4, 4);
         mSpriteBase.setListener(this);
         mSpriteBase.setIndex(mGame.getRandom().nextInt(4));
@@ -80,7 +72,7 @@ public class GlueGun extends AimingTower {
 
             mAngle = getAngleTo(target);
 
-            Shot shot = new GlueShot(mPosition, target);
+            Shot shot = new GlueShot(mPosition, target, 1f / mConfig.damage);
             shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
             mGame.add(shot);
 

@@ -12,6 +12,8 @@ import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.TickTimer;
 import ch.logixisland.anuto.game.TypeIds;
 import ch.logixisland.anuto.game.data.Path;
+import ch.logixisland.anuto.game.data.Settings;
+import ch.logixisland.anuto.game.data.TowerConfig;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.Intersections;
 import ch.logixisland.anuto.util.math.MathUtils;
@@ -47,7 +49,7 @@ public abstract class Tower extends GameObject {
 
         @Override
         public void draw(Canvas canvas) {
-            canvas.drawCircle(mPosition.x, mPosition.y, mRange, mPen);
+            canvas.drawCircle(mPosition.x, mPosition.y, mConfig.range, mPen);
         }
     }
 
@@ -65,14 +67,35 @@ public abstract class Tower extends GameObject {
     ------ Members ------
      */
 
+    protected TowerConfig mConfig;
+
     protected int mValue;
-    protected float mRange;
-    protected float mReloadTime;
     protected boolean mReloaded = false;
     protected Plateau mPlateau = null;
 
     private TickTimer mReloadTimer;
     private RangeIndicator mRangeIndicator;
+
+    /*
+    ------ Constructors ------
+     */
+
+    public Tower() {
+        Settings settings = GameManager.getInstance().getLevel().getSettings();
+
+        for (TowerConfig config : settings.towers) {
+            if (config.clazz == this.getClass()) {
+                mConfig = config;
+            }
+        }
+
+        if (mConfig == null) {
+            throw new RuntimeException("No config found for this tower!");
+        }
+
+        mValue = mConfig.value;
+        mReloadTimer = TickTimer.createInterval(mConfig.reloadTime);
+    }
 
     /*
     ------ Methods ------
@@ -86,7 +109,6 @@ public abstract class Tower extends GameObject {
     @Override
     public void init() {
         super.init();
-        mReloadTimer = TickTimer.createInterval(mReloadTime);
     }
 
     @Override
@@ -136,35 +158,67 @@ public abstract class Tower extends GameObject {
         mValue = value;
     }
 
-    public float getRange() {
-        return mRange;
+    public float getDamage() {
+        return mConfig.damage;
     }
 
-    public void setRange(float range) {
-        mRange = range;
+    public float getRange() {
+        return mConfig.range;
     }
 
     public float getReloadTime() {
-        return mReloadTime;
+        return mConfig.reloadTime;
     }
 
-    public void setReloadTime(float reloadTime) {
-        mReloadTime = reloadTime;
+    public boolean isUpgradeable() {
+        return mConfig.upgrade != null;
+    }
+
+    public int getUpgradeCost() {
+        if (mConfig.upgrade == null) {
+            return -1;
+        }
+
+        Settings settings = GameManager.getInstance().getLevel().getSettings();
+        return settings.getTowerConfig(mConfig.upgrade).value;
     }
 
 
     public void buy() {
         GameManager.getInstance().takeCredits(mValue);
-        setEnabled(true);
     }
 
     public void sell() {
         GameManager.getInstance().giveCredits(mValue);
-        this.remove();
     }
 
     public void devalue(float factor) {
         mValue *= factor;
+    }
+
+    public Tower upgrade() {
+        Plateau plateau = this.getPlateau();
+        Tower upgrade;
+
+        try {
+            upgrade = mConfig.upgrade.newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+
+        this.remove();
+        upgrade.setPlateau(plateau);
+        upgrade.setEnabled(true);
+
+        GameManager.getInstance().takeCredits(upgrade.mValue);
+        upgrade.mValue += this.mValue;
+
+        mGame.add(upgrade);
+        return upgrade;
     }
 
     public void showRange() {
@@ -184,14 +238,14 @@ public abstract class Tower extends GameObject {
 
     public StreamIterator<Enemy> getPossibleTargets() {
         return mGame.get(Enemy.TYPE_ID)
-                .filter(GameObject.inRange(mPosition, mRange))
+                .filter(GameObject.inRange(mPosition, mConfig.range))
                 .cast(Enemy.class);
     }
 
     public List<PathSection> getPathSections() {
         List<PathSection> ret = new ArrayList<>();
 
-        float r2 = MathUtils.square(mRange);
+        float r2 = MathUtils.square(mConfig.range);
 
         for (Path p : GameManager.getInstance().getLevel().getPaths()) {
             for (int i = 1; i < p.count(); i++) {
@@ -201,7 +255,7 @@ public abstract class Tower extends GameObject {
                 boolean p1in = p1.len2() <= r2;
                 boolean p2in = p2.len2() <= r2;
 
-                Vector2[] is = Intersections.lineCircle(p1, p2, mRange);
+                Vector2[] is = Intersections.lineCircle(p1, p2, mConfig.range);
 
                 PathSection s = new PathSection();
 

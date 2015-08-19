@@ -17,7 +17,6 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class Laser extends Effect {
 
-    private final static float DAMAGE = 300f;
     private final static float MAX_BOUNCE_DISTANCE = 2f;
 
     private final static float LASER_DRAW_WIDTH = 0.1f;
@@ -58,6 +57,7 @@ public class Laser extends Effect {
         }
     }
 
+    private float mDamage;
     private int mBounce;
     private Enemy mOrigin;
     private Enemy mTarget;
@@ -66,20 +66,21 @@ public class Laser extends Effect {
 
     private final LaserDrawObject mDrawObject;
 
-    public Laser(Vector2 origin, Enemy target, int bounce) {
+    public Laser(Vector2 origin, Enemy target, float damage, int bounce) {
         setPosition(origin);
+
+        mDrawObject = new LaserDrawObject();
 
         mTarget = target;
         mTargetPos = target.getPosition();
 
         mDuration = LASER_VISIBLE_TIME;
+        mDamage = damage;
         mBounce = bounce;
-
-        mDrawObject = new LaserDrawObject();
     }
 
-    private Laser(Enemy origin, Enemy target, int bounce, Collection<Enemy> prevTargets) {
-        this(origin.getPosition(), target, bounce);
+    private Laser(Enemy origin, Enemy target, float damage, int bounce, Collection<Enemy> prevTargets) {
+        this(origin.getPosition(), target, damage, bounce);
 
         mOrigin = origin;
 
@@ -127,11 +128,11 @@ public class Laser extends Effect {
                     .min(GameObject.distanceTo(mTarget.getPosition()));
 
             if (enemy != null && mTarget.getDistanceTo(enemy) <= MAX_BOUNCE_DISTANCE) {
-                mGame.add(new Laser(mTarget, enemy, mBounce - 1, mPrevTargets));
+                mGame.add(new Laser(mTarget, enemy, mDamage, mBounce - 1, mPrevTargets));
             }
         }
 
-        mTarget.damage(DAMAGE);
+        mTarget.damage(mDamage);
     }
 
     @Override

@@ -3,6 +3,7 @@ package ch.logixisland.anuto;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,10 +16,15 @@ import ch.logixisland.anuto.game.objects.Tower;
 
 public class TowerInfoFragment extends Fragment implements
         View.OnTouchListener, View.OnClickListener,
-        GameManager.OnShowTowerInfoListener, GameManager.OnHideTowerInfoListener {
+        GameManager.OnShowTowerInfoListener, GameManager.OnHideTowerInfoListener,
+        GameManager.OnCreditsChangedListener {
 
+    private Handler mHandler;
     private GameManager mManager;
+
     private Tower mTower;
+    private boolean mUpgradeable;
+    private int mUpgradeCost;
 
     private TextView txt_value;
     private TextView txt_reload;
@@ -26,6 +32,7 @@ public class TowerInfoFragment extends Fragment implements
     private TextView txt_range;
 
     private Button btn_upgrade;
+    private Button btn_enhance;
     private Button btn_sell;
 
     private TowerView view_tower;
@@ -40,15 +47,18 @@ public class TowerInfoFragment extends Fragment implements
         txt_range = (TextView)v.findViewById(R.id.txt_range);
 
         btn_upgrade = (Button)v.findViewById(R.id.btn_upgrade);
+        btn_enhance = (Button)v.findViewById(R.id.btn_enhance);
         btn_sell = (Button)v.findViewById(R.id.btn_sell);
 
         view_tower = (TowerView)v.findViewById(R.id.view_tower);
 
         btn_upgrade.setOnClickListener(this);
         btn_sell.setOnClickListener(this);
+        btn_enhance.setOnClickListener(this);
 
-        btn_upgrade.setEnabled(false);
         view_tower.setEnabled(false);
+
+        mHandler = new Handler();
 
         return v;
     }
@@ -79,6 +89,8 @@ public class TowerInfoFragment extends Fragment implements
     public void onDetach() {
         super.onDetach();
 
+        view_tower.close();
+
         mManager.removeListener(this);
     }
 
@@ -90,11 +102,13 @@ public class TowerInfoFragment extends Fragment implements
     @Override
     public void onClick(View v) {
         if (v == btn_upgrade) {
-            // TODO
+            mTower = mTower.upgrade();
+            mManager.showTowerInfo(mTower);
         }
 
         if (v == btn_sell) {
             mTower.sell();
+            mTower.remove();
             mManager.hideTowerInfo();
         }
     }
@@ -102,16 +116,23 @@ public class TowerInfoFragment extends Fragment implements
     @Override
     public void onShowTowerInfo(Tower tower) {
         mTower = tower;
-        view_tower.setTowerClass(mTower.getClass());
+        mUpgradeable = tower.isUpgradeable();
+        mUpgradeCost = tower.getUpgradeCost();
 
-        txt_value.post(new Runnable() {
+        mHandler.post(new Runnable() {
             @Override
             public void run() {
+                txt_damage.setText(String.valueOf(mTower.getDamage()));
                 txt_value.setText(String.valueOf(mTower.getValue()));
                 txt_range.setText(String.valueOf(mTower.getRange()));
                 txt_reload.setText(String.valueOf(mTower.getReloadTime()));
+
+                btn_upgrade.setText(getResources().getText(R.string.upgrade) + " (" + mUpgradeCost + ")");
             }
         });
+
+        view_tower.setTowerClass(mTower.getClass());
+        onCreditsChanged(mManager.getCredits());
 
         show();
     }
@@ -119,5 +140,15 @@ public class TowerInfoFragment extends Fragment implements
     @Override
     public void onHideTowerInfo() {
         hide();
+    }
+
+    @Override
+    public void onCreditsChanged(final int credits) {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                btn_upgrade.setEnabled(mUpgradeable && credits >= mUpgradeCost);
+            }
+        });
     }
 }

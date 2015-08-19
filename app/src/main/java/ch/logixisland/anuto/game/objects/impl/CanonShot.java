@@ -12,16 +12,15 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class CanonShot extends HomingShot {
 
-    private final static float DAMAGE = 60f;
     private final static float MOVEMENT_SPEED = 4.0f;
-
     private final static float ROTATION_STEP = 360f / GameEngine.TARGET_FRAME_RATE;
 
-    private float mAngle = 0f;
+    private float mAngle;
+    private float mDamage;
 
     private final Sprite mSprite;
 
-    public CanonShot(Vector2 position, Enemy target) {
+    public CanonShot(Vector2 position, Enemy target, float damage) {
         setPosition(position);
         setTarget(target);
 
@@ -32,6 +31,7 @@ public class CanonShot extends HomingShot {
         mSprite.setLayer(Layers.SHOT);
 
         mSpeed = MOVEMENT_SPEED;
+        mDamage = damage;
     }
 
     @Override
@@ -70,7 +70,7 @@ public class CanonShot extends HomingShot {
 
     @Override
     protected void onTargetReached() {
-        mTarget.damage(DAMAGE);
+        mTarget.damage(mDamage);
         this.remove();
     }
 }

@@ -14,7 +14,6 @@ import ch.logixisland.anuto.util.math.Vector2;
 public class TeleportEffect extends Effect {
 
     private static final float EFFECT_DURATION = 1f;
-    private static final float SEND_BACK_DISTANCE = 10f;
 
     private class LaserDrawObject extends DrawObject {
         private Paint mPaint;
@@ -40,12 +39,13 @@ public class TeleportEffect extends Effect {
     }
 
     Enemy mTarget;
+    float mDistance;
     Vector2 mMoveDirection;
     float mMoveStep;
 
     LaserDrawObject mDrawObject;
 
-    public TeleportEffect(Vector2 position, Enemy target) {
+    public TeleportEffect(Vector2 position, Enemy target, float distance) {
         setPosition(position);
 
         target.setEnabled(false);
@@ -53,6 +53,7 @@ public class TeleportEffect extends Effect {
         mDrawObject = new LaserDrawObject();
 
         mTarget = target;
+        mDistance = distance;
         mDuration = EFFECT_DURATION;
 
         mMoveDirection = target.getDirectionTo(this);
@@ -87,7 +88,7 @@ public class TeleportEffect extends Effect {
 
     @Override
     protected void effectEnd() {
-        mTarget.sendBack(SEND_BACK_DISTANCE);
+        mTarget.sendBack(mDistance);
         mTarget.setEnabled(true);
     }
 }

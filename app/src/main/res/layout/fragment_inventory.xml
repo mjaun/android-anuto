@@ -1,5 +1,4 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,46 +9,26 @@
         style="@style/InventoryItem"
         class="ch.logixisland.anuto.TowerView"
         android:id="@+id/view_tower_1"
-        android:layout_centerVertical="true"
-        app:itemClass="ch.logixisland.anuto.game.objects.impl.GlueGun" />
+        android:layout_centerVertical="true" />
 
     <view
         style="@style/InventoryItem"
         class="ch.logixisland.anuto.TowerView"
         android:id="@+id/view_tower_2"
         android:layout_centerVertical="true"
-        android:layout_toEndOf="@id/view_tower_1"
-        app:itemClass="ch.logixisland.anuto.game.objects.impl.GlueTower" />
+        android:layout_toEndOf="@id/view_tower_1" />
 
     <view
         style="@style/InventoryItem"
         class="ch.logixisland.anuto.TowerView"
         android:id="@+id/view_tower_3"
         android:layout_centerVertical="true"
-        android:layout_toEndOf="@id/view_tower_2"
-        app:itemClass="ch.logixisland.anuto.game.objects.impl.TeleportTower" />
+        android:layout_toEndOf="@id/view_tower_2" />
 
     <view
         style="@style/InventoryItem"
         class="ch.logixisland.anuto.TowerView"
         android:id="@+id/view_tower_4"
         android:layout_centerVertical="true"
-        android:layout_toEndOf="@id/view_tower_3"
-        app:itemClass="ch.logixisland.anuto.game.objects.impl.LaserTower1" />
-
-    <view
-        style="@style/InventoryItem"
-        class="ch.logixisland.anuto.TowerView"
-        android:id="@+id/view_tower_5"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@id/view_tower_4"
-        app:itemClass="ch.logixisland.anuto.game.objects.impl.LaserTower2" />
-
-    <view
-        style="@style/InventoryItem"
-        class="ch.logixisland.anuto.TowerView"
-        android:id="@+id/view_tower_6"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@id/view_tower_5"
-        app:itemClass="ch.logixisland.anuto.game.objects.impl.LaserTower3" />
+        android:layout_toEndOf="@id/view_tower_3" />
 </RelativeLayout>

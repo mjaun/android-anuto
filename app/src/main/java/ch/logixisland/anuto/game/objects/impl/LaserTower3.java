@@ -10,10 +10,6 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class LaserTower3 extends AimingTower {
 
-    private final static int VALUE = 200;
-    private final static float RELOAD_TIME = 2.0f;
-    private final static float RANGE = 6.5f;
-
     private final static float LASER_LENGTH = 1000f;
     private final static float LASER_SPAWN_OFFSET = 0.8f;
 
@@ -23,10 +19,6 @@ public class LaserTower3 extends AimingTower {
     private final Sprite mSpriteTower;
 
     public LaserTower3() {
-        mValue = VALUE;
-        mRange = RANGE;
-        mReloadTime = RELOAD_TIME;
-
         mAngle = 90f;
 
         mSpriteBase = Sprite.fromResources(mGame.getResources(), R.drawable.base5, 4);
@@ -75,7 +67,7 @@ public class LaserTower3 extends AimingTower {
             if (mReloaded) {
                 Vector2 laserFrom = Vector2.polar(LASER_SPAWN_OFFSET, mAngle).add(mPosition);
                 Vector2 laserTo = Vector2.polar(LASER_LENGTH, mAngle).add(mPosition);
-                mGame.add(new LaserStraight(laserFrom, laserTo));
+                mGame.add(new LaserStraight(laserFrom, laserTo, mConfig.damage));
                 mReloaded = false;
             }
         }

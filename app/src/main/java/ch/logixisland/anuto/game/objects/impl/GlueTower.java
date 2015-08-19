@@ -15,9 +15,6 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class GlueTower extends Tower {
 
-    private final static int VALUE = 200;
-    private final static float RELOAD_TIME = 4f;
-    private final static float RANGE = 1.5f;
     private final static float SHOT_SPAWN_OFFSET = 0.8f;
 
     private final static float CANON_OFFSET_MAX = 0.5f;
@@ -44,10 +41,6 @@ public class GlueTower extends Tower {
     private final Sprite mSpriteTower;
 
     public GlueTower() {
-        mValue = VALUE;
-        mRange = RANGE;
-        mReloadTime = RELOAD_TIME;
-
         mSpriteBase = Sprite.fromResources(mGame.getResources(), R.drawable.base4, 4);
         mSpriteBase.setListener(this);
         mSpriteBase.setIndex(mGame.getRandom().nextInt(4));
@@ -130,7 +123,7 @@ public class GlueTower extends Tower {
                     Vector2 position = Vector2.polar(SHOT_SPAWN_OFFSET, getAngleTo(target));
                     position.add(mPosition);
 
-                    mGame.add(new GlueShot(position, target));
+                    mGame.add(new GlueShot(position, target, 1f / mConfig.damage));
                 }
             }
         } else if (mCanonOffset > 0f) {

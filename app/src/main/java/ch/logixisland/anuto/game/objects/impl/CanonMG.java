@@ -11,9 +11,6 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class CanonMG extends AimingTower {
 
-    private final static int VALUE = 200;
-    private final static float RELOAD_TIME = 0.1f;
-    private final static float RANGE = 3.5f;
     private final static float SHOT_SPAWN_OFFSET = 0.7f;
 
     private final static float MG_ROTATION_SPEED = 2f;
@@ -23,10 +20,6 @@ public class CanonMG extends AimingTower {
     private Sprite mSpriteCanon;
 
     public CanonMG() {
-        mValue = VALUE;
-        mRange = RANGE;
-        mReloadTime = RELOAD_TIME;
-
         mAngle = 90f;
 
         mSpriteBase = Sprite.fromResources(mGame.getResources(), R.drawable.base1, 4);

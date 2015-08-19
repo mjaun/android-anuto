@@ -2,7 +2,6 @@ package ch.logixisland.anuto;
 
 import android.content.ClipData;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -26,6 +25,21 @@ public class TowerView extends View implements View.OnTouchListener {
     private final Paint mPaintText;
     private final Matrix mScreenMatrix;
 
+    private GameManager.Listener mCreditsListener = new GameManager.OnCreditsChangedListener() {
+        @Override
+        public void onCreditsChanged(int credits) {
+            if (mTower != null) {
+                if (credits >= mTower.getValue()) {
+                    mPaintText.setColor(Color.BLACK);
+                } else {
+                    mPaintText.setColor(Color.RED);
+                }
+
+                TowerView.this.postInvalidate();
+            }
+        }
+    };
+
     public TowerView(Context context, AttributeSet attrs) throws ClassNotFoundException{
         super(context, attrs);
 
@@ -37,36 +51,12 @@ public class TowerView extends View implements View.OnTouchListener {
 
         mScreenMatrix = new Matrix();
 
-        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.TowerView);
-
         if (!isInEditMode()) {
-            String className = a.getString(R.styleable.TowerView_itemClass);
-            if (className != null) {
-                mTowerClass = (Class<? extends Tower>) Class.forName(className);
-                newTower();
-            }
-
             mManager = GameManager.getInstance();
-            // TODO: how to remove this thing?
-            mManager.addListener(new GameManager.OnCreditsChangedListener() {
-                @Override
-                public void onCreditsChanged(int credits) {
-                    if (mTower != null) {
-                        if (credits >= mTower.getValue()) {
-                            mPaintText.setColor(Color.BLACK);
-                        } else {
-                            mPaintText.setColor(Color.RED);
-                        }
-
-                        TowerView.this.postInvalidate();
-                    }
-                }
-            });
+            mManager.addListener(mCreditsListener);
         }
 
         setOnTouchListener(this);
-
-        a.recycle();
     }
 
     @Override
@@ -92,9 +82,6 @@ public class TowerView extends View implements View.OnTouchListener {
         super.onDraw(canvas);
 
         if (mTower != null) {
-            Paint p = new Paint();
-            p.setColor(Color.GRAY);
-
             canvas.save();
             canvas.concat(mScreenMatrix);
             mTower.drawPreview(canvas);
@@ -106,10 +93,6 @@ public class TowerView extends View implements View.OnTouchListener {
                         getHeight() / 2 - (mPaintText.ascent() + mPaintText.descent()) / 2,
                         mPaintText);
             }
-        } else {
-            Paint p = new Paint();
-            p.setColor(Color.GRAY);
-            canvas.drawRect(0, 0, getWidth(), getHeight(), p);
         }
     }
 
@@ -136,6 +119,7 @@ public class TowerView extends View implements View.OnTouchListener {
         return false;
     }
 
+
     public Class<? extends Tower> getTowerClass() {
         return mTowerClass;
     }
@@ -144,6 +128,17 @@ public class TowerView extends View implements View.OnTouchListener {
         mTowerClass = clazz;
         newTower();
     }
+
+    public void setTowerClass(String className) throws ClassNotFoundException {
+        mTowerClass = (Class<? extends Tower>) Class.forName(className);
+        newTower();
+    }
+
+
+    public void close() {
+        mManager.removeListener(mCreditsListener);
+    }
+
 
     private void newTower() {
         try {

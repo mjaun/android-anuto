@@ -6,27 +6,43 @@
     tools:context="ch.logixisland.anuto.TowerInfoFragment"
     android:background="#ffffffff">
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="80dp"
+    <TableLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/sell"
-        android:id="@+id/btn_sell"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_centerHorizontal="true">
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:text="@string/upgrade"
-        android:id="@+id/btn_upgrade"
-        android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@+id/btn_sell" />
+        <TableRow>
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/upgrade"
+                android:id="@+id/btn_upgrade" />
+        </TableRow>
+
+        <TableRow>
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/enhance"
+                android:id="@+id/btn_enhance" />
+        </TableRow>
+
+        <TableRow>
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:text="@string/sell"
+                android:id="@+id/btn_sell" />
+        </TableRow>
+    </TableLayout>
 
     <TableLayout
         android:layout_width="200dp"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/tableLayout">
 
         <TableRow

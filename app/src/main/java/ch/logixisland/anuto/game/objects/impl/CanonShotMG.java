@@ -17,6 +17,7 @@ public class CanonShotMG extends Shot {
     private final static float MOVEMENT_SPEED = 8.0f;
 
     private float mAngle;
+    private float mDamage;
 
     private final Sprite mSprite;
 

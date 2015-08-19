@@ -12,22 +12,39 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class Rocket extends HomingShot {
 
+    private final static float EXPLOSION_RADIUS = 1.5f;
+
     private final static float MOVEMENT_SPEED = 2.5f;
     private final static float ANIMATION_SPEED = 3f;
 
-    private Sprite mSprite;
-    private Sprite mSpriteFire;
-    private float mAngle = 0f;
+    private float mDamage;
+    private float mAngle;
 
-    public Rocket() {
-        mSpeed = MOVEMENT_SPEED;
-    }
+    private final Sprite mSprite;
+    private final Sprite mSpriteFire;
 
-    public Rocket(Vector2 position) {
-        this();
-
+    public Rocket(Vector2 position, float damage) {
         setPosition(position);
+
+        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.rocket, 4);
+        mSprite.setListener(this);
+        mSprite.setIndex(mGame.getRandom(4));
+        mSprite.setMatrix(0.8f, 1f, null, -90f);
+        mSprite.setLayer(Layers.SHOT);
+
+        mSpriteFire = Sprite.fromResources(mGame.getResources(), R.drawable.rocket_fire, 4);
+        mSpriteFire.setListener(this);
+        mSpriteFire.setMatrix(0.3f, 0.3f, new Vector2(0.15f, 0.6f), -90f);
+        mSpriteFire.setLayer(Layers.SHOT_LOWER);
+
+        Sprite.Animator animator = new Sprite.Animator();
+        animator.setSequence(mSpriteFire.sequenceForward());
+        animator.setFrequency(ANIMATION_SPEED);
+        mSpriteFire.setAnimator(animator);
+
         mEnabled = false;
+        mSpeed = MOVEMENT_SPEED;
+        mDamage = damage;
     }
 
     public void setAngle(float angle) {
@@ -38,26 +55,11 @@ public class Rocket extends HomingShot {
     public void init() {
         super.init();
 
-        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.rocket, 4);
-        mSprite.setListener(this);
-        mSprite.setIndex(mGame.getRandom(4));
-        mSprite.setMatrix(0.8f, 1f, null, -90f);
-        mSprite.setLayer(Layers.SHOT);
         mGame.add(mSprite);
-
-        mSpriteFire = Sprite.fromResources(mGame.getResources(), R.drawable.rocket_fire, 4);
-        mSpriteFire.setListener(this);
-        mSpriteFire.setMatrix(0.3f, 0.3f, new Vector2(0.15f, 0.6f), -90f);
-        mSpriteFire.setLayer(Layers.SHOT_LOWER);
 
         if (mEnabled) {
             mGame.add(mSpriteFire);
         }
-
-        Sprite.Animator animator = new Sprite.Animator();
-        animator.setSequence(mSpriteFire.sequenceForward());
-        animator.setFrequency(ANIMATION_SPEED);
-        mSpriteFire.setAnimator(animator);
     }
 
     @Override
@@ -117,7 +119,7 @@ public class Rocket extends HomingShot {
 
     @Override
     protected void onTargetReached() {
-        mGame.add(new Explosion(mTarget.getPosition()));
+        mGame.add(new Explosion(mTarget.getPosition(), mDamage, EXPLOSION_RADIUS));
         mGame.remove(this);
     }
 }

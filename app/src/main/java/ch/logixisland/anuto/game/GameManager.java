@@ -4,8 +4,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.game.data.GameSettings;
 import ch.logixisland.anuto.game.data.Level;
+import ch.logixisland.anuto.game.data.Settings;
 import ch.logixisland.anuto.game.data.Wave;
 import ch.logixisland.anuto.game.objects.Enemy;
 import ch.logixisland.anuto.game.objects.Plateau;
@@ -139,7 +139,7 @@ public class GameManager implements Wave.Listener {
             mGame.add(p);
         }
 
-        GameSettings settings = mLevel.getSettings();
+        Settings settings = mLevel.getSettings();
         mGame.setGameSize(settings.width, settings.height);
 
         onGameStarted();
@@ -293,7 +293,7 @@ public class GameManager implements Wave.Listener {
 
 
     private void onGameStarted() {
-        GameSettings settings = mLevel.getSettings();
+        Settings settings = mLevel.getSettings();
         setCredits(settings.credits);
         setLives(settings.lives);
 

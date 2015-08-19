@@ -15,9 +15,6 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class Explosion extends Effect {
 
-    private final static float EXPLOSION_RADIUS = 1.1f;
-    private final static float DAMAGE = 400f;
-
     private final static float EXPLOSION_VISIBLE_TIME = 0.2f;
 
     private final static int ALPHA_START = 180;
@@ -50,17 +47,22 @@ public class Explosion extends Effect {
 
         @Override
         public void draw(Canvas canvas) {
-            canvas.drawCircle(mPosition.x, mPosition.y, EXPLOSION_RADIUS, mPaint);
+            canvas.drawCircle(mPosition.x, mPosition.y, mRadius, mPaint);
         }
     }
 
+    private float mDamage;
+    private float mRadius;
+
     private ExplosionDrawObject mDrawObject;
 
-    public Explosion(Vector2 position) {
-        mPosition.set(position);
-        mDuration = EXPLOSION_VISIBLE_TIME;
+    public Explosion(Vector2 position, float damage, float radius) {
+        setPosition(position);
 
         mDrawObject = new ExplosionDrawObject();
+
+        mDamage = damage;
+        mRadius = radius;
     }
 
     @Override
@@ -87,12 +89,12 @@ public class Explosion extends Effect {
     @Override
     protected void effectBegin() {
         StreamIterator<Enemy> enemies = mGame.get(Enemy.TYPE_ID)
-                .filter(GameObject.inRange(mPosition, EXPLOSION_RADIUS))
+                .filter(GameObject.inRange(mPosition, mRadius))
                 .cast(Enemy.class);
 
         while (enemies.hasNext()) {
             Enemy enemy = enemies.next();
-            enemy.damage(DAMAGE);
+            enemy.damage(mDamage);
         }
     }
 

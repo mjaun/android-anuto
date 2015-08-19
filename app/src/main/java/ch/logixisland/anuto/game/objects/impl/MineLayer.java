@@ -14,9 +14,6 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class MineLayer extends Tower {
 
-    private final static int VALUE = 200;
-    private final static float RELOAD_TIME = 1.5f;
-    private final static float RANGE = 3.5f;
     private final static int MAX_MINE_COUNT = 3;
 
     private final static float ANIMATION_DURATION = 0.5f;
@@ -43,10 +40,6 @@ public class MineLayer extends Tower {
     };
 
     public MineLayer() {
-        mValue = VALUE;
-        mRange = RANGE;
-        mReloadTime = RELOAD_TIME;
-
         mAngle = 90f;
 
         mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.minelayer, 6);
@@ -111,7 +104,7 @@ public class MineLayer extends Tower {
             mSprite.animate();
 
             if (mAnimator.getPosition() == 5) {
-                Mine m = new Mine(mPosition, getTarget());
+                Mine m = new Mine(mPosition, getTarget(), mConfig.damage);
                 m.addListener(mMineListener);
                 mMines.add(m);
                 mGame.add(m);
