@@ -1,6 +1,7 @@
 package ch.logixisland.anuto.util.iterator;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -122,6 +123,24 @@ public abstract class StreamIterator<T> implements Iterator<T> {
 
     public <F> StreamIterator<F> transform(Function<? super T, ? extends F> transformation) {
         return new TransformingIterator<>(this, transformation);
+    }
+
+    public StreamIterator<T> exclude(final T obj) {
+        return new FilteringIterator<>(this, new Predicate<T>() {
+            @Override
+            public boolean apply(T value) {
+                return !value.equals(obj);
+            }
+        });
+    }
+
+    public StreamIterator<T> exclude(final Collection<? extends T> coll) {
+        return new FilteringIterator<>(this, new Predicate<T>() {
+            @Override
+            public boolean apply(T value) {
+                return !coll.contains(value);
+            }
+        });
     }
 
     public <F> StreamIterator<F> cast(final Class<F> castTo) {

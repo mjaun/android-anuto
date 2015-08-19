@@ -4,19 +4,21 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.DrawObject;
 import ch.logixisland.anuto.game.objects.Effect;
 import ch.logixisland.anuto.game.objects.Enemy;
 import ch.logixisland.anuto.game.objects.GameObject;
-import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class Laser3 extends Effect {
+public class Laser extends Effect {
 
-    private final static float LASER_WIDTH = 1.0f;
     private final static float DAMAGE = 300f;
+    private final static float MAX_BOUNCE_DISTANCE = 2f;
 
     private final static float LASER_DRAW_WIDTH = 0.1f;
     private final static float LASER_VISIBLE_TIME = 0.5f;
@@ -52,21 +54,37 @@ public class Laser3 extends Effect {
 
         @Override
         public void draw(Canvas canvas) {
-            canvas.drawLine(mPosition.x, mPosition.y, mLaserTo.x, mLaserTo.y, mPaint);
+            canvas.drawLine(mPosition.x, mPosition.y, mTargetPos.x, mTargetPos.y, mPaint);
         }
     }
 
-    private final Vector2 mLaserTo = new Vector2();
+    private int mBounce;
+    private Enemy mOrigin;
+    private Enemy mTarget;
+    private Vector2 mTargetPos;
+    private Collection<Enemy> mPrevTargets;
 
-    private LaserDrawObject mDrawObject;
+    private final LaserDrawObject mDrawObject;
 
-    public Laser3(Vector2 position, Vector2 laserTo) {
-        mPosition.set(position);
-        mLaserTo.set(laserTo);
+    public Laser(Vector2 origin, Enemy target, int bounce) {
+        setPosition(origin);
 
-        mDrawObject = new LaserDrawObject();
+        mTarget = target;
+        mTargetPos = target.getPosition();
 
         mDuration = LASER_VISIBLE_TIME;
+        mBounce = bounce;
+
+        mDrawObject = new LaserDrawObject();
+    }
+
+    private Laser(Enemy origin, Enemy target, int bounce, Collection<Enemy> prevTargets) {
+        this(origin.getPosition(), target, bounce);
+
+        mOrigin = origin;
+
+        mPrevTargets = prevTargets;
+        mPrevTargets.add(target);
     }
 
     @Override
@@ -88,18 +106,32 @@ public class Laser3 extends Effect {
         super.tick();
 
         mDrawObject.decreaseVisibility();
+
+        if (mOrigin != null) {
+            setPosition(mOrigin.getPosition());
+        }
+
+        mTargetPos = mTarget.getPosition();
     }
 
     @Override
     protected void effectBegin() {
-        StreamIterator<Enemy> enemies = mGame.get(Enemy.TYPE_ID)
-                .filter(GameObject.onLine(mPosition, mLaserTo, LASER_WIDTH))
-                .cast(Enemy.class);
+        if (mBounce > 0) {
+            if (mPrevTargets == null) {
+                mPrevTargets = new ArrayList<>();
+                mPrevTargets.add(mTarget);
+            }
 
-        while (enemies.hasNext()) {
-            Enemy enemy = enemies.next();
-            enemy.damage(DAMAGE);
+            Enemy enemy = (Enemy)mGame.get(Enemy.TYPE_ID)
+                    .exclude(mPrevTargets)
+                    .min(GameObject.distanceTo(mTarget.getPosition()));
+
+            if (enemy != null && mTarget.getDistanceTo(enemy) <= MAX_BOUNCE_DISTANCE) {
+                mGame.add(new Laser(mTarget, enemy, mBounce - 1, mPrevTargets));
+            }
         }
+
+        mTarget.damage(DAMAGE);
     }
 
     @Override

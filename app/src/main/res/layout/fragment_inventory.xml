@@ -35,7 +35,7 @@
         android:id="@+id/view_tower_4"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@id/view_tower_3"
-        app:itemClass="ch.logixisland.anuto.game.objects.impl.Mortar" />
+        app:itemClass="ch.logixisland.anuto.game.objects.impl.LaserTower1" />
 
     <view
         style="@style/InventoryItem"
@@ -43,7 +43,7 @@
         android:id="@+id/view_tower_5"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@id/view_tower_4"
-        app:itemClass="ch.logixisland.anuto.game.objects.impl.RocketLauncher" />
+        app:itemClass="ch.logixisland.anuto.game.objects.impl.LaserTower2" />
 
     <view
         style="@style/InventoryItem"
@@ -51,5 +51,5 @@
         android:id="@+id/view_tower_6"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@id/view_tower_5"
-        app:itemClass="ch.logixisland.anuto.game.objects.impl.MineLayer" />
+        app:itemClass="ch.logixisland.anuto.game.objects.impl.LaserTower3" />
 </RelativeLayout>

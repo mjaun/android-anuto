@@ -15,7 +15,7 @@ public abstract class Effect extends GameObject {
     ------ Members ------
      */
 
-    private TickTimer mTimer = new TickTimer();
+    private TickTimer mTimer;
     private boolean mEffectBegun = false;
 
     protected float mDuration = 0f;
@@ -33,7 +33,9 @@ public abstract class Effect extends GameObject {
     public void init() {
         super.init();
 
-        mTimer.setInterval(mDuration);
+        if (mDuration > 0f) {
+            mTimer = TickTimer.createInterval(mDuration);
+        }
     }
 
     @Override
