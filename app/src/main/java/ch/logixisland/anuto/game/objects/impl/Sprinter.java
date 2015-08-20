@@ -60,7 +60,7 @@ public class Sprinter extends Enemy {
         if (hasWayPoint()) {
             mAngle = getDirectionTo(getWayPoint()).angle();
             mSprite.animate();
-            mSpeed = Math.abs(sAnimator.count() - sAnimator.getPosition() * 2) * mConfig.speed / sAnimator.count();
+            //mSpeed = Math.abs(sAnimator.count() - sAnimator.getPosition() * 2) * mConfig.speed / sAnimator.count();
         }
     }
 }

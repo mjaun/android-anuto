@@ -4,14 +4,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import org.simpleframework.xml.Attribute;
-
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.GameManager;
 import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.TypeIds;
 import ch.logixisland.anuto.game.data.EnemyConfig;
-import ch.logixisland.anuto.game.data.Level;
 import ch.logixisland.anuto.game.data.Path;
 import ch.logixisland.anuto.util.iterator.Function;
 import ch.logixisland.anuto.util.math.Vector2;
@@ -88,20 +85,14 @@ public abstract class Enemy extends GameObject {
 
     protected EnemyConfig mConfig;
 
-    protected float mSpeed;
     protected float mHealth;
+
     protected float mHealthModifier = 1f;
     protected float mRewardModifier = 1f;
     protected float mSpeedModifier = 1f;
 
-    @Attribute(name="path", required=false)
-    private int mPathIndex;
-
-    @Attribute(name="delay", required=false)
-    private float mAddDelay;
-
-    private Path mPath = null;
-    private int mWayPointIndex;
+    protected Path mPath = null;
+    protected int mWayPointIndex;
 
     private HealthBar mHealthBar;
 
@@ -110,10 +101,7 @@ public abstract class Enemy extends GameObject {
      */
 
     public Enemy() {
-        Level level = GameManager.getInstance().getLevel();
-
-        mPath = level.getPaths().get(mPathIndex);
-        mConfig = level.getEnemyConfig(this);
+        mConfig = GameManager.getInstance().getLevel().getEnemyConfig(this);
 
         mHealthBar = new HealthBar();
     }
@@ -156,10 +144,10 @@ public abstract class Enemy extends GameObject {
                 return;
             }
 
-            float stepSize = mSpeed * mSpeedModifier / GameEngine.TARGET_FRAME_RATE;
+            float stepSize = getSpeed() / GameEngine.TARGET_FRAME_RATE;
             if (getDistanceTo(getWayPoint()) < stepSize) {
                 setPosition(getWayPoint());
-                nextWayPoint();
+                mWayPointIndex++;
             } else {
                 move(getDirectionTo(getWayPoint()), stepSize);
             }
@@ -167,20 +155,18 @@ public abstract class Enemy extends GameObject {
     }
 
 
-    protected Vector2 getWayPoint() {
-        return mPath.get(mWayPointIndex);
+    public Path getPath() {
+        return mPath;
     }
 
-    protected void nextWayPoint() {
-        mWayPointIndex++;
+    public void setPath(Path path) {
+        mPath = path;
+        mWayPointIndex = 0;
     }
 
-    protected boolean hasWayPoint() {
-        return mPath != null && mWayPointIndex < mPath.count();
-    }
 
     public float getSpeed() {
-        return mSpeed;
+        return mConfig.speed * mSpeedModifier;
     }
 
     public Vector2 getDirection() {
@@ -196,7 +182,7 @@ public abstract class Enemy extends GameObject {
             return mPosition;
         }
 
-        float distance = sec * mSpeed * mSpeedModifier;
+        float distance = sec * getSpeed();
         int index = mWayPointIndex;
         Vector2 position = mPosition.copy();
 
@@ -294,11 +280,11 @@ public abstract class Enemy extends GameObject {
     }
 
 
-    public float getAddDelay() {
-        return mAddDelay;
+    protected Vector2 getWayPoint() {
+        return mPath.get(mWayPointIndex);
     }
 
-    public void setAddDelay(float addDelay) {
-        mAddDelay = addDelay;
+    protected boolean hasWayPoint() {
+        return mPath != null && mWayPointIndex < mPath.count();
     }
 }

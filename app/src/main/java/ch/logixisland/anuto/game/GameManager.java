@@ -204,6 +204,7 @@ public class GameManager implements Wave.Listener {
     public int getEarlyBonus() {
         int bonus = 0;
 
+        /*
         for (Wave w : mActiveWaves) {
             for (Enemy e : w.getEnemiesToAdd()) {
                 bonus += e.getReward();
@@ -213,6 +214,7 @@ public class GameManager implements Wave.Listener {
                 bonus += e.getReward();
             }
         }
+        */
 
         return (int)(bonus * mLevel.getSettings().earlyFactor);
     }

@@ -2,10 +2,8 @@ package ch.logixisland.anuto.game.data;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
-import org.simpleframework.xml.core.Commit;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -32,11 +30,11 @@ public class Wave {
     ------ Members ------
      */
 
-    @ElementList(name="enemies")
-    private ArrayList<Enemy> mEnemies = new ArrayList<>();
+    @ElementList(name="enemies", entry="enemy")
+    private ArrayList<EnemyDescriptor> mEnemies = new ArrayList<>();
 
     @Element(name="waveReward", required=false)
-    private int mWaveReward = 0;
+    private int mWaveReward;
 
     @Element(name="healthMultiplier", required=false)
     private float mHealthMultiplier = 1f;
@@ -47,10 +45,10 @@ public class Wave {
     private GameEngine mGame;
     private boolean mWaveRewardGiven = false;
 
-    private Enemy mNextEnemy;
+    private EnemyDescriptor mNextEnemy;
     private TickTimer mAddTimer = new TickTimer();
 
-    private final ArrayList<Enemy> mEnemiesToAdd = new ArrayList<>();
+    private final ArrayList<EnemyDescriptor> mEnemiesToAdd = new ArrayList<>();
     private final ArrayList<Enemy> mEnemiesInGame = new ArrayList<>();
 
     private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
@@ -90,22 +88,18 @@ public class Wave {
             }
 
             if (mNextEnemy == null) {
-                Enemy e = mEnemiesToAdd.remove(0);
+                EnemyDescriptor d = mEnemiesToAdd.remove(0);
 
-                if (e.getAddDelay() < 0.1f) {
-                    e.addListener(mEnemyListener);
-                    mGame.add(e);
-                    mEnemiesInGame.add(e);
+                if (d.delay < 0.1f) {
+                    addToGame(d);
                 } else {
-                    mNextEnemy = e;
-                    mAddTimer.setInterval(mNextEnemy.getAddDelay());
+                    mNextEnemy = d;
+                    mAddTimer.setInterval(mNextEnemy.delay);
                 }
             }
 
             if (mNextEnemy != null && mAddTimer.tick()) {
-                mNextEnemy.addListener(mEnemyListener);
-                mGame.add(mNextEnemy);
-                mEnemiesInGame.add(mNextEnemy);
+                addToGame(mNextEnemy);
                 mNextEnemy = null;
             }
         }
@@ -138,16 +132,8 @@ public class Wave {
     }
 
 
-    public List<Enemy> getEnemies() {
+    public List<EnemyDescriptor> getEnemies() {
         return mEnemies;
-    }
-
-    public List<Enemy> getEnemiesToAdd() {
-        return Collections.unmodifiableList(mEnemiesToAdd);
-    }
-
-    public List<Enemy> getEnemiesInGame() {
-        return Collections.unmodifiableList(mEnemiesInGame);
     }
 
 
@@ -198,11 +184,26 @@ public class Wave {
     }
 
 
-    @Commit
-    private void onXmlCommit() {
-        for (Enemy e : mEnemies) {
-            e.modifyHealth(mHealthMultiplier);
-            e.modifyReward(mRewardMultiplier);
+    private void addToGame(EnemyDescriptor d) {
+        Enemy e;
+
+        try {
+            e = d.clazz.newInstance();
+        } catch (InstantiationException e1) {
+            e1.printStackTrace();
+            throw new RuntimeException();
+        } catch (IllegalAccessException e1) {
+            e1.printStackTrace();
+            throw new RuntimeException();
         }
+
+        e.modifyHealth(mHealthMultiplier);
+        e.modifyReward(mRewardMultiplier);
+
+        Level level = GameManager.getInstance().getLevel();
+        e.setPath(level.getPaths().get(d.pathIndex));
+        e.addListener(mEnemyListener);
+        mGame.add(e);
+        mEnemiesInGame.add(e);
     }
 }
