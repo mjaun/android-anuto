@@ -14,7 +14,8 @@ import ch.logixisland.anuto.util.math.Vector2;
 public class HealEffect extends AreaEffect {
 
     private static final float EFFECT_DURATION = 1f;
-    private static final float EFFECT_RANGE = 0.7f;
+    private static final float EFFECT_RANGE_MIN = 0.1f;
+    private static final float EFFECT_RANGE_MAX = 0.7f;
 
     private class HealDrawObject extends DrawObject {
         private Paint mPaint;
@@ -40,13 +41,13 @@ public class HealEffect extends AreaEffect {
 
     private float mHealAmount;
 
-    private final DrawObject mDrawObject;
+    private DrawObject mDrawObject;
 
     public HealEffect(Vector2 position, float amount) {
         setPosition(position);
         mHealAmount = amount;
         mDuration = EFFECT_DURATION;
-        mRange = 0f;
+        mRange = EFFECT_RANGE_MIN;
 
         mDrawObject = new HealDrawObject();
     }
@@ -62,7 +63,7 @@ public class HealEffect extends AreaEffect {
     public void tick() {
         super.tick();
 
-        mRange += EFFECT_RANGE / (GameEngine.TARGET_FRAME_RATE * EFFECT_DURATION);
+        mRange += (EFFECT_RANGE_MAX - EFFECT_RANGE_MIN) / (GameEngine.TARGET_FRAME_RATE * EFFECT_DURATION);
     }
 
     @Override

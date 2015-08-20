@@ -6,6 +6,7 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.AimingTower;
+import ch.logixisland.anuto.game.objects.DrawObject;
 import ch.logixisland.anuto.game.objects.Shot;
 import ch.logixisland.anuto.game.objects.Sprite;
 import ch.logixisland.anuto.util.math.Function;
@@ -19,33 +20,47 @@ public class Canon extends AimingTower {
     private final static float REBOUND_RANGE = 0.25f;
     private final static float REBOUND_DURATION = 0.2f;
 
-    private float mAngle;
+    private class StaticData extends GameEngine.StaticData {
+        public Sprite spriteBase;
+        public Sprite spriteCanon;
+    }
+
+    private float mAngle = 90f;
     private boolean mReboundActive;
 
-    private final SampledFunction mReboundFunction;
+    private SampledFunction mReboundFunction;
 
-    private final Sprite mSpriteBase;
-    private final Sprite mSpriteCanon;
+    private Sprite.FixedInstance mSpriteBase;
+    private Sprite.FixedInstance mSpriteCanon;
 
     public Canon() {
-        mSpriteBase = Sprite.fromResources(getGame().getResources(), R.drawable.base1, 4);
-        mSpriteBase.setListener(this);
-        mSpriteBase.setIndex(getGame().getRandom().nextInt(4));
-        mSpriteBase.setMatrix(1f, 1f, null, null);
-        mSpriteBase.setLayer(Layers.TOWER_BASE);
-
-        mSpriteCanon = Sprite.fromResources(getGame().getResources(), R.drawable.canon, 4);
-        mSpriteCanon.setListener(this);
-        mSpriteCanon.setIndex(getGame().getRandom().nextInt(4));
-        mSpriteCanon.setMatrix(0.3f, 1.0f, new Vector2(0.15f, 0.4f), -90f);
-        mSpriteCanon.setLayer(Layers.TOWER);
+        StaticData s = (StaticData)getStaticData();
 
         mReboundFunction = Function.sine()
                 .multiply(REBOUND_RANGE)
                 .stretch(GameEngine.TARGET_FRAME_RATE * REBOUND_DURATION / (float)Math.PI)
                 .sample();
 
-        mAngle = 90f;
+        mSpriteBase = s.spriteBase.yieldStatic(Layers.TOWER_BASE);
+        mSpriteBase.setListener(this);
+        mSpriteBase.setIndex(getGame().getRandom(4));
+
+        mSpriteCanon = s.spriteCanon.yieldStatic(Layers.TOWER);
+        mSpriteCanon.setListener(this);
+        mSpriteCanon.setIndex(getGame().getRandom(4));
+    }
+
+    @Override
+    public GameEngine.StaticData initStatic() {
+        StaticData s = new StaticData();
+
+        s.spriteBase = Sprite.fromResources(R.drawable.base1, 4);
+        s.spriteBase.setMatrix(1f, 1f, null, null);
+
+        s.spriteCanon = Sprite.fromResources(R.drawable.canon, 4);
+        s.spriteCanon.setMatrix(0.3f, 1.0f, new Vector2(0.15f, 0.4f), -90f);
+
+        return s;
     }
 
     @Override
@@ -65,7 +80,7 @@ public class Canon extends AimingTower {
     }
 
     @Override
-    public void onDraw(Sprite sprite, Canvas canvas) {
+    public void onDraw(DrawObject sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
 
         canvas.rotate(mAngle);
@@ -102,7 +117,7 @@ public class Canon extends AimingTower {
     }
 
     @Override
-    public void drawPreview(Canvas canvas) {
+    public void preview(Canvas canvas) {
         mSpriteBase.draw(canvas);
         mSpriteCanon.draw(canvas);
     }

@@ -58,10 +58,10 @@ public class Explosion extends Effect {
     public Explosion(Vector2 position, float damage, float radius) {
         setPosition(position);
 
-        mDrawObject = new ExplosionDrawObject();
-
         mDamage = damage;
         mRadius = radius;
+
+        mDrawObject = new ExplosionDrawObject();
     }
 
     @Override

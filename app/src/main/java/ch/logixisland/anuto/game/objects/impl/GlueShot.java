@@ -12,28 +12,39 @@ public class GlueShot extends Shot {
     private final static float MOVEMENT_SPEED = 4.0f;
     private final static float ANIMATION_SPEED = 1.0f;
 
+    private class StaticData extends GameEngine.StaticData {
+        public Sprite sprite;
+    }
+
     private float mSpeedModifier;
     private Vector2 mTarget;
 
-    private final Sprite mSprite;
+    private Sprite.AnimatedInstance mSprite;
 
     public GlueShot(Vector2 position, Vector2 target, float speedModifier) {
         setPosition(position);
         mTarget = new Vector2(target);
 
-        mSprite = Sprite.fromResources(getGame().getResources(), R.drawable.glue_shot, 6);
-        mSprite.setListener(this);
-        mSprite.setMatrix(0.33f, 0.33f, null, null);
-        mSprite.setLayer(Layers.SHOT);
-
-        Sprite.Animator animator = new Sprite.Animator();
-        animator.setSequence(mSprite.sequenceForward());
-        animator.setFrequency(ANIMATION_SPEED);
-        mSprite.setAnimator(animator);
-
         mSpeed = MOVEMENT_SPEED;
         mDirection = getDirectionTo(target);
         mSpeedModifier = speedModifier;
+
+        StaticData s = (StaticData)getStaticData();
+
+        mSprite = s.sprite.yieldAnimated(Layers.SHOT);
+        mSprite.setListener(this);
+        mSprite.setSequence(mSprite.sequenceForward());
+        mSprite.setFrequency(ANIMATION_SPEED);
+    }
+
+    @Override
+    public GameEngine.StaticData initStatic() {
+        StaticData s = new StaticData();
+
+        s.sprite = Sprite.fromResources(R.drawable.glue_shot, 6);
+        s.sprite.setMatrix(0.33f, 0.33f, null, null);
+
+        return s;
     }
 
     @Override
@@ -54,7 +65,7 @@ public class GlueShot extends Shot {
     public void tick() {
         super.tick();
 
-        mSprite.animate();
+        mSprite.tick();
 
         if (getDistanceTo(mTarget) < mSpeed / GameEngine.TARGET_FRAME_RATE) {
             getGame().add(new GlueEffect(mTarget, mSpeedModifier));

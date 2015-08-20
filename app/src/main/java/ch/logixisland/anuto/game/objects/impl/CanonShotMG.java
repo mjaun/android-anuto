@@ -3,35 +3,50 @@ package ch.logixisland.anuto.game.objects.impl;
 import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.Layers;
+import ch.logixisland.anuto.game.objects.DrawObject;
 import ch.logixisland.anuto.game.objects.Enemy;
 import ch.logixisland.anuto.game.objects.Shot;
 import ch.logixisland.anuto.game.objects.Sprite;
-import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.Vector2;
 
 public class CanonShotMG extends Shot {
 
-    private final static float DAMAGE = 60f;
     private final static float MOVEMENT_SPEED = 8.0f;
+
+    private class StaticData extends GameEngine.StaticData {
+        public Sprite sprite;
+    }
 
     private float mAngle;
     private float mDamage;
 
-    private final Sprite mSprite;
+    private Sprite.FixedInstance mSprite;
 
-    public CanonShotMG(Vector2 position, Vector2 direction) {
+    public CanonShotMG(Vector2 position, Vector2 direction, float damage) {
         setPosition(position);
 
         mSpeed = MOVEMENT_SPEED;
         mDirection = direction;
         mAngle = mDirection.angle();
+        mDamage = damage;
 
-        mSprite = Sprite.fromResources(getGame().getResources(), R.drawable.canon_mg_shot, 4);
+        StaticData s = (StaticData)getStaticData();
+
+        mSprite = s.sprite.yieldStatic(Layers.SHOT);
         mSprite.setListener(this);
         mSprite.setIndex(getGame().getRandom().nextInt(4));
-        mSprite.setMatrix(0.2f, null, null, -90f);
-        mSprite.setLayer(Layers.SHOT);
+    }
+
+    @Override
+    public GameEngine.StaticData initStatic() {
+        StaticData s = new StaticData();
+
+        s.sprite = Sprite.fromResources(R.drawable.canon_mg_shot, 4);
+        s.sprite.setMatrix(0.2f, null, null, -90f);
+
+        return s;
     }
 
     @Override
@@ -49,7 +64,7 @@ public class CanonShotMG extends Shot {
     }
 
     @Override
-    public void onDraw(Sprite sprite, Canvas canvas) {
+    public void onDraw(DrawObject sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
 
         canvas.rotate(mAngle);
@@ -59,15 +74,12 @@ public class CanonShotMG extends Shot {
     public void tick() {
         super.tick();
 
-        StreamIterator<Enemy> encountered = getGame().get(Enemy.TYPE_ID)
+        Enemy enemy = (Enemy)getGame().get(Enemy.TYPE_ID)
                 .filter(inRange(getPosition(), 0.5f))
-                .cast(Enemy.class);
+                .first();
 
-        if (encountered.hasNext()) {
-            Enemy enemy = encountered.next();
-            encountered.close();
-
-            enemy.damage(DAMAGE);
+        if (enemy != null) {
+            enemy.damage(mDamage);
             this.remove();
         }
 

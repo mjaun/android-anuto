@@ -84,7 +84,7 @@ public class TowerView extends View implements View.OnTouchListener {
         if (mTower != null) {
             canvas.save();
             canvas.concat(mScreenMatrix);
-            mTower.drawPreview(canvas);
+            mTower.preview(canvas);
             canvas.restore();
 
             if (isEnabled()) {

@@ -103,7 +103,7 @@
         <tower>
             <clazz>TeleportTower</clazz>
             <value>200</value>
-            <damage>2</damage>
+            <damage>10</damage>
             <range>3.5</range>
             <reload>3.0</reload>
         </tower>

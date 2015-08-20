@@ -115,8 +115,7 @@ public abstract class Tower extends GameObject {
     }
 
 
-    public void drawPreview(Canvas canvas) {
-    }
+    public abstract void preview(Canvas canvas);
 
 
     public Plateau getPlateau() {
@@ -142,7 +141,7 @@ public abstract class Tower extends GameObject {
     }
 
     public void setReloaded(boolean reloaded) {
-        reloaded = reloaded;
+        mReloaded = reloaded;
     }
 
     public int getValue() {

@@ -3,8 +3,10 @@ package ch.logixisland.anuto.game.objects.impl;
 import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.AimingTower;
+import ch.logixisland.anuto.game.objects.DrawObject;
 import ch.logixisland.anuto.game.objects.Shot;
 import ch.logixisland.anuto.game.objects.Sprite;
 import ch.logixisland.anuto.util.math.Vector2;
@@ -15,28 +17,39 @@ public class CanonMG extends AimingTower {
 
     private final static float MG_ROTATION_SPEED = 2f;
 
-    private float mAngle;
-    private Sprite mSpriteBase;
-    private Sprite mSpriteCanon;
+    private class StaticData extends GameEngine.StaticData {
+        public Sprite spriteBase;
+        public Sprite spriteCanon;
+    }
+
+    private float mAngle = 90f;
+    private Sprite.FixedInstance mSpriteBase;
+    private Sprite.AnimatedInstance mSpriteCanon;
 
     public CanonMG() {
-        mAngle = 90f;
+        StaticData s = (StaticData)getStaticData();
 
-        mSpriteBase = Sprite.fromResources(getGame().getResources(), R.drawable.base1, 4);
+        mSpriteBase = s.spriteBase.yieldStatic(Layers.TOWER_BASE);
         mSpriteBase.setListener(this);
         mSpriteBase.setIndex(getGame().getRandom().nextInt(4));
-        mSpriteBase.setMatrix(1f, 1f, null, null);
-        mSpriteBase.setLayer(Layers.TOWER_BASE);
 
-        mSpriteCanon = Sprite.fromResources(getGame().getResources(), R.drawable.canon_mg, 5);
+        mSpriteCanon = s.spriteCanon.yieldAnimated(Layers.TOWER);
         mSpriteCanon.setListener(this);
-        mSpriteCanon.setMatrix(0.8f, 1.0f, new Vector2(0.4f, 0.4f), -90f);
-        mSpriteCanon.setLayer(Layers.TOWER);
+        mSpriteCanon.setSequence(mSpriteCanon.sequenceForward());
+        mSpriteCanon.setFrequency(MG_ROTATION_SPEED);
+    }
 
-        Sprite.Animator animator = new Sprite.Animator();
-        animator.setSequence(mSpriteCanon.sequenceForward());
-        animator.setFrequency(MG_ROTATION_SPEED);
-        mSpriteCanon.setAnimator(animator);
+    @Override
+    public GameEngine.StaticData initStatic() {
+        StaticData s = new StaticData();
+
+        s.spriteBase = Sprite.fromResources(R.drawable.base1, 4);
+        s.spriteBase.setMatrix(1f, 1f, null, null);
+
+        s.spriteCanon = Sprite.fromResources(R.drawable.canon_mg, 5);
+        s.spriteCanon.setMatrix(0.8f, 1.0f, new Vector2(0.4f, 0.4f), -90f);
+
+        return s;
     }
 
     @Override
@@ -56,7 +69,7 @@ public class CanonMG extends AimingTower {
     }
 
     @Override
-    public void onDraw(Sprite sprite, Canvas canvas) {
+    public void onDraw(DrawObject sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
 
         canvas.rotate(mAngle);
@@ -68,10 +81,10 @@ public class CanonMG extends AimingTower {
 
         if (getTarget() != null) {
             mAngle = getAngleTo(getTarget());
-            mSpriteCanon.animate();
+            mSpriteCanon.tick();
 
             if (isReloaded()) {
-                Shot shot = new CanonShotMG(getPosition(), getDirectionTo(getTarget()));
+                Shot shot = new CanonShotMG(getPosition(), getDirectionTo(getTarget()), getDamage());
                 shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
                 getGame().add(shot);
 
@@ -81,7 +94,7 @@ public class CanonMG extends AimingTower {
     }
 
     @Override
-    public void drawPreview(Canvas canvas) {
+    public void preview(Canvas canvas) {
         mSpriteBase.draw(canvas);
         mSpriteCanon.draw(canvas);
     }

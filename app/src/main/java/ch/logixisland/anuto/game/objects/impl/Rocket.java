@@ -3,7 +3,9 @@ package ch.logixisland.anuto.game.objects.impl;
 import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.Layers;
+import ch.logixisland.anuto.game.objects.DrawObject;
 import ch.logixisland.anuto.game.objects.Enemy;
 import ch.logixisland.anuto.game.objects.HomingShot;
 import ch.logixisland.anuto.game.objects.Sprite;
@@ -16,38 +18,51 @@ public class Rocket extends HomingShot {
     private final static float MOVEMENT_SPEED = 2.5f;
     private final static float ANIMATION_SPEED = 3f;
 
+    private class StaticData extends GameEngine.StaticData {
+        public Sprite sprite;
+        public Sprite spriteFire;
+    }
+
     private float mDamage;
     private float mAngle;
 
-    private final Sprite mSprite;
-    private final Sprite mSpriteFire;
+    private Sprite.FixedInstance mSprite;
+    private Sprite.AnimatedInstance mSpriteFire;
 
     public Rocket(Vector2 position, float damage) {
         setPosition(position);
-
-        mSprite = Sprite.fromResources(getGame().getResources(), R.drawable.rocket, 4);
-        mSprite.setListener(this);
-        mSprite.setIndex(getGame().getRandom(4));
-        mSprite.setMatrix(0.8f, 1f, null, -90f);
-        mSprite.setLayer(Layers.SHOT);
-
-        mSpriteFire = Sprite.fromResources(getGame().getResources(), R.drawable.rocket_fire, 4);
-        mSpriteFire.setListener(this);
-        mSpriteFire.setMatrix(0.3f, 0.3f, new Vector2(0.15f, 0.6f), -90f);
-        mSpriteFire.setLayer(Layers.SHOT_LOWER);
-
-        Sprite.Animator animator = new Sprite.Animator();
-        animator.setSequence(mSpriteFire.sequenceForward());
-        animator.setFrequency(ANIMATION_SPEED);
-        mSpriteFire.setAnimator(animator);
-
         setEnabled(false);
+
         mSpeed = MOVEMENT_SPEED;
         mDamage = damage;
+
+        StaticData s = (StaticData)getStaticData();
+
+        mSprite = s.sprite.yieldStatic(Layers.SHOT);
+        mSprite.setListener(this);
+        mSprite.setIndex(getGame().getRandom(4));
+
+        mSpriteFire = s.spriteFire.yieldAnimated(Layers.SHOT);
+        mSpriteFire.setListener(this);
+        mSpriteFire.setSequence(mSpriteFire.sequenceForward());
+        mSpriteFire.setFrequency(ANIMATION_SPEED);
     }
 
     public void setAngle(float angle) {
         mAngle = angle;
+    }
+
+    @Override
+    public GameEngine.StaticData initStatic() {
+        StaticData s = new StaticData();
+
+        s.sprite = Sprite.fromResources(R.drawable.rocket, 4);
+        s.sprite.setMatrix(0.8f, 1f, null, -90f);
+
+        s.spriteFire = Sprite.fromResources(R.drawable.rocket_fire, 4);
+        s.spriteFire.setMatrix(0.3f, 0.3f, new Vector2(0.15f, 0.6f), -90f);
+
+        return s;
     }
 
     @Override
@@ -86,7 +101,7 @@ public class Rocket extends HomingShot {
     }
 
     @Override
-    public void onDraw(Sprite sprite, Canvas canvas) {
+    public void onDraw(DrawObject sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
 
         canvas.rotate(mAngle);
@@ -98,7 +113,7 @@ public class Rocket extends HomingShot {
             mDirection = getDirectionTo(mTarget);
             mAngle = mDirection.angle();
 
-            mSpriteFire.animate();
+            mSpriteFire.tick();
         }
 
         super.tick();

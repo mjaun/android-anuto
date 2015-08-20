@@ -1,6 +1,7 @@
 package ch.logixisland.anuto.game.objects.impl;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.Enemy;
 import ch.logixisland.anuto.game.objects.Sprite;
@@ -9,23 +10,37 @@ public class Soldier extends Enemy {
 
     private final static float ANIMATION_SPEED = 1f;
 
-    private static Sprite.Animator sAnimator;
+    private class StaticData extends GameEngine.StaticData {
+        public Sprite sprite;
+        public Sprite.AnimatedInstance animator;
 
-    private final Sprite mSprite;
+        @Override
+        public void tick() {
+            animator.tick();
+        }
+    }
+
+    private Sprite.Instance mSprite;
 
     public Soldier() {
-        mSprite = Sprite.fromResources(getGame().getResources(), R.drawable.soldier, 12);
+        StaticData s = (StaticData)getStaticData();
+
+        mSprite = s.animator.copycat();
         mSprite.setListener(this);
-        mSprite.setMatrix(0.9f, 0.9f, null, null);
-        mSprite.setLayer(Layers.ENEMY);
+    }
 
-        if (sAnimator == null) {
-            sAnimator = new Sprite.SynchronizedAnimator();
-            sAnimator.setSequence(mSprite.sequenceForwardBackward());
-            sAnimator.setFrequency(ANIMATION_SPEED);
-        }
+    @Override
+    public GameEngine.StaticData initStatic() {
+        StaticData s = new StaticData();
 
-        mSprite.setAnimator(sAnimator);
+        s.sprite = Sprite.fromResources(R.drawable.soldier, 12);
+        s.sprite.setMatrix(0.9f, 0.9f, null, null);
+
+        s.animator = s.sprite.yieldAnimated(Layers.ENEMY);
+        s.animator.setSequence(s.animator.sequenceForwardBackward());
+        s.animator.setFrequency(ANIMATION_SPEED);
+
+        return s;
     }
 
     @Override
@@ -40,12 +55,5 @@ public class Soldier extends Enemy {
         super.clean();
 
         getGame().remove(mSprite);
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
-
-        mSprite.animate();
     }
 }

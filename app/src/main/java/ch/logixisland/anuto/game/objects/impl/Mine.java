@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.Layers;
+import ch.logixisland.anuto.game.objects.DrawObject;
 import ch.logixisland.anuto.game.objects.Enemy;
 import ch.logixisland.anuto.game.objects.Shot;
 import ch.logixisland.anuto.game.objects.Sprite;
@@ -25,30 +26,28 @@ public class Mine extends Shot {
     private final static float HEIGHT_SCALING_STOP = 1.0f;
     private final static float HEIGHT_SCALING_PEAK = 1.5f;
 
+    private class StaticData extends GameEngine.StaticData {
+        public Sprite sprite;
+    }
+
     private float mDamage;
     private float mAngle;
     private boolean mFlying = true;
     private float mRotationStep;
-    private int mTicksToTarget;
-    private final SampledFunction mHeightScalingFunction;
+    private SampledFunction mHeightScalingFunction;
 
-    private final Sprite mSprite;
+    private Sprite.FixedInstance mSprite;
 
     public Mine(Vector2 position, Vector2 target, float damage) {
         setPosition(position);
 
         mSpeed = getDistanceTo(target) / TIME_TO_TARGET;
         mDirection = getDirectionTo(target);
-        mTicksToTarget = Math.round(GameEngine.TARGET_FRAME_RATE * TIME_TO_TARGET);
         mDamage = damage;
 
         mRotationStep = getGame().getRandom(ROTATION_RATE_MIN, ROTATION_RATE_MAX) * 360f / GameEngine.TARGET_FRAME_RATE;
 
-        mSprite = Sprite.fromResources(getGame().getResources(), R.drawable.mine, 4);
-        mSprite.setListener(this);
-        mSprite.setIndex(getGame().getRandom().nextInt(4));
-        mSprite.setMatrix(0.7f, 0.7f, null, null);
-        mSprite.setLayer(Layers.SHOT);
+        StaticData s = (StaticData)getStaticData();
 
         float x1 = (float)Math.sqrt(HEIGHT_SCALING_PEAK - HEIGHT_SCALING_START);
         float x2 = (float)Math.sqrt(HEIGHT_SCALING_PEAK - HEIGHT_SCALING_STOP);
@@ -58,6 +57,20 @@ public class Mine extends Shot {
                 .shift(-x1)
                 .stretch(GameEngine.TARGET_FRAME_RATE * TIME_TO_TARGET / (x1 + x2))
                 .sample();
+
+        mSprite = s.sprite.yieldStatic(Layers.SHOT);
+        mSprite.setListener(this);
+        mSprite.setIndex(getGame().getRandom(4));
+    }
+
+    @Override
+    public GameEngine.StaticData initStatic() {
+        StaticData s = new StaticData();
+
+        s.sprite = Sprite.fromResources(R.drawable.mine, 4);
+        s.sprite.setMatrix(0.7f, 0.7f, null, null);
+
+        return s;
     }
 
     @Override
@@ -75,7 +88,7 @@ public class Mine extends Shot {
     }
 
     @Override
-    public void onDraw(Sprite sprite, Canvas canvas) {
+    public void onDraw(DrawObject sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
 
         float s = mHeightScalingFunction.getValue();
@@ -90,11 +103,9 @@ public class Mine extends Shot {
         if (mFlying) {
             mAngle += mRotationStep;
             mHeightScalingFunction.step();
-            mTicksToTarget--;
 
-            if (mTicksToTarget <= 0) {
+            if (mHeightScalingFunction.getPosition() >= GameEngine.TARGET_FRAME_RATE * TIME_TO_TARGET) {
                 mFlying = false;
-                mHeightScalingFunction.reset();
                 mSpeed = 0f;
             }
         } else if (getGame().tick100ms(this)) {

@@ -3,8 +3,10 @@ package ch.logixisland.anuto.game.objects.impl;
 import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.AimingTower;
+import ch.logixisland.anuto.game.objects.DrawObject;
 import ch.logixisland.anuto.game.objects.Sprite;
 import ch.logixisland.anuto.util.math.Vector2;
 
@@ -13,25 +15,39 @@ public class LaserTower3 extends AimingTower {
     private final static float LASER_LENGTH = 1000f;
     private final static float LASER_SPAWN_OFFSET = 0.8f;
 
-    private float mAngle;
+    private class StaticData extends GameEngine.StaticData {
+        public Sprite spriteBase;
+        public Sprite spriteCanon;
+    }
 
-    private final Sprite mSpriteBase;
-    private final Sprite mSpriteTower;
+    private float mAngle = 90f;
+
+    private Sprite.FixedInstance mSpriteBase;
+    private Sprite.FixedInstance mSpriteCanon;
 
     public LaserTower3() {
-        mAngle = 90f;
+        StaticData s = (StaticData)getStaticData();
 
-        mSpriteBase = Sprite.fromResources(getGame().getResources(), R.drawable.base5, 4);
+        mSpriteBase = s.spriteBase.yieldStatic(Layers.TOWER_BASE);
+        mSpriteBase.setIndex(getGame().getRandom(4));
         mSpriteBase.setListener(this);
-        mSpriteBase.setIndex(getGame().getRandom(4));
-        mSpriteBase.setMatrix(1.1f, 1.1f, null, -90f);
-        mSpriteBase.setLayer(Layers.TOWER_BASE);
 
-        mSpriteTower = Sprite.fromResources(getGame().getResources(), R.drawable.laser_tower3, 4);
-        mSpriteTower.setListener(this);
-        mSpriteBase.setIndex(getGame().getRandom(4));
-        mSpriteTower.setMatrix(0.4f, 1.2f, new Vector2(0.2f, 0.2f), -90f);
-        mSpriteTower.setLayer(Layers.TOWER);
+        mSpriteCanon = s.spriteCanon.yieldStatic(Layers.TOWER);
+        mSpriteCanon.setIndex(getGame().getRandom(4));
+        mSpriteCanon.setListener(this);
+    }
+
+    @Override
+    public GameEngine.StaticData initStatic() {
+        StaticData s = new StaticData();
+
+        s.spriteBase = Sprite.fromResources(R.drawable.base5, 4);
+        s.spriteBase.setMatrix(1f, 1f, null, -90f);
+
+        s.spriteCanon = Sprite.fromResources(R.drawable.laser_tower3, 4);
+        s.spriteCanon.setMatrix(0.4f, 1.2f, new Vector2(0.2f, 0.2f), -90f);
+
+        return s;
     }
 
     @Override
@@ -39,7 +55,7 @@ public class LaserTower3 extends AimingTower {
         super.init();
 
         getGame().add(mSpriteBase);
-        getGame().add(mSpriteTower);
+        getGame().add(mSpriteCanon);
     }
 
     @Override
@@ -47,11 +63,11 @@ public class LaserTower3 extends AimingTower {
         super.clean();
 
         getGame().remove(mSpriteBase);
-        getGame().remove(mSpriteTower);
+        getGame().remove(mSpriteCanon);
     }
 
     @Override
-    public void onDraw(Sprite sprite, Canvas canvas) {
+    public void onDraw(DrawObject sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
 
         canvas.rotate(mAngle);
@@ -74,8 +90,8 @@ public class LaserTower3 extends AimingTower {
     }
 
     @Override
-    public void drawPreview(Canvas canvas) {
+    public void preview(Canvas canvas) {
         mSpriteBase.draw(canvas);
-        mSpriteTower.draw(canvas);
+        mSpriteCanon.draw(canvas);
     }
 }

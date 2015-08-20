@@ -88,7 +88,7 @@ public abstract class Enemy extends GameObject {
     private EnemyConfig mConfig;
 
     private float mHealth;
-    protected float mBaseSpeed;
+    private float mBaseSpeed;
 
     private float mHealthModifier = 1f;
     private float mRewardModifier = 1f;
@@ -175,6 +175,14 @@ public abstract class Enemy extends GameObject {
         return mConfig.speed;
     }
 
+    protected float getBaseSpeed() {
+        return mBaseSpeed;
+    }
+
+    protected void setBaseSpeed(float baseSpeed) {
+        mBaseSpeed = baseSpeed;
+    }
+
     public Vector2 getDirection() {
         if (!hasWayPoint()) {
             return null;
@@ -227,7 +235,7 @@ public abstract class Enemy extends GameObject {
 
     public void sendBack(float dist) {
         int index = mWayPointIndex - 1;
-        Vector2 pos = getPosition();
+        Vector2 pos = getPosition().copy();
 
         while (index > 0) {
             Vector2 wp = mPath.get(index);

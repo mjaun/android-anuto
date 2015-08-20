@@ -3,8 +3,10 @@ package ch.logixisland.anuto.game.objects.impl;
 import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.AimingTower;
+import ch.logixisland.anuto.game.objects.DrawObject;
 import ch.logixisland.anuto.game.objects.Sprite;
 import ch.logixisland.anuto.util.math.Vector2;
 
@@ -15,32 +17,42 @@ public class Mortar extends AimingTower {
     private final static float SHOT_SPAWN_OFFSET = 0.6f;
     private final static float REBOUND_DURATION = 0.5f;
 
-    private float mAngle;
-    private boolean mRebounding;
+    private class StaticData extends GameEngine.StaticData {
+        public Sprite spriteBase;
+        public Sprite spriteCanon;
+    }
 
-    private Sprite mSpriteBase;
-    private Sprite mSpriteCanon;
+    private float mAngle = 90f;
+    private boolean mRebounding = false;
 
-    private Sprite.Animator mAnimator;
+    private Sprite.FixedInstance mSpriteBase;
+    private Sprite.AnimatedInstance mSpriteCanon;
 
     public Mortar() {
-        mAngle = 90f;
+        StaticData s = (StaticData)getStaticData();
 
-        mSpriteBase = Sprite.fromResources(getGame().getResources(), R.drawable.base2, 4);
+        mSpriteBase = s.spriteBase.yieldStatic(Layers.TOWER_BASE);
+        mSpriteBase.setIndex(getGame().getRandom(4));
         mSpriteBase.setListener(this);
-        mSpriteBase.setIndex(getGame().getRandom().nextInt(4));
-        mSpriteBase.setMatrix(1f, 1f, null, null);
-        mSpriteBase.setLayer(Layers.TOWER_BASE);
 
-        mSpriteCanon = Sprite.fromResources(getGame().getResources(), R.drawable.mortar, 8);
+        mSpriteCanon = s.spriteCanon.yieldAnimated(Layers.TOWER);
+        mSpriteCanon.setIndex(getGame().getRandom(4));
         mSpriteCanon.setListener(this);
-        mSpriteCanon.setMatrix(0.8f, null, new Vector2(0.4f, 0.2f), -90f);
-        mSpriteCanon.setLayer(Layers.TOWER);
+        mSpriteCanon.setSequence(mSpriteCanon.sequenceForwardBackward());
+        mSpriteCanon.setInterval(REBOUND_DURATION);
+    }
 
-        mAnimator = new Sprite.Animator();
-        mAnimator.setSequence(mSpriteCanon.sequenceForwardBackward());
-        mAnimator.setInterval(REBOUND_DURATION);
-        mSpriteCanon.setAnimator(mAnimator);
+    @Override
+    public GameEngine.StaticData initStatic() {
+        StaticData s = new StaticData();
+
+        s.spriteBase = Sprite.fromResources(R.drawable.base2, 4);
+        s.spriteBase.setMatrix(1f, 1f, null, null);
+
+        s.spriteCanon = Sprite.fromResources(R.drawable.mortar, 8);
+        s.spriteCanon.setMatrix(0.8f, null, new Vector2(0.4f, 0.2f), -90f);
+
+        return s;
     }
 
     @Override
@@ -60,7 +72,7 @@ public class Mortar extends AimingTower {
     }
 
     @Override
-    public void onDraw(Sprite sprite, Canvas canvas) {
+    public void onDraw(DrawObject sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
 
         if (sprite == mSpriteCanon) {
@@ -85,13 +97,13 @@ public class Mortar extends AimingTower {
             mRebounding = true;
         }
 
-        if (mRebounding && mSpriteCanon.animate()) {
+        if (mRebounding && mSpriteCanon.tick()) {
             mRebounding = false;
         }
     }
 
     @Override
-    public void drawPreview(Canvas canvas) {
+    public void preview(Canvas canvas) {
         mSpriteBase.draw(canvas);
         mSpriteCanon.draw(canvas);
     }

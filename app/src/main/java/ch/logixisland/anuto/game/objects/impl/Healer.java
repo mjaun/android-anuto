@@ -6,6 +6,7 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.TickTimer;
+import ch.logixisland.anuto.game.objects.DrawObject;
 import ch.logixisland.anuto.game.objects.Enemy;
 import ch.logixisland.anuto.game.objects.Sprite;
 import ch.logixisland.anuto.util.math.Function;
@@ -22,45 +23,87 @@ public class Healer extends Enemy {
     private final static float HEAL_SCALE_FACTOR = 2f;
     private final static float HEAL_ROTATION = 2.5f;
 
-    private boolean mHealing;
+    private class StaticData extends GameEngine.StaticData {
+        public Sprite sprite;
+        public Sprite.AnimatedInstance animator;
 
-    private SampledFunction mScaleFunction;
-    private SampledFunction mRotateFunction;
+        public boolean healing;
+        public boolean dropEffect;
+        public float angle;
+        public float scale = 1f;
+        public TickTimer healTimer;
+        public SampledFunction scaleFunction;
+        public SampledFunction rotateFunction;
 
-    private Sprite.Animator mAnimator;
-    private TickTimer mHealTimer;
+        @Override
+        public void tick() {
+            animator.tick();
 
-    private float mAngle;
-    private float mScale = 1f;
+            if (healTimer.tick()) {
+                healing = true;
+            }
 
-    private final Sprite mSprite;
+            if (healing) {
+                rotateFunction.step();
+                scaleFunction.step();
+
+                angle += rotateFunction.getValue();
+                scale = scaleFunction.getValue();
+
+                if (scaleFunction.getPosition() >= GameEngine.TARGET_FRAME_RATE * HEAL_DURATION) {
+                    dropEffect = true;
+                    healing = false;
+                    angle = 0;
+                    scale = 1f;
+
+                    rotateFunction.reset();
+                    scaleFunction.reset();
+                }
+            } else {
+                dropEffect = false;
+            }
+        }
+    }
+
+    private StaticData mStatic;
+
+    private Sprite.Instance mSprite;
 
     public Healer() {
-        mHealTimer = TickTimer.createInterval(HEAL_INTERVAL);
+        mStatic = (StaticData)getStaticData();
 
-        mScaleFunction = Function.sine()
+        mSprite = mStatic.animator.copycat();
+        mSprite.setListener(this);
+    }
+
+    @Override
+    public GameEngine.StaticData initStatic() {
+        StaticData s = new StaticData();
+
+        s.healTimer = TickTimer.createInterval(HEAL_INTERVAL);
+
+        s.scaleFunction = Function.sine()
                 .join(Function.zero(), (float) Math.PI)
                 .multiply(HEAL_SCALE_FACTOR - 1f)
                 .offset(1f)
                 .stretch(GameEngine.TARGET_FRAME_RATE * HEAL_DURATION * 0.66f / (float) Math.PI)
+                .invert()
                 .sample();
 
-        mRotateFunction = Function.zero()
+        s.rotateFunction = Function.zero()
                 .join(Function.sine(), (float) Math.PI / 2f)
                 .multiply(HEAL_ROTATION / GameEngine.TARGET_FRAME_RATE * 360f)
                 .stretch(GameEngine.TARGET_FRAME_RATE * HEAL_DURATION * 0.66f / (float) Math.PI)
                 .sample();
 
-        mSprite = Sprite.fromResources(getGame().getResources(), R.drawable.healer, 4);
-        mSprite.setListener(this);
-        mSprite.setMatrix(0.9f, 0.9f, null, null);
-        mSprite.setLayer(Layers.ENEMY);
+        s.sprite = Sprite.fromResources(R.drawable.healer, 4);
+        s.sprite.setMatrix(0.9f, 0.9f, null, null);
 
-        mAnimator = new Sprite.Animator();
-        mAnimator.setSequence(mSprite.sequenceForward());
-        mAnimator.setFrequency(ANIMATION_SPEED);
+        s.animator = s.sprite.yieldAnimated(Layers.ENEMY);
+        s.animator.setSequence(s.animator.sequenceForward());
+        s.animator.setFrequency(ANIMATION_SPEED);
 
-        mSprite.setAnimator(mAnimator);
+        return s;
     }
 
     @Override
@@ -78,42 +121,25 @@ public class Healer extends Enemy {
     }
 
     @Override
-    public void onDraw(Sprite sprite, Canvas canvas) {
+    public void onDraw(DrawObject sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
 
-        canvas.rotate(mAngle);
-        canvas.scale(mScale, mScale);
+        canvas.rotate(mStatic.angle);
+        canvas.scale(mStatic.scale, mStatic.scale);
     }
 
     @Override
     public void tick() {
         super.tick();
 
-        mSprite.animate();
-
-        if (mHealTimer.tick()) {
-            mHealing = true;
+        if (mStatic.healing) {
+            setBaseSpeed(0f);
+        } else {
+            setBaseSpeed(getConfigSpeed());
         }
 
-        if (mHealing) {
-            mRotateFunction.step();
-            mScaleFunction.step();
-
-            mBaseSpeed = 0f;
-            mAngle += mRotateFunction.getValue();
-            mScale = 1f / mScaleFunction.getValue();
-
-            if (mScaleFunction.getPosition() >= GameEngine.TARGET_FRAME_RATE * HEAL_DURATION) {
-                mHealing = false;
-                mRotateFunction.reset();
-                mScaleFunction.reset();
-
-                getGame().add(new HealEffect(getPosition(), HEAL_AMOUNT));
-            }
-        } else {
-            mBaseSpeed = getConfigSpeed();
-            mAngle = 0f;
-            mScale = 1f;
+        if (mStatic.dropEffect) {
+            getGame().add(new HealEffect(getPosition(), HEAL_AMOUNT));
         }
     }
 }

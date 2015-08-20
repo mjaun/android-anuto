@@ -1,6 +1,7 @@
 package ch.logixisland.anuto.game.objects.impl;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.Enemy;
 import ch.logixisland.anuto.game.objects.Sprite;
@@ -9,18 +10,37 @@ public class Blob extends Enemy {
 
     private final static float ANIMATION_SPEED = 1.5f;
 
-    private final Sprite mSprite;
+    private class StaticData extends GameEngine.StaticData {
+        public Sprite sprite;
+        public Sprite.AnimatedInstance animator;
+
+        @Override
+        public void tick() {
+            animator.tick();
+        }
+    }
+
+    private Sprite.Instance mSprite;
 
     public Blob() {
-        mSprite = Sprite.fromResources(getGame().getResources(), R.drawable.blob, 9);
-        mSprite.setListener(this);
-        mSprite.setMatrix(0.9f, 0.9f, null, null);
-        mSprite.setLayer(Layers.ENEMY);
+        StaticData s = (StaticData)getStaticData();
 
-        Sprite.Animator animator = new Sprite.Animator();
-        animator.setSequence(mSprite.sequenceForward());
-        animator.setFrequency(ANIMATION_SPEED);
-        mSprite.setAnimator(animator);
+        mSprite = s.animator.copycat();
+        mSprite.setListener(this);
+    }
+
+    @Override
+    public GameEngine.StaticData initStatic() {
+        StaticData s = new StaticData();
+
+        s.sprite = Sprite.fromResources(R.drawable.blob, 9);
+        s.sprite.setMatrix(0.9f, 0.9f, null, null);
+
+        s.animator = s.sprite.yieldAnimated(Layers.ENEMY);
+        s.animator.setSequence(s.animator.sequenceForward());
+        s.animator.setFrequency(ANIMATION_SPEED);
+
+        return s;
     }
 
     @Override
@@ -35,12 +55,5 @@ public class Blob extends Enemy {
         super.clean();
 
         getGame().remove(mSprite);
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
-
-        mSprite.animate();
     }
 }

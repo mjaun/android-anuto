@@ -16,7 +16,7 @@ import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.TickTimer;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class Sprite extends DrawObject {
+public class Sprite {
 
     /*
     ------ Static ------
@@ -24,42 +24,31 @@ public class Sprite extends DrawObject {
 
     private static HashMap<Integer, Sprite> sSpriteCache = new HashMap<>();
 
-    public static Sprite fromResources(Resources res, int id) {
-        return fromResources(res, id, 1);
-    }
-
-    public static Sprite fromResources(Resources res, int id, int count) {
+    public static Sprite fromResources(int id, int count) {
         if (sSpriteCache.containsKey(id)) {
-            Sprite ret = new Sprite(sSpriteCache.get(id));
+            return new Sprite(sSpriteCache.get(id));
+        } else {
 
-            if (ret.count() != count) {
-                throw new IllegalArgumentException("This Sprite is already initialized with another count value!");
+            Resources res = GameEngine.getInstance().getResources();
+            Bitmap[] bmps;
+
+            if (count > 1) {
+                Bitmap sheet = BitmapFactory.decodeResource(res, id);
+                bmps = new Bitmap[count];
+                int spriteWidth = sheet.getWidth() / count;
+                int spriteHeight = sheet.getHeight();
+
+                for (int i = 0; i < count; i++) {
+                    bmps[i] = Bitmap.createBitmap(sheet, spriteWidth * i, 0, spriteWidth, spriteHeight);
+                }
+            } else {
+                bmps = new Bitmap[1];
+                bmps[0] = BitmapFactory.decodeResource(res, id);
             }
 
-            return ret;
+            sSpriteCache.put(id, new Sprite(bmps));
+            return fromResources(id, count);
         }
-
-        Bitmap[] bmps;
-
-        if (count > 1) {
-            Bitmap sheet = BitmapFactory.decodeResource(res, id);
-            bmps = new Bitmap[count];
-            int spriteWidth = sheet.getWidth() / count;
-            int spriteHeight = sheet.getHeight();
-
-            for (int i = 0; i < count; i++) {
-                bmps[i] = Bitmap.createBitmap(sheet, spriteWidth * i, 0, spriteWidth, spriteHeight);
-            }
-        }
-        else {
-            bmps = new Bitmap[1];
-            bmps[0] = BitmapFactory.decodeResource(res, id);
-        }
-
-        Sprite sprite = new Sprite(bmps);
-        sSpriteCache.put(id, sprite);
-
-        return fromResources(res, id, count);
     }
 
     /*
@@ -67,18 +56,97 @@ public class Sprite extends DrawObject {
      */
 
     public interface Listener {
-        void onDraw(Sprite sprite, Canvas canvas);
+        void onDraw(DrawObject sprite, Canvas canvas);
     }
 
     /*
-    ------ Animator Class ------
+    ------ Instance Classes ------
      */
 
-    public static class Animator {
+    public abstract class Instance extends DrawObject {
+        private final int mLayer;
+
+        private Paint mPaint;
+        private Listener mListener;
+
+        private Instance(int layer) {
+            mLayer = layer;
+        }
+
+        public Paint getPaint() {
+            return mPaint;
+        }
+
+        public void setPaint(Paint paint) {
+            mPaint = paint;
+        }
+
+        public Listener getListener() {
+            return mListener;
+        }
+
+        public void setListener(Listener listener) {
+            mListener = listener;
+        }
+
+        public Instance copycat() {
+            return new Instance(mLayer) {
+                @Override
+                public int getIndex() {
+                    return Instance.this.getIndex();
+                }
+            };
+        }
+
+        @Override
+        public int getLayer() {
+            return mLayer;
+        }
+
+        @Override
+        public void draw(Canvas canvas) {
+            canvas.save();
+
+            if (mListener != null) {
+                mListener.onDraw(this, canvas);
+            }
+
+            canvas.drawBitmap(mBitmaps.get(getIndex()), mMatrix, mPaint);
+            canvas.restore();
+        }
+
+        public abstract int getIndex();
+    }
+
+    public class FixedInstance extends Instance {
+
+        private int mIndex;
+
+        private FixedInstance(int layer) {
+            super(layer);
+        }
+
+        @Override
+        public int getIndex() {
+            return mIndex;
+        }
+
+        public void setIndex(int index) {
+            mIndex = index;
+        }
+    }
+
+    public class AnimatedInstance extends FixedInstance {
+
         private int mPosition;
         private int[] mSequence;
 
         private final TickTimer mTimer = new TickTimer();
+
+
+        private AnimatedInstance(int layer) {
+            super(layer);
+        }
 
 
         public void setSequence(int[] sequence) {
@@ -103,11 +171,11 @@ public class Sprite extends DrawObject {
             return mSequence[mPosition];
         }
 
-        public int getPosition() {
+        public int getSequencePosition() {
             return mPosition;
         }
 
-        public int count() {
+        public int getSequenceLength() {
             return mSequence.length;
         }
 
@@ -125,48 +193,45 @@ public class Sprite extends DrawObject {
 
             return ret;
         }
-    }
 
-    public static class SynchronizedAnimator extends Animator {
-        private long mLastTick = -1;
-        private boolean mReset;
+        public int[] sequenceForward() {
+            int ret[] = new int[count()];
 
-        private final GameEngine mGame;
-
-        public SynchronizedAnimator() {
-            mGame = GameEngine.getInstance();
-        }
-
-        @Override
-        public void reset() {
-            super.reset();
-            mReset = true;
-        }
-
-        @Override
-        public boolean tick() {
-            long tick = mGame.getTickCount();
-            if (tick == mLastTick) {
-                return mReset;
+            for (int i = 0; i < ret.length; i++) {
+                ret[i] = i;
             }
-            mLastTick = tick;
 
-            mReset = super.tick();
-            return mReset;
+            return ret;
+        }
+
+        public int[] sequenceForwardBackward() {
+            int ret[] = new int[count() * 2 - 2];
+
+            for (int i = 0; i < ret.length; i++) {
+                if (i < count()) {
+                    ret[i] = i;
+                } else {
+                    ret[i] = count() * 2 - 2 - i;
+                }
+            }
+
+            return ret;
+        }
+
+        public int[] sequenceBackward() {
+            int ret[] = new int[count()];
+
+            for (int i = 0; i < ret.length; i++) {
+                ret[i] = count() - 1 - i;
+            }
+
+            return ret;
         }
     }
 
     /*
     ------ Members ------
      */
-
-    private int mIndex;
-    private int mLayer;
-
-    private Paint mPaint;
-
-    private Animator mAnimator;
-    private Listener mListener;
 
     private final List<Bitmap> mBitmaps;
     private final Matrix mMatrix = new Matrix();
@@ -186,29 +251,6 @@ public class Sprite extends DrawObject {
     /*
     ------ Methods ------
      */
-
-    @Override
-    public int getLayer() {
-        return mLayer;
-    }
-
-    public void setLayer(int layer) {
-        mLayer = layer;
-    }
-
-
-    public int getIndex() {
-        return mIndex;
-    }
-
-    public void setIndex(int index) {
-        mIndex = index;
-    }
-
-    public int count() {
-        return mBitmaps.size();
-    }
-
 
     public Matrix getMatrix() {
         return mMatrix;
@@ -254,81 +296,16 @@ public class Sprite extends DrawObject {
     }
 
 
-    public Paint getPaint() {
-        return mPaint;
-    }
-
-    public void setPaint(Paint paint) {
-        mPaint = paint;
+    public int count() {
+        return mBitmaps.size();
     }
 
 
-    public Listener getListener() {
-        return mListener;
+    public FixedInstance yieldStatic(int layer) {
+        return new FixedInstance(layer);
     }
 
-    public void setListener(Listener listener) {
-        mListener = listener;
-    }
-
-
-    public Animator getAnimator() {
-        return mAnimator;
-    }
-
-    public void setAnimator(Animator animator) {
-        mAnimator = animator;
-    }
-
-    public int[] sequenceForward() {
-        int ret[] = new int[count()];
-
-        for (int i = 0; i < ret.length; i++) {
-            ret[i] = i;
-        }
-
-        return ret;
-    }
-
-    public int[] sequenceForwardBackward() {
-        int ret[] = new int[count() * 2 - 2];
-
-        for (int i = 0; i < ret.length; i++) {
-            if (i < count()) {
-                ret[i] = i;
-            } else {
-                ret[i] = count() * 2 - 2 - i;
-            }
-        }
-
-        return ret;
-    }
-
-    public int[] sequenceBackward() {
-        int ret[] = new int[count()];
-
-        for (int i = 0; i < ret.length; i++) {
-            ret[i] = count() - 1 - i;
-        }
-
-        return ret;
-    }
-
-    public boolean animate() {
-        boolean ret = mAnimator.tick();
-        mIndex = mAnimator.getIndex();
-        return ret;
-    }
-
-    @Override
-    public void draw(Canvas canvas) {
-        canvas.save();
-
-        if (mListener != null) {
-            mListener.onDraw(this, canvas);
-        }
-
-        canvas.drawBitmap(mBitmaps.get(mIndex), mMatrix, mPaint);
-        canvas.restore();
+    public AnimatedInstance yieldAnimated(int layer) {
+        return new AnimatedInstance(layer);
     }
 }

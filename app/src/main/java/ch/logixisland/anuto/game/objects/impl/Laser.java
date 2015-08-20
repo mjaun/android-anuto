@@ -18,7 +18,6 @@ public class Laser extends Effect {
 
     private final static float MAX_BOUNCE_DISTANCE = 2f;
 
-    private final static float LASER_DRAW_WIDTH = 0.1f;
     private final static float LASER_VISIBLE_TIME = 0.5f;
 
     private final static int ALPHA_START = 180;
@@ -31,7 +30,7 @@ public class Laser extends Effect {
         public LaserDrawObject() {
             mPaint = new Paint();
             mPaint.setStyle(Paint.Style.STROKE);
-            mPaint.setStrokeWidth(LASER_DRAW_WIDTH);
+            mPaint.setStrokeWidth(0.1f);
             mPaint.setColor(Color.RED);
         }
 
@@ -63,12 +62,10 @@ public class Laser extends Effect {
     private Vector2 mTargetPos;
     private Collection<Enemy> mPrevTargets;
 
-    private final LaserDrawObject mDrawObject;
+    private LaserDrawObject mDrawObject;
 
     public Laser(Vector2 origin, Enemy target, float damage, int bounce) {
         setPosition(origin);
-
-        mDrawObject = new LaserDrawObject();
 
         mTarget = target;
         mTargetPos = target.getPosition();
@@ -76,6 +73,8 @@ public class Laser extends Effect {
         mDuration = LASER_VISIBLE_TIME;
         mDamage = damage;
         mBounce = bounce;
+
+        mDrawObject = new LaserDrawObject();
     }
 
     private Laser(Enemy origin, Enemy target, float damage, int bounce, Collection<Enemy> prevTargets) {

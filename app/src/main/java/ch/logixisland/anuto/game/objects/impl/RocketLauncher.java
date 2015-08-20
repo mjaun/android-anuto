@@ -3,31 +3,54 @@ package ch.logixisland.anuto.game.objects.impl;
 import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.TickTimer;
 import ch.logixisland.anuto.game.objects.AimingTower;
+import ch.logixisland.anuto.game.objects.DrawObject;
 import ch.logixisland.anuto.game.objects.Sprite;
 
 public class RocketLauncher extends AimingTower {
 
     private final static float ROCKET_LOAD_TIME = 1.0f;
 
-    private float mAngle;
+    private class StaticData extends GameEngine.StaticData {
+        public Sprite sprite;
+        public Sprite spriteRocket; // used for preview only
+    }
+
+    private float mAngle = 90f;
     private Rocket mRocket;
     private TickTimer mRocketLoadTimer;
 
-    private Sprite mSprite;
-    private Sprite mRocketSprite; // used for preview only
+    private Sprite.FixedInstance mSprite;
+    private Sprite.FixedInstance mSpriteRocket; // used for preview only
 
     public RocketLauncher() {
-        mAngle = 90f;
+        StaticData s = (StaticData)getStaticData();
+
         mRocketLoadTimer = TickTimer.createInterval(ROCKET_LOAD_TIME);
 
-        mSprite = Sprite.fromResources(getGame().getResources(), R.drawable.rocket_launcher, 4);
+        mSprite = s.sprite.yieldStatic(Layers.TOWER_BASE);
         mSprite.setListener(this);
         mSprite.setIndex(getGame().getRandom(4));
-        mSprite.setMatrix(1.1f, 1.1f, null, -90f);
-        mSprite.setLayer(Layers.TOWER);
+
+        mSpriteRocket = s.spriteRocket.yieldStatic(Layers.TOWER);
+        mSpriteRocket.setListener(this);
+        mSpriteRocket.setIndex(getGame().getRandom(4));
+    }
+
+    @Override
+    public GameEngine.StaticData initStatic() {
+        StaticData s = new StaticData();
+
+        s.sprite = Sprite.fromResources(R.drawable.rocket_launcher, 4);
+        s.sprite.setMatrix(1.1f, 1.1f, null, -90f);
+
+        s.spriteRocket = Sprite.fromResources(R.drawable.rocket, 4);
+        s.spriteRocket.setMatrix(0.8f, 1f, null, -90f);
+
+        return s;
     }
 
     @Override
@@ -44,12 +67,12 @@ public class RocketLauncher extends AimingTower {
         getGame().remove(mSprite);
 
         if (mRocket != null) {
-            getGame().remove(mRocket);
+            mRocket.remove();
         }
     }
 
     @Override
-    public void onDraw(Sprite sprite, Canvas canvas) {
+    public void onDraw(DrawObject sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
 
         canvas.rotate(mAngle);
@@ -82,15 +105,8 @@ public class RocketLauncher extends AimingTower {
     }
 
     @Override
-    public void drawPreview(Canvas canvas) {
-        if (mRocketSprite == null) {
-            mRocketSprite = Sprite.fromResources(getGame().getResources(), R.drawable.rocket, 4);
-            mRocketSprite.setListener(this);
-            mRocketSprite.setIndex(getGame().getRandom(4));
-            mRocketSprite.setMatrix(0.8f, 1f, null, -90f);
-        }
-
+    public void preview(Canvas canvas) {
         mSprite.draw(canvas);
-        mRocketSprite.draw(canvas);
+        mSpriteRocket.draw(canvas);
     }
 }

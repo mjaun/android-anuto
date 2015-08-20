@@ -16,7 +16,6 @@ public class LaserStraight extends Effect {
 
     private final static float LASER_WIDTH = 0.7f;
 
-    private final static float LASER_DRAW_WIDTH = 0.1f;
     private final static float LASER_VISIBLE_TIME = 0.5f;
 
     private final static int ALPHA_START = 180;
@@ -29,7 +28,7 @@ public class LaserStraight extends Effect {
         public LaserDrawObject() {
             mPaint = new Paint();
             mPaint.setStyle(Paint.Style.STROKE);
-            mPaint.setStrokeWidth(LASER_DRAW_WIDTH);
+            mPaint.setStrokeWidth(0.1f);
             mPaint.setColor(Color.RED);
         }
 
@@ -57,16 +56,16 @@ public class LaserStraight extends Effect {
     private float mDamage;
     private Vector2 mLaserTo;
 
-    private final LaserDrawObject mDrawObject;
+    private LaserDrawObject mDrawObject;
 
     public LaserStraight(Vector2 position, Vector2 laserTo, float damage) {
         setPosition(position);
         mLaserTo = new Vector2(laserTo);
 
-        mDrawObject = new LaserDrawObject();
-
         mDamage = damage;
         mDuration = LASER_VISIBLE_TIME;
+
+        mDrawObject = new LaserDrawObject();
     }
 
     @Override

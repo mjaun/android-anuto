@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.Layers;
+import ch.logixisland.anuto.game.objects.DrawObject;
 import ch.logixisland.anuto.game.objects.GameObject;
 import ch.logixisland.anuto.game.objects.Sprite;
 import ch.logixisland.anuto.game.objects.Tower;
@@ -16,15 +18,18 @@ public class MineLayer extends Tower {
 
     private final static int MAX_MINE_COUNT = 3;
 
-    private final static float ANIMATION_DURATION = 0.5f;
+    private final static float ANIMATION_DURATION = 1f;
+
+    private class StaticData extends GameEngine.StaticData {
+        public Sprite sprite;
+    }
 
     private float mAngle;
     private boolean mShooting;
-    private List<Mine> mMines = new ArrayList<>();
     private List<PathSection> mSections;
+    private List<Mine> mMines = new ArrayList<>();
 
-    private Sprite mSprite;
-    private Sprite.Animator mAnimator;
+    private Sprite.AnimatedInstance mSprite;
 
     private final Listener mMineListener = new Listener() {
         @Override
@@ -40,24 +45,31 @@ public class MineLayer extends Tower {
     };
 
     public MineLayer() {
-        mAngle = 90f;
+        StaticData s = (StaticData)getStaticData();
 
-        mSprite = Sprite.fromResources(getGame().getResources(), R.drawable.minelayer, 6);
+        mAngle = getGame().getRandom(360f);
+
+        mSprite = s.sprite.yieldAnimated(Layers.TOWER_BASE);
+        mSprite.setIndex(getGame().getRandom(4));
         mSprite.setListener(this);
-        mSprite.setMatrix(1f, 1f, null, null);
-        mSprite.setLayer(Layers.TOWER);
+        mSprite.setSequence(mSprite.sequenceForwardBackward());
+        mSprite.setInterval(ANIMATION_DURATION);
+    }
 
-        mAnimator = new Sprite.Animator();
-        mAnimator.setSequence(mSprite.sequenceForwardBackward());
-        mAnimator.setInterval(ANIMATION_DURATION);
-        mSprite.setAnimator(mAnimator);
+    @Override
+    public GameEngine.StaticData initStatic() {
+        StaticData s = new StaticData();
+
+        s.sprite = Sprite.fromResources(R.drawable.minelayer, 6);
+        s.sprite.setMatrix(1f, 1f, null, null);
+
+        return s;
     }
 
     @Override
     public void init() {
         super.init();
 
-        mAngle = getGame().getRandom(360f);
         getGame().add(mSprite);
     }
 
@@ -85,7 +97,7 @@ public class MineLayer extends Tower {
     }
 
     @Override
-    public void onDraw(Sprite sprite, Canvas canvas) {
+    public void onDraw(DrawObject sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
 
         canvas.rotate(mAngle);
@@ -101,9 +113,9 @@ public class MineLayer extends Tower {
         }
 
         if (mShooting) {
-            mSprite.animate();
+            mSprite.tick();
 
-            if (mAnimator.getPosition() == 5) {
+            if (mSprite.getSequencePosition() == 5) {
                 Mine m = new Mine(getPosition(), getTarget(), getDamage());
                 m.addListener(mMineListener);
                 mMines.add(m);
@@ -113,13 +125,13 @@ public class MineLayer extends Tower {
             }
         }
 
-        if (mAnimator.getPosition() != 0) {
-            mSprite.animate();
+        if (mSprite.getSequencePosition() != 0) {
+            mSprite.tick();
         }
     }
 
     @Override
-    public void drawPreview(Canvas canvas) {
+    public void preview(Canvas canvas) {
         mSprite.draw(canvas);
     }
 

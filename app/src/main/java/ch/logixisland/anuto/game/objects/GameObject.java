@@ -87,6 +87,10 @@ public abstract class GameObject implements Sprite.Listener {
     public abstract int getTypeId();
 
 
+    public GameEngine.StaticData initStatic() {
+        return null;
+    }
+
     public void init() {
         mInGame = true;
 
@@ -103,12 +107,13 @@ public abstract class GameObject implements Sprite.Listener {
         }
     }
 
+
     public void tick() {
 
     }
 
     @Override
-    public void onDraw(Sprite sprite, Canvas canvas) {
+    public void onDraw(DrawObject sprite, Canvas canvas) {
         canvas.translate(mPosition.x, mPosition.y);
     }
 
@@ -128,6 +133,10 @@ public abstract class GameObject implements Sprite.Listener {
 
     protected GameManager getManager() {
         return GameManager.getInstance();
+    }
+
+    protected GameEngine.StaticData getStaticData() {
+        return getGame().getStaticData(this);
     }
 
     public boolean isInGame() {

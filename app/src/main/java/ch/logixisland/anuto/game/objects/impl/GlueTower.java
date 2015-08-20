@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.Layers;
+import ch.logixisland.anuto.game.objects.DrawObject;
 import ch.logixisland.anuto.game.objects.Sprite;
 import ch.logixisland.anuto.game.objects.Tower;
 import ch.logixisland.anuto.util.iterator.Predicate;
@@ -19,12 +21,18 @@ public class GlueTower extends Tower {
 
     private final static float CANON_OFFSET_MAX = 0.5f;
 
+    private class StaticData extends GameEngine.StaticData {
+        public Sprite spriteBase;
+        public Sprite spriteTower;
+        public Sprite spriteCanon;
+    }
+
     private class SubCanon implements Sprite.Listener {
         public float angle;
-        public Sprite sprite;
+        public Sprite.FixedInstance sprite;
 
         @Override
-        public void onDraw(Sprite sprite, Canvas canvas) {
+        public void onDraw(DrawObject sprite, Canvas canvas) {
             GlueTower.this.onDraw(sprite, canvas);
 
             canvas.rotate(angle);
@@ -35,35 +43,45 @@ public class GlueTower extends Tower {
     private boolean mShooting;
     private float mCanonOffset;
     private SubCanon[] mCanons = new SubCanon[8];
-    private List<Vector2> mTargets = new ArrayList<Vector2>();
+    private List<Vector2> mTargets = new ArrayList<>();
 
-    private final Sprite mSpriteBase;
-    private final Sprite mSpriteTower;
+    private Sprite.FixedInstance mSpriteBase;
+    private Sprite.FixedInstance mSpriteTower;
 
     public GlueTower() {
-        mSpriteBase = Sprite.fromResources(getGame().getResources(), R.drawable.base4, 4);
+        StaticData s = (StaticData)getStaticData();
+
+        mSpriteBase = s.spriteBase.yieldStatic(Layers.TOWER);
         mSpriteBase.setListener(this);
         mSpriteBase.setIndex(getGame().getRandom().nextInt(4));
-        mSpriteBase.setMatrix(1f, 1f, null, null);
-        mSpriteBase.setLayer(Layers.TOWER);
 
-        mSpriteTower = Sprite.fromResources(getGame().getResources(), R.drawable.glue_shot, 6);
+        mSpriteTower = s.spriteTower.yieldStatic(Layers.TOWER_UPPER);
         mSpriteTower.setListener(this);
         mSpriteTower.setIndex(getGame().getRandom().nextInt(6));
-        mSpriteTower.setMatrix(0.3f, 0.3f, null, null);
-        mSpriteTower.setLayer(Layers.TOWER_UPPER);
 
         for (int i = 0; i < mCanons.length; i++) {
-            mCanons[i] = new SubCanon();
-            mCanons[i].angle = 360f / mCanons.length * i;
-
-            Sprite s = Sprite.fromResources(getGame().getResources(), R.drawable.glue_tower_gun, 4);
-            s.setListener(mCanons[i]);
-            s.setIndex(getGame().getRandom().nextInt(4));
-            s.setMatrix(0.3f, 0.4f, null, -90f);
-            s.setLayer(Layers.TOWER_LOWER);
-            mCanons[i].sprite = s;
+            SubCanon c = new SubCanon();
+            c.angle = 360f / mCanons.length * i;
+            c.sprite = s.spriteCanon.yieldStatic(Layers.TOWER_LOWER);
+            c.sprite.setListener(c);
+            mCanons[i] = c;
         }
+    }
+
+    @Override
+    public GameEngine.StaticData initStatic() {
+        StaticData s = new StaticData();
+
+        s.spriteBase = Sprite.fromResources(R.drawable.base4, 4);
+        s.spriteBase.setMatrix(1f, 1f, null, null);
+
+        s.spriteTower = Sprite.fromResources(R.drawable.glue_shot, 6);
+        s.spriteTower.setMatrix(0.3f, 0.3f, null, null);
+
+        s.spriteCanon = Sprite.fromResources(R.drawable.glue_tower_gun, 4);
+        s.spriteCanon.setMatrix(0.3f, 0.4f, null, -90f);
+
+        return s;
     }
 
     @Override
@@ -72,7 +90,7 @@ public class GlueTower extends Tower {
 
         getGame().add(mSpriteBase);
         getGame().add(mSpriteTower);
-        
+
         for (SubCanon c : mCanons) {
             getGame().add(c.sprite);
         }
@@ -100,7 +118,7 @@ public class GlueTower extends Tower {
     }
 
     @Override
-    public void onDraw(Sprite sprite, Canvas canvas) {
+    public void onDraw(DrawObject sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
     }
 
@@ -132,7 +150,7 @@ public class GlueTower extends Tower {
     }
 
     @Override
-    public void drawPreview(Canvas canvas) {
+    public void preview(Canvas canvas) {
         mSpriteBase.draw(canvas);
         mSpriteTower.draw(canvas);
     }

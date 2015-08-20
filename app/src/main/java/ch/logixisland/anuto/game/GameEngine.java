@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -16,7 +17,6 @@ import ch.logixisland.anuto.game.objects.DrawObject;
 import ch.logixisland.anuto.game.objects.GameObject;
 import ch.logixisland.anuto.util.container.ConcurrentCollectionMap;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
-import ch.logixisland.anuto.util.math.Function;
 import ch.logixisland.anuto.util.math.Vector2;
 
 public class GameEngine {
@@ -42,10 +42,20 @@ public class GameEngine {
     }
 
     /*
+    ------ StaticData Class ------
+     */
+
+    public static abstract class StaticData {
+        public void tick() {
+
+        }
+    }
+
+    /*
     ------ Helper Classes ------
      */
 
-    private class GameObjectMap extends ConcurrentCollectionMap<Integer, GameObject> {
+    private class GameObjectCollectionMap extends ConcurrentCollectionMap<Integer, GameObject> {
         @Override
         public boolean add(Integer key, GameObject value) {
             boolean ret = super.add(key, value);
@@ -76,13 +86,17 @@ public class GameEngine {
         }
     }
 
-    private class DrawObjectMap extends ConcurrentCollectionMap<Integer, DrawObject> {
+    private class DrawObjectCollectionMap extends ConcurrentCollectionMap<Integer, DrawObject> {
         @Override
         protected int compareKeys(Integer k1, Integer k2) {
             if (k1 > k2) return -1;
             if (k1 < k2) return 1;
             return 0;
         }
+    }
+
+    private class StaticDataMap extends HashMap<Class<? extends GameObject>, StaticData> {
+
     }
 
     /*
@@ -112,8 +126,9 @@ public class GameEngine {
     private long mTickCount = 0;
     private long mRenderCount = 0;
 
-    private final GameObjectMap mGameObjects = new GameObjectMap();
-    private final DrawObjectMap mDrawObjects = new DrawObjectMap();
+    private final GameObjectCollectionMap mGameObjects = new GameObjectCollectionMap();
+    private final DrawObjectCollectionMap mDrawObjects = new DrawObjectCollectionMap();
+    private final StaticDataMap mStaticData = new StaticDataMap();
 
     private final Vector2 mGameSize = new Vector2(10, 10);
     private final Vector2 mScreenSize = new Vector2(100, 100);
@@ -174,10 +189,6 @@ public class GameEngine {
         return (mTickCount + System.identityHashCode(caller)) % TICKS_100MS == 0;
     }
 
-    public Function synchronize(final Function f) {
-        return null;
-    }
-
 
     public StreamIterator<GameObject> get() {
         return mGameObjects.iterator();
@@ -191,23 +202,33 @@ public class GameEngine {
         mGameObjects.add(obj.getTypeId(), obj);
     }
 
+    public void add(DrawObject obj) {
+        mDrawObjects.add(obj.getLayer(), obj);
+    }
+
     public void remove(GameObject obj) {
         mGameObjects.remove(obj.getTypeId(), obj);
+    }
+
+    public void remove(DrawObject obj) {
+        mDrawObjects.remove(obj.getLayer(), obj);
     }
 
     public void clear() {
         for (GameObject obj : mGameObjects) {
             mGameObjects.remove(obj.getTypeId(), obj);
         }
+
+        mStaticData.clear();
     }
 
 
-    public void add(DrawObject obj) {
-        mDrawObjects.add(obj.getLayer(), obj);
-    }
+    public StaticData getStaticData(GameObject obj) {
+        if (!mStaticData.containsKey(obj.getClass())) {
+            mStaticData.put(obj.getClass(), obj.initStatic());
+        }
 
-    public void remove(DrawObject obj) {
-        mDrawObjects.remove(obj.getLayer(), obj);
+        return mStaticData.get(obj.getClass());
     }
 
 
@@ -283,6 +304,10 @@ public class GameEngine {
 
             for (Runnable r : mRunnables) {
                 r.run();
+            }
+
+            for (StaticData s : mStaticData.values()) {
+                s.tick();
             }
 
             for (GameObject obj : mGameObjects) {

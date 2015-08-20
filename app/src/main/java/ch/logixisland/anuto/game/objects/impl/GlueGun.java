@@ -3,8 +3,10 @@ package ch.logixisland.anuto.game.objects.impl;
 import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.AimingTower;
+import ch.logixisland.anuto.game.objects.DrawObject;
 import ch.logixisland.anuto.game.objects.Shot;
 import ch.logixisland.anuto.game.objects.Sprite;
 import ch.logixisland.anuto.util.math.Vector2;
@@ -14,30 +16,41 @@ public class GlueGun extends AimingTower {
     private final static float SHOT_SPAWN_OFFSET = 0.7f;
     private final static float REBOUND_DURATION = 0.5f;
 
-    private float mAngle;
-    private boolean mRebounding;
+    private class StaticData extends GameEngine.StaticData {
+        public Sprite spriteBase;
+        public Sprite spriteCanon;
+    }
 
-    private final Sprite mSpriteBase;
-    private final Sprite mSpriteCanon;
+    private float mAngle = 90f;
+    private boolean mRebounding = false;
+
+    private Sprite.FixedInstance mSpriteBase;
+    private Sprite.AnimatedInstance mSpriteCanon;
 
     public GlueGun() {
-        mSpriteBase = Sprite.fromResources(getGame().getResources(), R.drawable.base4, 4);
+        StaticData s = (StaticData)getStaticData();
+
+        mSpriteBase = s.spriteBase.yieldStatic(Layers.TOWER_BASE);
         mSpriteBase.setListener(this);
         mSpriteBase.setIndex(getGame().getRandom().nextInt(4));
-        mSpriteBase.setMatrix(1f, 1f, null, null);
-        mSpriteBase.setLayer(Layers.TOWER_BASE);
 
-        mSpriteCanon = Sprite.fromResources(getGame().getResources(), R.drawable.glue_gun, 6);
+        mSpriteCanon = s.spriteCanon.yieldAnimated(Layers.TOWER);
         mSpriteCanon.setListener(this);
-        mSpriteCanon.setMatrix(0.8f, 1.0f, new Vector2(0.4f, 0.4f), -90f);
-        mSpriteCanon.setLayer(Layers.TOWER);
+        mSpriteCanon.setSequence(mSpriteCanon.sequenceForwardBackward());
+        mSpriteCanon.setInterval(REBOUND_DURATION);
+    }
 
-        Sprite.Animator animator = new Sprite.Animator();
-        animator.setSequence(mSpriteCanon.sequenceForwardBackward());
-        animator.setInterval(REBOUND_DURATION);
-        mSpriteCanon.setAnimator(animator);
+    @Override
+    public GameEngine.StaticData initStatic() {
+        StaticData s = new StaticData();
 
-        mAngle = 90f;
+        s.spriteBase = Sprite.fromResources(R.drawable.base1, 4);
+        s.spriteBase.setMatrix(1f, 1f, null, null);
+
+        s.spriteCanon = Sprite.fromResources(R.drawable.glue_gun, 6);
+        s.spriteCanon.setMatrix(0.8f, 1.0f, new Vector2(0.4f, 0.4f), -90f);
+
+        return s;
     }
 
     @Override
@@ -57,7 +70,7 @@ public class GlueGun extends AimingTower {
     }
 
     @Override
-    public void onDraw(Sprite sprite, Canvas canvas) {
+    public void onDraw(DrawObject sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
 
         canvas.rotate(mAngle);
@@ -80,13 +93,13 @@ public class GlueGun extends AimingTower {
             mRebounding = true;
         }
 
-        if (mRebounding && mSpriteCanon.animate()) {
+        if (mRebounding && mSpriteCanon.tick()) {
             mRebounding = false;
         }
     }
 
     @Override
-    public void drawPreview(Canvas canvas) {
+    public void preview(Canvas canvas) {
         mSpriteBase.draw(canvas);
         mSpriteCanon.draw(canvas);
     }

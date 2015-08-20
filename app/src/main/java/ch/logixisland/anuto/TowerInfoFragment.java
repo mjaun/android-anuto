@@ -101,6 +101,7 @@ public class TowerInfoFragment extends Fragment implements
     public void onClick(View v) {
         if (v == btn_upgrade) {
             mTower = mTower.upgrade();
+            mManager.setSelectedTower(mTower);
             mManager.showTowerInfo(mTower);
         }
 

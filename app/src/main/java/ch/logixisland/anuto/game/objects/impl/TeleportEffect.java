@@ -50,14 +50,14 @@ public class TeleportEffect extends Effect {
 
         target.setEnabled(false);
 
-        mDrawObject = new TeleportDrawObject();
-
         mTarget = target;
         mDistance = distance;
         mDuration = EFFECT_DURATION;
 
         mMoveDirection = target.getDirectionTo(this);
         mMoveStep = target.getDistanceTo(this) / EFFECT_DURATION / GameEngine.TARGET_FRAME_RATE;
+
+        mDrawObject = new TeleportDrawObject();
     }
 
     @Override
