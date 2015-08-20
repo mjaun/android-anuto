@@ -67,12 +67,12 @@ public class GlueGun extends AimingTower {
     public void tick() {
         super.tick();
 
-        if (mReloaded && mTarget != null) {
-            Vector2 target = mTarget.getPositionAfter(1.0f);
+        if (mReloaded && getTarget() != null) {
+            Vector2 target = getTarget().getPositionAfter(1.0f);
 
             mAngle = getAngleTo(target);
 
-            Shot shot = new GlueShot(mPosition, target, 1f / mConfig.damage);
+            Shot shot = new GlueShot(mPosition, target, 1f / getDamage());
             shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
             mGame.add(shot);
 

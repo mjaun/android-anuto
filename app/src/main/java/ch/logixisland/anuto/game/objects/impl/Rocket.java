@@ -42,7 +42,7 @@ public class Rocket extends HomingShot {
         animator.setFrequency(ANIMATION_SPEED);
         mSpriteFire.setAnimator(animator);
 
-        mEnabled = false;
+        setEnabled(false);
         mSpeed = MOVEMENT_SPEED;
         mDamage = damage;
     }
@@ -57,7 +57,7 @@ public class Rocket extends HomingShot {
 
         mGame.add(mSprite);
 
-        if (mEnabled) {
+        if (isEnabled()) {
             mGame.add(mSpriteFire);
         }
     }
@@ -68,7 +68,7 @@ public class Rocket extends HomingShot {
 
         mGame.remove(mSprite);
 
-        if (mEnabled) {
+        if (isEnabled()) {
             mGame.remove(mSpriteFire);
         }
     }
@@ -95,7 +95,7 @@ public class Rocket extends HomingShot {
 
     @Override
     public void tick() {
-        if (mEnabled) {
+        if (isEnabled()) {
             mDirection = getDirectionTo(mTarget);
             mAngle = mDirection.angle();
 

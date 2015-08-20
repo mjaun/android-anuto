@@ -72,14 +72,14 @@ public class Mortar extends AimingTower {
     public void tick() {
         super.tick();
 
-        if (mTarget != null && mReloaded) {
-            Vector2 targetPos = mTarget.getPositionAfter(Mine.TIME_TO_TARGET);
+        if (getTarget() != null && mReloaded) {
+            Vector2 targetPos = getTarget().getPositionAfter(Mine.TIME_TO_TARGET);
             targetPos.add(Vector2.polar(mGame.getRandom(INACCURACY), mGame.getRandom(360f)));
             mAngle = getAngleTo(targetPos);
 
             Vector2 shotPos = mPosition.copy().add(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
 
-            mGame.add(new MortarShot(shotPos, targetPos, mConfig.damage));
+            mGame.add(new MortarShot(shotPos, targetPos, getDamage()));
 
             mReloaded = false;
             mRebounding = true;

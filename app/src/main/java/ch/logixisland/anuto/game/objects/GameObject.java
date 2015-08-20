@@ -84,7 +84,8 @@ public abstract class GameObject implements Sprite.Listener {
      */
 
     private boolean mInGame = false;
-    protected boolean mEnabled = true;
+    private boolean mEnabled = true;
+
     protected final Vector2 mPosition = new Vector2();
     protected final GameEngine mGame = GameEngine.getInstance();
 

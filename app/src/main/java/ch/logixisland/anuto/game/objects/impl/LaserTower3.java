@@ -61,13 +61,13 @@ public class LaserTower3 extends AimingTower {
     public void tick() {
         super.tick();
 
-        if (mTarget != null) {
-            mAngle = getAngleTo(mTarget);
+        if (getTarget() != null) {
+            mAngle = getAngleTo(getTarget());
 
             if (mReloaded) {
                 Vector2 laserFrom = Vector2.polar(LASER_SPAWN_OFFSET, mAngle).add(mPosition);
                 Vector2 laserTo = Vector2.polar(LASER_LENGTH, mAngle).add(mPosition);
-                mGame.add(new LaserStraight(laserFrom, laserTo, mConfig.damage));
+                mGame.add(new LaserStraight(laserFrom, laserTo, getDamage()));
                 mReloaded = false;
             }
         }

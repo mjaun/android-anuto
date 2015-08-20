@@ -116,12 +116,12 @@ public class CanonDual extends AimingTower {
     public void tick() {
         super.tick();
 
-        if (mTarget != null) {
-            mAngle = getAngleTo(mTarget);
+        if (getTarget() != null) {
+            mAngle = getAngleTo(getTarget());
 
             if (mReloaded) {
                 if (!mShoot2) {
-                    Shot shot = new CanonShot(mPosition, mTarget, mConfig.damage);
+                    Shot shot = new CanonShot(mPosition, getTarget(), getDamage());
                     shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
                     shot.move(Vector2.polar(0.3f, mAngle + 90f));
                     mGame.add(shot);
@@ -130,7 +130,7 @@ public class CanonDual extends AimingTower {
                     mCanons[0].reboundActive = true;
                     mShoot2 = true;
                 } else {
-                    Shot shot = new CanonShot(mPosition, mTarget, mConfig.damage);
+                    Shot shot = new CanonShot(mPosition, getTarget(), getDamage());
                     shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
                     shot.move(Vector2.polar(0.3f, mAngle - 90f));
                     mGame.add(shot);

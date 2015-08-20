@@ -66,11 +66,11 @@ public abstract class Tower extends GameObject {
     ------ Members ------
      */
 
-    protected TowerConfig mConfig;
+    private TowerConfig mConfig;
 
-    protected int mValue;
     protected boolean mReloaded = false;
-    protected Plateau mPlateau = null;
+    private int mValue;
+    private Plateau mPlateau = null;
 
     private TickTimer mReloadTimer;
     private RangeIndicator mRangeIndicator;
@@ -110,7 +110,7 @@ public abstract class Tower extends GameObject {
     public void tick() {
         super.tick();
 
-        if (mEnabled && !mReloaded && mReloadTimer.tick()) {
+        if (isEnabled() && !mReloaded && mReloadTimer.tick()) {
             mReloaded = true;
         }
     }

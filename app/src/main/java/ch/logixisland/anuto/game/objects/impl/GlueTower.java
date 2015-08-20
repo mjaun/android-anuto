@@ -123,7 +123,7 @@ public class GlueTower extends Tower {
                     Vector2 position = Vector2.polar(SHOT_SPAWN_OFFSET, getAngleTo(target));
                     position.add(mPosition);
 
-                    mGame.add(new GlueShot(position, target, 1f / mConfig.damage));
+                    mGame.add(new GlueShot(position, target, 1f / getDamage()));
                 }
             }
         } else if (mCanonOffset > 0f) {

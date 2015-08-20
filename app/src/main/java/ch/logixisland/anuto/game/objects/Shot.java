@@ -32,7 +32,7 @@ public abstract class Shot extends GameObject {
     public void tick() {
         super.tick();
 
-        if (mEnabled) {
+        if (isEnabled()) {
             move(mDirection, mSpeed / GameEngine.TARGET_FRAME_RATE);
         }
     }

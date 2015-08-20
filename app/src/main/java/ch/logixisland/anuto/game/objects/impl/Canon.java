@@ -77,11 +77,11 @@ public class Canon extends AimingTower {
     public void tick() {
         super.tick();
 
-        if (mTarget != null) {
-            mAngle = getAngleTo(mTarget);
+        if (getTarget() != null) {
+            mAngle = getAngleTo(getTarget());
 
             if (mReloaded) {
-                Shot shot = new CanonShot(mPosition, mTarget, mConfig.damage);
+                Shot shot = new CanonShot(mPosition, getTarget(), getDamage());
                 shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
                 mGame.add(shot);
 

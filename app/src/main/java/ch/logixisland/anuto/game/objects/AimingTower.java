@@ -14,9 +14,9 @@ public abstract class AimingTower extends Tower {
     ------ Members ------
      */
 
-    protected Enemy mTarget = null;
-    protected Strategy mStrategy = Strategy.Closest;
-    protected boolean mLockOnTarget = true;
+    private Enemy mTarget = null;
+    private Strategy mStrategy = Strategy.Closest;
+    private boolean mLockOnTarget = true;
 
     /*
     ------ Listener Implementations ------
@@ -54,7 +54,7 @@ public abstract class AimingTower extends Tower {
         super.tick();
 
         if (mGame.tick100ms(this)) {
-            if (mTarget != null && getDistanceTo(mTarget) > mConfig.range) {
+            if (mTarget != null && getDistanceTo(mTarget) > getRange()) {
                 onTargetLost();
             }
 
@@ -64,6 +64,27 @@ public abstract class AimingTower extends Tower {
         }
     }
 
+
+    public Strategy getStrategy() {
+        return mStrategy;
+    }
+
+    public void setStrategy(Strategy strategy) {
+        mStrategy = strategy;
+    }
+
+    public boolean doesLockOnTarget() {
+        return mLockOnTarget;
+    }
+
+    public void setLockOnTarget(boolean lock) {
+        mLockOnTarget = lock;
+    }
+
+
+    public Enemy getTarget() {
+        return mTarget;
+    }
 
     protected void setTarget(Enemy target) {
         if (mTarget != null) {

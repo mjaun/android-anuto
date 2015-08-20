@@ -83,16 +83,16 @@ public abstract class Enemy extends GameObject {
     ------ Members -----
      */
 
-    protected EnemyConfig mConfig;
+    private EnemyConfig mConfig;
 
-    protected float mHealth;
+    private float mHealth;
 
-    protected float mHealthModifier = 1f;
-    protected float mRewardModifier = 1f;
-    protected float mSpeedModifier = 1f;
+    private float mHealthModifier = 1f;
+    private float mRewardModifier = 1f;
+    private float mSpeedModifier = 1f;
 
-    protected Path mPath = null;
-    protected int mWayPointIndex;
+    private Path mPath = null;
+    private int mWayPointIndex;
 
     private HealthBar mHealthBar;
 
@@ -137,7 +137,7 @@ public abstract class Enemy extends GameObject {
     public void tick() {
         super.tick();
 
-        if (mEnabled) {
+        if (isEnabled()) {
             if (!hasWayPoint()) {
                 GameManager.getInstance().takeLives(1);
                 this.remove();

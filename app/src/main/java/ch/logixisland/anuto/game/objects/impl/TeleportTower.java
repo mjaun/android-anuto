@@ -46,11 +46,11 @@ public class TeleportTower extends AimingTower {
     public void tick() {
         super.tick();
 
-        if (mReloaded && mTarget != null) {
-            if (!mTarget.isEnabled() || getDistanceTo(mTarget) > mConfig.range) {
+        if (mReloaded && getTarget() != null) {
+            if (!getTarget().isEnabled() || getDistanceTo(getTarget()) > getRange()) {
                 setTarget(null);
             } else {
-                mGame.add(new TeleportEffect(mPosition, mTarget, mConfig.damage));
+                mGame.add(new TeleportEffect(mPosition, getTarget(), getDamage()));
                 mReloaded = false;
             }
         }

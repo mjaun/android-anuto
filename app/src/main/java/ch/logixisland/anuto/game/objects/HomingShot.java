@@ -44,7 +44,7 @@ public abstract class HomingShot extends Shot {
     public void tick() {
         super.tick();
 
-        if (mEnabled && mTarget != null &&
+        if (isEnabled() && mTarget != null &&
                 getDistanceTo(mTarget) <= mSpeed / GameEngine.TARGET_FRAME_RATE) {
             mTargetReached = true;
             onTargetReached();
