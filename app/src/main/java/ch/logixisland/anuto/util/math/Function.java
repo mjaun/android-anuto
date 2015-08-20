@@ -52,6 +52,15 @@ public abstract class Function {
     ------ Methods ------
      */
 
+    public SampledFunction sample() {
+        return new SampledFunction() {
+            @Override
+            public float calculate(float input) {
+                return Function.this.calculate(input);
+            }
+        };
+    }
+
     public Function multiply(final float x) {
         return new Function() {
             @Override
@@ -88,11 +97,43 @@ public abstract class Function {
         };
     }
 
-    public SampledFunction sample() {
-        return new SampledFunction() {
+    public Function invert() {
+        return new Function() {
             @Override
             public float calculate(float input) {
-                return Function.this.calculate(input);
+                return 1f / Function.this.calculate(input);
+            }
+        };
+    }
+
+    public Function absolute() {
+        return new Function() {
+            @Override
+            public float calculate(float input) {
+                return Math.abs(Function.this.calculate(input));
+            }
+        };
+    }
+
+
+    public Function join(final Function f, final float at) {
+        return new Function() {
+            @Override
+            public float calculate(float input) {
+                if (input < at) {
+                    return Function.this.calculate(input);
+                } else {
+                    return f.calculate(input - at);
+                }
+            }
+        };
+    }
+
+    public Function repeat(final float at) {
+        return new Function() {
+            @Override
+            public float calculate(float input) {
+                return Function.this.calculate(input % at);
             }
         };
     }

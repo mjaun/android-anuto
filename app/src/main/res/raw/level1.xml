@@ -274,13 +274,13 @@
             <healthMultiplier>0.6</healthMultiplier>
             <enemies>
                 <enemy clazz="Healer"/>
-                <enemy clazz="Healer" delay="0.5"/>
-                <enemy clazz="Healer" delay="0.5"/>
-                <enemy clazz="Healer" delay="0.5"/>
-                <enemy clazz="Healer" delay="0.5"/>
-                <enemy clazz="Healer" delay="0.5"/>
+                <enemy clazz="Healer" offsetY="1.1"/>
+                <enemy clazz="Healer" offsetY="2.2"/>
+                <enemy clazz="Healer" offsetY="3.3"/>
+                <enemy clazz="Healer" offsetY="4.4"/>
+                <enemy clazz="Healer" offsetY="5.5"/>
 
-                <enemy clazz="Soldier" delay="5.0"/>
+                <enemy clazz="Soldier" delay="8.0"/>
                 <enemy clazz="Soldier" delay="0.5"/>
                 <enemy clazz="Soldier" delay="0.5"/>
                 <enemy clazz="Soldier" delay="0.5"/>

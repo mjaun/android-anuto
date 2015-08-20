@@ -36,6 +36,10 @@ public class TickTimer {
         }
     }
 
+    public void addDelay(float delay) {
+        mValue += delay * GameEngine.TARGET_FRAME_RATE;
+    }
+
     public boolean tick() {
         mValue -= 1f;
 

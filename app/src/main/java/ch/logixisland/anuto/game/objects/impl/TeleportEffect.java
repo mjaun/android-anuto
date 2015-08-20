@@ -15,10 +15,10 @@ public class TeleportEffect extends Effect {
 
     private static final float EFFECT_DURATION = 1f;
 
-    private class LaserDrawObject extends DrawObject {
+    private class TeleportDrawObject extends DrawObject {
         private Paint mPaint;
 
-        public LaserDrawObject() {
+        public TeleportDrawObject() {
             mPaint = new Paint();
             mPaint.setStyle(Paint.Style.STROKE);
             mPaint.setStrokeWidth(0.1f);
@@ -43,14 +43,14 @@ public class TeleportEffect extends Effect {
     Vector2 mMoveDirection;
     float mMoveStep;
 
-    LaserDrawObject mDrawObject;
+    TeleportDrawObject mDrawObject;
 
     public TeleportEffect(Vector2 position, Enemy target, float distance) {
         setPosition(position);
 
         target.setEnabled(false);
 
-        mDrawObject = new LaserDrawObject();
+        mDrawObject = new TeleportDrawObject();
 
         mTarget = target;
         mDistance = distance;

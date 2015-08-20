@@ -11,6 +11,7 @@ import ch.logixisland.anuto.game.TypeIds;
 import ch.logixisland.anuto.game.data.EnemyConfig;
 import ch.logixisland.anuto.game.data.Path;
 import ch.logixisland.anuto.util.iterator.Function;
+import ch.logixisland.anuto.util.math.MathUtils;
 import ch.logixisland.anuto.util.math.Vector2;
 
 
@@ -48,12 +49,14 @@ public abstract class Enemy extends GameObject {
 
         @Override
         public void draw(Canvas canvas) {
-            canvas.save();
-            canvas.translate(mPosition.x - HEALTHBAR_WIDTH / 2f, mPosition.y + HEALTHBAR_OFFSET);
+            if (!MathUtils.equals(mHealth, mConfig.health, 1f)) {
+                canvas.save();
+                canvas.translate(mPosition.x - HEALTHBAR_WIDTH / 2f, mPosition.y + HEALTHBAR_OFFSET);
 
-            canvas.drawRect(0, 0, HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT, mHealthBarBg);
-            canvas.drawRect(0, 0, mHealth * HEALTHBAR_WIDTH / mConfig.health, HEALTHBAR_HEIGHT, mHealthBarFg);
-            canvas.restore();
+                canvas.drawRect(0, 0, HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT, mHealthBarBg);
+                canvas.drawRect(0, 0, mHealth / mConfig.health * HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT, mHealthBarFg);
+                canvas.restore();
+            }
         }
     }
 
@@ -264,6 +267,10 @@ public abstract class Enemy extends GameObject {
 
     public void heal(float val) {
         mHealth += val / mHealthModifier;
+
+        if (mHealth > mConfig.health) {
+            mHealth = mConfig.health;
+        }
     }
 
     public int getReward() {
