@@ -10,10 +10,10 @@ public class BasicPlateau extends Plateau {
     private final Sprite mSprite;
 
     public BasicPlateau() {
-        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.plateau1, 4);
+        mSprite = Sprite.fromResources(getGame().getResources(), R.drawable.plateau1, 4);
         mSprite.setListener(this);
         mSprite.setMatrix(1f, 1f, null, null);
-        mSprite.setIndex(mGame.getRandom().nextInt(4));
+        mSprite.setIndex(getGame().getRandom().nextInt(4));
         mSprite.setLayer(Layers.PLATEAU);
     }
 
@@ -21,13 +21,13 @@ public class BasicPlateau extends Plateau {
     public void init() {
         super.init();
 
-        mGame.add(mSprite);
+        getGame().add(mSprite);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        mGame.remove(mSprite);
+        getGame().remove(mSprite);
     }
 }

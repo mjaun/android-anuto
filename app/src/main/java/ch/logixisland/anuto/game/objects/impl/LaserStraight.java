@@ -9,7 +9,6 @@ import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.DrawObject;
 import ch.logixisland.anuto.game.objects.Effect;
 import ch.logixisland.anuto.game.objects.Enemy;
-import ch.logixisland.anuto.game.objects.GameObject;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.Vector2;
 
@@ -21,7 +20,7 @@ public class LaserStraight extends Effect {
     private final static float LASER_VISIBLE_TIME = 0.5f;
 
     private final static int ALPHA_START = 180;
-    private final static int ALPHA_STEP = (int)(ALPHA_START / GameEngine.TARGET_FRAME_RATE / LASER_VISIBLE_TIME);
+    private final static int ALPHA_STEP = (int)(ALPHA_START / (GameEngine.TARGET_FRAME_RATE * LASER_VISIBLE_TIME));
 
     private class LaserDrawObject extends DrawObject {
         private Paint mPaint;
@@ -51,7 +50,7 @@ public class LaserStraight extends Effect {
 
         @Override
         public void draw(Canvas canvas) {
-            canvas.drawLine(mPosition.x, mPosition.y, mLaserTo.x, mLaserTo.y, mPaint);
+            canvas.drawLine(getPosition().x, getPosition().y, mLaserTo.x, mLaserTo.y, mPaint);
         }
     }
 
@@ -74,14 +73,14 @@ public class LaserStraight extends Effect {
     public void init() {
         super.init();
 
-        mGame.add(mDrawObject);
+        getGame().add(mDrawObject);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        mGame.remove(mDrawObject);
+        getGame().remove(mDrawObject);
     }
 
     @Override
@@ -93,8 +92,8 @@ public class LaserStraight extends Effect {
 
     @Override
     protected void effectBegin() {
-        StreamIterator<Enemy> enemies = mGame.get(Enemy.TYPE_ID)
-                .filter(GameObject.onLine(mPosition, mLaserTo, LASER_WIDTH))
+        StreamIterator<Enemy> enemies = getGame().get(Enemy.TYPE_ID)
+                .filter(onLine(getPosition(), mLaserTo, LASER_WIDTH))
                 .cast(Enemy.class);
 
         while (enemies.hasNext()) {

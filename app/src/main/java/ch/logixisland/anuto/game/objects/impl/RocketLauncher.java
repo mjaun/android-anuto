@@ -23,9 +23,9 @@ public class RocketLauncher extends AimingTower {
         mAngle = 90f;
         mRocketLoadTimer = TickTimer.createInterval(ROCKET_LOAD_TIME);
 
-        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.rocket_launcher, 4);
+        mSprite = Sprite.fromResources(getGame().getResources(), R.drawable.rocket_launcher, 4);
         mSprite.setListener(this);
-        mSprite.setIndex(mGame.getRandom(4));
+        mSprite.setIndex(getGame().getRandom(4));
         mSprite.setMatrix(1.1f, 1.1f, null, -90f);
         mSprite.setLayer(Layers.TOWER);
     }
@@ -34,17 +34,17 @@ public class RocketLauncher extends AimingTower {
     public void init() {
         super.init();
 
-        mGame.add(mSprite);
+        getGame().add(mSprite);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        mGame.remove(mSprite);
+        getGame().remove(mSprite);
 
         if (mRocket != null) {
-            mGame.remove(mRocket);
+            getGame().remove(mRocket);
         }
     }
 
@@ -59,9 +59,9 @@ public class RocketLauncher extends AimingTower {
         super.tick();
 
         if (mRocket == null && mRocketLoadTimer.tick()) {
-            mRocket = new Rocket(mPosition, getDamage());
+            mRocket = new Rocket(getPosition(), getDamage());
             mRocket.setAngle(mAngle);
-            mGame.add(mRocket);
+            getGame().add(mRocket);
         }
 
         if (getTarget() != null) {
@@ -70,12 +70,12 @@ public class RocketLauncher extends AimingTower {
             if (mRocket != null) {
                 mRocket.setAngle(mAngle);
 
-                if (mReloaded) {
+                if (isReloaded()) {
                     mRocket.setTarget(getTarget());
                     mRocket.setEnabled(true);
                     mRocket = null;
 
-                    mReloaded = false;
+                    setReloaded(false);
                 }
             }
         }
@@ -84,9 +84,9 @@ public class RocketLauncher extends AimingTower {
     @Override
     public void drawPreview(Canvas canvas) {
         if (mRocketSprite == null) {
-            mRocketSprite = Sprite.fromResources(mGame.getResources(), R.drawable.rocket, 4);
+            mRocketSprite = Sprite.fromResources(getGame().getResources(), R.drawable.rocket, 4);
             mRocketSprite.setListener(this);
-            mRocketSprite.setIndex(mGame.getRandom(4));
+            mRocketSprite.setIndex(getGame().getRandom(4));
             mRocketSprite.setMatrix(0.8f, 1f, null, -90f);
         }
 

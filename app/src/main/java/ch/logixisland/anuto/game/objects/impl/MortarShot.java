@@ -29,9 +29,9 @@ public class MortarShot extends Shot {
     public MortarShot(Vector2 position, Vector2 target, float damage) {
         setPosition(position);
 
-        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.grenade, 4);
+        mSprite = Sprite.fromResources(getGame().getResources(), R.drawable.grenade, 4);
         mSprite.setListener(this);
-        mSprite.setIndex(mGame.getRandom().nextInt(4));
+        mSprite.setIndex(getGame().getRandom().nextInt(4));
         mSprite.setMatrix(0.7f, 0.7f, null, null);
         mSprite.setLayer(Layers.SHOT);
 
@@ -53,16 +53,16 @@ public class MortarShot extends Shot {
     public void init() {
         super.init();
 
-        mGame.add(mSprite);
+        getGame().add(mSprite);
 
-        mAngle = mGame.getRandom(360f);
+        mAngle = getGame().getRandom(360f);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        mGame.remove(mSprite);
+        getGame().remove(mSprite);
     }
 
     @Override
@@ -80,7 +80,7 @@ public class MortarShot extends Shot {
 
         mHeightScalingFunction.step();
         if (mHeightScalingFunction.getPosition() >= GameEngine.TARGET_FRAME_RATE * TIME_TO_TARGET) {
-            mGame.add(new Explosion(mPosition, mDamage, EXPLOSION_RADIUS));
+            getGame().add(new Explosion(getPosition(), mDamage, EXPLOSION_RADIUS));
             this.remove();
         }
     }

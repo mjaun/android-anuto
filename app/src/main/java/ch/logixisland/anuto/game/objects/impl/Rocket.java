@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.Enemy;
-import ch.logixisland.anuto.game.objects.GameObject;
 import ch.logixisland.anuto.game.objects.HomingShot;
 import ch.logixisland.anuto.game.objects.Sprite;
 import ch.logixisland.anuto.util.math.Vector2;
@@ -26,13 +25,13 @@ public class Rocket extends HomingShot {
     public Rocket(Vector2 position, float damage) {
         setPosition(position);
 
-        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.rocket, 4);
+        mSprite = Sprite.fromResources(getGame().getResources(), R.drawable.rocket, 4);
         mSprite.setListener(this);
-        mSprite.setIndex(mGame.getRandom(4));
+        mSprite.setIndex(getGame().getRandom(4));
         mSprite.setMatrix(0.8f, 1f, null, -90f);
         mSprite.setLayer(Layers.SHOT);
 
-        mSpriteFire = Sprite.fromResources(mGame.getResources(), R.drawable.rocket_fire, 4);
+        mSpriteFire = Sprite.fromResources(getGame().getResources(), R.drawable.rocket_fire, 4);
         mSpriteFire.setListener(this);
         mSpriteFire.setMatrix(0.3f, 0.3f, new Vector2(0.15f, 0.6f), -90f);
         mSpriteFire.setLayer(Layers.SHOT_LOWER);
@@ -55,10 +54,10 @@ public class Rocket extends HomingShot {
     public void init() {
         super.init();
 
-        mGame.add(mSprite);
+        getGame().add(mSprite);
 
         if (isEnabled()) {
-            mGame.add(mSpriteFire);
+            getGame().add(mSpriteFire);
         }
     }
 
@@ -66,10 +65,10 @@ public class Rocket extends HomingShot {
     public void clean() {
         super.clean();
 
-        mGame.remove(mSprite);
+        getGame().remove(mSprite);
 
         if (isEnabled()) {
-            mGame.remove(mSpriteFire);
+            getGame().remove(mSpriteFire);
         }
     }
 
@@ -78,11 +77,11 @@ public class Rocket extends HomingShot {
         super.setEnabled(enabled);
 
         if (isInGame() && !enabled) {
-            mGame.remove(mSpriteFire);
+            getGame().remove(mSpriteFire);
         }
 
         if (isInGame() && enabled) {
-            mGame.add(mSpriteFire);
+            getGame().add(mSpriteFire);
         }
     }
 
@@ -107,11 +106,11 @@ public class Rocket extends HomingShot {
 
     @Override
     protected void onTargetLost() {
-        Enemy closest = (Enemy)mGame.get(Enemy.TYPE_ID)
-                .min(GameObject.distanceTo(mPosition));
+        Enemy closest = (Enemy) getGame().get(Enemy.TYPE_ID)
+                .min(distanceTo(getPosition()));
 
         if (closest == null) {
-            mGame.remove(this);
+            getGame().remove(this);
         } else {
             setTarget(closest);
         }
@@ -119,7 +118,7 @@ public class Rocket extends HomingShot {
 
     @Override
     protected void onTargetReached() {
-        mGame.add(new Explosion(mTarget.getPosition(), mDamage, EXPLOSION_RADIUS));
-        mGame.remove(this);
+        getGame().add(new Explosion(mTarget.getPosition(), mDamage, EXPLOSION_RADIUS));
+        getGame().remove(this);
     }
 }

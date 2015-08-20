@@ -14,7 +14,7 @@ public class Soldier extends Enemy {
     private final Sprite mSprite;
 
     public Soldier() {
-        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.soldier, 12);
+        mSprite = Sprite.fromResources(getGame().getResources(), R.drawable.soldier, 12);
         mSprite.setListener(this);
         mSprite.setMatrix(0.9f, 0.9f, null, null);
         mSprite.setLayer(Layers.ENEMY);
@@ -32,14 +32,14 @@ public class Soldier extends Enemy {
     public void init() {
         super.init();
 
-        mGame.add(mSprite);
+        getGame().add(mSprite);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        mGame.remove(mSprite);
+        getGame().remove(mSprite);
     }
 
     @Override

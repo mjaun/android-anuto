@@ -28,15 +28,15 @@ public class Canon extends AimingTower {
     private final Sprite mSpriteCanon;
 
     public Canon() {
-        mSpriteBase = Sprite.fromResources(mGame.getResources(), R.drawable.base1, 4);
+        mSpriteBase = Sprite.fromResources(getGame().getResources(), R.drawable.base1, 4);
         mSpriteBase.setListener(this);
-        mSpriteBase.setIndex(mGame.getRandom().nextInt(4));
+        mSpriteBase.setIndex(getGame().getRandom().nextInt(4));
         mSpriteBase.setMatrix(1f, 1f, null, null);
         mSpriteBase.setLayer(Layers.TOWER_BASE);
 
-        mSpriteCanon = Sprite.fromResources(mGame.getResources(), R.drawable.canon, 4);
+        mSpriteCanon = Sprite.fromResources(getGame().getResources(), R.drawable.canon, 4);
         mSpriteCanon.setListener(this);
-        mSpriteCanon.setIndex(mGame.getRandom().nextInt(4));
+        mSpriteCanon.setIndex(getGame().getRandom().nextInt(4));
         mSpriteCanon.setMatrix(0.3f, 1.0f, new Vector2(0.15f, 0.4f), -90f);
         mSpriteCanon.setLayer(Layers.TOWER);
 
@@ -52,16 +52,16 @@ public class Canon extends AimingTower {
     public void init() {
         super.init();
 
-        mGame.add(mSpriteBase);
-        mGame.add(mSpriteCanon);
+        getGame().add(mSpriteBase);
+        getGame().add(mSpriteCanon);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        mGame.remove(mSpriteBase);
-        mGame.remove(mSpriteCanon);
+        getGame().remove(mSpriteBase);
+        getGame().remove(mSpriteCanon);
     }
 
     @Override
@@ -82,12 +82,12 @@ public class Canon extends AimingTower {
         if (getTarget() != null) {
             mAngle = getAngleTo(getTarget());
 
-            if (mReloaded) {
-                Shot shot = new CanonShot(mPosition, getTarget(), getDamage());
+            if (isReloaded()) {
+                Shot shot = new CanonShot(getPosition(), getTarget(), getDamage());
                 shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
-                mGame.add(shot);
+                getGame().add(shot);
 
-                mReloaded = false;
+                setReloaded(false);
                 mReboundActive = true;
             }
         }

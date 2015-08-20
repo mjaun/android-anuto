@@ -34,7 +34,7 @@ public class HealEffect extends AreaEffect {
 
         @Override
         public void draw(Canvas canvas) {
-            canvas.drawCircle(mPosition.x, mPosition.y, mRange, mPaint);
+            canvas.drawCircle(getPosition().x, getPosition().y, mRange, mPaint);
         }
     }
 
@@ -55,7 +55,7 @@ public class HealEffect extends AreaEffect {
     public void init() {
         super.init();
 
-        mGame.add(mDrawObject);
+        getGame().add(mDrawObject);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class HealEffect extends AreaEffect {
     public void clean() {
         super.clean();
 
-        mGame.remove(mDrawObject);
+        getGame().remove(mDrawObject);
     }
 
     @Override

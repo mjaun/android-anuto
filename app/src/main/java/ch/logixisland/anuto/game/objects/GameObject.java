@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.game.GameEngine;
+import ch.logixisland.anuto.game.GameManager;
 import ch.logixisland.anuto.util.iterator.Function;
 import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.math.Vector2;
@@ -59,15 +60,6 @@ public abstract class GameObject implements Sprite.Listener {
         };
     }
 
-    public static Predicate<GameObject> enabled() {
-        return new Predicate<GameObject>() {
-            @Override
-            public boolean apply(GameObject value) {
-                return value.isEnabled();
-            }
-        };
-    }
-
     public static Function<GameObject, Float> distanceTo(final Vector2 toPoint) {
         return new Function<GameObject, Float>() {
             @Override
@@ -84,8 +76,7 @@ public abstract class GameObject implements Sprite.Listener {
     private boolean mInGame = false;
     private boolean mEnabled = true;
 
-    protected final Vector2 mPosition = new Vector2();
-    protected final GameEngine mGame = GameEngine.getInstance();
+    private final Vector2 mPosition = new Vector2();
 
     private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
@@ -131,17 +122,25 @@ public abstract class GameObject implements Sprite.Listener {
     }
 
 
+    protected GameEngine getGame() {
+        return GameEngine.getInstance();
+    }
+
+    protected GameManager getManager() {
+        return GameManager.getInstance();
+    }
+
     public boolean isInGame() {
         return mInGame;
     }
 
     public void remove() {
-        mGame.remove(this);
+        getGame().remove(this);
     }
 
 
     public Vector2 getPosition() {
-        return new Vector2(mPosition);
+        return mPosition;
     }
 
     public void setPosition(float x, float y) {

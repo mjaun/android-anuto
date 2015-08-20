@@ -20,15 +20,15 @@ public class LaserTower2 extends AimingTower {
     public LaserTower2() {
         mAngle = 90f;
 
-        mSpriteBase = Sprite.fromResources(mGame.getResources(), R.drawable.base5, 4);
+        mSpriteBase = Sprite.fromResources(getGame().getResources(), R.drawable.base5, 4);
         mSpriteBase.setListener(this);
-        mSpriteBase.setIndex(mGame.getRandom(4));
+        mSpriteBase.setIndex(getGame().getRandom(4));
         mSpriteBase.setMatrix(1f, 1f, null, -90f);
         mSpriteBase.setLayer(Layers.TOWER_BASE);
 
-        mSpriteTower = Sprite.fromResources(mGame.getResources(), R.drawable.laser_tower2, 4);
+        mSpriteTower = Sprite.fromResources(getGame().getResources(), R.drawable.laser_tower2, 4);
         mSpriteTower.setListener(this);
-        mSpriteBase.setIndex(mGame.getRandom(4));
+        mSpriteBase.setIndex(getGame().getRandom(4));
         mSpriteTower.setMatrix(0.4f, 1.0f, new Vector2(0.2f, 0.2f), -90f);
         mSpriteTower.setLayer(Layers.TOWER);
     }
@@ -37,16 +37,16 @@ public class LaserTower2 extends AimingTower {
     public void init() {
         super.init();
 
-        mGame.add(mSpriteBase);
-        mGame.add(mSpriteTower);
+        getGame().add(mSpriteBase);
+        getGame().add(mSpriteTower);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        mGame.remove(mSpriteBase);
-        mGame.remove(mSpriteTower);
+        getGame().remove(mSpriteBase);
+        getGame().remove(mSpriteTower);
     }
 
     @Override
@@ -63,10 +63,10 @@ public class LaserTower2 extends AimingTower {
         if (getTarget() != null) {
             mAngle = getAngleTo(getTarget());
 
-            if (mReloaded) {
-                Vector2 origin = Vector2.polar(LASER_SPAWN_OFFSET, mAngle).add(mPosition);
-                mGame.add(new Laser(origin, getTarget(), getDamage(), 2));
-                mReloaded = false;
+            if (isReloaded()) {
+                Vector2 origin = Vector2.polar(LASER_SPAWN_OFFSET, mAngle).add(getPosition());
+                getGame().add(new Laser(origin, getTarget(), getDamage(), 2));
+                setReloaded(false);
             }
         }
     }

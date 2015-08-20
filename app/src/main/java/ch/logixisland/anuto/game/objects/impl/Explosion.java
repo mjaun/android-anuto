@@ -9,7 +9,6 @@ import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.DrawObject;
 import ch.logixisland.anuto.game.objects.Effect;
 import ch.logixisland.anuto.game.objects.Enemy;
-import ch.logixisland.anuto.game.objects.GameObject;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.Vector2;
 
@@ -18,7 +17,7 @@ public class Explosion extends Effect {
     private final static float EXPLOSION_VISIBLE_TIME = 0.2f;
 
     private final static int ALPHA_START = 180;
-    private final static int ALPHA_STEP = (int)(ALPHA_START / GameEngine.TARGET_FRAME_RATE / EXPLOSION_VISIBLE_TIME);
+    private final static int ALPHA_STEP = (int)(ALPHA_START / (GameEngine.TARGET_FRAME_RATE * EXPLOSION_VISIBLE_TIME));
 
     private class ExplosionDrawObject extends DrawObject {
         private Paint mPaint;
@@ -47,7 +46,7 @@ public class Explosion extends Effect {
 
         @Override
         public void draw(Canvas canvas) {
-            canvas.drawCircle(mPosition.x, mPosition.y, mRadius, mPaint);
+            canvas.drawCircle(getPosition().x, getPosition().y, mRadius, mPaint);
         }
     }
 
@@ -69,14 +68,14 @@ public class Explosion extends Effect {
     public void init() {
         super.init();
 
-        mGame.add(mDrawObject);
+        getGame().add(mDrawObject);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        mGame.remove(mDrawObject);
+        getGame().remove(mDrawObject);
     }
 
     @Override
@@ -88,8 +87,8 @@ public class Explosion extends Effect {
 
     @Override
     protected void effectBegin() {
-        StreamIterator<Enemy> enemies = mGame.get(Enemy.TYPE_ID)
-                .filter(GameObject.inRange(mPosition, mRadius))
+        StreamIterator<Enemy> enemies = getGame().get(Enemy.TYPE_ID)
+                .filter(inRange(getPosition(), mRadius))
                 .cast(Enemy.class);
 
         while (enemies.hasNext()) {

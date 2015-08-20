@@ -42,7 +42,7 @@ public class MineLayer extends Tower {
     public MineLayer() {
         mAngle = 90f;
 
-        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.minelayer, 6);
+        mSprite = Sprite.fromResources(getGame().getResources(), R.drawable.minelayer, 6);
         mSprite.setListener(this);
         mSprite.setMatrix(1f, 1f, null, null);
         mSprite.setLayer(Layers.TOWER);
@@ -57,15 +57,15 @@ public class MineLayer extends Tower {
     public void init() {
         super.init();
 
-        mAngle = mGame.getRandom(360f);
-        mGame.add(mSprite);
+        mAngle = getGame().getRandom(360f);
+        getGame().add(mSprite);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        mGame.remove(mSprite);
+        getGame().remove(mSprite);
 
         for (Mine m : mMines) {
             m.removeListener(mMineListener);
@@ -95,19 +95,19 @@ public class MineLayer extends Tower {
     public void tick() {
         super.tick();
 
-        if (mReloaded && mMines.size() < MAX_MINE_COUNT && mSections.size() > 0) {
+        if (isReloaded() && mMines.size() < MAX_MINE_COUNT && mSections.size() > 0) {
             mShooting = true;
-            mReloaded = false;
+            setReloaded(false);
         }
 
         if (mShooting) {
             mSprite.animate();
 
             if (mAnimator.getPosition() == 5) {
-                Mine m = new Mine(mPosition, getTarget(), getDamage());
+                Mine m = new Mine(getPosition(), getTarget(), getDamage());
                 m.addListener(mMineListener);
                 mMines.add(m);
-                mGame.add(m);
+                getGame().add(m);
 
                 mShooting = false;
             }
@@ -130,7 +130,7 @@ public class MineLayer extends Tower {
             totalLen += s.len;
         }
 
-        float dist = mGame.getRandom(totalLen);
+        float dist = getGame().getRandom(totalLen);
 
         for (PathSection s : mSections) {
             if (dist > s.len) {

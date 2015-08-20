@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.Enemy;
-import ch.logixisland.anuto.game.objects.GameObject;
 import ch.logixisland.anuto.game.objects.Shot;
 import ch.logixisland.anuto.game.objects.Sprite;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
@@ -28,9 +27,9 @@ public class CanonShotMG extends Shot {
         mDirection = direction;
         mAngle = mDirection.angle();
 
-        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.canon_mg_shot, 4);
+        mSprite = Sprite.fromResources(getGame().getResources(), R.drawable.canon_mg_shot, 4);
         mSprite.setListener(this);
-        mSprite.setIndex(mGame.getRandom().nextInt(4));
+        mSprite.setIndex(getGame().getRandom().nextInt(4));
         mSprite.setMatrix(0.2f, null, null, -90f);
         mSprite.setLayer(Layers.SHOT);
     }
@@ -39,14 +38,14 @@ public class CanonShotMG extends Shot {
     public void init() {
         super.init();
 
-        mGame.add(mSprite);
+        getGame().add(mSprite);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        mGame.remove(mSprite);
+        getGame().remove(mSprite);
     }
 
     @Override
@@ -60,8 +59,8 @@ public class CanonShotMG extends Shot {
     public void tick() {
         super.tick();
 
-        StreamIterator<Enemy> encountered = mGame.get(Enemy.TYPE_ID)
-                .filter(GameObject.inRange(mPosition, 0.5f))
+        StreamIterator<Enemy> encountered = getGame().get(Enemy.TYPE_ID)
+                .filter(inRange(getPosition(), 0.5f))
                 .cast(Enemy.class);
 
         if (encountered.hasNext()) {
@@ -72,7 +71,7 @@ public class CanonShotMG extends Shot {
             this.remove();
         }
 
-        if (!mGame.inGame(mPosition)) {
+        if (!getGame().inGame(getPosition())) {
             this.remove();
         }
     }

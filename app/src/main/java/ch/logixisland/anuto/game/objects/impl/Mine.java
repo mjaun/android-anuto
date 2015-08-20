@@ -6,7 +6,6 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.Enemy;
-import ch.logixisland.anuto.game.objects.GameObject;
 import ch.logixisland.anuto.game.objects.Shot;
 import ch.logixisland.anuto.game.objects.Sprite;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
@@ -43,11 +42,11 @@ public class Mine extends Shot {
         mTicksToTarget = Math.round(GameEngine.TARGET_FRAME_RATE * TIME_TO_TARGET);
         mDamage = damage;
 
-        mRotationStep = mGame.getRandom(ROTATION_RATE_MIN, ROTATION_RATE_MAX) * 360f / GameEngine.TARGET_FRAME_RATE;
+        mRotationStep = getGame().getRandom(ROTATION_RATE_MIN, ROTATION_RATE_MAX) * 360f / GameEngine.TARGET_FRAME_RATE;
 
-        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.mine, 4);
+        mSprite = Sprite.fromResources(getGame().getResources(), R.drawable.mine, 4);
         mSprite.setListener(this);
-        mSprite.setIndex(mGame.getRandom().nextInt(4));
+        mSprite.setIndex(getGame().getRandom().nextInt(4));
         mSprite.setMatrix(0.7f, 0.7f, null, null);
         mSprite.setLayer(Layers.SHOT);
 
@@ -65,14 +64,14 @@ public class Mine extends Shot {
     public void init() {
         super.init();
 
-        mGame.add(mSprite);
+        getGame().add(mSprite);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        mGame.remove(mSprite);
+        getGame().remove(mSprite);
     }
 
     @Override
@@ -98,13 +97,13 @@ public class Mine extends Shot {
                 mHeightScalingFunction.reset();
                 mSpeed = 0f;
             }
-        } else if (mGame.tick100ms(this)) {
-            StreamIterator<Enemy> enemiesInRange = mGame.get(Enemy.TYPE_ID)
-                    .filter(GameObject.inRange(mPosition, 0.5f))
+        } else if (getGame().tick100ms(this)) {
+            StreamIterator<Enemy> enemiesInRange = getGame().get(Enemy.TYPE_ID)
+                    .filter(inRange(getPosition(), 0.5f))
                     .cast(Enemy.class);
 
             if (enemiesInRange.hasNext()) {
-                mGame.add(new Explosion(mPosition, mDamage, EXPLOSION_RADIUS));
+                getGame().add(new Explosion(getPosition(), mDamage, EXPLOSION_RADIUS));
                 this.remove();
             }
         }

@@ -53,7 +53,7 @@ public abstract class AimingTower extends Tower {
     public void tick() {
         super.tick();
 
-        if (mGame.tick100ms(this)) {
+        if (getGame().tick100ms(this)) {
             if (mTarget != null && getDistanceTo(mTarget) > getRange()) {
                 onTargetLost();
             }
@@ -101,7 +101,7 @@ public abstract class AimingTower extends Tower {
     protected void nextTarget() {
         switch (mStrategy) {
             case Closest:
-                setTarget(getPossibleTargets().min(GameObject.distanceTo(mPosition)));
+                setTarget(getPossibleTargets().min(distanceTo(getPosition())));
                 break;
 
             case Strongest:

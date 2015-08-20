@@ -26,13 +26,13 @@ public class Mortar extends AimingTower {
     public Mortar() {
         mAngle = 90f;
 
-        mSpriteBase = Sprite.fromResources(mGame.getResources(), R.drawable.base2, 4);
+        mSpriteBase = Sprite.fromResources(getGame().getResources(), R.drawable.base2, 4);
         mSpriteBase.setListener(this);
-        mSpriteBase.setIndex(mGame.getRandom().nextInt(4));
+        mSpriteBase.setIndex(getGame().getRandom().nextInt(4));
         mSpriteBase.setMatrix(1f, 1f, null, null);
         mSpriteBase.setLayer(Layers.TOWER_BASE);
 
-        mSpriteCanon = Sprite.fromResources(mGame.getResources(), R.drawable.mortar, 8);
+        mSpriteCanon = Sprite.fromResources(getGame().getResources(), R.drawable.mortar, 8);
         mSpriteCanon.setListener(this);
         mSpriteCanon.setMatrix(0.8f, null, new Vector2(0.4f, 0.2f), -90f);
         mSpriteCanon.setLayer(Layers.TOWER);
@@ -47,16 +47,16 @@ public class Mortar extends AimingTower {
     public void init() {
         super.init();
 
-        mGame.add(mSpriteBase);
-        mGame.add(mSpriteCanon);
+        getGame().add(mSpriteBase);
+        getGame().add(mSpriteCanon);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        mGame.remove(mSpriteBase);
-        mGame.remove(mSpriteCanon);
+        getGame().remove(mSpriteBase);
+        getGame().remove(mSpriteCanon);
     }
 
     @Override
@@ -72,16 +72,16 @@ public class Mortar extends AimingTower {
     public void tick() {
         super.tick();
 
-        if (getTarget() != null && mReloaded) {
+        if (getTarget() != null && isReloaded()) {
             Vector2 targetPos = getTarget().getPositionAfter(Mine.TIME_TO_TARGET);
-            targetPos.add(Vector2.polar(mGame.getRandom(INACCURACY), mGame.getRandom(360f)));
+            targetPos.add(Vector2.polar(getGame().getRandom(INACCURACY), getGame().getRandom(360f)));
             mAngle = getAngleTo(targetPos);
 
-            Vector2 shotPos = mPosition.copy().add(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
+            Vector2 shotPos = getPosition().copy().add(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
 
-            mGame.add(new MortarShot(shotPos, targetPos, getDamage()));
+            getGame().add(new MortarShot(shotPos, targetPos, getDamage()));
 
-            mReloaded = false;
+            setReloaded(false);
             mRebounding = true;
         }
 

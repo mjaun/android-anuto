@@ -34,7 +34,7 @@ public class TeleportEffect extends Effect {
         @Override
         public void draw(Canvas canvas) {
             Vector2 target = mTarget.getPosition();
-            canvas.drawLine(mPosition.x, mPosition.y, target.x, target.y, mPaint);
+            canvas.drawLine(getPosition().x, getPosition().y, target.x, target.y, mPaint);
         }
     }
 
@@ -64,14 +64,14 @@ public class TeleportEffect extends Effect {
     public void init() {
         super.init();
 
-        mGame.add(mDrawObject);
+        getGame().add(mDrawObject);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        mGame.remove(mDrawObject);
+        getGame().remove(mDrawObject);
     }
 
     @Override

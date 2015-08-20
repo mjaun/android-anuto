@@ -12,7 +12,7 @@ public class Blob extends Enemy {
     private final Sprite mSprite;
 
     public Blob() {
-        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.blob, 9);
+        mSprite = Sprite.fromResources(getGame().getResources(), R.drawable.blob, 9);
         mSprite.setListener(this);
         mSprite.setMatrix(0.9f, 0.9f, null, null);
         mSprite.setLayer(Layers.ENEMY);
@@ -27,14 +27,14 @@ public class Blob extends Enemy {
     public void init() {
         super.init();
 
-        mGame.add(mSprite);
+        getGame().add(mSprite);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        mGame.remove(mSprite);
+        getGame().remove(mSprite);
     }
 
     @Override

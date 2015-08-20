@@ -19,7 +19,7 @@ public class GlueEffect extends AreaEffect {
     private final static float EFFECT_DURATION = 2f;
 
     private final static int ALPHA_START = 150;
-    private final static int ALPHA_STEP = (int)(ALPHA_START / GameEngine.TARGET_FRAME_RATE / EFFECT_DURATION);
+    private final static int ALPHA_STEP = (int)(ALPHA_START / (GameEngine.TARGET_FRAME_RATE * EFFECT_DURATION));
 
     private float mAngle;
     private float mSpeedModifier;
@@ -32,9 +32,9 @@ public class GlueEffect extends AreaEffect {
     public GlueEffect(Vector2 position, float speedModifier) {
         setPosition(position);
 
-        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.glue_effect, 4);
+        mSprite = Sprite.fromResources(getGame().getResources(), R.drawable.glue_effect, 4);
         mSprite.setListener(this);
-        mSprite.setIndex(mGame.getRandom().nextInt(4));
+        mSprite.setIndex(getGame().getRandom().nextInt(4));
         mSprite.setMatrix(1f, 1f, null, null);
         mSprite.setLayer(Layers.EFFECT_BOTTOM);
 
@@ -43,7 +43,7 @@ public class GlueEffect extends AreaEffect {
         mSprite.setPaint(mPaint);
 
         mDuration = EFFECT_DURATION;
-        mAngle = mGame.getRandom(360f);
+        mAngle = getGame().getRandom(360f);
         mSpeedModifier = speedModifier;
     }
 
@@ -51,14 +51,14 @@ public class GlueEffect extends AreaEffect {
     public void init() {
         super.init();
 
-        mGame.add(mSprite);
+        getGame().add(mSprite);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        mGame.remove(mSprite);
+        getGame().remove(mSprite);
     }
 
     @Override

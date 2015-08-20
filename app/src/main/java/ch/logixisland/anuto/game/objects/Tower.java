@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.logixisland.anuto.game.GameManager;
 import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.TickTimer;
 import ch.logixisland.anuto.game.TypeIds;
@@ -48,7 +47,7 @@ public abstract class Tower extends GameObject {
 
         @Override
         public void draw(Canvas canvas) {
-            canvas.drawCircle(mPosition.x, mPosition.y, mConfig.range, mPen);
+            canvas.drawCircle(getPosition().x, getPosition().y, mConfig.range, mPen);
         }
     }
 
@@ -68,7 +67,7 @@ public abstract class Tower extends GameObject {
 
     private TowerConfig mConfig;
 
-    protected boolean mReloaded = false;
+    private boolean mReloaded = false;
     private int mValue;
     private Plateau mPlateau = null;
 
@@ -80,7 +79,7 @@ public abstract class Tower extends GameObject {
      */
 
     public Tower() {
-        mConfig = GameManager.getInstance().getLevel().getTowerConfig(this);
+        mConfig = getManager().getLevel().getTowerConfig(this);
         mValue = mConfig.value;
         mReloadTimer = TickTimer.createInterval(mConfig.reload);
     }
@@ -138,6 +137,14 @@ public abstract class Tower extends GameObject {
     }
 
 
+    public boolean isReloaded() {
+        return mReloaded;
+    }
+
+    public void setReloaded(boolean reloaded) {
+        reloaded = reloaded;
+    }
+
     public int getValue() {
         return mValue;
     }
@@ -172,11 +179,11 @@ public abstract class Tower extends GameObject {
 
 
     public void buy() {
-        GameManager.getInstance().takeCredits(mValue);
+        getManager().takeCredits(mValue);
     }
 
     public void sell() {
-        GameManager.getInstance().giveCredits(mValue);
+        getManager().giveCredits(mValue);
     }
 
     public void devalue(float factor) {
@@ -201,31 +208,31 @@ public abstract class Tower extends GameObject {
         upgrade.setPlateau(plateau);
         upgrade.setEnabled(true);
 
-        GameManager.getInstance().takeCredits(upgrade.mValue);
+        getManager().takeCredits(upgrade.mValue);
         upgrade.mValue += this.mValue;
 
-        mGame.add(upgrade);
+        getGame().add(upgrade);
         return upgrade;
     }
 
     public void showRange() {
         if (mRangeIndicator == null) {
             mRangeIndicator = new RangeIndicator();
-            mGame.add(mRangeIndicator);
+            getGame().add(mRangeIndicator);
         }
     }
 
     public void hideRange() {
         if (mRangeIndicator != null) {
-            mGame.remove(mRangeIndicator);
+            getGame().remove(mRangeIndicator);
             mRangeIndicator = null;
         }
     }
 
 
     public StreamIterator<Enemy> getPossibleTargets() {
-        return mGame.get(Enemy.TYPE_ID)
-                .filter(GameObject.inRange(mPosition, mConfig.range))
+        return getGame().get(Enemy.TYPE_ID)
+                .filter(inRange(getPosition(), mConfig.range))
                 .cast(Enemy.class);
     }
 
@@ -234,10 +241,10 @@ public abstract class Tower extends GameObject {
 
         float r2 = MathUtils.square(mConfig.range);
 
-        for (Path p : GameManager.getInstance().getLevel().getPaths()) {
+        for (Path p : getManager().getLevel().getPaths()) {
             for (int i = 1; i < p.count(); i++) {
-                Vector2 p1 = p.get(i - 1).copy().sub(mPosition);
-                Vector2 p2 = p.get(i).copy().sub(mPosition);
+                Vector2 p1 = p.get(i - 1).copy().sub(getPosition());
+                Vector2 p2 = p.get(i).copy().sub(getPosition());
 
                 boolean p1in = p1.len2() <= r2;
                 boolean p2in = p2.len2() <= r2;
@@ -247,8 +254,8 @@ public abstract class Tower extends GameObject {
                 PathSection s = new PathSection();
 
                 if (p1in && p2in) {
-                    s.p1 = p1.add(mPosition);
-                    s.p2 = p2.add(mPosition);
+                    s.p1 = p1.add(getPosition());
+                    s.p2 = p2.add(getPosition());
                 } else if (!p1in && !p2in) {
                     if (is == null) {
                         continue;
@@ -261,28 +268,28 @@ public abstract class Tower extends GameObject {
                         continue;
                     }
 
-                    s.p1 = is[0].add(mPosition);
-                    s.p2 = is[1].add(mPosition);
+                    s.p1 = is[0].add(getPosition());
+                    s.p2 = is[1].add(getPosition());
                 }
                 else {
                     float angle = Vector2.fromTo(p1, p2).angle();
 
                     if (p1in) {
                         if (MathUtils.equals(angle, Vector2.fromTo(p1, is[0]).angle(), 10f)) {
-                            s.p2 = is[0].add(mPosition);
+                            s.p2 = is[0].add(getPosition());
                         } else {
-                            s.p2 = is[1].add(mPosition);
+                            s.p2 = is[1].add(getPosition());
                         }
 
-                        s.p1 = p1.add(mPosition);
+                        s.p1 = p1.add(getPosition());
                     } else {
                         if (MathUtils.equals(angle, Vector2.fromTo(is[0], p2).angle(), 10f)) {
-                            s.p1 = is[0].add(mPosition);
+                            s.p1 = is[0].add(getPosition());
                         } else {
-                            s.p1 = is[1].add(mPosition);
+                            s.p1 = is[1].add(getPosition());
                         }
 
-                        s.p2 = p2.add(mPosition);
+                        s.p2 = p2.add(getPosition());
                     }
                 }
 

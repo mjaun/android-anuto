@@ -41,15 +41,15 @@ public class GlueTower extends Tower {
     private final Sprite mSpriteTower;
 
     public GlueTower() {
-        mSpriteBase = Sprite.fromResources(mGame.getResources(), R.drawable.base4, 4);
+        mSpriteBase = Sprite.fromResources(getGame().getResources(), R.drawable.base4, 4);
         mSpriteBase.setListener(this);
-        mSpriteBase.setIndex(mGame.getRandom().nextInt(4));
+        mSpriteBase.setIndex(getGame().getRandom().nextInt(4));
         mSpriteBase.setMatrix(1f, 1f, null, null);
         mSpriteBase.setLayer(Layers.TOWER);
 
-        mSpriteTower = Sprite.fromResources(mGame.getResources(), R.drawable.glue_shot, 6);
+        mSpriteTower = Sprite.fromResources(getGame().getResources(), R.drawable.glue_shot, 6);
         mSpriteTower.setListener(this);
-        mSpriteTower.setIndex(mGame.getRandom().nextInt(6));
+        mSpriteTower.setIndex(getGame().getRandom().nextInt(6));
         mSpriteTower.setMatrix(0.3f, 0.3f, null, null);
         mSpriteTower.setLayer(Layers.TOWER_UPPER);
 
@@ -57,9 +57,9 @@ public class GlueTower extends Tower {
             mCanons[i] = new SubCanon();
             mCanons[i].angle = 360f / mCanons.length * i;
 
-            Sprite s = Sprite.fromResources(mGame.getResources(), R.drawable.glue_tower_gun, 4);
+            Sprite s = Sprite.fromResources(getGame().getResources(), R.drawable.glue_tower_gun, 4);
             s.setListener(mCanons[i]);
-            s.setIndex(mGame.getRandom().nextInt(4));
+            s.setIndex(getGame().getRandom().nextInt(4));
             s.setMatrix(0.3f, 0.4f, null, -90f);
             s.setLayer(Layers.TOWER_LOWER);
             mCanons[i].sprite = s;
@@ -70,11 +70,11 @@ public class GlueTower extends Tower {
     public void init() {
         super.init();
 
-        mGame.add(mSpriteBase);
-        mGame.add(mSpriteTower);
+        getGame().add(mSpriteBase);
+        getGame().add(mSpriteTower);
         
         for (SubCanon c : mCanons) {
-            mGame.add(c.sprite);
+            getGame().add(c.sprite);
         }
     }
 
@@ -82,11 +82,11 @@ public class GlueTower extends Tower {
     public void clean() {
         super.clean();
 
-        mGame.remove(mSpriteBase);
-        mGame.remove(mSpriteTower);
+        getGame().remove(mSpriteBase);
+        getGame().remove(mSpriteTower);
 
         for (SubCanon c : mCanons) {
-            mGame.remove(c.sprite);
+            getGame().remove(c.sprite);
         }
     }
 
@@ -108,9 +108,9 @@ public class GlueTower extends Tower {
     public void tick() {
         super.tick();
 
-        if (mReloaded) {
+        if (isReloaded() && getGame().tick100ms(this) && !getPossibleTargets().isEmpty()) {
             mShooting = true;
-            mReloaded = false;
+            setReloaded(false);
         }
 
         if (mShooting) {
@@ -121,9 +121,9 @@ public class GlueTower extends Tower {
 
                 for (Vector2 target : mTargets) {
                     Vector2 position = Vector2.polar(SHOT_SPAWN_OFFSET, getAngleTo(target));
-                    position.add(mPosition);
+                    position.add(getPosition());
 
-                    mGame.add(new GlueShot(position, target, 1f / getDamage()));
+                    getGame().add(new GlueShot(position, target, 1f / getDamage()));
                 }
             }
         } else if (mCanonOffset > 0f) {

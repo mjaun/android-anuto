@@ -26,8 +26,7 @@ public class GameEngine {
      */
 
     public final static int TARGET_FRAME_RATE = 30;
-    public final static int TARGET_FRAME_PERIOD_MS = 1000 / TARGET_FRAME_RATE;
-
+    private final static int TARGET_FRAME_PERIOD_MS = 1000 / TARGET_FRAME_RATE;
     private final static int TICKS_100MS = Math.round(TARGET_FRAME_RATE * 0.1f);
 
     private final static int BACKGROUND_COLOR = Color.WHITE;
@@ -131,7 +130,6 @@ public class GameEngine {
      */
 
     private GameEngine() {
-        calcScreenMatrix();
     }
 
     /*

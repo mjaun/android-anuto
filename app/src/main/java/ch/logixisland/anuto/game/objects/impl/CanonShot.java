@@ -24,9 +24,9 @@ public class CanonShot extends HomingShot {
         setPosition(position);
         setTarget(target);
 
-        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.canon_shot, 4);
+        mSprite = Sprite.fromResources(getGame().getResources(), R.drawable.canon_shot, 4);
         mSprite.setListener(this);
-        mSprite.setIndex(mGame.getRandom().nextInt(4));
+        mSprite.setIndex(getGame().getRandom().nextInt(4));
         mSprite.setMatrix(0.33f, 0.33f, null, null);
         mSprite.setLayer(Layers.SHOT);
 
@@ -38,14 +38,14 @@ public class CanonShot extends HomingShot {
     public void init() {
         super.init();
 
-        mGame.add(mSprite);
+        getGame().add(mSprite);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        mGame.remove(mSprite);
+        getGame().remove(mSprite);
     }
 
     @Override

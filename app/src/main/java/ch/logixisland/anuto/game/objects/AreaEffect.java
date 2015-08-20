@@ -13,7 +13,7 @@ public abstract class AreaEffect extends Effect {
 
     protected float mRange = 1f;
 
-    protected final List<Enemy> mAffectedEnemies = new CopyOnWriteArrayList<>();
+    private final List<Enemy> mAffectedEnemies = new CopyOnWriteArrayList<>();
 
     private final GameObject.Listener mEnemyListener = new Listener() {
         @Override
@@ -42,7 +42,7 @@ public abstract class AreaEffect extends Effect {
     public void tick() {
         super.tick();
 
-        if (mGame.tick100ms(this) && isInGame()) {
+        if (getGame().tick100ms(this) && isInGame()) {
             for (Enemy e : mAffectedEnemies) {
                 if (getDistanceTo(e) > mRange) {
                     mAffectedEnemies.remove(e);
@@ -51,8 +51,8 @@ public abstract class AreaEffect extends Effect {
                 }
             }
 
-            StreamIterator<Enemy> enemies = mGame.get(Enemy.TYPE_ID)
-                    .filter(GameObject.inRange(mPosition, mRange))
+            StreamIterator<Enemy> enemies = getGame().get(Enemy.TYPE_ID)
+                    .filter(inRange(getPosition(), mRange))
                     .cast(Enemy.class);
 
             while (enemies.hasNext()) {

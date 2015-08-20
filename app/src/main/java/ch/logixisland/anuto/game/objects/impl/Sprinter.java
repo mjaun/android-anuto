@@ -22,7 +22,7 @@ public class Sprinter extends Enemy {
     private final Sprite mSprite;
 
     public Sprinter() {
-        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.sprinter, 6);
+        mSprite = Sprite.fromResources(getGame().getResources(), R.drawable.sprinter, 6);
         mSprite.setListener(this);
         mSprite.setMatrix(0.9f, 0.9f, null, null);
         mSprite.setLayer(Layers.ENEMY);
@@ -42,7 +42,7 @@ public class Sprinter extends Enemy {
                     .stretch(GameEngine.TARGET_FRAME_RATE / ANIMATION_SPEED / (float)Math.PI)
                     .sample();
 
-            mGame.add(new Runnable() {
+            getGame().add(new Runnable() {
                 @Override
                 public void run() {
                     sSpeedFunction.step();
@@ -55,7 +55,7 @@ public class Sprinter extends Enemy {
     public void init() {
         super.init();
 
-        mGame.add(mSprite);
+        getGame().add(mSprite);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class Sprinter extends Enemy {
     public void clean() {
         super.clean();
 
-        mGame.remove(mSprite);
+        getGame().remove(mSprite);
     }
 
     @Override

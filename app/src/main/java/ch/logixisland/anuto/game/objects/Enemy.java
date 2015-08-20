@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import ch.logixisland.anuto.game.GameEngine;
-import ch.logixisland.anuto.game.GameManager;
 import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.TypeIds;
 import ch.logixisland.anuto.game.data.EnemyConfig;
@@ -51,7 +50,7 @@ public abstract class Enemy extends GameObject {
         public void draw(Canvas canvas) {
             if (!MathUtils.equals(mHealth, mConfig.health, 1f)) {
                 canvas.save();
-                canvas.translate(mPosition.x - HEALTHBAR_WIDTH / 2f, mPosition.y + HEALTHBAR_OFFSET);
+                canvas.translate(getPosition().x - HEALTHBAR_WIDTH / 2f, getPosition().y + HEALTHBAR_OFFSET);
 
                 canvas.drawRect(0, 0, HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT, mHealthBarBg);
                 canvas.drawRect(0, 0, mHealth / mConfig.health * HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT, mHealthBarFg);
@@ -105,7 +104,7 @@ public abstract class Enemy extends GameObject {
      */
 
     public Enemy() {
-        mConfig = GameManager.getInstance().getLevel().getEnemyConfig(this);
+        mConfig = getManager().getLevel().getEnemyConfig(this);
         mBaseSpeed = mConfig.speed;
         mHealth = mConfig.health;
 
@@ -125,13 +124,13 @@ public abstract class Enemy extends GameObject {
     public void init() {
         super.init();
 
-        mGame.add(mHealthBar);
+        getGame().add(mHealthBar);
     }
 
     @Override
     public void clean() {
         super.clean();
-        mGame.remove(mHealthBar);
+        getGame().remove(mHealthBar);
     }
 
     @Override
@@ -140,7 +139,7 @@ public abstract class Enemy extends GameObject {
 
         if (isEnabled()) {
             if (!hasWayPoint()) {
-                GameManager.getInstance().takeLives(1);
+                getManager().takeLives(1);
                 this.remove();
                 return;
             }
@@ -150,7 +149,7 @@ public abstract class Enemy extends GameObject {
                 setPosition(getWayPoint());
                 mWayPointIndex++;
             } else {
-                move(getDirectionTo(getWayPoint()), stepSize);
+                move(getDirection(), stepSize);
             }
         }
     }
@@ -186,12 +185,12 @@ public abstract class Enemy extends GameObject {
 
     public Vector2 getPositionAfter(float sec) {
         if (mPath == null) {
-            return mPosition;
+            return getPosition();
         }
 
         float distance = sec * getSpeed();
         int index = mWayPointIndex;
-        Vector2 position = mPosition.copy();
+        Vector2 position = getPosition().copy();
 
         while (index < mPath.count()) {
             Vector2 toWaypoint = mPath.get(index).copy().sub(position);
@@ -228,7 +227,7 @@ public abstract class Enemy extends GameObject {
 
     public void sendBack(float dist) {
         int index = mWayPointIndex - 1;
-        Vector2 pos = mPosition;
+        Vector2 pos = getPosition();
 
         while (index > 0) {
             Vector2 wp = mPath.get(index);
@@ -260,7 +259,7 @@ public abstract class Enemy extends GameObject {
         mHealth -= dmg / mHealthModifier;
 
         if (mHealth <= 0) {
-            GameManager.getInstance().giveCredits(getReward());
+            getManager().giveCredits(getReward());
             this.remove();
         }
     }

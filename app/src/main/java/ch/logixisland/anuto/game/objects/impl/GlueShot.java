@@ -21,7 +21,7 @@ public class GlueShot extends Shot {
         setPosition(position);
         mTarget = new Vector2(target);
 
-        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.glue_shot, 6);
+        mSprite = Sprite.fromResources(getGame().getResources(), R.drawable.glue_shot, 6);
         mSprite.setListener(this);
         mSprite.setMatrix(0.33f, 0.33f, null, null);
         mSprite.setLayer(Layers.SHOT);
@@ -40,14 +40,14 @@ public class GlueShot extends Shot {
     public void init() {
         super.init();
 
-        mGame.add(mSprite);
+        getGame().add(mSprite);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        mGame.remove(mSprite);
+        getGame().remove(mSprite);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class GlueShot extends Shot {
         mSprite.animate();
 
         if (getDistanceTo(mTarget) < mSpeed / GameEngine.TARGET_FRAME_RATE) {
-            mGame.add(new GlueEffect(mTarget, mSpeedModifier));
+            getGame().add(new GlueEffect(mTarget, mSpeedModifier));
             this.remove();
         }
     }

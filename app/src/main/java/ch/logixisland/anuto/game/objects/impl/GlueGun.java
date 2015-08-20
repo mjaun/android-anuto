@@ -21,13 +21,13 @@ public class GlueGun extends AimingTower {
     private final Sprite mSpriteCanon;
 
     public GlueGun() {
-        mSpriteBase = Sprite.fromResources(mGame.getResources(), R.drawable.base4, 4);
+        mSpriteBase = Sprite.fromResources(getGame().getResources(), R.drawable.base4, 4);
         mSpriteBase.setListener(this);
-        mSpriteBase.setIndex(mGame.getRandom().nextInt(4));
+        mSpriteBase.setIndex(getGame().getRandom().nextInt(4));
         mSpriteBase.setMatrix(1f, 1f, null, null);
         mSpriteBase.setLayer(Layers.TOWER_BASE);
 
-        mSpriteCanon = Sprite.fromResources(mGame.getResources(), R.drawable.glue_gun, 6);
+        mSpriteCanon = Sprite.fromResources(getGame().getResources(), R.drawable.glue_gun, 6);
         mSpriteCanon.setListener(this);
         mSpriteCanon.setMatrix(0.8f, 1.0f, new Vector2(0.4f, 0.4f), -90f);
         mSpriteCanon.setLayer(Layers.TOWER);
@@ -44,16 +44,16 @@ public class GlueGun extends AimingTower {
     public void init() {
         super.init();
 
-        mGame.add(mSpriteBase);
-        mGame.add(mSpriteCanon);
+        getGame().add(mSpriteBase);
+        getGame().add(mSpriteCanon);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        mGame.remove(mSpriteBase);
-        mGame.remove(mSpriteCanon);
+        getGame().remove(mSpriteBase);
+        getGame().remove(mSpriteCanon);
     }
 
     @Override
@@ -67,16 +67,16 @@ public class GlueGun extends AimingTower {
     public void tick() {
         super.tick();
 
-        if (mReloaded && getTarget() != null) {
+        if (isReloaded() && getTarget() != null) {
             Vector2 target = getTarget().getPositionAfter(1.0f);
 
             mAngle = getAngleTo(target);
 
-            Shot shot = new GlueShot(mPosition, target, 1f / getDamage());
+            Shot shot = new GlueShot(getPosition(), target, 1f / getDamage());
             shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
-            mGame.add(shot);
+            getGame().add(shot);
 
-            mReloaded = false;
+            setReloaded(false);
             mRebounding = true;
         }
 

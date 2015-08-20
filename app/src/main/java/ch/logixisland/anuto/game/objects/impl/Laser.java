@@ -12,7 +12,6 @@ import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.DrawObject;
 import ch.logixisland.anuto.game.objects.Effect;
 import ch.logixisland.anuto.game.objects.Enemy;
-import ch.logixisland.anuto.game.objects.GameObject;
 import ch.logixisland.anuto.util.math.Vector2;
 
 public class Laser extends Effect {
@@ -23,7 +22,7 @@ public class Laser extends Effect {
     private final static float LASER_VISIBLE_TIME = 0.5f;
 
     private final static int ALPHA_START = 180;
-    private final static int ALPHA_STEP = (int)(ALPHA_START / GameEngine.TARGET_FRAME_RATE / LASER_VISIBLE_TIME);
+    private final static int ALPHA_STEP = (int)(ALPHA_START / (GameEngine.TARGET_FRAME_RATE * LASER_VISIBLE_TIME));
 
     private class LaserDrawObject extends DrawObject {
         private Paint mPaint;
@@ -53,7 +52,7 @@ public class Laser extends Effect {
 
         @Override
         public void draw(Canvas canvas) {
-            canvas.drawLine(mPosition.x, mPosition.y, mTargetPos.x, mTargetPos.y, mPaint);
+            canvas.drawLine(getPosition().x, getPosition().y, mTargetPos.x, mTargetPos.y, mPaint);
         }
     }
 
@@ -92,14 +91,14 @@ public class Laser extends Effect {
     public void init() {
         super.init();
 
-        mGame.add(mDrawObject);
+        getGame().add(mDrawObject);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        mGame.remove(mDrawObject);
+        getGame().remove(mDrawObject);
     }
 
     @Override
@@ -123,12 +122,12 @@ public class Laser extends Effect {
                 mPrevTargets.add(mTarget);
             }
 
-            Enemy enemy = (Enemy)mGame.get(Enemy.TYPE_ID)
+            Enemy enemy = (Enemy) getGame().get(Enemy.TYPE_ID)
                     .exclude(mPrevTargets)
-                    .min(GameObject.distanceTo(mTarget.getPosition()));
+                    .min(distanceTo(mTarget.getPosition()));
 
             if (enemy != null && mTarget.getDistanceTo(enemy) <= MAX_BOUNCE_DISTANCE) {
-                mGame.add(new Laser(mTarget, enemy, mDamage, mBounce - 1, mPrevTargets));
+                getGame().add(new Laser(mTarget, enemy, mDamage, mBounce - 1, mPrevTargets));
             }
         }
 

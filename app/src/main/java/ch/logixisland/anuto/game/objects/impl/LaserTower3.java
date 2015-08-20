@@ -21,15 +21,15 @@ public class LaserTower3 extends AimingTower {
     public LaserTower3() {
         mAngle = 90f;
 
-        mSpriteBase = Sprite.fromResources(mGame.getResources(), R.drawable.base5, 4);
+        mSpriteBase = Sprite.fromResources(getGame().getResources(), R.drawable.base5, 4);
         mSpriteBase.setListener(this);
-        mSpriteBase.setIndex(mGame.getRandom(4));
+        mSpriteBase.setIndex(getGame().getRandom(4));
         mSpriteBase.setMatrix(1.1f, 1.1f, null, -90f);
         mSpriteBase.setLayer(Layers.TOWER_BASE);
 
-        mSpriteTower = Sprite.fromResources(mGame.getResources(), R.drawable.laser_tower3, 4);
+        mSpriteTower = Sprite.fromResources(getGame().getResources(), R.drawable.laser_tower3, 4);
         mSpriteTower.setListener(this);
-        mSpriteBase.setIndex(mGame.getRandom(4));
+        mSpriteBase.setIndex(getGame().getRandom(4));
         mSpriteTower.setMatrix(0.4f, 1.2f, new Vector2(0.2f, 0.2f), -90f);
         mSpriteTower.setLayer(Layers.TOWER);
     }
@@ -38,16 +38,16 @@ public class LaserTower3 extends AimingTower {
     public void init() {
         super.init();
 
-        mGame.add(mSpriteBase);
-        mGame.add(mSpriteTower);
+        getGame().add(mSpriteBase);
+        getGame().add(mSpriteTower);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        mGame.remove(mSpriteBase);
-        mGame.remove(mSpriteTower);
+        getGame().remove(mSpriteBase);
+        getGame().remove(mSpriteTower);
     }
 
     @Override
@@ -64,11 +64,11 @@ public class LaserTower3 extends AimingTower {
         if (getTarget() != null) {
             mAngle = getAngleTo(getTarget());
 
-            if (mReloaded) {
-                Vector2 laserFrom = Vector2.polar(LASER_SPAWN_OFFSET, mAngle).add(mPosition);
-                Vector2 laserTo = Vector2.polar(LASER_LENGTH, mAngle).add(mPosition);
-                mGame.add(new LaserStraight(laserFrom, laserTo, getDamage()));
-                mReloaded = false;
+            if (isReloaded()) {
+                Vector2 laserFrom = Vector2.polar(LASER_SPAWN_OFFSET, mAngle).add(getPosition());
+                Vector2 laserTo = Vector2.polar(LASER_LENGTH, mAngle).add(getPosition());
+                getGame().add(new LaserStraight(laserFrom, laserTo, getDamage()));
+                setReloaded(false);
             }
         }
     }
