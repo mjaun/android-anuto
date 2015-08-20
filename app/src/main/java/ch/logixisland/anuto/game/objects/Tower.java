@@ -12,7 +12,6 @@ import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.TickTimer;
 import ch.logixisland.anuto.game.TypeIds;
 import ch.logixisland.anuto.game.data.Path;
-import ch.logixisland.anuto.game.data.Settings;
 import ch.logixisland.anuto.game.data.TowerConfig;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.Intersections;
@@ -81,20 +80,9 @@ public abstract class Tower extends GameObject {
      */
 
     public Tower() {
-        Settings settings = GameManager.getInstance().getLevel().getSettings();
-
-        for (TowerConfig config : settings.towers) {
-            if (config.clazz == this.getClass()) {
-                mConfig = config;
-            }
-        }
-
-        if (mConfig == null) {
-            throw new RuntimeException("No config found for this tower!");
-        }
-
+        mConfig = GameManager.getInstance().getLevel().getTowerConfig(this);
         mValue = mConfig.value;
-        mReloadTimer = TickTimer.createInterval(mConfig.reloadTime);
+        mReloadTimer = TickTimer.createInterval(mConfig.reload);
     }
 
     /*
@@ -167,7 +155,7 @@ public abstract class Tower extends GameObject {
     }
 
     public float getReloadTime() {
-        return mConfig.reloadTime;
+        return mConfig.reload;
     }
 
     public boolean isUpgradeable() {
@@ -179,8 +167,7 @@ public abstract class Tower extends GameObject {
             return -1;
         }
 
-        Settings settings = GameManager.getInstance().getLevel().getSettings();
-        return settings.getTowerConfig(mConfig.upgrade).value;
+        return mConfig.upgrade.value;
     }
 
 
@@ -201,7 +188,7 @@ public abstract class Tower extends GameObject {
         Tower upgrade;
 
         try {
-            upgrade = mConfig.upgrade.newInstance();
+            upgrade = mConfig.upgrade.clazz.newInstance();
         } catch (InstantiationException e) {
             e.printStackTrace();
             throw new RuntimeException();

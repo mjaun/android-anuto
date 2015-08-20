@@ -6,7 +6,9 @@ import ch.logixisland.anuto.game.objects.Tower;
 
 public class TowerConfig {
     public Class<? extends Tower> clazz;
-    public Class<? extends Tower> upgrade;
+
+    public TowerConfig upgrade;
+    private Class<? extends Tower> upgradeClass;
 
     @Element
     public int value;
@@ -18,7 +20,7 @@ public class TowerConfig {
     public float range;
 
     @Element
-    public float reloadTime;
+    public float reload;
 
     @Element(required=false)
     public int slot = -1;
@@ -35,11 +37,17 @@ public class TowerConfig {
 
     @Element(name="upgrade", required=false)
     private String getUpgrade() {
-        return upgrade.getName();
+        return upgradeClass.getName();
     }
 
     @Element(name="upgrade", required=false)
     private void setUpgrade(String className) throws ClassNotFoundException {
-        upgrade = (Class<? extends Tower>) Class.forName(className);
+        upgradeClass = (Class<? extends Tower>) Class.forName(className);
+    }
+
+    public void commit(Level level) {
+        if (upgradeClass != null) {
+            upgrade = level.getTowerConfig(upgradeClass);
+        }
     }
 }

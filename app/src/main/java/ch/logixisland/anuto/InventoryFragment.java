@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import ch.logixisland.anuto.game.GameManager;
-import ch.logixisland.anuto.game.data.Settings;
 
 public class InventoryFragment extends Fragment implements GameManager.OnGameStartedListener {
 
@@ -52,10 +51,8 @@ public class InventoryFragment extends Fragment implements GameManager.OnGameSta
 
     @Override
     public void onGameStarted() {
-        Settings settings = mManager.getLevel().getSettings();
-
         for (int i = 0; i < view_tower_x.length; i++) {
-            view_tower_x[i].setTowerClass(settings.getTowerConfig(i).clazz);
+            view_tower_x[i].setTowerClass(mManager.getLevel().getTowerConfig(i).clazz);
         }
     }
 }

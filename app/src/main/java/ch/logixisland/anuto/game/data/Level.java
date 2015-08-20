@@ -6,6 +6,7 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Serializer;
+import org.simpleframework.xml.core.Commit;
 import org.simpleframework.xml.core.Persister;
 import org.simpleframework.xml.strategy.CycleStrategy;
 import org.simpleframework.xml.strategy.Strategy;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.game.objects.Plateau;
+import ch.logixisland.anuto.game.objects.Tower;
 
 @Root
 public class Level {
@@ -36,6 +38,9 @@ public class Level {
     @ElementList(name="waves")
     private ArrayList<Wave> mWaves = new ArrayList<>();
 
+    @ElementList(name="towers", entry="tower")
+    private ArrayList<TowerConfig> mTowers = new ArrayList<>();
+
     /*
     ------ Methods ------
      */
@@ -54,6 +59,34 @@ public class Level {
 
     public List<Wave> getWaves() {
         return mWaves;
+    }
+
+    public List<TowerConfig> getTowers() {
+        return mTowers;
+    }
+
+    public TowerConfig getTowerConfig(Tower t) {
+        return getTowerConfig(t.getClass());
+    }
+
+    public TowerConfig getTowerConfig(Class<? extends Tower> c) {
+        for (TowerConfig config : mTowers) {
+            if (config.clazz == c) {
+                return config;
+            }
+        }
+
+        throw new RuntimeException("No config found for this tower class!");
+    }
+
+    public TowerConfig getTowerConfig(int slot) {
+        for (TowerConfig config : mTowers) {
+            if (config.slot == slot) {
+                return config;
+            }
+        }
+
+        return null;
     }
 
 
@@ -79,5 +112,12 @@ public class Level {
         Strategy strategy = new CycleStrategy("id", "ref");
         Serializer serializer = new Persister(strategy);
         return serializer.read(Level.class, inStream);
+    }
+
+    @Commit
+    private void commit() {
+        for (TowerConfig c : mTowers) {
+            c.commit(this);
+        }
     }
 }
