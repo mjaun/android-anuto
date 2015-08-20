@@ -127,6 +127,12 @@
             <speed>4.0</speed>
             <reward>5</reward>
         </enemy>
+        <enemy>
+            <clazz>Healer</clazz>
+            <health>1000</health>
+            <speed>2.0</speed>
+            <reward>10</reward>
+        </enemy>
     </enemies>
     <plateaus>
         <plateau clazz="BasicPlateau" x="0" y="14"/>
@@ -267,6 +273,13 @@
             <waveReward>100</waveReward>
             <healthMultiplier>0.6</healthMultiplier>
             <enemies>
+                <enemy clazz="Healer"/>
+                <enemy clazz="Healer" delay="0.5"/>
+                <enemy clazz="Healer" delay="0.5"/>
+                <enemy clazz="Healer" delay="0.5"/>
+                <enemy clazz="Healer" delay="0.5"/>
+                <enemy clazz="Healer" delay="0.5"/>
+
                 <enemy clazz="Soldier" delay="5.0"/>
                 <enemy clazz="Soldier" delay="0.5"/>
                 <enemy clazz="Soldier" delay="0.5"/>

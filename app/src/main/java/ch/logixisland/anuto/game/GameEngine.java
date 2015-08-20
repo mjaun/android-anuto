@@ -108,8 +108,8 @@ public class GameEngine {
     private Handler mGameHandler;
     private boolean mRunning = false;
 
-    private int mLastTickTime;
-    private int mLastRenderTime;
+    private int mMaxTickTime;
+    private int mMaxRenderTime;
     private long mTickCount = 0;
     private long mRenderCount = 0;
 
@@ -124,7 +124,7 @@ public class GameEngine {
     private Resources mResources;
     private final Random mRandom = new Random();
 
-    private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
+    private final List<Runnable> mRunnables = new CopyOnWriteArrayList<>();
 
     /*
     ------ Constructors ------
@@ -177,31 +177,7 @@ public class GameEngine {
     }
 
     public Function synchronize(final Function f) {
-        return new Function() {
-            long mLastTick = -1;
-            boolean mReturn = false;
-
-            @Override
-            public void reset() {
-                f.reset();
-            }
-
-            @Override
-            public boolean step() {
-                if (mTickCount == mLastTick) {
-                    return mReturn;
-                }
-
-                mLastTick = mTickCount;
-                mReturn = f.step();
-                return mReturn;
-            }
-
-            @Override
-            public float getValue() {
-                return f.getValue();
-            }
-        };
+        return null;
     }
 
 
@@ -221,6 +197,13 @@ public class GameEngine {
         mGameObjects.remove(obj.getTypeId(), obj);
     }
 
+    public void clear() {
+        for (GameObject obj : mGameObjects) {
+            mGameObjects.remove(obj.getTypeId(), obj);
+        }
+    }
+
+
     public void add(DrawObject obj) {
         mDrawObjects.add(obj.getLayer(), obj);
     }
@@ -229,10 +212,13 @@ public class GameEngine {
         mDrawObjects.remove(obj.getLayer(), obj);
     }
 
-    public void clear() {
-        for (GameObject obj : mGameObjects) {
-            mGameObjects.remove(obj.getTypeId(), obj);
-        }
+
+    public void add(Runnable r) {
+        mRunnables.add(r);
+    }
+
+    public void remove(Runnable r) {
+        mRunnables.remove(r);
     }
 
 
@@ -297,22 +283,31 @@ public class GameEngine {
         try {
             long beginTime = System.currentTimeMillis();
 
+            for (Runnable r : mRunnables) {
+                r.run();
+            }
+
             for (GameObject obj : mGameObjects) {
                 obj.tick();
             }
 
-            onTick();
+            int tickTime = (int) (System.currentTimeMillis() - beginTime);
+
+            if (tickTime > mMaxTickTime) {
+                mMaxTickTime = tickTime;
+            }
 
             if (mTickCount % (TARGET_FRAME_RATE * 5) == 0) {
                 Log.d(TAG, String.format("TT=%d ms, RT=%d ms, TC-RC=%d",
-                        mLastTickTime, mLastRenderTime, mTickCount - mRenderCount));
+                        mMaxTickTime, mMaxRenderTime, mTickCount - mRenderCount));
+
+                mMaxTickTime = 0;
+                mMaxRenderTime = 0;
             }
 
             mTickCount++;
-            mLastTickTime = (int) (System.currentTimeMillis() - beginTime);
 
-            int sleepTime = TARGET_FRAME_PERIOD_MS - mLastTickTime;
-
+            int sleepTime = TARGET_FRAME_PERIOD_MS - tickTime;
             if (sleepTime < 0) {
                 Log.w(TAG, "Frame did not finish in time!");
                 mGameHandler.post(new Runnable() {
@@ -345,7 +340,11 @@ public class GameEngine {
         }
 
         mRenderCount++;
-        mLastRenderTime = (int) (System.currentTimeMillis() - beginTime);
+        int renderTime = (int) (System.currentTimeMillis() - beginTime);
+
+        if (renderTime > mMaxRenderTime) {
+            mMaxRenderTime = renderTime;
+        }
     }
 
 
@@ -387,23 +386,5 @@ public class GameEngine {
 
     public Handler getHandler() {
         return mGameHandler;
-    }
-
-    /*
-    ------ Listener Stuff ------
-     */
-
-    public void addListener(Listener listener) {
-        mListeners.add(listener);
-    }
-
-    public void removeListener(Listener listener) {
-        mListeners.remove(listener);
-    }
-
-    private void onTick() {
-        for (Listener l : mListeners) {
-            l.onTick();
-        }
     }
 }

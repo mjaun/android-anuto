@@ -8,14 +8,14 @@ import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.Enemy;
 import ch.logixisland.anuto.game.objects.Sprite;
 import ch.logixisland.anuto.util.math.Function;
-import ch.logixisland.anuto.util.math.SineFunction;
+import ch.logixisland.anuto.util.math.SampledFunction;
 
 public class Sprinter extends Enemy {
 
     private final static float ANIMATION_SPEED = 0.7f;
 
     private static Sprite.Animator sAnimator;
-    private static Function sSpeedFunction;
+    private static SampledFunction sSpeedFunction;
 
     private float mAngle;
 
@@ -36,10 +36,18 @@ public class Sprinter extends Enemy {
         mSprite.setAnimator(sAnimator);
 
         if (sSpeedFunction == null) {
-            SineFunction f = new SineFunction();
-            f.setProperties(0f, (float) Math.PI, mBaseSpeed * 0.9f, mBaseSpeed * 0.1f);
-            f.setSection(GameEngine.TARGET_FRAME_RATE / ANIMATION_SPEED);
-            sSpeedFunction = mGame.synchronize(f);
+            sSpeedFunction = Function.sine()
+                    .multiply(0.9f)
+                    .offset(0.1f)
+                    .stretch(GameEngine.TARGET_FRAME_RATE / ANIMATION_SPEED / (float)Math.PI)
+                    .sample();
+
+            mGame.add(new Runnable() {
+                @Override
+                public void run() {
+                    sSpeedFunction.step();
+                }
+            });
         }
     }
 

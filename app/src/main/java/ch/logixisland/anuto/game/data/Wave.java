@@ -78,12 +78,12 @@ public class Wave {
         }
     };
 
-    private final GameEngine.Listener mGameListener = new GameEngine.Listener() {
+    private final Runnable mGameListener = new Runnable() {
         @Override
-        public void onTick() {
+        public void run() {
             if (mEnemiesToAdd.isEmpty() && mNextEnemy == null) {
                 onWaveAllEnemiesAdded();
-                mGame.removeListener(this);
+                mGame.remove(this);
                 return;
             }
 
@@ -113,13 +113,13 @@ public class Wave {
         mWaveRewardGiven = false;
         mEnemiesToAdd.addAll(mEnemies);
         mGame = GameEngine.getInstance();
-        mGame.addListener(mGameListener);
+        mGame.add(mGameListener);
 
         onWaveStarted();
     }
 
     public void abort() {
-        mGame.removeListener(mGameListener);
+        mGame.remove(mGameListener);
 
         for (Enemy e : mEnemiesInGame) {
             e.removeListener(mEnemyListener);

@@ -10,7 +10,8 @@ import ch.logixisland.anuto.game.objects.GameObject;
 import ch.logixisland.anuto.game.objects.Shot;
 import ch.logixisland.anuto.game.objects.Sprite;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
-import ch.logixisland.anuto.util.math.ParabolaFunction;
+import ch.logixisland.anuto.util.math.Function;
+import ch.logixisland.anuto.util.math.SampledFunction;
 import ch.logixisland.anuto.util.math.Vector2;
 
 public class Mine extends Shot {
@@ -30,7 +31,7 @@ public class Mine extends Shot {
     private boolean mFlying = true;
     private float mRotationStep;
     private int mTicksToTarget;
-    private final ParabolaFunction mHeightScalingFunction;
+    private final SampledFunction mHeightScalingFunction;
 
     private final Sprite mSprite;
 
@@ -50,9 +51,14 @@ public class Mine extends Shot {
         mSprite.setMatrix(0.7f, 0.7f, null, null);
         mSprite.setLayer(Layers.SHOT);
 
-        mHeightScalingFunction = new ParabolaFunction();
-        mHeightScalingFunction.setProperties(HEIGHT_SCALING_START, HEIGHT_SCALING_STOP, HEIGHT_SCALING_PEAK);
-        mHeightScalingFunction.setSection(GameEngine.TARGET_FRAME_RATE * TIME_TO_TARGET);
+        float x1 = (float)Math.sqrt(HEIGHT_SCALING_PEAK - HEIGHT_SCALING_START);
+        float x2 = (float)Math.sqrt(HEIGHT_SCALING_PEAK - HEIGHT_SCALING_STOP);
+        mHeightScalingFunction = Function.quadratic()
+                .multiply(-1f)
+                .offset(HEIGHT_SCALING_PEAK)
+                .shift(-x1)
+                .stretch(GameEngine.TARGET_FRAME_RATE * TIME_TO_TARGET / (x1 + x2))
+                .sample();
     }
 
     @Override

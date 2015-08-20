@@ -14,7 +14,7 @@ import ch.logixisland.anuto.game.objects.Plateau;
 import ch.logixisland.anuto.game.objects.Tower;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class GameView extends View implements GameEngine.Listener, View.OnDragListener, View.OnTouchListener {
+public class GameView extends View implements Runnable, View.OnDragListener, View.OnTouchListener {
 
     /*
     ------ Constants ------
@@ -49,11 +49,11 @@ public class GameView extends View implements GameEngine.Listener, View.OnDragLi
         mGame = GameEngine.getInstance();
         mManager = GameManager.getInstance();
 
-        mGame.addListener(this);
+        mGame.add(this);
     }
 
     public void stop() {
-        mGame.removeListener(this);
+        mGame.remove(this);
 
         mGame = null;
         mManager = null;
@@ -153,9 +153,8 @@ public class GameView extends View implements GameEngine.Listener, View.OnDragLi
         return true;
     }
 
-
     @Override
-    public void onTick() {
+    public void run() {
         postInvalidate();
     }
 }

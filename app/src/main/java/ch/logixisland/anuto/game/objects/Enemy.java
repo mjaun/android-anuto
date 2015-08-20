@@ -169,6 +169,10 @@ public abstract class Enemy extends GameObject {
         return mBaseSpeed * mSpeedModifier;
     }
 
+    protected float getConfigSpeed() {
+        return mConfig.speed;
+    }
+
     public Vector2 getDirection() {
         if (!hasWayPoint()) {
             return null;

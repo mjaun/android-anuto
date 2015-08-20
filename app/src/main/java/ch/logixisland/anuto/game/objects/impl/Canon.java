@@ -8,7 +8,8 @@ import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.AimingTower;
 import ch.logixisland.anuto.game.objects.Shot;
 import ch.logixisland.anuto.game.objects.Sprite;
-import ch.logixisland.anuto.util.math.SineFunction;
+import ch.logixisland.anuto.util.math.Function;
+import ch.logixisland.anuto.util.math.SampledFunction;
 import ch.logixisland.anuto.util.math.Vector2;
 
 public class Canon extends AimingTower {
@@ -21,7 +22,7 @@ public class Canon extends AimingTower {
     private float mAngle;
     private boolean mReboundActive;
 
-    private final SineFunction mReboundFunction;
+    private final SampledFunction mReboundFunction;
 
     private final Sprite mSpriteBase;
     private final Sprite mSpriteCanon;
@@ -39,9 +40,10 @@ public class Canon extends AimingTower {
         mSpriteCanon.setMatrix(0.3f, 1.0f, new Vector2(0.15f, 0.4f), -90f);
         mSpriteCanon.setLayer(Layers.TOWER);
 
-        mReboundFunction = new SineFunction();
-        mReboundFunction.setProperties(0f, (float) Math.PI, REBOUND_RANGE, 0f);
-        mReboundFunction.setSection(GameEngine.TARGET_FRAME_RATE * REBOUND_DURATION);
+        mReboundFunction = Function.sine()
+                .multiply(REBOUND_RANGE)
+                .stretch(GameEngine.TARGET_FRAME_RATE * REBOUND_DURATION / (float)Math.PI)
+                .sample();
 
         mAngle = 90f;
     }
@@ -91,7 +93,8 @@ public class Canon extends AimingTower {
         }
 
         if (mReboundActive) {
-            if (mReboundFunction.step()) {
+            mReboundFunction.step();
+            if (mReboundFunction.getPosition() >= GameEngine.TARGET_FRAME_RATE * REBOUND_DURATION) {
                 mReboundFunction.reset();
                 mReboundActive = false;
             }

@@ -7,7 +7,8 @@ import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.Shot;
 import ch.logixisland.anuto.game.objects.Sprite;
-import ch.logixisland.anuto.util.math.ParabolaFunction;
+import ch.logixisland.anuto.util.math.Function;
+import ch.logixisland.anuto.util.math.SampledFunction;
 import ch.logixisland.anuto.util.math.Vector2;
 
 public class MortarShot extends Shot {
@@ -21,7 +22,7 @@ public class MortarShot extends Shot {
 
     private float mDamage;
     private float mAngle;
-    private ParabolaFunction mHeightScalingFunction;
+    private SampledFunction mHeightScalingFunction;
 
     private final Sprite mSprite;
 
@@ -34,9 +35,14 @@ public class MortarShot extends Shot {
         mSprite.setMatrix(0.7f, 0.7f, null, null);
         mSprite.setLayer(Layers.SHOT);
 
-        mHeightScalingFunction = new ParabolaFunction();
-        mHeightScalingFunction.setProperties(HEIGHT_SCALING_START, HEIGHT_SCALING_STOP, HEIGHT_SCALING_PEAK);
-        mHeightScalingFunction.setSection(GameEngine.TARGET_FRAME_RATE * TIME_TO_TARGET);
+        float x1 = (float)Math.sqrt(HEIGHT_SCALING_PEAK - HEIGHT_SCALING_START);
+        float x2 = (float)Math.sqrt(HEIGHT_SCALING_PEAK - HEIGHT_SCALING_STOP);
+        mHeightScalingFunction = Function.quadratic()
+                .multiply(-1f)
+                .offset(HEIGHT_SCALING_PEAK)
+                .shift(-x1)
+                .stretch(GameEngine.TARGET_FRAME_RATE * TIME_TO_TARGET / (x1 + x2))
+                .sample();
 
         mSpeed = getDistanceTo(target) / TIME_TO_TARGET;
         mDirection = getDirectionTo(target);
@@ -72,7 +78,8 @@ public class MortarShot extends Shot {
     public void tick() {
         super.tick();
 
-        if (mHeightScalingFunction.step()) {
+        mHeightScalingFunction.step();
+        if (mHeightScalingFunction.getPosition() >= GameEngine.TARGET_FRAME_RATE * TIME_TO_TARGET) {
             mGame.add(new Explosion(mPosition, mDamage, EXPLOSION_RADIUS));
             this.remove();
         }

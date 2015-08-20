@@ -8,7 +8,8 @@ import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.AimingTower;
 import ch.logixisland.anuto.game.objects.Shot;
 import ch.logixisland.anuto.game.objects.Sprite;
-import ch.logixisland.anuto.util.math.SineFunction;
+import ch.logixisland.anuto.util.math.Function;
+import ch.logixisland.anuto.util.math.SampledFunction;
 import ch.logixisland.anuto.util.math.Vector2;
 
 public class CanonDual extends AimingTower {
@@ -20,7 +21,7 @@ public class CanonDual extends AimingTower {
 
     private class SubCanon {
         boolean reboundActive;
-        SineFunction reboundFunction;
+        SampledFunction reboundFunction;
         Sprite sprite;
     }
 
@@ -33,6 +34,10 @@ public class CanonDual extends AimingTower {
 
     public CanonDual() {
         mAngle = 90f;
+
+        Function reboundFunction = Function.sine()
+                .multiply(REBOUND_RANGE)
+                .stretch(GameEngine.TARGET_FRAME_RATE * REBOUND_DURATION / (float)Math.PI);
 
         mSpriteBase = Sprite.fromResources(mGame.getResources(), R.drawable.base1, 4);
         mSpriteBase.setListener(this);
@@ -49,9 +54,7 @@ public class CanonDual extends AimingTower {
         mCanons = new SubCanon[2];
 
         mCanons[0] = new SubCanon();
-        mCanons[0].reboundFunction = new SineFunction();
-        mCanons[0].reboundFunction.setProperties(0, (float) Math.PI, REBOUND_RANGE, 0f);
-        mCanons[0].reboundFunction.setSection(GameEngine.TARGET_FRAME_RATE * REBOUND_DURATION);
+        mCanons[0].reboundFunction = reboundFunction.sample();
         mCanons[0].reboundActive = false;
 
         mCanons[0].sprite = Sprite.fromResources(mGame.getResources(), R.drawable.canon, 4);
@@ -61,9 +64,7 @@ public class CanonDual extends AimingTower {
         mCanons[0].sprite.setLayer(Layers.TOWER);
 
         mCanons[1] = new SubCanon();
-        mCanons[1].reboundFunction = new SineFunction();
-        mCanons[1].reboundFunction.setProperties(0, (float) Math.PI, REBOUND_RANGE, 0f);
-        mCanons[1].reboundFunction.setSection(GameEngine.TARGET_FRAME_RATE * REBOUND_DURATION);
+        mCanons[1].reboundFunction = reboundFunction.sample();
         mCanons[1].reboundActive = false;
 
         mCanons[1].sprite = Sprite.fromResources(mGame.getResources(), R.drawable.canon, 4);
@@ -143,14 +144,16 @@ public class CanonDual extends AimingTower {
         }
 
         if (mCanons[0].reboundActive) {
-            if (mCanons[0].reboundFunction.step()) {
+            mCanons[0].reboundFunction.step();
+            if (mCanons[0].reboundFunction.getPosition() >= GameEngine.TARGET_FRAME_RATE * REBOUND_DURATION) {
                 mCanons[0].reboundFunction.reset();
                 mCanons[0].reboundActive = false;
             }
         }
 
         if (mCanons[1].reboundActive) {
-            if (mCanons[1].reboundFunction.step()) {
+            mCanons[1].reboundFunction.step();
+            if (mCanons[1].reboundFunction.getPosition() >= GameEngine.TARGET_FRAME_RATE * REBOUND_DURATION) {
                 mCanons[1].reboundFunction.reset();
                 mCanons[1].reboundActive = false;
             }
