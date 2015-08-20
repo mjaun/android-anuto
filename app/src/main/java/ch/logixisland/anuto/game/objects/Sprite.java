@@ -77,15 +77,9 @@ public class Sprite extends DrawObject {
     public static class Animator {
         private int mPosition;
         private int[] mSequence;
-        private long mLastTick = -1;
-        private boolean mReset;
 
         private final TickTimer mTimer = new TickTimer();
-        private final GameEngine mGame;
 
-        public Animator() {
-            mGame = GameEngine.getInstance();
-        }
 
         public void setSequence(int[] sequence) {
             mSequence = sequence;
@@ -103,7 +97,6 @@ public class Sprite extends DrawObject {
         public void reset() {
             mTimer.reset();
             mPosition = 0;
-            mReset = true;
         }
 
         public int getIndex() {
@@ -119,23 +112,46 @@ public class Sprite extends DrawObject {
         }
 
         public boolean tick() {
-            long tick = mGame.getTickCount();
-            if (tick == mLastTick) {
-                return mReset;
-            }
-            mLastTick = tick;
-
-            mReset = false;
+            boolean ret = false;
 
             if (mTimer.tick()) {
                 mPosition++;
 
                 if (mPosition >= mSequence.length) {
                     mPosition = 0;
-                    mReset = true;
+                    ret = true;
                 }
             }
 
+            return ret;
+        }
+    }
+
+    public static class SynchronizedAnimator extends Animator {
+        private long mLastTick = -1;
+        private boolean mReset;
+
+        private final GameEngine mGame;
+
+        public SynchronizedAnimator() {
+            mGame = GameEngine.getInstance();
+        }
+
+        @Override
+        public void reset() {
+            super.reset();
+            mReset = true;
+        }
+
+        @Override
+        public boolean tick() {
+            long tick = mGame.getTickCount();
+            if (tick == mLastTick) {
+                return mReset;
+            }
+            mLastTick = tick;
+
+            mReset = super.tick();
             return mReset;
         }
     }

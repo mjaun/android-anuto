@@ -9,7 +9,7 @@ public class Soldier extends Enemy {
 
     private final static float ANIMATION_SPEED = 1f;
 
-    private static Sprite.Animator sSpriteAnimator;
+    private static Sprite.Animator sAnimator;
 
     private final Sprite mSprite;
 
@@ -19,13 +19,13 @@ public class Soldier extends Enemy {
         mSprite.setMatrix(0.9f, 0.9f, null, null);
         mSprite.setLayer(Layers.ENEMY);
 
-        if (sSpriteAnimator == null) {
-            sSpriteAnimator = new Sprite.Animator();
-            sSpriteAnimator.setSequence(mSprite.sequenceForwardBackward());
-            sSpriteAnimator.setFrequency(ANIMATION_SPEED);
+        if (sAnimator == null) {
+            sAnimator = new Sprite.SynchronizedAnimator();
+            sAnimator.setSequence(mSprite.sequenceForwardBackward());
+            sAnimator.setFrequency(ANIMATION_SPEED);
         }
 
-        mSprite.setAnimator(sSpriteAnimator);
+        mSprite.setAnimator(sAnimator);
     }
 
     @Override

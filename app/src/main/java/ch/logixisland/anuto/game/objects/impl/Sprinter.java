@@ -12,7 +12,7 @@ import ch.logixisland.anuto.util.math.SineFunction;
 
 public class Sprinter extends Enemy {
 
-    private final static float ANIMATION_SPEED = 1.0f;
+    private final static float ANIMATION_SPEED = 0.7f;
 
     private static Sprite.Animator sAnimator;
     private static Function sSpeedFunction;
@@ -22,13 +22,13 @@ public class Sprinter extends Enemy {
     private final Sprite mSprite;
 
     public Sprinter() {
-        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.sprinter, 8);
+        mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.sprinter, 6);
         mSprite.setListener(this);
         mSprite.setMatrix(0.9f, 0.9f, null, null);
         mSprite.setLayer(Layers.ENEMY);
 
         if (sAnimator == null) {
-            sAnimator = new Sprite.Animator();
+            sAnimator = new Sprite.SynchronizedAnimator();
             sAnimator.setSequence(mSprite.sequenceForwardBackward());
             sAnimator.setFrequency(ANIMATION_SPEED);
         }
@@ -37,8 +37,8 @@ public class Sprinter extends Enemy {
 
         if (sSpeedFunction == null) {
             SineFunction f = new SineFunction();
-            f.setProperties(0f, (float) Math.PI, mBaseSpeed, 0f);
-            f.setSection(GameEngine.TARGET_FRAME_RATE * ANIMATION_SPEED);
+            f.setProperties(0f, (float) Math.PI, mBaseSpeed * 0.9f, mBaseSpeed * 0.1f);
+            f.setSection(GameEngine.TARGET_FRAME_RATE / ANIMATION_SPEED);
             sSpeedFunction = mGame.synchronize(f);
         }
     }
