@@ -23,8 +23,6 @@ public class TowerInfoFragment extends Fragment implements
     private GameManager mManager;
 
     private Tower mTower;
-    private boolean mUpgradeable;
-    private int mUpgradeCost;
 
     private TextView txt_value;
     private TextView txt_reload;
@@ -116,8 +114,6 @@ public class TowerInfoFragment extends Fragment implements
     @Override
     public void onShowTowerInfo(Tower tower) {
         mTower = tower;
-        mUpgradeable = tower.isUpgradeable();
-        mUpgradeCost = tower.getUpgradeCost();
 
         mHandler.post(new Runnable() {
             @Override
@@ -127,7 +123,11 @@ public class TowerInfoFragment extends Fragment implements
                 txt_range.setText(String.valueOf(mTower.getRange()));
                 txt_reload.setText(String.valueOf(mTower.getReloadTime()));
 
-                btn_upgrade.setText(getResources().getText(R.string.upgrade) + " (" + mUpgradeCost + ")");
+                if (mTower.isUpgradeable()) {
+                    btn_upgrade.setText(getResources().getText(R.string.upgrade) + " (" + mTower.getUpgradeCost() + ")");
+                } else {
+                    btn_upgrade.setText(getResources().getString(R.string.upgrade));
+                }
             }
         });
 
@@ -147,7 +147,7 @@ public class TowerInfoFragment extends Fragment implements
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                btn_upgrade.setEnabled(mUpgradeable && credits >= mUpgradeCost);
+                btn_upgrade.setEnabled(mTower != null && mTower.isUpgradeable() && credits >= mTower.getUpgradeCost());
             }
         });
     }

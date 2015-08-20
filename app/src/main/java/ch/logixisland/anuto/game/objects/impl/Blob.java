@@ -7,18 +7,11 @@ import ch.logixisland.anuto.game.objects.Sprite;
 
 public class Blob extends Enemy {
 
-    private final static int REWARD = 20;
-    private final static int HEALTH = 2000;
-    private final static float MOVEMENT_SPEED = 1f;
     private final static float ANIMATION_SPEED = 1.5f;
 
     private final Sprite mSprite;
 
     public Blob() {
-        mReward = REWARD;
-        mHealth = mHealthMax = HEALTH;
-        mSpeed = MOVEMENT_SPEED;
-
         mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.blob, 9);
         mSprite.setListener(this);
         mSprite.setMatrix(0.9f, 0.9f, null, null);

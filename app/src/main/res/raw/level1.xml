@@ -108,6 +108,26 @@
             <reload>3.0</reload>
         </tower>
     </towers>
+    <enemies>
+        <enemy>
+            <clazz>ch.logixisland.anuto.game.objects.impl.Soldier</clazz>
+            <health>1000</health>
+            <speed>2.0</speed>
+            <reward>10</reward>
+        </enemy>
+        <enemy>
+            <clazz>ch.logixisland.anuto.game.objects.impl.Blob</clazz>
+            <health>2000</health>
+            <speed>1.0</speed>
+            <reward>20</reward>
+        </enemy>
+        <enemy>
+            <clazz>ch.logixisland.anuto.game.objects.impl.Sprinter</clazz>
+            <health>500</health>
+            <speed>4.0</speed>
+            <reward>5</reward>
+        </enemy>
+    </enemies>
     <plateaus>
         <plateau class="ch.logixisland.anuto.game.objects.impl.BasicPlateau" x="0" y="14"/>
         <plateau class="ch.logixisland.anuto.game.objects.impl.BasicPlateau" x="0" y="13"/>

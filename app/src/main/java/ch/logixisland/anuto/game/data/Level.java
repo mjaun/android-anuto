@@ -17,6 +17,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.logixisland.anuto.game.objects.Enemy;
 import ch.logixisland.anuto.game.objects.Plateau;
 import ch.logixisland.anuto.game.objects.Tower;
 
@@ -29,6 +30,12 @@ public class Level {
     @Element(name="settings")
     private Settings mSettings = new Settings();
 
+    @ElementList(name="towers", entry="tower")
+    private ArrayList<TowerConfig> mTowers = new ArrayList<>();
+
+    @ElementList(name="enemies", entry="enemy")
+    private ArrayList<EnemyConfig> mEnemies = new ArrayList<>();
+
     @ElementList(name="plateaus")
     private ArrayList<Plateau> mPlateaus = new ArrayList<>();
 
@@ -37,9 +44,6 @@ public class Level {
 
     @ElementList(name="waves")
     private ArrayList<Wave> mWaves = new ArrayList<>();
-
-    @ElementList(name="towers", entry="tower")
-    private ArrayList<TowerConfig> mTowers = new ArrayList<>();
 
     /*
     ------ Methods ------
@@ -87,6 +91,24 @@ public class Level {
         }
 
         return null;
+    }
+
+    public List<EnemyConfig> getEnemies() {
+        return mEnemies;
+    }
+
+    public EnemyConfig getEnemyConfig(Enemy e) {
+        return getEnemyConfig(e.getClass());
+    }
+
+    public EnemyConfig getEnemyConfig(Class<? extends Enemy> c) {
+        for (EnemyConfig config : mEnemies) {
+            if (config.clazz == c) {
+                return config;
+            }
+        }
+
+        throw new RuntimeException("No config found for this enemy class!");
     }
 
 

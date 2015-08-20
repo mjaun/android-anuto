@@ -9,9 +9,6 @@ import ch.logixisland.anuto.game.objects.Sprite;
 
 public class Sprinter extends Enemy {
 
-    private final static int REWARD = 5;
-    private final static int HEALTH = 500;
-    private final static float MOVEMENT_SPEED = 8.0f;
     private final static float ANIMATION_SPEED = 1.0f;
 
     private static Sprite.Animator sAnimator;
@@ -21,9 +18,6 @@ public class Sprinter extends Enemy {
     private final Sprite mSprite;
 
     public Sprinter() {
-        mReward = REWARD;
-        mHealth = mHealthMax = HEALTH;
-
         mSprite = Sprite.fromResources(mGame.getResources(), R.drawable.sprinter, 8);
         mSprite.setListener(this);
         mSprite.setMatrix(0.9f, 0.9f, null, null);
@@ -66,7 +60,7 @@ public class Sprinter extends Enemy {
         if (hasWayPoint()) {
             mAngle = getDirectionTo(getWayPoint()).angle();
             mSprite.animate();
-            mSpeed = Math.abs(sAnimator.count() - sAnimator.getPosition() * 2) * MOVEMENT_SPEED / sAnimator.count();
+            mSpeed = Math.abs(sAnimator.count() - sAnimator.getPosition() * 2) * mConfig.speed / sAnimator.count();
         }
     }
 }

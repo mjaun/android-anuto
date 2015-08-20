@@ -10,6 +10,8 @@ import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.GameManager;
 import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.TypeIds;
+import ch.logixisland.anuto.game.data.EnemyConfig;
+import ch.logixisland.anuto.game.data.Level;
 import ch.logixisland.anuto.game.data.Path;
 import ch.logixisland.anuto.util.iterator.Function;
 import ch.logixisland.anuto.util.math.Vector2;
@@ -53,7 +55,7 @@ public abstract class Enemy extends GameObject {
             canvas.translate(mPosition.x - HEALTHBAR_WIDTH / 2f, mPosition.y + HEALTHBAR_OFFSET);
 
             canvas.drawRect(0, 0, HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT, mHealthBarBg);
-            canvas.drawRect(0, 0, mHealth * HEALTHBAR_WIDTH / mHealthMax, HEALTHBAR_HEIGHT, mHealthBarFg);
+            canvas.drawRect(0, 0, mHealth * HEALTHBAR_WIDTH / mConfig.health, HEALTHBAR_HEIGHT, mHealthBarFg);
             canvas.restore();
         }
     }
@@ -84,6 +86,14 @@ public abstract class Enemy extends GameObject {
     ------ Members -----
      */
 
+    protected EnemyConfig mConfig;
+
+    protected float mSpeed;
+    protected float mHealth;
+    protected float mHealthModifier = 1f;
+    protected float mRewardModifier = 1f;
+    protected float mSpeedModifier = 1f;
+
     @Attribute(name="path", required=false)
     private int mPathIndex;
 
@@ -93,17 +103,23 @@ public abstract class Enemy extends GameObject {
     private Path mPath = null;
     private int mWayPointIndex;
 
-    protected float mHealth = 100f;
-    protected float mHealthMax = 100f;
-    protected float mSpeed = 1.0f;
-    protected float mSpeedModifier = 1.0f;
-
-    protected int mReward;
-
     private HealthBar mHealthBar;
 
     /*
-    ------ Public Methods ------
+    ------ Constructors ------
+     */
+
+    public Enemy() {
+        Level level = GameManager.getInstance().getLevel();
+
+        mPath = level.getPaths().get(mPathIndex);
+        mConfig = level.getEnemyConfig(this);
+
+        mHealthBar = new HealthBar();
+    }
+
+    /*
+    ------ Methods ------
      */
 
     @Override
@@ -115,13 +131,11 @@ public abstract class Enemy extends GameObject {
     public void init() {
         super.init();
 
-        mPath = GameManager.getInstance().getLevel().getPaths().get(mPathIndex);
         mPosition.set(mPath.get(0));
         mWayPointIndex = 1;
 
-        mHealth = mHealthMax;
+        mHealth = mConfig.health;
 
-        mHealthBar = new HealthBar();
         mGame.add(mHealthBar);
     }
 
@@ -165,23 +179,6 @@ public abstract class Enemy extends GameObject {
         return mPath != null && mWayPointIndex < mPath.count();
     }
 
-    public float getDistanceRemaining() {
-        if (!hasWayPoint()) {
-            return 0;
-        }
-
-        float dist = getDistanceTo(getWayPoint());
-
-        for (int i = mWayPointIndex + 1; i < mPath.count(); i++) {
-            Vector2 wThis = mPath.get(i);
-            Vector2 wLast = mPath.get(i - 1);
-
-            dist += wThis.copy().sub(wLast).len();
-        }
-
-        return dist;
-    }
-
     public float getSpeed() {
         return mSpeed;
     }
@@ -219,8 +216,21 @@ public abstract class Enemy extends GameObject {
         return position;
     }
 
-    public void modifySpeed(float f) {
-        mSpeedModifier *= f;
+    public float getDistanceRemaining() {
+        if (!hasWayPoint()) {
+            return 0;
+        }
+
+        float dist = getDistanceTo(getWayPoint());
+
+        for (int i = mWayPointIndex + 1; i < mPath.count(); i++) {
+            Vector2 wThis = mPath.get(i);
+            Vector2 wLast = mPath.get(i - 1);
+
+            dist += wThis.copy().sub(wLast).len();
+        }
+
+        return dist;
     }
 
     public void sendBack(float dist) {
@@ -249,45 +259,38 @@ public abstract class Enemy extends GameObject {
     }
 
 
-    public int getReward() {
-        return mReward;
-    }
-
-    public void setReward(int reward) {
-        mReward = reward;
-    }
-
     public float getHealth() {
-        return mHealth;
-    }
-
-    public void setHealth(float health) {
-        mHealth = health;
-
-        if (mHealth > mHealthMax) {
-            mHealthMax = mHealth;
-        }
-    }
-
-    public float getHealthMax() {
-        return mHealthMax;
-    }
-
-    public void setHealthMax(float healthMax) {
-        mHealthMax = healthMax;
+        return mHealth * mHealthModifier;
     }
 
     public void damage(float dmg) {
-        mHealth -= dmg;
+        mHealth -= dmg / mHealthModifier;
 
         if (mHealth <= 0) {
-            GameManager.getInstance().giveCredits(mReward);
+            GameManager.getInstance().giveCredits(getReward());
             this.remove();
         }
     }
 
     public void heal(float val) {
-        mHealth += val;
+        mHealth += val / mHealthModifier;
+    }
+
+    public int getReward() {
+        return Math.round(mConfig.reward * mRewardModifier);
+    }
+
+
+    public void modifySpeed(float f) {
+        mSpeedModifier *= f;
+    }
+
+    public void modifyHealth(float f) {
+        mHealthModifier *= f;
+    }
+
+    public void modifyReward(float f) {
+        mRewardModifier *= f;
     }
 
 

@@ -138,20 +138,6 @@ public class Wave {
     }
 
 
-    public void multiplyHealth(float factor) {
-        for (Enemy e : mEnemies) {
-            e.setHealthMax(e.getHealthMax() * factor);
-            e.setHealth(e.getHealthMax());
-        }
-    }
-
-    public void multiplyReward(float factor) {
-        for (Enemy e : mEnemies) {
-            e.setReward(Math.round(e.getReward() * factor));
-        }
-    }
-
-
     public List<Enemy> getEnemies() {
         return mEnemies;
     }
@@ -167,10 +153,6 @@ public class Wave {
 
     public int getWaveReward() {
         return mWaveReward;
-    }
-
-    public void setWaveReward(int reward) {
-        mWaveReward = reward;
     }
 
     public void giveWaveReward() {
@@ -218,7 +200,9 @@ public class Wave {
 
     @Commit
     private void onXmlCommit() {
-        multiplyHealth(mHealthMultiplier);
-        multiplyReward(mRewardMultiplier);
+        for (Enemy e : mEnemies) {
+            e.modifyHealth(mHealthMultiplier);
+            e.modifyReward(mRewardMultiplier);
+        }
     }
 }
