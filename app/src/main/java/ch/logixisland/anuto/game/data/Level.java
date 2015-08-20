@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.game.objects.Enemy;
-import ch.logixisland.anuto.game.objects.Plateau;
 import ch.logixisland.anuto.game.objects.Tower;
 
 @Root
@@ -37,7 +36,7 @@ public class Level {
     private ArrayList<EnemyConfig> mEnemies = new ArrayList<>();
 
     @ElementList(name="plateaus")
-    private ArrayList<Plateau> mPlateaus = new ArrayList<>();
+    private ArrayList<PlateauDescriptor> mPlateaus = new ArrayList<>();
 
     @ElementList(name="paths")
     private ArrayList<Path> mPaths = new ArrayList<>();
@@ -53,7 +52,7 @@ public class Level {
         return mSettings;
     }
 
-    public List<Plateau> getPlateaus() {
+    public List<PlateauDescriptor> getPlateaus() {
         return mPlateaus;
     }
 
@@ -63,10 +62,6 @@ public class Level {
 
     public List<Wave> getWaves() {
         return mWaves;
-    }
-
-    public List<TowerConfig> getTowers() {
-        return mTowers;
     }
 
     public TowerConfig getTowerConfig(Tower t) {
@@ -91,10 +86,6 @@ public class Level {
         }
 
         return null;
-    }
-
-    public List<EnemyConfig> getEnemies() {
-        return mEnemies;
     }
 
     public EnemyConfig getEnemyConfig(Enemy e) {

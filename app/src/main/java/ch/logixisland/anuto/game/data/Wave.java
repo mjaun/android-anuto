@@ -185,27 +185,12 @@ public class Wave {
 
 
     private void addToGame(EnemyDescriptor d) {
-        Enemy e;
-
-        try {
-            e = d.clazz.newInstance();
-        } catch (InstantiationException e1) {
-            e1.printStackTrace();
-            throw new RuntimeException();
-        } catch (IllegalAccessException e1) {
-            e1.printStackTrace();
-            throw new RuntimeException();
-        }
+        Enemy e = d.create();
 
         e.modifyHealth(mHealthMultiplier);
         e.modifyReward(mRewardMultiplier);
 
-        Level level = GameManager.getInstance().getLevel();
-        e.setPath(level.getPaths().get(d.pathIndex));
-        e.addListener(mEnemyListener);
         mGame.add(e);
         mEnemiesInGame.add(e);
-
-        e.move(d.offsetX, d.offsetY);
     }
 }

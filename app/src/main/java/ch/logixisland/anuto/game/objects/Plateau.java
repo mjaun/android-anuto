@@ -31,7 +31,7 @@ public abstract class Plateau extends GameObject {
     ------ Members ------
      */
 
-    protected Tower mOccupant;
+    private Tower mOccupant;
 
     /*
     ------ Methods ------

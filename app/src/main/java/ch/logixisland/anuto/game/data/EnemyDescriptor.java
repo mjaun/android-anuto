@@ -2,9 +2,12 @@ package ch.logixisland.anuto.game.data;
 
 import org.simpleframework.xml.Attribute;
 
+import ch.logixisland.anuto.game.GameManager;
 import ch.logixisland.anuto.game.objects.Enemy;
 
 public class EnemyDescriptor {
+    private final static String CLASS_PREFIX = "ch.logixisland.anuto.game.objects.impl.";
+
     public Class<? extends Enemy> clazz;
 
     @Attribute(required=false)
@@ -26,6 +29,26 @@ public class EnemyDescriptor {
 
     @Attribute(name="clazz")
     private void setClazz(String className) throws ClassNotFoundException {
-        clazz = (Class<? extends Enemy>) Class.forName(className);
+        clazz = (Class<? extends Enemy>) Class.forName(CLASS_PREFIX + className);
+    }
+
+    public Enemy create() {
+        Enemy e;
+
+        try {
+            e = clazz.newInstance();
+        } catch (InstantiationException e1) {
+            e1.printStackTrace();
+            throw new RuntimeException();
+        } catch (IllegalAccessException e1) {
+            e1.printStackTrace();
+            throw new RuntimeException();
+        }
+
+        Path p = GameManager.getInstance().getLevel().getPaths().get(pathIndex);
+        e.setPath(p);
+        e.move(offsetX, offsetY);
+
+        return e;
     }
 }

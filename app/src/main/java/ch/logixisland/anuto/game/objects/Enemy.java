@@ -104,6 +104,7 @@ public abstract class Enemy extends GameObject {
     public Enemy() {
         mConfig = GameManager.getInstance().getLevel().getEnemyConfig(this);
         mBaseSpeed = mConfig.speed;
+        mHealth = mConfig.health;
 
         mHealthBar = new HealthBar();
     }
@@ -120,11 +121,6 @@ public abstract class Enemy extends GameObject {
     @Override
     public void init() {
         super.init();
-
-        mPosition.set(mPath.get(0));
-        mWayPointIndex = 1;
-
-        mHealth = mConfig.health;
 
         mGame.add(mHealthBar);
     }
@@ -163,7 +159,9 @@ public abstract class Enemy extends GameObject {
 
     public void setPath(Path path) {
         mPath = path;
-        mWayPointIndex = 0;
+
+        setPosition(mPath.get(0));
+        mWayPointIndex = 1;
     }
 
 

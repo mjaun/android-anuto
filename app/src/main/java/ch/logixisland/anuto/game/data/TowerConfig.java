@@ -5,6 +5,8 @@ import org.simpleframework.xml.Element;
 import ch.logixisland.anuto.game.objects.Tower;
 
 public class TowerConfig {
+    private final static String CLASS_PREFIX = "ch.logixisland.anuto.game.objects.impl.";
+
     public Class<? extends Tower> clazz;
 
     public TowerConfig upgrade;
@@ -32,7 +34,7 @@ public class TowerConfig {
 
     @Element(name="clazz")
     private void setClazz(String className) throws ClassNotFoundException {
-        clazz = (Class<? extends Tower>) Class.forName(className);
+        clazz = (Class<? extends Tower>) Class.forName(CLASS_PREFIX + className);
     }
 
     @Element(name="upgrade", required=false)
@@ -42,7 +44,7 @@ public class TowerConfig {
 
     @Element(name="upgrade", required=false)
     private void setUpgrade(String className) throws ClassNotFoundException {
-        upgradeClass = (Class<? extends Tower>) Class.forName(className);
+        upgradeClass = (Class<? extends Tower>) Class.forName(CLASS_PREFIX + className);
     }
 
     public void commit(Level level) {

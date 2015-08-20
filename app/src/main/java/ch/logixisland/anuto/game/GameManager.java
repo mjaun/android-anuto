@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.game.data.Level;
+import ch.logixisland.anuto.game.data.PlateauDescriptor;
 import ch.logixisland.anuto.game.data.Settings;
 import ch.logixisland.anuto.game.data.Wave;
 import ch.logixisland.anuto.game.objects.Enemy;
-import ch.logixisland.anuto.game.objects.Plateau;
 import ch.logixisland.anuto.game.objects.Tower;
 import ch.logixisland.anuto.util.container.ListenerList;
 
@@ -135,8 +135,8 @@ public class GameManager implements Wave.Listener {
         reset();
         mLevel = level;
 
-        for (Plateau p : level.getPlateaus()) {
-            mGame.add(p);
+        for (PlateauDescriptor d : level.getPlateaus()) {
+            mGame.add(d.create());
         }
 
         Settings settings = mLevel.getSettings();

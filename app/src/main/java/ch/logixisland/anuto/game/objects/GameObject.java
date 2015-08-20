@@ -2,8 +2,6 @@ package ch.logixisland.anuto.game.objects;
 
 import android.graphics.Canvas;
 
-import org.simpleframework.xml.Attribute;
-
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -202,29 +200,5 @@ public abstract class GameObject implements Sprite.Listener {
 
     public void removeListener(Listener listener) {
         mListeners.remove(listener);
-    }
-
-    /*
-    ------ XML Serialization ------
-     */
-
-    @Attribute(name="x", required=false)
-    private float getPositionX() {
-        return mPosition.x;
-    }
-
-    @Attribute(name="x", required=false)
-    private void setPositionX(float x) {
-        mPosition.x = x;
-    }
-
-    @Attribute(name="y", required=false)
-    private float getPositionY() {
-        return mPosition.y;
-    }
-
-    @Attribute(name="y", required=false)
-    private void setPositionY(float y) {
-        mPosition.y = y;
     }
 }
