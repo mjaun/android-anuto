@@ -86,6 +86,7 @@ public abstract class Enemy extends GameObject {
     private EnemyConfig mConfig;
 
     private float mHealth;
+    protected float mBaseSpeed;
 
     private float mHealthModifier = 1f;
     private float mRewardModifier = 1f;
@@ -102,6 +103,7 @@ public abstract class Enemy extends GameObject {
 
     public Enemy() {
         mConfig = GameManager.getInstance().getLevel().getEnemyConfig(this);
+        mBaseSpeed = mConfig.speed;
 
         mHealthBar = new HealthBar();
     }
@@ -166,7 +168,7 @@ public abstract class Enemy extends GameObject {
 
 
     public float getSpeed() {
-        return mConfig.speed * mSpeedModifier;
+        return mBaseSpeed * mSpeedModifier;
     }
 
     public Vector2 getDirection() {

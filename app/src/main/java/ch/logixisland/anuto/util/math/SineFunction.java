@@ -35,7 +35,12 @@ public class SineFunction implements Function {
         mAngle += mStep;
         mValue = mOffset + mAmplitude * (float)Math.sin(mAngle);
 
-        return mAngle >= mStopAngle;
+        if (mAngle >= mStopAngle) {
+            reset();
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override

@@ -13,6 +13,12 @@ public class EnemyDescriptor {
     @Attribute(required=false)
     public float delay;
 
+    @Attribute(required=false)
+    public float offsetX;
+
+    @Attribute(required=false)
+    public float offsetY;
+
     @Attribute(name="clazz")
     private String getClazz() {
         return clazz.getName();

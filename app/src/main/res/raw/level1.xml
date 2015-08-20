@@ -267,7 +267,12 @@
             <waveReward>100</waveReward>
             <healthMultiplier>0.6</healthMultiplier>
             <enemies>
-                <enemy clazz="ch.logixisland.anuto.game.objects.impl.Soldier"/>
+                <enemy clazz="ch.logixisland.anuto.game.objects.impl.Sprinter" offsetY="0.0"/>
+                <enemy clazz="ch.logixisland.anuto.game.objects.impl.Sprinter" offsetY="2.0"/>
+                <enemy clazz="ch.logixisland.anuto.game.objects.impl.Sprinter" offsetY="4.0"/>
+                <enemy clazz="ch.logixisland.anuto.game.objects.impl.Sprinter" offsetY="6.0"/>
+
+                <enemy clazz="ch.logixisland.anuto.game.objects.impl.Soldier" delay="5.0"/>
                 <enemy clazz="ch.logixisland.anuto.game.objects.impl.Soldier" delay="0.5"/>
                 <enemy clazz="ch.logixisland.anuto.game.objects.impl.Soldier" delay="0.5"/>
                 <enemy clazz="ch.logixisland.anuto.game.objects.impl.Soldier" delay="0.5"/>

@@ -16,6 +16,7 @@ import ch.logixisland.anuto.game.objects.DrawObject;
 import ch.logixisland.anuto.game.objects.GameObject;
 import ch.logixisland.anuto.util.container.ConcurrentCollectionMap;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
+import ch.logixisland.anuto.util.math.Function;
 import ch.logixisland.anuto.util.math.Vector2;
 
 public class GameEngine {
@@ -145,6 +146,7 @@ public class GameEngine {
         mResources = res;
     }
 
+
     public Random getRandom() {
         return mRandom;
     }
@@ -165,12 +167,41 @@ public class GameEngine {
         return mRandom.nextFloat() * (max - min) + min;
     }
 
+
     public long getTickCount() {
         return mTickCount;
     }
 
     public boolean tick100ms(Object caller) {
         return (mTickCount + System.identityHashCode(caller)) % TICKS_100MS == 0;
+    }
+
+    public Function synchronize(final Function f) {
+        return new Function() {
+            long mLastTick = -1;
+            boolean mReturn = false;
+
+            @Override
+            public void reset() {
+                f.reset();
+            }
+
+            @Override
+            public boolean step() {
+                if (mTickCount == mLastTick) {
+                    return mReturn;
+                }
+
+                mLastTick = mTickCount;
+                mReturn = f.step();
+                return mReturn;
+            }
+
+            @Override
+            public float getValue() {
+                return f.getValue();
+            }
+        };
     }
 
 

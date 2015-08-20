@@ -34,7 +34,13 @@ public class ParabolaFunction implements Function {
     public boolean step() {
         mPosition += mStep;
         mValue = mA * MathUtils.square(mPosition) + mB * mPosition + mC;
-        return mPosition >= 1f;
+
+        if (mPosition >= 1f) {
+            reset();
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override

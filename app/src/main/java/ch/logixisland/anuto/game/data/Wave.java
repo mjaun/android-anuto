@@ -205,5 +205,7 @@ public class Wave {
         e.addListener(mEnemyListener);
         mGame.add(e);
         mEnemiesInGame.add(e);
+
+        e.move(d.offsetX, d.offsetY);
     }
 }

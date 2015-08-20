@@ -3,15 +3,19 @@ package ch.logixisland.anuto.game.objects.impl;
 import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.Enemy;
 import ch.logixisland.anuto.game.objects.Sprite;
+import ch.logixisland.anuto.util.math.Function;
+import ch.logixisland.anuto.util.math.SineFunction;
 
 public class Sprinter extends Enemy {
 
     private final static float ANIMATION_SPEED = 1.0f;
 
     private static Sprite.Animator sAnimator;
+    private static Function sSpeedFunction;
 
     private float mAngle;
 
@@ -30,6 +34,13 @@ public class Sprinter extends Enemy {
         }
 
         mSprite.setAnimator(sAnimator);
+
+        if (sSpeedFunction == null) {
+            SineFunction f = new SineFunction();
+            f.setProperties(0f, (float) Math.PI, mBaseSpeed, 0f);
+            f.setSection(GameEngine.TARGET_FRAME_RATE * ANIMATION_SPEED);
+            sSpeedFunction = mGame.synchronize(f);
+        }
     }
 
     @Override
@@ -58,9 +69,11 @@ public class Sprinter extends Enemy {
         super.tick();
 
         if (hasWayPoint()) {
-            mAngle = getDirectionTo(getWayPoint()).angle();
+            mAngle = getDirection().angle();
+            mBaseSpeed = sSpeedFunction.getValue();
+
             mSprite.animate();
-            //mSpeed = Math.abs(sAnimator.count() - sAnimator.getPosition() * 2) * mConfig.speed / sAnimator.count();
+            sSpeedFunction.step();
         }
     }
 }
