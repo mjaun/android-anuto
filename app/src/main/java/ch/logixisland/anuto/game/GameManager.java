@@ -210,6 +210,8 @@ public class GameManager {
         mSelectedTower = null;
         mNextWaveIndex = 0;
         mGameOver = false;
+
+        hideTowerInfo();
     }
 
     public void restart() {
@@ -226,6 +228,9 @@ public class GameManager {
 
         setCredits(settings.credits);
         setLives(settings.lives);
+
+        mEarlyBonus = 0;
+        onEarlyBonusChanged();
     }
 
 

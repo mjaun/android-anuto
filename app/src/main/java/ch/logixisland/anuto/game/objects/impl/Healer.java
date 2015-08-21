@@ -21,8 +21,6 @@ public class Healer extends Enemy {
     private class StaticData extends GameEngine.StaticData {
         public float healDuration;
         public float healInterval;
-        public float healAmount;
-        public float healRadius;
 
         public boolean healing;
         public boolean dropEffect;
@@ -65,11 +63,16 @@ public class Healer extends Enemy {
         }
     }
 
+    private float mHealAmount;
+    private float mHealRange;
     private StaticData mStatic;
 
     private Sprite.Instance mSprite;
 
     public Healer() {
+        mHealAmount = getProperty("healAmount") * getHealth();
+        mHealRange = getProperty("healRadius");
+
         mStatic = (StaticData)getStaticData();
 
         mSprite = mStatic.animator.copycat();
@@ -82,8 +85,6 @@ public class Healer extends Enemy {
 
         s.healInterval = getProperty("healInterval");
         s.healDuration = getProperty("healDuration");
-        s.healAmount = getProperty("healAmount");
-        s.healRadius = getProperty("healRadius");
 
         s.healTimer = TickTimer.createInterval(s.healInterval);
 
@@ -144,7 +145,7 @@ public class Healer extends Enemy {
         }
 
         if (mStatic.dropEffect) {
-            getGame().add(new HealEffect(getPosition(), mStatic.healAmount, mStatic.healRadius));
+            getGame().add(new HealEffect(getPosition(), mHealAmount, mHealRange));
         }
     }
 }

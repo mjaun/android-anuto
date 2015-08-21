@@ -28,6 +28,16 @@ public class TowerConfig {
     public float reload;
 
     @Element
+    public int enhanceCost;
+
+    @Element
+    public float enhanceDamage;
+
+    @Element
+    public float enhanceRange;
+
+    @Element
+    public float enhanceReload;
 
     @ElementMap(required=false, entry="property", key="name", attribute=true, inline=true)
     public HashMap<String, Float> properties = new HashMap<>();

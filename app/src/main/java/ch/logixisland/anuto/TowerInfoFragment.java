@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+
 import ch.logixisland.anuto.game.GameManager;
 import ch.logixisland.anuto.game.objects.Tower;
 
@@ -34,6 +36,8 @@ public class TowerInfoFragment extends Fragment implements
     private Button btn_sell;
 
     private TowerView view_tower;
+
+    private boolean mVisible = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -62,15 +66,23 @@ public class TowerInfoFragment extends Fragment implements
     }
 
     private void show() {
-        getFragmentManager().beginTransaction()
-                .show(this)
-                .commit();
+        if (!mVisible) {
+            getFragmentManager().beginTransaction()
+                    .show(this)
+                    .commit();
+
+            mVisible = true;
+        }
     }
 
     private void hide() {
-        getFragmentManager().beginTransaction()
-                .hide(this)
-                .commit();
+        if (mVisible) {
+            getFragmentManager().beginTransaction()
+                    .hide(this)
+                    .commit();
+
+            mVisible = false;
+        }
     }
 
     @Override
@@ -88,7 +100,6 @@ public class TowerInfoFragment extends Fragment implements
         super.onDetach();
 
         view_tower.close();
-
         mManager.removeListener(this);
     }
 
@@ -106,41 +117,59 @@ public class TowerInfoFragment extends Fragment implements
         }
 
         if (v == btn_sell) {
+            view_tower.setTower(null);
+
             mTower.sell();
             mTower.remove();
+            mTower = null;
+
             mManager.hideTowerInfo();
+        }
+
+        if (v == btn_enhance) {
+            mTower.enhance();
+            mManager.showTowerInfo(mTower);
         }
     }
 
     @Override
     public void onShowTowerInfo(Tower tower) {
         mTower = tower;
+        view_tower.setTower(mTower);
 
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                txt_damage.setText(String.valueOf(mTower.getDamage()));
-                txt_value.setText(String.valueOf(mTower.getValue()));
-                txt_range.setText(String.valueOf(mTower.getRange()));
-                txt_reload.setText(String.valueOf(mTower.getReloadTime()));
+                DecimalFormat fmt = new DecimalFormat("#.#");
+
+                txt_value.setText(fmt.format(mTower.getValue()));
+                txt_damage.setText(fmt.format(mTower.getDamage()) + " (+" + fmt.format(mTower.getConfig().enhanceDamage) + ")");
+                txt_range.setText(fmt.format(mTower.getRange()) + " (+" + fmt.format(mTower.getConfig().enhanceRange) + ")");
+                txt_reload.setText(fmt.format(mTower.getReloadTime()) + " (-" + fmt.format(mTower.getConfig().enhanceReload) + ")");
 
                 if (mTower.isUpgradeable()) {
-                    btn_upgrade.setText(getResources().getText(R.string.upgrade) + " (" + mTower.getUpgradeCost() + ")");
+                    btn_upgrade.setText(getResources().getString(R.string.upgrade) + " (" + mTower.getUpgradeCost() + ")");
                 } else {
                     btn_upgrade.setText(getResources().getString(R.string.upgrade));
                 }
+
+                btn_enhance.setText(getResources().getString(R.string.enhance) + " (" + mTower.getEnhanceCost() + ")");
+
+                show();
             }
         });
 
-        view_tower.setTowerClass(mTower.getClass());
         onCreditsChanged(mManager.getCredits());
-
-        show();
     }
 
     @Override
     public void onHideTowerInfo() {
-        hide();
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                hide();
+            }
+        });
     }
 
     @Override
@@ -149,6 +178,7 @@ public class TowerInfoFragment extends Fragment implements
             @Override
             public void run() {
                 btn_upgrade.setEnabled(mTower != null && mTower.isUpgradeable() && credits >= mTower.getUpgradeCost());
+                btn_enhance.setEnabled(mTower != null && credits >= mTower.getEnhanceCost());
             }
         });
     }

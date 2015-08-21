@@ -84,6 +84,7 @@ public class TowerView extends View implements View.OnTouchListener {
         if (mTower != null) {
             canvas.save();
             canvas.concat(mScreenMatrix);
+            canvas.translate(-mTower.getPosition().x, -mTower.getPosition().y);
             mTower.preview(canvas);
             canvas.restore();
 
@@ -132,6 +133,11 @@ public class TowerView extends View implements View.OnTouchListener {
     public void setTowerClass(String className) throws ClassNotFoundException {
         mTowerClass = (Class<? extends Tower>) Class.forName(className);
         newTower();
+    }
+
+    public void setTower(Tower tower) {
+        mTower = tower;
+        this.postInvalidate();
     }
 
 

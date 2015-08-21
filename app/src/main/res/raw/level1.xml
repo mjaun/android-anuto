@@ -9,13 +9,17 @@
     </settings>
     <towers>
         <tower>
+            <slot>0</slot>
             <clazz>Canon</clazz>
             <upgrade>CanonDual</upgrade>
             <value>200</value>
             <damage>100</damage>
             <range>3.5</range>
             <reload>1.0</reload>
-            <slot>0</slot>
+            <enhanceCost>200</enhanceCost>
+            <enhanceDamage>100</enhanceDamage>
+            <enhanceRange>0.5</enhanceRange>
+            <enhanceReload>0</enhanceReload>
         </tower>
         <tower>
             <clazz>CanonDual</clazz>
@@ -24,6 +28,10 @@
             <damage>100</damage>
             <range>3.5</range>
             <reload>0.5</reload>
+            <enhanceCost>200</enhanceCost>
+            <enhanceDamage>100</enhanceDamage>
+            <enhanceRange>0.5</enhanceRange>
+            <enhanceReload>0</enhanceReload>
         </tower>
         <tower>
             <clazz>CanonMG</clazz>
@@ -31,16 +39,24 @@
             <damage>100</damage>
             <range>3.5</range>
             <reload>0.1</reload>
+            <enhanceCost>200</enhanceCost>
+            <enhanceDamage>100</enhanceDamage>
+            <enhanceRange>0.5</enhanceRange>
+            <enhanceReload>0</enhanceReload>
         </tower>
 
         <tower>
+            <slot>1</slot>
             <clazz>LaserTower1</clazz>
             <upgrade>LaserTower2</upgrade>
             <value>200</value>
             <damage>100</damage>
             <range>3.5</range>
             <reload>3.0</reload>
-            <slot>1</slot>
+            <enhanceCost>200</enhanceCost>
+            <enhanceDamage>100</enhanceDamage>
+            <enhanceRange>0.5</enhanceRange>
+            <enhanceReload>0</enhanceReload>
         </tower>
         <tower>
             <clazz>LaserTower2</clazz>
@@ -49,6 +65,10 @@
             <damage>100</damage>
             <range>3.5</range>
             <reload>3.0</reload>
+            <enhanceCost>200</enhanceCost>
+            <enhanceDamage>100</enhanceDamage>
+            <enhanceRange>0.5</enhanceRange>
+            <enhanceReload>0</enhanceReload>
             <property name="bounce">2</property>
             <property name="bounceDistance">2.0</property>
         </tower>
@@ -58,18 +78,26 @@
             <damage>100</damage>
             <range>3.5</range>
             <reload>3.0</reload>
+            <enhanceCost>200</enhanceCost>
+            <enhanceDamage>100</enhanceDamage>
+            <enhanceRange>0.5</enhanceRange>
+            <enhanceReload>0</enhanceReload>
         </tower>
 
         <tower>
+            <slot>2</slot>
             <clazz>Mortar</clazz>
             <upgrade>RocketLauncher</upgrade>
             <value>200</value>
             <damage>100</damage>
             <range>3.5</range>
             <reload>3.0</reload>
+            <enhanceCost>200</enhanceCost>
+            <enhanceDamage>100</enhanceDamage>
+            <enhanceRange>0.5</enhanceRange>
+            <enhanceReload>0</enhanceReload>
             <property name="inaccuracy">1.0</property>
             <property name="explosionRadius">1.5</property>
-            <slot>2</slot>
         </tower>
         <tower>
             <clazz>RocketLauncher</clazz>
@@ -78,6 +106,10 @@
             <damage>100</damage>
             <range>3.5</range>
             <reload>3.0</reload>
+            <enhanceCost>200</enhanceCost>
+            <enhanceDamage>100</enhanceDamage>
+            <enhanceRange>0.5</enhanceRange>
+            <enhanceReload>0</enhanceReload>
             <property name="explosionRadius">1.5</property>
         </tower>
         <tower>
@@ -86,19 +118,27 @@
             <damage>100</damage>
             <range>3.5</range>
             <reload>3.0</reload>
+            <enhanceCost>200</enhanceCost>
+            <enhanceDamage>100</enhanceDamage>
+            <enhanceRange>0.5</enhanceRange>
+            <enhanceReload>0</enhanceReload>
             <property name="maxMineCount">3</property>
             <property name="explosionRadius">1.5</property>
         </tower>
 
         <tower>
+            <slot>3</slot>
             <clazz>GlueGun</clazz>
             <upgrade>GlueTower</upgrade>
             <value>200</value>
             <damage>2</damage>
             <range>3.5</range>
             <reload>3.0</reload>
+            <enhanceCost>200</enhanceCost>
+            <enhanceDamage>100</enhanceDamage>
+            <enhanceRange>0.5</enhanceRange>
+            <enhanceReload>0</enhanceReload>
             <property name="glueDuration">2.0</property>
-            <slot>3</slot>
         </tower>
         <tower>
             <clazz>GlueTower</clazz>
@@ -107,6 +147,10 @@
             <damage>2</damage>
             <range>3.5</range>
             <reload>3.0</reload>
+            <enhanceCost>200</enhanceCost>
+            <enhanceDamage>100</enhanceDamage>
+            <enhanceRange>0.5</enhanceRange>
+            <enhanceReload>0</enhanceReload>
             <property name="glueDuration">2.0</property>
         </tower>
         <tower>
@@ -115,6 +159,10 @@
             <damage>10</damage>
             <range>3.5</range>
             <reload>3.0</reload>
+            <enhanceCost>200</enhanceCost>
+            <enhanceDamage>100</enhanceDamage>
+            <enhanceRange>0.5</enhanceRange>
+            <enhanceReload>0</enhanceReload>
         </tower>
     </towers>
     <enemies>
@@ -141,7 +189,7 @@
             <health>1000</health>
             <speed>2.0</speed>
             <reward>10</reward>
-            <property name="healAmount">100</property>
+            <property name="healAmount">0.1</property>
             <property name="healInterval">5</property>
             <property name="healDuration">1.5</property>
             <property name="healRadius">0.5</property>

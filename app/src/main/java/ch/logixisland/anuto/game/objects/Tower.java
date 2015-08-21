@@ -67,9 +67,14 @@ public abstract class Tower extends GameObject {
 
     private TowerConfig mConfig;
 
-    private boolean mReloaded = false;
     private int mValue;
+    private int mEnhanceCost;
+    private float mDamage;
+    private float mRange;
+    private float mReloadTime;
+
     private Plateau mPlateau = null;
+    private boolean mReloaded = false;
 
     private TickTimer mReloadTimer;
     private RangeIndicator mRangeIndicator;
@@ -80,8 +85,14 @@ public abstract class Tower extends GameObject {
 
     public Tower() {
         mConfig = getManager().getLevel().getTowerConfig(this);
+
         mValue = mConfig.value;
-        mReloadTimer = TickTimer.createInterval(mConfig.reload);
+        mDamage = mConfig.damage;
+        mRange = mConfig.range;
+        mReloadTime = mConfig.reload;
+        mEnhanceCost = mConfig.enhanceCost;
+
+        mReloadTimer = TickTimer.createInterval(mReloadTime);
     }
 
     /*
@@ -153,27 +164,15 @@ public abstract class Tower extends GameObject {
     }
 
     public float getDamage() {
-        return mConfig.damage;
+        return mDamage;
     }
 
     public float getRange() {
-        return mConfig.range;
+        return mRange;
     }
 
     public float getReloadTime() {
-        return mConfig.reload;
-    }
-
-    public boolean isUpgradeable() {
-        return mConfig.upgrade != null;
-    }
-
-    public int getUpgradeCost() {
-        if (mConfig.upgrade == null) {
-            return -1;
-        }
-
-        return mConfig.upgrade.value;
+        return mReloadTime;
     }
 
 
@@ -212,6 +211,34 @@ public abstract class Tower extends GameObject {
 
         getGame().add(upgrade);
         return upgrade;
+    }
+
+    public boolean isUpgradeable() {
+        return mConfig.upgrade != null;
+    }
+
+    public int getUpgradeCost() {
+        if (mConfig.upgrade == null) {
+            return -1;
+        }
+
+        return mConfig.upgrade.value;
+    }
+
+    public void enhance() {
+        getManager().takeCredits(mEnhanceCost);
+
+        mValue += mEnhanceCost;
+        mEnhanceCost += mConfig.enhanceCost;
+        mDamage += mConfig.enhanceDamage;
+        mRange += mConfig.enhanceRange;
+        mReloadTime -= mConfig.enhanceReload;
+
+        mReloadTimer.setInterval(mReloadTime);
+    }
+
+    public int getEnhanceCost() {
+        return mEnhanceCost;
     }
 
     public void showRange() {
@@ -298,6 +325,11 @@ public abstract class Tower extends GameObject {
         }
 
         return ret;
+    }
+
+
+    public TowerConfig getConfig() {
+        return mConfig;
     }
 
     public float getProperty(String name) {
