@@ -2,6 +2,7 @@ package ch.logixisland.anuto;
 
 import android.content.ClipData;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -16,11 +17,13 @@ import ch.logixisland.anuto.game.objects.Tower;
 
 public class TowerView extends View implements View.OnTouchListener {
 
-    private final static float DRAW_SIZE = 1.3f;
+    private final static float TEXT_SIZE = 20f;
 
     private Tower mTower;
     private Class<? extends Tower> mTowerClass;
     private GameManager mManager;
+
+    private float mDrawSize = 1f;
 
     private final Paint mPaintText;
     private final Matrix mScreenMatrix;
@@ -43,11 +46,15 @@ public class TowerView extends View implements View.OnTouchListener {
     public TowerView(Context context, AttributeSet attrs) throws ClassNotFoundException{
         super(context, attrs);
 
+        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.TowerView);
+        mDrawSize = a.getFloat(R.styleable.TowerView_drawSize, mDrawSize);
+        a.recycle();
+
         float density = context.getResources().getDisplayMetrics().density;
         mPaintText = new Paint();
         mPaintText.setColor(Color.BLACK);
         mPaintText.setTextAlign(Paint.Align.CENTER);
-        mPaintText.setTextSize(25f * density);
+        mPaintText.setTextSize(TEXT_SIZE * density);
 
         mScreenMatrix = new Matrix();
 
@@ -66,8 +73,8 @@ public class TowerView extends View implements View.OnTouchListener {
         mScreenMatrix.reset();
 
         float tileSize = Math.min(w, h);
-        mScreenMatrix.postTranslate(DRAW_SIZE / 2, DRAW_SIZE / 2);
-        mScreenMatrix.postScale(tileSize / DRAW_SIZE, tileSize / DRAW_SIZE);
+        mScreenMatrix.postTranslate(mDrawSize / 2, mDrawSize / 2);
+        mScreenMatrix.postScale(tileSize / mDrawSize, tileSize / mDrawSize);
 
         float paddingLeft = (w - tileSize) / 2f;
         float paddingTop = (h - tileSize) / 2f;
@@ -100,7 +107,7 @@ public class TowerView extends View implements View.OnTouchListener {
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if (isEnabled() && mTower != null && mManager.getCredits() >= mTower.getValue()) {
+            if (isEnabled() && mTowerClass != null && mManager.getCredits() >= mTower.getValue()) {
                 View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder() {
                     @Override
                     public void onProvideShadowMetrics(Point shadowSize, Point shadowTouchPoint) {
@@ -112,8 +119,7 @@ public class TowerView extends View implements View.OnTouchListener {
                 };
 
                 ClipData data = ClipData.newPlainText("", "");
-                startDrag(data, shadowBuilder, mTower, 0);
-                newTower();
+                startDrag(data, shadowBuilder, newTower(), 0);
             }
         }
 
@@ -127,7 +133,10 @@ public class TowerView extends View implements View.OnTouchListener {
 
     public void setTowerClass(Class<? extends Tower> clazz) {
         mTowerClass = clazz;
-        newTower();
+
+        if (mTowerClass != null) {
+            setTower(newTower());
+        }
     }
 
     public void setTowerClass(String className) throws ClassNotFoundException {
@@ -146,15 +155,13 @@ public class TowerView extends View implements View.OnTouchListener {
     }
 
 
-    private void newTower() {
+    private Tower newTower() {
         try {
-            mTower = mTowerClass.getConstructor().newInstance();
+            return mTowerClass.getConstructor().newInstance();
         } catch (NoSuchMethodException e) {
             throw new NoSuchMethodError("Class " + mTowerClass.getName() + " has no default constructor!");
         } catch (Exception e) {
             throw new RuntimeException("Could not instantiate object!", e);
         }
-
-        this.postInvalidate();
     }
 }

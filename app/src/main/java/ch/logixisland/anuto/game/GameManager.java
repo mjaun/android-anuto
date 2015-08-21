@@ -131,7 +131,7 @@ public class GameManager {
         }
 
         public void abort() {
-            mHandler.removeCallbacks(null);
+            mHandler.removeCallbacksAndMessages(null);
             mEnemiesInQueue = 0;
             mAborted = true;
         }

@@ -86,11 +86,15 @@ public class GlueEffect extends AreaEffect {
 
     @Override
     protected void enemyEnter(Enemy e) {
-        e.modifySpeed(mSpeedModifier);
+        if (!(e instanceof Flyer)) {
+            e.modifySpeed(mSpeedModifier);
+        }
     }
 
     @Override
     protected void enemyExit(Enemy e) {
-        e.modifySpeed(1f / mSpeedModifier);
+        if (!(e instanceof Flyer)) {
+            e.modifySpeed(1f / mSpeedModifier);
+        }
     }
 }

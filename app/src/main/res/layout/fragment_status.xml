@@ -2,24 +2,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context="ch.logixisland.anuto.StatusFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/border_bottom">
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="25dp"
-        android:background="#ffffffff">
-
-        <TextView
-            android:id="@+id/txt_lives"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/txt_credits"
-            android:layout_marginStart="25dp"
-            android:textAppearance="?android:attr/textAppearanceSmallInverse"
-            android:text="@string/status_lives"/>
+        android:layout_height="25dp">
 
         <TextView
             android:id="@+id/txt_credits"
@@ -27,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="5dp"
             android:textAppearance="?android:attr/textAppearanceSmallInverse"
             android:text="@string/status_credits"/>
 
@@ -36,10 +26,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/txt_lives"
+            android:layout_toEndOf="@id/txt_credits"
             android:layout_marginStart="25dp"
             android:textAppearance="?android:attr/textAppearanceSmallInverse"
             android:text="@string/status_bonus" />
+
+        <TextView
+            android:id="@+id/txt_lives"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/txt_bonus"
+            android:layout_marginStart="25dp"
+            android:textAppearance="?android:attr/textAppearanceSmallInverse"
+            android:text="@string/status_lives"/>
 
         <TextView
             android:id="@+id/txt_wave"
@@ -47,36 +47,41 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="5dp"
             android:textAppearance="?android:attr/textAppearanceSmallInverse"
             android:text="@string/status_wave"/>
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:layout_height="wrap_content">
+
+        <fragment
+            android:id="@+id/fragment_inventory"
+            android:name="ch.logixisland.anuto.InventoryFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            tools:layout="@layout/fragment_inventory" />
 
         <Button
             android:id="@+id/btn_next_wave"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="35dp"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
-            android:text="@string/next_wave"
-            android:width="80dp" />
+            android:text="@string/next_wave" />
 
         <Button
             android:id="@+id/btn_restart"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="35dp"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@id/btn_next_wave"
             android:layout_marginEnd="5dp"
-            android:text="@string/restart"
-            android:width="80dp" />
+            android:text="@string/restart" />
     </RelativeLayout>
 
 </LinearLayout>

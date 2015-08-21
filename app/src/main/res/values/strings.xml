@@ -17,7 +17,19 @@
     <string name="reload">Reload</string>
     <string name="range">Range</string>
 
-    <string name="sell">Sell</string>
-    <string name="upgrade">Upgrade</string>
+    <string name="lock_target">Lock Target</string>
+    <string name="strategy">Strategy</string>
     <string name="enhance">Enhance</string>
+    <string name="upgrade">Upgrade</string>
+    <string name="sell">Sell</string>
+
+    <string name="msg_are_you_sure">Are you sure?</string>
+
+    <string-array name="strategies">
+        <item>Closest</item>
+        <item>Weakest</item>
+        <item>Strongest</item>
+        <item>First</item>
+        <item>Last</item>
+    </string-array>
 </resources>

@@ -134,6 +134,7 @@
             <damage>2</damage>
             <range>3.5</range>
             <reload>3.0</reload>
+            <damageText>Intensity</damageText>
             <enhanceCost>200</enhanceCost>
             <enhanceDamage>100</enhanceDamage>
             <enhanceRange>0.5</enhanceRange>
@@ -147,6 +148,7 @@
             <damage>2</damage>
             <range>3.5</range>
             <reload>3.0</reload>
+            <damageText>Intensity</damageText>
             <enhanceCost>200</enhanceCost>
             <enhanceDamage>100</enhanceDamage>
             <enhanceRange>0.5</enhanceRange>
@@ -159,6 +161,7 @@
             <damage>10</damage>
             <range>3.5</range>
             <reload>3.0</reload>
+            <damageText>Distance</damageText>
             <enhanceCost>200</enhanceCost>
             <enhanceDamage>100</enhanceDamage>
             <enhanceRange>0.5</enhanceRange>
@@ -192,7 +195,13 @@
             <property name="healAmount">0.1</property>
             <property name="healInterval">5</property>
             <property name="healDuration">1.5</property>
-            <property name="healRadius">0.5</property>
+            <property name="healRadius">0.7</property>
+        </enemy>
+        <enemy>
+            <clazz>Flyer</clazz>
+            <health>1000</health>
+            <speed>2.0</speed>
+            <reward>10</reward>
         </enemy>
     </enemies>
     <plateaus>
@@ -335,11 +344,18 @@
             <healthMultiplier>0.6</healthMultiplier>
             <enemies>
                 <enemy clazz="Healer"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="2.2"/>
-                <enemy clazz="Healer" offsetY="3.3"/>
-                <enemy clazz="Healer" offsetY="4.4"/>
-                <enemy clazz="Healer" offsetY="5.5"/>
+                <enemy clazz="Healer" offsetY="1.2"/>
+                <enemy clazz="Healer" offsetY="2.4"/>
+                <enemy clazz="Healer" offsetY="3.6"/>
+                <enemy clazz="Healer" offsetY="4.8"/>
+                <enemy clazz="Healer" offsetY="6"/>
+
+                <enemy clazz="Flyer" delay="8.0"/>
+                <enemy clazz="Flyer" offsetY="1.2"/>
+                <enemy clazz="Flyer" offsetY="2.4"/>
+                <enemy clazz="Flyer" offsetY="3.6"/>
+                <enemy clazz="Flyer" offsetY="4.8"/>
+                <enemy clazz="Flyer" offsetY="6"/>
 
                 <enemy clazz="Soldier" delay="8.0"/>
                 <enemy clazz="Soldier" delay="0.5"/>

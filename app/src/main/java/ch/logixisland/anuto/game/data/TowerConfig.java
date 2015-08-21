@@ -39,6 +39,9 @@ public class TowerConfig {
     @Element
     public float enhanceReload;
 
+    @Element(required=false)
+    public String damageText;
+
     @ElementMap(required=false, entry="property", key="name", attribute=true, inline=true)
     public HashMap<String, Float> properties = new HashMap<>();
 

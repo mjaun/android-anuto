@@ -1,7 +1,9 @@
 package ch.logixisland.anuto;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -76,7 +78,30 @@ public class StatusFragment extends Fragment implements GameManager.OnWaveStarte
         }
 
         if (v == btn_restart) {
-            mManager.restart();
+            if (mManager.isGameOver()) {
+                mManager.restart();
+            } else {
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                mManager.restart();
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                // No button clicked
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage(R.string.msg_are_you_sure)
+                        .setPositiveButton(android.R.string.yes, dialogClickListener)
+                        .setNegativeButton(android.R.string.no, dialogClickListener)
+                        .show();
+            }
         }
     }
 

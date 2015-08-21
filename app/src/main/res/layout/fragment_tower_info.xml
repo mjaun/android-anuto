@@ -1,44 +1,54 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="5dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="220dp"
+    android:layout_height="280dp"
+    android:padding="10dp"
     tools:context="ch.logixisland.anuto.TowerInfoFragment"
-    android:background="#ffffffff">
+    android:background="@drawable/border">
 
-    <TableLayout
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical">
 
-        <TableRow>
-            <Button
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/upgrade"
-                android:id="@+id/btn_upgrade" />
-        </TableRow>
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:text="@string/strategy"
+            android:id="@+id/btn_strategy" />
 
-        <TableRow>
-            <Button
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/enhance"
-                android:id="@+id/btn_enhance" />
-        </TableRow>
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:text="@string/lock_target"
+            android:id="@+id/btn_lock_target" />
 
-        <TableRow>
-            <Button
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="140dp"
-                android:layout_height="wrap_content"
-                android:text="@string/sell"
-                android:id="@+id/btn_sell" />
-        </TableRow>
-    </TableLayout>
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:text="@string/enhance"
+            android:id="@+id/btn_enhance" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:text="@string/upgrade"
+            android:id="@+id/btn_upgrade" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:text="@string/sell"
+            android:id="@+id/btn_sell" />
+    </LinearLayout>
 
     <TableLayout
         android:layout_width="200dp"
@@ -53,29 +63,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmallInverse"
-                android:text="@string/value"
-                android:layout_column="0"
-                android:paddingRight="10dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmallInverse"
-                android:text="\?"
-                android:id="@+id/txt_value"
-                android:layout_column="1" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmallInverse"
                 android:text="@string/damage"
-                android:id="@+id/textView2"
+                android:id="@+id/txt_damage_text"
                 android:layout_column="0"
                 android:paddingRight="10dp" />
 
@@ -134,9 +123,12 @@
     <view
         class="ch.logixisland.anuto.TowerView"
         android:id="@+id/view_tower"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="-5dp"
+        android:layout_marginRight="-10dp"
+        app:drawSize="1.8" />
 
 </RelativeLayout>
