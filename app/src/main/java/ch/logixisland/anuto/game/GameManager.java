@@ -1,18 +1,36 @@
 package ch.logixisland.anuto.game;
 
+import android.os.Handler;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.game.data.EnemyDescriptor;
 import ch.logixisland.anuto.game.data.Level;
 import ch.logixisland.anuto.game.data.PlateauDescriptor;
 import ch.logixisland.anuto.game.data.Settings;
 import ch.logixisland.anuto.game.data.Wave;
 import ch.logixisland.anuto.game.objects.Enemy;
+import ch.logixisland.anuto.game.objects.GameObject;
 import ch.logixisland.anuto.game.objects.Tower;
 import ch.logixisland.anuto.util.container.ListenerList;
 
-public class GameManager implements Wave.Listener {
+public class GameManager {
+
+    /*
+    ------ Static ------
+     */
+
+    private static GameManager sInstance;
+
+    public static GameManager getInstance() {
+        if (sInstance == null) {
+            sInstance = new GameManager();
+        }
+
+        return sInstance;
+    }
 
     /*
     ------ Listener Interface ------
@@ -27,7 +45,7 @@ public class GameManager implements Wave.Listener {
     }
 
     public interface OnGameOverListener extends Listener {
-        void onGameOver(boolean won);
+        void onGameOver();
     }
 
     public interface OnWaveStartedListener extends Listener {
@@ -63,36 +81,110 @@ public class GameManager implements Wave.Listener {
     }
 
     /*
-    ------ Static ------
+    ------ WaveManager Class ------
      */
 
-    private static GameManager sInstance;
+    private class WaveManager implements GameObject.Listener {
 
-    public static GameManager getInstance() {
-        if (sInstance == null) {
-            sInstance = new GameManager();
+        private Wave mWave;
+        private Handler mHandler;
+        private boolean mAborted;
+        private int mEarlyBonus;
+        private int mWaveReward;
+        private int mEnemiesInQueue;
+        private List<Enemy> mEnemiesInGame = new CopyOnWriteArrayList<>();
+
+        public WaveManager(Wave wave) {
+            mWave = wave;
+            mHandler = mGame.createHandler();
         }
 
-        return sInstance;
+        public void start() {
+            int delay = 0;
+
+            mEarlyBonus = 0;
+            mWaveReward = mWave.waveReward;
+            mAborted = false;
+            mActiveWaves.add(this);
+
+            for (EnemyDescriptor d : mWave.enemies) {
+                final Enemy e = d.create();
+                e.addListener(this);
+
+                delay += (int)(d.delay * 1000f);
+                mEarlyBonus += e.getReward();
+
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mGame.add(e);
+                    }
+                }, delay);
+
+                mEnemiesInQueue++;
+            }
+
+            ageTowers();
+            onWaveStarted(mWave);
+
+            calcEarlyBonus();
+        }
+
+        public void abort() {
+            mHandler.removeCallbacks(null);
+            mEnemiesInQueue = 0;
+            mAborted = true;
+        }
+
+        @Override
+        public void onObjectAdded(GameObject obj) {
+            mEnemiesInQueue--;
+            mEnemiesInGame.add((Enemy)obj);
+
+            if (mEnemiesInQueue == 0 && hasNextWave() && !mAborted) {
+                onNextWaveReady();
+            }
+        }
+
+        @Override
+        public void onObjectRemoved(GameObject obj) {
+            mEnemiesInGame.remove(obj);
+            mEarlyBonus -= ((Enemy)obj).getReward();
+            calcEarlyBonus();
+
+            if (mEnemiesInQueue == 0 && mEnemiesInGame.isEmpty() && !mAborted) {
+                mActiveWaves.remove(this);
+
+                onWaveDone(mWave);
+                giveCredits(mWaveReward);
+
+                if (!hasNextWave()) {
+                    mGameOver = true;
+                    mGameWon = true;
+                    onGameOver();
+                }
+            }
+        }
     }
 
     /*
     ------ Members ------
      */
 
+    private GameEngine mGame;
     private Level mLevel;
 
     private int mNextWaveIndex;
     private int mCredits;
     private int mLives;
-    private boolean mGameOver = true;
-
+    private int mEarlyBonus;
+    private boolean mGameOver;
+    private boolean mGameWon;
     private Tower mSelectedTower;
 
-    private final GameEngine mGame;
-    private final List<Wave> mActiveWaves = new CopyOnWriteArrayList<>();
+    private List<WaveManager> mActiveWaves = new CopyOnWriteArrayList<>();
 
-    private final ListenerList<Listener> mListeners = new ListenerList<>();
+    private ListenerList<Listener> mListeners = new ListenerList<>();
 
     /*
     ------ Constructors ------
@@ -100,6 +192,7 @@ public class GameManager implements Wave.Listener {
 
     public GameManager() {
         mGame = GameEngine.getInstance();
+        mGameOver = true;
     }
 
     /*
@@ -107,11 +200,8 @@ public class GameManager implements Wave.Listener {
      */
 
     private void reset() {
-        mLevel = null;
-
-        for (Wave w : mActiveWaves) {
-            w.removeListener(this);
-            w.abort();
+        for (WaveManager m : mActiveWaves) {
+            m.abort();
         }
 
         mActiveWaves.clear();
@@ -123,7 +213,19 @@ public class GameManager implements Wave.Listener {
     }
 
     public void restart() {
-        setLevel(mLevel);
+        reset();
+
+        for (PlateauDescriptor d : mLevel.getPlateaus()) {
+            mGame.add(d.create());
+        }
+
+        Settings settings = mLevel.getSettings();
+        mGame.setGameSize(settings.width, settings.height);
+
+        onGameStarted();
+
+        setCredits(settings.credits);
+        setLives(settings.lives);
     }
 
 
@@ -132,17 +234,13 @@ public class GameManager implements Wave.Listener {
     }
 
     public void setLevel(Level level) {
-        reset();
         mLevel = level;
 
-        for (PlateauDescriptor d : level.getPlateaus()) {
-            mGame.add(d.create());
+        if (mLevel == null) {
+            reset();
+        } else {
+            restart();
         }
-
-        Settings settings = mLevel.getSettings();
-        mGame.setGameSize(settings.width, settings.height);
-
-        onGameStarted();
     }
 
 
@@ -163,7 +261,7 @@ public class GameManager implements Wave.Listener {
             return null;
         }
 
-        return mActiveWaves.get(mActiveWaves.size() - 1);
+        return mActiveWaves.get(mActiveWaves.size() - 1).mWave;
     }
 
     public Wave getNextWave() {
@@ -175,9 +273,16 @@ public class GameManager implements Wave.Listener {
     }
 
     public void startNextWave() {
-        Wave wave = getNextWave();
-        wave.addListener(this);
-        wave.start();
+        if (hasCurrentWave()) {
+            WaveManager m = mActiveWaves.get(mActiveWaves.size() - 1);
+            giveCredits(m.mWaveReward);
+            m.mWaveReward = 0;
+
+            giveCredits(mEarlyBonus);
+        }
+
+        new WaveManager(getNextWave()).start();
+        mNextWaveIndex++;
     }
 
 
@@ -200,23 +305,8 @@ public class GameManager implements Wave.Listener {
         onCreditsChanged();
     }
 
-
     public int getEarlyBonus() {
-        int bonus = 0;
-
-        /*
-        for (Wave w : mActiveWaves) {
-            for (Enemy e : w.getEnemiesToAdd()) {
-                bonus += e.getReward();
-            }
-
-            for (Enemy e : w.getEnemiesInGame()) {
-                bonus += e.getReward();
-            }
-        }
-        */
-
-        return (int)(bonus * mLevel.getSettings().earlyFactor);
+        return mEarlyBonus;
     }
 
 
@@ -230,23 +320,33 @@ public class GameManager implements Wave.Listener {
     }
 
     public void giveLives(int count) {
-        mLives += count;
-        onLivesChanged();
+        if (!isGameOver()) {
+            mLives += count;
+            onLivesChanged();
+        }
     }
 
     public void takeLives(int count) {
-        mLives -= count;
+        if (!isGameOver()) {
+            mLives -= count;
 
-        if (mLives < 0) {
-            onGameOver(false);
+            onLivesChanged();
+
+            if (mLives < 0) {
+                mGameOver = true;
+                mGameWon = false;
+                onGameOver();
+            }
         }
-
-        onLivesChanged();
     }
 
 
     public boolean isGameOver() {
         return mGameOver;
+    }
+
+    public boolean isGameWon() {
+        return mGameWon;
     }
 
 
@@ -274,11 +374,24 @@ public class GameManager implements Wave.Listener {
         onHideTowerInfo();
     }
 
-    public void ageTowers() {
+
+    private void ageTowers() {
         Iterator<Tower> it = mGame.get(TypeIds.TOWER).cast(Tower.class);
         while (it.hasNext()) {
-            it.next().devalue(mLevel.getSettings().agingFactor);
+            Tower t = it.next();
+            t.devalue(mLevel.getSettings().agingFactor);
         }
+    }
+
+    private void calcEarlyBonus() {
+        mEarlyBonus = 0;
+
+        for (WaveManager m : mActiveWaves) {
+            mEarlyBonus += m.mEarlyBonus;
+        }
+
+        mEarlyBonus = Math.round(mLevel.getSettings().earlyFactor * mEarlyBonus);
+        onEarlyBonusChanged();
     }
 
     /*
@@ -295,22 +408,14 @@ public class GameManager implements Wave.Listener {
 
 
     private void onGameStarted() {
-        Settings settings = mLevel.getSettings();
-        setCredits(settings.credits);
-        setLives(settings.lives);
-
-        onBonusChanged();
-
         for (OnGameStartedListener l : mListeners.get(OnGameStartedListener.class)) {
             l.onGameStarted();
         }
     }
 
-    private void onGameOver(boolean won) {
-        mGameOver = true;
-
+    private void onGameOver() {
         for (OnGameOverListener l : mListeners.get(OnGameOverListener.class)) {
-            l.onGameOver(won);
+            l.onGameOver();
         }
     }
 
@@ -320,7 +425,7 @@ public class GameManager implements Wave.Listener {
         }
     }
 
-    private void onBonusChanged() {
+    private void onEarlyBonusChanged() {
         for (OnBonusChangedListener l : mListeners.get(OnBonusChangedListener.class)) {
             l.onBonusChanged(getEarlyBonus());
         }
@@ -332,56 +437,21 @@ public class GameManager implements Wave.Listener {
         }
     }
 
-    @Override
     public void onWaveStarted(Wave wave) {
-        if (hasCurrentWave()) {
-            getCurrentWave().giveWaveReward();
-            giveCredits(getEarlyBonus());
-        }
-
-        mActiveWaves.add(wave);
-        mNextWaveIndex++;
-
         for (OnWaveStartedListener l : mListeners.get(OnWaveStartedListener.class)) {
             l.onWaveStarted(wave);
         }
-
-        ageTowers();
-
-        onBonusChanged();
-    }
-
-    @Override
-    public void onWaveAllEnemiesAdded(Wave wave) {
-        if (!isGameOver() && hasNextWave()) {
-            onNextWaveReady();
-        }
-    }
-
-    @Override
-    public void onWaveEnemyRemoved(Wave wave, Enemy enemy) {
-        onBonusChanged();
-    }
-
-    @Override
-    public void onWaveDone(Wave wave) {
-        mActiveWaves.remove(wave);
-        wave.removeListener(this);
-
-        for (OnWaveDoneListener l : mListeners.get(OnWaveDoneListener.class)) {
-            l.onWaveDone(wave);
-        }
-
-        if (!hasCurrentWave() && !hasNextWave() && !isGameOver()) {
-            onGameOver(true);
-        }
-
-        onBonusChanged();
     }
 
     private void onNextWaveReady() {
         for (OnNextWaveReadyListener l : mListeners.get(OnNextWaveReadyListener.class)) {
             l.onNextWaveReady(getNextWave());
+        }
+    }
+
+    public void onWaveDone(Wave wave) {
+        for (OnWaveDoneListener l : mListeners.get(OnWaveDoneListener.class)) {
+            l.onWaveDone(wave);
         }
     }
 

@@ -407,7 +407,7 @@ public class GameEngine {
         return mRunning;
     }
 
-    public Handler getHandler() {
-        return mGameHandler;
+    public Handler createHandler() {
+        return new Handler(mGameThread.getLooper());
     }
 }

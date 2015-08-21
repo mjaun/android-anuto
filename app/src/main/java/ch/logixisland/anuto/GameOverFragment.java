@@ -56,11 +56,11 @@ public class GameOverFragment extends Fragment implements GameManager.OnGameStar
     }
 
     @Override
-    public void onGameOver(final boolean won) {
+    public void onGameOver() {
         txt_game_over.post(new Runnable() {
             @Override
             public void run() {
-                if (won) {
+                if (mManager.isGameWon()) {
                     txt_game_over.setText(R.string.game_over_won);
                 } else {
                     txt_game_over.setText(R.string.game_over_lost);
