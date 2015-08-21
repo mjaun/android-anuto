@@ -45,8 +45,9 @@ public class Sprinter extends Enemy {
         StaticData s = new StaticData();
 
         s.speedFunction = Function.sine()
-                .multiply(0.9f)
-                .offset(0.1f)
+                .multiply(getConfigSpeed() * 0.9f)
+                .offset(getConfigSpeed() * 0.1f)
+                .repeat((float)Math.PI)
                 .stretch(GameEngine.TARGET_FRAME_RATE / ANIMATION_SPEED / (float)Math.PI)
                 .sample();
 

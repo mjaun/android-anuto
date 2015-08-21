@@ -88,6 +88,10 @@ public class TowerView extends View implements View.OnTouchListener {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        if (isInEditMode()) {
+            canvas.drawColor(Color.GRAY);
+        }
+
         if (mTower != null) {
             canvas.save();
             canvas.concat(mScreenMatrix);

@@ -332,16 +332,14 @@ public class GameManager {
     }
 
     public void takeLives(int count) {
-        if (!isGameOver()) {
-            mLives -= count;
+        mLives -= count;
 
-            onLivesChanged();
+        onLivesChanged();
 
-            if (mLives < 0) {
-                mGameOver = true;
-                mGameWon = false;
-                onGameOver();
-            }
+        if (mLives < 0 && !mGameOver) {
+            mGameOver = true;
+            mGameWon = false;
+            onGameOver();
         }
     }
 

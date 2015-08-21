@@ -1,9 +1,7 @@
 package ch.logixisland.anuto;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -14,6 +12,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
+import java.util.List;
 
 import ch.logixisland.anuto.game.GameManager;
 import ch.logixisland.anuto.game.data.Wave;
@@ -121,19 +121,15 @@ public class TowerInfoFragment extends Fragment implements
     @Override
     public void onClick(View v) {
         if (v == btn_strategy) {
-            DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    String[] names = getResources().getStringArray(R.array.strategies);
-                    ((AimingTower)mTower).setStrategy(AimingTower.Strategy.valueOf(names[which]));
-                    btn_strategy.setText(getResources().getString(R.string.strategy) + " (" + names[which] + ")");
-                }
-            };
+            AimingTower t = (AimingTower)mTower;
+            List<AimingTower.Strategy> values = Arrays.asList(AimingTower.Strategy.values());
+            int index = values.indexOf(t.getStrategy()) + 1;
+            if (index >= values.size()) {
+                index = 0;
+            }
+            t.setStrategy(values.get(index));
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle(R.string.strategy)
-                    .setItems(R.array.strategies, listener)
-                    .show();
+            btn_strategy.setText(getResources().getString(R.string.strategy) + " (" + t.getStrategy().name() + ")");
         }
 
         if (v == btn_lock_target) {
@@ -203,7 +199,12 @@ public class TowerInfoFragment extends Fragment implements
                     btn_lock_target.setEnabled(false);
                 }
 
-                btn_enhance.setText(getResources().getString(R.string.enhance) + " (" + mTower.getEnhanceCost() + ")");
+                if (mTower.getLevel() < 4) {
+                    btn_enhance.setText(getResources().getString(R.string.enhance) + " (" + mTower.getEnhanceCost() + ")");
+                } else {
+                    btn_enhance.setText(getResources().getString(R.string.enhance));
+                }
+
 
                 show();
             }
@@ -226,7 +227,7 @@ public class TowerInfoFragment extends Fragment implements
             @Override
             public void run() {
                 btn_upgrade.setEnabled(mTower != null && mTower.isUpgradeable() && credits >= mTower.getUpgradeCost());
-                btn_enhance.setEnabled(mTower != null && credits >= mTower.getEnhanceCost());
+                btn_enhance.setEnabled(mTower != null && mTower.getLevel() < 4 && credits >= mTower.getEnhanceCost());
             }
         });
     }

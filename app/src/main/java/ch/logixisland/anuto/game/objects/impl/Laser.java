@@ -75,6 +75,7 @@ public class Laser extends Effect {
         mDuration = EFFECT_DURATION;
         mDamage = damage;
         mBounce = bounce;
+        mMaxBounceDist = maxBounceDist;
 
         mDrawObject = new LaserDrawObject();
     }
