@@ -15,17 +15,14 @@ import ch.logixisland.anuto.util.math.SampledFunction;
 public class Healer extends Enemy {
 
     private final static float ANIMATION_SPEED = 1.5f;
-
-    private final static float HEAL_AMOUNT = 200f;
-
-    private final static float HEAL_INTERVAL = 5.0f;
-    private final static float HEAL_DURATION = 1.5f;
     private final static float HEAL_SCALE_FACTOR = 2f;
     private final static float HEAL_ROTATION = 2.5f;
 
     private class StaticData extends GameEngine.StaticData {
-        public Sprite sprite;
-        public Sprite.AnimatedInstance animator;
+        public float healDuration;
+        public float healInterval;
+        public float healAmount;
+        public float healRadius;
 
         public boolean healing;
         public boolean dropEffect;
@@ -34,6 +31,9 @@ public class Healer extends Enemy {
         public TickTimer healTimer;
         public SampledFunction scaleFunction;
         public SampledFunction rotateFunction;
+
+        public Sprite sprite;
+        public Sprite.AnimatedInstance animator;
 
         @Override
         public void tick() {
@@ -50,7 +50,7 @@ public class Healer extends Enemy {
                 angle += rotateFunction.getValue();
                 scale = scaleFunction.getValue();
 
-                if (scaleFunction.getPosition() >= GameEngine.TARGET_FRAME_RATE * HEAL_DURATION) {
+                if (scaleFunction.getPosition() >= GameEngine.TARGET_FRAME_RATE * healDuration) {
                     dropEffect = true;
                     healing = false;
                     angle = 0;
@@ -80,20 +80,25 @@ public class Healer extends Enemy {
     public GameEngine.StaticData initStatic() {
         StaticData s = new StaticData();
 
-        s.healTimer = TickTimer.createInterval(HEAL_INTERVAL);
+        s.healInterval = getProperty("healInterval");
+        s.healDuration = getProperty("healDuration");
+        s.healAmount = getProperty("healAmount");
+        s.healRadius = getProperty("healRadius");
+
+        s.healTimer = TickTimer.createInterval(s.healInterval);
 
         s.scaleFunction = Function.sine()
                 .join(Function.zero(), (float) Math.PI)
                 .multiply(HEAL_SCALE_FACTOR - 1f)
                 .offset(1f)
-                .stretch(GameEngine.TARGET_FRAME_RATE * HEAL_DURATION * 0.66f / (float) Math.PI)
+                .stretch(GameEngine.TARGET_FRAME_RATE * s.healDuration * 0.66f / (float) Math.PI)
                 .invert()
                 .sample();
 
         s.rotateFunction = Function.zero()
                 .join(Function.sine(), (float) Math.PI / 2f)
                 .multiply(HEAL_ROTATION / GameEngine.TARGET_FRAME_RATE * 360f)
-                .stretch(GameEngine.TARGET_FRAME_RATE * HEAL_DURATION * 0.66f / (float) Math.PI)
+                .stretch(GameEngine.TARGET_FRAME_RATE * s.healDuration * 0.66f / (float) Math.PI)
                 .sample();
 
         s.sprite = Sprite.fromResources(R.drawable.healer, 4);
@@ -139,7 +144,7 @@ public class Healer extends Enemy {
         }
 
         if (mStatic.dropEffect) {
-            getGame().add(new HealEffect(getPosition(), HEAL_AMOUNT));
+            getGame().add(new HealEffect(getPosition(), mStatic.healAmount, mStatic.healRadius));
         }
     }
 }

@@ -14,10 +14,9 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class Explosion extends Effect {
 
-    private final static float EXPLOSION_VISIBLE_TIME = 0.2f;
-
+    private final static float EFFECT_DURATION = 0.2f;
     private final static int ALPHA_START = 180;
-    private final static int ALPHA_STEP = (int)(ALPHA_START / (GameEngine.TARGET_FRAME_RATE * EXPLOSION_VISIBLE_TIME));
+    private final static int ALPHA_STEP = (int)(ALPHA_START / (GameEngine.TARGET_FRAME_RATE * EFFECT_DURATION));
 
     private class ExplosionDrawObject extends DrawObject {
         private Paint mPaint;

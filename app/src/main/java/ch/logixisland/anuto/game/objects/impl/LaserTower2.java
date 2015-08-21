@@ -20,11 +20,16 @@ public class LaserTower2 extends AimingTower {
     }
 
     private float mAngle = 90f;
+    private int mBounce;
+    private float mBounceDistance;
 
     private Sprite.FixedInstance mSpriteBase;
     private Sprite.FixedInstance mSpriteCanon;
 
     public LaserTower2() {
+        mBounce = (int)getProperty("bounce");
+        mBounceDistance = getProperty("bounceDistance");
+
         StaticData s = (StaticData)getStaticData();
 
         mSpriteBase = s.spriteBase.yieldStatic(Layers.TOWER_BASE);
@@ -81,7 +86,7 @@ public class LaserTower2 extends AimingTower {
 
             if (isReloaded()) {
                 Vector2 origin = Vector2.polar(LASER_SPAWN_OFFSET, mAngle).add(getPosition());
-                getGame().add(new Laser(origin, getTarget(), getDamage(), 2));
+                getGame().add(new Laser(origin, getTarget(), getDamage(), mBounce, mBounceDistance));
                 setReloaded(false);
             }
         }

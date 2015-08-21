@@ -16,12 +16,10 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class Mine extends Shot {
 
-    public final static float EXPLOSION_RADIUS = 1.5f;
-    public final static float TIME_TO_TARGET = 1.5f;
-
+    private final static float DETECT_RADIUS = 0.2f;
+    private final static float TIME_TO_TARGET = 1.5f;
     private final static float ROTATION_RATE_MIN = 0.5f;
     private final static float ROTATION_RATE_MAX = 2.0f;
-
     private final static float HEIGHT_SCALING_START = 0.5f;
     private final static float HEIGHT_SCALING_STOP = 1.0f;
     private final static float HEIGHT_SCALING_PEAK = 1.5f;
@@ -31,6 +29,7 @@ public class Mine extends Shot {
     }
 
     private float mDamage;
+    private float mRadius;
     private float mAngle;
     private boolean mFlying = true;
     private float mRotationStep;
@@ -38,12 +37,13 @@ public class Mine extends Shot {
 
     private Sprite.FixedInstance mSprite;
 
-    public Mine(Vector2 position, Vector2 target, float damage) {
+    public Mine(Vector2 position, Vector2 target, float damage, float radius) {
         setPosition(position);
 
         mSpeed = getDistanceTo(target) / TIME_TO_TARGET;
         mDirection = getDirectionTo(target);
         mDamage = damage;
+        mRadius = radius;
 
         mRotationStep = getGame().getRandom(ROTATION_RATE_MIN, ROTATION_RATE_MAX) * 360f / GameEngine.TARGET_FRAME_RATE;
 
@@ -110,11 +110,11 @@ public class Mine extends Shot {
             }
         } else if (getGame().tick100ms(this)) {
             StreamIterator<Enemy> enemiesInRange = getGame().get(Enemy.TYPE_ID)
-                    .filter(inRange(getPosition(), 0.5f))
+                    .filter(inRange(getPosition(), DETECT_RADIUS))
                     .cast(Enemy.class);
 
-            if (enemiesInRange.hasNext()) {
-                getGame().add(new Explosion(getPosition(), mDamage, EXPLOSION_RADIUS));
+            if (!enemiesInRange.isEmpty()) {
+                getGame().add(new Explosion(getPosition(), mDamage, mRadius));
                 this.remove();
             }
         }

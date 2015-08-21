@@ -12,8 +12,6 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class Mortar extends AimingTower {
 
-    private final static float INACCURACY = 1.0f;
-
     private final static float SHOT_SPAWN_OFFSET = 0.6f;
     private final static float REBOUND_DURATION = 0.5f;
 
@@ -22,6 +20,8 @@ public class Mortar extends AimingTower {
         public Sprite spriteCanon;
     }
 
+    private float mInaccuracy;
+    private float mExplosionRadius;
     private float mAngle = 90f;
     private boolean mRebounding = false;
 
@@ -29,6 +29,9 @@ public class Mortar extends AimingTower {
     private Sprite.AnimatedInstance mSpriteCanon;
 
     public Mortar() {
+        mInaccuracy = getProperty("inaccuracy");
+        mExplosionRadius = getProperty("explosionRadius");
+
         StaticData s = (StaticData)getStaticData();
 
         mSpriteBase = s.spriteBase.yieldStatic(Layers.TOWER_BASE);
@@ -85,13 +88,12 @@ public class Mortar extends AimingTower {
         super.tick();
 
         if (getTarget() != null && isReloaded()) {
-            Vector2 targetPos = getTarget().getPositionAfter(Mine.TIME_TO_TARGET);
-            targetPos.add(Vector2.polar(getGame().getRandom(INACCURACY), getGame().getRandom(360f)));
+            Vector2 targetPos = getTarget().getPositionAfter(MortarShot.TIME_TO_TARGET);
+            targetPos.add(Vector2.polar(getGame().getRandom(mInaccuracy), getGame().getRandom(360f)));
+            Vector2 shotPos = getPosition().copy().add(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
             mAngle = getAngleTo(targetPos);
 
-            Vector2 shotPos = getPosition().copy().add(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
-
-            getGame().add(new MortarShot(shotPos, targetPos, getDamage()));
+            getGame().add(new MortarShot(shotPos, targetPos, getDamage(), mExplosionRadius));
 
             setReloaded(false);
             mRebounding = true;

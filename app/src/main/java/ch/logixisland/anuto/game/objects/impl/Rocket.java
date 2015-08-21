@@ -13,8 +13,6 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class Rocket extends HomingShot {
 
-    private final static float EXPLOSION_RADIUS = 1.5f;
-
     private final static float MOVEMENT_SPEED = 2.5f;
     private final static float ANIMATION_SPEED = 3f;
 
@@ -24,17 +22,19 @@ public class Rocket extends HomingShot {
     }
 
     private float mDamage;
+    private float mRadius;
     private float mAngle;
 
     private Sprite.FixedInstance mSprite;
     private Sprite.AnimatedInstance mSpriteFire;
 
-    public Rocket(Vector2 position, float damage) {
+    public Rocket(Vector2 position, float damage, float radius) {
         setPosition(position);
         setEnabled(false);
 
         mSpeed = MOVEMENT_SPEED;
         mDamage = damage;
+        mRadius = radius;
 
         StaticData s = (StaticData)getStaticData();
 
@@ -133,7 +133,7 @@ public class Rocket extends HomingShot {
 
     @Override
     protected void onTargetReached() {
-        getGame().add(new Explosion(mTarget.getPosition(), mDamage, EXPLOSION_RADIUS));
+        getGame().add(new Explosion(mTarget.getPosition(), mDamage, mRadius));
         getGame().remove(this);
     }
 }

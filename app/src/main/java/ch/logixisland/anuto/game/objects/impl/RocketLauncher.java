@@ -19,6 +19,7 @@ public class RocketLauncher extends AimingTower {
         public Sprite spriteRocket; // used for preview only
     }
 
+    private float mExplosionRadius;
     private float mAngle = 90f;
     private Rocket mRocket;
     private TickTimer mRocketLoadTimer;
@@ -27,6 +28,8 @@ public class RocketLauncher extends AimingTower {
     private Sprite.FixedInstance mSpriteRocket; // used for preview only
 
     public RocketLauncher() {
+        mExplosionRadius = getProperty("explosionRadius");
+
         StaticData s = (StaticData)getStaticData();
 
         mRocketLoadTimer = TickTimer.createInterval(ROCKET_LOAD_TIME);
@@ -82,7 +85,7 @@ public class RocketLauncher extends AimingTower {
         super.tick();
 
         if (mRocket == null && mRocketLoadTimer.tick()) {
-            mRocket = new Rocket(getPosition(), getDamage());
+            mRocket = new Rocket(getPosition(), getDamage(), mExplosionRadius);
             mRocket.setAngle(mAngle);
             getGame().add(mRocket);
         }

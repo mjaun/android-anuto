@@ -16,8 +16,6 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class MineLayer extends Tower {
 
-    private final static int MAX_MINE_COUNT = 3;
-
     private final static float ANIMATION_DURATION = 1f;
 
     private class StaticData extends GameEngine.StaticData {
@@ -25,6 +23,8 @@ public class MineLayer extends Tower {
     }
 
     private float mAngle;
+    private int mMaxMineCount;
+    private float mExplosionRadius;
     private boolean mShooting;
     private List<PathSection> mSections;
     private List<Mine> mMines = new ArrayList<>();
@@ -45,9 +45,11 @@ public class MineLayer extends Tower {
     };
 
     public MineLayer() {
-        StaticData s = (StaticData)getStaticData();
-
         mAngle = getGame().getRandom(360f);
+        mMaxMineCount = (int)getProperty("maxMineCount");
+        mExplosionRadius = getProperty("explosionRadius");
+
+        StaticData s = (StaticData)getStaticData();
 
         mSprite = s.sprite.yieldAnimated(Layers.TOWER_BASE);
         mSprite.setIndex(getGame().getRandom(4));
@@ -107,7 +109,7 @@ public class MineLayer extends Tower {
     public void tick() {
         super.tick();
 
-        if (isReloaded() && mMines.size() < MAX_MINE_COUNT && mSections.size() > 0) {
+        if (isReloaded() && mMines.size() < mMaxMineCount && mSections.size() > 0) {
             mShooting = true;
             setReloaded(false);
         }
@@ -116,7 +118,7 @@ public class MineLayer extends Tower {
             mSprite.tick();
 
             if (mSprite.getSequencePosition() == 5) {
-                Mine m = new Mine(getPosition(), getTarget(), getDamage());
+                Mine m = new Mine(getPosition(), getTarget(), getDamage(), mExplosionRadius);
                 m.addListener(mMineListener);
                 mMines.add(m);
                 getGame().add(m);

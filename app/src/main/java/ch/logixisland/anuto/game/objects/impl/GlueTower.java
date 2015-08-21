@@ -40,6 +40,7 @@ public class GlueTower extends Tower {
         }
     }
 
+    private float mGlueDuration;
     private boolean mShooting;
     private float mCanonOffset;
     private SubCanon[] mCanons = new SubCanon[8];
@@ -49,6 +50,8 @@ public class GlueTower extends Tower {
     private Sprite.FixedInstance mSpriteTower;
 
     public GlueTower() {
+        mGlueDuration = getProperty("glueDuration");
+
         StaticData s = (StaticData)getStaticData();
 
         mSpriteBase = s.spriteBase.yieldStatic(Layers.TOWER);
@@ -141,7 +144,7 @@ public class GlueTower extends Tower {
                     Vector2 position = Vector2.polar(SHOT_SPAWN_OFFSET, getAngleTo(target));
                     position.add(getPosition());
 
-                    getGame().add(new GlueShot(position, target, 1f / getDamage()));
+                    getGame().add(new GlueShot(position, target, 1f / getDamage(), mGlueDuration));
                 }
             }
         } else if (mCanonOffset > 0f) {

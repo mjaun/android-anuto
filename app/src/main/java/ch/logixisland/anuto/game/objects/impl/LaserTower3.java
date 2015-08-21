@@ -12,7 +12,6 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class LaserTower3 extends AimingTower {
 
-    private final static float LASER_LENGTH = 1000f;
     private final static float LASER_SPAWN_OFFSET = 0.8f;
 
     private class StaticData extends GameEngine.StaticData {
@@ -21,11 +20,14 @@ public class LaserTower3 extends AimingTower {
     }
 
     private float mAngle = 90f;
+    private float mLaserLength;
 
     private Sprite.FixedInstance mSpriteBase;
     private Sprite.FixedInstance mSpriteCanon;
 
     public LaserTower3() {
+        mLaserLength = getGame().getGameSize().len() + 1f;
+
         StaticData s = (StaticData)getStaticData();
 
         mSpriteBase = s.spriteBase.yieldStatic(Layers.TOWER_BASE);
@@ -82,7 +84,7 @@ public class LaserTower3 extends AimingTower {
 
             if (isReloaded()) {
                 Vector2 laserFrom = Vector2.polar(LASER_SPAWN_OFFSET, mAngle).add(getPosition());
-                Vector2 laserTo = Vector2.polar(LASER_LENGTH, mAngle).add(getPosition());
+                Vector2 laserTo = Vector2.polar(mLaserLength, mAngle).add(getPosition());
                 getGame().add(new LaserStraight(laserFrom, laserTo, getDamage()));
                 setReloaded(false);
             }

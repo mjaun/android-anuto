@@ -299,4 +299,8 @@ public abstract class Tower extends GameObject {
 
         return ret;
     }
+
+    public float getProperty(String name) {
+        return mConfig.properties.get(name);
+    }
 }

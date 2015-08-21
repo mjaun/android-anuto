@@ -1,6 +1,9 @@
 package ch.logixisland.anuto.game.data;
 
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementMap;
+
+import java.util.HashMap;
 
 import ch.logixisland.anuto.game.objects.Enemy;
 
@@ -17,6 +20,9 @@ public class EnemyConfig {
 
     @Element
     public int reward;
+
+    @ElementMap(required=false, entry="property", key="name", attribute=true, inline=true)
+    public HashMap<String, Float> properties = new HashMap<>();
 
     @Element(name="clazz")
     private String getClazz() {

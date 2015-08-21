@@ -14,10 +14,7 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class GlueEffect extends AreaEffect {
 
-    private final static float EFFECT_DURATION = 2f;
-
     private final static int ALPHA_START = 150;
-    private final static int ALPHA_STEP = (int)(ALPHA_START / (GameEngine.TARGET_FRAME_RATE * EFFECT_DURATION));
 
     private class StaticData extends GameEngine.StaticData {
         public Sprite sprite;
@@ -25,16 +22,18 @@ public class GlueEffect extends AreaEffect {
 
     private float mAngle;
     private float mSpeedModifier;
+    private int mAlphaStep;
 
     private Paint mPaint;
     private Sprite.FixedInstance mSprite;
 
-    public GlueEffect(Vector2 position, float speedModifier) {
+    public GlueEffect(Vector2 position, float speedModifier, float duration) {
         setPosition(position);
 
-        mDuration = EFFECT_DURATION;
-        mAngle = getGame().getRandom(360f);
+        mDuration = duration;
         mSpeedModifier = speedModifier;
+        mAngle = getGame().getRandom(360f);
+        mAlphaStep = (int)(ALPHA_START / (GameEngine.TARGET_FRAME_RATE * mDuration));
 
         StaticData s = (StaticData)getStaticData();
 
@@ -82,7 +81,7 @@ public class GlueEffect extends AreaEffect {
     public void tick() {
         super.tick();
 
-        mPaint.setAlpha(mPaint.getAlpha() - ALPHA_STEP);
+        mPaint.setAlpha(mPaint.getAlpha() - mAlphaStep);
     }
 
     @Override

@@ -49,6 +49,8 @@
             <damage>100</damage>
             <range>3.5</range>
             <reload>3.0</reload>
+            <property name="bounce">2</property>
+            <property name="bounceDistance">2.0</property>
         </tower>
         <tower>
             <clazz>LaserTower3</clazz>
@@ -65,6 +67,8 @@
             <damage>100</damage>
             <range>3.5</range>
             <reload>3.0</reload>
+            <property name="inaccuracy">1.0</property>
+            <property name="explosionRadius">1.5</property>
             <slot>2</slot>
         </tower>
         <tower>
@@ -74,6 +78,7 @@
             <damage>100</damage>
             <range>3.5</range>
             <reload>3.0</reload>
+            <property name="explosionRadius">1.5</property>
         </tower>
         <tower>
             <clazz>MineLayer</clazz>
@@ -81,6 +86,8 @@
             <damage>100</damage>
             <range>3.5</range>
             <reload>3.0</reload>
+            <property name="maxMineCount">3</property>
+            <property name="explosionRadius">1.5</property>
         </tower>
 
         <tower>
@@ -90,6 +97,7 @@
             <damage>2</damage>
             <range>3.5</range>
             <reload>3.0</reload>
+            <property name="glueDuration">2.0</property>
             <slot>3</slot>
         </tower>
         <tower>
@@ -99,6 +107,7 @@
             <damage>2</damage>
             <range>3.5</range>
             <reload>3.0</reload>
+            <property name="glueDuration">2.0</property>
         </tower>
         <tower>
             <clazz>TeleportTower</clazz>
@@ -132,6 +141,10 @@
             <health>1000</health>
             <speed>2.0</speed>
             <reward>10</reward>
+            <property name="healAmount">100</property>
+            <property name="healInterval">5</property>
+            <property name="healDuration">1.5</property>
+            <property name="healRadius">0.5</property>
         </enemy>
     </enemies>
     <plateaus>

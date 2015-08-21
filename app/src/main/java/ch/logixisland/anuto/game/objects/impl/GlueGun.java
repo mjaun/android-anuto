@@ -7,7 +7,6 @@ import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.AimingTower;
 import ch.logixisland.anuto.game.objects.DrawObject;
-import ch.logixisland.anuto.game.objects.Shot;
 import ch.logixisland.anuto.game.objects.Sprite;
 import ch.logixisland.anuto.util.math.Vector2;
 
@@ -21,6 +20,7 @@ public class GlueGun extends AimingTower {
         public Sprite spriteCanon;
     }
 
+    private float mGlueDuration;
     private float mAngle = 90f;
     private boolean mRebounding = false;
 
@@ -28,6 +28,8 @@ public class GlueGun extends AimingTower {
     private Sprite.AnimatedInstance mSpriteCanon;
 
     public GlueGun() {
+        mGlueDuration = getProperty("glueDuration");
+
         StaticData s = (StaticData)getStaticData();
 
         mSpriteBase = s.spriteBase.yieldStatic(Layers.TOWER_BASE);
@@ -85,9 +87,10 @@ public class GlueGun extends AimingTower {
 
             mAngle = getAngleTo(target);
 
-            Shot shot = new GlueShot(getPosition(), target, 1f / getDamage());
-            shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
-            getGame().add(shot);
+            Vector2 position = Vector2.polar(SHOT_SPAWN_OFFSET, getAngleTo(target));
+            position.add(getPosition());
+
+            getGame().add(new GlueShot(position, target, 1f / getDamage(), mGlueDuration));
 
             setReloaded(false);
             mRebounding = true;

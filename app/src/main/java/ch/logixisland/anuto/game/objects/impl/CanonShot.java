@@ -14,7 +14,8 @@ import ch.logixisland.anuto.util.math.Vector2;
 public class CanonShot extends HomingShot {
 
     private final static float MOVEMENT_SPEED = 4.0f;
-    private final static float ROTATION_STEP = 360f / GameEngine.TARGET_FRAME_RATE;
+    private final static float ROTATION_SPEED = 1.0f;
+    private final static float ROTATION_STEP = ROTATION_SPEED * 360f / GameEngine.TARGET_FRAME_RATE;
 
     private class StaticData extends GameEngine.StaticData {
         public Sprite sprite;

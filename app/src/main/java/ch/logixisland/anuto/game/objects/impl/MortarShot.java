@@ -14,9 +14,7 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class MortarShot extends Shot {
 
-    public final static float EXPLOSION_RADIUS = 1.5f;
     public final static float TIME_TO_TARGET = 1.5f;
-
     private final static float HEIGHT_SCALING_START = 0.5f;
     private final static float HEIGHT_SCALING_STOP = 1.0f;
     private final static float HEIGHT_SCALING_PEAK = 1.5f;
@@ -26,17 +24,19 @@ public class MortarShot extends Shot {
     }
 
     private float mDamage;
+    private float mRadius;
     private float mAngle;
     private SampledFunction mHeightScalingFunction;
 
     private Sprite.FixedInstance mSprite;
 
-    public MortarShot(Vector2 position, Vector2 target, float damage) {
+    public MortarShot(Vector2 position, Vector2 target, float damage, float radius) {
         setPosition(position);
 
         mSpeed = getDistanceTo(target) / TIME_TO_TARGET;
         mDirection = getDirectionTo(target);
         mDamage = damage;
+        mRadius = radius;
         mAngle = getGame().getRandom(360f);
 
         StaticData s = (StaticData)getStaticData();
@@ -94,7 +94,7 @@ public class MortarShot extends Shot {
 
         mHeightScalingFunction.step();
         if (mHeightScalingFunction.getPosition() >= GameEngine.TARGET_FRAME_RATE * TIME_TO_TARGET) {
-            getGame().add(new Explosion(getPosition(), mDamage, EXPLOSION_RADIUS));
+            getGame().add(new Explosion(getPosition(), mDamage, mRadius));
             this.remove();
         }
     }

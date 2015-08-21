@@ -305,4 +305,8 @@ public abstract class Enemy extends GameObject {
     protected boolean hasWayPoint() {
         return mPath != null && mWayPointIndex < mPath.count();
     }
+
+    public float getProperty(String name) {
+        return mConfig.properties.get(name);
+    }
 }

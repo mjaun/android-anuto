@@ -1,6 +1,9 @@
 package ch.logixisland.anuto.game.data;
 
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementMap;
+
+import java.util.HashMap;
 
 import ch.logixisland.anuto.game.objects.Tower;
 
@@ -23,6 +26,11 @@ public class TowerConfig {
 
     @Element
     public float reload;
+
+    @Element
+
+    @ElementMap(required=false, entry="property", key="name", attribute=true, inline=true)
+    public HashMap<String, Float> properties = new HashMap<>();
 
     @Element(required=false)
     public int slot = -1;

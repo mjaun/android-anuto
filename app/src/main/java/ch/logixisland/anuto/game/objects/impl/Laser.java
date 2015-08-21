@@ -16,12 +16,9 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class Laser extends Effect {
 
-    private final static float MAX_BOUNCE_DISTANCE = 2f;
-
-    private final static float LASER_VISIBLE_TIME = 0.5f;
-
+    private final static float EFFECT_DURATION = 0.5f;
     private final static int ALPHA_START = 180;
-    private final static int ALPHA_STEP = (int)(ALPHA_START / (GameEngine.TARGET_FRAME_RATE * LASER_VISIBLE_TIME));
+    private final static int ALPHA_STEP = (int)(ALPHA_START / (GameEngine.TARGET_FRAME_RATE * EFFECT_DURATION));
 
     private class LaserDrawObject extends DrawObject {
         private Paint mPaint;
@@ -57,6 +54,7 @@ public class Laser extends Effect {
 
     private float mDamage;
     private int mBounce;
+    public float mMaxBounceDist;
     private Enemy mOrigin;
     private Enemy mTarget;
     private Vector2 mTargetPos;
@@ -64,25 +62,29 @@ public class Laser extends Effect {
 
     private LaserDrawObject mDrawObject;
 
-    public Laser(Vector2 origin, Enemy target, float damage, int bounce) {
-        setPosition(origin);
+    public Laser(Vector2 position, Enemy target, float damage) {
+        this(position, target, damage, 0, 0);
+    }
+
+    public Laser(Vector2 position, Enemy target, float damage, int bounce, float maxBounceDist) {
+        setPosition(position);
 
         mTarget = target;
         mTargetPos = target.getPosition();
 
-        mDuration = LASER_VISIBLE_TIME;
+        mDuration = EFFECT_DURATION;
         mDamage = damage;
         mBounce = bounce;
 
         mDrawObject = new LaserDrawObject();
     }
 
-    private Laser(Enemy origin, Enemy target, float damage, int bounce, Collection<Enemy> prevTargets) {
-        this(origin.getPosition(), target, damage, bounce);
+    private Laser(Laser origin, Enemy target) {
+        this(origin.mTarget.getPosition(), target, origin.mDamage, origin.mBounce - 1, origin.mMaxBounceDist);
 
-        mOrigin = origin;
+        mOrigin = origin.mTarget;
 
-        mPrevTargets = prevTargets;
+        mPrevTargets = origin.mPrevTargets;
         mPrevTargets.add(target);
     }
 
@@ -125,8 +127,8 @@ public class Laser extends Effect {
                     .exclude(mPrevTargets)
                     .min(distanceTo(mTarget.getPosition()));
 
-            if (enemy != null && mTarget.getDistanceTo(enemy) <= MAX_BOUNCE_DISTANCE) {
-                getGame().add(new Laser(mTarget, enemy, mDamage, mBounce - 1, mPrevTargets));
+            if (enemy != null && mTarget.getDistanceTo(enemy) <= mMaxBounceDist) {
+                getGame().add(new Laser(this, enemy));
             }
         }
 

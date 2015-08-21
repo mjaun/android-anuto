@@ -6,16 +6,15 @@ import android.graphics.Paint;
 
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.Layers;
-import ch.logixisland.anuto.game.objects.AreaEffect;
 import ch.logixisland.anuto.game.objects.DrawObject;
+import ch.logixisland.anuto.game.objects.Effect;
 import ch.logixisland.anuto.game.objects.Enemy;
+import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class HealEffect extends AreaEffect {
+public class HealEffect extends Effect {
 
-    private static final float EFFECT_DURATION = 1f;
-    private static final float EFFECT_RANGE_MIN = 0.1f;
-    private static final float EFFECT_RANGE_MAX = 0.7f;
+    private static final float EFFECT_DURATION = 0.7f;
 
     private class HealDrawObject extends DrawObject {
         private Paint mPaint;
@@ -35,19 +34,22 @@ public class HealEffect extends AreaEffect {
 
         @Override
         public void draw(Canvas canvas) {
-            canvas.drawCircle(getPosition().x, getPosition().y, mRange, mPaint);
+            canvas.drawCircle(getPosition().x, getPosition().y, mDrawRadius, mPaint);
         }
     }
 
+    private float mRange;
+    private float mDrawRadius;
     private float mHealAmount;
 
     private DrawObject mDrawObject;
 
-    public HealEffect(Vector2 position, float amount) {
+    public HealEffect(Vector2 position, float amount, float radius) {
         setPosition(position);
         mHealAmount = amount;
         mDuration = EFFECT_DURATION;
-        mRange = EFFECT_RANGE_MIN;
+        mRange = radius;
+        mDrawRadius = 0f;
 
         mDrawObject = new HealDrawObject();
     }
@@ -60,13 +62,6 @@ public class HealEffect extends AreaEffect {
     }
 
     @Override
-    public void tick() {
-        super.tick();
-
-        mRange += (EFFECT_RANGE_MAX - EFFECT_RANGE_MIN) / (GameEngine.TARGET_FRAME_RATE * EFFECT_DURATION);
-    }
-
-    @Override
     public void clean() {
         super.clean();
 
@@ -74,12 +69,26 @@ public class HealEffect extends AreaEffect {
     }
 
     @Override
-    protected void enemyEnter(Enemy e) {
-        e.heal(mHealAmount);
+    public void tick() {
+        super.tick();
+
+        mDrawRadius += mRange / (GameEngine.TARGET_FRAME_RATE * EFFECT_DURATION);
     }
 
     @Override
-    protected void enemyExit(Enemy e) {
+    protected void effectBegin() {
+        StreamIterator<Enemy> enemies = getGame().get(Enemy.TYPE_ID)
+                .filter(inRange(getPosition(), mRange))
+                .cast(Enemy.class);
+
+        while (enemies.hasNext()) {
+            Enemy e = enemies.next();
+            e.heal(mHealAmount);
+        }
+    }
+
+    @Override
+    protected void effectEnd() {
 
     }
 }

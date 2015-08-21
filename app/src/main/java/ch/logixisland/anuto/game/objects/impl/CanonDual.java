@@ -16,7 +16,6 @@ import ch.logixisland.anuto.util.math.Vector2;
 public class CanonDual extends AimingTower {
 
     private final static float SHOT_SPAWN_OFFSET = 0.7f;
-
     private final static float REBOUND_RANGE = 0.25f;
     private final static float REBOUND_DURATION = 0.2f;
 

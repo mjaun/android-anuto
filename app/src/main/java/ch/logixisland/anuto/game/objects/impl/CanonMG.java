@@ -14,7 +14,6 @@ import ch.logixisland.anuto.util.math.Vector2;
 public class CanonMG extends AimingTower {
 
     private final static float SHOT_SPAWN_OFFSET = 0.7f;
-
     private final static float MG_ROTATION_SPEED = 2f;
 
     private class StaticData extends GameEngine.StaticData {

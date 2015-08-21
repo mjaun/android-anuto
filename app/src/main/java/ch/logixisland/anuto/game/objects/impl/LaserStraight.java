@@ -15,9 +15,7 @@ import ch.logixisland.anuto.util.math.Vector2;
 public class LaserStraight extends Effect {
 
     private final static float LASER_WIDTH = 0.7f;
-
     private final static float LASER_VISIBLE_TIME = 0.5f;
-
     private final static int ALPHA_START = 180;
     private final static int ALPHA_STEP = (int)(ALPHA_START / (GameEngine.TARGET_FRAME_RATE * LASER_VISIBLE_TIME));
 
