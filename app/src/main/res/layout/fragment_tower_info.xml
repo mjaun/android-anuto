@@ -88,7 +88,8 @@
                 android:textAppearance="?android:attr/textAppearanceSmallInverse"
                 android:text="@string/reload"
                 android:layout_column="0"
-                android:paddingRight="10dp" />
+                android:paddingRight="10dp"
+                android:id="@+id/txt_reload_text"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -109,7 +110,8 @@
                 android:textAppearance="?android:attr/textAppearanceSmallInverse"
                 android:text="@string/range"
                 android:layout_column="0"
-                android:paddingRight="10dp" />
+                android:paddingRight="10dp"
+                android:id="@+id/txt_range_text" />
 
             <TextView
                 android:layout_width="wrap_content"

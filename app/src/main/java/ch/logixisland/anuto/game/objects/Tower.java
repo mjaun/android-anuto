@@ -47,7 +47,7 @@ public abstract class Tower extends GameObject {
 
         @Override
         public void draw(Canvas canvas) {
-            canvas.drawCircle(getPosition().x, getPosition().y, mConfig.range, mPen);
+            canvas.drawCircle(getPosition().x, getPosition().y, getRange(), mPen);
         }
     }
 
@@ -125,6 +125,14 @@ public abstract class Tower extends GameObject {
         }
     }
 
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+
+        if (enabled) {
+            mReloaded = true;
+        }
+    }
 
     public abstract void preview(Canvas canvas);
 
@@ -155,6 +163,7 @@ public abstract class Tower extends GameObject {
         mReloaded = reloaded;
     }
 
+
     public int getValue() {
         return mValue;
     }
@@ -178,10 +187,11 @@ public abstract class Tower extends GameObject {
 
     public void buy() {
         getManager().takeCredits(mValue);
+        mValue *= getManager().getLevel().getSettings().agingFactor;
     }
 
     public void sell() {
-        getManager().giveCredits(mValue);
+        getManager().giveCredits(mValue, false);
     }
 
     public void devalue(float factor) {
@@ -263,14 +273,14 @@ public abstract class Tower extends GameObject {
 
     public StreamIterator<Enemy> getPossibleTargets() {
         return getGame().get(Enemy.TYPE_ID)
-                .filter(inRange(getPosition(), mConfig.range))
+                .filter(inRange(getPosition(), getRange()))
                 .cast(Enemy.class);
     }
 
     public List<PathSection> getPathSections() {
         List<PathSection> ret = new ArrayList<>();
 
-        float r2 = MathUtils.square(mConfig.range);
+        float r2 = MathUtils.square(getRange());
 
         for (Path p : getManager().getLevel().getPaths()) {
             for (int i = 1; i < p.count(); i++) {
@@ -280,7 +290,7 @@ public abstract class Tower extends GameObject {
                 boolean p1in = p1.len2() <= r2;
                 boolean p2in = p2.len2() <= r2;
 
-                Vector2[] is = Intersections.lineCircle(p1, p2, mConfig.range);
+                Vector2[] is = Intersections.lineCircle(p1, p2, getRange());
 
                 PathSection s = new PathSection();
 

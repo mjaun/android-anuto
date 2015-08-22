@@ -267,7 +267,7 @@ public abstract class Enemy extends GameObject {
         mHealth -= dmg / mHealthModifier;
 
         if (mHealth <= 0) {
-            getManager().giveCredits(getReward());
+            getManager().giveCredits(getReward(), true);
             this.remove();
         }
     }

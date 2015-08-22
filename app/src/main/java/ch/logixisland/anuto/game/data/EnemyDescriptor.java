@@ -2,7 +2,6 @@ package ch.logixisland.anuto.game.data;
 
 import org.simpleframework.xml.Attribute;
 
-import ch.logixisland.anuto.game.GameManager;
 import ch.logixisland.anuto.game.objects.Enemy;
 
 public class EnemyDescriptor {
@@ -44,10 +43,6 @@ public class EnemyDescriptor {
             e1.printStackTrace();
             throw new RuntimeException();
         }
-
-        Path p = GameManager.getInstance().getLevel().getPaths().get(pathIndex);
-        e.setPath(p);
-        e.move(offsetX, offsetY);
 
         return e;
     }

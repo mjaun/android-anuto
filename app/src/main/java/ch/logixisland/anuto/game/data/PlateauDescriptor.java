@@ -38,7 +38,6 @@ public class PlateauDescriptor {
             throw new RuntimeException();
         }
 
-        p.setPosition(x, y);
         return p;
     }
 }

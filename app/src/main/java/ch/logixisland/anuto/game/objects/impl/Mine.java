@@ -9,6 +9,7 @@ import ch.logixisland.anuto.game.objects.DrawObject;
 import ch.logixisland.anuto.game.objects.Enemy;
 import ch.logixisland.anuto.game.objects.Shot;
 import ch.logixisland.anuto.game.objects.Sprite;
+import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.Function;
 import ch.logixisland.anuto.util.math.SampledFunction;
@@ -111,7 +112,13 @@ public class Mine extends Shot {
         } else if (getGame().tick100ms(this)) {
             StreamIterator<Enemy> enemiesInRange = getGame().get(Enemy.TYPE_ID)
                     .filter(inRange(getPosition(), DETECT_RADIUS))
-                    .cast(Enemy.class);
+                    .cast(Enemy.class)
+                    .filter(new Predicate<Enemy>() {
+                        @Override
+                        public boolean apply(Enemy value) {
+                            return !(value instanceof Flyer);
+                        }
+                    });
 
             if (!enemiesInRange.isEmpty()) {
                 getGame().add(new Explosion(getPosition(), mDamage, mRadius));

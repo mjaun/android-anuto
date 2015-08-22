@@ -9,7 +9,7 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class GlueShot extends Shot {
 
-    private final static float MOVEMENT_SPEED = 4.0f;
+    public final static float MOVEMENT_SPEED = 4.0f;
     private final static float ANIMATION_SPEED = 1.0f;
 
     private class StaticData extends GameEngine.StaticData {

@@ -14,8 +14,8 @@ public class Wave {
     public int waveReward;
 
     @Element(required=false)
-    public float healthMultiplier = 1f;
+    public float healthModifier = 1f;
 
     @Element(required=false)
-    public float rewardMultiplier = 1f;
+    public float rewardModifier = 1f;
 }

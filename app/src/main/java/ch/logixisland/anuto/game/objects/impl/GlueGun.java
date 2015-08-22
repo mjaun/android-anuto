@@ -83,7 +83,10 @@ public class GlueGun extends AimingTower {
         super.tick();
 
         if (isReloaded() && getTarget() != null) {
-            Vector2 target = getTarget().getPositionAfter(1.0f);
+            float dist = getDistanceTo(getTarget());
+            float time = dist / GlueShot.MOVEMENT_SPEED;
+
+            Vector2 target = getTarget().getPositionAfter(time);
 
             mAngle = getAngleTo(target);
 

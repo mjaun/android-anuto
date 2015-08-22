@@ -83,7 +83,7 @@ public class GameView extends View implements Runnable, View.OnDragListener, Vie
             return false;
         }
 
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN && !mManager.isGameOver()) {
             Vector2 pos = mGame.screenToGame(new Vector2(event.getX(), event.getY()));
 
             Tower closest = (Tower)mGame.get(Tower.TYPE_ID)

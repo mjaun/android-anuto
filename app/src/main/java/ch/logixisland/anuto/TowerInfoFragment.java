@@ -16,14 +16,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import ch.logixisland.anuto.game.GameManager;
-import ch.logixisland.anuto.game.data.Wave;
 import ch.logixisland.anuto.game.objects.AimingTower;
 import ch.logixisland.anuto.game.objects.Tower;
 
 public class TowerInfoFragment extends Fragment implements
         View.OnTouchListener, View.OnClickListener,
         GameManager.OnShowTowerInfoListener, GameManager.OnHideTowerInfoListener,
-        GameManager.OnCreditsChangedListener, GameManager.OnWaveStartedListener {
+        GameManager.OnCreditsChangedListener, GameManager.OnTowersAgedListener,
+        GameManager.OnGameOverListener {
 
     private Handler mHandler;
     private GameManager mManager;
@@ -33,7 +33,10 @@ public class TowerInfoFragment extends Fragment implements
     private TextView txt_damage;
     private TextView txt_range;
     private TextView txt_reload;
+
     private TextView txt_damage_text;
+    private TextView txt_range_text;
+    private TextView txt_reload_text;
 
     private Button btn_strategy;
     private Button btn_lock_target;
@@ -52,7 +55,10 @@ public class TowerInfoFragment extends Fragment implements
         txt_damage = (TextView)v.findViewById(R.id.txt_damage);
         txt_range = (TextView)v.findViewById(R.id.txt_range);
         txt_reload = (TextView)v.findViewById(R.id.txt_reload);
+
         txt_damage_text = (TextView)v.findViewById(R.id.txt_damage_text);
+        txt_range_text = (TextView)v.findViewById(R.id.txt_range_text);
+        txt_reload_text = (TextView)v.findViewById(R.id.txt_reload_text);
 
         btn_strategy = (Button)v.findViewById(R.id.btn_strategy);
         btn_lock_target = (Button)v.findViewById(R.id.btn_lock_target);
@@ -69,6 +75,9 @@ public class TowerInfoFragment extends Fragment implements
         btn_sell.setOnClickListener(this);
 
         view_tower.setEnabled(false);
+
+        txt_range_text.setText(getResources().getString(R.string.range) + ": ");
+        txt_reload_text.setText(getResources().getString(R.string.reload) + ": ");
 
         mHandler = new Handler();
 
@@ -166,16 +175,16 @@ public class TowerInfoFragment extends Fragment implements
         view_tower.setTower(mTower);
 
         onCreditsChanged(mManager.getCredits());
-        onWaveStarted(null);
+        onTowersAged();
 
         mHandler.post(new Runnable() {
             @Override
             public void run() {
                 DecimalFormat fmt = new DecimalFormat("#.#");
 
-                txt_damage.setText(fmt.format(mTower.getDamage()) + " (+" + fmt.format(mTower.getConfig().enhanceDamage) + ")");
-                txt_range.setText(fmt.format(mTower.getRange()) + " (+" + fmt.format(mTower.getConfig().enhanceRange) + ")");
-                txt_reload.setText(fmt.format(mTower.getReloadTime()) + " (-" + fmt.format(mTower.getConfig().enhanceReload) + ")");
+                txt_damage.setText(fmt.format(mTower.getDamage()));
+                txt_range.setText(fmt.format(mTower.getRange()));
+                txt_reload.setText(fmt.format(mTower.getReloadTime()));
 
                 String text = (mTower.getConfig().damageText != null) ? mTower.getConfig().damageText : getResources().getString(R.string.damage);
                 txt_damage_text.setText(text + ":");
@@ -233,7 +242,7 @@ public class TowerInfoFragment extends Fragment implements
     }
 
     @Override
-    public void onWaveStarted(Wave wave) {
+    public void onTowersAged() {
         if (mTower != null) {
             mHandler.post(new Runnable() {
                 @Override
@@ -242,5 +251,15 @@ public class TowerInfoFragment extends Fragment implements
                 }
             });
         }
+    }
+
+    @Override
+    public void onGameOver() {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                hide();
+            }
+        });
     }
 }

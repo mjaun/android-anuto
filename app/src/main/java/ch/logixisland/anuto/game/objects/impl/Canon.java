@@ -57,7 +57,7 @@ public class Canon extends AimingTower {
         s.spriteBase.setMatrix(1f, 1f, null, null);
 
         s.spriteCanon = Sprite.fromResources(R.drawable.canon, 4);
-        s.spriteCanon.setMatrix(0.3f, 1.0f, new Vector2(0.15f, 0.4f), -90f);
+        s.spriteCanon.setMatrix(0.4f, 1.0f, new Vector2(0.2f, 0.2f), -90f);
 
         return s;
     }

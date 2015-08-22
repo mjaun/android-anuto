@@ -4,20 +4,29 @@ import org.simpleframework.xml.Element;
 
 public class Settings {
     @Element
-    public int width = 10;
+    public int width;
 
     @Element
-    public int height = 15;
+    public int height;
 
     @Element
-    public int credits = 800;
+    public int credits;
 
     @Element
-    public int lives = 5;
+    public int lives;
 
     @Element
-    public float agingFactor = 0.9f;
+    public float agingFactor;
 
     @Element
-    public float earlyFactor = 1.0f;
+    public float earlyFactor;
+
+    @Element(required=false)
+    public boolean endless;
+
+    @Element(required=false)
+    public float linearDifficulty;
+
+    @Element(required=false)
+    public float quadraticDifficulty;
 }
