@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@id/txt_credits"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="10dp"
             android:textAppearance="?android:attr/textAppearanceSmallInverse"
             android:text="@string/status_bonus" />
 
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@id/txt_bonus"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="10dp"
             android:textAppearance="?android:attr/textAppearanceSmallInverse"
             android:text="@string/status_lives"/>
 

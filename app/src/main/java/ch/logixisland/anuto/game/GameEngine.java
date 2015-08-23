@@ -121,10 +121,10 @@ public class GameEngine {
     private Handler mGameHandler;
     private boolean mRunning = false;
 
-    private int mMaxTickTime;
-    private int mMaxRenderTime;
-    private long mTickCount = 0;
-    private long mRenderCount = 0;
+    private volatile int mMaxTickTime;
+    private volatile int mMaxRenderTime;
+    private volatile long mTickCount = 0;
+    private volatile long mRenderCount = 0;
 
     private final GameObjectCollectionMap mGameObjects = new GameObjectCollectionMap();
     private final DrawObjectCollectionMap mDrawObjects = new DrawObjectCollectionMap();
@@ -324,6 +324,10 @@ public class GameEngine {
                 Log.d(TAG, String.format("TT=%d ms, RT=%d ms, TC-RC=%d",
                         mMaxTickTime, mMaxRenderTime, mTickCount - mRenderCount));
 
+                if (mMaxTickTime > TARGET_FRAME_PERIOD_MS) {
+                    Log.w(TAG, "Frame did not finish in time!");
+                }
+
                 mMaxTickTime = 0;
                 mMaxRenderTime = 0;
             }
@@ -332,7 +336,6 @@ public class GameEngine {
 
             int sleepTime = TARGET_FRAME_PERIOD_MS - tickTime;
             if (sleepTime < 0) {
-                Log.w(TAG, "Frame did not finish in time!");
                 mGameHandler.post(new Runnable() {
                     @Override
                     public void run() {

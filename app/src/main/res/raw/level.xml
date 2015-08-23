@@ -7,8 +7,10 @@
         <agingFactor>0.9</agingFactor>
         <earlyFactor>1.0</earlyFactor>
         <endless>true</endless>
-        <linearDifficulty>5f</linearDifficulty>
+        <linearDifficulty>3f</linearDifficulty>
         <quadraticDifficulty>1e-3</quadraticDifficulty>
+        <rewardModifier>1.0</rewardModifier>
+        <rewardRoot>2</rewardRoot>
     </settings>
     <towers>
         <tower>
@@ -16,11 +18,11 @@
             <clazz>Canon</clazz>
             <upgrade>CanonDual</upgrade>
             <value>100</value>
-            <damage>100</damage>
+            <damage>60</damage>
             <range>2.5</range>
             <reload>1.0</reload>
             <enhanceCost>120</enhanceCost>
-            <enhanceDamage>100</enhanceDamage>
+            <enhanceDamage>120</enhanceDamage>
             <enhanceRange>0.5</enhanceRange>
             <enhanceReload>0.2</enhanceReload>
         </tower>
@@ -28,24 +30,24 @@
             <clazz>CanonDual</clazz>
             <upgrade>CanonMG</upgrade>
             <value>200</value>
-            <damage>125</damage>
+            <damage>100</damage>
             <range>2.5</range>
             <reload>0.5</reload>
             <enhanceCost>220</enhanceCost>
-            <enhanceDamage>100</enhanceDamage>
+            <enhanceDamage>120</enhanceDamage>
             <enhanceRange>0.5</enhanceRange>
             <enhanceReload>0.1</enhanceReload>
         </tower>
         <tower>
             <clazz>CanonMG</clazz>
             <value>900</value>
-            <damage>80</damage>
+            <damage>100</damage>
             <range>2.5</range>
             <reload>0.1</reload>
-            <enhanceCost>250</enhanceCost>
-            <enhanceDamage>100</enhanceDamage>
+            <enhanceCost>350</enhanceCost>
+            <enhanceDamage>85</enhanceDamage>
             <enhanceRange>0.5</enhanceRange>
-            <enhanceReload>0</enhanceReload>
+            <enhanceReload>0.01</enhanceReload>
         </tower>
 
         <tower>
@@ -53,11 +55,11 @@
             <clazz>LaserTower1</clazz>
             <upgrade>LaserTower2</upgrade>
             <value>150</value>
-            <damage>400</damage>
+            <damage>250</damage>
             <range>3.5</range>
             <reload>3.0</reload>
             <enhanceCost>150</enhanceCost>
-            <enhanceDamage>450</enhanceDamage>
+            <enhanceDamage>600</enhanceDamage>
             <enhanceRange>0.5</enhanceRange>
             <enhanceReload>0.5</enhanceReload>
         </tower>
@@ -68,8 +70,8 @@
             <damage>400</damage>
             <range>3.5</range>
             <reload>3.0</reload>
-            <enhanceCost>400</enhanceCost>
-            <enhanceDamage>450</enhanceDamage>
+            <enhanceCost>450</enhanceCost>
+            <enhanceDamage>600</enhanceDamage>
             <enhanceRange>0.5</enhanceRange>
             <enhanceReload>0.5</enhanceReload>
             <property name="bounce">2</property>
@@ -78,7 +80,7 @@
         <tower>
             <clazz>LaserTower3</clazz>
             <value>1400</value>
-            <damage>500</damage>
+            <damage>600</damage>
             <range>3.5</range>
             <reload>3.0</reload>
             <enhanceCost>450</enhanceCost>
@@ -89,48 +91,6 @@
 
         <tower>
             <slot>2</slot>
-            <clazz>GlueGun</clazz>
-            <upgrade>GlueTower</upgrade>
-            <value>200</value>
-            <damage>2</damage>
-            <range>3.5</range>
-            <reload>3.0</reload>
-            <damageText>Intensity</damageText>
-            <enhanceCost>200</enhanceCost>
-            <enhanceDamage>0.1</enhanceDamage>
-            <enhanceRange>0.5</enhanceRange>
-            <enhanceReload>0.5</enhanceReload>
-            <property name="glueDuration">1.5</property>
-        </tower>
-        <tower>
-            <clazz>GlueTower</clazz>
-            <upgrade>TeleportTower</upgrade>
-            <value>400</value>
-            <damage>2</damage>
-            <range>1.5</range>
-            <reload>3.0</reload>
-            <damageText>Intensity</damageText>
-            <enhanceCost>400</enhanceCost>
-            <enhanceDamage>0.1</enhanceDamage>
-            <enhanceRange>0.3</enhanceRange>
-            <enhanceReload>0.5</enhanceReload>
-            <property name="glueDuration">2.0</property>
-        </tower>
-        <tower>
-            <clazz>TeleportTower</clazz>
-            <value>600</value>
-            <damage>10</damage>
-            <range>3.5</range>
-            <reload>3.0</reload>
-            <damageText>Distance</damageText>
-            <enhanceCost>600</enhanceCost>
-            <enhanceDamage>5</enhanceDamage>
-            <enhanceRange>0.5</enhanceRange>
-            <enhanceReload>0.5</enhanceReload>
-        </tower>
-
-        <tower>
-            <slot>3</slot>
             <clazz>Mortar</clazz>
             <upgrade>RocketLauncher</upgrade>
             <value>250</value>
@@ -159,16 +119,58 @@
         </tower>
         <tower>
             <clazz>MineLayer</clazz>
-            <value>1400</value>
+            <value>1000</value>
             <damage>400</damage>
             <range>2.5</range>
             <reload>2.0</reload>
-            <enhanceCost>500</enhanceCost>
+            <enhanceCost>600</enhanceCost>
             <enhanceDamage>350</enhanceDamage>
             <enhanceRange>0.5</enhanceRange>
             <enhanceReload>0.2</enhanceReload>
             <property name="maxMineCount">3</property>
             <property name="explosionRadius">2.0</property>
+        </tower>
+
+        <tower>
+            <slot>3</slot>
+            <clazz>GlueGun</clazz>
+            <upgrade>GlueTower</upgrade>
+            <value>500</value>
+            <damage>1.5</damage>
+            <range>3.5</range>
+            <reload>3.0</reload>
+            <damageText>Intensity</damageText>
+            <enhanceCost>200</enhanceCost>
+            <enhanceDamage>0.1</enhanceDamage>
+            <enhanceRange>0.5</enhanceRange>
+            <enhanceReload>0.1</enhanceReload>
+            <property name="glueDuration">1.5</property>
+        </tower>
+        <tower>
+            <clazz>GlueTower</clazz>
+            <upgrade>TeleportTower</upgrade>
+            <value>800</value>
+            <damage>2</damage>
+            <range>1.5</range>
+            <reload>5.0</reload>
+            <damageText>Intensity</damageText>
+            <enhanceCost>400</enhanceCost>
+            <enhanceDamage>0.2</enhanceDamage>
+            <enhanceRange>0.4</enhanceRange>
+            <enhanceReload>0.5</enhanceReload>
+            <property name="glueDuration">2.0</property>
+        </tower>
+        <tower>
+            <clazz>TeleportTower</clazz>
+            <value>1200</value>
+            <damage>5</damage>
+            <range>3.5</range>
+            <reload>10.0</reload>
+            <damageText>Distance</damageText>
+            <enhanceCost>600</enhanceCost>
+            <enhanceDamage>2</enhanceDamage>
+            <enhanceRange>0.5</enhanceRange>
+            <enhanceReload>1.0</enhanceReload>
         </tower>
     </towers>
     <enemies>
@@ -375,7 +377,7 @@
         </wave>
         <!-- Wave 3 -->
         <wave>
-            <waveReward>100</waveReward>
+            <waveReward>120</waveReward>
             <enemies>
                 <enemy clazz="Soldier"/>
                 <enemy clazz="Soldier" offsetY="1.1"/>
@@ -394,7 +396,7 @@
         </wave>
         <!-- Wave 4 -->
         <wave>
-            <waveReward>100</waveReward>
+            <waveReward>120</waveReward>
             <enemies>
                 <enemy clazz="Soldier"/>
                 <enemy clazz="Soldier" offsetY="1.1"/>
@@ -420,7 +422,7 @@
         </wave>
         <!-- Wave 5 -->
         <wave>
-            <waveReward>100</waveReward>
+            <waveReward>150</waveReward>
             <enemies>
                 <enemy clazz="Sprinter"/>
                 <enemy clazz="Sprinter" offsetY="1.1"/>
@@ -446,7 +448,7 @@
         </wave>
         <!-- Wave 6 -->
         <wave>
-            <waveReward>100</waveReward>
+            <waveReward>150</waveReward>
             <enemies>
                 <enemy clazz="Soldier"/>
                 <enemy clazz="Soldier" offsetY="1.1"/>
@@ -486,7 +488,7 @@
         </wave>
         <!-- Wave 7 -->
         <wave>
-            <waveReward>100</waveReward>
+            <waveReward>170</waveReward>
             <enemies>
                 <enemy clazz="Flyer"/>
                 <enemy clazz="Flyer" offsetY="1.1"/>
@@ -504,7 +506,7 @@
         </wave>
         <!-- Wave 8 -->
         <wave>
-            <waveReward>100</waveReward>
+            <waveReward>170</waveReward>
             <enemies>
                 <enemy clazz="Sprinter"/>
                 <enemy clazz="Sprinter" offsetY="1.1"/>
@@ -544,7 +546,7 @@
         </wave>
         <!-- Wave 9 -->
         <wave>
-            <waveReward>100</waveReward>
+            <waveReward>190</waveReward>
             <enemies>
                 <enemy clazz="Sprinter"/>
                 <enemy clazz="Sprinter" offsetY="1.1"/>
@@ -599,7 +601,7 @@
         </wave>
         <!-- Wave 10 -->
         <wave>
-            <waveReward>100</waveReward>
+            <waveReward>190</waveReward>
             <enemies>
                 <enemy clazz="Healer"/>
                 <enemy clazz="Healer" offsetY="1.1"/>
@@ -631,7 +633,7 @@
         </wave>
         <!-- Wave 11 -->
         <wave>
-            <waveReward>100</waveReward>
+            <waveReward>240</waveReward>
             <enemies>
                 <enemy clazz="Healer"/>
                 <enemy clazz="Healer" offsetY="1.1"/>
@@ -648,7 +650,7 @@
         </wave>
         <!-- Wave 12 -->
         <wave>
-            <waveReward>100</waveReward>
+            <waveReward>240</waveReward>
             <enemies>
                 <enemy clazz="Healer"/>
                 <enemy clazz="Healer" offsetY="1.1"/>
@@ -679,7 +681,7 @@
         </wave>
         <!-- Wave 13 -->
         <wave>
-            <waveReward>100</waveReward>
+            <waveReward>240</waveReward>
             <enemies>
                 <enemy clazz="Healer"/>
                 <enemy clazz="Healer" offsetY="1.1"/>
@@ -708,7 +710,7 @@
         </wave>
         <!-- Wave 14 -->
         <wave>
-            <waveReward>100</waveReward>
+            <waveReward>240</waveReward>
             <enemies>
                 <enemy clazz="Healer"/>
                 <enemy clazz="Healer" offsetY="1.1"/>
@@ -737,7 +739,7 @@
         </wave>
         <!-- Wave 15 -->
         <wave>
-            <waveReward>100</waveReward>
+            <waveReward>300</waveReward>
             <enemies>
                 <enemy clazz="Soldier"/>
                 <enemy clazz="Soldier" offsetY="1.1"/>

@@ -145,6 +145,7 @@ public class GameView extends View implements Runnable, View.OnDragListener, Vie
                 if (tower.isInGame()) {
                     tower.buy();
                     tower.setPlateau(closestPlateau);
+                    tower.setEnabled(true);
                     mManager.setSelectedTower(null);
                 }
                 break;

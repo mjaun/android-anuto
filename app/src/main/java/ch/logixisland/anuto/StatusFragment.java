@@ -21,8 +21,6 @@ public class StatusFragment extends Fragment implements GameManager.OnWaveStarte
         GameManager.OnBonusChangedListener, GameManager.OnNextWaveReadyListener,
         View.OnClickListener {
 
-    private static final int WAVE_WAIT_TIME = 5000;
-
     private GameManager mManager;
     private Handler mHandler;
 
@@ -168,15 +166,12 @@ public class StatusFragment extends Fragment implements GameManager.OnWaveStarte
     }
 
     @Override
-    public void onBonusChanged(final int bonus) {
-        final int waveReward = (mManager.hasCurrentWave()) ? mManager.getCurrentWave().waveReward : 0;
-
+    public void onBonusChanged(final int bonus, final int earlyBonus) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
                 txt_bonus.setText(String.format("%s: %d (+%d)",
-                        getResources().getString(R.string.status_bonus),
-                        waveReward, bonus));
+                        getResources().getString(R.string.status_bonus), bonus, earlyBonus));
             }
         });
     }

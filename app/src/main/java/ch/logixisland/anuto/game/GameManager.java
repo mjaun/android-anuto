@@ -1,7 +1,9 @@
 package ch.logixisland.anuto.game;
 
+import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.Iterator;
 import java.util.List;
@@ -74,7 +76,7 @@ public class GameManager {
     }
 
     public interface OnBonusChangedListener extends Listener {
-        void onBonusChanged(int bonus);
+        void onBonusChanged(int bonus, int earlyBonus);
     }
 
     public interface OnLivesChangedListener extends Listener {
@@ -101,21 +103,29 @@ public class GameManager {
 
         private Wave mWave;
         private Handler mWaveHandler;
+
         private boolean mAborted;
         private boolean mNextWaveReady;
-        private int mEarlyBonus;
-        private int mWaveReward;
+
         private int mEnemiesInQueue;
         private List<Enemy> mEnemiesInGame = new CopyOnWriteArrayList<>();
+
+        private volatile int mWaveReward;
+        private volatile float mHealthModifier;
+        private volatile float mRewardModifier;
+
+        private int mEarlyBonus;
 
         public WaveManager(Wave wave) {
             mWave = wave;
             mWaveHandler = mGame.createHandler();
+
+            mWaveReward = mWave.waveReward;
+            mHealthModifier = mWave.healthModifier;
+            mRewardModifier = mWave.rewardModifier;
         }
 
         public void start() {
-            mActiveWaves.add(WaveManager.this);
-
             mWaveHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -123,11 +133,8 @@ public class GameManager {
                     float offsetX = 0f;
                     float offsetY = 0f;
 
-                    mEarlyBonus = 0;
-                    mWaveReward = mWave.waveReward;
-                    mAborted = false;
-                    mNextWaveReady = false;
                     mEnemiesInQueue = mWave.enemies.size();
+                    mActiveWaves.add(WaveManager.this);
 
                     for (EnemyDescriptor d : mWave.enemies) {
                         if (MathUtils.equals(d.delay, 0f, 0.1f)) {
@@ -140,8 +147,8 @@ public class GameManager {
 
                         final Enemy e = d.create();
                         e.addListener(WaveManager.this);
-                        e.modifyHealth(mWave.healthModifier);
-                        e.modifyReward(mWave.rewardModifier);
+                        e.modifyHealth(mHealthModifier);
+                        e.modifyReward(mRewardModifier);
                         e.setPath(mLevel.getPaths().get(d.pathIndex));
                         e.move(offsetX, offsetY);
 
@@ -164,11 +171,10 @@ public class GameManager {
         }
 
         public void abort() {
-            mWaveHandler.removeCallbacksAndMessages(null);
-
             mWaveHandler.post(new Runnable() {
                 @Override
                 public void run() {
+                    mWaveHandler.removeCallbacksAndMessages(null);
                     mEnemiesInQueue = 0;
                     mAborted = true;
                 }
@@ -200,7 +206,6 @@ public class GameManager {
         public void onObjectRemoved(GameObject obj) {
             mEnemiesInGame.remove(obj);
             mEarlyBonus -= ((Enemy)obj).getReward();
-            calcEarlyBonus();
 
             if (mEnemiesInQueue == 0 && mEnemiesInGame.isEmpty() && !mAborted) {
                 mActiveWaves.remove(this);
@@ -217,6 +222,8 @@ public class GameManager {
                     onGameOver();
                 }
             }
+
+            calcEarlyBonus();
         }
     }
 
@@ -227,6 +234,7 @@ public class GameManager {
     private GameEngine mGame;
     private Level mLevel;
     private Tower mSelectedTower;
+    private Context mContext;
 
     private int mNextWaveIndex;
 
@@ -253,6 +261,15 @@ public class GameManager {
     /*
     ------ Methods ------
      */
+
+    public void setContext(Context context) {
+        mContext = context;
+    }
+
+    public Context getContext(Context context) {
+        return mContext;
+    }
+
 
     private void reset() {
         for (WaveManager m : mActiveWaves) {
@@ -289,7 +306,7 @@ public class GameManager {
         mEarlyBonus = 0;
         mCreditsEarned = settings.credits;
 
-        onEarlyBonusChanged();
+        onBonusChanged();
     }
 
 
@@ -329,7 +346,15 @@ public class GameManager {
             return null;
         }
 
-        return mActiveWaves.get(mActiveWaves.size() - 1).mWave;
+        return getCurrentWaveManager().mWave;
+    }
+
+    private WaveManager getCurrentWaveManager() {
+        if (!hasCurrentWave()) {
+            return null;
+        }
+
+        return mActiveWaves.get(mActiveWaves.size() - 1);
     }
 
     public Wave getNextWave() {
@@ -342,17 +367,18 @@ public class GameManager {
 
     public void startNextWave() {
         if (hasCurrentWave()) {
-            mActiveWaves.get(mActiveWaves.size() - 1).giveReward();
+            getCurrentWaveManager().giveReward();
             giveCredits(mEarlyBonus, false);
         }
 
-        Wave w = getNextWave();
+        WaveManager m = new WaveManager(getNextWave());
 
         if (mLevel.getSettings().endless) {
-            calcWaveModifiers(w);
+            calcWaveModifiers(m);
         }
 
-        new WaveManager(w).start();
+        m.start();
+
         mNextWaveIndex++;
     }
 
@@ -387,6 +413,14 @@ public class GameManager {
 
         mCredits -= amount;
         onCreditsChanged();
+    }
+
+    public int getBonus() {
+        if (!hasCurrentWave()) {
+            return 0;
+        }
+
+        return getCurrentWaveManager().mWaveReward;
     }
 
     public int getEarlyBonus() {
@@ -468,23 +502,23 @@ public class GameManager {
     }
 
     private void calcEarlyBonus() {
-        mEarlyBonus = 0;
+        float earlyBonus = 0;
 
         for (WaveManager m : mActiveWaves) {
-            mEarlyBonus += m.mEarlyBonus;
+            earlyBonus += m.mEarlyBonus;
         }
 
-        mEarlyBonus = Math.round(mLevel.getSettings().earlyFactor * mEarlyBonus);
-        onEarlyBonusChanged();
+        mEarlyBonus = Math.round(mLevel.getSettings().earlyFactor * earlyBonus);
+        onBonusChanged();
     }
 
-    private void calcWaveModifiers(Wave w) {
-        Log.d(TAG, "calculating wave modifiers...");
+    private void calcWaveModifiers(WaveManager m) {
+        Log.d(TAG, String.format("calculating wave modifiers for wave %d...", getWaveNumber() + 1));
         Log.d(TAG, String.format("creditsEarned=%d", mCreditsEarned));
 
         float waveHealth = 0f;
 
-        for (EnemyDescriptor d : w.enemies) {
+        for (EnemyDescriptor d : m.mWave.enemies) {
             waveHealth += mLevel.getEnemyConfig(d.clazz).health;
         }
 
@@ -492,17 +526,26 @@ public class GameManager {
 
         Settings settings = mLevel.getSettings();
 
-        float damagePossibleLinear = settings.linearDifficulty * mCreditsEarned;
-        float damagePossibleQuadratic = damagePossibleLinear + settings.quadraticDifficulty * MathUtils.square(mCreditsEarned);
+        float damagePossible = settings.linearDifficulty * mCreditsEarned + settings.quadraticDifficulty * MathUtils.square(mCreditsEarned);
+        float healthModifier = damagePossible / waveHealth;
+        float rewardModifier = settings.rewardModifier * (float)Math.pow(healthModifier, 1f / settings.rewardRoot);
 
-        w.healthModifier *= damagePossibleQuadratic / waveHealth;
-        w.rewardModifier *= damagePossibleLinear / waveHealth;
+        if (rewardModifier < 1f) {
+            rewardModifier = 1f;
+        }
 
-        Log.d(TAG, String.format("healthModifier=%f", w.healthModifier));
-        Log.d(TAG, String.format("rewardModifier=%f", w.rewardModifier));
+        Log.d(TAG, String.format("healthModifier=%f", healthModifier));
+        Log.d(TAG, String.format("rewardModifier=%f", rewardModifier));
 
-        w.waveReward *= damagePossibleLinear / waveHealth;
-        w.waveReward = Math.round(Math.round(w.waveReward / 100f) * 100f);
+        m.mHealthModifier *= healthModifier;
+        m.mRewardModifier *= rewardModifier;
+        m.mWaveReward *= (getWaveNumber() / mLevel.getWaves().size()) + 1;
+
+        StringBuilder builder = new StringBuilder();
+        builder.append(String.format("creditsEarned=%d\n", mCreditsEarned));
+        builder.append(String.format("healthModifier=%f\n", healthModifier));
+        builder.append(String.format("rewardModifier=%f", rewardModifier));
+        Toast.makeText(mContext, builder.toString(), Toast.LENGTH_LONG).show();
     }
 
     /*
@@ -540,9 +583,9 @@ public class GameManager {
         }
     }
 
-    private void onEarlyBonusChanged() {
+    private void onBonusChanged() {
         for (OnBonusChangedListener l : mListeners.get(OnBonusChangedListener.class)) {
-            l.onBonusChanged(getEarlyBonus());
+            l.onBonusChanged(getBonus(), getEarlyBonus());
         }
     }
 

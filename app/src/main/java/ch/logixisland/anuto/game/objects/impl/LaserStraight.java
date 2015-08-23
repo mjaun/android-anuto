@@ -9,7 +9,6 @@ import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.DrawObject;
 import ch.logixisland.anuto.game.objects.Effect;
 import ch.logixisland.anuto.game.objects.Enemy;
-import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.Vector2;
 
@@ -92,13 +91,7 @@ public class LaserStraight extends Effect {
     protected void effectBegin() {
         StreamIterator<Enemy> enemies = getGame().get(Enemy.TYPE_ID)
                 .filter(onLine(getPosition(), mLaserTo, LASER_WIDTH))
-                .cast(Enemy.class)
-                .filter(new Predicate<Enemy>() {
-                    @Override
-                    public boolean apply(Enemy value) {
-                        return !(value instanceof  Flyer);
-                    }
-                });
+                .cast(Enemy.class);
 
         while (enemies.hasNext()) {
             Enemy enemy = enemies.next();

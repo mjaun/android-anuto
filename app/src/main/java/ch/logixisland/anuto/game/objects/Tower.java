@@ -93,6 +93,8 @@ public abstract class Tower extends GameObject {
         mLevel = 1;
 
         mReloadTimer = TickTimer.createInterval(mReloadTime);
+
+        setEnabled(false);
     }
 
     /*

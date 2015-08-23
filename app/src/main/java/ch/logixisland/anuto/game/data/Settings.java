@@ -29,4 +29,10 @@ public class Settings {
 
     @Element(required=false)
     public float quadraticDifficulty;
+
+    @Element(required=false)
+    public float rewardModifier;
+
+    @Element(required=false)
+    public float rewardRoot;
 }
