@@ -141,6 +141,8 @@ public class TowerView extends View implements View.OnTouchListener {
 
         if (mTowerClass != null) {
             setTower(newTower());
+        } else {
+            setTower(null);
         }
     }
 

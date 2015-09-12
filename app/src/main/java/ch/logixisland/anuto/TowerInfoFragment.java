@@ -172,7 +172,7 @@ public class TowerInfoFragment extends Fragment implements
     @Override
     public void onShowTowerInfo(Tower tower) {
         mTower = tower;
-        view_tower.setTower(mTower);
+        view_tower.setTowerClass(tower.getClass());
 
         onCreditsChanged(mManager.getCredits());
         onTowersAged();
