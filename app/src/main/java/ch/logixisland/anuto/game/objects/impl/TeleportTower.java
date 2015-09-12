@@ -2,11 +2,17 @@ package ch.logixisland.anuto.game.objects.impl;
 
 import android.graphics.Canvas;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.AimingTower;
+import ch.logixisland.anuto.game.objects.Enemy;
+import ch.logixisland.anuto.game.objects.GameObject;
 import ch.logixisland.anuto.game.objects.Sprite;
+import ch.logixisland.anuto.util.iterator.StreamIterator;
 
 public class TeleportTower extends AimingTower {
 
@@ -14,6 +20,21 @@ public class TeleportTower extends AimingTower {
         public Sprite spriteBase;
         public Sprite spriteTower;
     }
+
+    private final Listener mEnemyListener = new Listener() {
+        @Override
+        public void onObjectAdded(GameObject obj) {
+
+        }
+
+        @Override
+        public void onObjectRemoved(GameObject obj) {
+            mTeleportedEnemies.remove(obj);
+            obj.removeListener(this);
+        }
+    };
+
+    private List<Enemy> mTeleportedEnemies = new ArrayList<>();
 
     private Sprite.FixedInstance mSpriteBase;
     private Sprite.FixedInstance mSpriteTower;
@@ -63,12 +84,18 @@ public class TeleportTower extends AimingTower {
     public void tick() {
         super.tick();
 
-        if (isReloaded() && getTarget() != null) {
-            if (!getTarget().isEnabled() || getDistanceTo(getTarget()) > getRange()) {
+        Enemy target = getTarget();
+
+        if (isReloaded() && target != null) {
+            // double check because two TeleportTowers might shoot simultaneously
+            if (!target.isEnabled() || getDistanceTo(target) > getRange()) {
                 setTarget(null);
             } else {
-                getGame().add(new TeleportEffect(getPosition(), getTarget(), getDamage()));
+                getGame().add(new TeleportEffect(getPosition(), target, getDamage()));
                 setReloaded(false);
+
+                mTeleportedEnemies.add(target);
+                target.addListener(mEnemyListener);
             }
         }
     }
@@ -77,5 +104,12 @@ public class TeleportTower extends AimingTower {
     public void preview(Canvas canvas) {
         mSpriteBase.draw(canvas);
         mSpriteTower.draw(canvas);
+    }
+
+    @Override
+    public StreamIterator<Enemy> getPossibleTargets() {
+        return super.getPossibleTargets()
+                .filter(GameObject.enabled())
+                .exclude(mTeleportedEnemies);
     }
 }

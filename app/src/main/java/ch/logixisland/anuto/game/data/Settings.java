@@ -35,4 +35,7 @@ public class Settings {
 
     @Element(required=false)
     public float rewardRoot;
+
+    @Element(required=false)
+    public float minSpeedModifier;
 }

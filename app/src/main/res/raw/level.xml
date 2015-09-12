@@ -11,6 +11,7 @@
         <quadraticDifficulty>1e-3</quadraticDifficulty>
         <rewardModifier>1.0</rewardModifier>
         <rewardRoot>2</rewardRoot>
+        <minSpeedModifier>0.1</minSpeedModifier>
     </settings>
     <towers>
         <tower>
@@ -163,9 +164,9 @@
         <tower>
             <clazz>TeleportTower</clazz>
             <value>1200</value>
-            <damage>5</damage>
+            <damage>8</damage>
             <range>3.5</range>
-            <reload>10.0</reload>
+            <reload>5.0</reload>
             <damageText>Distance</damageText>
             <enhanceCost>600</enhanceCost>
             <enhanceDamage>2</enhanceDamage>

@@ -26,6 +26,24 @@ public abstract class GameObject implements Sprite.Listener {
     ------ Static ------
      */
 
+    public static Predicate<GameObject> inGame() {
+        return new Predicate<GameObject>() {
+            @Override
+            public boolean apply(GameObject value) {
+                return value.isInGame();
+            }
+        };
+    }
+
+    public static Predicate<GameObject> enabled() {
+        return new Predicate<GameObject>() {
+            @Override
+            public boolean apply(GameObject value) {
+                return value.isEnabled();
+            }
+        };
+    }
+
     public static Predicate<GameObject> inRange(final Vector2 center, final float range) {
         return new Predicate<GameObject>() {
             @Override

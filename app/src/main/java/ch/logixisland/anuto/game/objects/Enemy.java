@@ -168,7 +168,10 @@ public abstract class Enemy extends GameObject {
 
 
     public float getSpeed() {
-        return mBaseSpeed * mSpeedModifier;
+        float speed = mBaseSpeed * mSpeedModifier;
+        float minSpeed = getManager().getLevel().getSettings().minSpeedModifier * getConfigSpeed();
+
+        return Math.max(minSpeed, speed);
     }
 
     protected float getConfigSpeed() {
