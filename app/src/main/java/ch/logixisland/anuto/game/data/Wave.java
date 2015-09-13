@@ -18,4 +18,7 @@ public class Wave {
 
     @Element(required=false)
     public float rewardModifier = 1f;
+
+    @Element(required=false)
+    public int extend = 0;
 }

@@ -102,6 +102,7 @@ public class GameManager {
     private class WaveManager implements GameObject.Listener {
 
         private Wave mWave;
+        private int mExtend;
         private Handler mWaveHandler;
 
         private boolean mAborted;
@@ -116,8 +117,9 @@ public class GameManager {
 
         private int mEarlyBonus;
 
-        public WaveManager(Wave wave) {
+        public WaveManager(Wave wave, int extend) {
             mWave = wave;
+            mExtend = extend;
             mWaveHandler = mGame.createHandler();
 
             mWaveReward = mWave.waveReward;
@@ -136,31 +138,36 @@ public class GameManager {
                     mEnemiesInQueue = mWave.enemies.size();
                     mActiveWaves.add(WaveManager.this);
 
-                    for (EnemyDescriptor d : mWave.enemies) {
-                        if (MathUtils.equals(d.delay, 0f, 0.1f)) {
-                            offsetX += d.offsetX;
-                            offsetY += d.offsetY;
-                        } else {
-                            offsetX = d.offsetX;
-                            offsetY = d.offsetY;
-                        }
-
-                        final Enemy e = d.create();
-                        e.addListener(WaveManager.this);
-                        e.modifyHealth(mHealthModifier);
-                        e.modifyReward(mRewardModifier);
-                        e.setPath(mLevel.getPaths().get(d.pathIndex));
-                        e.move(offsetX, offsetY);
-
-                        delay += (int) (d.delay * 1000f);
-                        mEarlyBonus += e.getReward();
-
-                        mWaveHandler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                mGame.add(e);
+                    for (int i = 0; i < mExtend + 1; i++) {
+                        for (EnemyDescriptor d : mWave.enemies) {
+                            if (MathUtils.equals(d.delay, 0f, 0.1f)) {
+                                offsetX += d.offsetX;
+                                offsetY += d.offsetY;
+                            } else {
+                                offsetX = d.offsetX;
+                                offsetY = d.offsetY;
                             }
-                        }, delay);
+
+                            final Enemy e = d.create();
+                            e.addListener(WaveManager.this);
+                            e.modifyHealth(mHealthModifier);
+                            e.modifyReward(mRewardModifier);
+                            e.setPath(mLevel.getPaths().get(d.pathIndex));
+                            e.move(offsetX, offsetY);
+
+                            if (i > 0 || mWave.enemies.indexOf(d) > 0) {
+                                delay += (int) (d.delay * 1000f);
+                            }
+
+                            mEarlyBonus += e.getReward();
+
+                            mWaveHandler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mGame.add(e);
+                                }
+                            }, delay);
+                        }
                     }
 
                     onWaveStarted(mWave);
@@ -365,13 +372,20 @@ public class GameManager {
         return mLevel.getWaves().get(mNextWaveIndex % mLevel.getWaves().size());
     }
 
+    public int getWaveIterationCount() {
+        return mNextWaveIndex / mLevel.getWaves().size();
+    }
+
     public void startNextWave() {
         if (hasCurrentWave()) {
             getCurrentWaveManager().giveReward();
             giveCredits(mEarlyBonus, false);
         }
 
-        WaveManager m = new WaveManager(getNextWave());
+        Wave nextWave = getNextWave();
+        int extend = nextWave.extend * getWaveIterationCount();
+
+        WaveManager m = new WaveManager(nextWave, extend);
 
         if (mLevel.getSettings().endless) {
             calcWaveModifiers(m);

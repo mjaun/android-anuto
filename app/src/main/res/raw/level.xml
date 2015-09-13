@@ -349,8 +349,9 @@
         <!-- Wave 1 -->
         <wave>
             <waveReward>100</waveReward>
+            <extend>2</extend>
             <enemies>
-                <enemy clazz="Soldier"/>
+                <enemy clazz="Soldier" delay="5"/>
                 <enemy clazz="Soldier" offsetY="1.1"/>
                 <enemy clazz="Soldier" offsetY="1.1"/>
                 <enemy clazz="Soldier" offsetY="1.1"/>
@@ -361,8 +362,9 @@
         <!-- Wave 2 -->
         <wave>
             <waveReward>100</waveReward>
+            <extend>2</extend>
             <enemies>
-                <enemy clazz="Soldier"/>
+                <enemy clazz="Soldier" delay="5"/>
                 <enemy clazz="Soldier" offsetY="1.1"/>
                 <enemy clazz="Soldier" offsetY="1.1"/>
                 <enemy clazz="Soldier" offsetY="1.1"/>
@@ -380,8 +382,9 @@
         <!-- Wave 3 -->
         <wave>
             <waveReward>120</waveReward>
+            <extend>1</extend>
             <enemies>
-                <enemy clazz="Soldier"/>
+                <enemy clazz="Soldier" delay="5"/>
                 <enemy clazz="Soldier" offsetY="1.1"/>
                 <enemy clazz="Soldier" offsetY="1.1"/>
                 <enemy clazz="Soldier" offsetY="1.1"/>
@@ -399,8 +402,9 @@
         <!-- Wave 4 -->
         <wave>
             <waveReward>120</waveReward>
+            <extend>1</extend>
             <enemies>
-                <enemy clazz="Soldier"/>
+                <enemy clazz="Soldier" delay="5"/>
                 <enemy clazz="Soldier" offsetY="1.1"/>
                 <enemy clazz="Soldier" offsetY="1.1"/>
                 <enemy clazz="Soldier" offsetY="1.1"/>
@@ -425,8 +429,9 @@
         <!-- Wave 5 -->
         <wave>
             <waveReward>150</waveReward>
+            <extend>1</extend>
             <enemies>
-                <enemy clazz="Sprinter"/>
+                <enemy clazz="Sprinter" delay="5"/>
                 <enemy clazz="Sprinter" offsetY="1.1"/>
                 <enemy clazz="Sprinter" offsetY="1.1"/>
                 <enemy clazz="Sprinter" offsetY="1.1"/>
@@ -451,8 +456,9 @@
         <!-- Wave 6 -->
         <wave>
             <waveReward>150</waveReward>
+            <extend>1</extend>
             <enemies>
-                <enemy clazz="Soldier"/>
+                <enemy clazz="Soldier" delay="5"/>
                 <enemy clazz="Soldier" offsetY="1.1"/>
                 <enemy clazz="Soldier" offsetY="1.1"/>
                 <enemy clazz="Soldier" offsetY="1.1"/>
@@ -491,8 +497,9 @@
         <!-- Wave 7 -->
         <wave>
             <waveReward>170</waveReward>
+            <extend>1</extend>
             <enemies>
-                <enemy clazz="Flyer"/>
+                <enemy clazz="Flyer" delay="5"/>
                 <enemy clazz="Flyer" offsetY="1.1"/>
                 <enemy clazz="Flyer" offsetY="1.1"/>
                 <enemy clazz="Flyer" offsetY="1.1"/>
@@ -509,8 +516,9 @@
         <!-- Wave 8 -->
         <wave>
             <waveReward>170</waveReward>
+            <extend>1</extend>
             <enemies>
-                <enemy clazz="Sprinter"/>
+                <enemy clazz="Sprinter" delay="5"/>
                 <enemy clazz="Sprinter" offsetY="1.1"/>
                 <enemy clazz="Sprinter" offsetY="1.1"/>
                 <enemy clazz="Sprinter" offsetY="1.1"/>
@@ -549,8 +557,9 @@
         <!-- Wave 9 -->
         <wave>
             <waveReward>190</waveReward>
+            <extend>1</extend>
             <enemies>
-                <enemy clazz="Sprinter"/>
+                <enemy clazz="Sprinter" delay="5"/>
                 <enemy clazz="Sprinter" offsetY="1.1"/>
                 <enemy clazz="Sprinter" offsetY="1.1"/>
                 <enemy clazz="Sprinter" offsetY="1.1"/>
@@ -604,8 +613,9 @@
         <!-- Wave 10 -->
         <wave>
             <waveReward>190</waveReward>
+            <extend>1</extend>
             <enemies>
-                <enemy clazz="Healer"/>
+                <enemy clazz="Healer" delay="5"/>
                 <enemy clazz="Healer" offsetY="1.1"/>
                 <enemy clazz="Healer" offsetY="1.1"/>
                 <enemy clazz="Healer" offsetY="1.1"/>
@@ -636,8 +646,9 @@
         <!-- Wave 11 -->
         <wave>
             <waveReward>240</waveReward>
+            <extend>1</extend>
             <enemies>
-                <enemy clazz="Healer"/>
+                <enemy clazz="Healer" delay="5"/>
                 <enemy clazz="Healer" offsetY="1.1"/>
                 <enemy clazz="Healer" offsetY="1.1"/>
                 <enemy clazz="Healer" offsetY="1.1"/>
@@ -653,8 +664,9 @@
         <!-- Wave 12 -->
         <wave>
             <waveReward>240</waveReward>
+            <extend>1</extend>
             <enemies>
-                <enemy clazz="Healer"/>
+                <enemy clazz="Healer" delay="5"/>
                 <enemy clazz="Healer" offsetY="1.1"/>
                 <enemy clazz="Healer" offsetY="1.1"/>
                 <enemy clazz="Healer" offsetY="1.1"/>
@@ -684,8 +696,9 @@
         <!-- Wave 13 -->
         <wave>
             <waveReward>240</waveReward>
+            <extend>1</extend>
             <enemies>
-                <enemy clazz="Healer"/>
+                <enemy clazz="Healer" delay="5"/>
                 <enemy clazz="Healer" offsetY="1.1"/>
                 <enemy clazz="Healer" offsetY="1.1"/>
                 <enemy clazz="Healer" offsetY="1.1"/>
@@ -713,8 +726,9 @@
         <!-- Wave 14 -->
         <wave>
             <waveReward>240</waveReward>
+            <extend>1</extend>
             <enemies>
-                <enemy clazz="Healer"/>
+                <enemy clazz="Healer" delay="5"/>
                 <enemy clazz="Healer" offsetY="1.1"/>
                 <enemy clazz="Healer" offsetY="1.1"/>
                 <enemy clazz="Healer" offsetY="1.1"/>
@@ -742,8 +756,9 @@
         <!-- Wave 15 -->
         <wave>
             <waveReward>300</waveReward>
+            <extend>1</extend>
             <enemies>
-                <enemy clazz="Soldier"/>
+                <enemy clazz="Soldier" delay="5"/>
                 <enemy clazz="Soldier" offsetY="1.1"/>
                 <enemy clazz="Soldier" offsetY="1.1"/>
                 <enemy clazz="Soldier" offsetY="1.1"/>
