@@ -495,7 +495,7 @@ public class GameManager {
         Iterator<Tower> it = mGame.get(TypeIds.TOWER).cast(Tower.class);
         while (it.hasNext()) {
             Tower t = it.next();
-            t.devalue(mLevel.getSettings().agingFactor);
+            t.devalue(mLevel.getSettings().ageModifier);
         }
 
         onTowersAged();
@@ -508,7 +508,10 @@ public class GameManager {
             earlyBonus += m.mEarlyBonus;
         }
 
-        mEarlyBonus = Math.round(mLevel.getSettings().earlyFactor * earlyBonus);
+        float modifier = mLevel.getSettings().earlyModifier;
+        float root = mLevel.getSettings().earlyRoot;
+
+        mEarlyBonus = Math.round(modifier * (float)Math.pow(earlyBonus, 1f / root));
         onBonusChanged();
     }
 

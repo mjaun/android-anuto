@@ -16,26 +16,29 @@ public class Settings {
     public int lives;
 
     @Element
-    public float agingFactor;
+    public float ageModifier;
 
     @Element
-    public float earlyFactor;
+    public float earlyModifier;
 
-    @Element(required=false)
+    @Element
+    public float earlyRoot;
+
+    @Element
     public boolean endless;
 
-    @Element(required=false)
+    @Element
     public float linearDifficulty;
 
-    @Element(required=false)
+    @Element
     public float quadraticDifficulty;
 
-    @Element(required=false)
+    @Element
     public float rewardModifier;
 
-    @Element(required=false)
+    @Element
     public float rewardRoot;
 
-    @Element(required=false)
+    @Element
     public float minSpeedModifier;
 }

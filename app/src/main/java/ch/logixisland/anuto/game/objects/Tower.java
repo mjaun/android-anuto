@@ -189,7 +189,7 @@ public abstract class Tower extends GameObject {
 
     public void buy() {
         getManager().takeCredits(mValue);
-        mValue *= getManager().getLevel().getSettings().agingFactor;
+        mValue *= getManager().getLevel().getSettings().ageModifier;
     }
 
     public void sell() {

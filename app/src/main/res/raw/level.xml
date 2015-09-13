@@ -4,8 +4,9 @@
         <width>10</width>
         <credits>300</credits>
         <lives>5</lives>
-        <agingFactor>0.9</agingFactor>
-        <earlyFactor>1.0</earlyFactor>
+        <ageModifier>0.9</ageModifier>
+        <earlyModifier>35.0</earlyModifier>
+        <earlyRoot>3</earlyRoot>
         <endless>true</endless>
         <linearDifficulty>3f</linearDifficulty>
         <quadraticDifficulty>1e-3</quadraticDifficulty>
