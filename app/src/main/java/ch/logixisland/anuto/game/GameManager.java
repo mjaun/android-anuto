@@ -529,15 +529,17 @@ public class GameManager {
         onBonusChanged();
     }
 
-    private void calcWaveModifiers(WaveManager m) {
+    private void calcWaveModifiers(WaveManager waveMan) {
         Log.d(TAG, String.format("calculating wave modifiers for wave %d...", getWaveNumber() + 1));
         Log.d(TAG, String.format("creditsEarned=%d", mCreditsEarned));
 
         float waveHealth = 0f;
 
-        for (EnemyDescriptor d : m.mWave.enemies) {
+        for (EnemyDescriptor d : waveMan.mWave.enemies) {
             waveHealth += mLevel.getEnemyConfig(d.clazz).health;
         }
+
+        waveHealth *= waveMan.mExtend + 1;
 
         Log.d(TAG, String.format("waveHealth=%f", waveHealth));
 
@@ -554,9 +556,9 @@ public class GameManager {
         Log.d(TAG, String.format("healthModifier=%f", healthModifier));
         Log.d(TAG, String.format("rewardModifier=%f", rewardModifier));
 
-        m.mHealthModifier *= healthModifier;
-        m.mRewardModifier *= rewardModifier;
-        m.mWaveReward *= (getWaveNumber() / mLevel.getWaves().size()) + 1;
+        waveMan.mHealthModifier *= healthModifier;
+        waveMan.mRewardModifier *= rewardModifier;
+        waveMan.mWaveReward *= (getWaveNumber() / mLevel.getWaves().size()) + 1;
 
         StringBuilder builder = new StringBuilder();
         builder.append(String.format("creditsEarned=%d\n", mCreditsEarned));
