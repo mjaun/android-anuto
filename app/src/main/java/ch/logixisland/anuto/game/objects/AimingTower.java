@@ -11,12 +11,19 @@ public abstract class AimingTower extends Tower {
     }
 
     /*
+    ------ Static ------
+     */
+
+    private static Strategy sDefaultStrategy = Strategy.Closest;
+    private static boolean sDefaultLockTarget = true;
+
+    /*
     ------ Members ------
      */
 
     private Enemy mTarget = null;
-    private Strategy mStrategy = Strategy.Closest;
-    private boolean mLockOnTarget = true;
+    private Strategy mStrategy = sDefaultStrategy;
+    private boolean mLockOnTarget = sDefaultLockTarget;
 
     /*
     ------ Listener Implementations ------
@@ -71,6 +78,7 @@ public abstract class AimingTower extends Tower {
 
     public void setStrategy(Strategy strategy) {
         mStrategy = strategy;
+        sDefaultStrategy = strategy;
     }
 
     public boolean doesLockOnTarget() {
@@ -79,8 +87,22 @@ public abstract class AimingTower extends Tower {
 
     public void setLockOnTarget(boolean lock) {
         mLockOnTarget = lock;
+        sDefaultLockTarget = lock;
     }
 
+
+    @Override
+    public Tower upgrade() {
+        Tower upgrade = super.upgrade();
+
+        if (upgrade instanceof AimingTower) {
+            AimingTower aiming = (AimingTower)upgrade;
+            aiming.mStrategy = this.mStrategy;
+            aiming.mLockOnTarget = this.mLockOnTarget;
+        }
+
+        return upgrade;
+    }
 
     public Enemy getTarget() {
         return mTarget;
