@@ -135,7 +135,7 @@ public class GameManager {
                     float offsetX = 0f;
                     float offsetY = 0f;
 
-                    mEnemiesInQueue = mWave.enemies.size();
+                    mEnemiesInQueue = mWave.enemies.size() * (mExtend + 1);
                     mActiveWaves.add(WaveManager.this);
 
                     for (int i = 0; i < mExtend + 1; i++) {
