@@ -208,7 +208,7 @@ public class TowerInfoFragment extends Fragment implements
                     btn_lock_target.setEnabled(false);
                 }
 
-                if (mTower.getLevel() < 4) {
+                if (mTower.isEnhanceable()) {
                     btn_enhance.setText(getResources().getString(R.string.enhance) + " (" + mTower.getEnhanceCost() + ")");
                 } else {
                     btn_enhance.setText(getResources().getString(R.string.enhance));

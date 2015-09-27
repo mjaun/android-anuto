@@ -250,6 +250,10 @@ public abstract class Tower extends GameObject {
         mReloadTimer.setInterval(mReloadTime);
     }
 
+    public boolean isEnhanceable() {
+        return mLevel < mConfig.maxLevel;
+    }
+
     public int getEnhanceCost() {
         return mConfig.enhanceCost * mLevel;
     }

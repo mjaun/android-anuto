@@ -39,6 +39,9 @@ public class TowerConfig {
     @Element
     public float enhanceReload;
 
+    @Element
+    public int maxLevel;
+
     @Element(required=false)
     public String damageText;
 
