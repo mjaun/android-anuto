@@ -119,7 +119,7 @@ public class StatusFragment extends Fragment implements GameManager.OnWaveStarte
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                btn_next_wave.setEnabled(true);
+                btn_next_wave.setEnabled(!mManager.isGameOver());
             }
         });
     }

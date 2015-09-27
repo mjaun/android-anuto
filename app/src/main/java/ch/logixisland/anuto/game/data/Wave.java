@@ -11,7 +11,7 @@ public class Wave {
     public ArrayList<EnemyDescriptor> enemies = new ArrayList<>();
 
     @Element(required=false)
-    public int waveReward;
+    public int waveReward = 0;
 
     @Element(required=false)
     public float healthModifier = 1f;
@@ -21,4 +21,7 @@ public class Wave {
 
     @Element(required=false)
     public int extend = 0;
+
+    @Element(required=false)
+    public float nextWaveDelay = 8;
 }

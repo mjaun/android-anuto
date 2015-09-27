@@ -201,11 +201,17 @@ public class GameManager {
         @Override
         public void onObjectAdded(GameObject obj) {
             mEnemiesInQueue--;
-            mEnemiesInGame.add((Enemy)obj);
+            mEnemiesInGame.add((Enemy) obj);
 
             if (mEnemiesInQueue == 0 && hasNextWave() && !mAborted && !mNextWaveReady) {
                 mNextWaveReady = true;
-                onNextWaveReady();
+
+                mWaveHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        onNextWaveReady();
+                    }
+                }, Math.round(mWave.nextWaveDelay * 1000));
             }
         }
 
@@ -553,15 +559,21 @@ public class GameManager {
             rewardModifier = 1f;
         }
 
-        Log.d(TAG, String.format("healthModifier=%f", healthModifier));
-        Log.d(TAG, String.format("rewardModifier=%f", rewardModifier));
-
         waveMan.mHealthModifier *= healthModifier;
         waveMan.mRewardModifier *= rewardModifier;
         waveMan.mWaveReward *= (getWaveNumber() / mLevel.getWaves().size()) + 1;
 
+        Log.d(TAG, String.format("waveNumber=%d", getWaveNumber()));
+        Log.d(TAG, String.format("damagePossible=%d + %d\n",
+                Math.round(settings.linearDifficulty * mCreditsEarned),
+                Math.round(settings.quadraticDifficulty * MathUtils.square(mCreditsEarned))));
+        Log.d(TAG, String.format("healthModifier=%f", healthModifier));
+        Log.d(TAG, String.format("rewardModifier=%f", rewardModifier));
+
         StringBuilder builder = new StringBuilder();
-        builder.append(String.format("creditsEarned=%d\n", mCreditsEarned));
+        builder.append(String.format("damagePossible=%d + %d\n",
+                Math.round(settings.linearDifficulty * mCreditsEarned),
+                Math.round(settings.quadraticDifficulty * MathUtils.square(mCreditsEarned))));
         builder.append(String.format("healthModifier=%f\n", healthModifier));
         builder.append(String.format("rewardModifier=%f", rewardModifier));
         Toast.makeText(mContext, builder.toString(), Toast.LENGTH_LONG).show();
