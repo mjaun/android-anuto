@@ -91,7 +91,7 @@ public class TeleportTower extends AimingTower {
             if (!target.isEnabled() || getDistanceTo(target) > getRange()) {
                 setTarget(null);
             } else {
-                getGame().add(new TeleportEffect(getPosition(), target, getDamage()));
+                getGame().add(new TeleportEffect(this, getPosition(), target, getDamage()));
                 setReloaded(false);
 
                 mTeleportedEnemies.add(target);

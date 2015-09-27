@@ -5,13 +5,6 @@ import ch.logixisland.anuto.game.GameEngine;
 public abstract class HomingShot extends Shot {
 
     /*
-    ------ Members ------
-     */
-
-    protected Enemy mTarget;
-    private boolean mTargetReached;
-
-    /*
     ------ Listener Implementations ------
      */
 
@@ -31,6 +24,21 @@ public abstract class HomingShot extends Shot {
     };
 
     /*
+    ------ Members ------
+     */
+
+    protected Enemy mTarget;
+    private boolean mTargetReached;
+
+    /*
+    ------ Constructors ------
+     */
+
+    protected HomingShot(GameObject origin) {
+        super(origin);
+    }
+
+    /*
     ------ Methods ------
      */
 
@@ -45,7 +53,7 @@ public abstract class HomingShot extends Shot {
         super.tick();
 
         if (isEnabled() && mTarget != null &&
-                getDistanceTo(mTarget) <= mSpeed / GameEngine.TARGET_FRAME_RATE) {
+                getDistanceTo(mTarget) <= getSpeed() / GameEngine.TARGET_FRAME_RATE) {
             mTargetReached = true;
             onTargetReached();
         }

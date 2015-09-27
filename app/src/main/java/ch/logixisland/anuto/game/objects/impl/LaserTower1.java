@@ -80,8 +80,8 @@ public class LaserTower1 extends AimingTower {
             mAngle = getAngleTo(getTarget());
 
             if (isReloaded()) {
-                Vector2 origin = Vector2.polar(LASER_SPAWN_OFFSET, mAngle).add(getPosition());
-                getGame().add(new Laser(origin, getTarget(), getDamage()));
+                Vector2 from = Vector2.polar(LASER_SPAWN_OFFSET, mAngle).add(getPosition());
+                getGame().add(new Laser(this, from, getTarget(), getDamage()));
                 setReloaded(false);
             }
         }

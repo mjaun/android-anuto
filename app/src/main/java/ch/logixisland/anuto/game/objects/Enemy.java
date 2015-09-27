@@ -169,7 +169,7 @@ public abstract class Enemy extends GameObject {
 
     public float getSpeed() {
         float speed = mBaseSpeed * mSpeedModifier;
-        float minSpeed = getManager().getLevel().getSettings().minSpeedModifier * getConfigSpeed();
+        float minSpeed = getManager().getSettings().minSpeedModifier * getConfigSpeed();
 
         return Math.max(minSpeed, speed);
     }
@@ -270,7 +270,19 @@ public abstract class Enemy extends GameObject {
         return mConfig.health * mHealthModifier;
     }
 
-    public void damage(float dmg) {
+    public void damage(float dmg, GameObject origin) {
+        if (origin != null && origin instanceof Tower) {
+            Tower originTower = (Tower)origin;
+
+            if (originTower.getConfig().strongAgainst.contains(getClass())) {
+                dmg *= getManager().getSettings().strongAgainstModifier;
+            }
+
+            if (originTower.getConfig().weakAgainst.contains(getClass())) {
+                dmg *= getManager().getSettings().weakAgainstModifier;
+            }
+        }
+
         mHealth -= dmg / mHealthModifier;
 
         if (mHealth <= 0) {

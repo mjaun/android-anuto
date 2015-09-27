@@ -308,16 +308,15 @@ public class GameManager {
             mGame.add(p);
         }
 
-        Settings settings = mLevel.getSettings();
-        mGame.setGameSize(settings.width, settings.height);
+        mGame.setGameSize(getSettings().width, getSettings().height);
 
         onGameStarted();
 
-        setCredits(settings.credits);
-        setLives(settings.lives);
+        setCredits(getSettings().credits);
+        setLives(getSettings().lives);
 
         mEarlyBonus = 0;
-        mCreditsEarned = settings.credits;
+        mCreditsEarned = getSettings().credits;
 
         onBonusChanged();
     }
@@ -337,6 +336,10 @@ public class GameManager {
         }
     }
 
+    public Settings getSettings() {
+        return mLevel.getSettings();
+    }
+
 
     public int getWaveNumber() {
         return mNextWaveIndex;
@@ -347,7 +350,7 @@ public class GameManager {
     }
 
     public boolean hasNextWave() {
-        if (mLevel.getSettings().endless && !mLevel.getWaves().isEmpty()) {
+        if (getSettings().endless && !mLevel.getWaves().isEmpty()) {
             return true;
         }
 
@@ -393,7 +396,7 @@ public class GameManager {
 
         WaveManager m = new WaveManager(nextWave, extend);
 
-        if (mLevel.getSettings().endless) {
+        if (getSettings().endless) {
             calcWaveModifiers(m);
         }
 
@@ -515,7 +518,7 @@ public class GameManager {
         Iterator<Tower> it = mGame.get(TypeIds.TOWER).cast(Tower.class);
         while (it.hasNext()) {
             Tower t = it.next();
-            t.devalue(mLevel.getSettings().ageModifier);
+            t.devalue(getSettings().ageModifier);
         }
 
         onTowersAged();
@@ -528,8 +531,8 @@ public class GameManager {
             earlyBonus += m.mEarlyBonus;
         }
 
-        float modifier = mLevel.getSettings().earlyModifier;
-        float root = mLevel.getSettings().earlyRoot;
+        float modifier = getSettings().earlyModifier;
+        float root = getSettings().earlyRoot;
 
         mEarlyBonus = Math.round(modifier * (float)Math.pow(earlyBonus, 1f / root));
         onBonusChanged();
@@ -549,11 +552,11 @@ public class GameManager {
 
         Log.d(TAG, String.format("waveHealth=%f", waveHealth));
 
-        Settings settings = mLevel.getSettings();
-
-        float damagePossible = settings.linearDifficulty * mCreditsEarned + settings.quadraticDifficulty * MathUtils.square(mCreditsEarned);
+        float damagePossible = getSettings().linearDifficulty * mCreditsEarned
+                + getSettings().quadraticDifficulty * MathUtils.square(mCreditsEarned);
         float healthModifier = damagePossible / waveHealth;
-        float rewardModifier = settings.rewardModifier * (float)Math.pow(healthModifier, 1f / settings.rewardRoot);
+        float rewardModifier = getSettings().rewardModifier
+                * (float)Math.pow(healthModifier, 1f / getSettings().rewardRoot);
 
         if (rewardModifier < 1f) {
             rewardModifier = 1f;
@@ -565,15 +568,15 @@ public class GameManager {
 
         Log.d(TAG, String.format("waveNumber=%d", getWaveNumber()));
         Log.d(TAG, String.format("damagePossible=%d + %d\n",
-                Math.round(settings.linearDifficulty * mCreditsEarned),
-                Math.round(settings.quadraticDifficulty * MathUtils.square(mCreditsEarned))));
+                Math.round(getSettings().linearDifficulty * mCreditsEarned),
+                Math.round(getSettings().quadraticDifficulty * MathUtils.square(mCreditsEarned))));
         Log.d(TAG, String.format("healthModifier=%f", healthModifier));
         Log.d(TAG, String.format("rewardModifier=%f", rewardModifier));
 
         StringBuilder builder = new StringBuilder();
         builder.append(String.format("damagePossible=%d + %d\n",
-                Math.round(settings.linearDifficulty * mCreditsEarned),
-                Math.round(settings.quadraticDifficulty * MathUtils.square(mCreditsEarned))));
+                Math.round(getSettings().linearDifficulty * mCreditsEarned),
+                Math.round(getSettings().quadraticDifficulty * MathUtils.square(mCreditsEarned))));
         builder.append(String.format("healthModifier=%f\n", healthModifier));
         builder.append(String.format("rewardModifier=%f", rewardModifier));
         Toast.makeText(mContext, builder.toString(), Toast.LENGTH_LONG).show();

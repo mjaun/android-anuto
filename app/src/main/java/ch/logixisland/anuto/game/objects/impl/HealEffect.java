@@ -9,6 +9,7 @@ import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.DrawObject;
 import ch.logixisland.anuto.game.objects.Effect;
 import ch.logixisland.anuto.game.objects.Enemy;
+import ch.logixisland.anuto.game.objects.GameObject;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.Vector2;
 
@@ -44,10 +45,11 @@ public class HealEffect extends Effect {
 
     private DrawObject mDrawObject;
 
-    public HealEffect(Vector2 position, float amount, float radius) {
+    public HealEffect(GameObject origin, Vector2 position, float amount, float radius) {
+        super(origin, EFFECT_DURATION);
         setPosition(position);
+
         mHealAmount = amount;
-        mDuration = EFFECT_DURATION;
         mRange = radius;
         mDrawRadius = 0f;
 

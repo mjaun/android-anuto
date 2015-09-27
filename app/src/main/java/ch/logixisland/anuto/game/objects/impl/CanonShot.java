@@ -7,6 +7,7 @@ import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.DrawObject;
 import ch.logixisland.anuto.game.objects.Enemy;
+import ch.logixisland.anuto.game.objects.GameObject;
 import ch.logixisland.anuto.game.objects.HomingShot;
 import ch.logixisland.anuto.game.objects.Sprite;
 import ch.logixisland.anuto.util.math.Vector2;
@@ -26,11 +27,12 @@ public class CanonShot extends HomingShot {
 
     private Sprite.FixedInstance mSprite;
 
-    public CanonShot(Vector2 position, Enemy target, float damage) {
+    public CanonShot(GameObject origin, Vector2 position, Enemy target, float damage) {
+        super(origin);
         setPosition(position);
         setTarget(target);
+        setSpeed(MOVEMENT_SPEED);
 
-        mSpeed = MOVEMENT_SPEED;
         mDamage = damage;
 
         StaticData s = (StaticData)getStaticData();
@@ -73,7 +75,7 @@ public class CanonShot extends HomingShot {
 
     @Override
     public void tick() {
-        mDirection = getDirectionTo(mTarget);
+        setDirection(getDirectionTo(mTarget));
         mAngle += ROTATION_STEP;
 
         super.tick();
@@ -86,7 +88,7 @@ public class CanonShot extends HomingShot {
 
     @Override
     protected void onTargetReached() {
-        mTarget.damage(mDamage);
+        mTarget.damage(mDamage, getOrigin());
         this.remove();
     }
 }

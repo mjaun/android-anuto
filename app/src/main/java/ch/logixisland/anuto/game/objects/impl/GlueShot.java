@@ -3,6 +3,7 @@ package ch.logixisland.anuto.game.objects.impl;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.Layers;
+import ch.logixisland.anuto.game.objects.GameObject;
 import ch.logixisland.anuto.game.objects.Shot;
 import ch.logixisland.anuto.game.objects.Sprite;
 import ch.logixisland.anuto.util.math.Vector2;
@@ -22,12 +23,14 @@ public class GlueShot extends Shot {
 
     private Sprite.AnimatedInstance mSprite;
 
-    public GlueShot(Vector2 position, Vector2 target, float speedModifier, float duration) {
+    public GlueShot(GameObject origin, Vector2 position, Vector2 target, float speedModifier, float duration) {
+        super(origin);
         setPosition(position);
         mTarget = new Vector2(target);
 
-        mSpeed = MOVEMENT_SPEED;
-        mDirection = getDirectionTo(target);
+        setSpeed(MOVEMENT_SPEED);
+        setDirection(getDirectionTo(target));
+
         mSpeedModifier = speedModifier;
         mDuration = duration;
 
@@ -69,8 +72,8 @@ public class GlueShot extends Shot {
 
         mSprite.tick();
 
-        if (getDistanceTo(mTarget) < mSpeed / GameEngine.TARGET_FRAME_RATE) {
-            getGame().add(new GlueEffect(mTarget, mSpeedModifier, mDuration));
+        if (getDistanceTo(mTarget) < getSpeed() / GameEngine.TARGET_FRAME_RATE) {
+            getGame().add(new GlueEffect(getOrigin(), mTarget, mSpeedModifier, mDuration));
             this.remove();
         }
     }

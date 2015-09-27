@@ -24,6 +24,7 @@ public class EnemyConfig {
     @ElementMap(required=false, entry="property", key="name", attribute=true, inline=true)
     public HashMap<String, Float> properties = new HashMap<>();
 
+
     @Element(name="clazz")
     private String getClazz() {
         return clazz.getName();

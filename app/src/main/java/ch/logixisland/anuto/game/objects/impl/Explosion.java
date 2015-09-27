@@ -9,6 +9,7 @@ import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.DrawObject;
 import ch.logixisland.anuto.game.objects.Effect;
 import ch.logixisland.anuto.game.objects.Enemy;
+import ch.logixisland.anuto.game.objects.GameObject;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.Vector2;
 
@@ -54,7 +55,8 @@ public class Explosion extends Effect {
 
     private ExplosionDrawObject mDrawObject;
 
-    public Explosion(Vector2 position, float damage, float radius) {
+    public Explosion(GameObject origin, Vector2 position, float damage, float radius) {
+        super(origin, EFFECT_DURATION);
         setPosition(position);
 
         mDamage = damage;
@@ -92,7 +94,7 @@ public class Explosion extends Effect {
 
         while (enemies.hasNext()) {
             Enemy enemy = enemies.next();
-            enemy.damage(mDamage);
+            enemy.damage(mDamage, getOrigin());
         }
     }
 

@@ -11,7 +11,7 @@ public abstract class AreaEffect extends Effect {
     ------ Members ------
      */
 
-    protected float mRange = 1f;
+    private float mRange = 1f;
 
     private final List<Enemy> mAffectedEnemies = new CopyOnWriteArrayList<>();
 
@@ -28,6 +28,14 @@ public abstract class AreaEffect extends Effect {
             enemyExit((Enemy)obj);
         }
     };
+
+    /*
+    ------ Constructors ------
+     */
+
+    protected AreaEffect(GameObject origin, float duration) {
+        super(origin, duration);
+    }
 
     /*
     ------ Methods ------

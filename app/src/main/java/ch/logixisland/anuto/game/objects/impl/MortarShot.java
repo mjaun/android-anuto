@@ -6,6 +6,7 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.DrawObject;
+import ch.logixisland.anuto.game.objects.GameObject;
 import ch.logixisland.anuto.game.objects.Shot;
 import ch.logixisland.anuto.game.objects.Sprite;
 import ch.logixisland.anuto.util.math.Function;
@@ -30,11 +31,12 @@ public class MortarShot extends Shot {
 
     private Sprite.FixedInstance mSprite;
 
-    public MortarShot(Vector2 position, Vector2 target, float damage, float radius) {
+    public MortarShot(GameObject origin, Vector2 position, Vector2 target, float damage, float radius) {
+        super(origin);
         setPosition(position);
+        setSpeed(getDistanceTo(target) / TIME_TO_TARGET);
+        setDirection(getDirectionTo(target));
 
-        mSpeed = getDistanceTo(target) / TIME_TO_TARGET;
-        mDirection = getDirectionTo(target);
         mDamage = damage;
         mRadius = radius;
         mAngle = getGame().getRandom(360f);
@@ -94,7 +96,7 @@ public class MortarShot extends Shot {
 
         mHeightScalingFunction.step();
         if (mHeightScalingFunction.getPosition() >= GameEngine.TARGET_FRAME_RATE * TIME_TO_TARGET) {
-            getGame().add(new Explosion(getPosition(), mDamage, mRadius));
+            getGame().add(new Explosion(getOrigin(), getPosition(), mDamage, mRadius));
             this.remove();
         }
     }

@@ -41,4 +41,10 @@ public class Settings {
 
     @Element
     public float minSpeedModifier;
+
+    @Element
+    public float weakAgainstModifier;
+
+    @Element
+    public float strongAgainstModifier;
 }

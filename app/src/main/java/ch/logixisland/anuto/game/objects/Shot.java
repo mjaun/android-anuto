@@ -16,8 +16,18 @@ public abstract class Shot extends GameObject {
     ------ Members ------
      */
 
-    protected float mSpeed;
-    protected Vector2 mDirection;
+    private GameObject mOrigin;
+
+    private float mSpeed;
+    private Vector2 mDirection;
+
+    /*
+    ------ Constructors ------
+     */
+
+    protected Shot(GameObject origin) {
+        mOrigin = origin;
+    }
 
     /*
     ------ Methods ------
@@ -35,5 +45,26 @@ public abstract class Shot extends GameObject {
         if (isEnabled()) {
             move(mDirection, mSpeed / GameEngine.TARGET_FRAME_RATE);
         }
+    }
+
+
+    public GameObject getOrigin() {
+        return mOrigin;
+    }
+
+    public float getSpeed() {
+        return mSpeed;
+    }
+
+    protected void setSpeed(float speed) {
+        this.mSpeed = speed;
+    }
+
+    public Vector2 getDirection() {
+        return mDirection;
+    }
+
+    protected void setDirection(Vector2 direction) {
+        this.mDirection = direction;
     }
 }

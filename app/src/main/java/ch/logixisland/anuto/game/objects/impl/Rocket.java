@@ -7,6 +7,7 @@ import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.DrawObject;
 import ch.logixisland.anuto.game.objects.Enemy;
+import ch.logixisland.anuto.game.objects.GameObject;
 import ch.logixisland.anuto.game.objects.HomingShot;
 import ch.logixisland.anuto.game.objects.Sprite;
 import ch.logixisland.anuto.util.math.Vector2;
@@ -28,11 +29,12 @@ public class Rocket extends HomingShot {
     private Sprite.FixedInstance mSprite;
     private Sprite.AnimatedInstance mSpriteFire;
 
-    public Rocket(Vector2 position, float damage, float radius) {
+    public Rocket(GameObject origin, Vector2 position, float damage, float radius) {
+        super(origin);
         setPosition(position);
+        setSpeed(MOVEMENT_SPEED);
         setEnabled(false);
 
-        mSpeed = MOVEMENT_SPEED;
         mDamage = damage;
         mRadius = radius;
 
@@ -110,8 +112,8 @@ public class Rocket extends HomingShot {
     @Override
     public void tick() {
         if (isEnabled()) {
-            mDirection = getDirectionTo(mTarget);
-            mAngle = mDirection.angle();
+            setDirection(getDirectionTo(mTarget));
+            mAngle = getAngleTo(mTarget);
 
             mSpriteFire.tick();
         }
@@ -133,7 +135,7 @@ public class Rocket extends HomingShot {
 
     @Override
     protected void onTargetReached() {
-        getGame().add(new Explosion(mTarget.getPosition(), mDamage, mRadius));
+        getGame().add(new Explosion(getOrigin(), mTarget.getPosition(), mDamage, mRadius));
         getGame().remove(this);
     }
 }

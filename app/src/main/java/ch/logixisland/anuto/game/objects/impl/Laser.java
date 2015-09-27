@@ -12,6 +12,7 @@ import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.DrawObject;
 import ch.logixisland.anuto.game.objects.Effect;
 import ch.logixisland.anuto.game.objects.Enemy;
+import ch.logixisland.anuto.game.objects.GameObject;
 import ch.logixisland.anuto.util.math.Vector2;
 
 public class Laser extends Effect {
@@ -62,17 +63,17 @@ public class Laser extends Effect {
 
     private LaserDrawObject mDrawObject;
 
-    public Laser(Vector2 position, Enemy target, float damage) {
-        this(position, target, damage, 0, 0);
+    public Laser(GameObject origin, Vector2 position, Enemy target, float damage) {
+        this(origin, position, target, damage, 0, 0);
     }
 
-    public Laser(Vector2 position, Enemy target, float damage, int bounce, float maxBounceDist) {
+    public Laser(GameObject origin, Vector2 position, Enemy target, float damage, int bounce, float maxBounceDist) {
+        super(origin, EFFECT_DURATION);
         setPosition(position);
 
         mTarget = target;
         mTargetPos = target.getPosition();
 
-        mDuration = EFFECT_DURATION;
         mDamage = damage;
         mBounce = bounce;
         mMaxBounceDist = maxBounceDist;
@@ -81,7 +82,7 @@ public class Laser extends Effect {
     }
 
     private Laser(Laser origin, Enemy target) {
-        this(origin.mTarget.getPosition(), target, origin.mDamage, origin.mBounce - 1, origin.mMaxBounceDist);
+        this(origin.getOrigin(), origin.mTarget.getPosition(), target, origin.mDamage, origin.mBounce - 1, origin.mMaxBounceDist);
 
         mOrigin = origin.mTarget;
 
@@ -133,7 +134,7 @@ public class Laser extends Effect {
             }
         }
 
-        mTarget.damage(mDamage);
+        mTarget.damage(mDamage, getOrigin());
     }
 
     @Override

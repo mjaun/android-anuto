@@ -125,7 +125,7 @@ public class MineLayer extends Tower {
             mSprite.tick();
 
             if (mSprite.getSequencePosition() == 5) {
-                Mine m = new Mine(getPosition(), getTarget(), getDamage(), mExplosionRadius);
+                Mine m = new Mine(this, getPosition(), getTarget(), getDamage(), mExplosionRadius);
                 m.addListener(mMineListener);
                 mMines.add(m);
                 getGame().add(m);

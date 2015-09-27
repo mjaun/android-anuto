@@ -9,6 +9,7 @@ import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.AreaEffect;
 import ch.logixisland.anuto.game.objects.DrawObject;
 import ch.logixisland.anuto.game.objects.Enemy;
+import ch.logixisland.anuto.game.objects.GameObject;
 import ch.logixisland.anuto.game.objects.Sprite;
 import ch.logixisland.anuto.util.math.Vector2;
 
@@ -27,13 +28,13 @@ public class GlueEffect extends AreaEffect {
     private Paint mPaint;
     private Sprite.FixedInstance mSprite;
 
-    public GlueEffect(Vector2 position, float speedModifier, float duration) {
+    public GlueEffect(GameObject origin, Vector2 position, float speedModifier, float duration) {
+        super(origin, duration);
         setPosition(position);
 
-        mDuration = duration;
         mSpeedModifier = speedModifier;
         mAngle = getGame().getRandom(360f);
-        mAlphaStep = (int)(ALPHA_START / (GameEngine.TARGET_FRAME_RATE * mDuration));
+        mAlphaStep = (int)(ALPHA_START / (GameEngine.TARGET_FRAME_RATE * duration));
 
         StaticData s = (StaticData)getStaticData();
 

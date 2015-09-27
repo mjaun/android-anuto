@@ -9,15 +9,17 @@ import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.DrawObject;
 import ch.logixisland.anuto.game.objects.Effect;
 import ch.logixisland.anuto.game.objects.Enemy;
+import ch.logixisland.anuto.game.objects.GameObject;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.Vector2;
 
 public class LaserStraight extends Effect {
 
     private final static float LASER_WIDTH = 0.7f;
-    private final static float LASER_VISIBLE_TIME = 0.5f;
+
+    private final static float EFFECT_DURATION = 0.5f;
     private final static int ALPHA_START = 180;
-    private final static int ALPHA_STEP = (int)(ALPHA_START / (GameEngine.TARGET_FRAME_RATE * LASER_VISIBLE_TIME));
+    private final static int ALPHA_STEP = (int)(ALPHA_START / (GameEngine.TARGET_FRAME_RATE * EFFECT_DURATION));
 
     private class LaserDrawObject extends DrawObject {
         private Paint mPaint;
@@ -56,12 +58,12 @@ public class LaserStraight extends Effect {
 
     private LaserDrawObject mDrawObject;
 
-    public LaserStraight(Vector2 position, Vector2 laserTo, float damage) {
+    public LaserStraight(GameObject origin, Vector2 position, Vector2 laserTo, float damage) {
+        super(origin, EFFECT_DURATION);
         setPosition(position);
-        mLaserTo = new Vector2(laserTo);
 
+        mLaserTo = new Vector2(laserTo);
         mDamage = damage;
-        mDuration = LASER_VISIBLE_TIME;
 
         mDrawObject = new LaserDrawObject();
     }
@@ -95,7 +97,7 @@ public class LaserStraight extends Effect {
 
         while (enemies.hasNext()) {
             Enemy enemy = enemies.next();
-            enemy.damage(mDamage);
+            enemy.damage(mDamage, getOrigin());
         }
     }
 

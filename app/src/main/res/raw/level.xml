@@ -1,20 +1,30 @@
 <level>
+    <!-- General Configuration -->
     <settings>
         <height>15</height>
         <width>10</width>
-        <credits>300</credits>
+        <credits>400</credits>
         <lives>5</lives>
+        <endless>true</endless>
+
         <ageModifier>0.9</ageModifier>
+        <minSpeedModifier>0.05</minSpeedModifier>
+        <strongAgainstModifier>1.5</strongAgainstModifier>
+        <weakAgainstModifier>0.5</weakAgainstModifier>
+
         <earlyModifier>35.0</earlyModifier>
         <earlyRoot>3</earlyRoot>
-        <endless>true</endless>
-        <linearDifficulty>3f</linearDifficulty>
-        <quadraticDifficulty>1e-3</quadraticDifficulty>
+
+        <linearDifficulty>10</linearDifficulty>
+        <quadraticDifficulty>2e-3</quadraticDifficulty>
+
         <rewardModifier>1.0</rewardModifier>
-        <rewardRoot>2</rewardRoot>
-        <minSpeedModifier>0.1</minSpeedModifier>
+        <rewardRoot>3</rewardRoot>
     </settings>
+
+    <!-- Tower Configuration -->
     <towers>
+        <!--- Canon Towers -->
         <tower>
             <slot>0</slot>
             <clazz>Canon</clazz>
@@ -23,10 +33,13 @@
             <damage>60</damage>
             <range>2.5</range>
             <reload>1.0</reload>
+            <maxLevel>4</maxLevel>
             <enhanceCost>120</enhanceCost>
             <enhanceDamage>120</enhanceDamage>
             <enhanceRange>0.5</enhanceRange>
             <enhanceReload>0.2</enhanceReload>
+            <strongAgainst>Soldier</strongAgainst>
+            <weakAgainst>Healer</weakAgainst>
         </tower>
         <tower>
             <clazz>CanonDual</clazz>
@@ -35,10 +48,13 @@
             <damage>100</damage>
             <range>2.5</range>
             <reload>0.5</reload>
+            <maxLevel>4</maxLevel>
             <enhanceCost>220</enhanceCost>
             <enhanceDamage>120</enhanceDamage>
             <enhanceRange>0.5</enhanceRange>
             <enhanceReload>0.1</enhanceReload>
+            <strongAgainst>Soldier</strongAgainst>
+            <weakAgainst>Healer</weakAgainst>
         </tower>
         <tower>
             <clazz>CanonMG</clazz>
@@ -46,12 +62,16 @@
             <damage>100</damage>
             <range>2.5</range>
             <reload>0.1</reload>
+            <maxLevel>4</maxLevel>
             <enhanceCost>350</enhanceCost>
             <enhanceDamage>85</enhanceDamage>
             <enhanceRange>0.5</enhanceRange>
             <enhanceReload>0.01</enhanceReload>
+            <strongAgainst>Soldier</strongAgainst>
+            <weakAgainst>Healer</weakAgainst>
         </tower>
 
+        <!-- Laser Towers -->
         <tower>
             <slot>1</slot>
             <clazz>LaserTower1</clazz>
@@ -60,10 +80,13 @@
             <damage>250</damage>
             <range>3.5</range>
             <reload>3.0</reload>
+            <maxLevel>4</maxLevel>
             <enhanceCost>150</enhanceCost>
             <enhanceDamage>600</enhanceDamage>
             <enhanceRange>0.5</enhanceRange>
             <enhanceReload>0.5</enhanceReload>
+            <strongAgainst>Blob;Flyer</strongAgainst>
+            <weakAgainst>Soldier;Healer</weakAgainst>
         </tower>
         <tower>
             <clazz>LaserTower2</clazz>
@@ -72,12 +95,15 @@
             <damage>400</damage>
             <range>3.5</range>
             <reload>3.0</reload>
+            <maxLevel>4</maxLevel>
             <enhanceCost>450</enhanceCost>
             <enhanceDamage>600</enhanceDamage>
             <enhanceRange>0.5</enhanceRange>
             <enhanceReload>0.5</enhanceReload>
             <property name="bounce">2</property>
             <property name="bounceDistance">2.0</property>
+            <strongAgainst>Blob;Flyer</strongAgainst>
+            <weakAgainst>Soldier;Healer</weakAgainst>
         </tower>
         <tower>
             <clazz>LaserTower3</clazz>
@@ -85,54 +111,72 @@
             <damage>600</damage>
             <range>3.5</range>
             <reload>3.0</reload>
+            <maxLevel>4</maxLevel>
             <enhanceCost>450</enhanceCost>
             <enhanceDamage>500</enhanceDamage>
             <enhanceRange>0.5</enhanceRange>
             <enhanceReload>0.2</enhanceReload>
+            <strongAgainst>Blob;Flyer</strongAgainst>
+            <weakAgainst>Soldier;Healer</weakAgainst>
         </tower>
 
+        <!-- Explosive Towers -->
         <tower>
             <slot>2</slot>
             <clazz>Mortar</clazz>
-            <upgrade>RocketLauncher</upgrade>
+            <upgrade>MineLayer</upgrade>
             <value>250</value>
             <damage>150</damage>
             <range>2.5</range>
             <reload>2.0</reload>
+            <maxLevel>4</maxLevel>
             <enhanceCost>220</enhanceCost>
             <enhanceDamage>150</enhanceDamage>
             <enhanceRange>0.5</enhanceRange>
             <enhanceReload>0.3</enhanceReload>
             <property name="inaccuracy">1.0</property>
             <property name="explosionRadius">1.0</property>
+            <property name="enhanceExplosionRadius">0.1</property>
+            <strongAgainst>Sprinter;Healer</strongAgainst>
+            <weakAgainst>Blob;Flyer</weakAgainst>
         </tower>
         <tower>
-            <clazz>RocketLauncher</clazz>
-            <upgrade>MineLayer</upgrade>
+            <clazz>MineLayer</clazz>
+            <upgrade>RocketLauncher</upgrade>
             <value>550</value>
             <damage>300</damage>
             <range>2.5</range>
             <reload>2.5</reload>
+            <maxLevel>4</maxLevel>
             <enhanceCost>350</enhanceCost>
             <enhanceDamage>350</enhanceDamage>
             <enhanceRange>0.5</enhanceRange>
             <enhanceReload>0.2</enhanceReload>
+            <property name="maxMineCount">3</property>
+            <property name="enhanceMaxMineCount">1</property>
             <property name="explosionRadius">1.5</property>
+            <property name="enhanceExplosionRadius">0.1</property>
+            <strongAgainst>Sprinter;Healer</strongAgainst>
+            <weakAgainst>Blob;Flyer</weakAgainst>
         </tower>
         <tower>
-            <clazz>MineLayer</clazz>
+            <clazz>RocketLauncher</clazz>
             <value>1000</value>
             <damage>400</damage>
             <range>2.5</range>
             <reload>2.0</reload>
+            <maxLevel>4</maxLevel>
             <enhanceCost>600</enhanceCost>
             <enhanceDamage>350</enhanceDamage>
             <enhanceRange>0.5</enhanceRange>
             <enhanceReload>0.2</enhanceReload>
-            <property name="maxMineCount">3</property>
             <property name="explosionRadius">2.0</property>
+            <property name="enhanceExplosionRadius">0.1</property>
+            <strongAgainst>Sprinter;Healer</strongAgainst>
+            <weakAgainst>Blob;Flyer</weakAgainst>
         </tower>
 
+        <!-- Glue / Teleport Towers -->
         <tower>
             <slot>3</slot>
             <clazz>GlueGun</clazz>
@@ -140,27 +184,29 @@
             <value>500</value>
             <damage>1.5</damage>
             <range>3.5</range>
-            <reload>3.0</reload>
+            <reload>1.5</reload>
+            <maxLevel>4</maxLevel>
             <damageText>Intensity</damageText>
             <enhanceCost>200</enhanceCost>
             <enhanceDamage>0.1</enhanceDamage>
             <enhanceRange>0.5</enhanceRange>
-            <enhanceReload>0.1</enhanceReload>
+            <enhanceReload>0</enhanceReload>
             <property name="glueDuration">1.5</property>
         </tower>
         <tower>
             <clazz>GlueTower</clazz>
             <upgrade>TeleportTower</upgrade>
             <value>800</value>
-            <damage>2</damage>
+            <damage>1.5</damage>
             <range>1.5</range>
-            <reload>5.0</reload>
+            <reload>3.0</reload>
+            <maxLevel>4</maxLevel>
             <damageText>Intensity</damageText>
             <enhanceCost>400</enhanceCost>
             <enhanceDamage>0.2</enhanceDamage>
             <enhanceRange>0.4</enhanceRange>
-            <enhanceReload>0.5</enhanceReload>
-            <property name="glueDuration">2.0</property>
+            <enhanceReload>0</enhanceReload>
+            <property name="glueDuration">2.5</property>
         </tower>
         <tower>
             <clazz>TeleportTower</clazz>
@@ -168,6 +214,7 @@
             <damage>8</damage>
             <range>3.5</range>
             <reload>5.0</reload>
+            <maxLevel>4</maxLevel>
             <damageText>Distance</damageText>
             <enhanceCost>600</enhanceCost>
             <enhanceDamage>2</enhanceDamage>
@@ -175,31 +222,33 @@
             <enhanceReload>1.0</enhanceReload>
         </tower>
     </towers>
+
+    <!-- Enemy Configuration -->
     <enemies>
         <enemy>
             <clazz>Soldier</clazz>
             <health>300</health>
-            <speed>1.5</speed>
+            <speed>1.0</speed>
             <reward>10</reward>
         </enemy>
         <enemy>
             <clazz>Blob</clazz>
             <health>600</health>
-            <speed>0.75</speed>
+            <speed>0.5</speed>
             <reward>20</reward>
         </enemy>
         <enemy>
             <clazz>Sprinter</clazz>
             <health>200</health>
-            <speed>4.0</speed>
+            <speed>3.0</speed>
             <reward>15</reward>
         </enemy>
         <enemy>
             <clazz>Healer</clazz>
             <health>400</health>
-            <speed>1.5</speed>
+            <speed>1.2</speed>
             <reward>30</reward>
-            <property name="healAmount">0.1</property>
+            <property name="healAmount">0.2</property>
             <property name="healInterval">5</property>
             <property name="healDuration">1.5</property>
             <property name="healRadius">0.7</property>
@@ -207,156 +256,160 @@
         <enemy>
             <clazz>Flyer</clazz>
             <health>400</health>
-            <speed>1.5</speed>
+            <speed>1.3</speed>
             <reward>30</reward>
         </enemy>
     </enemies>
+
+    <!-- Map Configuration -->
     <plateaus>
-        <plateau clazz="BasicPlateau" x="0" y="14"/>
-        <plateau clazz="BasicPlateau" x="0" y="13"/>
-        <plateau clazz="BasicPlateau" x="0" y="12"/>
-        <plateau clazz="BasicPlateau" x="0" y="11"/>
-        <plateau clazz="BasicPlateau" x="0" y="10"/>
-        <plateau clazz="BasicPlateau" x="0" y="9"/>
-        <plateau clazz="BasicPlateau" x="0" y="8"/>
-        <plateau clazz="BasicPlateau" x="0" y="7"/>
-        <plateau clazz="BasicPlateau" x="0" y="6"/>
-        <plateau clazz="BasicPlateau" x="0" y="5"/>
-        <plateau clazz="BasicPlateau" x="0" y="4"/>
-        <plateau clazz="BasicPlateau" x="0" y="3"/>
-        <plateau clazz="BasicPlateau" x="0" y="2"/>
-        <plateau clazz="BasicPlateau" x="0" y="1"/>
-        <plateau clazz="BasicPlateau" x="0" y="0"/>
+        <plateau clazz="BasicPlateau" x="0" y="14" />
+        <plateau clazz="BasicPlateau" x="0" y="13" />
+        <plateau clazz="BasicPlateau" x="0" y="12" />
+        <plateau clazz="BasicPlateau" x="0" y="11" />
+        <plateau clazz="BasicPlateau" x="0" y="10" />
+        <plateau clazz="BasicPlateau" x="0" y="9" />
+        <plateau clazz="BasicPlateau" x="0" y="8" />
+        <plateau clazz="BasicPlateau" x="0" y="7" />
+        <plateau clazz="BasicPlateau" x="0" y="6" />
+        <plateau clazz="BasicPlateau" x="0" y="5" />
+        <plateau clazz="BasicPlateau" x="0" y="4" />
+        <plateau clazz="BasicPlateau" x="0" y="3" />
+        <plateau clazz="BasicPlateau" x="0" y="2" />
+        <plateau clazz="BasicPlateau" x="0" y="1" />
+        <plateau clazz="BasicPlateau" x="0" y="0" />
 
-        <plateau clazz="BasicPlateau" x="1" y="14"/>
-        <plateau clazz="BasicPlateau" x="1" y="13"/>
-        <plateau clazz="BasicPlateau" x="1" y="12"/>
-        <plateau clazz="BasicPlateau" x="1" y="11"/>
-        <plateau clazz="BasicPlateau" x="1" y="10"/>
-        <plateau clazz="BasicPlateau" x="1" y="6"/>
-        <plateau clazz="BasicPlateau" x="1" y="5"/>
-        <plateau clazz="BasicPlateau" x="1" y="4"/>
-        <plateau clazz="BasicPlateau" x="1" y="3"/>
-        <plateau clazz="BasicPlateau" x="1" y="2"/>
+        <plateau clazz="BasicPlateau" x="1" y="14" />
+        <plateau clazz="BasicPlateau" x="1" y="13" />
+        <plateau clazz="BasicPlateau" x="1" y="12" />
+        <plateau clazz="BasicPlateau" x="1" y="11" />
+        <plateau clazz="BasicPlateau" x="1" y="10" />
+        <plateau clazz="BasicPlateau" x="1" y="6" />
+        <plateau clazz="BasicPlateau" x="1" y="5" />
+        <plateau clazz="BasicPlateau" x="1" y="4" />
+        <plateau clazz="BasicPlateau" x="1" y="3" />
+        <plateau clazz="BasicPlateau" x="1" y="2" />
 
-        <plateau clazz="BasicPlateau" x="2" y="11"/>
-        <plateau clazz="BasicPlateau" x="2" y="10"/>
-        <plateau clazz="BasicPlateau" x="2" y="8"/>
-        <plateau clazz="BasicPlateau" x="2" y="6"/>
-        <plateau clazz="BasicPlateau" x="2" y="5"/>
-        <plateau clazz="BasicPlateau" x="2" y="4"/>
-        <plateau clazz="BasicPlateau" x="2" y="3"/>
-        <plateau clazz="BasicPlateau" x="2" y="2"/>
-        <plateau clazz="BasicPlateau" x="2" y="0"/>
+        <plateau clazz="BasicPlateau" x="2" y="11" />
+        <plateau clazz="BasicPlateau" x="2" y="10" />
+        <plateau clazz="BasicPlateau" x="2" y="8" />
+        <plateau clazz="BasicPlateau" x="2" y="6" />
+        <plateau clazz="BasicPlateau" x="2" y="5" />
+        <plateau clazz="BasicPlateau" x="2" y="4" />
+        <plateau clazz="BasicPlateau" x="2" y="3" />
+        <plateau clazz="BasicPlateau" x="2" y="2" />
+        <plateau clazz="BasicPlateau" x="2" y="0" />
 
-        <plateau clazz="BasicPlateau" x="3" y="14"/>
-        <plateau clazz="BasicPlateau" x="3" y="13"/>
-        <plateau clazz="BasicPlateau" x="3" y="11"/>
-        <plateau clazz="BasicPlateau" x="3" y="10"/>
-        <plateau clazz="BasicPlateau" x="3" y="2"/>
-        <plateau clazz="BasicPlateau" x="3" y="0"/>
+        <plateau clazz="BasicPlateau" x="3" y="14" />
+        <plateau clazz="BasicPlateau" x="3" y="13" />
+        <plateau clazz="BasicPlateau" x="3" y="11" />
+        <plateau clazz="BasicPlateau" x="3" y="10" />
+        <plateau clazz="BasicPlateau" x="3" y="2" />
+        <plateau clazz="BasicPlateau" x="3" y="0" />
 
-        <plateau clazz="BasicPlateau" x="4" y="14"/>
-        <plateau clazz="BasicPlateau" x="4" y="13"/>
-        <plateau clazz="BasicPlateau" x="4" y="11"/>
-        <plateau clazz="BasicPlateau" x="4" y="10"/>
-        <plateau clazz="BasicPlateau" x="4" y="9"/>
-        <plateau clazz="BasicPlateau" x="4" y="8"/>
-        <plateau clazz="BasicPlateau" x="4" y="6"/>
-        <plateau clazz="BasicPlateau" x="4" y="5"/>
-        <plateau clazz="BasicPlateau" x="4" y="4"/>
-        <plateau clazz="BasicPlateau" x="4" y="2"/>
-        <plateau clazz="BasicPlateau" x="4" y="0"/>
+        <plateau clazz="BasicPlateau" x="4" y="14" />
+        <plateau clazz="BasicPlateau" x="4" y="13" />
+        <plateau clazz="BasicPlateau" x="4" y="11" />
+        <plateau clazz="BasicPlateau" x="4" y="10" />
+        <plateau clazz="BasicPlateau" x="4" y="9" />
+        <plateau clazz="BasicPlateau" x="4" y="8" />
+        <plateau clazz="BasicPlateau" x="4" y="6" />
+        <plateau clazz="BasicPlateau" x="4" y="5" />
+        <plateau clazz="BasicPlateau" x="4" y="4" />
+        <plateau clazz="BasicPlateau" x="4" y="2" />
+        <plateau clazz="BasicPlateau" x="4" y="0" />
 
-        <plateau clazz="BasicPlateau" x="5" y="14"/>
-        <plateau clazz="BasicPlateau" x="5" y="13"/>
-        <plateau clazz="BasicPlateau" x="5" y="11"/>
-        <plateau clazz="BasicPlateau" x="5" y="10"/>
-        <plateau clazz="BasicPlateau" x="5" y="9"/>
-        <plateau clazz="BasicPlateau" x="5" y="8"/>
-        <plateau clazz="BasicPlateau" x="5" y="6"/>
-        <plateau clazz="BasicPlateau" x="5" y="5"/>
-        <plateau clazz="BasicPlateau" x="5" y="4"/>
-        <plateau clazz="BasicPlateau" x="5" y="2"/>
-        <plateau clazz="BasicPlateau" x="5" y="0"/>
+        <plateau clazz="BasicPlateau" x="5" y="14" />
+        <plateau clazz="BasicPlateau" x="5" y="13" />
+        <plateau clazz="BasicPlateau" x="5" y="11" />
+        <plateau clazz="BasicPlateau" x="5" y="10" />
+        <plateau clazz="BasicPlateau" x="5" y="9" />
+        <plateau clazz="BasicPlateau" x="5" y="8" />
+        <plateau clazz="BasicPlateau" x="5" y="6" />
+        <plateau clazz="BasicPlateau" x="5" y="5" />
+        <plateau clazz="BasicPlateau" x="5" y="4" />
+        <plateau clazz="BasicPlateau" x="5" y="2" />
+        <plateau clazz="BasicPlateau" x="5" y="0" />
 
-        <plateau clazz="BasicPlateau" x="6" y="14"/>
-        <plateau clazz="BasicPlateau" x="6" y="13"/>
-        <plateau clazz="BasicPlateau" x="6" y="11"/>
-        <plateau clazz="BasicPlateau" x="6" y="10"/>
-        <plateau clazz="BasicPlateau" x="6" y="9"/>
-        <plateau clazz="BasicPlateau" x="6" y="8"/>
-        <plateau clazz="BasicPlateau" x="6" y="6"/>
-        <plateau clazz="BasicPlateau" x="6" y="5"/>
-        <plateau clazz="BasicPlateau" x="6" y="4"/>
-        <plateau clazz="BasicPlateau" x="6" y="2"/>
-        <plateau clazz="BasicPlateau" x="6" y="0"/>
+        <plateau clazz="BasicPlateau" x="6" y="14" />
+        <plateau clazz="BasicPlateau" x="6" y="13" />
+        <plateau clazz="BasicPlateau" x="6" y="11" />
+        <plateau clazz="BasicPlateau" x="6" y="10" />
+        <plateau clazz="BasicPlateau" x="6" y="9" />
+        <plateau clazz="BasicPlateau" x="6" y="8" />
+        <plateau clazz="BasicPlateau" x="6" y="6" />
+        <plateau clazz="BasicPlateau" x="6" y="5" />
+        <plateau clazz="BasicPlateau" x="6" y="4" />
+        <plateau clazz="BasicPlateau" x="6" y="2" />
+        <plateau clazz="BasicPlateau" x="6" y="0" />
 
-        <plateau clazz="BasicPlateau" x="7" y="14"/>
-        <plateau clazz="BasicPlateau" x="7" y="13"/>
-        <plateau clazz="BasicPlateau" x="7" y="11"/>
-        <plateau clazz="BasicPlateau" x="7" y="10"/>
-        <plateau clazz="BasicPlateau" x="7" y="9"/>
-        <plateau clazz="BasicPlateau" x="7" y="8"/>
-        <plateau clazz="BasicPlateau" x="7" y="6"/>
-        <plateau clazz="BasicPlateau" x="7" y="5"/>
-        <plateau clazz="BasicPlateau" x="7" y="4"/>
-        <plateau clazz="BasicPlateau" x="7" y="0"/>
+        <plateau clazz="BasicPlateau" x="7" y="14" />
+        <plateau clazz="BasicPlateau" x="7" y="13" />
+        <plateau clazz="BasicPlateau" x="7" y="11" />
+        <plateau clazz="BasicPlateau" x="7" y="10" />
+        <plateau clazz="BasicPlateau" x="7" y="9" />
+        <plateau clazz="BasicPlateau" x="7" y="8" />
+        <plateau clazz="BasicPlateau" x="7" y="6" />
+        <plateau clazz="BasicPlateau" x="7" y="5" />
+        <plateau clazz="BasicPlateau" x="7" y="4" />
+        <plateau clazz="BasicPlateau" x="7" y="0" />
 
-        <plateau clazz="BasicPlateau" x="8" y="14"/>
-        <plateau clazz="BasicPlateau" x="8" y="13"/>
-        <plateau clazz="BasicPlateau" x="8" y="6"/>
-        <plateau clazz="BasicPlateau" x="8" y="5"/>
-        <plateau clazz="BasicPlateau" x="8" y="4"/>
-        <plateau clazz="BasicPlateau" x="8" y="3"/>
-        <plateau clazz="BasicPlateau" x="8" y="2"/>
-        <plateau clazz="BasicPlateau" x="8" y="1"/>
-        <plateau clazz="BasicPlateau" x="8" y="0"/>
+        <plateau clazz="BasicPlateau" x="8" y="14" />
+        <plateau clazz="BasicPlateau" x="8" y="13" />
+        <plateau clazz="BasicPlateau" x="8" y="6" />
+        <plateau clazz="BasicPlateau" x="8" y="5" />
+        <plateau clazz="BasicPlateau" x="8" y="4" />
+        <plateau clazz="BasicPlateau" x="8" y="3" />
+        <plateau clazz="BasicPlateau" x="8" y="2" />
+        <plateau clazz="BasicPlateau" x="8" y="1" />
+        <plateau clazz="BasicPlateau" x="8" y="0" />
 
-        <plateau clazz="BasicPlateau" x="9" y="14"/>
-        <plateau clazz="BasicPlateau" x="9" y="13"/>
-        <plateau clazz="BasicPlateau" x="9" y="12"/>
-        <plateau clazz="BasicPlateau" x="9" y="11"/>
-        <plateau clazz="BasicPlateau" x="9" y="10"/>
-        <plateau clazz="BasicPlateau" x="9" y="9"/>
-        <plateau clazz="BasicPlateau" x="9" y="8"/>
-        <plateau clazz="BasicPlateau" x="9" y="7"/>
-        <plateau clazz="BasicPlateau" x="9" y="6"/>
-        <plateau clazz="BasicPlateau" x="9" y="5"/>
-        <plateau clazz="BasicPlateau" x="9" y="4"/>
-        <plateau clazz="BasicPlateau" x="9" y="3"/>
-        <plateau clazz="BasicPlateau" x="9" y="2"/>
-        <plateau clazz="BasicPlateau" x="9" y="1"/>
-        <plateau clazz="BasicPlateau" x="9" y="0"/>
+        <plateau clazz="BasicPlateau" x="9" y="14" />
+        <plateau clazz="BasicPlateau" x="9" y="13" />
+        <plateau clazz="BasicPlateau" x="9" y="12" />
+        <plateau clazz="BasicPlateau" x="9" y="11" />
+        <plateau clazz="BasicPlateau" x="9" y="10" />
+        <plateau clazz="BasicPlateau" x="9" y="9" />
+        <plateau clazz="BasicPlateau" x="9" y="8" />
+        <plateau clazz="BasicPlateau" x="9" y="7" />
+        <plateau clazz="BasicPlateau" x="9" y="6" />
+        <plateau clazz="BasicPlateau" x="9" y="5" />
+        <plateau clazz="BasicPlateau" x="9" y="4" />
+        <plateau clazz="BasicPlateau" x="9" y="3" />
+        <plateau clazz="BasicPlateau" x="9" y="2" />
+        <plateau clazz="BasicPlateau" x="9" y="1" />
+        <plateau clazz="BasicPlateau" x="9" y="0" />
     </plateaus>
     <paths>
         <path>
-            <vector2 x="2" y="15.5"/>
-            <vector2 x="2" y="12"/>
-            <vector2 x="8" y="12"/>
-            <vector2 x="8" y="7"/>
-            <vector2 x="1" y="7"/>
-            <vector2 x="1" y="9"/>
-            <vector2 x="3" y="9"/>
-            <vector2 x="3" y="3"/>
-            <vector2 x="7" y="3"/>
-            <vector2 x="7" y="1"/>
-            <vector2 x="1" y="1"/>
-            <vector2 x="1" y="-1.5"/>
+            <vector2 x="2" y="15.5" />
+            <vector2 x="2" y="12" />
+            <vector2 x="8" y="12" />
+            <vector2 x="8" y="7" />
+            <vector2 x="1" y="7" />
+            <vector2 x="1" y="9" />
+            <vector2 x="3" y="9" />
+            <vector2 x="3" y="3" />
+            <vector2 x="7" y="3" />
+            <vector2 x="7" y="1" />
+            <vector2 x="1" y="1" />
+            <vector2 x="1" y="-1.5" />
         </path>
     </paths>
+
+    <!-- Wave Configuration -->
     <waves>
         <!-- Wave 1 -->
         <wave>
             <waveReward>100</waveReward>
             <extend>2</extend>
             <enemies>
-                <enemy clazz="Soldier" delay="5"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
+                <enemy clazz="Soldier" delay="8" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
             </enemies>
         </wave>
         <!-- Wave 2 -->
@@ -364,19 +417,19 @@
             <waveReward>100</waveReward>
             <extend>2</extend>
             <enemies>
-                <enemy clazz="Soldier" delay="5"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
+                <enemy clazz="Soldier" delay="8" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
 
-                <enemy clazz="Soldier" delay="8"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
+                <enemy clazz="Soldier" delay="8" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
             </enemies>
         </wave>
         <!-- Wave 3 -->
@@ -384,19 +437,19 @@
             <waveReward>120</waveReward>
             <extend>1</extend>
             <enemies>
-                <enemy clazz="Soldier" delay="5"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
+                <enemy clazz="Soldier" delay="8" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
 
-                <enemy clazz="Blob" delay="5"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
+                <enemy clazz="Blob" delay="8" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
             </enemies>
         </wave>
         <!-- Wave 4 -->
@@ -404,26 +457,26 @@
             <waveReward>120</waveReward>
             <extend>1</extend>
             <enemies>
-                <enemy clazz="Soldier" delay="5"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
+                <enemy clazz="Soldier" delay="8" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
 
-                <enemy clazz="Blob" delay="5"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
+                <enemy clazz="Blob" delay="8" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
 
-                <enemy clazz="Soldier" delay="5"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
+                <enemy clazz="Soldier" delay="8" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
             </enemies>
         </wave>
         <!-- Wave 5 -->
@@ -431,26 +484,26 @@
             <waveReward>150</waveReward>
             <extend>1</extend>
             <enemies>
-                <enemy clazz="Sprinter" delay="5"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
+                <enemy clazz="Sprinter" delay="8" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
 
-                <enemy clazz="Soldier" delay="5"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
+                <enemy clazz="Soldier" delay="8" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
 
-                <enemy clazz="Blob" delay="5"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
+                <enemy clazz="Blob" delay="8" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
             </enemies>
         </wave>
         <!-- Wave 6 -->
@@ -458,40 +511,40 @@
             <waveReward>150</waveReward>
             <extend>1</extend>
             <enemies>
-                <enemy clazz="Soldier" delay="5"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
+                <enemy clazz="Soldier" delay="8" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
 
-                <enemy clazz="Sprinter" delay="3"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
+                <enemy clazz="Sprinter" delay="5" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
 
-                <enemy clazz="Blob" delay="3"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
+                <enemy clazz="Blob" delay="5" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
 
-                <enemy clazz="Sprinter" delay="5"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
+                <enemy clazz="Sprinter" delay="8" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
 
-                <enemy clazz="Soldier" delay="3"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
+                <enemy clazz="Soldier" delay="5" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
             </enemies>
         </wave>
         <!-- Wave 7 -->
@@ -499,18 +552,18 @@
             <waveReward>170</waveReward>
             <extend>1</extend>
             <enemies>
-                <enemy clazz="Flyer" delay="5"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
+                <enemy clazz="Flyer" delay="8" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
 
-                <enemy clazz="Soldier" offsetY="1.1" delay="3"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
+                <enemy clazz="Soldier" delay="5" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
             </enemies>
         </wave>
         <!-- Wave 8 -->
@@ -518,40 +571,40 @@
             <waveReward>170</waveReward>
             <extend>1</extend>
             <enemies>
-                <enemy clazz="Sprinter" delay="5"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
+                <enemy clazz="Sprinter" delay="8" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
 
-                <enemy clazz="Blob" delay="4"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
+                <enemy clazz="Blob" delay="6" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
 
-                <enemy clazz="Flyer" delay="4"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
+                <enemy clazz="Flyer" delay="6" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
 
-                <enemy clazz="Soldier" delay="4"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
+                <enemy clazz="Soldier" delay="6" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
 
-                <enemy clazz="Sprinter" delay="4"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
+                <enemy clazz="Sprinter" delay="6" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
             </enemies>
         </wave>
         <!-- Wave 9 -->
@@ -559,55 +612,55 @@
             <waveReward>190</waveReward>
             <extend>1</extend>
             <enemies>
-                <enemy clazz="Sprinter" delay="5"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
+                <enemy clazz="Sprinter" delay="8" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
 
-                <enemy clazz="Blob" delay="3"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
+                <enemy clazz="Blob" delay="5" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
 
-                <enemy clazz="Flyer" delay="3"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
+                <enemy clazz="Flyer" delay="5" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
 
-                <enemy clazz="Soldier" delay="3"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
+                <enemy clazz="Soldier" delay="5" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
 
-                <enemy clazz="Sprinter" delay="3"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
+                <enemy clazz="Sprinter" delay="5" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
             </enemies>
         </wave>
         <!-- Wave 10 -->
@@ -615,32 +668,32 @@
             <waveReward>190</waveReward>
             <extend>1</extend>
             <enemies>
-                <enemy clazz="Healer" delay="5"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
+                <enemy clazz="Healer" delay="8" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
 
-                <enemy clazz="Sprinter" delay="5"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
+                <enemy clazz="Sprinter" delay="8" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
 
-                <enemy clazz="Blob" delay="5"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
+                <enemy clazz="Blob" delay="8" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
             </enemies>
         </wave>
         <!-- Wave 11 -->
@@ -648,17 +701,17 @@
             <waveReward>240</waveReward>
             <extend>1</extend>
             <enemies>
-                <enemy clazz="Healer" delay="5"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
+                <enemy clazz="Healer" delay="8" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
             </enemies>
         </wave>
         <!-- Wave 12 -->
@@ -666,31 +719,31 @@
             <waveReward>240</waveReward>
             <extend>1</extend>
             <enemies>
-                <enemy clazz="Healer" delay="5"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
+                <enemy clazz="Healer" delay="8" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
 
-                <enemy clazz="Flyer" delay="5"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
+                <enemy clazz="Flyer" delay="8" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
 
-                <enemy clazz="Sprinter" delay="5"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
+                <enemy clazz="Sprinter" delay="8" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
             </enemies>
         </wave>
         <!-- Wave 13 -->
@@ -698,29 +751,29 @@
             <waveReward>240</waveReward>
             <extend>1</extend>
             <enemies>
-                <enemy clazz="Healer" delay="5"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
+                <enemy clazz="Healer" delay="8" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
 
-                <enemy clazz="Soldier" delay="4"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
+                <enemy clazz="Soldier" delay="6" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
 
-                <enemy clazz="Healer" delay="4"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
+                <enemy clazz="Healer" delay="6" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
 
-                <enemy clazz="Soldier" delay="4"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
+                <enemy clazz="Soldier" delay="6" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
             </enemies>
         </wave>
         <!-- Wave 14 -->
@@ -728,29 +781,29 @@
             <waveReward>240</waveReward>
             <extend>1</extend>
             <enemies>
-                <enemy clazz="Healer" delay="5"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
+                <enemy clazz="Healer" delay="8" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
 
-                <enemy clazz="Blob" delay="4"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
+                <enemy clazz="Blob" delay="6" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
 
-                <enemy clazz="Healer" delay="4"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
+                <enemy clazz="Healer" delay="6" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
 
-                <enemy clazz="Flyer" delay="4"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
+                <enemy clazz="Flyer" delay="6" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
             </enemies>
         </wave>
         <!-- Wave 15 -->
@@ -758,105 +811,105 @@
             <waveReward>300</waveReward>
             <extend>1</extend>
             <enemies>
-                <enemy clazz="Soldier" delay="5"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
+                <enemy clazz="Soldier" delay="8" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
 
-                <enemy clazz="Blob" delay="2"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
+                <enemy clazz="Blob" delay="5" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
 
-                <enemy clazz="Healer" delay="2"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
+                <enemy clazz="Healer" delay="5" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
 
-                <enemy clazz="Flyer" delay="2"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
+                <enemy clazz="Flyer" delay="4" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
 
-                <enemy clazz="Sprinter" delay="2"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
+                <enemy clazz="Sprinter" delay="5" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
 
-                <enemy clazz="Healer" delay="2"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
+                <enemy clazz="Healer" delay="5" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
 
-                <enemy clazz="Soldier" delay="4"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
-                <enemy clazz="Soldier" offsetY="1.1"/>
+                <enemy clazz="Soldier" delay="6" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
+                <enemy clazz="Soldier" offsetY="1.1" />
 
-                <enemy clazz="Blob" delay="2"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
-                <enemy clazz="Blob" offsetY="1.1"/>
+                <enemy clazz="Blob" delay="5" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
+                <enemy clazz="Blob" offsetY="1.1" />
 
-                <enemy clazz="Healer" delay="2"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
+                <enemy clazz="Healer" delay="5" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
 
-                <enemy clazz="Flyer" delay="2"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
-                <enemy clazz="Flyer" offsetY="1.1"/>
+                <enemy clazz="Flyer" delay="4" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
+                <enemy clazz="Flyer" offsetY="1.1" />
 
-                <enemy clazz="Sprinter" delay="2"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
-                <enemy clazz="Sprinter" offsetY="1.1"/>
+                <enemy clazz="Sprinter" delay="5" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
+                <enemy clazz="Sprinter" offsetY="1.1" />
 
-                <enemy clazz="Healer" delay="2"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
-                <enemy clazz="Healer" offsetY="1.1"/>
+                <enemy clazz="Healer" delay="5" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
             </enemies>
         </wave>
     </waves>

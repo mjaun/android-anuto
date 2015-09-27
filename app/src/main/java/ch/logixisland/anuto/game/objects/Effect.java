@@ -15,14 +15,33 @@ public abstract class Effect extends GameObject {
     ------ Members ------
      */
 
+    private GameObject mOrigin;
+
     private TickTimer mTimer;
     private boolean mEffectBegun = false;
 
-    protected float mDuration = 0f;
+    private float mDuration;
+
+    /*
+    ------ Constructors ------
+     */
+
+    protected Effect(GameObject origin, float duration) {
+        mOrigin = origin;
+        mDuration = duration;
+    }
 
     /*
     ------ Methods ------
      */
+
+    public GameObject getOrigin() {
+        return mOrigin;
+    }
+
+    public float getDuration() {
+        return mDuration;
+    }
 
     @Override
     public int getTypeId() {

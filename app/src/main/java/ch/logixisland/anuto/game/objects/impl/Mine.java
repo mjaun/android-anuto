@@ -7,6 +7,7 @@ import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.DrawObject;
 import ch.logixisland.anuto.game.objects.Enemy;
+import ch.logixisland.anuto.game.objects.GameObject;
 import ch.logixisland.anuto.game.objects.Shot;
 import ch.logixisland.anuto.game.objects.Sprite;
 import ch.logixisland.anuto.util.iterator.Predicate;
@@ -38,11 +39,13 @@ public class Mine extends Shot {
 
     private Sprite.FixedInstance mSprite;
 
-    public Mine(Vector2 position, Vector2 target, float damage, float radius) {
+    public Mine(GameObject origin, Vector2 position, Vector2 target, float damage, float radius) {
+        super(origin);
         setPosition(position);
 
-        mSpeed = getDistanceTo(target) / TIME_TO_TARGET;
-        mDirection = getDirectionTo(target);
+        setSpeed(getDistanceTo(target) / TIME_TO_TARGET);
+        setDirection(getDirectionTo(target));
+
         mDamage = damage;
         mRadius = radius;
 
@@ -107,7 +110,7 @@ public class Mine extends Shot {
 
             if (mHeightScalingFunction.getPosition() >= GameEngine.TARGET_FRAME_RATE * TIME_TO_TARGET) {
                 mFlying = false;
-                mSpeed = 0f;
+                setSpeed(0f);
             }
         } else if (getGame().tick100ms(this)) {
             StreamIterator<Enemy> enemiesInRange = getGame().get(Enemy.TYPE_ID)
@@ -121,7 +124,7 @@ public class Mine extends Shot {
                     });
 
             if (!enemiesInRange.isEmpty()) {
-                getGame().add(new Explosion(getPosition(), mDamage, mRadius));
+                getGame().add(new Explosion(getOrigin(), getPosition(), mDamage, mRadius));
                 this.remove();
             }
         }

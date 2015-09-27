@@ -7,6 +7,7 @@ import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.Layers;
 import ch.logixisland.anuto.game.objects.DrawObject;
 import ch.logixisland.anuto.game.objects.Enemy;
+import ch.logixisland.anuto.game.objects.GameObject;
 import ch.logixisland.anuto.game.objects.Shot;
 import ch.logixisland.anuto.game.objects.Sprite;
 import ch.logixisland.anuto.util.math.Vector2;
@@ -24,12 +25,13 @@ public class CanonShotMG extends Shot {
 
     private Sprite.FixedInstance mSprite;
 
-    public CanonShotMG(Vector2 position, Vector2 direction, float damage) {
+    public CanonShotMG(GameObject origin, Vector2 position, Vector2 direction, float damage) {
+        super(origin);
         setPosition(position);
+        setSpeed(MOVEMENT_SPEED);
+        setDirection(direction);
 
-        mSpeed = MOVEMENT_SPEED;
-        mDirection = direction;
-        mAngle = mDirection.angle();
+        mAngle = direction.angle();
         mDamage = damage;
 
         StaticData s = (StaticData)getStaticData();
@@ -79,7 +81,7 @@ public class CanonShotMG extends Shot {
                 .first();
 
         if (enemy != null) {
-            enemy.damage(mDamage);
+            enemy.damage(mDamage, getOrigin());
             this.remove();
         }
 
