@@ -99,6 +99,13 @@ public class MineLayer extends Tower {
     }
 
     @Override
+    public void enhance() {
+        super.enhance();
+        mMaxMineCount += getProperty("enhanceMaxMineCount");
+        mExplosionRadius += getProperty("enhanceExplosionRadius");
+    }
+
+    @Override
     public void onDraw(DrawObject sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
 

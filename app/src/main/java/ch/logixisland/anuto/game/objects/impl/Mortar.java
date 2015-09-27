@@ -75,6 +75,12 @@ public class Mortar extends AimingTower {
     }
 
     @Override
+    public void enhance() {
+        super.enhance();
+        mExplosionRadius += getProperty("enhanceExplosionRadius");
+    }
+
+    @Override
     public void onDraw(DrawObject sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
 
