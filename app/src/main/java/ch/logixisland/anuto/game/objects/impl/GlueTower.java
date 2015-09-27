@@ -170,7 +170,7 @@ public class GlueTower extends Tower {
             while (dist < sect.len) {
                 final Vector2 target = Vector2.polar(dist, angle).add(sect.p1);
 
-                boolean free = StreamIterator.fromIterator(mTargets.iterator())
+                boolean free = StreamIterator.fromIterable(mTargets)
                         .filter(new Predicate<Vector2>() {
                             @Override
                             public boolean apply(Vector2 value) {

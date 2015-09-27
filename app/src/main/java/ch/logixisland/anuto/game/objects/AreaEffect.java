@@ -34,7 +34,7 @@ public abstract class AreaEffect extends Effect {
      */
 
     public StreamIterator<Enemy> getEnemiesInRange() {
-        return StreamIterator.fromIterator(mAffectedEnemies.iterator());
+        return StreamIterator.fromIterable(mAffectedEnemies);
     }
 
 

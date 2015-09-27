@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public abstract class StreamIterator<T> implements Iterator<T> {
 
@@ -21,6 +22,35 @@ public abstract class StreamIterator<T> implements Iterator<T> {
             @Override
             public T next() {
                 return it.next();
+            }
+        };
+    }
+
+    public static <T> StreamIterator<T> fromIterable(final Iterable<T> it) {
+        return fromIterator(it.iterator());
+    }
+
+    public static <T> StreamIterator<T> fromArray(final T[] array) {
+        return new StreamIterator<T>() {
+            int mIndex = 0;
+
+            @Override
+            public void close() {
+
+            }
+
+            @Override
+            public boolean hasNext() {
+                return mIndex < array.length;
+            }
+
+            @Override
+            public T next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+
+                return array[mIndex++];
             }
         };
     }
@@ -79,6 +109,21 @@ public abstract class StreamIterator<T> implements Iterator<T> {
         }
 
         return ret;
+    }
+
+    public String toString(String delim) {
+        StringBuilder sb = new StringBuilder();
+
+        if (this.hasNext()) {
+            sb.append(this.next().toString());
+        }
+
+        while (this.hasNext()) {
+            sb.append(delim);
+            sb.append(this.next().toString());
+        }
+
+        return sb.toString();
     }
 
 

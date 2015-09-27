@@ -21,7 +21,7 @@ public class ListenerList<T> {
         return new Iterable<S>() {
             @Override
             public Iterator<S> iterator() {
-                return StreamIterator.fromIterator(mListeners.iterator()).ofType(type);
+                return StreamIterator.fromIterable(mListeners).ofType(type);
             }
         };
     }
