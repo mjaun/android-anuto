@@ -70,7 +70,7 @@ public class Healer extends Enemy {
     private Sprite.Instance mSprite;
 
     public Healer() {
-        mHealAmount = getProperty("healAmount") * getHealth();
+        mHealAmount = getProperty("healAmount");
         mHealRange = getProperty("healRadius");
 
         mStatic = (StaticData)getStaticData();

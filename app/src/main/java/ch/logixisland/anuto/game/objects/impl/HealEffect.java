@@ -83,7 +83,7 @@ public class HealEffect extends Effect {
 
         while (enemies.hasNext()) {
             Enemy e = enemies.next();
-            e.heal(mHealAmount);
+            e.heal(mHealAmount * e.getHealthMax());
         }
     }
 

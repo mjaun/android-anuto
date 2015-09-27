@@ -266,6 +266,10 @@ public abstract class Enemy extends GameObject {
         return mHealth * mHealthModifier;
     }
 
+    public float getHealthMax() {
+        return mConfig.health * mHealthModifier;
+    }
+
     public void damage(float dmg) {
         mHealth -= dmg / mHealthModifier;
 
