@@ -117,10 +117,10 @@ public class GameEngine {
     ------ Members ------
      */
 
-    private HandlerThread mGameThread;
-    private Handler mGameHandler;
-    private boolean mRunning = false;
+    private final HandlerThread mGameThread;
+    private final Handler mGameHandler;
 
+    private volatile boolean mRunning = false;
     private volatile int mMaxTickTime;
     private volatile int mMaxRenderTime;
     private volatile long mTickCount = 0;
@@ -145,6 +145,10 @@ public class GameEngine {
      */
 
     private GameEngine() {
+        mGameThread = new HandlerThread("GameEngine");
+        mGameThread.start();
+
+        mGameHandler = new Handler(mGameThread.getLooper());
     }
 
     /*
@@ -334,21 +338,23 @@ public class GameEngine {
 
             mTickCount++;
 
-            int sleepTime = TARGET_FRAME_PERIOD_MS - tickTime;
-            if (sleepTime < 0) {
-                mGameHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        tick();
-                    }
-                });
-            } else {
-                mGameHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        tick();
-                    }
-                }, sleepTime);
+            if (mRunning) {
+                int sleepTime = TARGET_FRAME_PERIOD_MS - tickTime;
+                if (sleepTime < 0) {
+                    mGameHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            tick();
+                        }
+                    });
+                } else {
+                    mGameHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            tick();
+                        }
+                    }, sleepTime);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -376,14 +382,9 @@ public class GameEngine {
 
     public void start() {
         if (!mRunning) {
+            Log.i(TAG, "Starting game loop");
             mRunning = true;
 
-            Log.i(TAG, "Starting game loop");
-
-            mGameThread = new HandlerThread("GameThread-0");
-            mGameThread.start();
-
-            mGameHandler = new Handler(mGameThread.getLooper());
             mGameHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -395,14 +396,8 @@ public class GameEngine {
 
     public void stop() {
         if (mRunning) {
-            mRunning = false;
-
             Log.i(TAG, "Stopping game loop");
-
-            mGameThread.quit();
-
-            mGameThread = null;
-            mGameHandler = null;
+            mRunning = false;
         }
     }
 

@@ -109,7 +109,7 @@ public class GameManager {
         private boolean mNextWaveReady;
 
         private int mEnemiesInQueue;
-        private List<Enemy> mEnemiesInGame = new CopyOnWriteArrayList<>();
+        private int mEnemiesInGame;
 
         private volatile int mWaveReward;
         private volatile float mHealthModifier;
@@ -135,7 +135,10 @@ public class GameManager {
                     float offsetX = 0f;
                     float offsetY = 0f;
 
+                    mAborted = false;
                     mEnemiesInQueue = mWave.enemies.size() * (mExtend + 1);
+                    mEnemiesInGame = 0;
+
                     mActiveWaves.add(WaveManager.this);
 
                     for (int i = 0; i < mExtend + 1; i++) {
@@ -182,7 +185,7 @@ public class GameManager {
                 @Override
                 public void run() {
                     mWaveHandler.removeCallbacksAndMessages(null);
-                    mEnemiesInQueue = 0;
+                    mActiveWaves.remove(WaveManager.this);
                     mAborted = true;
                 }
             });
@@ -201,7 +204,7 @@ public class GameManager {
         @Override
         public void onObjectAdded(GameObject obj) {
             mEnemiesInQueue--;
-            mEnemiesInGame.add((Enemy) obj);
+            mEnemiesInGame++;
 
             if (mEnemiesInQueue == 0 && hasNextWave() && !mAborted && !mNextWaveReady) {
                 mNextWaveReady = true;
@@ -217,10 +220,11 @@ public class GameManager {
 
         @Override
         public void onObjectRemoved(GameObject obj) {
-            mEnemiesInGame.remove(obj);
+            mEnemiesInGame--;
+
             mEarlyBonus -= ((Enemy)obj).getReward();
 
-            if (mEnemiesInQueue == 0 && mEnemiesInGame.isEmpty() && !mAborted) {
+            if (mEnemiesInQueue == 0 && mEnemiesInGame == 0 && !mAborted) {
                 mActiveWaves.remove(this);
 
                 giveCredits(mWaveReward, true);
