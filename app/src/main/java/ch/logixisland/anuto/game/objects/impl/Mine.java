@@ -18,7 +18,6 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class Mine extends Shot {
 
-    private final static float DETECT_RADIUS = 0.2f;
     private final static float TIME_TO_TARGET = 1.5f;
     private final static float ROTATION_RATE_MIN = 0.5f;
     private final static float ROTATION_RATE_MAX = 2.0f;
@@ -114,7 +113,7 @@ public class Mine extends Shot {
             }
         } else if (getGame().tick100ms(this)) {
             StreamIterator<Enemy> enemiesInRange = getGame().get(Enemy.TYPE_ID)
-                    .filter(inRange(getPosition(), DETECT_RADIUS))
+                    .filter(inRange(getPosition(), mRadius * 0.5f))
                     .cast(Enemy.class)
                     .filter(new Predicate<Enemy>() {
                         @Override
