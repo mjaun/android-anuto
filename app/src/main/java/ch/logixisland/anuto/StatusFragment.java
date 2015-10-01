@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import ch.logixisland.anuto.game.GameManager;
 import ch.logixisland.anuto.game.data.Wave;
+import ch.logixisland.anuto.util.StringUtils;
 
 public class StatusFragment extends Fragment implements GameManager.OnWaveStartedListener,
         GameManager.OnCreditsChangedListener, GameManager.OnLivesChangedListener,
@@ -88,7 +89,6 @@ public class StatusFragment extends Fragment implements GameManager.OnWaveStarte
                                 break;
 
                             case DialogInterface.BUTTON_NEGATIVE:
-                                // No button clicked
                                 break;
                         }
                     }
@@ -129,7 +129,7 @@ public class StatusFragment extends Fragment implements GameManager.OnWaveStarte
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                txt_credits.setText(getResources().getString(R.string.status_credits) + ": " + credits);
+                txt_credits.setText(getResources().getString(R.string.status_credits) + ": " + StringUtils.formatSuffix(credits));
             }
         });
     }
@@ -170,8 +170,10 @@ public class StatusFragment extends Fragment implements GameManager.OnWaveStarte
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                txt_bonus.setText(String.format("%s: %d (+%d)",
-                        getResources().getString(R.string.status_bonus), bonus, earlyBonus));
+                txt_bonus.setText(String.format("%s: %s (+%s)",
+                        getResources().getString(R.string.status_bonus),
+                        StringUtils.formatSuffix(bonus),
+                        StringUtils.formatSuffix(earlyBonus)));
             }
         });
     }

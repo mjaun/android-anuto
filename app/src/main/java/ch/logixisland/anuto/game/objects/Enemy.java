@@ -281,6 +281,8 @@ public abstract class Enemy extends GameObject {
             if (originTower.getConfig().weakAgainst.contains(getClass())) {
                 dmg *= getManager().getSettings().weakAgainstModifier;
             }
+
+            originTower.reportDamageInflicted(dmg);
         }
 
         mHealth -= dmg / mHealthModifier;

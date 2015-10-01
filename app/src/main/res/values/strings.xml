@@ -16,6 +16,7 @@
     <string name="damage">Damage</string>
     <string name="reload">Reload</string>
     <string name="range">Range</string>
+    <string name="inflicted">Inflicted</string>
 
     <string name="lock_target">Lock Target</string>
     <string name="strategy">Strategy</string>

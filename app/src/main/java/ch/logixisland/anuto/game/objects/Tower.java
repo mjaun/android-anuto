@@ -72,6 +72,7 @@ public abstract class Tower extends GameObject {
     private float mDamage;
     private float mRange;
     private float mReloadTime;
+    private float mDamageInflicted;
 
     private Plateau mPlateau = null;
     private boolean mReloaded = false;
@@ -187,6 +188,15 @@ public abstract class Tower extends GameObject {
     }
 
 
+    public float getDamageInflicted() {
+        return mDamageInflicted;
+    }
+
+    public void reportDamageInflicted(float damage) {
+        mDamageInflicted += damage;
+    }
+
+
     public void buy() {
         getManager().takeCredits(mValue);
         mValue *= getManager().getSettings().ageModifier;
@@ -269,6 +279,7 @@ public abstract class Tower extends GameObject {
     public int getLevelMax() {
         return mConfig.maxLevel;
     }
+
 
     public void showRange() {
         if (mRangeIndicator == null) {
