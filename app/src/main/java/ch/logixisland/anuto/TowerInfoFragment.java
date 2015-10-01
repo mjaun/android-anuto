@@ -30,10 +30,12 @@ public class TowerInfoFragment extends Fragment implements
 
     private Tower mTower;
 
+    private TextView txt_level;
     private TextView txt_damage;
     private TextView txt_range;
     private TextView txt_reload;
 
+    private TextView txt_level_text;
     private TextView txt_damage_text;
     private TextView txt_range_text;
     private TextView txt_reload_text;
@@ -52,10 +54,12 @@ public class TowerInfoFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_tower_info, container, false);
 
+        txt_level = (TextView)v.findViewById(R.id.txt_level);
         txt_damage = (TextView)v.findViewById(R.id.txt_damage);
         txt_range = (TextView)v.findViewById(R.id.txt_range);
         txt_reload = (TextView)v.findViewById(R.id.txt_reload);
 
+        txt_level_text = (TextView)v.findViewById(R.id.txt_level_text);
         txt_damage_text = (TextView)v.findViewById(R.id.txt_damage_text);
         txt_range_text = (TextView)v.findViewById(R.id.txt_range_text);
         txt_reload_text = (TextView)v.findViewById(R.id.txt_reload_text);
@@ -76,6 +80,7 @@ public class TowerInfoFragment extends Fragment implements
 
         view_tower.setEnabled(false);
 
+        txt_level_text.setText(getResources().getString(R.string.level) + ": ");
         txt_range_text.setText(getResources().getString(R.string.range) + ": ");
         txt_reload_text.setText(getResources().getString(R.string.reload) + ": ");
 
@@ -102,6 +107,52 @@ public class TowerInfoFragment extends Fragment implements
 
             mVisible = false;
         }
+    }
+
+    private void refresh() {
+        if (mTower == null) {
+            return;
+        }
+
+        DecimalFormat fmt = new DecimalFormat("#.#");
+
+        txt_level.setText(mTower.getLevel() + " / " + mTower.getLevelMax());
+        txt_damage.setText(fmt.format(mTower.getDamage()));
+        txt_range.setText(fmt.format(mTower.getRange()));
+        txt_reload.setText(fmt.format(mTower.getReloadTime()));
+
+        String text = (mTower.getConfig().damageText != null) ? mTower.getConfig().damageText : getResources().getString(R.string.damage);
+        txt_damage_text.setText(text + ":");
+
+        if (mTower.isUpgradeable()) {
+            btn_upgrade.setText(getResources().getString(R.string.upgrade) + " (" + mTower.getUpgradeCost() + ")");
+        } else {
+            btn_upgrade.setText(getResources().getString(R.string.upgrade));
+        }
+
+        if (mTower instanceof AimingTower) {
+            AimingTower t = (AimingTower) mTower;
+            btn_strategy.setText(getResources().getString(R.string.strategy) + " (" + t.getStrategy().name() + ")");
+            btn_lock_target.setText(getResources().getString(R.string.lock_target) + " (" + t.doesLockOnTarget() + ")");
+            btn_strategy.setEnabled(true);
+            btn_lock_target.setEnabled(true);
+        } else {
+            btn_strategy.setText(getResources().getString(R.string.strategy));
+            btn_lock_target.setText(getResources().getString(R.string.lock_target));
+            btn_strategy.setEnabled(false);
+            btn_lock_target.setEnabled(false);
+        }
+
+        if (mTower.isEnhanceable()) {
+            btn_enhance.setText(getResources().getString(R.string.enhance) + " (" + mTower.getEnhanceCost() + ")");
+        } else {
+            btn_enhance.setText(getResources().getString(R.string.enhance));
+        }
+
+        btn_sell.setText(getResources().getString(R.string.sell) + " (" + mTower.getValue() + ")");
+
+        btn_upgrade.setEnabled(mTower != null && mTower.isUpgradeable() && mManager.getCredits() >= mTower.getUpgradeCost());
+        btn_enhance.setEnabled(mTower != null && mTower.getLevel() < 4 && mManager.getCredits() >= mTower.getEnhanceCost());
     }
 
     @Override
@@ -138,18 +189,19 @@ public class TowerInfoFragment extends Fragment implements
             }
             t.setStrategy(values.get(index));
 
-            btn_strategy.setText(getResources().getString(R.string.strategy) + " (" + t.getStrategy().name() + ")");
+            refresh();
         }
 
         if (v == btn_lock_target) {
             AimingTower t = (AimingTower)mTower;
             t.setLockOnTarget(!t.doesLockOnTarget());
-            btn_lock_target.setText(getResources().getString(R.string.lock_target) + " (" + t.doesLockOnTarget() + ")");
+
+            refresh();
         }
 
         if (v == btn_enhance) {
             mTower.enhance();
-            mManager.showTowerInfo(mTower);
+            refresh();
         }
 
         if (v == btn_upgrade) {
@@ -174,47 +226,10 @@ public class TowerInfoFragment extends Fragment implements
         mTower = tower;
         view_tower.setTowerClass(tower.getClass());
 
-        onCreditsChanged(mManager.getCredits());
-        onTowersAged();
-
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                DecimalFormat fmt = new DecimalFormat("#.#");
-
-                txt_damage.setText(fmt.format(mTower.getDamage()));
-                txt_range.setText(fmt.format(mTower.getRange()));
-                txt_reload.setText(fmt.format(mTower.getReloadTime()));
-
-                String text = (mTower.getConfig().damageText != null) ? mTower.getConfig().damageText : getResources().getString(R.string.damage);
-                txt_damage_text.setText(text + ":");
-
-                if (mTower.isUpgradeable()) {
-                    btn_upgrade.setText(getResources().getString(R.string.upgrade) + " (" + mTower.getUpgradeCost() + ")");
-                } else {
-                    btn_upgrade.setText(getResources().getString(R.string.upgrade));
-                }
-
-                if (mTower instanceof AimingTower) {
-                    AimingTower t = (AimingTower) mTower;
-                    btn_strategy.setText(getResources().getString(R.string.strategy) + " (" + t.getStrategy().name() + ")");
-                    btn_lock_target.setText(getResources().getString(R.string.lock_target) + " (" + t.doesLockOnTarget() + ")");
-                    btn_strategy.setEnabled(true);
-                    btn_lock_target.setEnabled(true);
-                } else {
-                    btn_strategy.setText(getResources().getString(R.string.strategy));
-                    btn_lock_target.setText(getResources().getString(R.string.lock_target));
-                    btn_strategy.setEnabled(false);
-                    btn_lock_target.setEnabled(false);
-                }
-
-                if (mTower.isEnhanceable()) {
-                    btn_enhance.setText(getResources().getString(R.string.enhance) + " (" + mTower.getEnhanceCost() + ")");
-                } else {
-                    btn_enhance.setText(getResources().getString(R.string.enhance));
-                }
-
-
+                refresh();
                 show();
             }
         });
@@ -235,22 +250,19 @@ public class TowerInfoFragment extends Fragment implements
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                btn_upgrade.setEnabled(mTower != null && mTower.isUpgradeable() && credits >= mTower.getUpgradeCost());
-                btn_enhance.setEnabled(mTower != null && mTower.getLevel() < 4 && credits >= mTower.getEnhanceCost());
+                refresh();
             }
         });
     }
 
     @Override
     public void onTowersAged() {
-        if (mTower != null) {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    btn_sell.setText(getResources().getString(R.string.sell) + " (" + mTower.getValue() + ")");
-                }
-            });
-        }
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                refresh();
+            }
+        });
     }
 
     @Override

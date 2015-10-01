@@ -7,7 +7,7 @@
         <lives>5</lives>
         <endless>true</endless>
 
-        <ageModifier>0.9</ageModifier>
+        <ageModifier>0.95</ageModifier>
         <minSpeedModifier>0.05</minSpeedModifier>
         <strongAgainstModifier>1.5</strongAgainstModifier>
         <weakAgainstModifier>0.5</weakAgainstModifier>
@@ -16,7 +16,7 @@
         <earlyRoot>3</earlyRoot>
 
         <linearDifficulty>10</linearDifficulty>
-        <quadraticDifficulty>2e-3</quadraticDifficulty>
+        <quadraticDifficulty>1e-3</quadraticDifficulty>
 
         <rewardModifier>1.0</rewardModifier>
         <rewardRoot>3</rewardRoot>
@@ -30,44 +30,48 @@
             <clazz>Canon</clazz>
             <upgrade>CanonDual</upgrade>
             <value>100</value>
-            <damage>60</damage>
+            <damage>100</damage>
             <range>2.5</range>
             <reload>1.0</reload>
-            <maxLevel>4</maxLevel>
+            <maxLevel>9</maxLevel>
+            <enhanceBase>1.2</enhanceBase>
             <enhanceCost>120</enhanceCost>
             <enhanceDamage>120</enhanceDamage>
-            <enhanceRange>0.5</enhanceRange>
-            <enhanceReload>0.2</enhanceReload>
+            <enhanceRange>0.1</enhanceRange>
+            <enhanceReload>0.05</enhanceReload>
             <strongAgainst>Soldier</strongAgainst>
-            <weakAgainst>Healer</weakAgainst>
+            <weakAgainst>Blob</weakAgainst>
         </tower>
         <tower>
             <clazz>CanonDual</clazz>
             <upgrade>CanonMG</upgrade>
-            <value>200</value>
-            <damage>100</damage>
-            <range>2.5</range>
+            <value>1200</value>
+            <damage>500</damage>
+            <range>3.0</range>
             <reload>0.5</reload>
-            <maxLevel>4</maxLevel>
-            <enhanceCost>220</enhanceCost>
-            <enhanceDamage>120</enhanceDamage>
-            <enhanceRange>0.5</enhanceRange>
-            <enhanceReload>0.1</enhanceReload>
+            <maxLevel>9</maxLevel>
+            <enhanceBase>1.2</enhanceBase>
+            <enhanceCost>120</enhanceCost>
+            <enhanceDamage>65</enhanceDamage>
+            <enhanceRange>0.1</enhanceRange>
+            <enhanceReload>0.03</enhanceReload>
             <strongAgainst>Soldier</strongAgainst>
-            <weakAgainst>Healer</weakAgainst>
+            <weakAgainst>Blob</weakAgainst>
         </tower>
         <tower>
             <clazz>CanonMG</clazz>
-            <value>900</value>
-            <damage>100</damage>
-            <range>2.5</range>
-            <reload>0.1</reload>
-            <maxLevel>4</maxLevel>
-            <enhanceCost>350</enhanceCost>
-            <enhanceDamage>85</enhanceDamage>
-            <enhanceRange>0.5</enhanceRange>
+            <value>4400</value>
+            <damage>420</damage>
+            <range>3.5</range>
+            <reload>0.15</reload>
+            <maxLevel>9</maxLevel>
+            <enhanceBase>1.2</enhanceBase>
+            <enhanceCost>80</enhanceCost>
+            <enhanceDamage>30</enhanceDamage>
+            <enhanceRange>0.1</enhanceRange>
             <enhanceReload>0.01</enhanceReload>
             <strongAgainst>Soldier</strongAgainst>
+            <weakAgainst>Blob</weakAgainst>
         </tower>
 
         <!-- Laser Towers -->
@@ -76,47 +80,50 @@
             <clazz>LaserTower1</clazz>
             <upgrade>LaserTower2</upgrade>
             <value>150</value>
-            <damage>250</damage>
-            <range>3.5</range>
+            <damage>450</damage>
+            <range>2.8</range>
             <reload>3.0</reload>
-            <maxLevel>4</maxLevel>
-            <enhanceCost>150</enhanceCost>
-            <enhanceDamage>600</enhanceDamage>
-            <enhanceRange>0.5</enhanceRange>
-            <enhanceReload>0.5</enhanceReload>
+            <maxLevel>9</maxLevel>
+            <enhanceBase>1.2</enhanceBase>
+            <enhanceCost>130</enhanceCost>
+            <enhanceDamage>300</enhanceDamage>
+            <enhanceRange>0.2</enhanceRange>
+            <enhanceReload>0.1</enhanceReload>
             <strongAgainst>Blob;Flyer</strongAgainst>
-            <weakAgainst>Soldier;Healer</weakAgainst>
+            <weakAgainst>Sprinter;Healer</weakAgainst>
         </tower>
         <tower>
             <clazz>LaserTower2</clazz>
             <upgrade>LaserTower3</upgrade>
-            <value>400</value>
-            <damage>400</damage>
-            <range>3.5</range>
+            <value>1200</value>
+            <damage>1000</damage>
+            <range>3.0</range>
             <reload>3.0</reload>
-            <maxLevel>4</maxLevel>
-            <enhanceCost>450</enhanceCost>
-            <enhanceDamage>600</enhanceDamage>
-            <enhanceRange>0.5</enhanceRange>
-            <enhanceReload>0.5</enhanceReload>
+            <maxLevel>9</maxLevel>
+            <enhanceBase>1.2</enhanceBase>
+            <enhanceCost>180</enhanceCost>
+            <enhanceDamage>160</enhanceDamage>
+            <enhanceRange>0.2</enhanceRange>
+            <enhanceReload>0.1</enhanceReload>
             <property name="bounce">2</property>
             <property name="bounceDistance">2.0</property>
             <strongAgainst>Blob;Flyer</strongAgainst>
-            <weakAgainst>Soldier;Healer</weakAgainst>
+            <weakAgainst>Sprinter;Healer</weakAgainst>
         </tower>
         <tower>
             <clazz>LaserTower3</clazz>
-            <value>1400</value>
-            <damage>600</damage>
-            <range>3.5</range>
+            <value>3800</value>
+            <damage>2800</damage>
+            <range>3.2</range>
             <reload>3.0</reload>
-            <maxLevel>4</maxLevel>
-            <enhanceCost>450</enhanceCost>
-            <enhanceDamage>500</enhanceDamage>
-            <enhanceRange>0.5</enhanceRange>
-            <enhanceReload>0.2</enhanceReload>
+            <maxLevel>9</maxLevel>
+            <enhanceBase>1.2</enhanceBase>
+            <enhanceCost>220</enhanceCost>
+            <enhanceDamage>300</enhanceDamage>
+            <enhanceRange>0.2</enhanceRange>
+            <enhanceReload>0.1</enhanceReload>
             <strongAgainst>Blob;Flyer</strongAgainst>
-            <weakAgainst>Soldier;Healer</weakAgainst>
+            <weakAgainst>Sprinter;Healer</weakAgainst>
         </tower>
 
         <!-- Explosive Towers -->
@@ -125,54 +132,57 @@
             <clazz>Mortar</clazz>
             <upgrade>MineLayer</upgrade>
             <value>250</value>
-            <damage>150</damage>
+            <damage>160</damage>
             <range>2.5</range>
             <reload>2.0</reload>
-            <maxLevel>4</maxLevel>
-            <enhanceCost>220</enhanceCost>
-            <enhanceDamage>150</enhanceDamage>
-            <enhanceRange>0.5</enhanceRange>
-            <enhanceReload>0.3</enhanceReload>
+            <maxLevel>9</maxLevel>
+            <enhanceBase>1.2</enhanceBase>
+            <enhanceCost>250</enhanceCost>
+            <enhanceDamage>170</enhanceDamage>
+            <enhanceRange>0.2</enhanceRange>
+            <enhanceReload>0.05</enhanceReload>
             <property name="inaccuracy">1.0</property>
             <property name="explosionRadius">1.5</property>
-            <property name="enhanceExplosionRadius">0.1</property>
+            <property name="enhanceExplosionRadius">0.05</property>
             <strongAgainst>Sprinter;Healer</strongAgainst>
-            <weakAgainst>Blob;Flyer</weakAgainst>
+            <weakAgainst>Flyer</weakAgainst>
         </tower>
         <tower>
             <clazz>MineLayer</clazz>
             <upgrade>RocketLauncher</upgrade>
-            <value>550</value>
-            <damage>300</damage>
+            <value>2000</value>
+            <damage>800</damage>
             <range>2.5</range>
             <reload>2.5</reload>
-            <maxLevel>4</maxLevel>
-            <enhanceCost>350</enhanceCost>
-            <enhanceDamage>350</enhanceDamage>
-            <enhanceRange>0.5</enhanceRange>
-            <enhanceReload>0.2</enhanceReload>
+            <maxLevel>9</maxLevel>
+            <enhanceBase>1.2</enhanceBase>
+            <enhanceCost>440</enhanceCost>
+            <enhanceDamage>300</enhanceDamage>
+            <enhanceRange>0.0</enhanceRange>
+            <enhanceReload>0.05</enhanceReload>
             <property name="maxMineCount">3</property>
             <property name="enhanceMaxMineCount">1</property>
-            <property name="explosionRadius">1.7</property>
-            <property name="enhanceExplosionRadius">0.1</property>
+            <property name="explosionRadius">2.0</property>
+            <property name="enhanceExplosionRadius">0.05</property>
             <strongAgainst>Sprinter;Healer</strongAgainst>
-            <weakAgainst>Blob;Flyer</weakAgainst>
+            <weakAgainst>Flyer</weakAgainst>
         </tower>
         <tower>
             <clazz>RocketLauncher</clazz>
-            <value>1000</value>
-            <damage>400</damage>
-            <range>2.5</range>
-            <reload>2.0</reload>
-            <maxLevel>4</maxLevel>
-            <enhanceCost>600</enhanceCost>
-            <enhanceDamage>350</enhanceDamage>
-            <enhanceRange>0.5</enhanceRange>
-            <enhanceReload>0.2</enhanceReload>
-            <property name="explosionRadius">2.0</property>
-            <property name="enhanceExplosionRadius">0.1</property>
+            <value>7000</value>
+            <damage>3000</damage>
+            <range>3.0</range>
+            <reload>3.0</reload>
+            <maxLevel>9</maxLevel>
+            <enhanceBase>1.2</enhanceBase>
+            <enhanceCost>350</enhanceCost>
+            <enhanceDamage>600</enhanceDamage>
+            <enhanceRange>0.2</enhanceRange>
+            <enhanceReload>0.1</enhanceReload>
+            <property name="explosionRadius">1.7</property>
+            <property name="enhanceExplosionRadius">0.05</property>
             <strongAgainst>Sprinter;Healer</strongAgainst>
-            <weakAgainst>Blob;Flyer</weakAgainst>
+            <weakAgainst>Flyer</weakAgainst>
         </tower>
 
         <!-- Glue / Teleport Towers -->
@@ -183,9 +193,10 @@
             <value>500</value>
             <damage>1.5</damage>
             <range>3.5</range>
-            <reload>1.5</reload>
+            <reload>2.0</reload>
             <maxLevel>4</maxLevel>
             <damageText>Intensity</damageText>
+            <enhanceBase>2.0</enhanceBase>
             <enhanceCost>200</enhanceCost>
             <enhanceDamage>0.1</enhanceDamage>
             <enhanceRange>0.5</enhanceRange>
@@ -201,6 +212,7 @@
             <reload>3.0</reload>
             <maxLevel>4</maxLevel>
             <damageText>Intensity</damageText>
+            <enhanceBase>2.0</enhanceBase>
             <enhanceCost>400</enhanceCost>
             <enhanceDamage>0.2</enhanceDamage>
             <enhanceRange>0.4</enhanceRange>
@@ -215,10 +227,11 @@
             <reload>5.0</reload>
             <maxLevel>4</maxLevel>
             <damageText>Distance</damageText>
+            <enhanceBase>2.0</enhanceBase>
             <enhanceCost>600</enhanceCost>
             <enhanceDamage>2</enhanceDamage>
-            <enhanceRange>0.5</enhanceRange>
-            <enhanceReload>1.0</enhanceReload>
+            <enhanceRange>0.0</enhanceRange>
+            <enhanceReload>0.5</enhanceReload>
         </tower>
     </towers>
 

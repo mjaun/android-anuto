@@ -23,5 +23,5 @@ public class Wave {
     public int extend = 0;
 
     @Element(required=false)
-    public float nextWaveDelay = 8;
+    public float nextWaveDelay = 5;
 }

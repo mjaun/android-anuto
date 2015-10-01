@@ -45,6 +45,9 @@ public class TowerConfig {
     public float enhanceReload;
 
     @Element
+    public float enhanceBase;
+
+    @Element
     public int maxLevel;
 
     public Collection<Class<? extends GameObject>> weakAgainst = new ArrayList<>();

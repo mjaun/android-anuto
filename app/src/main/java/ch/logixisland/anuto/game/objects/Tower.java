@@ -214,14 +214,14 @@ public abstract class Tower extends GameObject {
             throw new RuntimeException();
         }
 
+        getManager().takeCredits(getUpgradeCost());
+        upgrade.mValue += this.mValue;
+
         this.remove();
         upgrade.setPlateau(plateau);
         upgrade.setEnabled(true);
-
-        getManager().takeCredits(upgrade.mValue);
-        upgrade.mValue += this.mValue;
-
         getGame().add(upgrade);
+
         return upgrade;
     }
 
@@ -230,18 +230,18 @@ public abstract class Tower extends GameObject {
     }
 
     public int getUpgradeCost() {
-        if (mConfig.upgrade == null) {
+        if (!isUpgradeable()) {
             return -1;
         }
 
-        return mConfig.upgrade.value;
+        return mConfig.upgrade.value - mConfig.value;
     }
 
     public void enhance() {
-        getManager().takeCredits(mConfig.enhanceCost * mLevel);
+        getManager().takeCredits(getEnhanceCost());
 
-        mValue += mConfig.enhanceCost * mLevel;
-        mDamage += mConfig.enhanceDamage;
+        mValue += getEnhanceCost();
+        mDamage += mConfig.enhanceDamage * (float)Math.pow(mConfig.enhanceBase, mLevel - 1);
         mRange += mConfig.enhanceRange;
         mReloadTime -= mConfig.enhanceReload;
 
@@ -255,11 +255,19 @@ public abstract class Tower extends GameObject {
     }
 
     public int getEnhanceCost() {
-        return mConfig.enhanceCost * mLevel;
+        if (!isEnhanceable()) {
+            return -1;
+        }
+
+        return Math.round(mConfig.enhanceCost * (float)Math.pow(mConfig.enhanceBase, mLevel - 1));
     }
 
     public int getLevel() {
         return mLevel;
+    }
+
+    public int getLevelMax() {
+        return mConfig.maxLevel;
     }
 
     public void showRange() {
