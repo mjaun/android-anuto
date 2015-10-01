@@ -15,7 +15,7 @@
         <earlyModifier>35.0</earlyModifier>
         <earlyRoot>3</earlyRoot>
 
-        <linearDifficulty>10</linearDifficulty>
+        <linearDifficulty>15</linearDifficulty>
         <quadraticDifficulty>1e-3</quadraticDifficulty>
 
         <rewardModifier>1.0</rewardModifier>
@@ -35,8 +35,8 @@
             <reload>1.0</reload>
             <maxLevel>9</maxLevel>
             <enhanceBase>1.2</enhanceBase>
-            <enhanceCost>120</enhanceCost>
-            <enhanceDamage>120</enhanceDamage>
+            <enhanceCost>50</enhanceCost>
+            <enhanceDamage>50</enhanceDamage>
             <enhanceRange>0.1</enhanceRange>
             <enhanceReload>0.05</enhanceReload>
             <strongAgainst>Soldier</strongAgainst>
@@ -45,14 +45,14 @@
         <tower>
             <clazz>CanonDual</clazz>
             <upgrade>CanonMG</upgrade>
-            <value>1200</value>
-            <damage>500</damage>
+            <value>1400</value>
+            <damage>425</damage>
             <range>3.0</range>
             <reload>0.5</reload>
             <maxLevel>9</maxLevel>
             <enhanceBase>1.2</enhanceBase>
             <enhanceCost>120</enhanceCost>
-            <enhanceDamage>65</enhanceDamage>
+            <enhanceDamage>75</enhanceDamage>
             <enhanceRange>0.1</enhanceRange>
             <enhanceReload>0.03</enhanceReload>
             <strongAgainst>Soldier</strongAgainst>
@@ -60,14 +60,14 @@
         </tower>
         <tower>
             <clazz>CanonMG</clazz>
-            <value>4400</value>
-            <damage>420</damage>
+            <value>15000</value>
+            <damage>550</damage>
             <range>3.5</range>
             <reload>0.15</reload>
             <maxLevel>9</maxLevel>
             <enhanceBase>1.2</enhanceBase>
-            <enhanceCost>80</enhanceCost>
-            <enhanceDamage>30</enhanceDamage>
+            <enhanceCost>240</enhanceCost>
+            <enhanceDamage>135</enhanceDamage>
             <enhanceRange>0.1</enhanceRange>
             <enhanceReload>0.01</enhanceReload>
             <strongAgainst>Soldier</strongAgainst>
@@ -85,8 +85,8 @@
             <reload>3.0</reload>
             <maxLevel>9</maxLevel>
             <enhanceBase>1.2</enhanceBase>
-            <enhanceCost>130</enhanceCost>
-            <enhanceDamage>300</enhanceDamage>
+            <enhanceCost>75</enhanceCost>
+            <enhanceDamage>170</enhanceDamage>
             <enhanceRange>0.2</enhanceRange>
             <enhanceReload>0.1</enhanceReload>
             <strongAgainst>Blob;Flyer</strongAgainst>
@@ -95,14 +95,14 @@
         <tower>
             <clazz>LaserTower2</clazz>
             <upgrade>LaserTower3</upgrade>
-            <value>1200</value>
+            <value>1600</value>
             <damage>1000</damage>
             <range>3.0</range>
             <reload>3.0</reload>
             <maxLevel>9</maxLevel>
             <enhanceBase>1.2</enhanceBase>
-            <enhanceCost>180</enhanceCost>
-            <enhanceDamage>160</enhanceDamage>
+            <enhanceCost>150</enhanceCost>
+            <enhanceDamage>150</enhanceDamage>
             <enhanceRange>0.2</enhanceRange>
             <enhanceReload>0.1</enhanceReload>
             <property name="bounce">2</property>
@@ -112,14 +112,14 @@
         </tower>
         <tower>
             <clazz>LaserTower3</clazz>
-            <value>3800</value>
-            <damage>2800</damage>
+            <value>15000</value>
+            <damage>3700</damage>
             <range>3.2</range>
             <reload>3.0</reload>
             <maxLevel>9</maxLevel>
             <enhanceBase>1.2</enhanceBase>
-            <enhanceCost>220</enhanceCost>
-            <enhanceDamage>300</enhanceDamage>
+            <enhanceCost>300</enhanceCost>
+            <enhanceDamage>900</enhanceDamage>
             <enhanceRange>0.2</enhanceRange>
             <enhanceReload>0.1</enhanceReload>
             <strongAgainst>Blob;Flyer</strongAgainst>
@@ -137,8 +137,8 @@
             <reload>2.0</reload>
             <maxLevel>9</maxLevel>
             <enhanceBase>1.2</enhanceBase>
-            <enhanceCost>250</enhanceCost>
-            <enhanceDamage>170</enhanceDamage>
+            <enhanceCost>125</enhanceCost>
+            <enhanceDamage>85</enhanceDamage>
             <enhanceRange>0.2</enhanceRange>
             <enhanceReload>0.05</enhanceReload>
             <property name="inaccuracy">1.0</property>
@@ -150,14 +150,14 @@
         <tower>
             <clazz>MineLayer</clazz>
             <upgrade>RocketLauncher</upgrade>
-            <value>2000</value>
-            <damage>800</damage>
+            <value>3500</value>
+            <damage>1000</damage>
             <range>2.5</range>
             <reload>2.5</reload>
             <maxLevel>9</maxLevel>
             <enhanceBase>1.2</enhanceBase>
-            <enhanceCost>440</enhanceCost>
-            <enhanceDamage>300</enhanceDamage>
+            <enhanceCost>250</enhanceCost>
+            <enhanceDamage>240</enhanceDamage>
             <enhanceRange>0.0</enhanceRange>
             <enhanceReload>0.05</enhanceReload>
             <property name="maxMineCount">3</property>
@@ -169,15 +169,15 @@
         </tower>
         <tower>
             <clazz>RocketLauncher</clazz>
-            <value>7000</value>
-            <damage>3000</damage>
+            <value>35000</value>
+            <damage>5000</damage>
             <range>3.0</range>
             <reload>3.0</reload>
             <maxLevel>9</maxLevel>
             <enhanceBase>1.2</enhanceBase>
-            <enhanceCost>350</enhanceCost>
-            <enhanceDamage>600</enhanceDamage>
-            <enhanceRange>0.2</enhanceRange>
+            <enhanceCost>500</enhanceCost>
+            <enhanceDamage>2100</enhanceDamage>
+            <enhanceRange>0.4</enhanceRange>
             <enhanceReload>0.1</enhanceReload>
             <property name="explosionRadius">1.7</property>
             <property name="enhanceExplosionRadius">0.05</property>

@@ -114,12 +114,13 @@ public class TowerInfoFragment extends Fragment implements
             return;
         }
 
-        DecimalFormat fmt = new DecimalFormat("#.#");
+        DecimalFormat fmt0 = new DecimalFormat("#");
+        DecimalFormat fmt1 = new DecimalFormat("#.#");
 
         txt_level.setText(mTower.getLevel() + " / " + mTower.getLevelMax());
-        txt_damage.setText(fmt.format(mTower.getDamage()));
-        txt_range.setText(fmt.format(mTower.getRange()));
-        txt_reload.setText(fmt.format(mTower.getReloadTime()));
+        txt_damage.setText(fmt0.format(mTower.getDamage()));
+        txt_range.setText(fmt1.format(mTower.getRange()));
+        txt_reload.setText(fmt1.format(mTower.getReloadTime()));
 
         String text = (mTower.getConfig().damageText != null) ? mTower.getConfig().damageText : getResources().getString(R.string.damage);
         txt_damage_text.setText(text + ":");
@@ -152,7 +153,7 @@ public class TowerInfoFragment extends Fragment implements
         btn_sell.setText(getResources().getString(R.string.sell) + " (" + mTower.getValue() + ")");
 
         btn_upgrade.setEnabled(mTower != null && mTower.isUpgradeable() && mManager.getCredits() >= mTower.getUpgradeCost());
-        btn_enhance.setEnabled(mTower != null && mTower.getLevel() < 4 && mManager.getCredits() >= mTower.getEnhanceCost());
+        btn_enhance.setEnabled(mTower != null && mTower.isEnhanceable() && mManager.getCredits() >= mTower.getEnhanceCost());
     }
 
     @Override

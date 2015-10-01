@@ -14,6 +14,7 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class CanonShotMG extends Shot {
 
+    private final static float HIT_RANGE = 0.5f;
     private final static float MOVEMENT_SPEED = 8.0f;
 
     private class StaticData extends GameEngine.StaticData {
@@ -77,7 +78,7 @@ public class CanonShotMG extends Shot {
         super.tick();
 
         Enemy enemy = (Enemy)getGame().get(Enemy.TYPE_ID)
-                .filter(inRange(getPosition(), 0.5f))
+                .filter(inRange(getPosition(), HIT_RANGE))
                 .first();
 
         if (enemy != null) {
