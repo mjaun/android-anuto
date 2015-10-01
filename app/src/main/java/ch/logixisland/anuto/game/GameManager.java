@@ -9,13 +9,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.WaveManager;
 import ch.logixisland.anuto.game.data.EnemyDescriptor;
 import ch.logixisland.anuto.game.data.Level;
 import ch.logixisland.anuto.game.data.PlateauDescriptor;
 import ch.logixisland.anuto.game.data.Settings;
 import ch.logixisland.anuto.game.data.Wave;
 import ch.logixisland.anuto.game.objects.Enemy;
-import ch.logixisland.anuto.game.objects.GameObject;
 import ch.logixisland.anuto.game.objects.Plateau;
 import ch.logixisland.anuto.game.objects.Tower;
 import ch.logixisland.anuto.util.container.ListenerList;
@@ -96,143 +96,6 @@ public class GameManager {
     }
 
     /*
-    ------ WaveManager Class ------
-     */
-
-    private class WaveManager implements GameObject.Listener {
-
-        private Wave mWave;
-        private int mExtend;
-        private Handler mWaveHandler;
-        private boolean mAborted;
-        private int mEnemiesRemaining;
-        private int mEarlyBonus;
-
-        private int mWaveReward;
-        private float mHealthModifier;
-        private float mRewardModifier;
-
-        public WaveManager(Wave wave, int extend) {
-            mWave = wave;
-            mExtend = extend;
-            mWaveHandler = mGame.createHandler();
-
-            mWaveReward = mWave.waveReward;
-            mHealthModifier = mWave.healthModifier;
-            mRewardModifier = mWave.rewardModifier;
-        }
-
-        public void start() {
-            mWaveHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    int delay = 0;
-                    float offsetX = 0f;
-                    float offsetY = 0f;
-
-                    mAborted = false;
-                    mEnemiesRemaining = mWave.enemies.size() * (mExtend + 1);
-
-                    mActiveWaves.add(WaveManager.this);
-
-                    for (int i = 0; i < mExtend + 1; i++) {
-                        for (EnemyDescriptor d : mWave.enemies) {
-                            if (MathUtils.equals(d.delay, 0f, 0.1f)) {
-                                offsetX += d.offsetX;
-                                offsetY += d.offsetY;
-                            } else {
-                                offsetX = d.offsetX;
-                                offsetY = d.offsetY;
-                            }
-
-                            final Enemy e = d.create();
-                            e.addListener(WaveManager.this);
-                            e.modifyHealth(mHealthModifier);
-                            e.modifyReward(mRewardModifier);
-                            e.setPath(mLevel.getPaths().get(d.pathIndex));
-                            e.move(offsetX, offsetY);
-
-                            if (i > 0 || mWave.enemies.indexOf(d) > 0) {
-                                delay += (int) (d.delay * 1000f);
-                            }
-
-                            mEarlyBonus += e.getReward();
-
-                            mWaveHandler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mGame.add(e);
-                                }
-                            }, delay);
-                        }
-                    }
-
-                    onWaveStarted(mWave);
-
-                    mWaveHandler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            onNextWaveReady();
-                        }
-                    }, Math.round(mWave.nextWaveDelay * 1000));
-
-                    calcEarlyBonus();
-                }
-            });
-        }
-
-        public void abort() {
-            mWaveHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    mWaveHandler.removeCallbacksAndMessages(null);
-                    mActiveWaves.remove(WaveManager.this);
-                    mAborted = true;
-                }
-            });
-        }
-
-        public void giveReward() {
-            mWaveHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    giveCredits(mWaveReward, true);
-                    mWaveReward = 0;
-                }
-            });
-        }
-
-        @Override
-        public void onObjectAdded(GameObject obj) {
-        }
-
-        @Override
-        public void onObjectRemoved(GameObject obj) {
-            mEnemiesRemaining--;
-
-            mEarlyBonus -= ((Enemy)obj).getReward();
-
-            if (mEnemiesRemaining == 0 && !mAborted) {
-                mActiveWaves.remove(this);
-
-                giveCredits(mWaveReward, true);
-                mWaveReward = 0;
-
-                ageTowers();
-                onWaveDone(mWave);
-
-                if (!hasNextWave()) {
-                    mGameOver = true;
-                    mGameWon = true;
-                    onGameOver();
-                }
-            }
-
-            calcEarlyBonus();
-        }
-    }
-
-    /*
     ------ Members ------
      */
 
@@ -240,6 +103,7 @@ public class GameManager {
     private Level mLevel;
     private Tower mSelectedTower;
     private Context mContext;
+    private Handler mGameHandler;
 
     private int mNextWaveIndex;
 
@@ -255,11 +119,62 @@ public class GameManager {
     private ListenerList<Listener> mListeners = new ListenerList<>();
 
     /*
+    ------ WaveManager.Listener Implementation ------
+     */
+
+    private WaveManager.Listener mWaveListener = new WaveManager.Listener() {
+        @Override
+        public void onStarted(WaveManager m) {
+            mActiveWaves.add(m);
+            calcEarlyBonus();
+
+            mGameHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    onNextWaveReady();
+                }
+            }, Math.round(m.getWave().nextWaveDelay * 1000));
+
+            onWaveStarted(m.getWave());
+        }
+
+        @Override
+        public void onAborted(WaveManager m) {
+        }
+
+        @Override
+        public void onFinished(WaveManager m) {
+            mActiveWaves.remove(m);
+            m.giveReward();
+
+            ageTowers();
+            onWaveDone(m.getWave());
+
+            if (!hasNextWave()) {
+                mGameOver = true;
+                mGameWon = true;
+                onGameOver();
+            }
+        }
+
+        @Override
+        public void onEnemyAdded(WaveManager m, Enemy e) {
+            mActiveWaves.remove(m);
+        }
+
+        @Override
+        public void onEnemyRemoved(WaveManager m, Enemy e) {
+            calcEarlyBonus();
+        }
+    };
+
+    /*
     ------ Constructors ------
      */
 
     public GameManager() {
         mGame = GameEngine.getInstance();
+        mGameHandler = mGame.createHandler();
         mGameOver = true;
     }
 
@@ -354,7 +269,7 @@ public class GameManager {
             return null;
         }
 
-        return getCurrentWaveManager().mWave;
+        return getCurrentWaveManager().getWave();
     }
 
     private WaveManager getCurrentWaveManager() {
@@ -387,6 +302,7 @@ public class GameManager {
         int extend = nextWave.extend * getWaveIterationCount();
 
         WaveManager m = new WaveManager(nextWave, extend);
+        m.addListener(mWaveListener);
 
         if (getSettings().endless) {
             calcWaveModifiers(m);
@@ -435,7 +351,7 @@ public class GameManager {
             return 0;
         }
 
-        return getCurrentWaveManager().mWaveReward;
+        return getCurrentWaveManager().getReward();
     }
 
     public int getEarlyBonus() {
@@ -520,7 +436,7 @@ public class GameManager {
         float earlyBonus = 0;
 
         for (WaveManager m : mActiveWaves) {
-            earlyBonus += m.mEarlyBonus;
+            earlyBonus += m.getEarlyBonus();
         }
 
         float modifier = getSettings().earlyModifier;
@@ -536,11 +452,11 @@ public class GameManager {
 
         float waveHealth = 0f;
 
-        for (EnemyDescriptor d : waveMan.mWave.enemies) {
+        for (EnemyDescriptor d : waveMan.getWave().enemies) {
             waveHealth += mLevel.getEnemyConfig(d.clazz).health;
         }
 
-        waveHealth *= waveMan.mExtend + 1;
+        waveHealth *= waveMan.getExtend() + 1;
 
         Log.d(TAG, String.format("waveHealth=%f", waveHealth));
 
@@ -554,9 +470,9 @@ public class GameManager {
             rewardModifier = 1f;
         }
 
-        waveMan.mHealthModifier *= healthModifier;
-        waveMan.mRewardModifier *= rewardModifier;
-        waveMan.mWaveReward *= (getWaveNumber() / mLevel.getWaves().size()) + 1;
+        waveMan.modifyHealth(healthModifier);
+        waveMan.modifyReward(rewardModifier);
+        waveMan.modifyWaveReward((getWaveNumber() / mLevel.getWaves().size()) + 1);
 
         Log.d(TAG, String.format("waveNumber=%d", getWaveNumber()));
         Log.d(TAG, String.format("damagePossible=%d + %d\n",
