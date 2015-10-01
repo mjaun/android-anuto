@@ -7,23 +7,34 @@ public final class StringUtils {
 
     }
 
-    private static DecimalFormat fmt0 = new DecimalFormat("#");
-    private static DecimalFormat fmt1 = new DecimalFormat("#.#");
+    private static DecimalFormat fmt0 = new DecimalFormat("0");
+    private static DecimalFormat fmt1 = new DecimalFormat("0.0");
+
+    public static String formatSuffix(int number) {
+        return formatSuffix(number, true);
+    }
 
     public static String formatSuffix(float number) {
+        return formatSuffix(number, false);
+    }
+
+    public static String formatSuffix(float number, boolean integer) {
+        String suffix = "";
+
         if (number >= 1e10f) {
-            return fmt0.format(number / 1e9) + "G";
+            suffix = "G";
+            number /= 1e9f;
         }
-        if (number >= 1e7f) {
-            return fmt0.format(number / 1e6) + "M";
+        else if (number >= 1e7f) {
+            suffix = "M";
+            number /= 1e6f;
         }
-        if (number >= 1e4f) {
-            return fmt0.format(number / 1e3) + "k";
-        }
-        if (number < 10f) {
-            return fmt1.format(number);
+        else if (number >= 1e4f) {
+            suffix = "k";
+            number /= 1e3f;
         }
 
-        return fmt0.format(number);
+        DecimalFormat fmt = (number < 1e3f && !integer) ? fmt1 : fmt0;
+        return fmt.format(number) + suffix;
     }
 }
