@@ -7,7 +7,7 @@
         <lives>5</lives>
         <endless>true</endless>
 
-        <ageModifier>0.95</ageModifier>
+        <ageModifier>0.97</ageModifier>
         <minSpeedModifier>0.05</minSpeedModifier>
         <strongAgainstModifier>1.5</strongAgainstModifier>
         <weakAgainstModifier>0.5</weakAgainstModifier>
@@ -87,7 +87,7 @@
             <enhanceBase>1.2</enhanceBase>
             <enhanceCost>75</enhanceCost>
             <enhanceDamage>170</enhanceDamage>
-            <enhanceRange>0.2</enhanceRange>
+            <enhanceRange>0.1</enhanceRange>
             <enhanceReload>0.1</enhanceReload>
             <strongAgainst>Blob;Flyer</strongAgainst>
             <weakAgainst>Sprinter;Healer</weakAgainst>
@@ -103,7 +103,7 @@
             <enhanceBase>1.2</enhanceBase>
             <enhanceCost>150</enhanceCost>
             <enhanceDamage>150</enhanceDamage>
-            <enhanceRange>0.2</enhanceRange>
+            <enhanceRange>0.1</enhanceRange>
             <enhanceReload>0.1</enhanceReload>
             <property name="bounce">2</property>
             <property name="bounceDistance">2.0</property>
@@ -192,44 +192,44 @@
             <upgrade>GlueTower</upgrade>
             <value>500</value>
             <damage>1.5</damage>
-            <range>3.5</range>
+            <range>2.5</range>
             <reload>2.0</reload>
             <maxLevel>4</maxLevel>
             <damageText>Intensity</damageText>
-            <enhanceBase>2.0</enhanceBase>
-            <enhanceCost>200</enhanceCost>
-            <enhanceDamage>0.1</enhanceDamage>
-            <enhanceRange>0.5</enhanceRange>
+            <enhanceBase>1.2</enhanceBase>
+            <enhanceCost>100</enhanceCost>
+            <enhanceDamage>0.2</enhanceDamage>
+            <enhanceRange>0.2</enhanceRange>
             <enhanceReload>0</enhanceReload>
             <property name="glueDuration">1.5</property>
         </tower>
         <tower>
             <clazz>GlueTower</clazz>
             <upgrade>TeleportTower</upgrade>
-            <value>800</value>
+            <value>1300</value>
             <damage>1.5</damage>
             <range>1.5</range>
             <reload>3.0</reload>
             <maxLevel>4</maxLevel>
             <damageText>Intensity</damageText>
-            <enhanceBase>2.0</enhanceBase>
-            <enhanceCost>400</enhanceCost>
-            <enhanceDamage>0.2</enhanceDamage>
-            <enhanceRange>0.4</enhanceRange>
+            <enhanceBase>1.2</enhanceBase>
+            <enhanceCost>100</enhanceCost>
+            <enhanceDamage>0.5</enhanceDamage>
+            <enhanceRange>0.1</enhanceRange>
             <enhanceReload>0</enhanceReload>
             <property name="glueDuration">2.5</property>
         </tower>
         <tower>
             <clazz>TeleportTower</clazz>
-            <value>1200</value>
-            <damage>8</damage>
+            <value>3000</value>
+            <damage>15</damage>
             <range>3.5</range>
             <reload>5.0</reload>
             <maxLevel>4</maxLevel>
             <damageText>Distance</damageText>
-            <enhanceBase>2.0</enhanceBase>
-            <enhanceCost>600</enhanceCost>
-            <enhanceDamage>2</enhanceDamage>
+            <enhanceBase>1.2</enhanceBase>
+            <enhanceCost>2000</enhanceCost>
+            <enhanceDamage>6</enhanceDamage>
             <enhanceRange>0.0</enhanceRange>
             <enhanceReload>0.5</enhanceReload>
         </tower>
@@ -713,12 +713,13 @@
             <waveReward>240</waveReward>
             <extend>1</extend>
             <enemies>
+                <enemy clazz="Healer" delay="15" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
+                <enemy clazz="Healer" offsetY="1.1" />
                 <enemy clazz="Healer" delay="10" />
-                <enemy clazz="Healer" offsetY="1.1" />
-                <enemy clazz="Healer" offsetY="1.1" />
-                <enemy clazz="Healer" offsetY="1.1" />
-                <enemy clazz="Healer" offsetY="1.1" />
-                <enemy clazz="Healer" offsetY="1.1" />
                 <enemy clazz="Healer" offsetY="1.1" />
                 <enemy clazz="Healer" offsetY="1.1" />
                 <enemy clazz="Healer" offsetY="1.1" />
@@ -763,7 +764,7 @@
             <waveReward>240</waveReward>
             <extend>1</extend>
             <enemies>
-                <enemy clazz="Healer" delay="10" />
+                <enemy clazz="Healer" delay="15" />
                 <enemy clazz="Healer" offsetY="1.1" />
                 <enemy clazz="Healer" offsetY="1.1" />
                 <enemy clazz="Healer" offsetY="1.1" />
@@ -775,7 +776,7 @@
                 <enemy clazz="Soldier" offsetY="1.1" />
                 <enemy clazz="Soldier" offsetY="1.1" />
 
-                <enemy clazz="Healer" delay="5" />
+                <enemy clazz="Healer" delay="10" />
                 <enemy clazz="Healer" offsetY="1.1" />
                 <enemy clazz="Healer" offsetY="1.1" />
                 <enemy clazz="Healer" offsetY="1.1" />
