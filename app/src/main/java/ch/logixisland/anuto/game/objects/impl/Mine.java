@@ -38,7 +38,8 @@ public class Mine extends Shot {
     private float mRotationStep;
     private SampledFunction mHeightScalingFunction;
 
-    private Sprite.FixedInstance mSprite;
+    private Sprite.FixedInstance mSpriteFlying;
+    private Sprite.FixedInstance mSpriteMine;
 
     public Mine(GameObject origin, Vector2 position, Vector2 target, float damage, float radius) {
         super(origin);
@@ -63,9 +64,15 @@ public class Mine extends Shot {
                 .stretch(GameEngine.TARGET_FRAME_RATE * TIME_TO_TARGET / (x1 + x2))
                 .sample();
 
-        mSprite = s.sprite.yieldStatic(Layers.SHOT);
-        mSprite.setListener(this);
-        mSprite.setIndex(getGame().getRandom(4));
+        int index = getGame().getRandom(4);
+
+        mSpriteFlying = s.sprite.yieldStatic(Layers.SHOT);
+        mSpriteFlying.setListener(this);
+        mSpriteFlying.setIndex(index);
+
+        mSpriteMine = s.sprite.yieldStatic(Layers.BOTTOM);
+        mSpriteMine.setListener(this);
+        mSpriteMine.setIndex(index);
     }
 
     @Override
@@ -82,14 +89,22 @@ public class Mine extends Shot {
     public void init() {
         super.init();
 
-        getGame().add(mSprite);
+        if (mFlying) {
+            getGame().add(mSpriteFlying);
+        } else {
+            getGame().add(mSpriteMine);
+        }
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        getGame().remove(mSprite);
+        if (mFlying) {
+            getGame().remove(mSpriteFlying);
+        } else {
+            getGame().remove(mSpriteMine);
+        }
     }
 
     @Override
@@ -110,6 +125,9 @@ public class Mine extends Shot {
             mHeightScalingFunction.step();
 
             if (mHeightScalingFunction.getPosition() >= GameEngine.TARGET_FRAME_RATE * TIME_TO_TARGET) {
+                getGame().remove(mSpriteFlying);
+                getGame().add(mSpriteMine);
+
                 mFlying = false;
                 setSpeed(0f);
             }

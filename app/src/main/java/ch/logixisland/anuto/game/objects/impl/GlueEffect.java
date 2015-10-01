@@ -38,7 +38,7 @@ public class GlueEffect extends AreaEffect {
 
         StaticData s = (StaticData)getStaticData();
 
-        mSprite = s.sprite.yieldStatic(Layers.EFFECT_BOTTOM);
+        mSprite = s.sprite.yieldStatic(Layers.BOTTOM);
         mSprite.setListener(this);
         mSprite.setIndex(getGame().getRandom().nextInt(4));
 
