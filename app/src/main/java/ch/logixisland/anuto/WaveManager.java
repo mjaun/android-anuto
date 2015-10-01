@@ -100,8 +100,16 @@ public class WaveManager {
         return mExtend;
     }
 
+    public float getHealthModifier() {
+        return mHealthModifier;
+    }
+
     public void modifyHealth(float modifier) {
         mHealthModifier *= modifier;
+    }
+
+    public float getRewardModifier() {
+        return mRewardModifier;
     }
 
     public void modifyReward(float modifier) {

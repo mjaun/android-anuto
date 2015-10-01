@@ -34,7 +34,7 @@ public final class StringUtils {
             number /= 1e3f;
         }
 
-        DecimalFormat fmt = (number < 1e3f && !integer) ? fmt1 : fmt0;
+        DecimalFormat fmt = (number < 1e2f && !integer) ? fmt1 : fmt0;
         return fmt.format(number) + suffix;
     }
 }

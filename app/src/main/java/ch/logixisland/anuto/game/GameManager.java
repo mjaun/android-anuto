@@ -3,7 +3,6 @@ package ch.logixisland.anuto.game;
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.Iterator;
 import java.util.List;
@@ -463,14 +462,16 @@ public class GameManager {
         float damagePossible = getSettings().linearDifficulty * mCreditsEarned
                 + getSettings().quadraticDifficulty * MathUtils.square(mCreditsEarned);
         float healthModifier = damagePossible / waveHealth;
+
+        waveMan.modifyHealth(healthModifier);
+
         float rewardModifier = getSettings().rewardModifier
-                * (float)Math.pow(healthModifier, 1f / getSettings().rewardRoot);
+                * (float)Math.pow(waveMan.getHealthModifier(), 1f / getSettings().rewardRoot);
 
         if (rewardModifier < 1f) {
             rewardModifier = 1f;
         }
 
-        waveMan.modifyHealth(healthModifier);
         waveMan.modifyReward(rewardModifier);
         waveMan.modifyWaveReward((getWaveNumber() / mLevel.getWaves().size()) + 1);
 
@@ -478,16 +479,8 @@ public class GameManager {
         Log.d(TAG, String.format("damagePossible=%d + %d\n",
                 Math.round(getSettings().linearDifficulty * mCreditsEarned),
                 Math.round(getSettings().quadraticDifficulty * MathUtils.square(mCreditsEarned))));
-        Log.d(TAG, String.format("healthModifier=%f", healthModifier));
-        Log.d(TAG, String.format("rewardModifier=%f", rewardModifier));
-
-        StringBuilder builder = new StringBuilder();
-        builder.append(String.format("damagePossible=%d + %d\n",
-                Math.round(getSettings().linearDifficulty * mCreditsEarned),
-                Math.round(getSettings().quadraticDifficulty * MathUtils.square(mCreditsEarned))));
-        builder.append(String.format("healthModifier=%f\n", healthModifier));
-        builder.append(String.format("rewardModifier=%f", rewardModifier));
-        Toast.makeText(mContext, builder.toString(), Toast.LENGTH_LONG).show();
+        Log.d(TAG, String.format("healthModifier=%f", waveMan.getHealthModifier()));
+        Log.d(TAG, String.format("rewardModifier=%f", waveMan.getRewardModifier()));
     }
 
     /*

@@ -414,6 +414,7 @@
         <!-- Wave 1 -->
         <wave>
             <waveReward>100</waveReward>
+            <healthModifier>0.5</healthModifier>
             <extend>2</extend>
             <enemies>
                 <enemy clazz="Soldier" delay="8" />
@@ -562,6 +563,7 @@
         <!-- Wave 7 -->
         <wave>
             <waveReward>170</waveReward>
+            <healthModifier>0.5</healthModifier>
             <extend>1</extend>
             <enemies>
                 <enemy clazz="Flyer" delay="10" />
@@ -712,6 +714,7 @@
         <wave>
             <waveReward>240</waveReward>
             <extend>1</extend>
+            <healthModifier>0.7</healthModifier>
             <enemies>
                 <enemy clazz="Healer" delay="15" />
                 <enemy clazz="Healer" offsetY="1.1" />
@@ -739,7 +742,7 @@
                 <enemy clazz="Healer" offsetY="1.1" />
                 <enemy clazz="Healer" offsetY="1.1" />
 
-                <enemy clazz="Flyer" delay="15" />
+                <enemy clazz="Flyer" delay="10" />
                 <enemy clazz="Flyer" offsetY="1.1" />
                 <enemy clazz="Flyer" offsetY="1.1" />
                 <enemy clazz="Flyer" offsetY="1.1" />
@@ -822,6 +825,7 @@
         <!-- Wave 15 -->
         <wave>
             <waveReward>300</waveReward>
+            <healthModifier>2.0</healthModifier>
             <extend>1</extend>
             <enemies>
                 <enemy clazz="Soldier" delay="10" />
