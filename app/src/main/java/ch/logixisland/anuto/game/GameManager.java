@@ -104,18 +104,13 @@ public class GameManager {
         private Wave mWave;
         private int mExtend;
         private Handler mWaveHandler;
-
         private boolean mAborted;
-        private boolean mNextWaveReady;
-
-        private int mEnemiesInQueue;
-        private int mEnemiesInGame;
-
-        private volatile int mWaveReward;
-        private volatile float mHealthModifier;
-        private volatile float mRewardModifier;
-
+        private int mEnemiesRemaining;
         private int mEarlyBonus;
+
+        private int mWaveReward;
+        private float mHealthModifier;
+        private float mRewardModifier;
 
         public WaveManager(Wave wave, int extend) {
             mWave = wave;
@@ -136,8 +131,7 @@ public class GameManager {
                     float offsetY = 0f;
 
                     mAborted = false;
-                    mEnemiesInQueue = mWave.enemies.size() * (mExtend + 1);
-                    mEnemiesInGame = 0;
+                    mEnemiesRemaining = mWave.enemies.size() * (mExtend + 1);
 
                     mActiveWaves.add(WaveManager.this);
 
@@ -175,6 +169,13 @@ public class GameManager {
 
                     onWaveStarted(mWave);
 
+                    mWaveHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            onNextWaveReady();
+                        }
+                    }, Math.round(mWave.nextWaveDelay * 1000));
+
                     calcEarlyBonus();
                 }
             });
@@ -203,28 +204,15 @@ public class GameManager {
 
         @Override
         public void onObjectAdded(GameObject obj) {
-            mEnemiesInQueue--;
-            mEnemiesInGame++;
-
-            if (mEnemiesInQueue == 0 && hasNextWave() && !mAborted && !mNextWaveReady) {
-                mNextWaveReady = true;
-
-                mWaveHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        onNextWaveReady();
-                    }
-                }, Math.round(mWave.nextWaveDelay * 1000));
-            }
         }
 
         @Override
         public void onObjectRemoved(GameObject obj) {
-            mEnemiesInGame--;
+            mEnemiesRemaining--;
 
             mEarlyBonus -= ((Enemy)obj).getReward();
 
-            if (mEnemiesInQueue == 0 && mEnemiesInGame == 0 && !mAborted) {
+            if (mEnemiesRemaining == 0 && !mAborted) {
                 mActiveWaves.remove(this);
 
                 giveCredits(mWaveReward, true);
