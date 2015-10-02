@@ -111,6 +111,7 @@ public class GameManager {
     private volatile int mEarlyBonus;
     private volatile boolean mGameOver;
     private volatile boolean mGameWon;
+    private volatile boolean mNextWaveReady;
 
     private List<WaveManager> mActiveWaves = new CopyOnWriteArrayList<>();
 
@@ -122,14 +123,17 @@ public class GameManager {
 
     private WaveManager.Listener mWaveListener = new WaveManager.Listener() {
         @Override
-        public void onStarted(WaveManager m) {
+        public void onStarted(final WaveManager m) {
             mActiveWaves.add(m);
             calcEarlyBonus();
 
             mGameHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    onNextWaveReady();
+                    if (getCurrentWaveManager() == m && !mNextWaveReady && hasNextWave()) {
+                        onNextWaveReady();
+                        mNextWaveReady = true;
+                    }
                 }
             }, Math.round(m.getWave().nextWaveDelay * 1000));
 
@@ -152,6 +156,11 @@ public class GameManager {
                 mGameOver = true;
                 mGameWon = true;
                 onGameOver();
+            }
+
+            if (getCurrentWaveManager() == m && !mNextWaveReady && hasNextWave()) {
+                onNextWaveReady();
+                mNextWaveReady = true;
             }
         }
 
@@ -215,13 +224,14 @@ public class GameManager {
 
         mGame.setGameSize(getSettings().width, getSettings().height);
 
+        mEarlyBonus = 0;
+        mNextWaveReady = true;
+        mCreditsEarned = getSettings().credits;
+
         onGameStarted();
 
         setCredits(getSettings().credits);
         setLives(getSettings().lives);
-
-        mEarlyBonus = 0;
-        mCreditsEarned = getSettings().credits;
 
         onBonusChanged();
     }
