@@ -107,6 +107,7 @@ public class GameManager {
 
     private volatile int mCredits;
     private volatile int mCreditsEarned;
+    private volatile int mScore;
     private volatile int mLives;
     private volatile int mEarlyBonus;
     private volatile boolean mGameOver;
@@ -146,6 +147,11 @@ public class GameManager {
 
         @Override
         public void onFinished(WaveManager m) {
+            if (getCurrentWaveManager() == m && !mNextWaveReady && hasNextWave()) {
+                onNextWaveReady();
+                mNextWaveReady = true;
+            }
+
             mActiveWaves.remove(m);
             m.giveReward();
 
@@ -156,11 +162,6 @@ public class GameManager {
                 mGameOver = true;
                 mGameWon = true;
                 onGameOver();
-            }
-
-            if (getCurrentWaveManager() == m && !mNextWaveReady && hasNextWave()) {
-                onNextWaveReady();
-                mNextWaveReady = true;
             }
         }
 
@@ -227,6 +228,7 @@ public class GameManager {
         mEarlyBonus = 0;
         mNextWaveReady = true;
         mCreditsEarned = getSettings().credits;
+        mScore = 0;
 
         onGameStarted();
 
@@ -319,8 +321,13 @@ public class GameManager {
         m.start();
 
         mNextWaveIndex++;
+        mNextWaveReady = false;
     }
 
+
+    public int getScore() {
+        return mScore;
+    }
 
     public int getCredits() {
         return mCredits;
@@ -337,6 +344,10 @@ public class GameManager {
         }
 
         mCredits += amount;
+
+        if (!mGameOver) {
+            mScore += amount;
+        }
 
         if (earned) {
             mCreditsEarned += amount;

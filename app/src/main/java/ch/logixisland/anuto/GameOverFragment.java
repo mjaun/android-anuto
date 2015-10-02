@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+
 import ch.logixisland.anuto.game.GameManager;
 
 public class GameOverFragment extends Fragment implements GameManager.OnGameStartedListener,
@@ -16,6 +18,7 @@ public class GameOverFragment extends Fragment implements GameManager.OnGameStar
     private GameManager mManager;
 
     private TextView txt_game_over;
+    private TextView txt_score;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -23,6 +26,7 @@ public class GameOverFragment extends Fragment implements GameManager.OnGameStar
         View v = inflater.inflate(R.layout.fragment_game_over, container, false);
 
         txt_game_over = (TextView)v.findViewById(R.id.txt_game_over);
+        txt_score = (TextView)v.findViewById(R.id.txt_score);
 
         return v;
     }
@@ -65,6 +69,10 @@ public class GameOverFragment extends Fragment implements GameManager.OnGameStar
                 } else {
                     txt_game_over.setText(R.string.game_over_lost);
                 }
+
+                DecimalFormat fmt = new DecimalFormat("###,###,###,###");
+                txt_score.setText(getResources().getString(R.string.score) +
+                        ": " + fmt.format(mManager.getScore()));
             }
         });
 

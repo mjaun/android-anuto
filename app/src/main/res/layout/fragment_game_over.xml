@@ -13,4 +13,14 @@
         android:textColor="#000000"
         android:textSize="50sp"
         android:text="@string/game_over_lost"/>
+
+    <TextView
+        android:id="@+id/txt_score"
+        android:layout_below="@id/txt_game_over"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textColor="#000000"
+        android:textSize="30sp"
+        android:text="@string/score"/>
 </RelativeLayout>

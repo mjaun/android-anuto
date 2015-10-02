@@ -6,6 +6,7 @@
 
     <string name="game_over_lost">Game Over!</string>
     <string name="game_over_won">You won!</string>
+    <string name="score">Score</string>
 
     <string name="status_credits">Credits</string>
     <string name="status_lives">Lives</string>
