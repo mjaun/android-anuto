@@ -1,12 +1,10 @@
-package ch.logixisland.anuto;
+package ch.logixisland.anuto.game;
 
 import android.os.Handler;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.game.GameEngine;
-import ch.logixisland.anuto.game.GameManager;
 import ch.logixisland.anuto.game.data.EnemyDescriptor;
 import ch.logixisland.anuto.game.data.Wave;
 import ch.logixisland.anuto.game.objects.Enemy;
