@@ -177,7 +177,7 @@
             <enhanceBase>1.2</enhanceBase>
             <enhanceCost>500</enhanceCost>
             <enhanceDamage>2100</enhanceDamage>
-            <enhanceRange>0.4</enhanceRange>
+            <enhanceRange>0.3</enhanceRange>
             <enhanceReload>0.1</enhanceReload>
             <property name="explosionRadius">1.7</property>
             <property name="enhanceExplosionRadius">0.05</property>
@@ -484,7 +484,7 @@
                 <enemy clazz="Blob" offsetY="1.1" />
                 <enemy clazz="Blob" offsetY="1.1" />
 
-                <enemy clazz="Soldier" delay="15" />
+                <enemy clazz="Soldier" delay="10" />
                 <enemy clazz="Soldier" offsetY="1.1" />
                 <enemy clazz="Soldier" offsetY="1.1" />
                 <enemy clazz="Soldier" offsetY="1.1" />
@@ -545,7 +545,7 @@
                 <enemy clazz="Blob" offsetY="1.1" />
                 <enemy clazz="Blob" offsetY="1.1" />
 
-                <enemy clazz="Sprinter" delay="15" />
+                <enemy clazz="Sprinter" delay="10" />
                 <enemy clazz="Sprinter" offsetY="1.1" />
                 <enemy clazz="Sprinter" offsetY="1.1" />
                 <enemy clazz="Sprinter" offsetY="1.1" />
@@ -767,7 +767,7 @@
             <waveReward>240</waveReward>
             <extend>1</extend>
             <enemies>
-                <enemy clazz="Healer" delay="15" />
+                <enemy clazz="Healer" delay="10" />
                 <enemy clazz="Healer" offsetY="1.1" />
                 <enemy clazz="Healer" offsetY="1.1" />
                 <enemy clazz="Healer" offsetY="1.1" />
@@ -863,7 +863,7 @@
                 <enemy clazz="Flyer" offsetY="1.1" />
                 <enemy clazz="Flyer" offsetY="1.1" />
 
-                <enemy clazz="Sprinter" delay="15" />
+                <enemy clazz="Sprinter" delay="10" />
                 <enemy clazz="Sprinter" offsetY="1.1" />
                 <enemy clazz="Sprinter" offsetY="1.1" />
                 <enemy clazz="Sprinter" offsetY="1.1" />
@@ -898,7 +898,7 @@
                 <enemy clazz="Blob" offsetY="1.1" />
                 <enemy clazz="Blob" offsetY="1.1" />
 
-                <enemy clazz="Healer" delay="15" />
+                <enemy clazz="Healer" delay="10" />
                 <enemy clazz="Healer" offsetY="1.1" />
                 <enemy clazz="Healer" offsetY="1.1" />
                 <enemy clazz="Healer" offsetY="1.1" />
