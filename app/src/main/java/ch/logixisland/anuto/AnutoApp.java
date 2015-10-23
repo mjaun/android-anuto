@@ -1,14 +1,6 @@
 package ch.logixisland.anuto;
 
 import android.app.Application;
-import android.os.Environment;
-
-import java.io.File;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 public class AnutoApp extends Application {
 
@@ -25,6 +17,7 @@ public class AnutoApp extends Application {
     }
 
     private void uncaughtException(Thread thread, Throwable ex) {
+        /*
         DateFormat df = new SimpleDateFormat("yyyy-dd-MM_HH-mm-ss");
         Date now = Calendar.getInstance().getTime();
 
@@ -37,5 +30,6 @@ public class AnutoApp extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
     }
 }

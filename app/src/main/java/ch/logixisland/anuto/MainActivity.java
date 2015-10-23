@@ -2,10 +2,7 @@ package ch.logixisland.anuto;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Environment;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 
 import ch.logixisland.anuto.game.GameEngine;
@@ -27,6 +24,7 @@ public class MainActivity extends Activity {
         view_tower_defense = (GameView)findViewById(R.id.view_tower_defense);
 
         try {
+            /*
             File sdCard = Environment.getExternalStorageDirectory();
             File levelXml = new File(sdCard, "anuto-level.xml");
 
@@ -37,6 +35,9 @@ public class MainActivity extends Activity {
             } else {
                 inStream = getResources().openRawResource(R.raw.level);
             }
+            */
+
+            InputStream inStream = getResources().openRawResource(R.raw.level);
 
             try {
                 GameManager.getInstance().setLevel(Level.deserialize(inStream));

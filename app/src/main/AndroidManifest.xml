@@ -2,8 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ch.logixisland.anuto" >
 
+    <!--
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
+    -->
 
     <application
         android:name="ch.logixisland.anuto.AnutoApp"
