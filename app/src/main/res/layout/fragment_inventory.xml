@@ -1,33 +1,41 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    tools:context="ch.logixisland.anuto.InventoryFragment">
+    android:layout_height="wrap_content">
 
-    <view
-        style="@style/InventoryItem"
-        class="ch.logixisland.anuto.TowerView"
+    <ch.logixisland.anuto.TowerView
+        app:drawSize="1.3"
         android:id="@+id/view_tower_1"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="5dp"
         android:layout_centerVertical="true" />
 
-    <view
-        style="@style/InventoryItem"
-        class="ch.logixisland.anuto.TowerView"
+    <ch.logixisland.anuto.TowerView
+        app:drawSize="1.3"
         android:id="@+id/view_tower_2"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="5dp"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@id/view_tower_1" />
 
-    <view
-        style="@style/InventoryItem"
-        class="ch.logixisland.anuto.TowerView"
+    <ch.logixisland.anuto.TowerView
+        app:drawSize="1.3"
         android:id="@+id/view_tower_3"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="5dp"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@id/view_tower_2" />
 
-    <view
-        style="@style/InventoryItem"
-        class="ch.logixisland.anuto.TowerView"
+    <ch.logixisland.anuto.TowerView
+        app:drawSize="1.3"
         android:id="@+id/view_tower_4"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="5dp"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@id/view_tower_3" />
 </RelativeLayout>

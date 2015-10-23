@@ -12,14 +12,15 @@
         <strongAgainstModifier>1.5</strongAgainstModifier>
         <weakAgainstModifier>0.5</weakAgainstModifier>
 
-        <earlyModifier>35.0</earlyModifier>
-        <earlyRoot>3</earlyRoot>
+        <difficultyOffset>-10e3</difficultyOffset>
+        <difficultyLinear>30</difficultyLinear>
+        <difficultyQuadratic>6e-4</difficultyQuadratic>
 
-        <linearDifficulty>15</linearDifficulty>
-        <quadraticDifficulty>1e-3</quadraticDifficulty>
-
-        <rewardModifier>1.0</rewardModifier>
+        <rewardModifier>1</rewardModifier>
         <rewardRoot>3</rewardRoot>
+
+        <earlyModifier>35</earlyModifier>
+        <earlyRoot>3</earlyRoot>
     </settings>
 
     <!-- Tower Configuration -->
@@ -40,7 +41,6 @@
             <enhanceRange>0.1</enhanceRange>
             <enhanceReload>0.05</enhanceReload>
             <strongAgainst>Soldier</strongAgainst>
-            <weakAgainst>Blob</weakAgainst>
         </tower>
         <tower>
             <clazz>CanonDual</clazz>
@@ -56,7 +56,6 @@
             <enhanceRange>0.1</enhanceRange>
             <enhanceReload>0.03</enhanceReload>
             <strongAgainst>Soldier</strongAgainst>
-            <weakAgainst>Blob</weakAgainst>
         </tower>
         <tower>
             <clazz>CanonMG</clazz>
@@ -71,7 +70,6 @@
             <enhanceRange>0.1</enhanceRange>
             <enhanceReload>0.01</enhanceReload>
             <strongAgainst>Soldier</strongAgainst>
-            <weakAgainst>Blob</weakAgainst>
         </tower>
 
         <!-- Laser Towers -->
@@ -89,8 +87,8 @@
             <enhanceDamage>170</enhanceDamage>
             <enhanceRange>0.1</enhanceRange>
             <enhanceReload>0.1</enhanceReload>
-            <strongAgainst>Blob;Flyer</strongAgainst>
-            <weakAgainst>Sprinter;Healer</weakAgainst>
+            <strongAgainst>Healer;Flyer</strongAgainst>
+            <weakAgainst>Blob</weakAgainst>
         </tower>
         <tower>
             <clazz>LaserTower2</clazz>
@@ -107,8 +105,8 @@
             <enhanceReload>0.1</enhanceReload>
             <property name="bounce">2</property>
             <property name="bounceDistance">2.0</property>
-            <strongAgainst>Blob;Flyer</strongAgainst>
-            <weakAgainst>Sprinter;Healer</weakAgainst>
+            <strongAgainst>Healer;Flyer</strongAgainst>
+            <weakAgainst>Blob</weakAgainst>
         </tower>
         <tower>
             <clazz>LaserTower3</clazz>
@@ -122,8 +120,8 @@
             <enhanceDamage>900</enhanceDamage>
             <enhanceRange>0.2</enhanceRange>
             <enhanceReload>0.1</enhanceReload>
-            <strongAgainst>Blob;Flyer</strongAgainst>
-            <weakAgainst>Sprinter;Healer</weakAgainst>
+            <strongAgainst>Healer;Flyer</strongAgainst>
+            <weakAgainst>Blob</weakAgainst>
         </tower>
 
         <!-- Explosive Towers -->
@@ -139,12 +137,12 @@
             <enhanceBase>1.2</enhanceBase>
             <enhanceCost>125</enhanceCost>
             <enhanceDamage>85</enhanceDamage>
-            <enhanceRange>0.2</enhanceRange>
+            <enhanceRange>0.1</enhanceRange>
             <enhanceReload>0.05</enhanceReload>
             <property name="inaccuracy">1.0</property>
             <property name="explosionRadius">1.5</property>
             <property name="enhanceExplosionRadius">0.05</property>
-            <strongAgainst>Sprinter;Healer</strongAgainst>
+            <strongAgainst>Sprinter;Soldier;Blob</strongAgainst>
             <weakAgainst>Flyer</weakAgainst>
         </tower>
         <tower>
@@ -164,7 +162,7 @@
             <property name="enhanceMaxMineCount">1</property>
             <property name="explosionRadius">2.0</property>
             <property name="enhanceExplosionRadius">0.05</property>
-            <strongAgainst>Sprinter;Healer</strongAgainst>
+            <strongAgainst>Sprinter;Soldier;Blob</strongAgainst>
             <weakAgainst>Flyer</weakAgainst>
         </tower>
         <tower>
@@ -177,45 +175,45 @@
             <enhanceBase>1.2</enhanceBase>
             <enhanceCost>500</enhanceCost>
             <enhanceDamage>2100</enhanceDamage>
-            <enhanceRange>0.3</enhanceRange>
+            <enhanceRange>0.2</enhanceRange>
             <enhanceReload>0.1</enhanceReload>
             <property name="explosionRadius">1.7</property>
             <property name="enhanceExplosionRadius">0.05</property>
-            <strongAgainst>Sprinter;Healer</strongAgainst>
+            <strongAgainst>Sprinter;Soldier;Blob</strongAgainst>
             <weakAgainst>Flyer</weakAgainst>
         </tower>
 
         <!-- Glue / Teleport Towers -->
         <tower>
             <slot>3</slot>
-            <clazz>GlueGun</clazz>
-            <upgrade>GlueTower</upgrade>
+            <clazz>GlueTower</clazz>
+            <upgrade>GlueGun</upgrade>
             <value>500</value>
-            <damage>1.5</damage>
-            <range>2.5</range>
+            <damage>1.2</damage>
+            <range>1.5</range>
             <reload>2.0</reload>
             <maxLevel>4</maxLevel>
             <damageText>Intensity</damageText>
             <enhanceBase>1.2</enhanceBase>
             <enhanceCost>100</enhanceCost>
             <enhanceDamage>0.2</enhanceDamage>
-            <enhanceRange>0.2</enhanceRange>
+            <enhanceRange>0.1</enhanceRange>
             <enhanceReload>0</enhanceReload>
             <property name="glueDuration">1.5</property>
         </tower>
         <tower>
-            <clazz>GlueTower</clazz>
+            <clazz>GlueGun</clazz>
             <upgrade>TeleportTower</upgrade>
             <value>1300</value>
-            <damage>1.5</damage>
-            <range>1.5</range>
+            <damage>1.2</damage>
+            <range>2.5</range>
             <reload>3.0</reload>
             <maxLevel>4</maxLevel>
             <damageText>Intensity</damageText>
             <enhanceBase>1.2</enhanceBase>
-            <enhanceCost>100</enhanceCost>
-            <enhanceDamage>0.5</enhanceDamage>
-            <enhanceRange>0.1</enhanceRange>
+            <enhanceCost>200</enhanceCost>
+            <enhanceDamage>0.3</enhanceDamage>
+            <enhanceRange>0.2</enhanceRange>
             <enhanceReload>0</enhanceReload>
             <property name="glueDuration">2.5</property>
         </tower>

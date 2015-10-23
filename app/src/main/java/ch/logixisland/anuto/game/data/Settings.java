@@ -28,10 +28,13 @@ public class Settings {
     public boolean endless;
 
     @Element
-    public float linearDifficulty;
+    public float difficultyOffset;
 
     @Element
-    public float quadraticDifficulty;
+    public float difficultyLinear;
+
+    @Element
+    public float difficultyQuadratic;
 
     @Element
     public float rewardModifier;

@@ -25,8 +25,8 @@
     <fragment
         android:id="@+id/fragment_tower_info"
         android:name="ch.logixisland.anuto.TowerInfoFragment"
-        android:layout_width="220dp"
-        android:layout_height="320dp"
+        android:layout_width="200dp"
+        android:layout_height="330dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         tools:layout="@layout/fragment_tower_info" />

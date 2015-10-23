@@ -84,10 +84,10 @@ public class TowerInfoFragment extends Fragment implements
 
         view_tower.setEnabled(false);
 
-        txt_level_text.setText(getResources().getString(R.string.level) + ": ");
-        txt_range_text.setText(getResources().getString(R.string.range) + ": ");
-        txt_reload_text.setText(getResources().getString(R.string.reload) + ": ");
-        txt_inflicted_text.setText(getResources().getString(R.string.inflicted) + ": ");
+        txt_level_text.setText(getResources().getString(R.string.level) + ":");
+        txt_range_text.setText(getResources().getString(R.string.range) + ":");
+        txt_reload_text.setText(getResources().getString(R.string.reload) + ":");
+        txt_inflicted_text.setText(getResources().getString(R.string.inflicted) + ":");
 
         mHandler = new Handler();
 
@@ -131,17 +131,22 @@ public class TowerInfoFragment extends Fragment implements
             txt_damage_text.setText(mTower.getConfig().damageText + ":");
         }
 
+        if (mTower.isEnhanceable()) {
+            btn_enhance.setText(getResources().getString(R.string.enhance)
+                    + " (" + StringUtils.formatSuffix(mTower.getEnhanceCost()) + ")");
+        } else {
+            btn_enhance.setText(getResources().getString(R.string.enhance));
+        }
+
         if (mTower.isUpgradeable()) {
-            btn_upgrade.setText(getResources().getString(R.string.upgrade) + " (" + mTower.getUpgradeCost() + ")");
+            btn_upgrade.setText(getResources().getString(R.string.upgrade)
+                    + " (" + StringUtils.formatSuffix(mTower.getUpgradeCost()) + ")");
         } else {
             btn_upgrade.setText(getResources().getString(R.string.upgrade));
         }
 
-        if (mTower.isEnhanceable()) {
-            btn_enhance.setText(getResources().getString(R.string.enhance) + " (" + mTower.getEnhanceCost() + ")");
-        } else {
-            btn_enhance.setText(getResources().getString(R.string.enhance));
-        }
+        btn_sell.setText(getResources().getString(R.string.sell)
+                + " (" + StringUtils.formatSuffix(mTower.getValue()) + ")");
 
         if (mTower instanceof AimingTower) {
             AimingTower t = (AimingTower) mTower;
@@ -156,7 +161,6 @@ public class TowerInfoFragment extends Fragment implements
             btn_lock_target.setEnabled(false);
         }
 
-        btn_sell.setText(getResources().getString(R.string.sell) + " (" + mTower.getValue() + ")");
         btn_upgrade.setEnabled(mTower.isUpgradeable() && mManager.getCredits() >= mTower.getUpgradeCost());
         btn_enhance.setEnabled(mTower.isEnhanceable() && mManager.getCredits() >= mTower.getEnhanceCost());
     }

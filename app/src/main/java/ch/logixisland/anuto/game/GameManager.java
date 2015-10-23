@@ -479,8 +479,9 @@ public class GameManager {
 
         Log.d(TAG, String.format("waveHealth=%f", waveHealth));
 
-        float damagePossible = getSettings().linearDifficulty * mCreditsEarned
-                + getSettings().quadraticDifficulty * MathUtils.square(mCreditsEarned);
+        float damagePossible = getSettings().difficultyOffset
+                + getSettings().difficultyLinear * mCreditsEarned
+                + getSettings().difficultyQuadratic * MathUtils.square(mCreditsEarned);
         float healthModifier = damagePossible / waveHealth;
 
         waveMan.modifyHealth(healthModifier);
@@ -496,9 +497,7 @@ public class GameManager {
         waveMan.modifyWaveReward((getWaveNumber() / mLevel.getWaves().size()) + 1);
 
         Log.d(TAG, String.format("waveNumber=%d", getWaveNumber()));
-        Log.d(TAG, String.format("damagePossible=%d + %d\n",
-                Math.round(getSettings().linearDifficulty * mCreditsEarned),
-                Math.round(getSettings().quadraticDifficulty * MathUtils.square(mCreditsEarned))));
+        Log.d(TAG, String.format("damagePossible=%f\n", damagePossible));
         Log.d(TAG, String.format("healthModifier=%f", waveMan.getHealthModifier()));
         Log.d(TAG, String.format("rewardModifier=%f", waveMan.getRewardModifier()));
     }

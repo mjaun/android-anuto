@@ -1,10 +1,9 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="220dp"
-    android:layout_height="320dp"
+    android:layout_width="200dp"
+    android:layout_height="330dp"
     android:padding="10dp"
-    tools:context="ch.logixisland.anuto.TowerInfoFragment"
     android:background="@drawable/border">
 
     <LinearLayout
@@ -26,8 +25,11 @@
             android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:text="@string/lock_target"
-            android:id="@+id/btn_lock_target"
-            android:layout_marginBottom="10dp" />
+            android:id="@+id/btn_lock_target" />
+
+        <Space
+            android:layout_height="10dp"
+            android:layout_width="wrap_content" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -52,17 +54,11 @@
     </LinearLayout>
 
     <TableLayout
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/tableLayout">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-
+        <TableRow>
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmallInverse"
                 android:text="@string/level"
                 android:id="@+id/txt_level_text"
@@ -70,21 +66,14 @@
                 android:paddingRight="10dp" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmallInverse"
                 android:text="\?"
                 android:id="@+id/txt_level"
                 android:layout_column="1" />
         </TableRow>
 
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-
+        <TableRow>
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmallInverse"
                 android:text="@string/damage"
                 android:id="@+id/txt_damage_text"
@@ -92,21 +81,14 @@
                 android:paddingRight="10dp" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmallInverse"
                 android:text="\?"
                 android:id="@+id/txt_damage"
                 android:layout_column="1" />
         </TableRow>
 
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-
+        <TableRow>
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmallInverse"
                 android:text="@string/reload"
                 android:layout_column="0"
@@ -114,21 +96,14 @@
                 android:id="@+id/txt_reload_text"/>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmallInverse"
                 android:text="\?"
                 android:id="@+id/txt_reload"
                 android:layout_column="1" />
         </TableRow>
 
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-
+        <TableRow>
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmallInverse"
                 android:text="@string/range"
                 android:layout_column="0"
@@ -136,21 +111,18 @@
                 android:id="@+id/txt_range_text" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmallInverse"
                 android:text="\?"
                 android:id="@+id/txt_range"
                 android:layout_column="1" />
         </TableRow>
 
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+        <TableRow>
+            <Space android:layout_height="10dp"/>
+        </TableRow>
 
+        <TableRow>
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmallInverse"
                 android:text="@string/inflicted"
                 android:layout_column="0"
@@ -158,8 +130,6 @@
                 android:id="@+id/txt_inflicted_text" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmallInverse"
                 android:text="\?"
                 android:id="@+id/txt_inflicted"
@@ -167,15 +137,14 @@
         </TableRow>
     </TableLayout>
 
-    <view
-        class="ch.logixisland.anuto.TowerView"
+    <ch.logixisland.anuto.TowerView
+        app:drawSize="1.8"
         android:id="@+id/view_tower"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="-5dp"
-        android:layout_marginRight="-10dp"
-        app:drawSize="1.8" />
+        android:layout_marginEnd="-10dp" />
 
 </RelativeLayout>
