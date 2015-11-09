@@ -24,19 +24,6 @@ public class MainActivity extends Activity {
         view_tower_defense = (GameView)findViewById(R.id.view_tower_defense);
 
         try {
-            /*
-            File sdCard = Environment.getExternalStorageDirectory();
-            File levelXml = new File(sdCard, "anuto-level.xml");
-
-            InputStream inStream;
-
-            if (levelXml.exists()) {
-                inStream = new FileInputStream(levelXml);
-            } else {
-                inStream = getResources().openRawResource(R.raw.level);
-            }
-            */
-
             InputStream inStream = getResources().openRawResource(R.raw.level);
 
             try {

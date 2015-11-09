@@ -4,8 +4,10 @@ import android.app.Application;
 
 public class AnutoApp extends Application {
 
+    Thread.UncaughtExceptionHandler defaultUEH;
+
     public AnutoApp() {
-        final Thread.UncaughtExceptionHandler defaultUEH = Thread.getDefaultUncaughtExceptionHandler();
+        defaultUEH = Thread.getDefaultUncaughtExceptionHandler();
 
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
@@ -17,19 +19,6 @@ public class AnutoApp extends Application {
     }
 
     private void uncaughtException(Thread thread, Throwable ex) {
-        /*
-        DateFormat df = new SimpleDateFormat("yyyy-dd-MM_HH-mm-ss");
-        Date now = Calendar.getInstance().getTime();
 
-        String fileName = String.format("anuto-crash-%s.log", df.format(now));
-        File logFile = new File(Environment.getExternalStorageDirectory(), fileName);
-        String[] cmd = new String[] { "logcat", "-d", "-f", logFile.getAbsolutePath() };
-
-        try {
-            Runtime.getRuntime().exec(cmd);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        */
     }
 }

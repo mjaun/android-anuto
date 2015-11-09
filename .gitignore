@@ -9,3 +9,4 @@ app/*.apk
 app/src/main/libs/
 app/src/main/obj/
 
+logo/logo*.png

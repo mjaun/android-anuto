@@ -1,0 +1,84 @@
+<svg 
+	xmlns="http://www.w3.org/2000/svg" 
+	xmlns:xlink= "http://www.w3.org/1999/xlink" 
+	version="1.1"
+	width="512"
+	height="512">
+	<defs>
+		<pattern 
+			id="plateau" 
+			width="128" height="128" 
+			patternUnits="userSpaceOnUse">
+			<image 
+				xlink:href="plateau.png" 
+				x="0" y="0"
+				width="128" height="128" />
+		</pattern>
+		
+		<pattern 
+			id="background1" 
+			width="300" height="300" 
+			patternUnits="userSpaceOnUse">
+			<image 
+				xlink:href="background1.png" 
+				x="0" y="0"
+				width="300" height="300" />
+		</pattern>
+		
+		<pattern 
+			id="background2" 
+			width="30" height="30" 
+			patternUnits="userSpaceOnUse">
+			<image 
+				xlink:href="background2.png" 
+				x="0" y="0"
+				width="30" height="30" />
+		</pattern>
+		
+		<radialGradient id="overlay" gradientUnits="objectBoundingBox"
+		  cx="0.5" cy="0" r="1">
+		  <stop offset="0" stop-color="#eeeeee"/>
+		  <stop offset="1" stop-color="#000000"/>
+		</radialGradient>
+	</defs>
+
+	<g transform="translate(0,0)">
+		<rect 
+			x="0" y="0" 
+			rx="80" ry="80" 
+			width="512" height="512" 
+			fill="url(#plateau)" />
+		
+		<rect 
+			x="0" y="0" 
+			rx="80" ry="80" 
+			width="512" height="512" 
+			fill="url(#overlay)"
+			opacity="0.7" />
+		
+		<g transform="translate(256,256)">
+			<g transform="translate(0,40) rotate(30)">
+				<circle
+					cx="0" cy="0"
+					r="150"
+					stroke="black"
+					stroke-width="5"
+					fill="url(#background1)" />
+			</g>
+		
+			<rect
+				x="-50" y="-200"
+				width="100" height="300"
+				stroke="black"
+				stroke-width="5"
+				fill="url(#background1)" />
+				
+			<rect
+				x="-50" y="-200"
+				width="100" height="60"
+				stroke="black"
+				stroke-width="5"
+				fill="url(#background2)" />
+		</g>
+	</g>
+</svg>
