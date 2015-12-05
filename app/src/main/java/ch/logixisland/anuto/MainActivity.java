@@ -22,23 +22,26 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         view_tower_defense = (GameView)findViewById(R.id.view_tower_defense);
-
-        try {
-            InputStream inStream = getResources().openRawResource(R.raw.level);
-
-            try {
-                GameManager.getInstance().setLevel(Level.deserialize(inStream));
-            } finally {
-                inStream.close();
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Could not load level!", e);
-        }
     }
 
     @Override
     public void onStart() {
         super.onStart();
+
+        if (GameManager.getInstance().getLevel() == null)
+        {
+            try {
+                InputStream inStream = getResources().openRawResource(R.raw.level);
+
+                try {
+                    GameManager.getInstance().setLevel(Level.deserialize(inStream));
+                } finally {
+                    inStream.close();
+                }
+            } catch (Exception e) {
+                throw new RuntimeException("Could not load level!", e);
+            }
+        }
 
         GameEngine.getInstance().start();
         view_tower_defense.start();

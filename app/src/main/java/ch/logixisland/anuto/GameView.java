@@ -49,6 +49,7 @@ public class GameView extends View implements Runnable, View.OnDragListener, Vie
         mGame = GameEngine.getInstance();
         mManager = GameManager.getInstance();
 
+        mGame.setScreenSize(getWidth(), getHeight());
         mGame.add(this);
     }
 
