@@ -183,11 +183,11 @@ public class Sprite {
             boolean ret = false;
 
             if (mTimer.tick()) {
-                mPosition++;
-
-                if (mPosition >= mSequence.length) {
+                if (mPosition >= mSequence.length - 1) {
                     mPosition = 0;
                     ret = true;
+                } else {
+                    mPosition++;
                 }
             }
 
