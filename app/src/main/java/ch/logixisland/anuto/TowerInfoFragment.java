@@ -191,7 +191,65 @@ public class TowerInfoFragment extends Fragment implements
     @Override
     public void onClick(View v) {
         if (v == btn_strategy) {
-            AimingTower t = (AimingTower)mTower;
+            onStrategyClicked();
+        }
+
+        if (v == btn_lock_target) {
+            onLockTargetClicked();
+        }
+
+        if (v == btn_enhance) {
+            onEnhanceClicked();
+        }
+
+        if (v == btn_upgrade) {
+            onUpgradeClicked();
+        }
+
+        if (v == btn_sell) {
+            onSellClicked();
+        }
+    }
+
+    private void onSellClicked() {
+        if (mTower != null) {
+            view_tower.setTower(null);
+
+            mTower.sell();
+            mTower.remove();
+            mTower = null;
+
+            mManager.hideTowerInfo();
+        }
+    }
+
+    private void onUpgradeClicked() {
+        if (mTower != null && mTower.isUpgradeable()) {
+            mTower = mTower.upgrade();
+            mManager.setSelectedTower(mTower);
+            mManager.showTowerInfo(mTower);
+        }
+    }
+
+    private void onEnhanceClicked() {
+        if (mTower != null && mTower.isEnhanceable()) {
+            mTower.enhance();
+            refresh();
+        }
+    }
+
+    private void onLockTargetClicked() {
+        if (mTower != null && mTower instanceof AimingTower) {
+            AimingTower t = (AimingTower) mTower;
+            t.setLockOnTarget(!t.doesLockOnTarget());
+
+            refresh();
+        }
+    }
+
+    private void onStrategyClicked() {
+        if (mTower != null && mTower instanceof AimingTower) {
+            AimingTower t = (AimingTower) mTower;
             List<AimingTower.Strategy> values = Arrays.asList(AimingTower.Strategy.values());
             int index = values.indexOf(t.getStrategy()) + 1;
             if (index >= values.size()) {
@@ -200,34 +258,6 @@ public class TowerInfoFragment extends Fragment implements
             t.setStrategy(values.get(index));
 
             refresh();
-        }
-
-        if (v == btn_lock_target) {
-            AimingTower t = (AimingTower)mTower;
-            t.setLockOnTarget(!t.doesLockOnTarget());
-
-            refresh();
-        }
-
-        if (v == btn_enhance) {
-            mTower.enhance();
-            refresh();
-        }
-
-        if (v == btn_upgrade) {
-            mTower = mTower.upgrade();
-            mManager.setSelectedTower(mTower);
-            mManager.showTowerInfo(mTower);
-        }
-
-        if (v == btn_sell) {
-            view_tower.setTower(null);
-
-            mTower.sell();
-            mTower.remove();
-            mTower = null;
-
-            mManager.hideTowerInfo();
         }
     }
 
