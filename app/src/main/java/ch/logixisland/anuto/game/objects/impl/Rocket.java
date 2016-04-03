@@ -112,8 +112,8 @@ public class Rocket extends HomingShot {
     @Override
     public void tick() {
         if (isEnabled()) {
-            setDirection(getDirectionTo(mTarget));
-            mAngle = getAngleTo(mTarget);
+            setDirection(getDirectionTo(getTarget()));
+            mAngle = getAngleTo(getTarget());
 
             mSpriteFire.tick();
         }
@@ -135,7 +135,7 @@ public class Rocket extends HomingShot {
 
     @Override
     protected void onTargetReached() {
-        getGame().add(new Explosion(getOrigin(), mTarget.getPosition(), mDamage, mRadius));
+        getGame().add(new Explosion(getOrigin(), getTarget().getPosition(), mDamage, mRadius));
         getGame().remove(this);
     }
 }

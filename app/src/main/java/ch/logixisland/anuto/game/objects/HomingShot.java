@@ -27,7 +27,7 @@ public abstract class HomingShot extends Shot {
     ------ Members ------
      */
 
-    protected Enemy mTarget;
+    private Enemy mTarget;
     private boolean mTargetReached;
 
     /*
@@ -59,6 +59,9 @@ public abstract class HomingShot extends Shot {
         }
     }
 
+    public Enemy getTarget() {
+        return mTarget;
+    }
 
     public void setTarget(Enemy target) {
         if (mTarget != null) {

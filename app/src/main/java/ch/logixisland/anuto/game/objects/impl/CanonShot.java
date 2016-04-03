@@ -75,7 +75,7 @@ public class CanonShot extends HomingShot {
 
     @Override
     public void tick() {
-        setDirection(getDirectionTo(mTarget));
+        setDirection(getDirectionTo(getTarget()));
         mAngle += ROTATION_STEP;
 
         super.tick();
@@ -88,7 +88,7 @@ public class CanonShot extends HomingShot {
 
     @Override
     protected void onTargetReached() {
-        mTarget.damage(mDamage, getOrigin());
+        getTarget().damage(mDamage, getOrigin());
         this.remove();
     }
 }
