@@ -23,5 +23,8 @@ public class Wave {
     public int extend = 0;
 
     @Element(required=false)
+    public int maxExtend = 0;
+
+    @Element(required=false)
     public float nextWaveDelay = 10;
 }

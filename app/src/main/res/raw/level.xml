@@ -414,6 +414,7 @@
             <waveReward>100</waveReward>
             <healthModifier>0.5</healthModifier>
             <extend>2</extend>
+            <maxExtend>8</maxExtend>
             <enemies>
                 <enemy clazz="Soldier" delay="8" />
                 <enemy clazz="Soldier" offsetY="1.1" />
@@ -427,6 +428,7 @@
         <wave>
             <waveReward>100</waveReward>
             <extend>2</extend>
+            <maxExtend>4</maxExtend>
             <enemies>
                 <enemy clazz="Soldier" delay="8" />
                 <enemy clazz="Soldier" offsetY="1.1" />
@@ -447,6 +449,7 @@
         <wave>
             <waveReward>120</waveReward>
             <extend>1</extend>
+            <maxExtend>4</maxExtend>
             <enemies>
                 <enemy clazz="Soldier" delay="10" />
                 <enemy clazz="Soldier" offsetY="1.1" />
@@ -467,6 +470,7 @@
         <wave>
             <waveReward>120</waveReward>
             <extend>1</extend>
+            <maxExtend>4</maxExtend>
             <enemies>
                 <enemy clazz="Soldier" delay="10" />
                 <enemy clazz="Soldier" offsetY="1.1" />
@@ -494,6 +498,7 @@
         <wave>
             <waveReward>150</waveReward>
             <extend>1</extend>
+            <maxExtend>4</maxExtend>
             <enemies>
                 <enemy clazz="Sprinter" delay="10" />
                 <enemy clazz="Sprinter" offsetY="1.1" />
@@ -521,6 +526,7 @@
         <wave>
             <waveReward>150</waveReward>
             <extend>1</extend>
+            <maxExtend>3</maxExtend>
             <enemies>
                 <enemy clazz="Soldier" delay="10" />
                 <enemy clazz="Soldier" offsetY="1.1" />
@@ -563,6 +569,7 @@
             <waveReward>170</waveReward>
             <healthModifier>0.5</healthModifier>
             <extend>1</extend>
+            <maxExtend>4</maxExtend>
             <enemies>
                 <enemy clazz="Flyer" delay="10" />
                 <enemy clazz="Flyer" offsetY="1.1" />
@@ -582,6 +589,7 @@
         <wave>
             <waveReward>170</waveReward>
             <extend>1</extend>
+            <maxExtend>3</maxExtend>
             <enemies>
                 <enemy clazz="Sprinter" delay="10" />
                 <enemy clazz="Sprinter" offsetY="1.1" />
@@ -623,6 +631,7 @@
         <wave>
             <waveReward>190</waveReward>
             <extend>1</extend>
+            <maxExtend>3</maxExtend>
             <enemies>
                 <enemy clazz="Sprinter" delay="10" />
                 <enemy clazz="Sprinter" offsetY="1.1" />
@@ -679,6 +688,7 @@
         <wave>
             <waveReward>190</waveReward>
             <extend>1</extend>
+            <maxExtend>4</maxExtend>
             <enemies>
                 <enemy clazz="Healer" delay="10" />
                 <enemy clazz="Healer" offsetY="1.1" />
@@ -712,6 +722,7 @@
         <wave>
             <waveReward>240</waveReward>
             <extend>1</extend>
+            <maxExtend>4</maxExtend>
             <healthModifier>0.7</healthModifier>
             <enemies>
                 <enemy clazz="Healer" delay="15" />
@@ -732,6 +743,7 @@
         <wave>
             <waveReward>240</waveReward>
             <extend>1</extend>
+            <maxExtend>4</maxExtend>
             <enemies>
                 <enemy clazz="Healer" delay="10" />
                 <enemy clazz="Healer" offsetY="1.1" />
@@ -764,6 +776,7 @@
         <wave>
             <waveReward>240</waveReward>
             <extend>1</extend>
+            <maxExtend>4</maxExtend>
             <enemies>
                 <enemy clazz="Healer" delay="10" />
                 <enemy clazz="Healer" offsetY="1.1" />
@@ -794,6 +807,7 @@
         <wave>
             <waveReward>240</waveReward>
             <extend>1</extend>
+            <maxExtend>4</maxExtend>
             <enemies>
                 <enemy clazz="Healer" delay="10" />
                 <enemy clazz="Healer" offsetY="1.1" />
@@ -825,6 +839,7 @@
             <waveReward>300</waveReward>
             <healthModifier>2.0</healthModifier>
             <extend>1</extend>
+            <maxExtend>2</maxExtend>
             <enemies>
                 <enemy clazz="Soldier" delay="10" />
                 <enemy clazz="Soldier" offsetY="1.1" />

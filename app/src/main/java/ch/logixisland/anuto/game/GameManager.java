@@ -311,6 +311,10 @@ public class GameManager {
         Wave nextWave = getNextWave();
         int extend = nextWave.extend * getWaveIterationCount();
 
+        if (nextWave.maxExtend > 0 && extend > nextWave.maxExtend) {
+            extend = nextWave.maxExtend;
+        }
+
         WaveManager m = new WaveManager(nextWave, extend);
         m.addListener(mWaveListener);
 
