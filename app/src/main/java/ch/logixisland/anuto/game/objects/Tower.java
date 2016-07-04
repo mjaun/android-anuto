@@ -224,8 +224,9 @@ public abstract class Tower extends GameObject {
             throw new RuntimeException();
         }
 
-        getManager().takeCredits(getUpgradeCost());
-        upgrade.mValue += this.mValue;
+        int cost = getUpgradeCost();
+        getManager().takeCredits(cost);
+        upgrade.mValue = this.mValue + cost;
 
         this.remove();
         upgrade.setPlateau(plateau);
