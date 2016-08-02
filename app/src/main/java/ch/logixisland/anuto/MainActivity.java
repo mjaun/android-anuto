@@ -8,6 +8,7 @@ import java.io.InputStream;
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.GameManager;
 import ch.logixisland.anuto.game.data.Level;
+import ch.logixisland.anuto.menu.LevelSelectFragment;
 
 public class MainActivity extends Activity {
 
@@ -23,8 +24,10 @@ public class MainActivity extends Activity {
 
         view_tower_defense = (GameView)findViewById(R.id.view_tower_defense);
 
+        int levelId = getIntent().getIntExtra(LevelSelectFragment.SELECTED_LEVEL, R.raw.level_1);
+
         try {
-            InputStream inStream = getResources().openRawResource(R.raw.level);
+            InputStream inStream = getResources().openRawResource(levelId);
 
             try {
                 GameManager.getInstance().setLevel(Level.deserialize(inStream));
