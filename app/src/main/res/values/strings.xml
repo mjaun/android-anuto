@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <string name="app_name">Anuto TD</string>
 
@@ -9,6 +10,7 @@
     <string name="score">Score</string>
 
     <string name="status_credits">Credits</string>
+    <string name="status_live">Live</string>
     <string name="status_lives">Lives</string>
     <string name="status_wave">Wave</string>
     <string name="status_bonus">Bonus</string>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="app_name">Anuto TD</string>
+
+    <string name="restart">Redémarrer</string>
+    <string name="next_wave">Prochaine vague</string>
+
+    <string name="game_over_lost">Game Over !</string>
+    <string name="game_over_won">Vous avez gagné !</string>
+    <string name="score">Score</string>
+
+    <string name="status_credits">Crédits</string>
+    <string name="status_live">Vie</string>
+    <string name="status_lives">Vies</string>
+    <string name="status_wave">Vague</string>
+    <string name="status_bonus">Bonus</string>
+
+    <string name="level">Niveau</string>
+    <string name="damage">Dégâts</string>
+    <string name="reload">Recharger</string>
+    <string name="range">Portée</string>
+    <string name="inflicted">Infligé</string>
+
+    <string name="lock_target">Verrouiller la cible</string>
+    <string name="strategy">Stratégie</string>
+    <string name="enhance">Améliorer</string>
+    <string name="upgrade">Surclasser</string>
+    <string name="sell">Vendre</string>
+
+    <string name="msg_are_you_sure">Êtes vous sur ?</string>
+
+    <string-array name="strategies">
+        <item>Le plus près</item>
+        <item>Le plus faible</item>
+        <item>Le plus fort</item>
+        <item>Premier</item>
+        <item>Dernier</item>
+    </string-array>
+</resources>
