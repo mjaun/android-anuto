@@ -29,6 +29,8 @@
 
     <string name="msg_are_you_sure">Are you sure?</string>
 
+    <string name="select_a_level">Select a Level</string>
+    
     <string-array name="strategies">
         <item>Closest</item>
         <item>Weakest</item>
@@ -36,4 +38,5 @@
         <item>First</item>
         <item>Last</item>
     </string-array>
+
 </resources>
