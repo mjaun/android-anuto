@@ -1,12 +1,48 @@
+# Copying and distribution of this file, with or without modification,
+# are permitted in any medium without royalty provided this notice is
+# preserved.  This file is offered as-is, without any warranty.
+# Names of contributors must not be used to endorse or promote products
+# derived from this file without specific prior written permission.
+
+
 .gradle
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
 .DS_Store
-/build
+/build*
 
 app/*.apk
 app/src/main/libs/
 app/src/main/obj/
 
 logo/logo*.png
+
+# Temp files
+*~
+*.bak
+*.backup
+\#*
+.\#*
+*\#
+*.sav
+*.save
+*.autosav
+*.autosave
+
+# OS specific useless files
+thumbs.db
+Thumbs.db
+__MACOSX/
+__MAC_OS_X/
+__OSX/
+__OS_X/
+__WINDOWS/
+__MS_WINDOWS/
+.DS_Store
+.directory
+
+# Log
+*.log
+*.log.*
+error_log*
