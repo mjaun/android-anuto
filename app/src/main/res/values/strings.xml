@@ -8,6 +8,7 @@
     <string name="game_over_lost">Game Over!</string>
     <string name="game_over_won">You won!</string>
     <string name="score">Score</string>
+    <string name="highscore">High Score</string>
 
     <string name="status_credits">Credits</string>
     <string name="status_live">Live</string>
@@ -30,7 +31,8 @@
     <string name="msg_are_you_sure">Are you sure?</string>
 
     <string name="select_a_level">Select a Level</string>
-    
+    <string name="newhighscore">New High Score!</string>
+
     <string-array name="strategies">
         <item>Closest</item>
         <item>Weakest</item>

@@ -11,6 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import ch.logixisland.anuto.game.data.EnemyDescriptor;
 import ch.logixisland.anuto.game.data.Level;
 import ch.logixisland.anuto.game.data.PlateauDescriptor;
+import ch.logixisland.anuto.game.data.Score;
 import ch.logixisland.anuto.game.data.Settings;
 import ch.logixisland.anuto.game.data.Wave;
 import ch.logixisland.anuto.game.objects.Enemy;
@@ -107,12 +108,13 @@ public class GameManager {
 
     private volatile int mCredits;
     private volatile int mCreditsEarned;
-    private volatile int mScore;
     private volatile int mLives;
     private volatile int mEarlyBonus;
     private volatile boolean mGameOver;
     private volatile boolean mGameWon;
     private volatile boolean mNextWaveReady;
+
+    private Score mScore = new Score();
 
     private List<WaveManager> mActiveWaves = new CopyOnWriteArrayList<>();
 
@@ -184,6 +186,7 @@ public class GameManager {
         mGame = GameEngine.getInstance();
         mGameHandler = mGame.createHandler();
         mGameOver = true;
+        addListener(mScore);
     }
 
     /*
@@ -194,7 +197,7 @@ public class GameManager {
         mContext = context;
     }
 
-    public Context getContext(Context context) {
+    public Context getContext() {
         return mContext;
     }
 
@@ -210,6 +213,7 @@ public class GameManager {
         mSelectedTower = null;
         mNextWaveIndex = 0;
         mGameOver = false;
+        mScore.reset();
 
         hideTowerInfo();
     }
@@ -225,10 +229,11 @@ public class GameManager {
 
         mGame.setGameSize(getSettings().width, getSettings().height);
 
+        mScore.setLevel(mLevel.getSettings().name);
+
         mEarlyBonus = 0;
         mNextWaveReady = true;
         mCreditsEarned = getSettings().credits;
-        mScore = 0;
 
         onGameStarted();
 
@@ -329,7 +334,7 @@ public class GameManager {
     }
 
 
-    public int getScore() {
+    public Score getScore() {
         return mScore;
     }
 
@@ -350,7 +355,7 @@ public class GameManager {
         mCredits += amount;
 
         if (!mGameOver) {
-            mScore += amount;
+            mScore.modify(amount);
         }
 
         if (earned) {

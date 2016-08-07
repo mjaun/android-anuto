@@ -3,7 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ch.logixisland.anuto.GameOverFragment">
+    tools:context="ch.logixisland.anuto.GameOverFragment"
+    android:background="@drawable/border"
+    android:padding="20dp"
+    android:elevation="5dp">
 
     <TextView
         android:id="@+id/txt_game_over"
@@ -11,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:textColor="#000000"
-        android:textSize="50sp"
+        android:textSize="20sp"
         android:text="@string/game_over_lost"/>
 
     <TextView
@@ -23,4 +26,26 @@
         android:textColor="#000000"
         android:textSize="30sp"
         android:text="@string/score"/>
+
+
+    <TextView
+        android:id="@+id/txt_high_score"
+        android:layout_below="@id/txt_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textColor="#555555"
+        android:textSize="18sp"
+        android:text="@string/highscore"/>
+
+    <TextView
+        android:id="@+id/txt_new_high_score"
+        android:layout_below="@id/txt_high_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textColor="#bb0000"
+        android:textSize="18sp"
+        android:text="@string/newhighscore"
+        android:visibility="gone" />
 </RelativeLayout>

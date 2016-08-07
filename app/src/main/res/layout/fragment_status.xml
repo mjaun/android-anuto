@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     tools:context="ch.logixisland.anuto.StatusFragment"
     android:orientation="vertical"
-    android:background="@drawable/border_bottom">
+    android:background="@drawable/border_bottom"
+    android:elevation="5dp">
 
     <RelativeLayout
         android:layout_width="fill_parent"

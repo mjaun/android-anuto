@@ -11,6 +11,7 @@ import android.widget.TextView;
 import java.text.DecimalFormat;
 
 import ch.logixisland.anuto.game.GameManager;
+import ch.logixisland.anuto.game.data.Score;
 
 public class GameOverFragment extends Fragment implements GameManager.OnGameStartedListener,
         GameManager.OnGameOverListener {
@@ -19,6 +20,8 @@ public class GameOverFragment extends Fragment implements GameManager.OnGameStar
 
     private TextView txt_game_over;
     private TextView txt_score;
+    private TextView txt_high_score;
+    private TextView txt_new_high_score;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -27,6 +30,8 @@ public class GameOverFragment extends Fragment implements GameManager.OnGameStar
 
         txt_game_over = (TextView)v.findViewById(R.id.txt_game_over);
         txt_score = (TextView)v.findViewById(R.id.txt_score);
+        txt_high_score = (TextView)v.findViewById(R.id.txt_high_score);
+        txt_new_high_score = (TextView)v.findViewById(R.id.txt_new_high_score);
 
         return v;
     }
@@ -64,6 +69,9 @@ public class GameOverFragment extends Fragment implements GameManager.OnGameStar
         txt_game_over.post(new Runnable() {
             @Override
             public void run() {
+
+                Score score = mManager.getScore();
+
                 if (mManager.isGameWon()) {
                     txt_game_over.setText(R.string.game_over_won);
                 } else {
@@ -72,7 +80,17 @@ public class GameOverFragment extends Fragment implements GameManager.OnGameStar
 
                 DecimalFormat fmt = new DecimalFormat("###,###,###,###");
                 txt_score.setText(getResources().getString(R.string.score) +
-                        ": " + fmt.format(mManager.getScore()));
+                        ": " + fmt.format(mManager.getScore().get()));
+
+                if( score.isHighScore()){
+                    txt_new_high_score.setVisibility(View.VISIBLE);
+                    txt_high_score.setVisibility(View.GONE);
+                } else {
+                    txt_new_high_score.setVisibility(View.GONE);
+                    txt_high_score.setVisibility(View.VISIBLE);
+                    txt_high_score.setText(getResources().getString(R.string.highscore) +
+                            ": " + fmt.format(mManager.getScore().getHighScore()));
+                }
             }
         });
 

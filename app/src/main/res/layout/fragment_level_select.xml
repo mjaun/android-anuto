@@ -64,11 +64,32 @@
             android:layout_marginRight="5dp"
             android:layout_marginStart="5dp"
             android:layout_marginTop="10dp" />
+
         <ImageButton
             android:id="@+id/level_4"
             android:layout_width="100dp"
             android:layout_height="150dp"
             android:src="@drawable/level_4_thumb"
+            android:onClick="levelClicked"
+            android:scaleType="fitXY"
+            android:background="@drawable/border"
+            android:cropToPadding="false"
+            android:adjustViewBounds="false"
+            android:elevation="5dp"
+            android:layout_margin="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp" />
+
+
+        <ImageButton
+            android:id="@+id/level_5"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:src="@drawable/level_5_thumb"
             android:onClick="levelClicked"
             android:scaleType="fitXY"
             android:background="@drawable/border"

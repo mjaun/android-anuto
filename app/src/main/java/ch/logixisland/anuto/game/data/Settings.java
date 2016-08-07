@@ -3,6 +3,10 @@ package ch.logixisland.anuto.game.data;
 import org.simpleframework.xml.Element;
 
 public class Settings {
+
+    @Element
+    public String name = new String();
+
     @Element
     public int width;
 
