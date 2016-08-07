@@ -35,6 +35,9 @@ public class MenuActivity extends AppCompatActivity {
             case R.id.level_4:
                 levelId = R.raw.level_4;
                 break;
+            case R.id.level_5:
+                levelId = R.raw.level_5;
+                break;
             default:
                 levelId = R.raw.level_1;
         }

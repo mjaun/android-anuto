@@ -1,6 +1,7 @@
 <level>
     <!-- General Configuration -->
     <settings>
+        <name>leveltwo</name>
         <height>15</height>
         <width>10</width>
         <credits>400</credits>
