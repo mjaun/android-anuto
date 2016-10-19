@@ -1,4 +1,6 @@
-# Anuto - Another Ugly Tower Defense
+# Anuto - Another Ugly Tower Defense (DarkTheme)
+
+This is a test for a dark theme for Anuto.
 
 Anuto is yet another tower defense game for Android.
 However it features astonishing hand-drawn graphics and a smooth gameplay.

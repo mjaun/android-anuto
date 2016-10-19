@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import ch.logixisland.anuto.MainActivity;
@@ -38,10 +39,11 @@ public class MenuActivity extends AppCompatActivity {
             default:
                 levelId = R.raw.level_1;
         }
-
+        CheckBox dt = (CheckBox)findViewById(R.id.darktheme);
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra(LevelSelectFragment.SELECTED_LEVEL, levelId);
+        intent.putExtra("darktheme", dt.isChecked());
         startActivity(intent);
     }
 }

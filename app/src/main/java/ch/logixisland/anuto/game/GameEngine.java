@@ -18,6 +18,8 @@ import ch.logixisland.anuto.game.objects.GameObject;
 import ch.logixisland.anuto.util.container.ConcurrentCollectionMap;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.Vector2;
+import ch.logixisland.anuto.util.theme.DarkTheme;
+import ch.logixisland.anuto.util.theme.Theme;
 
 public class GameEngine {
 
@@ -29,7 +31,7 @@ public class GameEngine {
     private final static int TARGET_FRAME_PERIOD_MS = 1000 / TARGET_FRAME_RATE;
     private final static int TICKS_100MS = Math.round(TARGET_FRAME_RATE * 0.1f);
 
-    private final static int BACKGROUND_COLOR = Color.WHITE;
+    private int BACKGROUND_COLOR;
 
     private final static String TAG = GameEngine.class.getSimpleName();
 
@@ -135,6 +137,7 @@ public class GameEngine {
     private final Matrix mScreenMatrix = new Matrix();
     private final Matrix mScreenMatrixInverse = new Matrix();
 
+    private Theme theme;
     private Resources mResources;
     private final Random mRandom = new Random();
 
@@ -149,6 +152,8 @@ public class GameEngine {
         mGameThread.start();
 
         mGameHandler = new Handler(mGameThread.getLooper());
+        setDarkTheme(false);
+
     }
 
     /*
@@ -161,6 +166,22 @@ public class GameEngine {
 
     public void setResources(Resources res) {
         mResources = res;
+    }
+
+    public void setDarkTheme(boolean dt) {
+        if (dt) {
+            setTheme(new DarkTheme());
+        } else {
+            setTheme(new Theme());
+        }
+
+    }
+
+    public Theme getTheme() { return theme; }
+
+    public void setTheme(Theme theme) {
+        this.theme = theme;
+        BACKGROUND_COLOR = theme.getBackgroundColor();
     }
 
 

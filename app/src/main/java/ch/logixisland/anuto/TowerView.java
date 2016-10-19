@@ -12,8 +12,10 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.GameManager;
 import ch.logixisland.anuto.game.objects.Tower;
+import ch.logixisland.anuto.util.theme.Theme;
 
 public class TowerView extends View implements View.OnTouchListener {
 
@@ -33,7 +35,7 @@ public class TowerView extends View implements View.OnTouchListener {
         public void onCreditsChanged(int credits) {
             if (mTower != null) {
                 if (credits >= mTower.getValue()) {
-                    mPaintText.setColor(Color.BLACK);
+                    mPaintText.setColor(GameEngine.getInstance().getTheme().getTextColor());
                 } else {
                     mPaintText.setColor(Color.RED);
                 }
@@ -52,7 +54,7 @@ public class TowerView extends View implements View.OnTouchListener {
 
         float density = context.getResources().getDisplayMetrics().density;
         mPaintText = new Paint();
-        mPaintText.setColor(Color.BLACK);
+        mPaintText.setColor(GameEngine.getInstance().getTheme().getTextColor());
         mPaintText.setTextAlign(Paint.Align.CENTER);
         mPaintText.setTextSize(TEXT_SIZE * density);
 

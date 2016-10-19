@@ -12,6 +12,7 @@ import ch.logixisland.anuto.game.data.Path;
 import ch.logixisland.anuto.util.iterator.Function;
 import ch.logixisland.anuto.util.math.MathUtils;
 import ch.logixisland.anuto.util.math.Vector2;
+import ch.logixisland.anuto.util.theme.Theme;
 
 
 public abstract class Enemy extends GameObject {
@@ -31,12 +32,17 @@ public abstract class Enemy extends GameObject {
      */
 
     private class HealthBar extends DrawObject {
+        private Paint mHealthBarBd;
         private Paint mHealthBarBg;
         private Paint mHealthBarFg;
 
         public HealthBar() {
+            Theme theme = GameEngine.getInstance().getTheme();
+
+            mHealthBarBd = new Paint();
+            mHealthBarBd.setColor(theme.getAltBackgroundColor());
             mHealthBarBg = new Paint();
-            mHealthBarBg.setColor(Color.BLACK);
+            mHealthBarBg.setColor(theme.getBackgroundColor());
             mHealthBarFg = new Paint();
             mHealthBarFg.setColor(Color.GREEN);
         }
@@ -52,7 +58,7 @@ public abstract class Enemy extends GameObject {
                 canvas.save();
                 canvas.translate(getPosition().x - HEALTHBAR_WIDTH / 2f, getPosition().y + HEALTHBAR_OFFSET);
 
-                canvas.drawRect(0, 0, HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT, mHealthBarBg);
+                canvas.drawRect(0, 0, HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT, mHealthBarBd);
                 canvas.drawRect(0, 0, mHealth / mConfig.health * HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT, mHealthBarFg);
                 canvas.restore();
             }
