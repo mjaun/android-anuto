@@ -55,7 +55,7 @@ public class Theme {
     }
     public static Map<Integer,String> getThemes() {
         Map<Integer,String> themes = new LinkedHashMap<>();
-        themes.put(0, "Light");
+        themes.put(0, "Original");
         themes.put(1, "Dark");
         return themes;
     }
