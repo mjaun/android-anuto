@@ -152,7 +152,7 @@ public class GameEngine {
         mGameThread.start();
 
         mGameHandler = new Handler(mGameThread.getLooper());
-        setDarkTheme(false);
+        setTheme(Theme.getDefaultTheme());
 
     }
 
@@ -168,13 +168,8 @@ public class GameEngine {
         mResources = res;
     }
 
-    public void setDarkTheme(boolean dt) {
-        if (dt) {
-            setTheme(new DarkTheme());
-        } else {
-            setTheme(new Theme());
-        }
-
+    public void setTheme(int dt) {
+        setTheme(Theme.getTheme(dt));
     }
 
     public Theme getTheme() { return theme; }

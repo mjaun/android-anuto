@@ -3,6 +3,9 @@ package ch.logixisland.anuto.util.theme;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 /**
  * Created by tom klietherems on 10/18/16.
  */
@@ -45,6 +48,29 @@ public class Theme {
 
     public int getAltBackgroundColor() {
         return altBackgroundColor;
+    }
+
+    public static int getDefaultTheme() {
+        return 0;
+    }
+    public static Map<Integer,String> getThemes() {
+        Map<Integer,String> themes = new LinkedHashMap<>();
+        themes.put(0, "Light");
+        themes.put(1, "Dark");
+        return themes;
+    }
+
+    public static Theme getTheme(int id) {
+        Theme theme;
+        switch (id) {
+            case 1:
+                theme = new DarkTheme();
+                break;
+            case 0:
+            default:
+                theme = new Theme();
+        }
+        return theme;
     }
 
 }

@@ -5,11 +5,16 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.Spinner;
 import android.widget.Toast;
+
+import java.util.Map;
 
 import ch.logixisland.anuto.MainActivity;
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.util.theme.Theme;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -18,6 +23,13 @@ public class MenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+
+        Spinner dt = (Spinner)findViewById(R.id.darktheme_dd);
+        Map<Integer,String> themes = Theme.getThemes();
+
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, themes.values().toArray(new String[0]));
+        dt.setAdapter(adapter);
 
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction().add(R.id.contentPane,levelSelectFrag).commit();
@@ -39,11 +51,11 @@ public class MenuActivity extends AppCompatActivity {
             default:
                 levelId = R.raw.level_1;
         }
-        CheckBox dt = (CheckBox)findViewById(R.id.darktheme);
+        Spinner dt = (Spinner)findViewById(R.id.darktheme_dd);
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra(LevelSelectFragment.SELECTED_LEVEL, levelId);
-        intent.putExtra("darktheme", dt.isChecked());
+        intent.putExtra("theme", dt.getSelectedItemPosition());
         startActivity(intent);
     }
 }

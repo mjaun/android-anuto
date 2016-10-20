@@ -18,10 +18,10 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(null);
 
-        boolean darktheme = getIntent().getBooleanExtra("darktheme", false);
+        int themeid = getIntent().getIntExtra("theme", 0);
 
         GameEngine.getInstance().setResources(getResources());
-        GameEngine.getInstance().setDarkTheme(darktheme);
+        GameEngine.getInstance().setTheme(themeid);
         GameManager.getInstance().setContext(this);
         setContentView(R.layout.activity_main);
 
