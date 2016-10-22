@@ -2,18 +2,18 @@ package ch.logixisland.anuto;
 
 import android.app.Application;
 
-public class AnutoApp extends Application {
+public class AnutoApplication extends Application {
 
-    Thread.UncaughtExceptionHandler defaultUEH;
+    Thread.UncaughtExceptionHandler defaultHandler;
 
-    public AnutoApp() {
-        defaultUEH = Thread.getDefaultUncaughtExceptionHandler();
+    public AnutoApplication() {
+        defaultHandler = Thread.getDefaultUncaughtExceptionHandler();
 
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread thread, Throwable ex) {
-                AnutoApp.this.uncaughtException(thread, ex);
-                defaultUEH.uncaughtException(thread, ex);
+                AnutoApplication.this.uncaughtException(thread, ex);
+                defaultHandler.uncaughtException(thread, ex);
             }
         });
     }
