@@ -1,4 +1,4 @@
-package ch.logixisland.anuto;
+package ch.logixisland.anuto.view;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameManager;
 
 public class InventoryFragment extends Fragment implements GameManager.OnGameStartedListener {

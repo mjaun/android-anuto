@@ -1,4 +1,4 @@
-package ch.logixisland.anuto;
+package ch.logixisland.anuto.view;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -14,6 +14,7 @@ import android.widget.TextView;
 import java.util.Arrays;
 import java.util.List;
 
+import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameManager;
 import ch.logixisland.anuto.game.objects.AimingTower;
 import ch.logixisland.anuto.game.objects.Tower;

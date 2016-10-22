@@ -1,4 +1,4 @@
-package ch.logixisland.anuto;
+package ch.logixisland.anuto.view;
 
 import android.content.Context;
 import android.graphics.Canvas;

@@ -1,4 +1,4 @@
-package ch.logixisland.anuto;
+package ch.logixisland.anuto.view;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.view.WindowManager;
 
 import java.io.InputStream;
 
+import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.GameManager;
 import ch.logixisland.anuto.game.data.Level;

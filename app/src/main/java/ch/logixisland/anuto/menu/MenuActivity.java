@@ -6,15 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-import java.util.Map;
-
-import ch.logixisland.anuto.MainActivity;
+import ch.logixisland.anuto.view.MainActivity;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.util.theme.Theme;
+
+import java.util.Map;
 
 public class MenuActivity extends AppCompatActivity {
 

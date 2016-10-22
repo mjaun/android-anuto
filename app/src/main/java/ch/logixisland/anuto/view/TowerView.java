@@ -1,4 +1,4 @@
-package ch.logixisland.anuto;
+package ch.logixisland.anuto.view;
 
 import android.content.ClipData;
 import android.content.Context;
@@ -12,6 +12,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.GameManager;
 import ch.logixisland.anuto.game.objects.Tower;

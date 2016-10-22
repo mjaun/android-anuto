@@ -1,4 +1,4 @@
-package ch.logixisland.anuto;
+package ch.logixisland.anuto.view;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.text.DecimalFormat;
 
+import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.GameManager;
 import ch.logixisland.anuto.util.theme.Theme;
