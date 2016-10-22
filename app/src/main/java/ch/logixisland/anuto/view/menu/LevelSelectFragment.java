@@ -1,7 +1,6 @@
-package ch.logixisland.anuto.menu;
+package ch.logixisland.anuto.view.menu;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,7 +15,7 @@ import ch.logixisland.anuto.R;
 public class LevelSelectFragment extends Fragment {
 
 
-    public static final String SELECTED_LEVEL = "ch.logixisland.anuto.menu.SELECTED_LEVEL";
+    public static final String SELECTED_LEVEL = "ch.logixisland.anuto.view.menu.SELECTED_LEVEL";
 
     public LevelSelectFragment() {
         // Required empty public constructor

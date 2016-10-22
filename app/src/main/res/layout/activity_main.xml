@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="0dp"
-    tools:context=".view.MainActivity">
+    tools:context=".view.game.MainActivity">
 
     <view
-        class="ch.logixisland.anuto.view.GameView"
+        class="ch.logixisland.anuto.view.game.GameView"
         android:id="@+id/view_tower_defense"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -16,7 +16,7 @@
 
     <fragment
         android:id="@+id/fragment_status"
-        android:name="ch.logixisland.anuto.view.StatusFragment"
+        android:name="ch.logixisland.anuto.view.game.StatusFragment"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -24,7 +24,7 @@
 
     <fragment
         android:id="@+id/fragment_tower_info"
-        android:name="ch.logixisland.anuto.view.TowerInfoFragment"
+        android:name="ch.logixisland.anuto.view.game.TowerInfoFragment"
         android:layout_width="200dp"
         android:layout_height="330dp"
         android:layout_centerHorizontal="true"
@@ -33,7 +33,7 @@
 
     <fragment
         android:id="@+id/fragment_game_over"
-        android:name="ch.logixisland.anuto.view.GameOverFragment"
+        android:name="ch.logixisland.anuto.view.game.GameOverFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"

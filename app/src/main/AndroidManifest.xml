@@ -17,10 +17,10 @@
         android:allowBackup="false" >
 
         <activity
-            android:name=".view.MainActivity"
+            android:name=".view.game.MainActivity"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".menu.MenuActivity"
+        <activity android:name=".view.menu.MenuActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">

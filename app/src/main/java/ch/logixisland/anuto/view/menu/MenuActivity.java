@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.menu;
+package ch.logixisland.anuto.view.menu;
 
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
@@ -8,15 +8,16 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import ch.logixisland.anuto.view.MainActivity;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.util.theme.Theme;
+import ch.logixisland.anuto.view.game.MainActivity;
 
 import java.util.Map;
 
 public class MenuActivity extends AppCompatActivity {
 
     private LevelSelectFragment levelSelectFrag = new LevelSelectFragment();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

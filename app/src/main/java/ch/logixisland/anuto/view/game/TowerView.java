@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.view;
+package ch.logixisland.anuto.view.game;
 
 import android.content.ClipData;
 import android.content.Context;

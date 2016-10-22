@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.view;
+package ch.logixisland.anuto.view.game;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.GameManager;
 import ch.logixisland.anuto.game.data.Level;
-import ch.logixisland.anuto.menu.LevelSelectFragment;
+import ch.logixisland.anuto.view.menu.LevelSelectFragment;
 
 public class MainActivity extends Activity {
 
