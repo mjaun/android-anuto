@@ -3,35 +3,66 @@ package ch.logixisland.anuto.game.data;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementMap;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 import ch.logixisland.anuto.game.objects.Enemy;
 
 public class EnemyConfig {
     private final static String CLASS_PREFIX = "ch.logixisland.anuto.game.objects.impl.";
 
-    public Class<? extends Enemy> clazz;
+    /*
+    ------ Fields ------
+     */
+
+    private Class<? extends Enemy> enemyClass;
 
     @Element
-    public float health;
+    private float health;
 
     @Element
-    public float speed;
+    private float speed;
 
     @Element
-    public int reward;
+    private int reward;
 
     @ElementMap(required=false, entry="property", key="name", attribute=true, inline=true)
-    public HashMap<String, Float> properties = new HashMap<>();
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+    private Map<String, Float> properties = new HashMap<>();
 
+    /*
+    ------ Methods ------
+     */
 
     @Element(name="clazz")
-    private String getClazz() {
-        return clazz.getName();
+    private String getEnemyClassName() {
+        return enemyClass.getName();
     }
 
     @Element(name="clazz")
-    private void setClazz(String className) throws ClassNotFoundException {
-        clazz = (Class<? extends Enemy>) Class.forName(CLASS_PREFIX + className);
+    @SuppressWarnings("unchecked")
+    private void setEnemyClassName(String className) throws ClassNotFoundException {
+        enemyClass = (Class<? extends Enemy>) Class.forName(CLASS_PREFIX + className);
+    }
+
+    Class<? extends Enemy> getEnemyClass() {
+        return enemyClass;
+    }
+
+    public float getHealth() {
+        return health;
+    }
+
+    public float getSpeed() {
+        return speed;
+    }
+
+    public int getReward() {
+        return reward;
+    }
+
+    public Map<String, Float> getProperties() {
+        return Collections.unmodifiableMap(properties);
     }
 }

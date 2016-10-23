@@ -4,27 +4,66 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Wave {
 
+    /*
+    ------ Fields ------
+     */
+
     @ElementList(entry="enemy")
-    public ArrayList<EnemyDescriptor> enemies = new ArrayList<>();
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+    private List<EnemyDescriptor> enemies = new ArrayList<>();
 
     @Element(required=false)
-    public int waveReward = 0;
+    private int waveReward = 0;
 
     @Element(required=false)
-    public float healthModifier = 1f;
+    private float healthModifier = 1f;
 
     @Element(required=false)
-    public float rewardModifier = 1f;
+    private float rewardModifier = 1f;
 
     @Element(required=false)
-    public int extend = 0;
+    private int extend = 0;
 
     @Element(required=false)
-    public int maxExtend = 0;
+    private int maxExtend = 0;
 
     @Element(required=false)
-    public float nextWaveDelay = 10;
+    private float nextWaveDelay = 10;
+
+    /*
+    ------ Methods ------
+     */
+
+    public List<EnemyDescriptor> getEnemies() {
+        return Collections.unmodifiableList(enemies);
+    }
+
+    public int getWaveReward() {
+        return waveReward;
+    }
+
+    public float getHealthModifier() {
+        return healthModifier;
+    }
+
+    public float getRewardModifier() {
+        return rewardModifier;
+    }
+
+    public int getExtend() {
+        return extend;
+    }
+
+    public int getMaxExtend() {
+        return maxExtend;
+    }
+
+    public float getNextWaveDelay() {
+        return nextWaveDelay;
+    }
 }

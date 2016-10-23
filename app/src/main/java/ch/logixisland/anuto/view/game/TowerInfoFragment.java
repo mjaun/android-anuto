@@ -126,10 +126,10 @@ public class TowerInfoFragment extends Fragment implements
         txt_reload.setText(StringUtils.formatSuffix(mTower.getReloadTime()));
         txt_inflicted.setText(StringUtils.formatSuffix(mTower.getDamageInflicted()));
 
-        if (mTower.getConfig().damageText == null) {
+        if (mTower.getConfig().getDamageText() == null) {
             txt_damage_text.setText(getResources().getString(R.string.damage) + ":");
         } else {
-            txt_damage_text.setText(mTower.getConfig().damageText + ":");
+            txt_damage_text.setText(mTower.getConfig().getDamageText() + ":");
         }
 
         if (mTower.isEnhanceable()) {

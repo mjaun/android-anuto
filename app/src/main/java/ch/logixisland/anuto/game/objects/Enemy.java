@@ -54,12 +54,12 @@ public abstract class Enemy extends GameObject {
 
         @Override
         public void draw(Canvas canvas) {
-            if (!MathUtils.equals(mHealth, mConfig.health, 1f)) {
+            if (!MathUtils.equals(mHealth, mConfig.getHealth(), 1f)) {
                 canvas.save();
                 canvas.translate(getPosition().x - HEALTHBAR_WIDTH / 2f, getPosition().y + HEALTHBAR_OFFSET);
 
                 canvas.drawRect(0, 0, HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT, mHealthBarBd);
-                canvas.drawRect(0, 0, mHealth / mConfig.health * HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT, mHealthBarFg);
+                canvas.drawRect(0, 0, mHealth / mConfig.getHealth() * HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT, mHealthBarFg);
                 canvas.restore();
             }
         }
@@ -111,8 +111,8 @@ public abstract class Enemy extends GameObject {
 
     public Enemy() {
         mConfig = getManager().getLevel().getEnemyConfig(this);
-        mBaseSpeed = mConfig.speed;
-        mHealth = mConfig.health;
+        mBaseSpeed = mConfig.getSpeed();
+        mHealth = mConfig.getHealth();
 
         mHealthBar = new HealthBar();
     }
@@ -175,13 +175,13 @@ public abstract class Enemy extends GameObject {
 
     public float getSpeed() {
         float speed = mBaseSpeed * mSpeedModifier;
-        float minSpeed = getManager().getSettings().minSpeedModifier * getConfigSpeed();
+        float minSpeed = getManager().getSettings().getMinSpeedModifier() * getConfigSpeed();
 
         return Math.max(minSpeed, speed);
     }
 
     protected float getConfigSpeed() {
-        return mConfig.speed;
+        return mConfig.getSpeed();
     }
 
     protected float getBaseSpeed() {
@@ -209,7 +209,7 @@ public abstract class Enemy extends GameObject {
         int index = mWayPointIndex;
         Vector2 position = getPosition().copy();
 
-        while (index < mPath.count()) {
+        while (index < mPath.size()) {
             Vector2 toWaypoint = mPath.get(index).copy().sub(position);
             float toWaypointDist = toWaypoint.len();
 
@@ -232,7 +232,7 @@ public abstract class Enemy extends GameObject {
 
         float dist = getDistanceTo(getWayPoint());
 
-        for (int i = mWayPointIndex + 1; i < mPath.count(); i++) {
+        for (int i = mWayPointIndex + 1; i < mPath.size(); i++) {
             Vector2 wThis = mPath.get(i);
             Vector2 wLast = mPath.get(i - 1);
 
@@ -273,19 +273,19 @@ public abstract class Enemy extends GameObject {
     }
 
     public float getHealthMax() {
-        return mConfig.health * mHealthModifier;
+        return mConfig.getHealth() * mHealthModifier;
     }
 
     public void damage(float dmg, GameObject origin) {
         if (origin != null && origin instanceof Tower) {
             Tower originTower = (Tower)origin;
 
-            if (originTower.getConfig().strongAgainst.contains(getClass())) {
-                dmg *= getManager().getSettings().strongAgainstModifier;
+            if (originTower.getConfig().getStrongAgainstEnemies().contains(getClass())) {
+                dmg *= getManager().getSettings().getStrongAgainstModifier();
             }
 
-            if (originTower.getConfig().weakAgainst.contains(getClass())) {
-                dmg *= getManager().getSettings().weakAgainstModifier;
+            if (originTower.getConfig().getWeakAgainstEnemies().contains(getClass())) {
+                dmg *= getManager().getSettings().getWeakAgainstModifier();
             }
 
             originTower.reportDamageInflicted(dmg);
@@ -302,13 +302,13 @@ public abstract class Enemy extends GameObject {
     public void heal(float val) {
         mHealth += val / mHealthModifier;
 
-        if (mHealth > mConfig.health) {
-            mHealth = mConfig.health;
+        if (mHealth > mConfig.getHealth()) {
+            mHealth = mConfig.getHealth();
         }
     }
 
     public int getReward() {
-        return Math.round(mConfig.reward * mRewardModifier);
+        return Math.round(mConfig.getReward() * mRewardModifier);
     }
 
 
@@ -330,10 +330,10 @@ public abstract class Enemy extends GameObject {
     }
 
     protected boolean hasWayPoint() {
-        return mPath != null && mWayPointIndex < mPath.count();
+        return mPath != null && mWayPointIndex < mPath.size();
     }
 
     public float getProperty(String name) {
-        return mConfig.properties.get(name);
+        return mConfig.getProperties().get(name);
     }
 }

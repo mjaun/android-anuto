@@ -5,8 +5,11 @@ import org.simpleframework.xml.ElementMap;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
+import ch.logixisland.anuto.game.objects.Enemy;
 import ch.logixisland.anuto.game.objects.GameObject;
 import ch.logixisland.anuto.game.objects.Tower;
 import ch.logixisland.anuto.util.iterator.Function;
@@ -15,77 +18,89 @@ import ch.logixisland.anuto.util.iterator.StreamIterator;
 public class TowerConfig {
     private final static String CLASS_PREFIX = "ch.logixisland.anuto.game.objects.impl.";
 
-    public Class<? extends Tower> clazz;
+    /*
+    ------ Fields ------
+     */
 
-    public TowerConfig upgrade;
-    private Class<? extends Tower> upgradeClass;
+    private Class<? extends Tower> towerClass;
 
-    @Element
-    public int value;
+    private TowerConfig upgradeTowerConfig;
 
-    @Element
-    public float damage;
-
-    @Element
-    public float range;
+    private Class<? extends Tower> upgradeTowerClass;
 
     @Element
-    public float reload;
+    private int value;
 
     @Element
-    public int enhanceCost;
+    private float damage;
 
     @Element
-    public float enhanceDamage;
+    private float range;
 
     @Element
-    public float enhanceRange;
+    private float reload;
 
     @Element
-    public float enhanceReload;
+    private int enhanceCost;
 
     @Element
-    public float enhanceBase;
+    private float enhanceDamage;
 
     @Element
-    public int maxLevel;
+    private float enhanceRange;
 
-    public Collection<Class<? extends GameObject>> weakAgainst = new ArrayList<>();
+    @Element
+    private float enhanceReload;
 
-    public Collection<Class<? extends GameObject>> strongAgainst = new ArrayList<>();
+    @Element
+    private float enhanceBase;
+
+    @Element
+    private int maxLevel;
+
+    private Collection<Class<? extends Enemy>> weakAgainstEnemies = new ArrayList<>();
+
+    private Collection<Class<? extends Enemy>> strongAgainstEnemies = new ArrayList<>();
 
     @Element(required=false)
-    public String damageText;
+    private String damageText;
 
     @ElementMap(required=false, entry="property", key="name", attribute=true, inline=true)
-    public HashMap<String, Float> properties = new HashMap<>();
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+    private Map<String, Float> properties = new HashMap<>();
 
     @Element(required=false)
-    public int slot = -1;
+    private int slot = -1;
+
+    /*
+    ------ Methods ------
+     */
 
     @Element(name="clazz")
-    private String getClazz() {
-        return clazz.getName();
+    private String getTowerClassName() {
+        return towerClass.getName();
     }
 
     @Element(name="clazz")
-    private void setClazz(String className) throws ClassNotFoundException {
-        clazz = (Class<? extends Tower>) Class.forName(CLASS_PREFIX + className);
+    @SuppressWarnings("unchecked")
+    private void setTowerClassName(String className) throws ClassNotFoundException {
+        towerClass = (Class<? extends Tower>) Class.forName(CLASS_PREFIX + className);
     }
 
     @Element(name="upgrade", required=false)
-    private String getUpgrade() {
-        return upgradeClass.getName();
+    private String getUpgradeTowerClassName() {
+        return upgradeTowerClass.getName();
     }
 
     @Element(name="upgrade", required=false)
-    private void setUpgrade(String className) throws ClassNotFoundException {
-        upgradeClass = (Class<? extends Tower>) Class.forName(CLASS_PREFIX + className);
+    @SuppressWarnings("unchecked")
+    private void setUpgradeTowerClassName(String className) throws ClassNotFoundException {
+        upgradeTowerClass = (Class<? extends Tower>) Class.forName(CLASS_PREFIX + className);
     }
 
     @Element(name="weakAgainst", required=false)
-    private String getWeakAgainst() {
-        return StreamIterator.fromIterable(weakAgainst)
+    private String getWeakAgainstEnemyNames() {
+        return StreamIterator.fromIterable(weakAgainstEnemies)
                 .transform(new Function<Class<? extends GameObject>, String>() {
                     @Override
                     public String apply(Class<? extends GameObject> input) {
@@ -96,13 +111,14 @@ public class TowerConfig {
     }
 
     @Element(name="weakAgainst", required=false)
-    private void setWeakAgainst(String classNames) throws ClassNotFoundException {
-        weakAgainst = StreamIterator.fromArray(classNames.split(";"))
-                .transform(new Function<String, Class<? extends GameObject>>() {
+    @SuppressWarnings("unchecked")
+    private void setWeakAgainstEnemyNames(String classNames) throws ClassNotFoundException {
+        weakAgainstEnemies = StreamIterator.fromArray(classNames.split(";"))
+                .transform(new Function<String, Class<? extends Enemy>>() {
                     @Override
-                    public Class<? extends GameObject> apply(String input) {
+                    public Class<? extends Enemy> apply(String input) {
                         try {
-                            return (Class<? extends GameObject>) Class.forName(CLASS_PREFIX + input);
+                            return (Class<? extends Enemy>) Class.forName(CLASS_PREFIX + input);
                         } catch (ClassNotFoundException e) {
                             return null;
                         }
@@ -110,17 +126,17 @@ public class TowerConfig {
                 })
                 .toList();
 
-        if (weakAgainst.contains(null)) {
+        if (weakAgainstEnemies.contains(null)) {
             throw new ClassNotFoundException("At least one class was not found: " + classNames);
         }
     }
 
     @Element(name="strongAgainst", required=false)
-    private String getStrongAgainst() {
-        return StreamIterator.fromIterable(strongAgainst)
-                .transform(new Function<Class<? extends GameObject>, String>() {
+    private String getStrongAgainstEnemyNames() {
+        return StreamIterator.fromIterable(strongAgainstEnemies)
+                .transform(new Function<Class<? extends Enemy>, String>() {
                     @Override
-                    public String apply(Class<? extends GameObject> input) {
+                    public String apply(Class<? extends Enemy> input) {
                         return input.getName();
                     }
                 })
@@ -128,13 +144,14 @@ public class TowerConfig {
     }
 
     @Element(name="strongAgainst", required=false)
-    private void setStrongAgainst(String classNames) throws ClassNotFoundException {
-        strongAgainst = StreamIterator.fromArray(classNames.split(";"))
-                .transform(new Function<String, Class<? extends GameObject>>() {
+    @SuppressWarnings("unchecked")
+    private void setStrongAgainstEnemyNames(String classNames) throws ClassNotFoundException {
+        strongAgainstEnemies = StreamIterator.fromArray(classNames.split(";"))
+                .transform(new Function<String, Class<? extends Enemy>>() {
                     @Override
-                    public Class<? extends GameObject> apply(String input) {
+                    public Class<? extends Enemy> apply(String input) {
                         try {
-                            return (Class<? extends GameObject>) Class.forName(CLASS_PREFIX + input);
+                            return (Class<? extends Enemy>) Class.forName(CLASS_PREFIX + input);
                         } catch (ClassNotFoundException e) {
                             return null;
                         }
@@ -142,14 +159,85 @@ public class TowerConfig {
                 })
                 .toList();
 
-        if (strongAgainst.contains(null)) {
+        if (strongAgainstEnemies.contains(null)) {
             throw new ClassNotFoundException("At least one class was not found: " + classNames);
         }
     }
 
-    public void commit(Level level) {
-        if (upgradeClass != null) {
-            upgrade = level.getTowerConfig(upgradeClass);
-        }
+    Class<? extends Tower> getUpgradeTowerClass() {
+        return upgradeTowerClass;
     }
+
+    void setUpgradeTowerConfig(TowerConfig upgradeTowerConfig) {
+        this.upgradeTowerConfig = upgradeTowerConfig;
+    }
+
+    int getSlot() {
+        return slot;
+    }
+
+    public Class<? extends Tower> getTowerClass() {
+        return towerClass;
+    }
+
+    public TowerConfig getUpgradeTowerConfig() {
+        return upgradeTowerConfig;
+    }
+
+    public Collection<Class<? extends Enemy>> getWeakAgainstEnemies() {
+        return Collections.unmodifiableCollection(weakAgainstEnemies);
+    }
+
+    public Collection<Class<? extends Enemy>> getStrongAgainstEnemies() {
+        return Collections.unmodifiableCollection(strongAgainstEnemies);
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public float getDamage() {
+        return damage;
+    }
+
+    public float getRange() {
+        return range;
+    }
+
+    public float getReload() {
+        return reload;
+    }
+
+    public int getEnhanceCost() {
+        return enhanceCost;
+    }
+
+    public float getEnhanceDamage() {
+        return enhanceDamage;
+    }
+
+    public float getEnhanceRange() {
+        return enhanceRange;
+    }
+
+    public float getEnhanceReload() {
+        return enhanceReload;
+    }
+
+    public float getEnhanceBase() {
+        return enhanceBase;
+    }
+
+    public int getMaxLevel() {
+        return maxLevel;
+    }
+
+    public String getDamageText() {
+        return damageText;
+    }
+
+    public Map<String, Float> getProperties() {
+        return Collections.unmodifiableMap(properties);
+    }
+
 }

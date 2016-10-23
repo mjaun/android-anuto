@@ -77,9 +77,9 @@ public class WaveManager {
         mExtend = extend;
         mGameHandler = mGame.createHandler();
 
-        mWaveReward = mWave.waveReward;
-        mHealthModifier = mWave.healthModifier;
-        mRewardModifier = mWave.rewardModifier;
+        mWaveReward = mWave.getWaveReward();
+        mHealthModifier = mWave.getHealthModifier();
+        mRewardModifier = mWave.getRewardModifier();
     }
 
     /*
@@ -127,27 +127,27 @@ public class WaveManager {
                 float offsetY = 0f;
 
                 mAborted = false;
-                mEnemiesRemaining = mWave.enemies.size() * (mExtend + 1);
+                mEnemiesRemaining = mWave.getEnemies().size() * (mExtend + 1);
 
                 for (int i = 0; i < mExtend + 1; i++) {
-                    for (EnemyDescriptor d : mWave.enemies) {
-                        if (MathUtils.equals(d.delay, 0f, 0.1f)) {
-                            offsetX += d.offsetX;
-                            offsetY += d.offsetY;
+                    for (EnemyDescriptor d : mWave.getEnemies()) {
+                        if (MathUtils.equals(d.getDelay(), 0f, 0.1f)) {
+                            offsetX += d.getOffsetX();
+                            offsetY += d.getOffsetY();
                         } else {
-                            offsetX = d.offsetX;
-                            offsetY = d.offsetY;
+                            offsetX = d.getOffsetX();
+                            offsetY = d.getOffsetY();
                         }
 
-                        final Enemy e = d.create();
+                        final Enemy e = d.createInstance();
                         e.addListener(mObjectListener);
                         e.modifyHealth(mHealthModifier);
                         e.modifyReward(mRewardModifier);
-                        e.setPath(mManager.getLevel().getPaths().get(d.pathIndex));
+                        e.setPath(mManager.getLevel().getPaths().get(d.getPathIndex()));
                         e.move(offsetX, offsetY);
 
-                        if (i > 0 || mWave.enemies.indexOf(d) > 0) {
-                            delay += (int) (d.delay * 1000f);
+                        if (i > 0 || mWave.getEnemies().indexOf(d) > 0) {
+                            delay += (int) (d.getDelay() * 1000f);
                         }
 
                         mEarlyBonus += e.getReward();

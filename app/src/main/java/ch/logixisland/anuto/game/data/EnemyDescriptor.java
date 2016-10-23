@@ -7,43 +7,69 @@ import ch.logixisland.anuto.game.objects.Enemy;
 public class EnemyDescriptor {
     private final static String CLASS_PREFIX = "ch.logixisland.anuto.game.objects.impl.";
 
-    public Class<? extends Enemy> clazz;
+    /*
+    ------ Fields ------
+     */
+
+    private Class<? extends Enemy> enemyClass;
 
     @Attribute(required=false)
-    public int pathIndex;
+    private int pathIndex;
 
     @Attribute(required=false)
-    public float delay;
+    private float delay;
 
     @Attribute(required=false)
-    public float offsetX;
+    private float offsetX;
 
     @Attribute(required=false)
-    public float offsetY;
+    private float offsetY;
+
+    /*
+    ------ Methods ------
+     */
 
     @Attribute(name="clazz")
-    private String getClazz() {
-        return clazz.getName();
+    private String getEnemyClassName() {
+        return enemyClass.getName();
     }
 
     @Attribute(name="clazz")
-    private void setClazz(String className) throws ClassNotFoundException {
-        clazz = (Class<? extends Enemy>) Class.forName(CLASS_PREFIX + className);
+    @SuppressWarnings("unchecked")
+    private void setEnemyClassName(String className) throws ClassNotFoundException {
+        enemyClass = (Class<? extends Enemy>) Class.forName(CLASS_PREFIX + className);
     }
 
-    public Enemy create() {
-        Enemy e;
+    public Enemy createInstance() {
+        Enemy enemy;
 
         try {
-            e = clazz.newInstance();
-        } catch (InstantiationException e1) {
-            e1.printStackTrace();
-            throw new RuntimeException();
-        } catch (IllegalAccessException e1) {
-            e1.printStackTrace();
+            enemy = enemyClass.newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
             throw new RuntimeException();
         }
 
-        return e;
+        return enemy;
+    }
+
+    public Class<? extends Enemy> getEnemyClass() {
+        return enemyClass;
+    }
+
+    public int getPathIndex() {
+        return pathIndex;
+    }
+
+    public float getDelay() {
+        return delay;
+    }
+
+    public float getOffsetX() {
+        return offsetX;
+    }
+
+    public float getOffsetY() {
+        return offsetY;
     }
 }

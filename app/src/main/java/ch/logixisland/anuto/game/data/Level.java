@@ -1,7 +1,5 @@
 package ch.logixisland.anuto.game.data;
 
-import android.util.Log;
-
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
@@ -11,10 +9,9 @@ import org.simpleframework.xml.core.Persister;
 import org.simpleframework.xml.strategy.CycleStrategy;
 import org.simpleframework.xml.strategy.Strategy;
 
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import ch.logixisland.anuto.game.objects.Enemy;
@@ -22,55 +19,67 @@ import ch.logixisland.anuto.game.objects.Tower;
 
 @Root
 public class Level {
+
     /*
-    ------ Members ------
+    ------ Fields ------
      */
 
     @Element(name="settings")
-    private Settings mSettings = new Settings();
+    private Settings settings = new Settings();
 
     @ElementList(name="towers", entry="tower")
-    private ArrayList<TowerConfig> mTowers = new ArrayList<>();
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+    private List<TowerConfig> towers = new ArrayList<>();
 
     @ElementList(name="enemies", entry="enemy")
-    private ArrayList<EnemyConfig> mEnemies = new ArrayList<>();
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+    private List<EnemyConfig> enemies = new ArrayList<>();
 
     @ElementList(name="plateaus")
-    private ArrayList<PlateauDescriptor> mPlateaus = new ArrayList<>();
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+    private List<PlateauDescriptor> plateaus = new ArrayList<>();
 
     @ElementList(name="paths")
-    private ArrayList<Path> mPaths = new ArrayList<>();
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+    private List<Path> paths = new ArrayList<>();
 
     @ElementList(name="waves")
-    private ArrayList<Wave> mWaves = new ArrayList<>();
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+    private List<Wave> waves = new ArrayList<>();
 
     /*
     ------ Methods ------
      */
 
+    public static Level deserialize(InputStream inStream) throws Exception {
+        Strategy strategy = new CycleStrategy("id", "ref");
+        Serializer serializer = new Persister(strategy);
+        return serializer.read(Level.class, inStream);
+    }
+
     public Settings getSettings() {
-        return mSettings;
+        return settings;
     }
 
     public List<PlateauDescriptor> getPlateaus() {
-        return mPlateaus;
+        return Collections.unmodifiableList(plateaus);
     }
 
     public List<Path> getPaths() {
-        return mPaths;
+        return Collections.unmodifiableList(paths);
     }
 
     public List<Wave> getWaves() {
-        return mWaves;
+        return Collections.unmodifiableList(waves);
     }
 
     public TowerConfig getTowerConfig(Tower t) {
         return getTowerConfig(t.getClass());
     }
 
-    public TowerConfig getTowerConfig(Class<? extends Tower> c) {
-        for (TowerConfig config : mTowers) {
-            if (config.clazz == c) {
+    private TowerConfig getTowerConfig(Class<? extends Tower> c) {
+        for (TowerConfig config : towers) {
+            if (config.getTowerClass() == c) {
                 return config;
             }
         }
@@ -79,8 +88,8 @@ public class Level {
     }
 
     public TowerConfig getTowerConfig(int slot) {
-        for (TowerConfig config : mTowers) {
-            if (config.slot == slot) {
+        for (TowerConfig config : towers) {
+            if (config.getSlot() == slot) {
                 return config;
             }
         }
@@ -93,8 +102,8 @@ public class Level {
     }
 
     public EnemyConfig getEnemyConfig(Class<? extends Enemy> c) {
-        for (EnemyConfig config : mEnemies) {
-            if (config.clazz == c) {
+        for (EnemyConfig config : enemies) {
+            if (config.getEnemyClass() == c) {
                 return config;
             }
         }
@@ -102,35 +111,14 @@ public class Level {
         throw new RuntimeException("No config found for this enemy class!");
     }
 
-
-    public void serialize() {
-        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-
-        try {
-            serialize(outStream);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        Log.d("XML", outStream.toString());
-    }
-
-    public void serialize(OutputStream outStream) throws Exception {
-        Strategy strategy = new CycleStrategy("id", "ref");
-        Serializer serializer = new Persister(strategy);
-        serializer.write(this, outStream);
-    }
-
-    public static Level deserialize(InputStream inStream) throws Exception {
-        Strategy strategy = new CycleStrategy("id", "ref");
-        Serializer serializer = new Persister(strategy);
-        return serializer.read(Level.class, inStream);
-    }
-
     @Commit
-    private void commit() {
-        for (TowerConfig c : mTowers) {
-            c.commit(this);
+    void commit() {
+        for (TowerConfig config : towers) {
+            Class<? extends Tower> upgradeClass = config.getUpgradeTowerClass();
+
+            if (upgradeClass != null) {
+                config.setUpgradeTowerConfig(getTowerConfig(upgradeClass));
+            }
         }
     }
 }

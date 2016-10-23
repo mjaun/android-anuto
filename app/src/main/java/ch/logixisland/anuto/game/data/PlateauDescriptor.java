@@ -7,37 +7,51 @@ import ch.logixisland.anuto.game.objects.Plateau;
 public class PlateauDescriptor {
     private final static String CLASS_PREFIX = "ch.logixisland.anuto.game.objects.impl.";
 
-    public Class<? extends Plateau> clazz;
+    /*
+    ------ Fields ------
+     */
+
+    private Class<? extends Plateau> plateauClass;
 
     @Attribute(required=false)
-    public float x;
+    private float x;
 
     @Attribute(required=false)
-    public float y;
+    private float y;
+
+    /*
+    ------ Methods ------
+     */
 
     @Attribute(name="clazz")
-    private String getClazz() {
-        return clazz.getName();
+    private String getPlateauClassName() {
+        return plateauClass.getName();
     }
 
     @Attribute(name="clazz")
-    private void setClazz(String className) throws ClassNotFoundException {
-        clazz = (Class<? extends Plateau>) Class.forName(CLASS_PREFIX + className);
+    @SuppressWarnings("unchecked")
+    private void setPlateauClassName(String className) throws ClassNotFoundException {
+        plateauClass = (Class<? extends Plateau>) Class.forName(CLASS_PREFIX + className);
     }
 
-    public Plateau create() {
+    public Plateau createInstance() {
         Plateau p;
 
         try {
-            p = clazz.newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-            throw new RuntimeException();
-        } catch (IllegalAccessException e) {
+            p = plateauClass.newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
             throw new RuntimeException();
         }
 
         return p;
+    }
+
+    public float getX() {
+        return x;
+    }
+
+    public float getY() {
+        return y;
     }
 }

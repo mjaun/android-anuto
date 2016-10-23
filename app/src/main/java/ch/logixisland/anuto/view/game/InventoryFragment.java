@@ -12,8 +12,6 @@ import ch.logixisland.anuto.game.GameManager;
 
 public class InventoryFragment extends Fragment implements GameManager.OnGameStartedListener {
 
-    private final static String TAG = InventoryFragment.class.getSimpleName();
-
     TowerView[] view_tower_x = new TowerView[4];
 
     GameManager mManager;
@@ -43,8 +41,8 @@ public class InventoryFragment extends Fragment implements GameManager.OnGameSta
     public void onDetach() {
         super.onDetach();
 
-        for (int i = 0; i < view_tower_x.length; i++) {
-            view_tower_x[i].close();
+        for (TowerView aView_tower_x : view_tower_x) {
+            aView_tower_x.close();
         }
 
         mManager.removeListener(this);
@@ -53,7 +51,7 @@ public class InventoryFragment extends Fragment implements GameManager.OnGameSta
     @Override
     public void onGameStarted() {
         for (int i = 0; i < view_tower_x.length; i++) {
-            view_tower_x[i].setTowerClass(mManager.getLevel().getTowerConfig(i).clazz);
+            view_tower_x[i].setTowerClass(mManager.getLevel().getTowerConfig(i).getTowerClass());
         }
     }
 }

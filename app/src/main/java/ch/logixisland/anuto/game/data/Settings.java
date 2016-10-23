@@ -3,51 +3,124 @@ package ch.logixisland.anuto.game.data;
 import org.simpleframework.xml.Element;
 
 public class Settings {
-    @Element
-    public int width;
+
+    /*
+    ------ Fields ------
+     */
 
     @Element
-    public int height;
+    private int width;
 
     @Element
-    public int credits;
+    private int height;
 
     @Element
-    public int lives;
+    private int credits;
 
     @Element
-    public float ageModifier;
+    private int lives;
 
     @Element
-    public float earlyModifier;
+    private float ageModifier;
 
     @Element
-    public float earlyRoot;
+    private float earlyModifier;
 
     @Element
-    public boolean endless;
+    private float earlyRoot;
 
     @Element
-    public float difficultyOffset;
+    private boolean endless;
 
     @Element
-    public float difficultyLinear;
+    private float difficultyOffset;
 
     @Element
-    public float difficultyQuadratic;
+    private float difficultyLinear;
 
     @Element
-    public float rewardModifier;
+    private float difficultyQuadratic;
 
     @Element
-    public float rewardRoot;
+    private float rewardModifier;
 
     @Element
-    public float minSpeedModifier;
+    private float rewardRoot;
 
     @Element
-    public float weakAgainstModifier;
+    private float minSpeedModifier;
 
     @Element
-    public float strongAgainstModifier;
+    private float weakAgainstModifier;
+
+    @Element
+    private float strongAgainstModifier;
+
+    /*
+    ------ Methods ------
+     */
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getCredits() {
+        return credits;
+    }
+
+    public int getLives() {
+        return lives;
+    }
+
+    public float getAgeModifier() {
+        return ageModifier;
+    }
+
+    public float getEarlyModifier() {
+        return earlyModifier;
+    }
+
+    public float getEarlyRoot() {
+        return earlyRoot;
+    }
+
+    public boolean isEndless() {
+        return endless;
+    }
+
+    public float getDifficultyOffset() {
+        return difficultyOffset;
+    }
+
+    public float getDifficultyLinear() {
+        return difficultyLinear;
+    }
+
+    public float getDifficultyQuadratic() {
+        return difficultyQuadratic;
+    }
+
+    public float getRewardModifier() {
+        return rewardModifier;
+    }
+
+    public float getRewardRoot() {
+        return rewardRoot;
+    }
+
+    public float getMinSpeedModifier() {
+        return minSpeedModifier;
+    }
+
+    public float getWeakAgainstModifier() {
+        return weakAgainstModifier;
+    }
+
+    public float getStrongAgainstModifier() {
+        return strongAgainstModifier;
+    }
 }

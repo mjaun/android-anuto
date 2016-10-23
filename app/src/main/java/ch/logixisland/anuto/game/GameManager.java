@@ -136,7 +136,7 @@ public class GameManager {
                         mNextWaveReady = true;
                     }
                 }
-            }, Math.round(m.getWave().nextWaveDelay * 1000));
+            }, Math.round(m.getWave().getNextWaveDelay() * 1000));
 
             onWaveStarted(m.getWave());
         }
@@ -218,22 +218,22 @@ public class GameManager {
         reset();
 
         for (PlateauDescriptor d : mLevel.getPlateaus()) {
-            Plateau p = d.create();
-            p.setPosition(d.x, d.y);
+            Plateau p = d.createInstance();
+            p.setPosition(d.getX(), d.getY());
             mGame.add(p);
         }
 
-        mGame.setGameSize(getSettings().width, getSettings().height);
+        mGame.setGameSize(getSettings().getWidth(), getSettings().getHeight());
 
         mEarlyBonus = 0;
         mNextWaveReady = true;
-        mCreditsEarned = getSettings().credits;
+        mCreditsEarned = getSettings().getCredits();
         mScore = 0;
 
         onGameStarted();
 
-        setCredits(getSettings().credits);
-        setLives(getSettings().lives);
+        setCredits(getSettings().getCredits());
+        setLives(getSettings().getLives());
 
         onBonusChanged();
     }
@@ -267,7 +267,7 @@ public class GameManager {
     }
 
     public boolean hasNextWave() {
-        if (getSettings().endless && !mLevel.getWaves().isEmpty()) {
+        if (getSettings().isEndless() && !mLevel.getWaves().isEmpty()) {
             return true;
         }
 
@@ -309,16 +309,16 @@ public class GameManager {
         }
 
         Wave nextWave = getNextWave();
-        int extend = nextWave.extend * getWaveIterationCount();
+        int extend = nextWave.getExtend() * getWaveIterationCount();
 
-        if (nextWave.maxExtend > 0 && extend > nextWave.maxExtend) {
-            extend = nextWave.maxExtend;
+        if (nextWave.getMaxExtend() > 0 && extend > nextWave.getMaxExtend()) {
+            extend = nextWave.getMaxExtend();
         }
 
         WaveManager m = new WaveManager(nextWave, extend);
         m.addListener(mWaveListener);
 
-        if (getSettings().endless) {
+        if (getSettings().isEndless()) {
             calcWaveModifiers(m);
         }
 
@@ -449,7 +449,7 @@ public class GameManager {
         Iterator<Tower> it = mGame.get(TypeIds.TOWER).cast(Tower.class);
         while (it.hasNext()) {
             Tower t = it.next();
-            t.devalue(getSettings().ageModifier);
+            t.devalue(getSettings().getAgeModifier());
         }
 
         onTowersAged();
@@ -462,8 +462,8 @@ public class GameManager {
             earlyBonus += m.getEarlyBonus();
         }
 
-        float modifier = getSettings().earlyModifier;
-        float root = getSettings().earlyRoot;
+        float modifier = getSettings().getEarlyModifier();
+        float root = getSettings().getEarlyRoot();
 
         mEarlyBonus = Math.round(modifier * (float)Math.pow(earlyBonus, 1f / root));
         onBonusChanged();
@@ -475,23 +475,23 @@ public class GameManager {
 
         float waveHealth = 0f;
 
-        for (EnemyDescriptor d : waveMan.getWave().enemies) {
-            waveHealth += mLevel.getEnemyConfig(d.clazz).health;
+        for (EnemyDescriptor d : waveMan.getWave().getEnemies()) {
+            waveHealth += mLevel.getEnemyConfig(d.getEnemyClass()).getHealth();
         }
 
         waveHealth *= waveMan.getExtend() + 1;
 
         Log.d(TAG, String.format("waveHealth=%f", waveHealth));
 
-        float damagePossible = getSettings().difficultyOffset
-                + getSettings().difficultyLinear * mCreditsEarned
-                + getSettings().difficultyQuadratic * MathUtils.square(mCreditsEarned);
+        float damagePossible = getSettings().getDifficultyOffset()
+                + getSettings().getDifficultyLinear() * mCreditsEarned
+                + getSettings().getDifficultyQuadratic() * MathUtils.square(mCreditsEarned);
         float healthModifier = damagePossible / waveHealth;
 
         waveMan.modifyHealth(healthModifier);
 
-        float rewardModifier = getSettings().rewardModifier
-                * (float)Math.pow(waveMan.getHealthModifier(), 1f / getSettings().rewardRoot);
+        float rewardModifier = getSettings().getRewardModifier()
+                * (float)Math.pow(waveMan.getHealthModifier(), 1f / getSettings().getRewardRoot());
 
         if (rewardModifier < 1f) {
             rewardModifier = 1f;
