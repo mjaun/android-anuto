@@ -4,7 +4,10 @@
 # Names of contributors must not be used to endorse or promote products
 # derived from this file without specific prior written permission.
 
-
+.idea
+*.iml
+*.ipr
+*.iws
 .gradle
 /local.properties
 /.idea/workspace.xml
