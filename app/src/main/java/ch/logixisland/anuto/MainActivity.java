@@ -2,6 +2,7 @@ package ch.logixisland.anuto;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.WindowManager;
 
 import java.io.InputStream;
 
@@ -16,7 +17,8 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(null);
+        super.onCreate(savedInstanceState);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         GameEngine.getInstance().setResources(getResources());
         GameManager.getInstance().setContext(this);
