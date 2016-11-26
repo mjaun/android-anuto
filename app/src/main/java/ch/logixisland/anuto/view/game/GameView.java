@@ -12,7 +12,7 @@ import ch.logixisland.anuto.game.business.GameManager;
 import ch.logixisland.anuto.game.entity.GameObject;
 import ch.logixisland.anuto.game.entity.plateau.Plateau;
 import ch.logixisland.anuto.game.entity.tower.Tower;
-import ch.logixisland.anuto.util.math.Vector2;
+import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class GameView extends View implements Runnable, View.OnDragListener, View.OnTouchListener {
 

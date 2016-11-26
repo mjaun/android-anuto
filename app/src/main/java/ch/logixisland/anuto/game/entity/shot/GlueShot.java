@@ -5,9 +5,8 @@ import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.entity.effect.GlueEffect;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.entity.GameObject;
-import ch.logixisland.anuto.game.entity.shot.Shot;
 import ch.logixisland.anuto.game.render.Sprite;
-import ch.logixisland.anuto.util.math.Vector2;
+import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class GlueShot extends Shot {
 

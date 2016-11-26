@@ -8,7 +8,7 @@ public final class MathUtils {
         return x * x;
     }
 
-    public static float sgn(float x) {
+    public static float sign(float x) {
         return (x < 0f) ? -1f : 1f;
     }
 

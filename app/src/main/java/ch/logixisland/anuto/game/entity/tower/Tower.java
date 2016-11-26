@@ -17,9 +17,9 @@ import ch.logixisland.anuto.game.entity.TypeIds;
 import ch.logixisland.anuto.game.data.Path;
 import ch.logixisland.anuto.game.data.TowerConfig;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
-import ch.logixisland.anuto.util.math.Intersections;
+import ch.logixisland.anuto.util.math.vector.Intersections;
 import ch.logixisland.anuto.util.math.MathUtils;
-import ch.logixisland.anuto.util.math.Vector2;
+import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public abstract class Tower extends GameObject {
 

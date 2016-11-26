@@ -7,10 +7,9 @@ import android.graphics.Paint;
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.render.DrawObject;
-import ch.logixisland.anuto.game.entity.effect.Effect;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
 import ch.logixisland.anuto.game.entity.GameObject;
-import ch.logixisland.anuto.util.math.Vector2;
+import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class TeleportEffect extends Effect {
 

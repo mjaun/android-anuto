@@ -1,6 +1,8 @@
-package ch.logixisland.anuto.util.math;
+package ch.logixisland.anuto.util.math.vector;
 
 import org.simpleframework.xml.Attribute;
+
+import ch.logixisland.anuto.util.math.MathUtils;
 
 public class Vector2 {
 

@@ -1,4 +1,6 @@
-package ch.logixisland.anuto.util.math;
+package ch.logixisland.anuto.util.math.vector;
+
+import ch.logixisland.anuto.util.math.MathUtils;
 
 public final class Intersections {
     private Intersections() {
@@ -20,12 +22,12 @@ public final class Intersections {
         discriminant = (float)Math.sqrt(discriminant);
 
         ret[0] = new Vector2(
-                (D * d.y + MathUtils.sgn(d.y) * d.x * discriminant) / dr2,
+                (D * d.y + MathUtils.sign(d.y) * d.x * discriminant) / dr2,
                 (-D * d.x + Math.abs(d.y) * discriminant) / dr2
         );
 
         ret[1] = new Vector2(
-                (D * d.y - MathUtils.sgn(d.y) * d.x * discriminant) / dr2,
+                (D * d.y - MathUtils.sign(d.y) * d.x * discriminant) / dr2,
                 (-D * d.x - Math.abs(d.y) * discriminant) / dr2
         );
 

@@ -14,7 +14,7 @@ import ch.logixisland.anuto.game.data.EnemyConfig;
 import ch.logixisland.anuto.game.data.Path;
 import ch.logixisland.anuto.util.iterator.Function;
 import ch.logixisland.anuto.util.math.MathUtils;
-import ch.logixisland.anuto.util.math.Vector2;
+import ch.logixisland.anuto.util.math.vector.Vector2;
 import ch.logixisland.anuto.util.theme.Theme;
 
 

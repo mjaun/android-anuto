@@ -8,7 +8,7 @@ import ch.logixisland.anuto.game.entity.shot.GlueShot;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.render.DrawObject;
 import ch.logixisland.anuto.game.render.Sprite;
-import ch.logixisland.anuto.util.math.Vector2;
+import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class GlueGun extends AimingTower {
 

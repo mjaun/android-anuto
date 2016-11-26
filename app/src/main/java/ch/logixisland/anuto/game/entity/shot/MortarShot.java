@@ -8,11 +8,10 @@ import ch.logixisland.anuto.game.entity.effect.Explosion;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.render.DrawObject;
 import ch.logixisland.anuto.game.entity.GameObject;
-import ch.logixisland.anuto.game.entity.shot.Shot;
 import ch.logixisland.anuto.game.render.Sprite;
-import ch.logixisland.anuto.util.math.Function;
-import ch.logixisland.anuto.util.math.SampledFunction;
-import ch.logixisland.anuto.util.math.Vector2;
+import ch.logixisland.anuto.util.math.function.Function;
+import ch.logixisland.anuto.util.math.function.SampledFunction;
+import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class MortarShot extends Shot {
 

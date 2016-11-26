@@ -2,11 +2,10 @@ package ch.logixisland.anuto.game.data;
 
 import org.simpleframework.xml.ElementList;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import ch.logixisland.anuto.util.math.Vector2;
+import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class Path implements Iterable<Vector2> {
 

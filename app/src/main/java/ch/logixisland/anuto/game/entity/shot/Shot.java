@@ -3,7 +3,7 @@ package ch.logixisland.anuto.game.entity.shot;
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.entity.TypeIds;
 import ch.logixisland.anuto.game.entity.GameObject;
-import ch.logixisland.anuto.util.math.Vector2;
+import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public abstract class Shot extends GameObject {
 

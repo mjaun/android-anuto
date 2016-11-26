@@ -17,7 +17,7 @@ import ch.logixisland.anuto.game.render.DrawObject;
 import ch.logixisland.anuto.game.entity.GameObject;
 import ch.logixisland.anuto.util.container.SparseCollectionArray;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
-import ch.logixisland.anuto.util.math.Vector2;
+import ch.logixisland.anuto.util.math.vector.Vector2;
 import ch.logixisland.anuto.util.theme.DarkTheme;
 import ch.logixisland.anuto.util.theme.Theme;
 

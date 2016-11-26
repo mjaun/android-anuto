@@ -12,8 +12,7 @@ import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.render.DrawObject;
 import ch.logixisland.anuto.game.entity.GameObject;
 import ch.logixisland.anuto.game.render.Sprite;
-import ch.logixisland.anuto.game.entity.tower.Tower;
-import ch.logixisland.anuto.util.math.Vector2;
+import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class MineLayer extends Tower {
 

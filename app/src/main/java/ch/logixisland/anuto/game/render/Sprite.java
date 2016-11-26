@@ -14,7 +14,8 @@ import java.util.List;
 
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.TickTimer;
-import ch.logixisland.anuto.util.math.Vector2;
+import ch.logixisland.anuto.util.math.vector.Vector2;
+import ch.logixisland.anuto.util.theme.Theme;
 
 public class Sprite {
 
@@ -25,8 +26,8 @@ public class Sprite {
     private static HashMap<Integer, Sprite> sSpriteCache = new HashMap<>();
 
     public static Sprite fromResources(int id, int count) {
-
         id = GameEngine.getInstance().getTheme().resourceMap(id);
+
         if (sSpriteCache.containsKey(id)) {
             return new Sprite(sSpriteCache.get(id));
         } else {
@@ -52,7 +53,6 @@ public class Sprite {
             return fromResources(id, count);
         }
     }
-
 
     /*
     ------ Listener Interface ------
