@@ -15,7 +15,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.game.render.DrawObject;
 import ch.logixisland.anuto.game.entity.GameObject;
-import ch.logixisland.anuto.util.container.ConcurrentCollectionMap;
+import ch.logixisland.anuto.util.container.SparseCollectionArray;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.Vector2;
 import ch.logixisland.anuto.util.theme.DarkTheme;
@@ -57,9 +57,9 @@ public class GameEngine {
     ------ Helper Classes ------
      */
 
-    private class GameObjectCollectionMap extends ConcurrentCollectionMap<Integer, GameObject> {
+    private class GameObjectCollection extends SparseCollectionArray<GameObject> {
         @Override
-        public boolean add(Integer key, GameObject value) {
+        public boolean add(int key, GameObject value) {
             boolean ret = super.add(key, value);
 
             if (ret) {
@@ -70,7 +70,7 @@ public class GameEngine {
         }
 
         @Override
-        public boolean remove(Integer key, GameObject value) {
+        public boolean remove(int key, GameObject value) {
             boolean ret = super.remove(key, value);
 
             if (ret) {
@@ -79,22 +79,10 @@ public class GameEngine {
 
             return ret;
         }
-
-        @Override
-        protected int compareKeys(Integer k1, Integer k2) {
-            if (k1 > k2) return -1;
-            if (k1 < k2) return 1;
-            return 0;
-        }
     }
 
-    private class DrawObjectCollectionMap extends ConcurrentCollectionMap<Integer, DrawObject> {
-        @Override
-        protected int compareKeys(Integer k1, Integer k2) {
-            if (k1 > k2) return -1;
-            if (k1 < k2) return 1;
-            return 0;
-        }
+    private class DrawObjectCollection extends SparseCollectionArray<DrawObject> {
+
     }
 
     private class StaticDataMap extends HashMap<Class<? extends GameObject>, StaticData> {
@@ -128,8 +116,8 @@ public class GameEngine {
     private volatile long mTickCount = 0;
     private volatile long mRenderCount = 0;
 
-    private final GameObjectCollectionMap mGameObjects = new GameObjectCollectionMap();
-    private final DrawObjectCollectionMap mDrawObjects = new DrawObjectCollectionMap();
+    private final GameObjectCollection mGameObjects = new GameObjectCollection();
+    private final DrawObjectCollection mDrawObjects = new DrawObjectCollection();
     private final StaticDataMap mStaticData = new StaticDataMap();
 
     private final Vector2 mGameSize = new Vector2(10, 10);
@@ -215,7 +203,7 @@ public class GameEngine {
     }
 
     public StreamIterator<GameObject> get(int typeId) {
-        return mGameObjects.iteratorKey(typeId);
+        return mGameObjects.get(typeId).iterator();
     }
 
     public void add(GameObject obj) {

@@ -55,12 +55,13 @@ public abstract class StreamIterator<T> implements Iterator<T> {
         };
     }
 
-    public abstract void close();
 
     @Override
     public void remove() {
         throw new UnsupportedOperationException();
     }
+
+    public abstract void close();
 
 
     public T first() {
@@ -167,7 +168,7 @@ public abstract class StreamIterator<T> implements Iterator<T> {
     }
 
     public <F> StreamIterator<F> transform(Function<? super T, ? extends F> transformation) {
-        return new TransformingIterator<>(this, transformation);
+        return new MappingIterator<>(this, transformation);
     }
 
     public StreamIterator<T> exclude(final T obj) {
@@ -189,7 +190,7 @@ public abstract class StreamIterator<T> implements Iterator<T> {
     }
 
     public <F> StreamIterator<F> cast(final Class<F> castTo) {
-        return new TransformingIterator<>(this, new Function<T, F>() {
+        return new MappingIterator<>(this, new Function<T, F>() {
             @Override
             public F apply(T input) {
                 return castTo.cast(input);

@@ -1,11 +1,11 @@
 package ch.logixisland.anuto.util.iterator;
 
-public class FilteringIterator<T> extends ComputingIterator<T> {
+class FilteringIterator<T> extends LazyIterator<T> {
 
-    Predicate<? super T> mFilter;
-    StreamIterator<T> mOriginal;
+    private Predicate<? super T> mFilter;
+    private StreamIterator<T> mOriginal;
 
-    public FilteringIterator(StreamIterator<T> original, Predicate<? super T> filter) {
+    FilteringIterator(StreamIterator<T> original, Predicate<? super T> filter) {
         mOriginal = original;
         mFilter = filter;
     }
@@ -16,7 +16,7 @@ public class FilteringIterator<T> extends ComputingIterator<T> {
     }
 
     @Override
-    protected T computeNext() {
+    protected T fetchNext() {
         while (mOriginal.hasNext()) {
             T next = mOriginal.next();
 
