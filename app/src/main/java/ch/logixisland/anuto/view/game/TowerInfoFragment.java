@@ -18,7 +18,7 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.business.GameManager;
 import ch.logixisland.anuto.game.entity.tower.AimingTower;
 import ch.logixisland.anuto.game.entity.tower.Tower;
-import ch.logixisland.anuto.util.StringUtils;
+import ch.logixisland.anuto.util.string.StringUtils;
 
 public class TowerInfoFragment extends Fragment implements
         View.OnTouchListener, View.OnClickListener,
