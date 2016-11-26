@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import ch.logixisland.anuto.game.objects.Enemy;
-import ch.logixisland.anuto.game.objects.Tower;
+import ch.logixisland.anuto.game.entity.enemy.Enemy;
+import ch.logixisland.anuto.game.entity.tower.Tower;
 
 @Root
 public class Level {

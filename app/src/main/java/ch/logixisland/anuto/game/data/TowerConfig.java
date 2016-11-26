@@ -9,9 +9,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import ch.logixisland.anuto.game.objects.Enemy;
-import ch.logixisland.anuto.game.objects.GameObject;
-import ch.logixisland.anuto.game.objects.Tower;
+import ch.logixisland.anuto.game.entity.enemy.Enemy;
+import ch.logixisland.anuto.game.entity.GameObject;
+import ch.logixisland.anuto.game.entity.tower.Tower;
 import ch.logixisland.anuto.util.iterator.Function;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 

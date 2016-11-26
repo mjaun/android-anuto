@@ -15,9 +15,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.game.GameManager;
-import ch.logixisland.anuto.game.objects.AimingTower;
-import ch.logixisland.anuto.game.objects.Tower;
+import ch.logixisland.anuto.game.business.GameManager;
+import ch.logixisland.anuto.game.entity.tower.AimingTower;
+import ch.logixisland.anuto.game.entity.tower.Tower;
 import ch.logixisland.anuto.util.StringUtils;
 
 public class TowerInfoFragment extends Fragment implements

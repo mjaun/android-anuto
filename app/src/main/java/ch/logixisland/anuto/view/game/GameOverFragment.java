@@ -12,7 +12,7 @@ import java.text.DecimalFormat;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameEngine;
-import ch.logixisland.anuto.game.GameManager;
+import ch.logixisland.anuto.game.business.GameManager;
 import ch.logixisland.anuto.util.theme.Theme;
 
 public class GameOverFragment extends Fragment implements GameManager.OnGameStartedListener,

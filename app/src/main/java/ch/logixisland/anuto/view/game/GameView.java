@@ -8,10 +8,10 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import ch.logixisland.anuto.game.GameEngine;
-import ch.logixisland.anuto.game.GameManager;
-import ch.logixisland.anuto.game.objects.GameObject;
-import ch.logixisland.anuto.game.objects.Plateau;
-import ch.logixisland.anuto.game.objects.Tower;
+import ch.logixisland.anuto.game.business.GameManager;
+import ch.logixisland.anuto.game.entity.GameObject;
+import ch.logixisland.anuto.game.entity.plateau.Plateau;
+import ch.logixisland.anuto.game.entity.tower.Tower;
 import ch.logixisland.anuto.util.math.Vector2;
 
 public class GameView extends View implements Runnable, View.OnDragListener, View.OnTouchListener {

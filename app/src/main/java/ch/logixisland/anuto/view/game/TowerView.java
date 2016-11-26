@@ -14,9 +14,8 @@ import android.view.View;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameEngine;
-import ch.logixisland.anuto.game.GameManager;
-import ch.logixisland.anuto.game.objects.Tower;
-import ch.logixisland.anuto.util.theme.Theme;
+import ch.logixisland.anuto.game.business.GameManager;
+import ch.logixisland.anuto.game.entity.tower.Tower;
 
 public class TowerView extends View implements View.OnTouchListener {
 

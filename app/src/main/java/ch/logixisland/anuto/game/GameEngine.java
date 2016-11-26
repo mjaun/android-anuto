@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.game.objects.DrawObject;
-import ch.logixisland.anuto.game.objects.GameObject;
+import ch.logixisland.anuto.game.render.DrawObject;
+import ch.logixisland.anuto.game.entity.GameObject;
 import ch.logixisland.anuto.util.container.ConcurrentCollectionMap;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.Vector2;

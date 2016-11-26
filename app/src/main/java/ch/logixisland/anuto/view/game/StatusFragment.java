@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -14,8 +13,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.game.business.GameManager;
 import ch.logixisland.anuto.game.GameEngine;
-import ch.logixisland.anuto.game.GameManager;
 import ch.logixisland.anuto.game.data.Wave;
 import ch.logixisland.anuto.util.StringUtils;
 import ch.logixisland.anuto.util.theme.Theme;

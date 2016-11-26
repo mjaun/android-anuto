@@ -2,7 +2,7 @@ package ch.logixisland.anuto.game.data;
 
 import org.simpleframework.xml.Attribute;
 
-import ch.logixisland.anuto.game.objects.Plateau;
+import ch.logixisland.anuto.game.entity.plateau.Plateau;
 
 public class PlateauDescriptor {
     private final static String CLASS_PREFIX = "ch.logixisland.anuto.game.objects.impl.";
