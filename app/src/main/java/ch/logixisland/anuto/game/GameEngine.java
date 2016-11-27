@@ -183,27 +183,35 @@ public class GameEngine implements Runnable {
     }
 
     public void add(Entity obj) {
-        mEntities.add(obj.getType(), obj);
+        synchronized (mEntities) {
+            mEntities.add(obj.getType(), obj);
+        }
     }
 
     public void add(Drawable obj) {
-        mDrawables.add(obj.getLayer(), obj);
+        synchronized (mDrawables) {
+            mDrawables.add(obj.getLayer(), obj);
+        }
     }
 
     public void remove(Entity obj) {
-        mEntities.remove(obj.getType(), obj);
+        synchronized (mEntities) {
+            mEntities.remove(obj.getType(), obj);
+        }
     }
 
     public void remove(Drawable obj) {
-        mDrawables.remove(obj.getLayer(), obj);
+        synchronized (mDrawables) {
+            mDrawables.remove(obj.getLayer(), obj);
+        }
     }
 
     public void clear() {
-        for (Entity obj : mEntities) {
-            mEntities.remove(obj.getType(), obj);
+        synchronized (mEntities) {
+            for (Entity obj : mEntities) {
+                mEntities.remove(obj.getType(), obj);
+            }
         }
-
-        mStaticData.clear();
     }
 
 
@@ -288,8 +296,10 @@ public class GameEngine implements Runnable {
                     }
                 }
 
-                for (Entity obj : mEntities) {
-                    obj.tick();
+                synchronized (mEntities) {
+                    for (Entity obj : mEntities) {
+                        obj.tick();
+                    }
                 }
 
                 long timeRenderBegin = System.currentTimeMillis();
@@ -314,10 +324,6 @@ public class GameEngine implements Runnable {
 
                 if (mTickCount % (TARGET_FRAME_RATE * 5) == 0) {
                     Log.d(TAG, String.format("TT=%d ms, RT=%d ms", mMaxTickTime, mMaxRenderTime));
-
-                    if (mMaxTickTime > TARGET_FRAME_PERIOD_MS) {
-                        Log.w(TAG, "Frame did not finish in time!");
-                    }
 
                     mMaxTickTime = 0;
                     mMaxRenderTime = 0;
