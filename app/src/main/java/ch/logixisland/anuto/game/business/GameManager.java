@@ -1,7 +1,6 @@
 package ch.logixisland.anuto.game.business;
 
 import android.content.Context;
-import android.os.Handler;
 import android.util.Log;
 
 import java.util.Iterator;
@@ -9,6 +8,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.game.GameEngine;
+import ch.logixisland.anuto.game.TickTimer;
 import ch.logixisland.anuto.game.data.EnemyDescriptor;
 import ch.logixisland.anuto.game.data.Level;
 import ch.logixisland.anuto.game.data.PlateauDescriptor;
@@ -103,7 +103,6 @@ public class GameManager {
     private Level mLevel;
     private Tower mSelectedTower;
     private Context mContext;
-    private Handler mGameHandler;
 
     private int mNextWaveIndex;
 
@@ -130,15 +129,21 @@ public class GameManager {
             mActiveWaves.add(m);
             calcEarlyBonus();
 
-            mGameHandler.postDelayed(new Runnable() {
+            mGame.add(new Runnable() {
+                private final TickTimer mTimer = TickTimer.createInterval(Math.round(m.getWave().getNextWaveDelay() * 1000));
+
                 @Override
                 public void run() {
-                    if (getCurrentWaveManager() == m && !mNextWaveReady && hasNextWave()) {
-                        onNextWaveReady();
-                        mNextWaveReady = true;
+                    if (mTimer.tick()) {
+                        if (getCurrentWaveManager() == m && !mNextWaveReady && hasNextWave()) {
+                            onNextWaveReady();
+                            mNextWaveReady = true;
+                        }
+
+                        mGame.remove(this);
                     }
                 }
-            }, Math.round(m.getWave().getNextWaveDelay() * 1000));
+            });
 
             onWaveStarted(m.getWave());
         }
@@ -184,7 +189,6 @@ public class GameManager {
 
     public GameManager() {
         mGame = GameEngine.getInstance();
-        mGameHandler = mGame.createHandler();
         mGameOver = true;
     }
 

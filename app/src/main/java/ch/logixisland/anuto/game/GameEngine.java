@@ -4,9 +4,8 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.util.Log;
+import android.view.View;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,13 +14,14 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.render.Drawable;
+import ch.logixisland.anuto.util.container.SmartIteratorCollection;
 import ch.logixisland.anuto.util.container.SparseCollectionArray;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 import ch.logixisland.anuto.util.theme.DarkTheme;
 import ch.logixisland.anuto.util.theme.Theme;
 
-public class GameEngine {
+public class GameEngine implements Runnable {
 
     /*
     ------ Constants ------
@@ -34,14 +34,6 @@ public class GameEngine {
     private int BACKGROUND_COLOR;
 
     private final static String TAG = GameEngine.class.getSimpleName();
-
-    /*
-    ------ Listener Interface ------
-     */
-
-    public interface Listener {
-        void onTick();
-    }
 
     /*
     ------ Helper Classes ------
@@ -97,14 +89,12 @@ public class GameEngine {
     ------ Members ------
      */
 
-    private final HandlerThread mGameThread;
-    private final Handler mGameHandler;
+    private Thread mGameThread;
 
     private volatile boolean mRunning = false;
-    private volatile int mMaxTickTime;
-    private volatile int mMaxRenderTime;
-    private volatile long mTickCount = 0;
-    private volatile long mRenderCount = 0;
+    private long mTickCount = 0;
+    private int mMaxTickTime;
+    private int mMaxRenderTime;
 
     private final EntityCollection mEntities = new EntityCollection();
     private final DrawableCollection mDrawables = new DrawableCollection();
@@ -115,23 +105,19 @@ public class GameEngine {
     private final Matrix mScreenMatrix = new Matrix();
     private final Matrix mScreenMatrixInverse = new Matrix();
 
+    private View mView;
     private Theme theme;
     private Resources mResources;
     private final Random mRandom = new Random();
 
-    private final List<Runnable> mRunnables = new CopyOnWriteArrayList<>();
+    private final SmartIteratorCollection<Runnable> mRunnables = new SmartIteratorCollection<>();
 
     /*
     ------ Constructors ------
      */
 
     private GameEngine() {
-        mGameThread = new HandlerThread("GameEngine");
-        mGameThread.start();
-
-        mGameHandler = new Handler(mGameThread.getLooper());
         setTheme(Theme.getDefaultTheme());
-
     }
 
     /*
@@ -144,6 +130,10 @@ public class GameEngine {
 
     public void setResources(Resources res) {
         mResources = res;
+    }
+
+    public void setView(View view) {
+        mView = view;
     }
 
     public void setTheme(int dt) {
@@ -178,10 +168,6 @@ public class GameEngine {
         return mRandom.nextFloat() * (max - min) + min;
     }
 
-
-    public long getTickCount() {
-        return mTickCount;
-    }
 
     public boolean tick100ms(Object caller) {
         return (mTickCount + System.identityHashCode(caller)) % TICKS_100MS == 0;
@@ -231,11 +217,15 @@ public class GameEngine {
 
 
     public void add(Runnable r) {
-        mRunnables.add(r);
+        synchronized (mRunnables) {
+            mRunnables.add(r);
+        }
     }
 
     public void remove(Runnable r) {
-        mRunnables.remove(r);
+        synchronized (mRunnables) {
+            mRunnables.remove(r);
+        }
     }
 
 
@@ -248,10 +238,6 @@ public class GameEngine {
         calcScreenMatrix();
     }
 
-    public Vector2 getScreenSize() {
-        return new Vector2(mScreenSize);
-    }
-
     public void setScreenSize(int width, int height) {
         mScreenSize.set(width, height);
         calcScreenMatrix();
@@ -260,12 +246,6 @@ public class GameEngine {
     public Vector2 screenToGame(Vector2 pos) {
         float[] pts = {pos.x, pos.y};
         mScreenMatrixInverse.mapPoints(pts);
-        return new Vector2(pts[0], pts[1]);
-    }
-
-    public Vector2 gameToScreen(Vector2 pos) {
-        float[] pts = {pos.x, pos.y};
-        mScreenMatrix.mapPoints(pts);
         return new Vector2(pts[0], pts[1]);
     }
 
@@ -296,64 +276,69 @@ public class GameEngine {
     ------ GameEngine Loop ------
      */
 
-    public void tick() {
+    @Override
+    public void run() {
         try {
-            long beginTime = System.currentTimeMillis();
+            while (mRunning) {
+                long timeTickBegin = System.currentTimeMillis();
 
-            for (Runnable r : mRunnables) {
-                r.run();
-            }
-
-            for (Entity obj : mEntities) {
-                obj.tick();
-            }
-
-            int tickTime = (int) (System.currentTimeMillis() - beginTime);
-
-            if (tickTime > mMaxTickTime) {
-                mMaxTickTime = tickTime;
-            }
-
-            if (mTickCount % (TARGET_FRAME_RATE * 5) == 0) {
-                Log.d(TAG, String.format("TT=%d ms, RT=%d ms, TC-RC=%d",
-                        mMaxTickTime, mMaxRenderTime, mTickCount - mRenderCount));
-
-                if (mMaxTickTime > TARGET_FRAME_PERIOD_MS) {
-                    Log.w(TAG, "Frame did not finish in time!");
+                synchronized (mRunnables) {
+                    for (Runnable r : mRunnables) {
+                        r.run();
+                    }
                 }
 
-                mMaxTickTime = 0;
-                mMaxRenderTime = 0;
-            }
+                for (Entity obj : mEntities) {
+                    obj.tick();
+                }
 
-            mTickCount++;
+                long timeRenderBegin = System.currentTimeMillis();
 
-            if (mRunning) {
-                int sleepTime = TARGET_FRAME_PERIOD_MS - tickTime;
-                if (sleepTime < 0) {
-                    mGameHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            tick();
-                        }
-                    });
-                } else {
-                    mGameHandler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            tick();
-                        }
-                    }, sleepTime);
+                synchronized (mDrawables) {
+                    mView.postInvalidate();
+                    mDrawables.wait();
+                }
+
+                long timeFinished = System.currentTimeMillis();
+
+                int tickTime = (int)(timeRenderBegin - timeTickBegin);
+                int renderTime = (int)(timeFinished - timeRenderBegin);
+
+                if (tickTime > mMaxTickTime) {
+                    mMaxTickTime = tickTime;
+                }
+
+                if (renderTime > mMaxRenderTime) {
+                    mMaxRenderTime = renderTime;
+                }
+
+                if (mTickCount % (TARGET_FRAME_RATE * 5) == 0) {
+                    Log.d(TAG, String.format("TT=%d ms, RT=%d ms", mMaxTickTime, mMaxRenderTime));
+
+                    if (mMaxTickTime > TARGET_FRAME_PERIOD_MS) {
+                        Log.w(TAG, "Frame did not finish in time!");
+                    }
+
+                    mMaxTickTime = 0;
+                    mMaxRenderTime = 0;
+                }
+
+                mTickCount++;
+
+                int sleepTime = TARGET_FRAME_PERIOD_MS - tickTime - renderTime;
+
+                if (sleepTime > 0) {
+                    Thread.sleep(sleepTime);
                 }
             }
-        } catch (Exception e) {
+        } catch (InterruptedException e) {
+            mRunning = false;
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
     public void draw(Canvas canvas) {
-        long beginTime = System.currentTimeMillis();
-
         canvas.drawColor(BACKGROUND_COLOR);
         canvas.concat(mScreenMatrix);
 
@@ -361,11 +346,8 @@ public class GameEngine {
             obj.draw(canvas);
         }
 
-        mRenderCount++;
-        int renderTime = (int) (System.currentTimeMillis() - beginTime);
-
-        if (renderTime > mMaxRenderTime) {
-            mMaxRenderTime = renderTime;
+        synchronized (mDrawables) {
+            mDrawables.notifyAll();
         }
     }
 
@@ -374,13 +356,8 @@ public class GameEngine {
         if (!mRunning) {
             Log.i(TAG, "Starting game loop");
             mRunning = true;
-
-            mGameHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    tick();
-                }
-            });
+            mGameThread = new Thread(this);
+            mGameThread.start();
         }
     }
 
@@ -388,14 +365,13 @@ public class GameEngine {
         if (mRunning) {
             Log.i(TAG, "Stopping game loop");
             mRunning = false;
+
+            try {
+                mGameThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
         }
-    }
-
-    public boolean isRunning() {
-        return mRunning;
-    }
-
-    public Handler createHandler() {
-        return new Handler(mGameThread.getLooper());
     }
 }

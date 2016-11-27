@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.game.GameEngine;
+import ch.logixisland.anuto.game.TickTimer;
 import ch.logixisland.anuto.game.data.EnemyDescriptor;
 import ch.logixisland.anuto.game.data.Wave;
 import ch.logixisland.anuto.game.entity.Entity;
@@ -35,7 +36,6 @@ public class WaveManager {
 
     private Wave mWave;
     private int mExtend;
-    private Handler mGameHandler;
     private boolean mAborted;
     private int mEnemiesRemaining;
     private int mEarlyBonus;
@@ -46,6 +46,7 @@ public class WaveManager {
     private volatile int mWaveReward;
 
     private List<Listener> mListeners = new CopyOnWriteArrayList<>();
+    private List<Runnable> mQueuedRunnables = new CopyOnWriteArrayList<>();
 
     /*
     ------ Entity.Listener Implementation ------
@@ -76,7 +77,6 @@ public class WaveManager {
     public WaveManager(Wave wave, int extend) {
         mWave = wave;
         mExtend = extend;
-        mGameHandler = mGame.createHandler();
 
         mWaveReward = mWave.getWaveReward();
         mHealthModifier = mWave.getHealthModifier();
@@ -120,7 +120,7 @@ public class WaveManager {
     }
 
     public void start() {
-        mGameHandler.post(new Runnable() {
+        mGame.add(new Runnable() {
             @Override
             public void run() {
                 int delay = 0;
@@ -151,29 +151,44 @@ public class WaveManager {
                             delay += (int) (d.getDelay() * 1000f);
                         }
 
+                        final int thisDelay = delay;
                         mEarlyBonus += e.getReward();
 
-                        mGameHandler.postDelayed(new Runnable() {
+                        mGame.add(new Runnable() {
+                            TickTimer mTimer = TickTimer.createInterval(thisDelay);
+
                             @Override
                             public void run() {
-                                mGame.add(e);
+                                if (mTimer.tick()) {
+                                    mGame.add(e);
+                                    mGame.remove(this);
+                                    mQueuedRunnables.remove(this);
+                                }
                             }
-                        }, delay);
+                        });
                     }
                 }
 
                 onStarted();
+                mGame.remove(this);
             }
         });
     }
 
     public void abort() {
-        mGameHandler.post(new Runnable() {
+        mGame.add(new Runnable() {
             @Override
             public void run() {
-                mGameHandler.removeCallbacksAndMessages(null);
+                for (Runnable r : mQueuedRunnables) {
+                    mGame.remove(r);
+                }
+
+                mQueuedRunnables.clear();
+
                 mAborted = true;
                 onAborted();
+
+                mGame.remove(this);
             }
         });
     }
@@ -183,11 +198,12 @@ public class WaveManager {
     }
 
     public void giveReward() {
-        mGameHandler.post(new Runnable() {
+        mGame.add(new Runnable() {
             @Override
             public void run() {
                 mManager.giveCredits(mWaveReward, true);
                 mWaveReward = 0;
+                mGame.remove(this);
             }
         });
     }
