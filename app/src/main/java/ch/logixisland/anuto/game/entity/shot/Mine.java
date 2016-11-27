@@ -7,7 +7,7 @@ import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.entity.effect.Explosion;
 import ch.logixisland.anuto.game.entity.enemy.Flyer;
 import ch.logixisland.anuto.game.render.Layers;
-import ch.logixisland.anuto.game.render.DrawObject;
+import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
 import ch.logixisland.anuto.game.entity.GameObject;
 import ch.logixisland.anuto.game.render.Sprite;
@@ -109,7 +109,7 @@ public class Mine extends Shot {
     }
 
     @Override
-    public void onDraw(DrawObject sprite, Canvas canvas) {
+    public void onDraw(Drawable sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
 
         float s = mHeightScalingFunction.getValue();

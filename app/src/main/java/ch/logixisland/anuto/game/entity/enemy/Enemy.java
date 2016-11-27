@@ -7,7 +7,7 @@ import android.graphics.Paint;
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.entity.GameObject;
 import ch.logixisland.anuto.game.entity.tower.Tower;
-import ch.logixisland.anuto.game.render.DrawObject;
+import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.entity.TypeIds;
 import ch.logixisland.anuto.game.data.EnemyConfig;
@@ -34,7 +34,7 @@ public abstract class Enemy extends GameObject {
     ------ Healthbar Class ------
      */
 
-    private class HealthBar extends DrawObject {
+    private class HealthBar implements Drawable {
         private Paint mHealthBarBd;
         private Paint mHealthBarBg;
         private Paint mHealthBarFg;

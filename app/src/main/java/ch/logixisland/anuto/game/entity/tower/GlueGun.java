@@ -6,7 +6,7 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.entity.shot.GlueShot;
 import ch.logixisland.anuto.game.render.Layers;
-import ch.logixisland.anuto.game.render.DrawObject;
+import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.render.Sprite;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
@@ -72,7 +72,7 @@ public class GlueGun extends AimingTower {
     }
 
     @Override
-    public void onDraw(DrawObject sprite, Canvas canvas) {
+    public void onDraw(Drawable sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
 
         canvas.rotate(mAngle);

@@ -10,7 +10,7 @@ import java.util.List;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
 import ch.logixisland.anuto.game.entity.GameObject;
 import ch.logixisland.anuto.game.entity.plateau.Plateau;
-import ch.logixisland.anuto.game.render.DrawObject;
+import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.TickTimer;
 import ch.logixisland.anuto.game.entity.TypeIds;
@@ -33,7 +33,7 @@ public abstract class Tower extends GameObject {
     ------ RangeIndicator Class ------
      */
 
-    private class RangeIndicator extends DrawObject {
+    private class RangeIndicator implements Drawable {
         private Paint mPen;
 
         public RangeIndicator() {

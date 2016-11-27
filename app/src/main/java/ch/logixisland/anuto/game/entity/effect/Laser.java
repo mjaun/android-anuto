@@ -9,7 +9,7 @@ import java.util.Collection;
 
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.render.Layers;
-import ch.logixisland.anuto.game.render.DrawObject;
+import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
 import ch.logixisland.anuto.game.entity.GameObject;
 import ch.logixisland.anuto.util.math.vector.Vector2;
@@ -20,11 +20,11 @@ public class Laser extends Effect {
     private final static int ALPHA_START = 180;
     private final static int ALPHA_STEP = (int)(ALPHA_START / (GameEngine.TARGET_FRAME_RATE * EFFECT_DURATION));
 
-    private class LaserDrawObject extends DrawObject {
+    private class LaserDrawable implements Drawable {
         private Paint mPaint;
         private int mAlpha = ALPHA_START;
 
-        public LaserDrawObject() {
+        public LaserDrawable() {
             mPaint = new Paint();
             mPaint.setStyle(Paint.Style.STROKE);
             mPaint.setStrokeWidth(0.1f);
@@ -60,7 +60,7 @@ public class Laser extends Effect {
     private Vector2 mTargetPos;
     private Collection<Enemy> mPrevTargets;
 
-    private LaserDrawObject mDrawObject;
+    private LaserDrawable mDrawObject;
 
     public Laser(GameObject origin, Vector2 position, Enemy target, float damage) {
         this(origin, position, target, damage, 0, 0);
@@ -77,7 +77,7 @@ public class Laser extends Effect {
         mBounce = bounce;
         mMaxBounceDist = maxBounceDist;
 
-        mDrawObject = new LaserDrawObject();
+        mDrawObject = new LaserDrawable();
     }
 
     private Laser(Laser origin, Enemy target) {

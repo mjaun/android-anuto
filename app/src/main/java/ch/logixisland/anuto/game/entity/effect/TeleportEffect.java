@@ -6,7 +6,7 @@ import android.graphics.Paint;
 
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.render.Layers;
-import ch.logixisland.anuto.game.render.DrawObject;
+import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
 import ch.logixisland.anuto.game.entity.GameObject;
 import ch.logixisland.anuto.util.math.vector.Vector2;
@@ -15,10 +15,10 @@ public class TeleportEffect extends Effect {
 
     private static final float EFFECT_DURATION = 1f;
 
-    private class TeleportDrawObject extends DrawObject {
+    private class TeleportDrawable implements Drawable {
         private Paint mPaint;
 
-        public TeleportDrawObject() {
+        public TeleportDrawable() {
             mPaint = new Paint();
             mPaint.setStyle(Paint.Style.STROKE);
             mPaint.setStrokeWidth(0.1f);
@@ -43,7 +43,7 @@ public class TeleportEffect extends Effect {
     Vector2 mMoveDirection;
     float mMoveStep;
 
-    TeleportDrawObject mDrawObject;
+    TeleportDrawable mDrawObject;
 
     public TeleportEffect(GameObject origin, Vector2 position, Enemy target, float distance) {
         super(origin, EFFECT_DURATION);
@@ -57,7 +57,7 @@ public class TeleportEffect extends Effect {
         mMoveDirection = target.getDirectionTo(this);
         mMoveStep = target.getDistanceTo(this) / EFFECT_DURATION / GameEngine.TARGET_FRAME_RATE;
 
-        mDrawObject = new TeleportDrawObject();
+        mDrawObject = new TeleportDrawable();
     }
 
     @Override

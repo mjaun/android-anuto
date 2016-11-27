@@ -7,7 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.business.GameManager;
-import ch.logixisland.anuto.game.render.DrawObject;
+import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.render.Sprite;
 import ch.logixisland.anuto.util.iterator.Function;
 import ch.logixisland.anuto.util.iterator.Predicate;
@@ -133,7 +133,7 @@ public abstract class GameObject implements Sprite.Listener {
     }
 
     @Override
-    public void onDraw(DrawObject sprite, Canvas canvas) {
+    public void onDraw(Drawable sprite, Canvas canvas) {
         canvas.translate(mPosition.x, mPosition.y);
     }
 

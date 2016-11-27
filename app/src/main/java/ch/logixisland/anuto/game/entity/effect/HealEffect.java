@@ -6,7 +6,7 @@ import android.graphics.Paint;
 
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.render.Layers;
-import ch.logixisland.anuto.game.render.DrawObject;
+import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
 import ch.logixisland.anuto.game.entity.GameObject;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
@@ -16,10 +16,10 @@ public class HealEffect extends Effect {
 
     private static final float EFFECT_DURATION = 0.7f;
 
-    private class HealDrawObject extends DrawObject {
+    private class HealDrawable implements Drawable {
         private Paint mPaint;
 
-        public HealDrawObject() {
+        public HealDrawable() {
             mPaint = new Paint();
             mPaint.setStyle(Paint.Style.STROKE);
             mPaint.setStrokeWidth(0.05f);
@@ -42,7 +42,7 @@ public class HealEffect extends Effect {
     private float mDrawRadius;
     private float mHealAmount;
 
-    private DrawObject mDrawObject;
+    private Drawable mDrawable;
 
     public HealEffect(GameObject origin, Vector2 position, float amount, float radius) {
         super(origin, EFFECT_DURATION);
@@ -52,21 +52,21 @@ public class HealEffect extends Effect {
         mRange = radius;
         mDrawRadius = 0f;
 
-        mDrawObject = new HealDrawObject();
+        mDrawable = new HealDrawable();
     }
 
     @Override
     public void init() {
         super.init();
 
-        getGame().add(mDrawObject);
+        getGame().add(mDrawable);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        getGame().remove(mDrawObject);
+        getGame().remove(mDrawable);
     }
 
     @Override

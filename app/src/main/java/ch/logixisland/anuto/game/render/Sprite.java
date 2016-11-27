@@ -59,14 +59,14 @@ public class Sprite {
      */
 
     public interface Listener {
-        void onDraw(DrawObject sprite, Canvas canvas);
+        void onDraw(Drawable sprite, Canvas canvas);
     }
 
     /*
     ------ Instance Classes ------
      */
 
-    public abstract class Instance extends DrawObject {
+    public abstract class Instance implements Drawable {
         private final int mLayer;
 
         private Paint mPaint;

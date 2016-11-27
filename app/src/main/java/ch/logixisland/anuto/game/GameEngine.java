@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.game.render.DrawObject;
+import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.entity.GameObject;
 import ch.logixisland.anuto.util.container.SparseCollectionArray;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
@@ -81,7 +81,7 @@ public class GameEngine {
         }
     }
 
-    private class DrawObjectCollection extends SparseCollectionArray<DrawObject> {
+    private class DrawObjectCollection extends SparseCollectionArray<Drawable> {
 
     }
 
@@ -210,7 +210,7 @@ public class GameEngine {
         mGameObjects.add(obj.getTypeId(), obj);
     }
 
-    public void add(DrawObject obj) {
+    public void add(Drawable obj) {
         mDrawObjects.add(obj.getLayer(), obj);
     }
 
@@ -218,7 +218,7 @@ public class GameEngine {
         mGameObjects.remove(obj.getTypeId(), obj);
     }
 
-    public void remove(DrawObject obj) {
+    public void remove(Drawable obj) {
         mDrawObjects.remove(obj.getLayer(), obj);
     }
 
@@ -371,7 +371,7 @@ public class GameEngine {
         canvas.drawColor(BACKGROUND_COLOR);
         canvas.concat(mScreenMatrix);
 
-        for (DrawObject obj : mDrawObjects) {
+        for (Drawable obj : mDrawObjects) {
             obj.draw(canvas);
         }
 

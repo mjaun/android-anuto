@@ -7,8 +7,7 @@ import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.entity.shot.Rocket;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.TickTimer;
-import ch.logixisland.anuto.game.entity.tower.AimingTower;
-import ch.logixisland.anuto.game.render.DrawObject;
+import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.render.Sprite;
 
 public class RocketLauncher extends AimingTower {
@@ -82,7 +81,7 @@ public class RocketLauncher extends AimingTower {
     }
 
     @Override
-    public void onDraw(DrawObject sprite, Canvas canvas) {
+    public void onDraw(Drawable sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
 
         canvas.rotate(mAngle);
