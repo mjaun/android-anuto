@@ -1,20 +1,31 @@
 package ch.logixisland.anuto.game.objects;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameEngine;
+import ch.logixisland.anuto.game.GameManager;
 import ch.logixisland.anuto.game.TickTimer;
 import ch.logixisland.anuto.util.math.Vector2;
+import ch.logixisland.anuto.util.theme.Theme;
 
 public class Sprite {
 
@@ -25,6 +36,8 @@ public class Sprite {
     private static HashMap<Integer, Sprite> sSpriteCache = new HashMap<>();
 
     public static Sprite fromResources(int id, int count) {
+
+        id = GameEngine.getInstance().getTheme().resourceMap(id);
         if (sSpriteCache.containsKey(id)) {
             return new Sprite(sSpriteCache.get(id));
         } else {
@@ -50,6 +63,7 @@ public class Sprite {
             return fromResources(id, count);
         }
     }
+
 
     /*
     ------ Listener Interface ------

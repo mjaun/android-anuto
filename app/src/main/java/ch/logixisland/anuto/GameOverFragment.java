@@ -10,7 +10,9 @@ import android.widget.TextView;
 
 import java.text.DecimalFormat;
 
+import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.GameManager;
+import ch.logixisland.anuto.util.theme.Theme;
 
 public class GameOverFragment extends Fragment implements GameManager.OnGameStartedListener,
         GameManager.OnGameOverListener {
@@ -25,9 +27,12 @@ public class GameOverFragment extends Fragment implements GameManager.OnGameStar
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_game_over, container, false);
 
+        Theme theme = GameEngine.getInstance().getTheme();
         txt_game_over = (TextView)v.findViewById(R.id.txt_game_over);
         txt_score = (TextView)v.findViewById(R.id.txt_score);
 
+        txt_game_over.setTextColor(theme.getTextColor());
+        txt_score.setTextColor(theme.getTextColor());
         return v;
     }
 
