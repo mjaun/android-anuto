@@ -58,7 +58,8 @@ public class SparseCollectionArray<T> implements StreamIterable<T> {
         SmartIteratorCollection<T> collection = mCollections.get(key);
 
         if (collection == null) {
-            mCollections.put(key, new SmartIteratorCollection<T>());
+            collection = new SmartIteratorCollection<T>();
+            mCollections.put(key, collection);
         }
 
         return collection;
