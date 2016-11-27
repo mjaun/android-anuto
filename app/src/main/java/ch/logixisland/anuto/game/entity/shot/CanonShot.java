@@ -17,7 +17,7 @@ public class CanonShot extends HomingShot {
     private final static float ROTATION_SPEED = 1.0f;
     private final static float ROTATION_STEP = ROTATION_SPEED * 360f / GameEngine.TARGET_FRAME_RATE;
 
-    private class StaticData extends GameEngine.StaticData {
+    private class StaticData {
         public Sprite sprite;
     }
 
@@ -42,7 +42,7 @@ public class CanonShot extends HomingShot {
     }
 
     @Override
-    public GameEngine.StaticData initStatic() {
+    public Object initStatic() {
         StaticData s = new StaticData();
 
         s.sprite = Sprite.fromResources(R.drawable.canon_shot, 4);

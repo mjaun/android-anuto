@@ -13,7 +13,7 @@ public class GlueShot extends Shot {
     public final static float MOVEMENT_SPEED = 4.0f;
     private final static float ANIMATION_SPEED = 1.0f;
 
-    private class StaticData extends GameEngine.StaticData {
+    private class StaticData {
         public Sprite sprite;
     }
 
@@ -43,7 +43,7 @@ public class GlueShot extends Shot {
     }
 
     @Override
-    public GameEngine.StaticData initStatic() {
+    public Object initStatic() {
         StaticData s = new StaticData();
 
         s.sprite = Sprite.fromResources(R.drawable.glue_shot, 6);

@@ -18,7 +18,7 @@ public class MineLayer extends Tower {
 
     private final static float ANIMATION_DURATION = 1f;
 
-    private class StaticData extends GameEngine.StaticData {
+    private class StaticData {
         public Sprite sprite;
     }
 
@@ -59,7 +59,7 @@ public class MineLayer extends Tower {
     }
 
     @Override
-    public GameEngine.StaticData initStatic() {
+    public Object initStatic() {
         StaticData s = new StaticData();
 
         s.sprite = Sprite.fromResources(R.drawable.minelayer, 6);

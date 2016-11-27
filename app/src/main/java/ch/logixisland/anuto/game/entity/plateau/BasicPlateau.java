@@ -3,12 +3,11 @@ package ch.logixisland.anuto.game.entity.plateau;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.render.Layers;
-import ch.logixisland.anuto.game.entity.plateau.Plateau;
 import ch.logixisland.anuto.game.render.Sprite;
 
 public class BasicPlateau extends Plateau {
 
-    private class StaticData extends GameEngine.StaticData {
+    private class StaticData {
         public Sprite sprite;
     }
 
@@ -23,7 +22,7 @@ public class BasicPlateau extends Plateau {
     }
 
     @Override
-    public GameEngine.StaticData initStatic() {
+    public Object initStatic() {
         StaticData s = new StaticData();
 
         s.sprite = Sprite.fromResources(R.drawable.plateau1, 4);

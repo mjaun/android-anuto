@@ -17,7 +17,7 @@ public class Rocket extends HomingShot {
     private final static float MOVEMENT_SPEED = 2.5f;
     private final static float ANIMATION_SPEED = 3f;
 
-    private class StaticData extends GameEngine.StaticData {
+    private class StaticData {
         public Sprite sprite;
         public Sprite spriteFire;
     }
@@ -55,7 +55,7 @@ public class Rocket extends HomingShot {
     }
 
     @Override
-    public GameEngine.StaticData initStatic() {
+    public Object initStatic() {
         StaticData s = new StaticData();
 
         s.sprite = Sprite.fromResources(R.drawable.rocket, 4);

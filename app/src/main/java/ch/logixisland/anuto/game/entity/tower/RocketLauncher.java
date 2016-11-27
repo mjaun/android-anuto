@@ -14,7 +14,7 @@ public class RocketLauncher extends AimingTower {
 
     private final static float ROCKET_LOAD_TIME = 1.0f;
 
-    private class StaticData extends GameEngine.StaticData {
+    private class StaticData {
         public Sprite sprite;
         public Sprite spriteRocket; // used for preview only
     }
@@ -44,7 +44,7 @@ public class RocketLauncher extends AimingTower {
     }
 
     @Override
-    public GameEngine.StaticData initStatic() {
+    public Object initStatic() {
         StaticData s = new StaticData();
 
         s.sprite = Sprite.fromResources(R.drawable.rocket_launcher, 4);

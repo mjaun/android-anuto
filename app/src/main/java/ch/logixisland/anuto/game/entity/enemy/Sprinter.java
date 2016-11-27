@@ -14,14 +14,14 @@ public class Sprinter extends Enemy {
 
     private final static float ANIMATION_SPEED = 0.7f;
 
-    private class StaticData extends GameEngine.StaticData {
+    private class StaticData implements Runnable {
         public SampledFunction speedFunction;
 
         public Sprite sprite;
         public Sprite.AnimatedInstance animator;
 
         @Override
-        public void tick() {
+        public void run() {
             animator.tick();
             speedFunction.step();
         }
@@ -40,7 +40,7 @@ public class Sprinter extends Enemy {
     private Sprite.Instance mSprite;
 
     @Override
-    public GameEngine.StaticData initStatic() {
+    public Object initStatic() {
         StaticData s = new StaticData();
 
         s.speedFunction = Function.sine()
@@ -56,6 +56,8 @@ public class Sprinter extends Enemy {
         s.animator = s.sprite.yieldAnimated(Layers.ENEMY);
         s.animator.setSequence(s.animator.sequenceForwardBackward());
         s.animator.setFrequency(ANIMATION_SPEED);
+
+        getGame().add(s);
 
         return s;
     }

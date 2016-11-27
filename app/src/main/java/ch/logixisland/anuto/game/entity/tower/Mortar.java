@@ -15,7 +15,7 @@ public class Mortar extends AimingTower {
     private final static float SHOT_SPAWN_OFFSET = 0.6f;
     private final static float REBOUND_DURATION = 0.5f;
 
-    private class StaticData extends GameEngine.StaticData {
+    private class StaticData {
         public Sprite spriteBase;
         public Sprite spriteCanon;
     }
@@ -46,7 +46,7 @@ public class Mortar extends AimingTower {
     }
 
     @Override
-    public GameEngine.StaticData initStatic() {
+    public Object initStatic() {
         StaticData s = new StaticData();
 
         s.spriteBase = Sprite.fromResources(R.drawable.base2, 4);

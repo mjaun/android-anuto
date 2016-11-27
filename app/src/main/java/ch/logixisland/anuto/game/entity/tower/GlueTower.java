@@ -21,7 +21,7 @@ public class GlueTower extends Tower {
 
     private final static float CANON_OFFSET_MAX = 0.5f;
 
-    private class StaticData extends GameEngine.StaticData {
+    private class StaticData {
         public Sprite spriteBase;
         public Sprite spriteTower;
         public Sprite spriteCanon;
@@ -72,7 +72,7 @@ public class GlueTower extends Tower {
     }
 
     @Override
-    public GameEngine.StaticData initStatic() {
+    public Object initStatic() {
         StaticData s = new StaticData();
 
         s.spriteBase = Sprite.fromResources(R.drawable.base4, 4);

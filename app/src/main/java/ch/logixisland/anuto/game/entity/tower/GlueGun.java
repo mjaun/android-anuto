@@ -15,7 +15,7 @@ public class GlueGun extends AimingTower {
     private final static float SHOT_SPAWN_OFFSET = 0.7f;
     private final static float REBOUND_DURATION = 0.5f;
 
-    private class StaticData extends GameEngine.StaticData {
+    private class StaticData {
         public Sprite spriteBase;
         public Sprite spriteCanon;
     }
@@ -43,7 +43,7 @@ public class GlueGun extends AimingTower {
     }
 
     @Override
-    public GameEngine.StaticData initStatic() {
+    public Object initStatic() {
         StaticData s = new StaticData();
 
         s.spriteBase = Sprite.fromResources(R.drawable.base1, 4);

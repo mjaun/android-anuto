@@ -16,7 +16,7 @@ public class CanonMG extends AimingTower {
     private final static float SHOT_SPAWN_OFFSET = 0.7f;
     private final static float MG_ROTATION_SPEED = 2f;
 
-    private class StaticData extends GameEngine.StaticData {
+    private class StaticData {
         public Sprite spriteBase;
         public Sprite spriteCanon;
     }
@@ -39,7 +39,7 @@ public class CanonMG extends AimingTower {
     }
 
     @Override
-    public GameEngine.StaticData initStatic() {
+    public Object initStatic() {
         StaticData s = new StaticData();
 
         s.spriteBase = Sprite.fromResources(R.drawable.base1, 4);

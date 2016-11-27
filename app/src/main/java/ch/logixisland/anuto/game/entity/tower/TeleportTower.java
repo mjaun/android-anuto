@@ -16,7 +16,7 @@ import ch.logixisland.anuto.util.iterator.StreamIterator;
 
 public class TeleportTower extends AimingTower {
 
-    private class StaticData extends GameEngine.StaticData {
+    private class StaticData {
         public Sprite spriteBase;
         public Sprite spriteTower;
     }
@@ -52,7 +52,7 @@ public class TeleportTower extends AimingTower {
     }
 
     @Override
-    public GameEngine.StaticData initStatic() {
+    public Object initStatic() {
         StaticData s = new StaticData();
 
         s.spriteBase = Sprite.fromResources(R.drawable.base4, 4);

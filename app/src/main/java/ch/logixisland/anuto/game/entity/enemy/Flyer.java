@@ -12,12 +12,12 @@ public class Flyer extends Enemy {
 
     private final static float ANIMATION_SPEED = 1.0f;
 
-    private class StaticData extends GameEngine.StaticData {
+    private class StaticData implements Runnable {
         public Sprite sprite;
         public Sprite.AnimatedInstance animator;
 
         @Override
-        public void tick() {
+        public void run() {
             animator.tick();
         }
     }
@@ -34,7 +34,7 @@ public class Flyer extends Enemy {
     }
 
     @Override
-    public GameEngine.StaticData initStatic() {
+    public Object initStatic() {
         StaticData s = new StaticData();
 
         s.sprite = Sprite.fromResources(R.drawable.flyer, 6);
@@ -43,6 +43,8 @@ public class Flyer extends Enemy {
         s.animator = s.sprite.yieldAnimated(Layers.ENEMY);
         s.animator.setSequence(s.animator.sequenceForwardBackward());
         s.animator.setFrequency(ANIMATION_SPEED);
+
+        getGame().add(s);
 
         return s;
     }

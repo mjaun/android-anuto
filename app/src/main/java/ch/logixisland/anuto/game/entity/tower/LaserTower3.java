@@ -14,7 +14,7 @@ public class LaserTower3 extends AimingTower {
 
     private final static float LASER_SPAWN_OFFSET = 0.8f;
 
-    private class StaticData extends GameEngine.StaticData {
+    private class StaticData {
         public Sprite spriteBase;
         public Sprite spriteCanon;
     }
@@ -40,7 +40,7 @@ public class LaserTower3 extends AimingTower {
     }
 
     @Override
-    public GameEngine.StaticData initStatic() {
+    public Object initStatic() {
         StaticData s = new StaticData();
 
         s.spriteBase = Sprite.fromResources(R.drawable.base5, 4);

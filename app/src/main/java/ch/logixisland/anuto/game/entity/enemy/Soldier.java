@@ -3,19 +3,18 @@ package ch.logixisland.anuto.game.entity.enemy;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.render.Layers;
-import ch.logixisland.anuto.game.entity.enemy.Enemy;
 import ch.logixisland.anuto.game.render.Sprite;
 
 public class Soldier extends Enemy {
 
     private final static float ANIMATION_SPEED = 1f;
 
-    private class StaticData extends GameEngine.StaticData {
+    private class StaticData implements Runnable {
         public Sprite sprite;
         public Sprite.AnimatedInstance animator;
 
         @Override
-        public void tick() {
+        public void run() {
             animator.tick();
         }
     }
@@ -30,7 +29,7 @@ public class Soldier extends Enemy {
     }
 
     @Override
-    public GameEngine.StaticData initStatic() {
+    public Object initStatic() {
         StaticData s = new StaticData();
 
         s.sprite = Sprite.fromResources(R.drawable.soldier, 12);
@@ -39,6 +38,8 @@ public class Soldier extends Enemy {
         s.animator = s.sprite.yieldAnimated(Layers.ENEMY);
         s.animator.setSequence(s.animator.sequenceForwardBackward());
         s.animator.setFrequency(ANIMATION_SPEED);
+
+        getGame().add(s);
 
         return s;
     }

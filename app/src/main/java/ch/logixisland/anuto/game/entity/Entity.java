@@ -107,7 +107,7 @@ public abstract class Entity implements Sprite.Listener {
     public abstract int getTypeId();
 
 
-    public GameEngine.StaticData initStatic() {
+    public Object initStatic() {
         return null;
     }
 
@@ -155,7 +155,7 @@ public abstract class Entity implements Sprite.Listener {
         return GameManager.getInstance();
     }
 
-    protected GameEngine.StaticData getStaticData() {
+    protected Object getStaticData() {
         return getGame().getStaticData(this);
     }
 

@@ -28,7 +28,7 @@ public class Mine extends Shot {
     private final static float HEIGHT_SCALING_STOP = 1.0f;
     private final static float HEIGHT_SCALING_PEAK = 1.5f;
 
-    private class StaticData extends GameEngine.StaticData {
+    private class StaticData {
         public Sprite sprite;
     }
 
@@ -77,7 +77,7 @@ public class Mine extends Shot {
     }
 
     @Override
-    public GameEngine.StaticData initStatic() {
+    public Object initStatic() {
         StaticData s = new StaticData();
 
         s.sprite = Sprite.fromResources(R.drawable.mine, 4);

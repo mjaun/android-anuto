@@ -44,16 +44,6 @@ public class GameEngine {
     }
 
     /*
-    ------ StaticData Class ------
-     */
-
-    public static abstract class StaticData {
-        public void tick() {
-
-        }
-    }
-
-    /*
     ------ Helper Classes ------
      */
 
@@ -85,7 +75,7 @@ public class GameEngine {
 
     }
 
-    private class StaticDataMap extends HashMap<Class<? extends Entity>, StaticData> {
+    private class StaticDataMap extends HashMap<Class<? extends Entity>, Object> {
 
     }
 
@@ -231,7 +221,7 @@ public class GameEngine {
     }
 
 
-    public StaticData getStaticData(Entity obj) {
+    public Object getStaticData(Entity obj) {
         if (!mStaticData.containsKey(obj.getClass())) {
             mStaticData.put(obj.getClass(), obj.initStatic());
         }
@@ -312,10 +302,6 @@ public class GameEngine {
 
             for (Runnable r : mRunnables) {
                 r.run();
-            }
-
-            for (StaticData s : mStaticData.values()) {
-                s.tick();
             }
 
             for (Entity obj : mEntities) {

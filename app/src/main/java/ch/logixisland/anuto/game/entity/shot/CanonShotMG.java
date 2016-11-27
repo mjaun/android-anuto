@@ -16,7 +16,7 @@ public class CanonShotMG extends Shot {
     private final static float HIT_RANGE = 0.5f;
     private final static float MOVEMENT_SPEED = 8.0f;
 
-    private class StaticData extends GameEngine.StaticData {
+    private class StaticData {
         public Sprite sprite;
     }
 
@@ -42,7 +42,7 @@ public class CanonShotMG extends Shot {
     }
 
     @Override
-    public GameEngine.StaticData initStatic() {
+    public Object initStatic() {
         StaticData s = new StaticData();
 
         s.sprite = Sprite.fromResources(R.drawable.canon_mg_shot, 4);

@@ -18,7 +18,7 @@ public class Healer extends Enemy {
     private final static float HEAL_SCALE_FACTOR = 2f;
     private final static float HEAL_ROTATION = 2.5f;
 
-    private class StaticData extends GameEngine.StaticData {
+    private class StaticData implements Runnable {
         public float healDuration;
         public float healInterval;
 
@@ -34,7 +34,7 @@ public class Healer extends Enemy {
         public Sprite.AnimatedInstance animator;
 
         @Override
-        public void tick() {
+        public void run() {
             animator.tick();
 
             if (healTimer.tick()) {
@@ -80,7 +80,7 @@ public class Healer extends Enemy {
     }
 
     @Override
-    public GameEngine.StaticData initStatic() {
+    public Object initStatic() {
         StaticData s = new StaticData();
 
         s.healInterval = getProperty("healInterval");
@@ -108,6 +108,8 @@ public class Healer extends Enemy {
         s.animator = s.sprite.yieldAnimated(Layers.ENEMY);
         s.animator.setSequence(s.animator.sequenceForward());
         s.animator.setFrequency(ANIMATION_SPEED);
+
+        getGame().add(s);
 
         return s;
     }

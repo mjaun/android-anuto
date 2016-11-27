@@ -17,7 +17,7 @@ public class GlueEffect extends AreaEffect {
 
     private final static int ALPHA_START = 150;
 
-    private class StaticData extends GameEngine.StaticData {
+    private class StaticData {
         public Sprite sprite;
     }
 
@@ -48,7 +48,7 @@ public class GlueEffect extends AreaEffect {
     }
 
     @Override
-    public GameEngine.StaticData initStatic() {
+    public Object initStatic() {
         StaticData s = new StaticData();
 
         s.sprite = Sprite.fromResources(R.drawable.glue_effect, 4);
