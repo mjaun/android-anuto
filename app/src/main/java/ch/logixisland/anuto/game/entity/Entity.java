@@ -104,7 +104,7 @@ public abstract class Entity implements Sprite.Listener {
     ------ Methods ------
      */
 
-    public abstract int getTypeId();
+    public abstract int getType();
 
 
     public Object initStatic() {

@@ -197,7 +197,7 @@ public class GameEngine {
     }
 
     public void add(Entity obj) {
-        mEntities.add(obj.getTypeId(), obj);
+        mEntities.add(obj.getType(), obj);
     }
 
     public void add(Drawable obj) {
@@ -205,7 +205,7 @@ public class GameEngine {
     }
 
     public void remove(Entity obj) {
-        mEntities.remove(obj.getTypeId(), obj);
+        mEntities.remove(obj.getType(), obj);
     }
 
     public void remove(Drawable obj) {
@@ -214,7 +214,7 @@ public class GameEngine {
 
     public void clear() {
         for (Entity obj : mEntities) {
-            mEntities.remove(obj.getTypeId(), obj);
+            mEntities.remove(obj.getType(), obj);
         }
 
         mStaticData.clear();

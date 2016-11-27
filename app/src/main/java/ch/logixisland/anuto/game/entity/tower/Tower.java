@@ -107,7 +107,7 @@ public abstract class Tower extends Entity {
      */
 
     @Override
-    public int getTypeId() {
+    public final int getType() {
         return TYPE_ID;
     }
 

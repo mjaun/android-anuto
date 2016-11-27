@@ -35,7 +35,7 @@ public abstract class Shot extends Entity {
      */
 
     @Override
-    public int getTypeId() {
+    public final int getType() {
         return TYPE_ID;
     }
 
