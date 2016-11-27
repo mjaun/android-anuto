@@ -5,11 +5,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import ch.logixisland.anuto.game.GameEngine;
-import ch.logixisland.anuto.game.entity.GameObject;
+import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.entity.tower.Tower;
 import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.render.Layers;
-import ch.logixisland.anuto.game.entity.TypeIds;
+import ch.logixisland.anuto.game.entity.Types;
 import ch.logixisland.anuto.game.data.EnemyConfig;
 import ch.logixisland.anuto.game.data.Path;
 import ch.logixisland.anuto.util.iterator.Function;
@@ -18,13 +18,13 @@ import ch.logixisland.anuto.util.math.vector.Vector2;
 import ch.logixisland.anuto.util.theme.Theme;
 
 
-public abstract class Enemy extends GameObject {
+public abstract class Enemy extends Entity {
 
     /*
     ------ Constants ------
      */
 
-    public static final int TYPE_ID = TypeIds.ENEMY;
+    public static final int TYPE_ID = Types.ENEMY;
 
     private static final float HEALTHBAR_WIDTH = 1.0f;
     private static final float HEALTHBAR_HEIGHT = 0.1f;
@@ -279,7 +279,7 @@ public abstract class Enemy extends GameObject {
         return mConfig.getHealth() * mHealthModifier;
     }
 
-    public void damage(float dmg, GameObject origin) {
+    public void damage(float dmg, Entity origin) {
         if (origin != null && origin instanceof Tower) {
             Tower originTower = (Tower)origin;
 

@@ -1,7 +1,7 @@
 package ch.logixisland.anuto.game.entity.tower;
 
+import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
-import ch.logixisland.anuto.game.entity.GameObject;
 
 public abstract class AimingTower extends Tower {
 
@@ -32,14 +32,14 @@ public abstract class AimingTower extends Tower {
     ------ Listener Implementations ------
      */
 
-    private final GameObject.Listener mTargetListener = new GameObject.Listener() {
+    private final Entity.Listener mTargetListener = new Entity.Listener() {
         @Override
-        public void onObjectAdded(GameObject obj) {
+        public void onObjectAdded(Entity obj) {
 
         }
 
         @Override
-        public void onObjectRemoved(GameObject obj) {
+        public void onObjectRemoved(Entity obj) {
             onTargetLost();
         }
     };
@@ -126,7 +126,7 @@ public abstract class AimingTower extends Tower {
     protected void nextTarget() {
         switch (mStrategy) {
             case Closest:
-                setTarget(getPossibleTargets().min(GameObject.distanceTo(getPosition())));
+                setTarget(getPossibleTargets().min(Entity.distanceTo(getPosition())));
                 break;
 
             case Strongest:

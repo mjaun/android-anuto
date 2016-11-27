@@ -7,7 +7,7 @@ import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
-import ch.logixisland.anuto.game.entity.GameObject;
+import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.render.Sprite;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
@@ -26,7 +26,7 @@ public class CanonShot extends HomingShot {
 
     private Sprite.FixedInstance mSprite;
 
-    public CanonShot(GameObject origin, Vector2 position, Enemy target, float damage) {
+    public CanonShot(Entity origin, Vector2 position, Enemy target, float damage) {
         super(origin);
         setPosition(position);
         setTarget(target);

@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
-import ch.logixisland.anuto.game.entity.GameObject;
+import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.entity.plateau.Plateau;
 import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.TickTimer;
-import ch.logixisland.anuto.game.entity.TypeIds;
+import ch.logixisland.anuto.game.entity.Types;
 import ch.logixisland.anuto.game.data.Path;
 import ch.logixisland.anuto.game.data.TowerConfig;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
@@ -21,13 +21,13 @@ import ch.logixisland.anuto.util.math.vector.Intersections;
 import ch.logixisland.anuto.util.math.MathUtils;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
-public abstract class Tower extends GameObject {
+public abstract class Tower extends Entity {
 
     /*
     ------ Constants ------
      */
 
-    public static final int TYPE_ID = TypeIds.TOWER;
+    public static final int TYPE_ID = Types.TOWER;
 
     /*
     ------ RangeIndicator Class ------

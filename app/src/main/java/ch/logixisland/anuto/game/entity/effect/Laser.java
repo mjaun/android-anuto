@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import ch.logixisland.anuto.game.GameEngine;
+import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
-import ch.logixisland.anuto.game.entity.GameObject;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class Laser extends Effect {
@@ -62,11 +62,11 @@ public class Laser extends Effect {
 
     private LaserDrawable mDrawObject;
 
-    public Laser(GameObject origin, Vector2 position, Enemy target, float damage) {
+    public Laser(Entity origin, Vector2 position, Enemy target, float damage) {
         this(origin, position, target, damage, 0, 0);
     }
 
-    public Laser(GameObject origin, Vector2 position, Enemy target, float damage, int bounce, float maxBounceDist) {
+    public Laser(Entity origin, Vector2 position, Enemy target, float damage, int bounce, float maxBounceDist) {
         super(origin, EFFECT_DURATION);
         setPosition(position);
 

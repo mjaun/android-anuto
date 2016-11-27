@@ -8,7 +8,7 @@ import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
-import ch.logixisland.anuto.game.entity.GameObject;
+import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class TeleportEffect extends Effect {
@@ -45,7 +45,7 @@ public class TeleportEffect extends Effect {
 
     TeleportDrawable mDrawObject;
 
-    public TeleportEffect(GameObject origin, Vector2 position, Enemy target, float distance) {
+    public TeleportEffect(Entity origin, Vector2 position, Enemy target, float distance) {
         super(origin, EFFECT_DURATION);
         setPosition(position);
 

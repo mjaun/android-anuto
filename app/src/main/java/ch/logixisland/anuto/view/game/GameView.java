@@ -9,7 +9,7 @@ import android.view.View;
 
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.business.GameManager;
-import ch.logixisland.anuto.game.entity.GameObject;
+import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.entity.plateau.Plateau;
 import ch.logixisland.anuto.game.entity.tower.Tower;
 import ch.logixisland.anuto.util.math.vector.Vector2;
@@ -88,7 +88,7 @@ public class GameView extends View implements Runnable, View.OnDragListener, Vie
             Vector2 pos = mGame.screenToGame(new Vector2(event.getX(), event.getY()));
 
             Tower closest = (Tower)mGame.get(Tower.TYPE_ID)
-                    .min(GameObject.distanceTo(pos));
+                    .min(Entity.distanceTo(pos));
 
             mManager.hideTowerInfo();
             if (closest != null && closest.getDistanceTo(pos) < 0.5f) {
@@ -119,7 +119,7 @@ public class GameView extends View implements Runnable, View.OnDragListener, Vie
         Plateau closestPlateau = mGame.get(Plateau.TYPE_ID)
                 .cast(Plateau.class)
                 .filter(Plateau.unoccupied())
-                .min(GameObject.distanceTo(pos));
+                .min(Entity.distanceTo(pos));
 
         switch (event.getAction()) {
             case DragEvent.ACTION_DRAG_ENTERED:

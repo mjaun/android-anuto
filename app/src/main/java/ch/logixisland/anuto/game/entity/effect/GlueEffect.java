@@ -9,7 +9,7 @@ import ch.logixisland.anuto.game.entity.enemy.Flyer;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
-import ch.logixisland.anuto.game.entity.GameObject;
+import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.render.Sprite;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
@@ -28,7 +28,7 @@ public class GlueEffect extends AreaEffect {
     private Paint mPaint;
     private Sprite.FixedInstance mSprite;
 
-    public GlueEffect(GameObject origin, Vector2 position, float speedModifier, float duration) {
+    public GlueEffect(Entity origin, Vector2 position, float speedModifier, float duration) {
         super(origin, duration);
         setPosition(position);
 

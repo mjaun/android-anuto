@@ -9,8 +9,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
-import ch.logixisland.anuto.game.entity.GameObject;
 import ch.logixisland.anuto.game.entity.tower.Tower;
 import ch.logixisland.anuto.util.iterator.Function;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
@@ -101,9 +101,9 @@ public class TowerConfig {
     @Element(name="weakAgainst", required=false)
     private String getWeakAgainstEnemyNames() {
         return StreamIterator.fromIterable(weakAgainstEnemies)
-                .transform(new Function<Class<? extends GameObject>, String>() {
+                .transform(new Function<Class<? extends Entity>, String>() {
                     @Override
-                    public String apply(Class<? extends GameObject> input) {
+                    public String apply(Class<? extends Entity> input) {
                         return input.getName();
                     }
                 })

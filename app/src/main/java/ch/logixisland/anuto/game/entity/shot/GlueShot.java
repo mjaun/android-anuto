@@ -4,7 +4,7 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.entity.effect.GlueEffect;
 import ch.logixisland.anuto.game.render.Layers;
-import ch.logixisland.anuto.game.entity.GameObject;
+import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.render.Sprite;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
@@ -23,7 +23,7 @@ public class GlueShot extends Shot {
 
     private Sprite.AnimatedInstance mSprite;
 
-    public GlueShot(GameObject origin, Vector2 position, Vector2 target, float speedModifier, float duration) {
+    public GlueShot(Entity origin, Vector2 position, Vector2 target, float speedModifier, float duration) {
         super(origin);
         setPosition(position);
         mTarget = new Vector2(target);

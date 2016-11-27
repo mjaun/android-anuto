@@ -13,52 +13,52 @@ import ch.logixisland.anuto.util.iterator.Function;
 import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
-public abstract class GameObject implements Sprite.Listener {
+public abstract class Entity implements Sprite.Listener {
 
     /*
     ------ Listener Interface ------
      */
 
     public interface Listener {
-        void onObjectAdded(GameObject obj);
-        void onObjectRemoved(GameObject obj);
+        void onObjectAdded(Entity obj);
+        void onObjectRemoved(Entity obj);
     }
 
     /*
     ------ Static ------
      */
 
-    public static Predicate<GameObject> inGame() {
-        return new Predicate<GameObject>() {
+    public static Predicate<Entity> inGame() {
+        return new Predicate<Entity>() {
             @Override
-            public boolean apply(GameObject value) {
+            public boolean apply(Entity value) {
                 return value.isInGame();
             }
         };
     }
 
-    public static Predicate<GameObject> enabled() {
-        return new Predicate<GameObject>() {
+    public static Predicate<Entity> enabled() {
+        return new Predicate<Entity>() {
             @Override
-            public boolean apply(GameObject value) {
+            public boolean apply(Entity value) {
                 return value.isEnabled();
             }
         };
     }
 
-    public static Predicate<GameObject> inRange(final Vector2 center, final float range) {
-        return new Predicate<GameObject>() {
+    public static Predicate<Entity> inRange(final Vector2 center, final float range) {
+        return new Predicate<Entity>() {
             @Override
-            public boolean apply(GameObject value) {
+            public boolean apply(Entity value) {
                 return value.getDistanceTo(center) <= range;
             }
         };
     }
 
-    public static Predicate<GameObject> onLine(final Vector2 p1, final Vector2 p2, final float lineWidth) {
-        return new Predicate<GameObject>() {
+    public static Predicate<Entity> onLine(final Vector2 p1, final Vector2 p2, final float lineWidth) {
+        return new Predicate<Entity>() {
             @Override
-            public boolean apply(GameObject value) {
+            public boolean apply(Entity value) {
                 Vector2 line = Vector2.fromTo(p1, p2);
                 Vector2 toObj = Vector2.fromTo(p1, value.mPosition);
 
@@ -80,10 +80,10 @@ public abstract class GameObject implements Sprite.Listener {
         };
     }
 
-    public static Function<GameObject, Float> distanceTo(final Vector2 toPoint) {
-        return new Function<GameObject, Float>() {
+    public static Function<Entity, Float> distanceTo(final Vector2 toPoint) {
+        return new Function<Entity, Float>() {
             @Override
-            public Float apply(GameObject input) {
+            public Float apply(Entity input) {
                 return input.getDistanceTo(toPoint);
             }
         };
@@ -197,7 +197,7 @@ public abstract class GameObject implements Sprite.Listener {
     }
 
 
-    public float getDistanceTo(GameObject target) {
+    public float getDistanceTo(Entity target) {
         return getDistanceTo(target.mPosition);
     }
 
@@ -205,7 +205,7 @@ public abstract class GameObject implements Sprite.Listener {
         return Vector2.fromTo(mPosition, target).len();
     }
 
-    public Vector2 getDirectionTo(GameObject target) {
+    public Vector2 getDirectionTo(Entity target) {
         return getDirectionTo(target.mPosition);
     }
 
@@ -213,7 +213,7 @@ public abstract class GameObject implements Sprite.Listener {
         return Vector2.fromTo(mPosition, target).norm();
     }
 
-    public float getAngleTo(GameObject target) {
+    public float getAngleTo(Entity target) {
         return getAngleTo(target.mPosition);
     }
 

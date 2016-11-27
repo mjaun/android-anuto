@@ -1,22 +1,22 @@
 package ch.logixisland.anuto.game.entity.effect;
 
 import ch.logixisland.anuto.game.TickTimer;
-import ch.logixisland.anuto.game.entity.TypeIds;
-import ch.logixisland.anuto.game.entity.GameObject;
+import ch.logixisland.anuto.game.entity.Entity;
+import ch.logixisland.anuto.game.entity.Types;
 
-public abstract class Effect extends GameObject {
+public abstract class Effect extends Entity {
 
     /*
     ------ Constants ------
      */
 
-    public static final int TYPE_ID = TypeIds.EFFECT;
+    public static final int TYPE_ID = Types.EFFECT;
 
     /*
     ------ Members ------
      */
 
-    private GameObject mOrigin;
+    private Entity mOrigin;
 
     private TickTimer mTimer;
     private boolean mEffectBegun = false;
@@ -27,7 +27,7 @@ public abstract class Effect extends GameObject {
     ------ Constructors ------
      */
 
-    protected Effect(GameObject origin, float duration) {
+    protected Effect(Entity origin, float duration) {
         mOrigin = origin;
         mDuration = duration;
     }
@@ -36,7 +36,7 @@ public abstract class Effect extends GameObject {
     ------ Methods ------
      */
 
-    public GameObject getOrigin() {
+    public Entity getOrigin() {
         return mOrigin;
     }
 

@@ -3,8 +3,8 @@ package ch.logixisland.anuto.game.entity.effect;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
-import ch.logixisland.anuto.game.entity.GameObject;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
 public abstract class AreaEffect extends Effect {
@@ -19,12 +19,12 @@ public abstract class AreaEffect extends Effect {
 
     private final Listener mEnemyListener = new Listener() {
         @Override
-        public void onObjectAdded(GameObject obj) {
+        public void onObjectAdded(Entity obj) {
 
         }
 
         @Override
-        public void onObjectRemoved(GameObject obj) {
+        public void onObjectRemoved(Entity obj) {
             obj.removeListener(this);
             mAffectedEnemies.remove(obj);
             enemyExit((Enemy)obj);
@@ -35,7 +35,7 @@ public abstract class AreaEffect extends Effect {
     ------ Constructors ------
      */
 
-    protected AreaEffect(GameObject origin, float duration) {
+    protected AreaEffect(Entity origin, float duration) {
         super(origin, duration);
     }
 

@@ -4,11 +4,11 @@ import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameEngine;
+import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.entity.effect.Explosion;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
-import ch.logixisland.anuto.game.entity.GameObject;
 import ch.logixisland.anuto.game.render.Sprite;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
@@ -29,7 +29,7 @@ public class Rocket extends HomingShot {
     private Sprite.FixedInstance mSprite;
     private Sprite.AnimatedInstance mSpriteFire;
 
-    public Rocket(GameObject origin, Vector2 position, float damage, float radius) {
+    public Rocket(Entity origin, Vector2 position, float damage, float radius) {
         super(origin);
         setPosition(position);
         setSpeed(MOVEMENT_SPEED);

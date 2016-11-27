@@ -4,12 +4,12 @@ import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameEngine;
+import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.entity.effect.Explosion;
 import ch.logixisland.anuto.game.entity.enemy.Flyer;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
-import ch.logixisland.anuto.game.entity.GameObject;
 import ch.logixisland.anuto.game.render.Sprite;
 import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
@@ -42,7 +42,7 @@ public class Mine extends Shot {
     private Sprite.FixedInstance mSpriteFlying;
     private Sprite.FixedInstance mSpriteMine;
 
-    public Mine(GameObject origin, Vector2 position, Vector2 target, float damage, float radius) {
+    public Mine(Entity origin, Vector2 position, Vector2 target, float damage, float radius) {
         super(origin);
         setPosition(position);
 

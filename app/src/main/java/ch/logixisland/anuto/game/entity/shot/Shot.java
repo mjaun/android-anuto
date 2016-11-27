@@ -1,23 +1,23 @@
 package ch.logixisland.anuto.game.entity.shot;
 
 import ch.logixisland.anuto.game.GameEngine;
-import ch.logixisland.anuto.game.entity.TypeIds;
-import ch.logixisland.anuto.game.entity.GameObject;
+import ch.logixisland.anuto.game.entity.Types;
+import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
-public abstract class Shot extends GameObject {
+public abstract class Shot extends Entity {
 
     /*
     ------ Constants ------
      */
 
-    public static final int TYPE_ID = TypeIds.SHOT;
+    public static final int TYPE_ID = Types.SHOT;
 
     /*
     ------ Members ------
      */
 
-    private GameObject mOrigin;
+    private Entity mOrigin;
 
     private float mSpeed;
     private Vector2 mDirection;
@@ -26,7 +26,7 @@ public abstract class Shot extends GameObject {
     ------ Constructors ------
      */
 
-    protected Shot(GameObject origin) {
+    protected Shot(Entity origin) {
         mOrigin = origin;
     }
 
@@ -49,7 +49,7 @@ public abstract class Shot extends GameObject {
     }
 
 
-    public GameObject getOrigin() {
+    public Entity getOrigin() {
         return mOrigin;
     }
 

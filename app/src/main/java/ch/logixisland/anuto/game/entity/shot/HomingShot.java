@@ -1,8 +1,8 @@
 package ch.logixisland.anuto.game.entity.shot;
 
 import ch.logixisland.anuto.game.GameEngine;
+import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
-import ch.logixisland.anuto.game.entity.GameObject;
 
 public abstract class HomingShot extends Shot {
 
@@ -10,14 +10,14 @@ public abstract class HomingShot extends Shot {
     ------ Listener Implementations ------
      */
 
-    private final GameObject.Listener mTargetListener = new GameObject.Listener() {
+    private final Entity.Listener mTargetListener = new Entity.Listener() {
         @Override
-        public void onObjectAdded(GameObject obj) {
+        public void onObjectAdded(Entity obj) {
 
         }
 
         @Override
-        public void onObjectRemoved(GameObject obj) {
+        public void onObjectRemoved(Entity obj) {
             if (!mTargetReached) {
                 setTarget(null);
                 onTargetLost();
@@ -36,7 +36,7 @@ public abstract class HomingShot extends Shot {
     ------ Constructors ------
      */
 
-    protected HomingShot(GameObject origin) {
+    protected HomingShot(Entity origin) {
         super(origin);
     }
 

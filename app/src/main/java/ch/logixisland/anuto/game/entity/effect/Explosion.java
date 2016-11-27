@@ -8,7 +8,7 @@ import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
-import ch.logixisland.anuto.game.entity.GameObject;
+import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
@@ -54,7 +54,7 @@ public class Explosion extends Effect {
 
     private ExplosionDrawable mDrawObject;
 
-    public Explosion(GameObject origin, Vector2 position, float damage, float radius) {
+    public Explosion(Entity origin, Vector2 position, float damage, float radius) {
         super(origin, EFFECT_DURATION);
         setPosition(position);
 

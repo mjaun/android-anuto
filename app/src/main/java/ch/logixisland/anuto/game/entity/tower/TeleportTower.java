@@ -7,10 +7,10 @@ import java.util.List;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameEngine;
+import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.entity.effect.TeleportEffect;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
-import ch.logixisland.anuto.game.entity.GameObject;
 import ch.logixisland.anuto.game.render.Sprite;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
@@ -23,12 +23,12 @@ public class TeleportTower extends AimingTower {
 
     private final Listener mEnemyListener = new Listener() {
         @Override
-        public void onObjectAdded(GameObject obj) {
+        public void onObjectAdded(Entity obj) {
 
         }
 
         @Override
-        public void onObjectRemoved(GameObject obj) {
+        public void onObjectRemoved(Entity obj) {
             mTeleportedEnemies.remove(obj);
             obj.removeListener(this);
         }
@@ -109,7 +109,7 @@ public class TeleportTower extends AimingTower {
     @Override
     public StreamIterator<Enemy> getPossibleTargets() {
         return super.getPossibleTargets()
-                .filter(GameObject.enabled())
+                .filter(Entity.enabled())
                 .exclude(mTeleportedEnemies);
     }
 }

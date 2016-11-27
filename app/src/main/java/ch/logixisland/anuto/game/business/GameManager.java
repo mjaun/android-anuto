@@ -14,7 +14,7 @@ import ch.logixisland.anuto.game.data.Level;
 import ch.logixisland.anuto.game.data.PlateauDescriptor;
 import ch.logixisland.anuto.game.data.Settings;
 import ch.logixisland.anuto.game.data.Wave;
-import ch.logixisland.anuto.game.entity.TypeIds;
+import ch.logixisland.anuto.game.entity.Types;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
 import ch.logixisland.anuto.game.entity.plateau.Plateau;
 import ch.logixisland.anuto.game.entity.tower.Tower;
@@ -448,7 +448,7 @@ public class GameManager {
 
 
     private void ageTowers() {
-        Iterator<Tower> it = mGame.get(TypeIds.TOWER).cast(Tower.class);
+        Iterator<Tower> it = mGame.get(Types.TOWER).cast(Tower.class);
         while (it.hasNext()) {
             Tower t = it.next();
             t.devalue(getSettings().getAgeModifier());

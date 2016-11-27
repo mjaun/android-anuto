@@ -2,19 +2,19 @@ package ch.logixisland.anuto.game.entity.plateau;
 
 import org.simpleframework.xml.Root;
 
-import ch.logixisland.anuto.game.entity.TypeIds;
+import ch.logixisland.anuto.game.entity.Types;
 import ch.logixisland.anuto.game.entity.tower.Tower;
-import ch.logixisland.anuto.game.entity.GameObject;
+import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.util.iterator.Predicate;
 
 @Root
-public abstract class Plateau extends GameObject {
+public abstract class Plateau extends Entity {
 
     /*
     ------ Constants ------
      */
 
-    public static final int TYPE_ID = TypeIds.PLATEAU;
+    public static final int TYPE_ID = Types.PLATEAU;
 
     /*
     ------ Static ------

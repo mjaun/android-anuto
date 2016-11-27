@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.render.Drawable;
-import ch.logixisland.anuto.game.entity.GameObject;
 import ch.logixisland.anuto.util.container.SparseCollectionArray;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.vector.Vector2;
@@ -57,9 +57,9 @@ public class GameEngine {
     ------ Helper Classes ------
      */
 
-    private class GameObjectCollection extends SparseCollectionArray<GameObject> {
+    private class GameObjectCollection extends SparseCollectionArray<Entity> {
         @Override
-        public boolean add(int key, GameObject value) {
+        public boolean add(int key, Entity value) {
             boolean ret = super.add(key, value);
 
             if (ret) {
@@ -70,7 +70,7 @@ public class GameEngine {
         }
 
         @Override
-        public boolean remove(int key, GameObject value) {
+        public boolean remove(int key, Entity value) {
             boolean ret = super.remove(key, value);
 
             if (ret) {
@@ -85,7 +85,7 @@ public class GameEngine {
 
     }
 
-    private class StaticDataMap extends HashMap<Class<? extends GameObject>, StaticData> {
+    private class StaticDataMap extends HashMap<Class<? extends Entity>, StaticData> {
 
     }
 
@@ -198,15 +198,15 @@ public class GameEngine {
     }
 
 
-    public StreamIterator<GameObject> get() {
+    public StreamIterator<Entity> get() {
         return mGameObjects.iterator();
     }
 
-    public StreamIterator<GameObject> get(int typeId) {
+    public StreamIterator<Entity> get(int typeId) {
         return mGameObjects.get(typeId).iterator();
     }
 
-    public void add(GameObject obj) {
+    public void add(Entity obj) {
         mGameObjects.add(obj.getTypeId(), obj);
     }
 
@@ -214,7 +214,7 @@ public class GameEngine {
         mDrawObjects.add(obj.getLayer(), obj);
     }
 
-    public void remove(GameObject obj) {
+    public void remove(Entity obj) {
         mGameObjects.remove(obj.getTypeId(), obj);
     }
 
@@ -223,7 +223,7 @@ public class GameEngine {
     }
 
     public void clear() {
-        for (GameObject obj : mGameObjects) {
+        for (Entity obj : mGameObjects) {
             mGameObjects.remove(obj.getTypeId(), obj);
         }
 
@@ -231,7 +231,7 @@ public class GameEngine {
     }
 
 
-    public StaticData getStaticData(GameObject obj) {
+    public StaticData getStaticData(Entity obj) {
         if (!mStaticData.containsKey(obj.getClass())) {
             mStaticData.put(obj.getClass(), obj.initStatic());
         }
@@ -318,7 +318,7 @@ public class GameEngine {
                 s.tick();
             }
 
-            for (GameObject obj : mGameObjects) {
+            for (Entity obj : mGameObjects) {
                 obj.tick();
             }
 

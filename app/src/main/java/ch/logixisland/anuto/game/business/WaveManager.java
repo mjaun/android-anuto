@@ -8,8 +8,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.data.EnemyDescriptor;
 import ch.logixisland.anuto.game.data.Wave;
+import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
-import ch.logixisland.anuto.game.entity.GameObject;
 import ch.logixisland.anuto.util.math.MathUtils;
 
 public class WaveManager {
@@ -48,16 +48,16 @@ public class WaveManager {
     private List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
     /*
-    ------ GameObject.Listener Implementation ------
+    ------ Entity.Listener Implementation ------
      */
 
-    private GameObject.Listener mObjectListener = new GameObject.Listener() {
+    private Entity.Listener mObjectListener = new Entity.Listener() {
         @Override
-        public void onObjectAdded(GameObject obj) {
+        public void onObjectAdded(Entity obj) {
         }
 
         @Override
-        public void onObjectRemoved(GameObject obj) {
+        public void onObjectRemoved(Entity obj) {
             mEnemiesRemaining--;
             mEarlyBonus -= ((Enemy)obj).getReward();
 

@@ -4,10 +4,10 @@ import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameEngine;
+import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.entity.effect.Explosion;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.render.Drawable;
-import ch.logixisland.anuto.game.entity.GameObject;
 import ch.logixisland.anuto.game.render.Sprite;
 import ch.logixisland.anuto.util.math.function.Function;
 import ch.logixisland.anuto.util.math.function.SampledFunction;
@@ -31,7 +31,7 @@ public class MortarShot extends Shot {
 
     private Sprite.FixedInstance mSprite;
 
-    public MortarShot(GameObject origin, Vector2 position, Vector2 target, float damage, float radius) {
+    public MortarShot(Entity origin, Vector2 position, Vector2 target, float damage, float radius) {
         super(origin);
         setPosition(position);
         setSpeed(getDistanceTo(target) / TIME_TO_TARGET);

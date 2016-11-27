@@ -10,7 +10,7 @@ import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.entity.shot.Mine;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.render.Drawable;
-import ch.logixisland.anuto.game.entity.GameObject;
+import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.render.Sprite;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
@@ -33,12 +33,12 @@ public class MineLayer extends Tower {
 
     private final Listener mMineListener = new Listener() {
         @Override
-        public void onObjectAdded(GameObject obj) {
+        public void onObjectAdded(Entity obj) {
 
         }
 
         @Override
-        public void onObjectRemoved(GameObject obj) {
+        public void onObjectRemoved(Entity obj) {
             mMines.remove(obj);
             obj.removeListener(this);
         }
