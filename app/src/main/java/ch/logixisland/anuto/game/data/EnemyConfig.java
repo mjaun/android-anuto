@@ -10,7 +10,7 @@ import java.util.Map;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
 
 public class EnemyConfig {
-    private final static String CLASS_PREFIX = "ch.logixisland.anuto.game.objects.impl.";
+    private final static String CLASS_PREFIX = "ch.logixisland.anuto.game.entity.enemy.";
 
     /*
     ------ Fields ------

@@ -5,7 +5,7 @@ import org.simpleframework.xml.Attribute;
 import ch.logixisland.anuto.game.entity.plateau.Plateau;
 
 public class PlateauDescriptor {
-    private final static String CLASS_PREFIX = "ch.logixisland.anuto.game.objects.impl.";
+    private final static String CLASS_PREFIX = "ch.logixisland.anuto.game.entity.plateau.";
 
     /*
     ------ Fields ------

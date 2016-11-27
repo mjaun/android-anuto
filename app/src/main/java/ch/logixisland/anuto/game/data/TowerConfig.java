@@ -16,7 +16,8 @@ import ch.logixisland.anuto.util.iterator.Function;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
 public class TowerConfig {
-    private final static String CLASS_PREFIX = "ch.logixisland.anuto.game.objects.impl.";
+    private final static String CLASS_PREFIX_TOWER = "ch.logixisland.anuto.game.entity.tower.";
+    private final static String CLASS_PREFIX_ENEMY = "ch.logixisland.anuto.game.entity.enemy.";
 
     /*
     ------ Fields ------
@@ -84,7 +85,7 @@ public class TowerConfig {
     @Element(name="clazz")
     @SuppressWarnings("unchecked")
     private void setTowerClassName(String className) throws ClassNotFoundException {
-        towerClass = (Class<? extends Tower>) Class.forName(CLASS_PREFIX + className);
+        towerClass = (Class<? extends Tower>) Class.forName(CLASS_PREFIX_TOWER + className);
     }
 
     @Element(name="upgrade", required=false)
@@ -95,7 +96,7 @@ public class TowerConfig {
     @Element(name="upgrade", required=false)
     @SuppressWarnings("unchecked")
     private void setUpgradeTowerClassName(String className) throws ClassNotFoundException {
-        upgradeTowerClass = (Class<? extends Tower>) Class.forName(CLASS_PREFIX + className);
+        upgradeTowerClass = (Class<? extends Tower>) Class.forName(CLASS_PREFIX_TOWER + className);
     }
 
     @Element(name="weakAgainst", required=false)
@@ -118,7 +119,7 @@ public class TowerConfig {
                     @Override
                     public Class<? extends Enemy> apply(String input) {
                         try {
-                            return (Class<? extends Enemy>) Class.forName(CLASS_PREFIX + input);
+                            return (Class<? extends Enemy>) Class.forName(CLASS_PREFIX_ENEMY + input);
                         } catch (ClassNotFoundException e) {
                             return null;
                         }
@@ -151,7 +152,7 @@ public class TowerConfig {
                     @Override
                     public Class<? extends Enemy> apply(String input) {
                         try {
-                            return (Class<? extends Enemy>) Class.forName(CLASS_PREFIX + input);
+                            return (Class<? extends Enemy>) Class.forName(CLASS_PREFIX_ENEMY + input);
                         } catch (ClassNotFoundException e) {
                             return null;
                         }
