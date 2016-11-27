@@ -22,10 +22,6 @@ public class TickTimer {
 
     public void setInterval(float interval) {
         mValue = mReloadValue = GameEngine.TARGET_FRAME_RATE * interval;
-
-        if (mReloadValue < 1f) {
-            throw new IllegalArgumentException("Too fast TickTimer frequency!");
-        }
     }
 
     public void setFrequency(float frequency) {
