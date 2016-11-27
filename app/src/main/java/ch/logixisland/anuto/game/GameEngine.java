@@ -57,7 +57,7 @@ public class GameEngine {
     ------ Helper Classes ------
      */
 
-    private class GameObjectCollection extends SparseCollectionArray<Entity> {
+    private class EntityCollection extends SparseCollectionArray<Entity> {
         @Override
         public boolean add(int key, Entity value) {
             boolean ret = super.add(key, value);
@@ -81,7 +81,7 @@ public class GameEngine {
         }
     }
 
-    private class DrawObjectCollection extends SparseCollectionArray<Drawable> {
+    private class DrawableCollection extends SparseCollectionArray<Drawable> {
 
     }
 
@@ -116,8 +116,8 @@ public class GameEngine {
     private volatile long mTickCount = 0;
     private volatile long mRenderCount = 0;
 
-    private final GameObjectCollection mGameObjects = new GameObjectCollection();
-    private final DrawObjectCollection mDrawObjects = new DrawObjectCollection();
+    private final EntityCollection mEntities = new EntityCollection();
+    private final DrawableCollection mDrawables = new DrawableCollection();
     private final StaticDataMap mStaticData = new StaticDataMap();
 
     private final Vector2 mGameSize = new Vector2(10, 10);
@@ -199,32 +199,32 @@ public class GameEngine {
 
 
     public StreamIterator<Entity> get() {
-        return mGameObjects.iterator();
+        return mEntities.iterator();
     }
 
     public StreamIterator<Entity> get(int typeId) {
-        return mGameObjects.get(typeId).iterator();
+        return mEntities.get(typeId).iterator();
     }
 
     public void add(Entity obj) {
-        mGameObjects.add(obj.getTypeId(), obj);
+        mEntities.add(obj.getTypeId(), obj);
     }
 
     public void add(Drawable obj) {
-        mDrawObjects.add(obj.getLayer(), obj);
+        mDrawables.add(obj.getLayer(), obj);
     }
 
     public void remove(Entity obj) {
-        mGameObjects.remove(obj.getTypeId(), obj);
+        mEntities.remove(obj.getTypeId(), obj);
     }
 
     public void remove(Drawable obj) {
-        mDrawObjects.remove(obj.getLayer(), obj);
+        mDrawables.remove(obj.getLayer(), obj);
     }
 
     public void clear() {
-        for (Entity obj : mGameObjects) {
-            mGameObjects.remove(obj.getTypeId(), obj);
+        for (Entity obj : mEntities) {
+            mEntities.remove(obj.getTypeId(), obj);
         }
 
         mStaticData.clear();
@@ -318,7 +318,7 @@ public class GameEngine {
                 s.tick();
             }
 
-            for (Entity obj : mGameObjects) {
+            for (Entity obj : mEntities) {
                 obj.tick();
             }
 
@@ -371,7 +371,7 @@ public class GameEngine {
         canvas.drawColor(BACKGROUND_COLOR);
         canvas.concat(mScreenMatrix);
 
-        for (Drawable obj : mDrawObjects) {
+        for (Drawable obj : mDrawables) {
             obj.draw(canvas);
         }
 
