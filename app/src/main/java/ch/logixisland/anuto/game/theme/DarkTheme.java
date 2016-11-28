@@ -1,6 +1,5 @@
-package ch.logixisland.anuto.util.theme;
+package ch.logixisland.anuto.game.theme;
 
-import android.graphics.Bitmap;
 import android.graphics.Color;
 
 import ch.logixisland.anuto.R;

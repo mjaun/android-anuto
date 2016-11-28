@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.util.theme.Theme;
+import ch.logixisland.anuto.game.theme.Theme;
 import ch.logixisland.anuto.view.game.MainActivity;
 
 import java.util.Map;

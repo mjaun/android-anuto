@@ -15,7 +15,6 @@ import java.util.List;
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.TickTimer;
 import ch.logixisland.anuto.util.math.vector.Vector2;
-import ch.logixisland.anuto.util.theme.Theme;
 
 public class Sprite {
 

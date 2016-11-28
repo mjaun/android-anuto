@@ -15,7 +15,7 @@ import ch.logixisland.anuto.game.data.Path;
 import ch.logixisland.anuto.util.iterator.Function;
 import ch.logixisland.anuto.util.math.MathUtils;
 import ch.logixisland.anuto.util.math.vector.Vector2;
-import ch.logixisland.anuto.util.theme.Theme;
+import ch.logixisland.anuto.game.theme.Theme;
 
 
 public abstract class Enemy extends Entity {

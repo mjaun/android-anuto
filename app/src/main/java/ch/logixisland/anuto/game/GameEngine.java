@@ -15,7 +15,7 @@ import ch.logixisland.anuto.util.container.SmartIteratorCollection;
 import ch.logixisland.anuto.util.container.SparseCollectionArray;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.vector.Vector2;
-import ch.logixisland.anuto.util.theme.Theme;
+import ch.logixisland.anuto.game.theme.Theme;
 
 public class GameEngine implements Runnable {
 
