@@ -9,6 +9,7 @@ import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.TickTimer;
 import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.render.Sprite;
+import ch.logixisland.anuto.util.Random;
 
 public class RocketLauncher extends AimingTower {
 
@@ -36,11 +37,11 @@ public class RocketLauncher extends AimingTower {
 
         mSprite = s.sprite.yieldStatic(Layers.TOWER_BASE);
         mSprite.setListener(this);
-        mSprite.setIndex(getGame().getRandom(4));
+        mSprite.setIndex(Random.next(4));
 
         mSpriteRocket = s.spriteRocket.yieldStatic(Layers.TOWER);
         mSpriteRocket.setListener(this);
-        mSpriteRocket.setIndex(getGame().getRandom(4));
+        mSpriteRocket.setIndex(Random.next(4));
     }
 
     @Override

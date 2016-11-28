@@ -8,6 +8,7 @@ import ch.logixisland.anuto.game.entity.shot.MortarShot;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.render.Sprite;
+import ch.logixisland.anuto.util.Random;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class Mortar extends AimingTower {
@@ -35,11 +36,11 @@ public class Mortar extends AimingTower {
         StaticData s = (StaticData)getStaticData();
 
         mSpriteBase = s.spriteBase.yieldStatic(Layers.TOWER_BASE);
-        mSpriteBase.setIndex(getGame().getRandom(4));
+        mSpriteBase.setIndex(Random.next(4));
         mSpriteBase.setListener(this);
 
         mSpriteCanon = s.spriteCanon.yieldAnimated(Layers.TOWER);
-        mSpriteCanon.setIndex(getGame().getRandom(4));
+        mSpriteCanon.setIndex(Random.next(4));
         mSpriteCanon.setListener(this);
         mSpriteCanon.setSequence(mSpriteCanon.sequenceForwardBackward());
         mSpriteCanon.setInterval(REBOUND_DURATION);
@@ -95,7 +96,7 @@ public class Mortar extends AimingTower {
 
         if (getTarget() != null && isReloaded()) {
             Vector2 targetPos = getTarget().getPositionAfter(MortarShot.TIME_TO_TARGET);
-            targetPos.add(Vector2.polar(getGame().getRandom(mInaccuracy), getGame().getRandom(360f)));
+            targetPos.add(Vector2.polar(Random.next(mInaccuracy), Random.next(360f)));
             Vector2 shotPos = getPosition().copy().add(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
             mAngle = getAngleTo(targetPos);
 

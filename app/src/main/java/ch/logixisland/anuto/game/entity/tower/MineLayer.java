@@ -12,6 +12,7 @@ import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.render.Sprite;
+import ch.logixisland.anuto.util.Random;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class MineLayer extends Tower {
@@ -45,14 +46,14 @@ public class MineLayer extends Tower {
     };
 
     public MineLayer() {
-        mAngle = getGame().getRandom(360f);
+        mAngle = Random.next(360f);
         mMaxMineCount = (int)getProperty("maxMineCount");
         mExplosionRadius = getProperty("explosionRadius");
 
         StaticData s = (StaticData)getStaticData();
 
         mSprite = s.sprite.yieldAnimated(Layers.TOWER_BASE);
-        mSprite.setIndex(getGame().getRandom(4));
+        mSprite.setIndex(Random.next(4));
         mSprite.setListener(this);
         mSprite.setSequence(mSprite.sequenceForwardBackward());
         mSprite.setInterval(ANIMATION_DURATION);
@@ -151,7 +152,7 @@ public class MineLayer extends Tower {
             totalLen += s.len;
         }
 
-        float dist = getGame().getRandom(totalLen);
+        float dist = Random.next(totalLen);
 
         for (PathSection s : mSections) {
             if (dist > s.len) {

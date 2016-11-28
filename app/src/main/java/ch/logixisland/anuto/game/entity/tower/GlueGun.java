@@ -8,6 +8,7 @@ import ch.logixisland.anuto.game.entity.shot.GlueShot;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.render.Sprite;
+import ch.logixisland.anuto.util.Random;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class GlueGun extends AimingTower {
@@ -34,7 +35,7 @@ public class GlueGun extends AimingTower {
 
         mSpriteBase = s.spriteBase.yieldStatic(Layers.TOWER_BASE);
         mSpriteBase.setListener(this);
-        mSpriteBase.setIndex(getGame().getRandom().nextInt(4));
+        mSpriteBase.setIndex(Random.next(4));
 
         mSpriteCanon = s.spriteCanon.yieldAnimated(Layers.TOWER);
         mSpriteCanon.setListener(this);

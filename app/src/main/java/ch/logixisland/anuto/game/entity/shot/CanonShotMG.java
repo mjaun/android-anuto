@@ -9,6 +9,7 @@ import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
 import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.render.Sprite;
+import ch.logixisland.anuto.util.Random;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class CanonShotMG extends Shot {
@@ -38,7 +39,7 @@ public class CanonShotMG extends Shot {
 
         mSprite = s.sprite.yieldStatic(Layers.SHOT);
         mSprite.setListener(this);
-        mSprite.setIndex(getGame().getRandom().nextInt(4));
+        mSprite.setIndex(Random.next(4));
     }
 
     @Override

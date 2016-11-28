@@ -9,6 +9,7 @@ import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.entity.shot.Shot;
 import ch.logixisland.anuto.game.render.Sprite;
+import ch.logixisland.anuto.util.Random;
 import ch.logixisland.anuto.util.math.function.Function;
 import ch.logixisland.anuto.util.math.function.SampledFunction;
 import ch.logixisland.anuto.util.math.vector.Vector2;
@@ -42,11 +43,11 @@ public class Canon extends AimingTower {
 
         mSpriteBase = s.spriteBase.yieldStatic(Layers.TOWER_BASE);
         mSpriteBase.setListener(this);
-        mSpriteBase.setIndex(getGame().getRandom(4));
+        mSpriteBase.setIndex(Random.next(4));
 
         mSpriteCanon = s.spriteCanon.yieldStatic(Layers.TOWER);
         mSpriteCanon.setListener(this);
-        mSpriteCanon.setIndex(getGame().getRandom(4));
+        mSpriteCanon.setIndex(Random.next(4));
     }
 
     @Override

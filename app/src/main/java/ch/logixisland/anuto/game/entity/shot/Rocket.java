@@ -10,6 +10,7 @@ import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
 import ch.logixisland.anuto.game.render.Sprite;
+import ch.logixisland.anuto.util.Random;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class Rocket extends HomingShot {
@@ -42,7 +43,7 @@ public class Rocket extends HomingShot {
 
         mSprite = s.sprite.yieldStatic(Layers.SHOT);
         mSprite.setListener(this);
-        mSprite.setIndex(getGame().getRandom(4));
+        mSprite.setIndex(Random.next(4));
 
         mSpriteFire = s.spriteFire.yieldAnimated(Layers.SHOT);
         mSpriteFire.setListener(this);

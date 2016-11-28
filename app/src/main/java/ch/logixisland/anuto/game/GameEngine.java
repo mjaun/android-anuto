@@ -141,27 +141,6 @@ public class GameEngine implements Runnable {
     }
 
 
-    public Random getRandom() {
-        return mRandom;
-    }
-
-    public int getRandom(int max) {
-        return mRandom.nextInt(max);
-    }
-
-    public int getRandom(int min, int max) {
-        return mRandom.nextInt(max - min) + min;
-    }
-
-    public float getRandom(float max) {
-        return mRandom.nextFloat() * max;
-    }
-
-    public float getRandom(float min, float max) {
-        return mRandom.nextFloat() * (max - min) + min;
-    }
-
-
     public boolean tick100ms(Object caller) {
         return (mTickCount + System.identityHashCode(caller)) % TICKS_100MS == 0;
     }

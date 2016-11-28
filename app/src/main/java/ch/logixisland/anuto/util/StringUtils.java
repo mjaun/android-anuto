@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.util.string;
+package ch.logixisland.anuto.util;
 
 import java.text.DecimalFormat;
 

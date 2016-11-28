@@ -12,6 +12,7 @@ import ch.logixisland.anuto.game.entity.effect.TeleportEffect;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
 import ch.logixisland.anuto.game.render.Sprite;
+import ch.logixisland.anuto.util.Random;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
 public class TeleportTower extends AimingTower {
@@ -44,11 +45,11 @@ public class TeleportTower extends AimingTower {
 
         mSpriteBase = s.spriteBase.yieldStatic(Layers.TOWER_BASE);
         mSpriteBase.setListener(this);
-        mSpriteBase.setIndex(getGame().getRandom(4));
+        mSpriteBase.setIndex(Random.next(4));
 
         mSpriteTower = s.spriteTower.yieldStatic(Layers.TOWER);
         mSpriteTower.setListener(this);
-        mSpriteTower.setIndex(getGame().getRandom(4));
+        mSpriteTower.setIndex(Random.next(4));
     }
 
     @Override

@@ -9,6 +9,7 @@ import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.entity.shot.Shot;
 import ch.logixisland.anuto.game.render.Sprite;
+import ch.logixisland.anuto.util.Random;
 import ch.logixisland.anuto.util.math.function.Function;
 import ch.logixisland.anuto.util.math.function.SampledFunction;
 import ch.logixisland.anuto.util.math.vector.Vector2;
@@ -47,11 +48,11 @@ public class CanonDual extends AimingTower {
 
         mSpriteBase = s.spriteBase.yieldStatic(Layers.TOWER_BASE);
         mSpriteBase.setListener(this);
-        mSpriteBase.setIndex(getGame().getRandom().nextInt(4));
+        mSpriteBase.setIndex(Random.next(4));
 
         mSpriteTower = s.spriteTower.yieldStatic(Layers.TOWER_LOWER);
         mSpriteTower.setListener(this);
-        mSpriteTower.setIndex(getGame().getRandom().nextInt(4));
+        mSpriteTower.setIndex(Random.next(4));
 
         for (int i = 0; i < mCanons.length; i++) {
             mCanons[i] = new SubCanon();
@@ -60,7 +61,7 @@ public class CanonDual extends AimingTower {
 
             mCanons[i].sprite = s.spriteCanon.yieldStatic(Layers.TOWER);
             mCanons[i].sprite.setListener(this);
-            mCanons[i].sprite.setIndex(getGame().getRandom().nextInt(4));
+            mCanons[i].sprite.setIndex(Random.next(4));
         }
     }
 
