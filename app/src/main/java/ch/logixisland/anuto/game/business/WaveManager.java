@@ -46,7 +46,6 @@ public class WaveManager {
     private volatile int mWaveReward;
 
     private List<Listener> mListeners = new CopyOnWriteArrayList<>();
-    private List<Runnable> mQueuedRunnables = new CopyOnWriteArrayList<>();
 
     /*
     ------ Entity.Listener Implementation ------
@@ -162,7 +161,6 @@ public class WaveManager {
                                 if (mTimer.tick()) {
                                     mGame.add(e);
                                     mGame.remove(this);
-                                    mQueuedRunnables.remove(this);
                                 }
                             }
                         });
@@ -179,12 +177,6 @@ public class WaveManager {
         mGame.add(new Runnable() {
             @Override
             public void run() {
-                for (Runnable r : mQueuedRunnables) {
-                    mGame.remove(r);
-                }
-
-                mQueuedRunnables.clear();
-
                 mAborted = true;
                 onAborted();
 

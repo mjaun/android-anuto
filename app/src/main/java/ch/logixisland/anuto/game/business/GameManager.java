@@ -130,7 +130,7 @@ public class GameManager {
             calcEarlyBonus();
 
             mGame.add(new Runnable() {
-                private final TickTimer mTimer = TickTimer.createInterval(Math.round(m.getWave().getNextWaveDelay() * 1000));
+                private final TickTimer mTimer = TickTimer.createInterval(m.getWave().getNextWaveDelay());
 
                 @Override
                 public void run() {
