@@ -2,15 +2,12 @@ package ch.logixisland.anuto.game;
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.util.Log;
 import android.view.View;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Random;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.render.Drawable;
@@ -18,7 +15,6 @@ import ch.logixisland.anuto.util.container.SmartIteratorCollection;
 import ch.logixisland.anuto.util.container.SparseCollectionArray;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.vector.Vector2;
-import ch.logixisland.anuto.util.theme.DarkTheme;
 import ch.logixisland.anuto.util.theme.Theme;
 
 public class GameEngine implements Runnable {
@@ -30,8 +26,6 @@ public class GameEngine implements Runnable {
     public final static int TARGET_FRAME_RATE = 30;
     private final static int TARGET_FRAME_PERIOD_MS = 1000 / TARGET_FRAME_RATE;
     private final static int TICKS_100MS = Math.round(TARGET_FRAME_RATE * 0.1f);
-
-    private int BACKGROUND_COLOR;
 
     private final static String TAG = GameEngine.class.getSimpleName();
 
@@ -106,7 +100,7 @@ public class GameEngine implements Runnable {
     private final Matrix mScreenMatrixInverse = new Matrix();
 
     private View mView;
-    private Theme theme;
+    private Theme mTheme;
     private Resources mResources;
     private final Random mRandom = new Random();
 
@@ -140,11 +134,10 @@ public class GameEngine implements Runnable {
         setTheme(Theme.getTheme(dt));
     }
 
-    public Theme getTheme() { return theme; }
+    public Theme getTheme() { return mTheme; }
 
     public void setTheme(Theme theme) {
-        this.theme = theme;
-        BACKGROUND_COLOR = theme.getBackgroundColor();
+        this.mTheme = theme;
     }
 
 
@@ -345,7 +338,7 @@ public class GameEngine implements Runnable {
     }
 
     public void draw(Canvas canvas) {
-        canvas.drawColor(BACKGROUND_COLOR);
+        canvas.drawColor(mTheme.getBackgroundColor());
         canvas.concat(mScreenMatrix);
 
         for (Drawable obj : mDrawables) {
