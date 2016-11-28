@@ -35,17 +35,14 @@ public abstract class Enemy extends Entity {
      */
 
     private class HealthBar implements Drawable {
-        private Paint mHealthBarBd;
         private Paint mHealthBarBg;
         private Paint mHealthBarFg;
 
         public HealthBar() {
             Theme theme = GameEngine.getInstance().getTheme();
 
-            mHealthBarBd = new Paint();
-            mHealthBarBd.setColor(theme.getAltBackgroundColor());
             mHealthBarBg = new Paint();
-            mHealthBarBg.setColor(theme.getBackgroundColor());
+            mHealthBarBg.setColor(theme.getAltBackgroundColor());
             mHealthBarFg = new Paint();
             mHealthBarFg.setColor(Color.GREEN);
         }
@@ -61,7 +58,7 @@ public abstract class Enemy extends Entity {
                 canvas.save();
                 canvas.translate(getPosition().x - HEALTHBAR_WIDTH / 2f, getPosition().y + HEALTHBAR_OFFSET);
 
-                canvas.drawRect(0, 0, HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT, mHealthBarBd);
+                canvas.drawRect(0, 0, HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT, mHealthBarBg);
                 canvas.drawRect(0, 0, mHealth / mConfig.getHealth() * HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT, mHealthBarFg);
                 canvas.restore();
             }
