@@ -167,12 +167,10 @@ public class GameEngine implements Runnable {
     }
 
 
-    public StreamIterator<Entity> get() {
-        return mEntities.iterator();
-    }
-
     public StreamIterator<Entity> get(int typeId) {
-        return mEntities.get(typeId).iterator();
+        synchronized (mEntities) {
+            return mEntities.get(typeId).iterator();
+        }
     }
 
     public void add(Entity obj) {
@@ -218,13 +216,13 @@ public class GameEngine implements Runnable {
 
 
     public void add(Runnable r) {
-        synchronized (mRunnables) {
+        synchronized (mEntities) {
             mRunnables.add(r);
         }
     }
 
     public void remove(Runnable r) {
-        synchronized (mRunnables) {
+        synchronized (mEntities) {
             mRunnables.remove(r);
         }
     }
@@ -283,7 +281,7 @@ public class GameEngine implements Runnable {
             while (mRunning) {
                 long timeTickBegin = System.currentTimeMillis();
 
-                synchronized (mRunnables) {
+                synchronized (mEntities) {
                     for (Runnable r : mRunnables) {
                         r.run();
                     }
