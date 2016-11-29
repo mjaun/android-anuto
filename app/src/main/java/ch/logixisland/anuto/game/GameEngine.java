@@ -30,42 +30,6 @@ public class GameEngine implements Runnable {
     private final static String TAG = GameEngine.class.getSimpleName();
 
     /*
-    ------ Helper Classes ------
-     */
-
-    private class EntityCollection extends SparseCollectionArray<Entity> {
-        @Override
-        public boolean add(int key, Entity value) {
-            boolean ret = super.add(key, value);
-
-            if (ret) {
-                value.init();
-            }
-
-            return ret;
-        }
-
-        @Override
-        public boolean remove(int key, Entity value) {
-            boolean ret = super.remove(key, value);
-
-            if (ret) {
-                value.clean();
-            }
-
-            return ret;
-        }
-    }
-
-    private class DrawableCollection extends SparseCollectionArray<Drawable> {
-
-    }
-
-    private class StaticDataMap extends HashMap<Class<? extends Entity>, Object> {
-
-    }
-
-    /*
     ------ Static ------
      */
 
@@ -90,9 +54,9 @@ public class GameEngine implements Runnable {
     private int mMaxTickTime;
     private int mMaxRenderTime;
 
-    private final EntityCollection mEntities = new EntityCollection();
-    private final DrawableCollection mDrawables = new DrawableCollection();
-    private final StaticDataMap mStaticData = new StaticDataMap();
+    private final SparseCollectionArray<Entity> mEntities = new SparseCollectionArray<>();
+    private final SparseCollectionArray<Drawable> mDrawables = new SparseCollectionArray<>();
+    private final HashMap<Class<? extends Entity>, Object> mStaticData = new HashMap<>();
 
     private final Vector2 mGameSize = new Vector2(10, 10);
     private final Vector2 mScreenSize = new Vector2(100, 100);
@@ -102,7 +66,6 @@ public class GameEngine implements Runnable {
     private View mView;
     private Theme mTheme;
     private Resources mResources;
-    private final Random mRandom = new Random();
 
     private final SmartIteratorCollection<Runnable> mRunnables = new SmartIteratorCollection<>();
 
@@ -155,6 +118,7 @@ public class GameEngine implements Runnable {
     public void add(Entity obj) {
         synchronized (mEntities) {
             mEntities.add(obj.getType(), obj);
+            obj.init();
         }
     }
 
@@ -167,6 +131,7 @@ public class GameEngine implements Runnable {
     public void remove(Entity obj) {
         synchronized (mEntities) {
             mEntities.remove(obj.getType(), obj);
+            obj.clean();
         }
     }
 
@@ -318,11 +283,11 @@ public class GameEngine implements Runnable {
         canvas.drawColor(mTheme.getBackgroundColor());
         canvas.concat(mScreenMatrix);
 
-        for (Drawable obj : mDrawables) {
-            obj.draw(canvas);
-        }
-
         synchronized (mDrawables) {
+            for (Drawable obj : mDrawables) {
+                obj.draw(canvas);
+            }
+
             mDrawables.notifyAll();
         }
     }
