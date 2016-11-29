@@ -102,7 +102,6 @@ public class GameManager {
     private GameEngine mGame;
     private Level mLevel;
     private Tower mSelectedTower;
-    private Context mContext;
 
     private int mNextWaveIndex;
 
@@ -195,15 +194,6 @@ public class GameManager {
     /*
     ------ Methods ------
      */
-
-    public void setContext(Context context) {
-        mContext = context;
-    }
-
-    public Context getContext(Context context) {
-        return mContext;
-    }
-
 
     private void reset() {
         for (WaveManager m : mActiveWaves) {

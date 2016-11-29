@@ -25,7 +25,6 @@ public class MainActivity extends Activity {
 
         GameEngine.getInstance().setResources(getResources());
         GameEngine.getInstance().setTheme(themeid);
-        GameManager.getInstance().setContext(this);
         setContentView(R.layout.activity_main);
 
         view_tower_defense = (GameView)findViewById(R.id.view_tower_defense);
