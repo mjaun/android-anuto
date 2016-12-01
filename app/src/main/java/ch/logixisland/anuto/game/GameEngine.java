@@ -145,6 +145,7 @@ public class GameEngine implements Runnable {
         synchronized (mEntities) {
             for (Entity obj : mEntities) {
                 mEntities.remove(obj.getType(), obj);
+                obj.clean();
             }
         }
     }
