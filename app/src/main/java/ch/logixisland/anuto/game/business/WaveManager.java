@@ -147,7 +147,7 @@ public class WaveManager {
                         e.move(offsetX, offsetY);
 
                         if (i > 0 || mWave.getEnemies().indexOf(d) > 0) {
-                            delay += (int) (d.getDelay() * 1000f);
+                            delay += (int)d.getDelay();
                         }
 
                         final int thisDelay = delay;
