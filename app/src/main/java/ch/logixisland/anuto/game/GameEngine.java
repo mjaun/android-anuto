@@ -147,6 +147,8 @@ public class GameEngine implements Runnable {
                 mEntities.remove(obj.getType(), obj);
                 obj.clean();
             }
+
+            mRunnables.clear();
         }
     }
 
