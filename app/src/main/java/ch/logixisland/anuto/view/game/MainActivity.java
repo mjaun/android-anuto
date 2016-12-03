@@ -52,7 +52,7 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    public void onStart() {
+    public void onResume() {
         super.onStart();
 
         mGameEngine.start();
@@ -60,7 +60,7 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    public void onStop() {
+    public void onPause() {
         super.onStop();
 
         view_tower_defense.stop();
