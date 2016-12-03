@@ -1,13 +1,12 @@
 package ch.logixisland.anuto.game;
 
-import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.util.Log;
 import android.view.View;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
-import java.util.Random;
 
 import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.render.Drawable;
@@ -63,7 +62,7 @@ public class GameEngine implements Runnable {
     private final Matrix mScreenMatrix = new Matrix();
     private final Matrix mScreenMatrixInverse = new Matrix();
 
-    private View mView;
+    private WeakReference<View> mViewRef;
     private Theme mTheme;
 
     private final SmartIteratorCollection<Runnable> mRunnables = new SmartIteratorCollection<>();
@@ -81,7 +80,7 @@ public class GameEngine implements Runnable {
      */
 
     public void setView(View view) {
-        mView = view;
+        mViewRef = new WeakReference<>(view);
     }
 
     public void setTheme(int dt) {
@@ -234,9 +233,12 @@ public class GameEngine implements Runnable {
 
                 long timeRenderBegin = System.currentTimeMillis();
 
-                synchronized (mDrawables) {
-                    mView.postInvalidate();
-                    mDrawables.wait();
+                View view = mViewRef.get();
+                if (view != null) {
+                    synchronized (mDrawables) {
+                        mViewRef.get().postInvalidate();
+                        mDrawables.wait();
+                    }
                 }
 
                 long timeFinished = System.currentTimeMillis();
