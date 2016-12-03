@@ -3,12 +3,12 @@ package ch.logixisland.anuto.game.entity.shot;
 import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.render.Layers;
-import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
 import ch.logixisland.anuto.game.entity.Entity;
-import ch.logixisland.anuto.game.render.Sprite;
+import ch.logixisland.anuto.game.render.SpriteInstance;
+import ch.logixisland.anuto.game.render.SpriteTemplate;
+import ch.logixisland.anuto.game.render.StaticSprite;
 import ch.logixisland.anuto.util.Random;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
@@ -18,13 +18,13 @@ public class CanonShotMG extends Shot {
     private final static float MOVEMENT_SPEED = 8.0f;
 
     private class StaticData {
-        public Sprite sprite;
+        public SpriteTemplate mSpriteTemplate;
     }
 
     private float mAngle;
     private float mDamage;
 
-    private Sprite.FixedInstance mSprite;
+    private StaticSprite mSprite;
 
     public CanonShotMG(Entity origin, Vector2 position, Vector2 direction, float damage) {
         super(origin);
@@ -37,7 +37,7 @@ public class CanonShotMG extends Shot {
 
         StaticData s = (StaticData)getStaticData();
 
-        mSprite = s.sprite.yieldStatic(Layers.SHOT);
+        mSprite = getSpriteFactory().createStatic(Layers.SHOT, s.mSpriteTemplate);
         mSprite.setListener(this);
         mSprite.setIndex(Random.next(4));
     }
@@ -46,8 +46,8 @@ public class CanonShotMG extends Shot {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.sprite = Sprite.fromResources(R.drawable.canon_mg_shot, 4);
-        s.sprite.setMatrix(0.2f, null, null, -90f);
+        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.drawable.canon_mg_shot, 4);
+        s.mSpriteTemplate.setMatrix(0.2f, null, null, -90f);
 
         return s;
     }
@@ -67,7 +67,7 @@ public class CanonShotMG extends Shot {
     }
 
     @Override
-    public void onDraw(Drawable sprite, Canvas canvas) {
+    public void onDraw(SpriteInstance sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
 
         canvas.rotate(mAngle);

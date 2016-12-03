@@ -3,11 +3,12 @@ package ch.logixisland.anuto.game.entity.tower;
 import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.entity.shot.GlueShot;
+import ch.logixisland.anuto.game.render.AnimatedSprite;
 import ch.logixisland.anuto.game.render.Layers;
-import ch.logixisland.anuto.game.render.Drawable;
-import ch.logixisland.anuto.game.render.Sprite;
+import ch.logixisland.anuto.game.render.SpriteInstance;
+import ch.logixisland.anuto.game.render.SpriteTemplate;
+import ch.logixisland.anuto.game.render.StaticSprite;
 import ch.logixisland.anuto.util.Random;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
@@ -17,29 +18,29 @@ public class GlueGun extends AimingTower {
     private final static float REBOUND_DURATION = 0.5f;
 
     private class StaticData {
-        public Sprite spriteBase;
-        public Sprite spriteCanon;
+        SpriteTemplate mSpriteTemplateBase;
+        SpriteTemplate mSpriteTemplateCanon;
     }
 
     private float mGlueDuration;
     private float mAngle = 90f;
     private boolean mRebounding = false;
 
-    private Sprite.FixedInstance mSpriteBase;
-    private Sprite.AnimatedInstance mSpriteCanon;
+    private StaticSprite mSpriteBase;
+    private AnimatedSprite mSpriteCanon;
 
     public GlueGun() {
         mGlueDuration = getProperty("glueDuration");
 
         StaticData s = (StaticData)getStaticData();
 
-        mSpriteBase = s.spriteBase.yieldStatic(Layers.TOWER_BASE);
+        mSpriteBase = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplateBase);
         mSpriteBase.setListener(this);
         mSpriteBase.setIndex(Random.next(4));
 
-        mSpriteCanon = s.spriteCanon.yieldAnimated(Layers.TOWER);
+        mSpriteCanon = getSpriteFactory().createAnimated(Layers.TOWER, s.mSpriteTemplateCanon);
         mSpriteCanon.setListener(this);
-        mSpriteCanon.setSequence(mSpriteCanon.sequenceForwardBackward());
+        mSpriteCanon.setSequenceForwardBackward();
         mSpriteCanon.setInterval(REBOUND_DURATION);
     }
 
@@ -47,11 +48,11 @@ public class GlueGun extends AimingTower {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.spriteBase = Sprite.fromResources(R.drawable.base1, 4);
-        s.spriteBase.setMatrix(1f, 1f, null, null);
+        s.mSpriteTemplateBase = getSpriteFactory().createTemplate(R.drawable.base1, 4);
+        s.mSpriteTemplateBase.setMatrix(1f, 1f, null, null);
 
-        s.spriteCanon = Sprite.fromResources(R.drawable.glue_gun, 6);
-        s.spriteCanon.setMatrix(0.8f, 1.0f, new Vector2(0.4f, 0.4f), -90f);
+        s.mSpriteTemplateCanon = getSpriteFactory().createTemplate(R.drawable.glue_gun, 6);
+        s.mSpriteTemplateCanon.setMatrix(0.8f, 1.0f, new Vector2(0.4f, 0.4f), -90f);
 
         return s;
     }
@@ -73,7 +74,7 @@ public class GlueGun extends AimingTower {
     }
 
     @Override
-    public void onDraw(Drawable sprite, Canvas canvas) {
+    public void onDraw(SpriteInstance sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
 
         canvas.rotate(mAngle);

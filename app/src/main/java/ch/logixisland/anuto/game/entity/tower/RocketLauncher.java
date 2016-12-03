@@ -3,12 +3,12 @@ package ch.logixisland.anuto.game.entity.tower;
 import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.entity.shot.Rocket;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.TickTimer;
-import ch.logixisland.anuto.game.render.Drawable;
-import ch.logixisland.anuto.game.render.Sprite;
+import ch.logixisland.anuto.game.render.SpriteInstance;
+import ch.logixisland.anuto.game.render.SpriteTemplate;
+import ch.logixisland.anuto.game.render.StaticSprite;
 import ch.logixisland.anuto.util.Random;
 
 public class RocketLauncher extends AimingTower {
@@ -16,8 +16,8 @@ public class RocketLauncher extends AimingTower {
     private final static float ROCKET_LOAD_TIME = 1.0f;
 
     private class StaticData {
-        public Sprite sprite;
-        public Sprite spriteRocket; // used for preview only
+        SpriteTemplate mSpriteTemplate;
+        SpriteTemplate mSpriteTemplateRocket; // used for preview only
     }
 
     private float mExplosionRadius;
@@ -25,8 +25,8 @@ public class RocketLauncher extends AimingTower {
     private Rocket mRocket;
     private TickTimer mRocketLoadTimer;
 
-    private Sprite.FixedInstance mSprite;
-    private Sprite.FixedInstance mSpriteRocket; // used for preview only
+    private StaticSprite mSprite;
+    private StaticSprite mSpriteRocket; // used for preview only
 
     public RocketLauncher() {
         mExplosionRadius = getProperty("explosionRadius");
@@ -35,11 +35,11 @@ public class RocketLauncher extends AimingTower {
 
         mRocketLoadTimer = TickTimer.createInterval(ROCKET_LOAD_TIME);
 
-        mSprite = s.sprite.yieldStatic(Layers.TOWER_BASE);
+        mSprite = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplate);
         mSprite.setListener(this);
         mSprite.setIndex(Random.next(4));
 
-        mSpriteRocket = s.spriteRocket.yieldStatic(Layers.TOWER);
+        mSpriteRocket = getSpriteFactory().createStatic(Layers.TOWER, s.mSpriteTemplateRocket);
         mSpriteRocket.setListener(this);
         mSpriteRocket.setIndex(Random.next(4));
     }
@@ -48,11 +48,11 @@ public class RocketLauncher extends AimingTower {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.sprite = Sprite.fromResources(R.drawable.rocket_launcher, 4);
-        s.sprite.setMatrix(1.1f, 1.1f, null, -90f);
+        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.drawable.rocket_launcher, 4);
+        s.mSpriteTemplate.setMatrix(1.1f, 1.1f, null, -90f);
 
-        s.spriteRocket = Sprite.fromResources(R.drawable.rocket, 4);
-        s.spriteRocket.setMatrix(0.8f, 1f, null, -90f);
+        s.mSpriteTemplateRocket = getSpriteFactory().createTemplate(R.drawable.rocket, 4);
+        s.mSpriteTemplateRocket.setMatrix(0.8f, 1f, null, -90f);
 
         return s;
     }
@@ -82,7 +82,7 @@ public class RocketLauncher extends AimingTower {
     }
 
     @Override
-    public void onDraw(Drawable sprite, Canvas canvas) {
+    public void onDraw(SpriteInstance sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
 
         canvas.rotate(mAngle);

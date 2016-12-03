@@ -7,8 +7,9 @@ import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.entity.effect.Explosion;
 import ch.logixisland.anuto.game.render.Layers;
-import ch.logixisland.anuto.game.render.Drawable;
-import ch.logixisland.anuto.game.render.Sprite;
+import ch.logixisland.anuto.game.render.SpriteInstance;
+import ch.logixisland.anuto.game.render.SpriteTemplate;
+import ch.logixisland.anuto.game.render.StaticSprite;
 import ch.logixisland.anuto.util.Random;
 import ch.logixisland.anuto.util.math.function.Function;
 import ch.logixisland.anuto.util.math.function.SampledFunction;
@@ -22,7 +23,7 @@ public class MortarShot extends Shot {
     private final static float HEIGHT_SCALING_PEAK = 1.5f;
 
     private class StaticData {
-        public Sprite sprite;
+        SpriteTemplate mSpriteTemplate;
     }
 
     private float mDamage;
@@ -30,7 +31,7 @@ public class MortarShot extends Shot {
     private float mAngle;
     private SampledFunction mHeightScalingFunction;
 
-    private Sprite.FixedInstance mSprite;
+    private StaticSprite mSprite;
 
     public MortarShot(Entity origin, Vector2 position, Vector2 target, float damage, float radius) {
         super(origin);
@@ -53,7 +54,7 @@ public class MortarShot extends Shot {
                 .stretch(GameEngine.TARGET_FRAME_RATE * TIME_TO_TARGET / (x1 + x2))
                 .sample();
 
-        mSprite = s.sprite.yieldStatic(Layers.SHOT);
+        mSprite = getSpriteFactory().createStatic(Layers.SHOT, s.mSpriteTemplate);
         mSprite.setListener(this);
         mSprite.setIndex(Random.next(4));
     }
@@ -62,8 +63,8 @@ public class MortarShot extends Shot {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.sprite = Sprite.fromResources(R.drawable.grenade, 4);
-        s.sprite.setMatrix(0.7f, 0.7f, null, null);
+        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.drawable.grenade, 4);
+        s.mSpriteTemplate.setMatrix(0.7f, 0.7f, null, null);
 
         return s;
     }
@@ -83,7 +84,7 @@ public class MortarShot extends Shot {
     }
 
     @Override
-    public void onDraw(Drawable sprite, Canvas canvas) {
+    public void onDraw(SpriteInstance sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
 
         float s = mHeightScalingFunction.getValue();

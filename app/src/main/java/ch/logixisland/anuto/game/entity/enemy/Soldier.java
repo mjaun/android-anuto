@@ -1,30 +1,31 @@
 package ch.logixisland.anuto.game.entity.enemy;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.game.GameEngine;
+import ch.logixisland.anuto.game.render.AnimatedSprite;
 import ch.logixisland.anuto.game.render.Layers;
-import ch.logixisland.anuto.game.render.Sprite;
+import ch.logixisland.anuto.game.render.ReplicatedSprite;
+import ch.logixisland.anuto.game.render.SpriteTemplate;
 
 public class Soldier extends Enemy {
 
     private final static float ANIMATION_SPEED = 1f;
 
     private class StaticData implements Runnable {
-        public Sprite sprite;
-        public Sprite.AnimatedInstance animator;
+        SpriteTemplate mSpriteTemplate;
+        AnimatedSprite mReferenceSprite;
 
         @Override
         public void run() {
-            animator.tick();
+            mReferenceSprite.tick();
         }
     }
 
-    private Sprite.Instance mSprite;
+    private ReplicatedSprite mSprite;
 
     public Soldier() {
         StaticData s = (StaticData)getStaticData();
 
-        mSprite = s.animator.copycat();
+        mSprite = getSpriteFactory().createReplication(s.mReferenceSprite);
         mSprite.setListener(this);
     }
 
@@ -32,12 +33,12 @@ public class Soldier extends Enemy {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.sprite = Sprite.fromResources(R.drawable.soldier, 12);
-        s.sprite.setMatrix(0.9f, 0.9f, null, null);
+        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.drawable.soldier, 12);
+        s.mSpriteTemplate.setMatrix(0.9f, 0.9f, null, null);
 
-        s.animator = s.sprite.yieldAnimated(Layers.ENEMY);
-        s.animator.setSequence(s.animator.sequenceForwardBackward());
-        s.animator.setFrequency(ANIMATION_SPEED);
+        s.mReferenceSprite = getSpriteFactory().createAnimated(Layers.ENEMY, s.mSpriteTemplate);
+        s.mReferenceSprite.setSequenceForwardBackward();
+        s.mReferenceSprite.setFrequency(ANIMATION_SPEED);
 
         getGame().add(s);
 

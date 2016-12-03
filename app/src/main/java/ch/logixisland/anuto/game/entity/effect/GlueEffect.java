@@ -5,12 +5,13 @@ import android.graphics.Paint;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameEngine;
+import ch.logixisland.anuto.game.entity.Entity;
+import ch.logixisland.anuto.game.entity.enemy.Enemy;
 import ch.logixisland.anuto.game.entity.enemy.Flyer;
 import ch.logixisland.anuto.game.render.Layers;
-import ch.logixisland.anuto.game.render.Drawable;
-import ch.logixisland.anuto.game.entity.enemy.Enemy;
-import ch.logixisland.anuto.game.entity.Entity;
-import ch.logixisland.anuto.game.render.Sprite;
+import ch.logixisland.anuto.game.render.SpriteInstance;
+import ch.logixisland.anuto.game.render.SpriteTemplate;
+import ch.logixisland.anuto.game.render.StaticSprite;
 import ch.logixisland.anuto.util.Random;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
@@ -19,7 +20,7 @@ public class GlueEffect extends AreaEffect {
     private final static int ALPHA_START = 150;
 
     private class StaticData {
-        public Sprite sprite;
+        SpriteTemplate mSpriteTemplate;
     }
 
     private float mAngle;
@@ -27,7 +28,7 @@ public class GlueEffect extends AreaEffect {
     private int mAlphaStep;
 
     private Paint mPaint;
-    private Sprite.FixedInstance mSprite;
+    private StaticSprite mSprite;
 
     public GlueEffect(Entity origin, Vector2 position, float speedModifier, float duration) {
         super(origin, duration);
@@ -39,7 +40,7 @@ public class GlueEffect extends AreaEffect {
 
         StaticData s = (StaticData)getStaticData();
 
-        mSprite = s.sprite.yieldStatic(Layers.BOTTOM);
+        mSprite = getSpriteFactory().createStatic(Layers.BOTTOM, s.mSpriteTemplate);
         mSprite.setListener(this);
         mSprite.setIndex(Random.next(4));
 
@@ -52,8 +53,8 @@ public class GlueEffect extends AreaEffect {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.sprite = Sprite.fromResources(R.drawable.glue_effect, 4);
-        s.sprite.setMatrix(1f, 1f, null, null);
+        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.drawable.glue_effect, 4);
+        s.mSpriteTemplate.setMatrix(1f, 1f, null, null);
 
         return s;
     }
@@ -73,7 +74,7 @@ public class GlueEffect extends AreaEffect {
     }
 
     @Override
-    public void onDraw(Drawable sprite, Canvas canvas) {
+    public void onDraw(SpriteInstance sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
 
         canvas.rotate(mAngle);

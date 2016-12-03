@@ -2,23 +2,27 @@ package ch.logixisland.anuto;
 
 import android.app.Application;
 
+import ch.logixisland.anuto.game.GameFactory;
+
 public class AnutoApplication extends Application {
 
-    Thread.UncaughtExceptionHandler defaultHandler;
+    private static AnutoApplication sInstance;
+    private GameFactory mGameFactory;
 
-    public AnutoApplication() {
-        defaultHandler = Thread.getDefaultUncaughtExceptionHandler();
+    @Override
+    public void onCreate() {
+        super.onCreate();
 
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-            @Override
-            public void uncaughtException(Thread thread, Throwable ex) {
-                AnutoApplication.this.uncaughtException(thread, ex);
-                defaultHandler.uncaughtException(thread, ex);
-            }
-        });
+        sInstance = this;
+        mGameFactory = new GameFactory(getApplicationContext());
     }
 
-    private void uncaughtException(Thread thread, Throwable ex) {
-
+    public static AnutoApplication getInstance() {
+        return sInstance;
     }
+
+    public GameFactory getGameFactory() {
+        return mGameFactory;
+    }
+
 }

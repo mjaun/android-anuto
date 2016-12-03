@@ -3,11 +3,12 @@ package ch.logixisland.anuto.game.entity.tower;
 import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.entity.shot.MortarShot;
+import ch.logixisland.anuto.game.render.AnimatedSprite;
 import ch.logixisland.anuto.game.render.Layers;
-import ch.logixisland.anuto.game.render.Drawable;
-import ch.logixisland.anuto.game.render.Sprite;
+import ch.logixisland.anuto.game.render.SpriteInstance;
+import ch.logixisland.anuto.game.render.SpriteTemplate;
+import ch.logixisland.anuto.game.render.StaticSprite;
 import ch.logixisland.anuto.util.Random;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
@@ -17,8 +18,8 @@ public class Mortar extends AimingTower {
     private final static float REBOUND_DURATION = 0.5f;
 
     private class StaticData {
-        public Sprite spriteBase;
-        public Sprite spriteCanon;
+        SpriteTemplate mSpriteTemplateBase;
+        SpriteTemplate mSpriteTemplateCanon;
     }
 
     private float mInaccuracy;
@@ -26,8 +27,8 @@ public class Mortar extends AimingTower {
     private float mAngle = 90f;
     private boolean mRebounding = false;
 
-    private Sprite.FixedInstance mSpriteBase;
-    private Sprite.AnimatedInstance mSpriteCanon;
+    private StaticSprite mSpriteBase;
+    private AnimatedSprite mSpriteCanon;
 
     public Mortar() {
         mInaccuracy = getProperty("inaccuracy");
@@ -35,14 +36,13 @@ public class Mortar extends AimingTower {
 
         StaticData s = (StaticData)getStaticData();
 
-        mSpriteBase = s.spriteBase.yieldStatic(Layers.TOWER_BASE);
+        mSpriteBase = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplateBase);
         mSpriteBase.setIndex(Random.next(4));
         mSpriteBase.setListener(this);
 
-        mSpriteCanon = s.spriteCanon.yieldAnimated(Layers.TOWER);
-        mSpriteCanon.setIndex(Random.next(4));
+        mSpriteCanon = getSpriteFactory().createAnimated(Layers.TOWER, s.mSpriteTemplateCanon);
         mSpriteCanon.setListener(this);
-        mSpriteCanon.setSequence(mSpriteCanon.sequenceForwardBackward());
+        mSpriteCanon.setSequenceForwardBackward();
         mSpriteCanon.setInterval(REBOUND_DURATION);
     }
 
@@ -50,11 +50,11 @@ public class Mortar extends AimingTower {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.spriteBase = Sprite.fromResources(R.drawable.base2, 4);
-        s.spriteBase.setMatrix(1f, 1f, null, null);
+        s.mSpriteTemplateBase = getSpriteFactory().createTemplate(R.drawable.base2, 4);
+        s.mSpriteTemplateBase.setMatrix(1f, 1f, null, null);
 
-        s.spriteCanon = Sprite.fromResources(R.drawable.mortar, 8);
-        s.spriteCanon.setMatrix(0.8f, null, new Vector2(0.4f, 0.2f), -90f);
+        s.mSpriteTemplateCanon = getSpriteFactory().createTemplate(R.drawable.mortar, 8);
+        s.mSpriteTemplateCanon.setMatrix(0.8f, null, new Vector2(0.4f, 0.2f), -90f);
 
         return s;
     }
@@ -82,7 +82,7 @@ public class Mortar extends AimingTower {
     }
 
     @Override
-    public void onDraw(Drawable sprite, Canvas canvas) {
+    public void onDraw(SpriteInstance sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
 
         if (sprite == mSpriteCanon) {

@@ -6,20 +6,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.entity.effect.TeleportEffect;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
-import ch.logixisland.anuto.game.render.Sprite;
+import ch.logixisland.anuto.game.render.SpriteTemplate;
+import ch.logixisland.anuto.game.render.StaticSprite;
 import ch.logixisland.anuto.util.Random;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
 public class TeleportTower extends AimingTower {
 
     private class StaticData {
-        public Sprite spriteBase;
-        public Sprite spriteTower;
+        SpriteTemplate mSpriteTemplateBase;
+        SpriteTemplate mSpriteTemplateTower;
     }
 
     private final Listener mEnemyListener = new Listener() {
@@ -37,17 +37,17 @@ public class TeleportTower extends AimingTower {
 
     private List<Enemy> mTeleportedEnemies = new ArrayList<>();
 
-    private Sprite.FixedInstance mSpriteBase;
-    private Sprite.FixedInstance mSpriteTower;
+    private StaticSprite mSpriteBase;
+    private StaticSprite mSpriteTower;
 
     public TeleportTower() {
         StaticData s = (StaticData)getStaticData();
 
-        mSpriteBase = s.spriteBase.yieldStatic(Layers.TOWER_BASE);
+        mSpriteBase = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplateBase);
         mSpriteBase.setListener(this);
         mSpriteBase.setIndex(Random.next(4));
 
-        mSpriteTower = s.spriteTower.yieldStatic(Layers.TOWER);
+        mSpriteTower = getSpriteFactory().createStatic(Layers.TOWER, s.mSpriteTemplateTower);
         mSpriteTower.setListener(this);
         mSpriteTower.setIndex(Random.next(4));
     }
@@ -56,11 +56,11 @@ public class TeleportTower extends AimingTower {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.spriteBase = Sprite.fromResources(R.drawable.base4, 4);
-        s.spriteBase.setMatrix(1f, 1f, null, null);
+        s.mSpriteTemplateBase = getSpriteFactory().createTemplate(R.drawable.base4, 4);
+        s.mSpriteTemplateBase.setMatrix(1f, 1f, null, null);
 
-        s.spriteTower = Sprite.fromResources(R.drawable.teleport_tower, 4);
-        s.spriteTower.setMatrix(0.8f, 0.8f, null, null);
+        s.mSpriteTemplateTower = getSpriteFactory().createTemplate(R.drawable.teleport_tower, 4);
+        s.mSpriteTemplateTower.setMatrix(0.8f, 0.8f, null, null);
 
         return s;
     }

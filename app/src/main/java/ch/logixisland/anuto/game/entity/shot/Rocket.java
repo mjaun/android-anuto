@@ -3,13 +3,14 @@ package ch.logixisland.anuto.game.entity.shot;
 import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.entity.effect.Explosion;
+import ch.logixisland.anuto.game.render.AnimatedSprite;
 import ch.logixisland.anuto.game.render.Layers;
-import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
-import ch.logixisland.anuto.game.render.Sprite;
+import ch.logixisland.anuto.game.render.SpriteInstance;
+import ch.logixisland.anuto.game.render.SpriteTemplate;
+import ch.logixisland.anuto.game.render.StaticSprite;
 import ch.logixisland.anuto.util.Random;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
@@ -19,16 +20,16 @@ public class Rocket extends HomingShot {
     private final static float ANIMATION_SPEED = 3f;
 
     private class StaticData {
-        public Sprite sprite;
-        public Sprite spriteFire;
+        SpriteTemplate mSpriteTemplate;
+        SpriteTemplate mSpriteTemplateFire;
     }
 
     private float mDamage;
     private float mRadius;
     private float mAngle;
 
-    private Sprite.FixedInstance mSprite;
-    private Sprite.AnimatedInstance mSpriteFire;
+    private StaticSprite mSprite;
+    private AnimatedSprite mSpriteFire;
 
     public Rocket(Entity origin, Vector2 position, float damage, float radius) {
         super(origin);
@@ -41,13 +42,13 @@ public class Rocket extends HomingShot {
 
         StaticData s = (StaticData)getStaticData();
 
-        mSprite = s.sprite.yieldStatic(Layers.SHOT);
+        mSprite = getSpriteFactory().createStatic(Layers.SHOT, s.mSpriteTemplate);
         mSprite.setListener(this);
         mSprite.setIndex(Random.next(4));
 
-        mSpriteFire = s.spriteFire.yieldAnimated(Layers.SHOT);
+        mSpriteFire = getSpriteFactory().createAnimated(Layers.SHOT, s.mSpriteTemplateFire);
         mSpriteFire.setListener(this);
-        mSpriteFire.setSequence(mSpriteFire.sequenceForward());
+        mSpriteFire.setSequenceForward();
         mSpriteFire.setFrequency(ANIMATION_SPEED);
     }
 
@@ -59,11 +60,11 @@ public class Rocket extends HomingShot {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.sprite = Sprite.fromResources(R.drawable.rocket, 4);
-        s.sprite.setMatrix(0.8f, 1f, null, -90f);
+        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.drawable.rocket, 4);
+        s.mSpriteTemplate.setMatrix(0.8f, 1f, null, -90f);
 
-        s.spriteFire = Sprite.fromResources(R.drawable.rocket_fire, 4);
-        s.spriteFire.setMatrix(0.3f, 0.3f, new Vector2(0.15f, 0.6f), -90f);
+        s.mSpriteTemplateFire = getSpriteFactory().createTemplate(R.drawable.rocket_fire, 4);
+        s.mSpriteTemplateFire.setMatrix(0.3f, 0.3f, new Vector2(0.15f, 0.6f), -90f);
 
         return s;
     }
@@ -104,7 +105,7 @@ public class Rocket extends HomingShot {
     }
 
     @Override
-    public void onDraw(Drawable sprite, Canvas canvas) {
+    public void onDraw(SpriteInstance sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
 
         canvas.rotate(mAngle);

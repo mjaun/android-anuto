@@ -3,9 +3,10 @@ package ch.logixisland.anuto.game.entity.shot;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.entity.effect.GlueEffect;
+import ch.logixisland.anuto.game.render.AnimatedSprite;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.entity.Entity;
-import ch.logixisland.anuto.game.render.Sprite;
+import ch.logixisland.anuto.game.render.SpriteTemplate;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class GlueShot extends Shot {
@@ -14,14 +15,14 @@ public class GlueShot extends Shot {
     private final static float ANIMATION_SPEED = 1.0f;
 
     private class StaticData {
-        public Sprite sprite;
+        public SpriteTemplate mSpriteTemplate;
     }
 
     private float mSpeedModifier;
     private float mDuration;
     private Vector2 mTarget;
 
-    private Sprite.AnimatedInstance mSprite;
+    private AnimatedSprite mSprite;
 
     public GlueShot(Entity origin, Vector2 position, Vector2 target, float speedModifier, float duration) {
         super(origin);
@@ -36,9 +37,9 @@ public class GlueShot extends Shot {
 
         StaticData s = (StaticData)getStaticData();
 
-        mSprite = s.sprite.yieldAnimated(Layers.SHOT);
+        mSprite = getSpriteFactory().createAnimated(Layers.SHOT, s.mSpriteTemplate);
         mSprite.setListener(this);
-        mSprite.setSequence(mSprite.sequenceForward());
+        mSprite.setSequenceForward();
         mSprite.setFrequency(ANIMATION_SPEED);
     }
 
@@ -46,8 +47,8 @@ public class GlueShot extends Shot {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.sprite = Sprite.fromResources(R.drawable.glue_shot, 6);
-        s.sprite.setMatrix(0.33f, 0.33f, null, null);
+        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.drawable.glue_shot, 6);
+        s.mSpriteTemplate.setMatrix(0.33f, 0.33f, null, null);
 
         return s;
     }

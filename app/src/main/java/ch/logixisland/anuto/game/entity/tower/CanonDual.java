@@ -6,9 +6,10 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.entity.shot.CanonShot;
 import ch.logixisland.anuto.game.render.Layers;
-import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.entity.shot.Shot;
-import ch.logixisland.anuto.game.render.Sprite;
+import ch.logixisland.anuto.game.render.SpriteInstance;
+import ch.logixisland.anuto.game.render.SpriteTemplate;
+import ch.logixisland.anuto.game.render.StaticSprite;
 import ch.logixisland.anuto.util.Random;
 import ch.logixisland.anuto.util.math.function.Function;
 import ch.logixisland.anuto.util.math.function.SampledFunction;
@@ -21,23 +22,23 @@ public class CanonDual extends AimingTower {
     private final static float REBOUND_DURATION = 0.2f;
 
     private class StaticData {
-        public Sprite spriteBase;
-        public Sprite spriteTower;
-        public Sprite spriteCanon;
+        SpriteTemplate mSpriteTemplateBase;
+        SpriteTemplate mSpriteTemplateTower;
+        SpriteTemplate mSpriteTemplateCanon;
     }
 
     private class SubCanon {
         boolean reboundActive;
         SampledFunction reboundFunction;
-        Sprite.FixedInstance sprite;
+        StaticSprite sprite;
     }
 
     private float mAngle = 90f;
     private boolean mShoot2 = false;
     private SubCanon[] mCanons = new SubCanon[2];
 
-    private Sprite.FixedInstance mSpriteBase;
-    private Sprite.FixedInstance mSpriteTower;
+    private StaticSprite mSpriteBase;
+    private StaticSprite mSpriteTower;
 
     public CanonDual() {
         StaticData s = (StaticData)getStaticData();
@@ -46,11 +47,11 @@ public class CanonDual extends AimingTower {
                 .multiply(REBOUND_RANGE)
                 .stretch(GameEngine.TARGET_FRAME_RATE * REBOUND_DURATION / (float)Math.PI);
 
-        mSpriteBase = s.spriteBase.yieldStatic(Layers.TOWER_BASE);
+        mSpriteBase = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplateBase);
         mSpriteBase.setListener(this);
         mSpriteBase.setIndex(Random.next(4));
 
-        mSpriteTower = s.spriteTower.yieldStatic(Layers.TOWER_LOWER);
+        mSpriteTower = getSpriteFactory().createStatic(Layers.TOWER_LOWER, s.mSpriteTemplateTower);
         mSpriteTower.setListener(this);
         mSpriteTower.setIndex(Random.next(4));
 
@@ -59,7 +60,7 @@ public class CanonDual extends AimingTower {
             mCanons[i].reboundFunction = reboundFunction.sample();
             mCanons[i].reboundActive = false;
 
-            mCanons[i].sprite = s.spriteCanon.yieldStatic(Layers.TOWER);
+            mCanons[i].sprite = getSpriteFactory().createStatic(Layers.TOWER, s.mSpriteTemplateCanon);
             mCanons[i].sprite.setListener(this);
             mCanons[i].sprite.setIndex(Random.next(4));
         }
@@ -69,14 +70,14 @@ public class CanonDual extends AimingTower {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.spriteBase = Sprite.fromResources(R.drawable.base1, 4);
-        s.spriteBase.setMatrix(1f, 1f, null, null);
+        s.mSpriteTemplateBase = getSpriteFactory().createTemplate(R.drawable.base1, 4);
+        s.mSpriteTemplateBase.setMatrix(1f, 1f, null, null);
 
-        s.spriteTower = Sprite.fromResources(R.drawable.canon_dual, 4);
-        s.spriteTower.setMatrix(0.5f, 0.5f, null, -90f);
+        s.mSpriteTemplateTower = getSpriteFactory().createTemplate(R.drawable.canon_dual, 4);
+        s.mSpriteTemplateTower.setMatrix(0.5f, 0.5f, null, -90f);
 
-        s.spriteCanon = Sprite.fromResources(R.drawable.canon, 4);
-        s.spriteCanon.setMatrix(0.3f, 1.0f, new Vector2(0.15f, 0.4f), -90f);
+        s.mSpriteTemplateCanon = getSpriteFactory().createTemplate(R.drawable.canon, 4);
+        s.mSpriteTemplateCanon.setMatrix(0.3f, 1.0f, new Vector2(0.15f, 0.4f), -90f);
 
         return s;
     }
@@ -108,7 +109,7 @@ public class CanonDual extends AimingTower {
     }
 
     @Override
-    public void onDraw(Drawable sprite, Canvas canvas) {
+    public void onDraw(SpriteInstance sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
 
         canvas.rotate(mAngle);

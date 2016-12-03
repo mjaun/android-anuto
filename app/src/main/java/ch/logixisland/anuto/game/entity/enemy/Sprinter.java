@@ -4,9 +4,11 @@ import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameEngine;
+import ch.logixisland.anuto.game.render.AnimatedSprite;
 import ch.logixisland.anuto.game.render.Layers;
-import ch.logixisland.anuto.game.render.Drawable;
-import ch.logixisland.anuto.game.render.Sprite;
+import ch.logixisland.anuto.game.render.ReplicatedSprite;
+import ch.logixisland.anuto.game.render.SpriteInstance;
+import ch.logixisland.anuto.game.render.SpriteTemplate;
 import ch.logixisland.anuto.util.math.function.Function;
 import ch.logixisland.anuto.util.math.function.SampledFunction;
 
@@ -15,15 +17,15 @@ public class Sprinter extends Enemy {
     private final static float ANIMATION_SPEED = 0.7f;
 
     private class StaticData implements Runnable {
-        public SampledFunction speedFunction;
+        SampledFunction mSpeedFunction;
 
-        public Sprite sprite;
-        public Sprite.AnimatedInstance animator;
+        SpriteTemplate mSpriteTemplate;
+        AnimatedSprite mReferenceSprite;
 
         @Override
         public void run() {
-            animator.tick();
-            speedFunction.step();
+            mReferenceSprite.tick();
+            mSpeedFunction.step();
         }
     }
 
@@ -33,29 +35,29 @@ public class Sprinter extends Enemy {
     public Sprinter() {
         mStatic = (StaticData)getStaticData();
 
-        mSprite = mStatic.animator.copycat();
+        mSprite = getSpriteFactory().createReplication(mStatic.mReferenceSprite);
         mSprite.setListener(this);
     }
 
-    private Sprite.Instance mSprite;
+    private ReplicatedSprite mSprite;
 
     @Override
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.speedFunction = Function.sine()
+        s.mSpeedFunction = Function.sine()
                 .multiply(getConfigSpeed() * 0.9f)
                 .offset(getConfigSpeed() * 0.1f)
                 .repeat((float)Math.PI)
                 .stretch(GameEngine.TARGET_FRAME_RATE / ANIMATION_SPEED / (float)Math.PI)
                 .sample();
 
-        s.sprite = Sprite.fromResources(R.drawable.sprinter, 6);
-        s.sprite.setMatrix(0.9f, 0.9f, null, null);
+        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.drawable.sprinter, 6);
+        s.mSpriteTemplate.setMatrix(0.9f, 0.9f, null, null);
 
-        s.animator = s.sprite.yieldAnimated(Layers.ENEMY);
-        s.animator.setSequence(s.animator.sequenceForwardBackward());
-        s.animator.setFrequency(ANIMATION_SPEED);
+        s.mReferenceSprite = getSpriteFactory().createAnimated(Layers.ENEMY, s.mSpriteTemplate);
+        s.mReferenceSprite.setSequenceForwardBackward();
+        s.mReferenceSprite.setFrequency(ANIMATION_SPEED);
 
         getGame().add(s);
 
@@ -70,7 +72,7 @@ public class Sprinter extends Enemy {
     }
 
     @Override
-    public void onDraw(Drawable sprite, Canvas canvas) {
+    public void onDraw(SpriteInstance sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
 
         canvas.rotate(mAngle);
@@ -89,7 +91,7 @@ public class Sprinter extends Enemy {
 
         if (hasWayPoint()) {
             mAngle = getDirection().angle();
-            setBaseSpeed(mStatic.speedFunction.getValue());
+            setBaseSpeed(mStatic.mSpeedFunction.getValue());
         }
     }
 }

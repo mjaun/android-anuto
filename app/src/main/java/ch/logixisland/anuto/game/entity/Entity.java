@@ -5,15 +5,19 @@ import android.graphics.Canvas;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.business.GameManager;
 import ch.logixisland.anuto.game.render.Drawable;
-import ch.logixisland.anuto.game.render.Sprite;
+import ch.logixisland.anuto.game.render.SpriteFactory;
+import ch.logixisland.anuto.game.render.SpriteInstance;
+import ch.logixisland.anuto.game.render.SpriteListener;
+import ch.logixisland.anuto.game.render.SpriteTemplate;
 import ch.logixisland.anuto.util.iterator.Function;
 import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
-public abstract class Entity implements Sprite.Listener {
+public abstract class Entity implements SpriteListener {
 
     /*
     ------ Listener Interface ------
@@ -133,7 +137,7 @@ public abstract class Entity implements Sprite.Listener {
     }
 
     @Override
-    public void onDraw(Drawable sprite, Canvas canvas) {
+    public void onDraw(SpriteInstance sprite, Canvas canvas) {
         canvas.translate(mPosition.x, mPosition.y);
     }
 
@@ -157,6 +161,10 @@ public abstract class Entity implements Sprite.Listener {
 
     protected Object getStaticData() {
         return getGame().getStaticData(this);
+    }
+
+    protected SpriteFactory getSpriteFactory() {
+        return AnutoApplication.getInstance().getGameFactory().getSpriteFactory();
     }
 
     public boolean isInGame() {

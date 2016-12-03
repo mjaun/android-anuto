@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.entity.shot.Mine;
+import ch.logixisland.anuto.game.render.AnimatedSprite;
 import ch.logixisland.anuto.game.render.Layers;
-import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.entity.Entity;
-import ch.logixisland.anuto.game.render.Sprite;
+import ch.logixisland.anuto.game.render.SpriteInstance;
+import ch.logixisland.anuto.game.render.SpriteTemplate;
 import ch.logixisland.anuto.util.Random;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
@@ -20,7 +20,7 @@ public class MineLayer extends Tower {
     private final static float ANIMATION_DURATION = 1f;
 
     private class StaticData {
-        public Sprite sprite;
+        public SpriteTemplate mSpriteTemplate;
     }
 
     private float mAngle;
@@ -30,7 +30,7 @@ public class MineLayer extends Tower {
     private List<PathSection> mSections;
     private List<Mine> mMines = new ArrayList<>();
 
-    private Sprite.AnimatedInstance mSprite;
+    private AnimatedSprite mSprite;
 
     private final Listener mMineListener = new Listener() {
         @Override
@@ -52,10 +52,9 @@ public class MineLayer extends Tower {
 
         StaticData s = (StaticData)getStaticData();
 
-        mSprite = s.sprite.yieldAnimated(Layers.TOWER_BASE);
-        mSprite.setIndex(Random.next(4));
+        mSprite = getSpriteFactory().createAnimated(Layers.TOWER_BASE, s.mSpriteTemplate);
         mSprite.setListener(this);
-        mSprite.setSequence(mSprite.sequenceForwardBackward());
+        mSprite.setSequenceForwardBackward();
         mSprite.setInterval(ANIMATION_DURATION);
     }
 
@@ -63,8 +62,8 @@ public class MineLayer extends Tower {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.sprite = Sprite.fromResources(R.drawable.minelayer, 6);
-        s.sprite.setMatrix(1f, 1f, null, null);
+        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.drawable.minelayer, 6);
+        s.mSpriteTemplate.setMatrix(1f, 1f, null, null);
 
         return s;
     }
@@ -107,7 +106,7 @@ public class MineLayer extends Tower {
     }
 
     @Override
-    public void onDraw(Drawable sprite, Canvas canvas) {
+    public void onDraw(SpriteInstance sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
 
         canvas.rotate(mAngle);
@@ -125,7 +124,7 @@ public class MineLayer extends Tower {
         if (mShooting) {
             mSprite.tick();
 
-            if (mSprite.getSequencePosition() == 5) {
+            if (mSprite.getSequenceIndex() == 5) {
                 Mine m = new Mine(this, getPosition(), getTarget(), getDamage(), mExplosionRadius);
                 m.addListener(mMineListener);
                 mMines.add(m);
@@ -135,7 +134,7 @@ public class MineLayer extends Tower {
             }
         }
 
-        if (mSprite.getSequencePosition() != 0) {
+        if (mSprite.getSequenceIndex() != 0) {
             mSprite.tick();
         }
     }

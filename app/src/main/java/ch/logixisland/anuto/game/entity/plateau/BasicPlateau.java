@@ -1,23 +1,23 @@
 package ch.logixisland.anuto.game.entity.plateau;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.render.Layers;
-import ch.logixisland.anuto.game.render.Sprite;
+import ch.logixisland.anuto.game.render.SpriteTemplate;
+import ch.logixisland.anuto.game.render.StaticSprite;
 import ch.logixisland.anuto.util.Random;
 
 public class BasicPlateau extends Plateau {
 
     private class StaticData {
-        public Sprite sprite;
+        SpriteTemplate mSpriteTemplate;
     }
 
-    private Sprite.FixedInstance mSprite;
+    private StaticSprite mSprite;
 
     public BasicPlateau() {
         StaticData s = (StaticData)getStaticData();
 
-        mSprite = s.sprite.yieldStatic(Layers.PLATEAU);
+        mSprite = getSpriteFactory().createStatic(Layers.PLATEAU, s.mSpriteTemplate);
         mSprite.setIndex(Random.next(4));
         mSprite.setListener(this);
     }
@@ -26,8 +26,8 @@ public class BasicPlateau extends Plateau {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.sprite = Sprite.fromResources(R.drawable.plateau1, 4);
-        s.sprite.setMatrix(1f, 1f, null, null);
+        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.drawable.plateau1, 4);
+        s.mSpriteTemplate.setMatrix(1f, 1f, null, null);
 
         return s;
     }

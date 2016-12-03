@@ -8,9 +8,10 @@ import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.entity.effect.Explosion;
 import ch.logixisland.anuto.game.entity.enemy.Flyer;
 import ch.logixisland.anuto.game.render.Layers;
-import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
-import ch.logixisland.anuto.game.render.Sprite;
+import ch.logixisland.anuto.game.render.SpriteInstance;
+import ch.logixisland.anuto.game.render.SpriteTemplate;
+import ch.logixisland.anuto.game.render.StaticSprite;
 import ch.logixisland.anuto.util.Random;
 import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
@@ -30,7 +31,7 @@ public class Mine extends Shot {
     private final static float HEIGHT_SCALING_PEAK = 1.5f;
 
     private class StaticData {
-        public Sprite sprite;
+        SpriteTemplate mSpriteTemplate;
     }
 
     private float mDamage;
@@ -40,8 +41,8 @@ public class Mine extends Shot {
     private float mRotationStep;
     private SampledFunction mHeightScalingFunction;
 
-    private Sprite.FixedInstance mSpriteFlying;
-    private Sprite.FixedInstance mSpriteMine;
+    private StaticSprite mSpriteFlying;
+    private StaticSprite mSpriteMine;
 
     public Mine(Entity origin, Vector2 position, Vector2 target, float damage, float radius) {
         super(origin);
@@ -68,11 +69,11 @@ public class Mine extends Shot {
 
         int index = Random.next(4);
 
-        mSpriteFlying = s.sprite.yieldStatic(Layers.SHOT);
+        mSpriteFlying = getSpriteFactory().createStatic(Layers.SHOT, s.mSpriteTemplate);
         mSpriteFlying.setListener(this);
         mSpriteFlying.setIndex(index);
 
-        mSpriteMine = s.sprite.yieldStatic(Layers.BOTTOM);
+        mSpriteMine = getSpriteFactory().createStatic(Layers.BOTTOM, s.mSpriteTemplate);
         mSpriteMine.setListener(this);
         mSpriteMine.setIndex(index);
     }
@@ -81,8 +82,8 @@ public class Mine extends Shot {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.sprite = Sprite.fromResources(R.drawable.mine, 4);
-        s.sprite.setMatrix(0.7f, 0.7f, null, null);
+        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.drawable.mine, 4);
+        s.mSpriteTemplate.setMatrix(0.7f, 0.7f, null, null);
 
         return s;
     }
@@ -110,7 +111,7 @@ public class Mine extends Shot {
     }
 
     @Override
-    public void onDraw(Drawable sprite, Canvas canvas) {
+    public void onDraw(SpriteInstance sprite, Canvas canvas) {
         super.onDraw(sprite, canvas);
 
         float s = mHeightScalingFunction.getValue();
