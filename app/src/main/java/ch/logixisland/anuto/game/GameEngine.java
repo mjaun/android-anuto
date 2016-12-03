@@ -149,6 +149,7 @@ public class GameEngine implements Runnable {
             }
 
             mRunnables.clear();
+            mStaticData.clear();
         }
     }
 
