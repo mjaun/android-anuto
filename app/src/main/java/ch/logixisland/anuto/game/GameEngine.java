@@ -65,7 +65,6 @@ public class GameEngine implements Runnable {
 
     private View mView;
     private Theme mTheme;
-    private Resources mResources;
 
     private final SmartIteratorCollection<Runnable> mRunnables = new SmartIteratorCollection<>();
 
@@ -80,14 +79,6 @@ public class GameEngine implements Runnable {
     /*
     ------ Methods ------
      */
-
-    public Resources getResources() {
-        return mResources;
-    }
-
-    public void setResources(Resources res) {
-        mResources = res;
-    }
 
     public void setView(View view) {
         mView = view;

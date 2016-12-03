@@ -23,7 +23,6 @@ public class MainActivity extends Activity {
 
         int themeid = getIntent().getIntExtra("theme", 0);
 
-        GameEngine.getInstance().setResources(getResources());
         GameEngine.getInstance().setTheme(themeid);
         setContentView(R.layout.activity_main);
 
