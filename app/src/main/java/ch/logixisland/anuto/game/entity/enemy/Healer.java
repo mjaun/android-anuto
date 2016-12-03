@@ -111,7 +111,7 @@ public class Healer extends Enemy {
         s.mReferenceSprite.setSequenceForward();
         s.mReferenceSprite.setFrequency(ANIMATION_SPEED);
 
-        getGame().add(s);
+        getGameEngine().add(s);
 
         return s;
     }
@@ -120,14 +120,14 @@ public class Healer extends Enemy {
     public void init() {
         super.init();
 
-        getGame().add(mSprite);
+        getGameEngine().add(mSprite);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        getGame().remove(mSprite);
+        getGameEngine().remove(mSprite);
     }
 
     @Override
@@ -149,7 +149,7 @@ public class Healer extends Enemy {
         }
 
         if (mStatic.mDropEffect) {
-            getGame().add(new HealEffect(this, getPosition(), mHealAmount, mHealRange));
+            getGameEngine().add(new HealEffect(this, getPosition(), mHealAmount, mHealRange));
         }
     }
 }

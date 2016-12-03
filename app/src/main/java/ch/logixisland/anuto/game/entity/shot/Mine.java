@@ -93,9 +93,9 @@ public class Mine extends Shot {
         super.init();
 
         if (mFlying) {
-            getGame().add(mSpriteFlying);
+            getGameEngine().add(mSpriteFlying);
         } else {
-            getGame().add(mSpriteMine);
+            getGameEngine().add(mSpriteMine);
         }
     }
 
@@ -104,9 +104,9 @@ public class Mine extends Shot {
         super.clean();
 
         if (mFlying) {
-            getGame().remove(mSpriteFlying);
+            getGameEngine().remove(mSpriteFlying);
         } else {
-            getGame().remove(mSpriteMine);
+            getGameEngine().remove(mSpriteMine);
         }
     }
 
@@ -128,14 +128,14 @@ public class Mine extends Shot {
             mHeightScalingFunction.step();
 
             if (mHeightScalingFunction.getPosition() >= GameEngine.TARGET_FRAME_RATE * TIME_TO_TARGET) {
-                getGame().remove(mSpriteFlying);
-                getGame().add(mSpriteMine);
+                getGameEngine().remove(mSpriteFlying);
+                getGameEngine().add(mSpriteMine);
 
                 mFlying = false;
                 setSpeed(0f);
             }
-        } else if (getGame().tick100ms(this)) {
-            StreamIterator<Enemy> enemiesInRange = getGame().get(Enemy.TYPE_ID)
+        } else if (getGameEngine().tick100ms(this)) {
+            StreamIterator<Enemy> enemiesInRange = getGameEngine().get(Enemy.TYPE_ID)
                     .filter(inRange(getPosition(), TRIGGER_RADIUS))
                     .cast(Enemy.class)
                     .filter(new Predicate<Enemy>() {
@@ -146,7 +146,7 @@ public class Mine extends Shot {
                     });
 
             if (!enemiesInRange.isEmpty()) {
-                getGame().add(new Explosion(getOrigin(), getPosition(), mDamage, mRadius));
+                getGameEngine().add(new Explosion(getOrigin(), getPosition(), mDamage, mRadius));
                 this.remove();
             }
         }

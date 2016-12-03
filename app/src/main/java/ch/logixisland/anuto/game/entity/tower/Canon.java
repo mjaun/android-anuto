@@ -68,16 +68,16 @@ public class Canon extends AimingTower {
     public void init() {
         super.init();
 
-        getGame().add(mSpriteBase);
-        getGame().add(mSpriteCanon);
+        getGameEngine().add(mSpriteBase);
+        getGameEngine().add(mSpriteCanon);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        getGame().remove(mSpriteBase);
-        getGame().remove(mSpriteCanon);
+        getGameEngine().remove(mSpriteBase);
+        getGameEngine().remove(mSpriteCanon);
     }
 
     @Override
@@ -101,7 +101,7 @@ public class Canon extends AimingTower {
             if (isReloaded()) {
                 Shot shot = new CanonShot(this, getPosition(), getTarget(), getDamage());
                 shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
-                getGame().add(shot);
+                getGameEngine().add(shot);
 
                 setReloaded(false);
                 mReboundActive = true;

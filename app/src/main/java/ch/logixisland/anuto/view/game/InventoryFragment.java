@@ -1,20 +1,25 @@
 package ch.logixisland.anuto.view.game;
 
-import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.business.GameManager;
 
 public class InventoryFragment extends Fragment implements GameManager.OnGameStartedListener {
 
-    TowerView[] view_tower_x = new TowerView[4];
+    private final GameManager mGameManager;
 
-    GameManager mManager;
+    private TowerView[] view_tower_x = new TowerView[4];
+
+    public InventoryFragment() {
+        mGameManager = AnutoApplication.getInstance().getGameFactory().getGameManager();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,11 +35,9 @@ public class InventoryFragment extends Fragment implements GameManager.OnGameSta
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-
-        mManager = GameManager.getInstance();
-        mManager.addListener(this);
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mGameManager.addListener(this);
     }
 
     @Override
@@ -45,13 +48,13 @@ public class InventoryFragment extends Fragment implements GameManager.OnGameSta
             aView_tower_x.close();
         }
 
-        mManager.removeListener(this);
+        mGameManager.removeListener(this);
     }
 
     @Override
     public void onGameStarted() {
         for (int i = 0; i < view_tower_x.length; i++) {
-            view_tower_x[i].setTowerClass(mManager.getLevel().getTowerConfig(i).getTowerClass());
+            view_tower_x[i].setTowerClass(mGameManager.getLevel().getTowerConfig(i).getTowerClass());
         }
     }
 }

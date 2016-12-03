@@ -57,14 +57,14 @@ public class GlueShot extends Shot {
     public void init() {
         super.init();
 
-        getGame().add(mSprite);
+        getGameEngine().add(mSprite);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        getGame().remove(mSprite);
+        getGameEngine().remove(mSprite);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class GlueShot extends Shot {
         mSprite.tick();
 
         if (getDistanceTo(mTarget) < getSpeed() / GameEngine.TARGET_FRAME_RATE) {
-            getGame().add(new GlueEffect(getOrigin(), mTarget, mSpeedModifier, mDuration));
+            getGameEngine().add(new GlueEffect(getOrigin(), mTarget, mSpeedModifier, mDuration));
             this.remove();
         }
     }

@@ -52,7 +52,7 @@ public abstract class AreaEffect extends Effect {
     public void tick() {
         super.tick();
 
-        if (getGame().tick100ms(this) && isInGame()) {
+        if (getGameEngine().tick100ms(this) && isInGame()) {
             for (Enemy e : mAffectedEnemies) {
                 if (getDistanceTo(e) > mRange) {
                     mAffectedEnemies.remove(e);
@@ -61,7 +61,7 @@ public abstract class AreaEffect extends Effect {
                 }
             }
 
-            StreamIterator<Enemy> enemies = getGame().get(Enemy.TYPE_ID)
+            StreamIterator<Enemy> enemies = getGameEngine().get(Enemy.TYPE_ID)
                     .filter(inRange(getPosition(), mRange))
                     .cast(Enemy.class);
 

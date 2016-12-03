@@ -61,14 +61,14 @@ public class RocketLauncher extends AimingTower {
     public void init() {
         super.init();
 
-        getGame().add(mSprite);
+        getGameEngine().add(mSprite);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        getGame().remove(mSprite);
+        getGameEngine().remove(mSprite);
 
         if (mRocket != null) {
             mRocket.remove();
@@ -95,7 +95,7 @@ public class RocketLauncher extends AimingTower {
         if (mRocket == null && mRocketLoadTimer.tick()) {
             mRocket = new Rocket(this, getPosition(), getDamage(), mExplosionRadius);
             mRocket.setAngle(mAngle);
-            getGame().add(mRocket);
+            getGameEngine().add(mRocket);
         }
 
         if (getTarget() != null) {

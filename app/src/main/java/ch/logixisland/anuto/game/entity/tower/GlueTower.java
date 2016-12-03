@@ -93,11 +93,11 @@ public class GlueTower extends Tower {
     public void init() {
         super.init();
 
-        getGame().add(mSpriteBase);
-        getGame().add(mSpriteTower);
+        getGameEngine().add(mSpriteBase);
+        getGameEngine().add(mSpriteTower);
 
         for (SubCanon c : mCanons) {
-            getGame().add(c.mSprite);
+            getGameEngine().add(c.mSprite);
         }
     }
 
@@ -105,11 +105,11 @@ public class GlueTower extends Tower {
     public void clean() {
         super.clean();
 
-        getGame().remove(mSpriteBase);
-        getGame().remove(mSpriteTower);
+        getGameEngine().remove(mSpriteBase);
+        getGameEngine().remove(mSpriteTower);
 
         for (SubCanon c : mCanons) {
-            getGame().remove(c.mSprite);
+            getGameEngine().remove(c.mSprite);
         }
     }
 
@@ -131,7 +131,7 @@ public class GlueTower extends Tower {
     public void tick() {
         super.tick();
 
-        if (isReloaded() && getGame().tick100ms(this) && !getPossibleTargets().isEmpty()) {
+        if (isReloaded() && getGameEngine().tick100ms(this) && !getPossibleTargets().isEmpty()) {
             mShooting = true;
             setReloaded(false);
         }
@@ -146,7 +146,7 @@ public class GlueTower extends Tower {
                     Vector2 position = Vector2.polar(SHOT_SPAWN_OFFSET, getAngleTo(target));
                     position.add(getPosition());
 
-                    getGame().add(new GlueShot(this, position, target, 1f / getDamage(), mGlueDuration));
+                    getGameEngine().add(new GlueShot(this, position, target, 1f / getDamage(), mGlueDuration));
                 }
             }
         } else if (mCanonOffset > 0f) {

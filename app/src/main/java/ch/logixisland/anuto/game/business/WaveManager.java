@@ -1,7 +1,5 @@
 package ch.logixisland.anuto.game.business;
 
-import android.os.Handler;
-
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -31,11 +29,12 @@ public class WaveManager {
     ------ Members ------
      */
 
-    private GameEngine mGame = GameEngine.getInstance();
-    private GameManager mManager = GameManager.getInstance();
+    private final GameEngine mGameEngine;
+    private final GameManager mGameManager;
 
-    private Wave mWave;
-    private int mExtend;
+    private final Wave mWave;
+    private final int mExtend;
+
     private boolean mAborted;
     private int mEnemiesRemaining;
     private int mEarlyBonus;
@@ -43,9 +42,9 @@ public class WaveManager {
     private float mHealthModifier;
     private float mRewardModifier;
 
-    private volatile int mWaveReward;
+    private int mWaveReward;
 
-    private List<Listener> mListeners = new CopyOnWriteArrayList<>();
+    private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
     /*
     ------ Entity.Listener Implementation ------
@@ -73,7 +72,9 @@ public class WaveManager {
     ------ Constructors ------
      */
 
-    public WaveManager(Wave wave, int extend) {
+    public WaveManager(GameEngine gameEngine, GameManager gameManager, Wave wave, int extend) {
+        mGameEngine = gameEngine;
+        mGameManager = gameManager;
         mWave = wave;
         mExtend = extend;
 
@@ -119,7 +120,7 @@ public class WaveManager {
     }
 
     public void start() {
-        mGame.add(new Runnable() {
+        mGameEngine.add(new Runnable() {
             @Override
             public void run() {
                 int delay = 0;
@@ -143,7 +144,7 @@ public class WaveManager {
                         e.addListener(mObjectListener);
                         e.modifyHealth(mHealthModifier);
                         e.modifyReward(mRewardModifier);
-                        e.setPath(mManager.getLevel().getPaths().get(d.getPathIndex()));
+                        e.setPath(mGameManager.getLevel().getPaths().get(d.getPathIndex()));
                         e.move(offsetX, offsetY);
 
                         if (i > 0 || mWave.getEnemies().indexOf(d) > 0) {
@@ -153,14 +154,14 @@ public class WaveManager {
                         final int thisDelay = delay;
                         mEarlyBonus += e.getReward();
 
-                        mGame.add(new Runnable() {
+                        mGameEngine.add(new Runnable() {
                             TickTimer mTimer = TickTimer.createInterval(thisDelay);
 
                             @Override
                             public void run() {
                                 if (mTimer.tick()) {
-                                    mGame.add(e);
-                                    mGame.remove(this);
+                                    mGameEngine.add(e);
+                                    mGameEngine.remove(this);
                                 }
                             }
                         });
@@ -168,19 +169,19 @@ public class WaveManager {
                 }
 
                 onStarted();
-                mGame.remove(this);
+                mGameEngine.remove(this);
             }
         });
     }
 
     public void abort() {
-        mGame.add(new Runnable() {
+        mGameEngine.add(new Runnable() {
             @Override
             public void run() {
                 mAborted = true;
                 onAborted();
 
-                mGame.remove(this);
+                mGameEngine.remove(this);
             }
         });
     }
@@ -190,12 +191,12 @@ public class WaveManager {
     }
 
     public void giveReward() {
-        mGame.add(new Runnable() {
+        mGameEngine.add(new Runnable() {
             @Override
             public void run() {
-                mManager.giveCredits(mWaveReward, true);
+                mGameManager.giveCredits(mWaveReward, true);
                 mWaveReward = 0;
-                mGame.remove(this);
+                mGameEngine.remove(this);
             }
         });
     }

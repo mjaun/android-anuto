@@ -59,16 +59,16 @@ public class LaserTower2 extends AimingTower {
     public void init() {
         super.init();
 
-        getGame().add(mSpriteBase);
-        getGame().add(mSpriteCanon);
+        getGameEngine().add(mSpriteBase);
+        getGameEngine().add(mSpriteCanon);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        getGame().remove(mSpriteBase);
-        getGame().remove(mSpriteCanon);
+        getGameEngine().remove(mSpriteBase);
+        getGameEngine().remove(mSpriteCanon);
     }
 
     @Override
@@ -87,7 +87,7 @@ public class LaserTower2 extends AimingTower {
 
             if (isReloaded()) {
                 Vector2 origin = Vector2.polar(LASER_SPAWN_OFFSET, mAngle).add(getPosition());
-                getGame().add(new Laser(this, origin, getTarget(), getDamage(), mBounce, mBounceDistance));
+                getGameEngine().add(new Laser(this, origin, getTarget(), getDamage(), mBounce, mBounceDistance));
                 setReloaded(false);
             }
         }

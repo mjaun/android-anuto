@@ -27,7 +27,7 @@ public class LaserTower3 extends AimingTower {
     private StaticSprite mSpriteCanon;
 
     public LaserTower3() {
-        mLaserLength = getGame().getGameSize().len() + 1f;
+        mLaserLength = getGameEngine().getGameSize().len() + 1f;
 
         StaticData s = (StaticData)getStaticData();
 
@@ -57,16 +57,16 @@ public class LaserTower3 extends AimingTower {
     public void init() {
         super.init();
 
-        getGame().add(mSpriteBase);
-        getGame().add(mSpriteCanon);
+        getGameEngine().add(mSpriteBase);
+        getGameEngine().add(mSpriteCanon);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        getGame().remove(mSpriteBase);
-        getGame().remove(mSpriteCanon);
+        getGameEngine().remove(mSpriteBase);
+        getGameEngine().remove(mSpriteCanon);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class LaserTower3 extends AimingTower {
             if (isReloaded()) {
                 Vector2 laserFrom = Vector2.polar(LASER_SPAWN_OFFSET, mAngle).add(getPosition());
                 Vector2 laserTo = Vector2.polar(mLaserLength, mAngle).add(getPosition());
-                getGame().add(new LaserStraight(this, laserFrom, laserTo, getDamage()));
+                getGameEngine().add(new LaserStraight(this, laserFrom, laserTo, getDamage()));
                 setReloaded(false);
             }
         }

@@ -1,8 +1,8 @@
 package ch.logixisland.anuto.view.game;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,10 +12,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.game.GameEngine;
+import ch.logixisland.anuto.game.GameFactory;
 import ch.logixisland.anuto.game.business.GameManager;
 import ch.logixisland.anuto.game.data.Wave;
+import ch.logixisland.anuto.game.theme.ThemeManager;
 import ch.logixisland.anuto.util.StringUtils;
 import ch.logixisland.anuto.game.theme.Theme;
 
@@ -25,7 +27,9 @@ public class StatusFragment extends Fragment implements GameManager.OnWaveStarte
         GameManager.OnBonusChangedListener, GameManager.OnNextWaveReadyListener,
         View.OnClickListener {
 
-    private GameManager mManager;
+    private final ThemeManager mThemeManager;
+    private final GameManager mGameManager;
+
     private Handler mHandler;
 
     private TextView txt_credits;
@@ -36,6 +40,11 @@ public class StatusFragment extends Fragment implements GameManager.OnWaveStarte
     private Button btn_next_wave;
     private Button btn_restart;
 
+    public StatusFragment() {
+        GameFactory factory = AnutoApplication.getInstance().getGameFactory();
+        mThemeManager = factory.getThemeManager();
+        mGameManager = factory.getGameManager();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,7 +52,7 @@ public class StatusFragment extends Fragment implements GameManager.OnWaveStarte
         mHandler = new Handler();
 
         View v = inflater.inflate(R.layout.fragment_status, container, false);
-        Theme theme = GameEngine.getInstance().getTheme();
+        Theme theme = mThemeManager.getTheme();
         v.setBackgroundColor(theme.getBackgroundColor());
 
         txt_credits = (TextView) v.findViewById(R.id.txt_credits);
@@ -66,36 +75,33 @@ public class StatusFragment extends Fragment implements GameManager.OnWaveStarte
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-
-        mManager = GameManager.getInstance();
-        mManager.addListener(this);
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mGameManager.addListener(this);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-
-        mManager.removeListener(this);
+        mGameManager.removeListener(this);
     }
 
     @Override
     public void onClick(View v) {
         if (v == btn_next_wave) {
-            mManager.startNextWave();
+            mGameManager.startNextWave();
         }
 
         if (v == btn_restart) {
-            if (mManager.isGameOver()) {
-                mManager.restart();
+            if (mGameManager.isGameOver()) {
+                mGameManager.restart();
             } else {
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which){
                             case DialogInterface.BUTTON_POSITIVE:
-                                mManager.restart();
+                                mGameManager.restart();
                                 break;
 
                             case DialogInterface.BUTTON_NEGATIVE:
@@ -118,7 +124,7 @@ public class StatusFragment extends Fragment implements GameManager.OnWaveStarte
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                txt_wave.setText(getResources().getString(R.string.status_wave) + ": " + mManager.getWaveNumber());
+                txt_wave.setText(getResources().getString(R.string.status_wave) + ": " + mGameManager.getWaveNumber());
                 btn_next_wave.setEnabled(false);
             }
         });
@@ -129,7 +135,7 @@ public class StatusFragment extends Fragment implements GameManager.OnWaveStarte
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                btn_next_wave.setEnabled(!mManager.isGameOver());
+                btn_next_wave.setEnabled(!mGameManager.isGameOver());
             }
         });
     }
@@ -159,8 +165,8 @@ public class StatusFragment extends Fragment implements GameManager.OnWaveStarte
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                txt_wave.setText(getResources().getString(R.string.status_wave) + ": " + mManager.getWaveNumber());
-                btn_next_wave.setEnabled(mManager.hasNextWave());
+                txt_wave.setText(getResources().getString(R.string.status_wave) + ": " + mGameManager.getWaveNumber());
+                btn_next_wave.setEnabled(mGameManager.hasNextWave());
             }
         });
     }

@@ -69,16 +69,16 @@ public class TeleportTower extends AimingTower {
     public void init() {
         super.init();
 
-        getGame().add(mSpriteBase);
-        getGame().add(mSpriteTower);
+        getGameEngine().add(mSpriteBase);
+        getGameEngine().add(mSpriteTower);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        getGame().remove(mSpriteBase);
-        getGame().remove(mSpriteTower);
+        getGameEngine().remove(mSpriteBase);
+        getGameEngine().remove(mSpriteTower);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class TeleportTower extends AimingTower {
             if (!target.isEnabled() || getDistanceTo(target) > getRange()) {
                 setTarget(null);
             } else {
-                getGame().add(new TeleportEffect(this, getPosition(), target, getDamage()));
+                getGameEngine().add(new TeleportEffect(this, getPosition(), target, getDamage()));
                 setReloaded(false);
 
                 mTeleportedEnemies.add(target);

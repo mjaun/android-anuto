@@ -45,7 +45,7 @@ public class Flyer extends Enemy {
         s.mReferenceSprite.setSequenceForwardBackward();
         s.mReferenceSprite.setFrequency(ANIMATION_SPEED);
 
-        getGame().add(s);
+        getGameEngine().add(s);
 
         return s;
     }
@@ -54,14 +54,14 @@ public class Flyer extends Enemy {
     public void init() {
         super.init();
 
-        getGame().add(mSprite);
+        getGameEngine().add(mSprite);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        getGame().remove(mSprite);
+        getGameEngine().remove(mSprite);
     }
 
     @Override

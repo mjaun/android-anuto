@@ -39,7 +39,7 @@ public abstract class Enemy extends Entity {
         private Paint mHealthBarFg;
 
         public HealthBar() {
-            Theme theme = GameEngine.getInstance().getTheme();
+            Theme theme = getThemeManager().getTheme();
 
             mHealthBarBg = new Paint();
             mHealthBarBg.setColor(theme.getAltBackgroundColor());
@@ -110,7 +110,7 @@ public abstract class Enemy extends Entity {
      */
 
     public Enemy() {
-        mConfig = getManager().getLevel().getEnemyConfig(this);
+        mConfig = getGameManager().getLevel().getEnemyConfig(this);
         mBaseSpeed = mConfig.getSpeed();
         mHealth = mConfig.getHealth();
 
@@ -130,13 +130,13 @@ public abstract class Enemy extends Entity {
     public void init() {
         super.init();
 
-        getGame().add(mHealthBar);
+        getGameEngine().add(mHealthBar);
     }
 
     @Override
     public void clean() {
         super.clean();
-        getGame().remove(mHealthBar);
+        getGameEngine().remove(mHealthBar);
     }
 
     @Override
@@ -145,7 +145,7 @@ public abstract class Enemy extends Entity {
 
         if (isEnabled()) {
             if (!hasWayPoint()) {
-                getManager().takeLives(1);
+                getGameManager().takeLives(1);
                 this.remove();
                 return;
             }
@@ -175,7 +175,7 @@ public abstract class Enemy extends Entity {
 
     public float getSpeed() {
         float speed = mBaseSpeed * mSpeedModifier;
-        float minSpeed = getManager().getSettings().getMinSpeedModifier() * getConfigSpeed();
+        float minSpeed = getGameManager().getSettings().getMinSpeedModifier() * getConfigSpeed();
 
         return Math.max(minSpeed, speed);
     }
@@ -281,11 +281,11 @@ public abstract class Enemy extends Entity {
             Tower originTower = (Tower)origin;
 
             if (originTower.getConfig().getStrongAgainstEnemies().contains(getClass())) {
-                dmg *= getManager().getSettings().getStrongAgainstModifier();
+                dmg *= getGameManager().getSettings().getStrongAgainstModifier();
             }
 
             if (originTower.getConfig().getWeakAgainstEnemies().contains(getClass())) {
-                dmg *= getManager().getSettings().getWeakAgainstModifier();
+                dmg *= getGameManager().getSettings().getWeakAgainstModifier();
             }
 
             originTower.reportDamageInflicted(dmg);
@@ -294,7 +294,7 @@ public abstract class Enemy extends Entity {
         mHealth -= dmg / mHealthModifier;
 
         if (mHealth <= 0) {
-            getManager().giveCredits(getReward(), true);
+            getGameManager().giveCredits(getReward(), true);
             this.remove();
         }
     }

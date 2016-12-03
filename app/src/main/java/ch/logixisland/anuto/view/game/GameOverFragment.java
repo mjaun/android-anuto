@@ -1,7 +1,7 @@
 package ch.logixisland.anuto.view.game;
 
-import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,51 +10,56 @@ import android.widget.TextView;
 
 import java.text.DecimalFormat;
 
+import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.game.GameEngine;
+import ch.logixisland.anuto.game.GameFactory;
 import ch.logixisland.anuto.game.business.GameManager;
-import ch.logixisland.anuto.game.theme.Theme;
+import ch.logixisland.anuto.game.theme.ThemeManager;
 
 public class GameOverFragment extends Fragment implements GameManager.OnGameStartedListener,
         GameManager.OnGameOverListener {
 
-    private GameManager mManager;
+    private final ThemeManager mThemeManager;
+    private final GameManager mGameManager;
 
     private TextView txt_game_over;
     private TextView txt_score;
+
+    public GameOverFragment() {
+        GameFactory factory = AnutoApplication.getInstance().getGameFactory();
+        mThemeManager = factory.getThemeManager();
+        mGameManager = factory.getGameManager();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_game_over, container, false);
 
-        Theme theme = GameEngine.getInstance().getTheme();
         txt_game_over = (TextView)v.findViewById(R.id.txt_game_over);
         txt_score = (TextView)v.findViewById(R.id.txt_score);
 
-        txt_game_over.setTextColor(theme.getTextColor());
-        txt_score.setTextColor(theme.getTextColor());
+        txt_game_over.setTextColor(mThemeManager.getTheme().getTextColor());
+        txt_score.setTextColor(mThemeManager.getTheme().getTextColor());
         return v;
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
 
         getFragmentManager().beginTransaction()
                 .hide(this)
                 .commit();
 
-        mManager = GameManager.getInstance();
-        mManager.addListener(this);
+        mGameManager.addListener(this);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
 
-        mManager.removeListener(this);
-        mManager = null;
+        mGameManager.removeListener(this);
     }
 
     @Override
@@ -70,7 +75,7 @@ public class GameOverFragment extends Fragment implements GameManager.OnGameStar
         txt_game_over.post(new Runnable() {
             @Override
             public void run() {
-                if (mManager.isGameWon()) {
+                if (mGameManager.isGameWon()) {
                     txt_game_over.setText(R.string.game_over_won);
                 } else {
                     txt_game_over.setText(R.string.game_over_lost);
@@ -78,7 +83,7 @@ public class GameOverFragment extends Fragment implements GameManager.OnGameStar
 
                 DecimalFormat fmt = new DecimalFormat("###,###,###,###");
                 txt_score.setText(getResources().getString(R.string.score) +
-                        ": " + fmt.format(mManager.getScore()));
+                        ": " + fmt.format(mGameManager.getScore()));
             }
         });
 

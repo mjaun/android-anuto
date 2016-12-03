@@ -8,11 +8,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.business.GameManager;
-import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.render.SpriteFactory;
 import ch.logixisland.anuto.game.render.SpriteInstance;
 import ch.logixisland.anuto.game.render.SpriteListener;
-import ch.logixisland.anuto.game.render.SpriteTemplate;
+import ch.logixisland.anuto.game.theme.ThemeManager;
 import ch.logixisland.anuto.util.iterator.Function;
 import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.math.vector.Vector2;
@@ -151,20 +150,24 @@ public abstract class Entity implements SpriteListener {
     }
 
 
-    protected GameEngine getGame() {
-        return GameEngine.getInstance();
+    protected GameEngine getGameEngine() {
+        return AnutoApplication.getInstance().getGameFactory().getGameEngine();
     }
 
-    protected GameManager getManager() {
-        return GameManager.getInstance();
+    protected GameManager getGameManager() {
+        return AnutoApplication.getInstance().getGameFactory().getGameManager();
     }
 
     protected Object getStaticData() {
-        return getGame().getStaticData(this);
+        return getGameEngine().getStaticData(this);
     }
 
     protected SpriteFactory getSpriteFactory() {
         return AnutoApplication.getInstance().getGameFactory().getSpriteFactory();
+    }
+
+    protected ThemeManager getThemeManager() {
+        return AnutoApplication.getInstance().getGameFactory().getThemeManager();
     }
 
     public boolean isInGame() {
@@ -172,7 +175,7 @@ public abstract class Entity implements SpriteListener {
     }
 
     public void remove() {
-        getGame().remove(this);
+        getGameEngine().remove(this);
     }
 
 

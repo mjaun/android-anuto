@@ -73,10 +73,10 @@ public class Rocket extends HomingShot {
     public void init() {
         super.init();
 
-        getGame().add(mSprite);
+        getGameEngine().add(mSprite);
 
         if (isEnabled()) {
-            getGame().add(mSpriteFire);
+            getGameEngine().add(mSpriteFire);
         }
     }
 
@@ -84,10 +84,10 @@ public class Rocket extends HomingShot {
     public void clean() {
         super.clean();
 
-        getGame().remove(mSprite);
+        getGameEngine().remove(mSprite);
 
         if (isEnabled()) {
-            getGame().remove(mSpriteFire);
+            getGameEngine().remove(mSpriteFire);
         }
     }
 
@@ -96,11 +96,11 @@ public class Rocket extends HomingShot {
         super.setEnabled(enabled);
 
         if (isInGame() && !enabled) {
-            getGame().remove(mSpriteFire);
+            getGameEngine().remove(mSpriteFire);
         }
 
         if (isInGame() && enabled) {
-            getGame().add(mSpriteFire);
+            getGameEngine().add(mSpriteFire);
         }
     }
 
@@ -125,11 +125,11 @@ public class Rocket extends HomingShot {
 
     @Override
     protected void onTargetLost() {
-        Enemy closest = (Enemy) getGame().get(Enemy.TYPE_ID)
+        Enemy closest = (Enemy) getGameEngine().get(Enemy.TYPE_ID)
                 .min(distanceTo(getPosition()));
 
         if (closest == null) {
-            getGame().remove(this);
+            getGameEngine().remove(this);
         } else {
             setTarget(closest);
         }
@@ -137,7 +137,7 @@ public class Rocket extends HomingShot {
 
     @Override
     protected void onTargetReached() {
-        getGame().add(new Explosion(getOrigin(), getTarget().getPosition(), mDamage, mRadius));
-        getGame().remove(this);
+        getGameEngine().add(new Explosion(getOrigin(), getTarget().getPosition(), mDamage, mRadius));
+        getGameEngine().remove(this);
     }
 }

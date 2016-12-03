@@ -73,14 +73,14 @@ public class MortarShot extends Shot {
     public void init() {
         super.init();
 
-        getGame().add(mSprite);
+        getGameEngine().add(mSprite);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        getGame().remove(mSprite);
+        getGameEngine().remove(mSprite);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class MortarShot extends Shot {
 
         mHeightScalingFunction.step();
         if (mHeightScalingFunction.getPosition() >= GameEngine.TARGET_FRAME_RATE * TIME_TO_TARGET) {
-            getGame().add(new Explosion(getOrigin(), getPosition(), mDamage, mRadius));
+            getGameEngine().add(new Explosion(getOrigin(), getPosition(), mDamage, mRadius));
             this.remove();
         }
     }

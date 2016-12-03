@@ -72,14 +72,14 @@ public class MineLayer extends Tower {
     public void init() {
         super.init();
 
-        getGame().add(mSprite);
+        getGameEngine().add(mSprite);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        getGame().remove(mSprite);
+        getGameEngine().remove(mSprite);
 
         for (Mine m : mMines) {
             m.removeListener(mMineListener);
@@ -128,7 +128,7 @@ public class MineLayer extends Tower {
                 Mine m = new Mine(this, getPosition(), getTarget(), getDamage(), mExplosionRadius);
                 m.addListener(mMineListener);
                 mMines.add(m);
-                getGame().add(m);
+                getGameEngine().add(m);
 
                 mShooting = false;
             }

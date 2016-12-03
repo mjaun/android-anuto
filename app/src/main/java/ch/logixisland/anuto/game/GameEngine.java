@@ -10,11 +10,11 @@ import java.util.HashMap;
 
 import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.render.Drawable;
+import ch.logixisland.anuto.game.theme.ThemeManager;
 import ch.logixisland.anuto.util.container.SmartIteratorCollection;
 import ch.logixisland.anuto.util.container.SparseCollectionArray;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.vector.Vector2;
-import ch.logixisland.anuto.game.theme.Theme;
 
 public class GameEngine implements Runnable {
 
@@ -29,25 +29,13 @@ public class GameEngine implements Runnable {
     private final static String TAG = GameEngine.class.getSimpleName();
 
     /*
-    ------ Static ------
-     */
-
-    private static GameEngine sInstance;
-
-    public static GameEngine getInstance() {
-        if (sInstance == null) {
-            sInstance = new GameEngine();
-        }
-
-        return sInstance;
-    }
-
-    /*
     ------ Members ------
      */
 
-    private Thread mGameThread;
+    private final ThemeManager mThemeManager;
+    private WeakReference<View> mViewRef;
 
+    private Thread mGameThread;
     private volatile boolean mRunning = false;
     private long mTickCount = 0;
     private int mMaxTickTime;
@@ -56,23 +44,19 @@ public class GameEngine implements Runnable {
     private final SparseCollectionArray<Entity> mEntities = new SparseCollectionArray<>();
     private final SparseCollectionArray<Drawable> mDrawables = new SparseCollectionArray<>();
     private final HashMap<Class<? extends Entity>, Object> mStaticData = new HashMap<>();
+    private final SmartIteratorCollection<Runnable> mRunnables = new SmartIteratorCollection<>();
 
     private final Vector2 mGameSize = new Vector2(10, 10);
     private final Vector2 mScreenSize = new Vector2(100, 100);
     private final Matrix mScreenMatrix = new Matrix();
     private final Matrix mScreenMatrixInverse = new Matrix();
 
-    private WeakReference<View> mViewRef;
-    private Theme mTheme;
-
-    private final SmartIteratorCollection<Runnable> mRunnables = new SmartIteratorCollection<>();
-
     /*
     ------ Constructors ------
      */
 
-    private GameEngine() {
-        setTheme(Theme.getDefaultTheme());
+    GameEngine(ThemeManager themeManager) {
+        mThemeManager = themeManager;
     }
 
     /*
@@ -81,16 +65,6 @@ public class GameEngine implements Runnable {
 
     public void setView(View view) {
         mViewRef = new WeakReference<>(view);
-    }
-
-    public void setTheme(int dt) {
-        setTheme(Theme.getTheme(dt));
-    }
-
-    public Theme getTheme() { return mTheme; }
-
-    public void setTheme(Theme theme) {
-        this.mTheme = theme;
     }
 
 
@@ -277,7 +251,7 @@ public class GameEngine implements Runnable {
     }
 
     public void draw(Canvas canvas) {
-        canvas.drawColor(mTheme.getBackgroundColor());
+        canvas.drawColor(mThemeManager.getTheme().getBackgroundColor());
         canvas.concat(mScreenMatrix);
 
         synchronized (mDrawables) {

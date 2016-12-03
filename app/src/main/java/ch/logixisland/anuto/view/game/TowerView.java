@@ -12,18 +12,22 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.game.GameEngine;
+import ch.logixisland.anuto.game.GameFactory;
 import ch.logixisland.anuto.game.business.GameManager;
 import ch.logixisland.anuto.game.entity.tower.Tower;
+import ch.logixisland.anuto.game.theme.ThemeManager;
 
 public class TowerView extends View implements View.OnTouchListener {
 
     private final static float TEXT_SIZE = 20f;
 
+    private final ThemeManager mThemeManager;
+    private final GameManager mGameManager;
+
     private Tower mTower;
     private Class<? extends Tower> mTowerClass;
-    private GameManager mManager;
 
     private float mDrawSize = 1f;
 
@@ -35,7 +39,7 @@ public class TowerView extends View implements View.OnTouchListener {
         public void onCreditsChanged(int credits) {
             if (mTower != null) {
                 if (credits >= mTower.getValue()) {
-                    mPaintText.setColor(GameEngine.getInstance().getTheme().getTextColor());
+                    mPaintText.setColor(mThemeManager.getTheme().getTextColor());
                 } else {
                     mPaintText.setColor(Color.RED);
                 }
@@ -48,22 +52,27 @@ public class TowerView extends View implements View.OnTouchListener {
     public TowerView(Context context, AttributeSet attrs) throws ClassNotFoundException{
         super(context, attrs);
 
+        GameFactory factory = AnutoApplication.getInstance().getGameFactory();
+        mThemeManager = factory.getThemeManager();
+
+        if (!isInEditMode()) {
+            mGameManager = factory.getGameManager();
+            mGameManager.addListener(mCreditsListener);
+        } else {
+            mGameManager = null;
+        }
+
         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.TowerView);
         mDrawSize = a.getFloat(R.styleable.TowerView_drawSize, mDrawSize);
         a.recycle();
 
         float density = context.getResources().getDisplayMetrics().density;
         mPaintText = new Paint();
-        mPaintText.setColor(GameEngine.getInstance().getTheme().getTextColor());
+        mPaintText.setColor(mThemeManager.getTheme().getTextColor());
         mPaintText.setTextAlign(Paint.Align.CENTER);
         mPaintText.setTextSize(TEXT_SIZE * density);
 
         mScreenMatrix = new Matrix();
-
-        if (!isInEditMode()) {
-            mManager = GameManager.getInstance();
-            mManager.addListener(mCreditsListener);
-        }
 
         setOnTouchListener(this);
     }
@@ -113,8 +122,8 @@ public class TowerView extends View implements View.OnTouchListener {
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if (isEnabled() && mTowerClass != null && mManager.getCredits() >= mTower.getValue() &&
-                    !mManager.isGameOver()) {
+            if (isEnabled() && mTowerClass != null && mGameManager.getCredits() >= mTower.getValue() &&
+                    !mGameManager.isGameOver()) {
                 View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder() {
                     @Override
                     public void onProvideShadowMetrics(Point shadowSize, Point shadowTouchPoint) {
@@ -160,7 +169,7 @@ public class TowerView extends View implements View.OnTouchListener {
 
 
     public void close() {
-        mManager.removeListener(mCreditsListener);
+        mGameManager.removeListener(mCreditsListener);
     }
 
 

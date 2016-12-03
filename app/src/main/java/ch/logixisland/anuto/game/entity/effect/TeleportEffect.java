@@ -64,14 +64,14 @@ public class TeleportEffect extends Effect {
     public void init() {
         super.init();
 
-        getGame().add(mDrawObject);
+        getGameEngine().add(mDrawObject);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        getGame().remove(mDrawObject);
+        getGameEngine().remove(mDrawObject);
     }
 
     @Override

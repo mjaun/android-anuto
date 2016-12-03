@@ -61,16 +61,16 @@ public class GlueGun extends AimingTower {
     public void init() {
         super.init();
 
-        getGame().add(mSpriteBase);
-        getGame().add(mSpriteCanon);
+        getGameEngine().add(mSpriteBase);
+        getGameEngine().add(mSpriteCanon);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        getGame().remove(mSpriteBase);
-        getGame().remove(mSpriteCanon);
+        getGameEngine().remove(mSpriteBase);
+        getGameEngine().remove(mSpriteCanon);
     }
 
     @Override
@@ -95,7 +95,7 @@ public class GlueGun extends AimingTower {
             Vector2 position = Vector2.polar(SHOT_SPAWN_OFFSET, getAngleTo(target));
             position.add(getPosition());
 
-            getGame().add(new GlueShot(this, position, target, 1f / getDamage(), mGlueDuration));
+            getGameEngine().add(new GlueShot(this, position, target, 1f / getDamage(), mGlueDuration));
 
             setReloaded(false);
             mRebounding = true;

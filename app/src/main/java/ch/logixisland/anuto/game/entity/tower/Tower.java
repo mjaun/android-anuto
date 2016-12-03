@@ -89,7 +89,7 @@ public abstract class Tower extends Entity {
      */
 
     public Tower() {
-        mConfig = getManager().getLevel().getTowerConfig(this);
+        mConfig = getGameManager().getLevel().getTowerConfig(this);
 
         mValue = mConfig.getValue();
         mDamage = mConfig.getDamage();
@@ -202,12 +202,12 @@ public abstract class Tower extends Entity {
 
 
     public void buy() {
-        getManager().takeCredits(mValue);
-        mValue *= getManager().getSettings().getAgeModifier();
+        getGameManager().takeCredits(mValue);
+        mValue *= getGameManager().getSettings().getAgeModifier();
     }
 
     public void sell() {
-        getManager().giveCredits(mValue, false);
+        getGameManager().giveCredits(mValue, false);
     }
 
     public void devalue(float factor) {
@@ -229,13 +229,13 @@ public abstract class Tower extends Entity {
         }
 
         int cost = getUpgradeCost();
-        getManager().takeCredits(cost);
+        getGameManager().takeCredits(cost);
         upgrade.mValue = this.mValue + cost;
 
         this.remove();
         upgrade.setPlateau(plateau);
         upgrade.setEnabled(true);
-        getGame().add(upgrade);
+        getGameEngine().add(upgrade);
 
         return upgrade;
     }
@@ -253,7 +253,7 @@ public abstract class Tower extends Entity {
     }
 
     public void enhance() {
-        getManager().takeCredits(getEnhanceCost());
+        getGameManager().takeCredits(getEnhanceCost());
 
         mValue += getEnhanceCost();
         mDamage += mConfig.getEnhanceDamage() * (float)Math.pow(mConfig.getEnhanceBase(), mLevel - 1);
@@ -289,20 +289,20 @@ public abstract class Tower extends Entity {
     public void showRange() {
         if (mRangeIndicator == null) {
             mRangeIndicator = new RangeIndicator();
-            getGame().add(mRangeIndicator);
+            getGameEngine().add(mRangeIndicator);
         }
     }
 
     public void hideRange() {
         if (mRangeIndicator != null) {
-            getGame().remove(mRangeIndicator);
+            getGameEngine().remove(mRangeIndicator);
             mRangeIndicator = null;
         }
     }
 
 
     public StreamIterator<Enemy> getPossibleTargets() {
-        return getGame().get(Enemy.TYPE_ID)
+        return getGameEngine().get(Enemy.TYPE_ID)
                 .filter(inRange(getPosition(), getRange()))
                 .cast(Enemy.class);
     }
@@ -312,7 +312,7 @@ public abstract class Tower extends Entity {
 
         float r2 = MathUtils.square(getRange());
 
-        for (Path p : getManager().getLevel().getPaths()) {
+        for (Path p : getGameManager().getLevel().getPaths()) {
             for (int i = 1; i < p.size(); i++) {
                 Vector2 p1 = p.get(i - 1).copy().sub(getPosition());
                 Vector2 p2 = p.get(i).copy().sub(getPosition());

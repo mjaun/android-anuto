@@ -56,14 +56,14 @@ public class CanonShotMG extends Shot {
     public void init() {
         super.init();
 
-        getGame().add(mSprite);
+        getGameEngine().add(mSprite);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        getGame().remove(mSprite);
+        getGameEngine().remove(mSprite);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class CanonShotMG extends Shot {
     public void tick() {
         super.tick();
 
-        Enemy enemy = (Enemy)getGame().get(Enemy.TYPE_ID)
+        Enemy enemy = (Enemy) getGameEngine().get(Enemy.TYPE_ID)
                 .filter(inRange(getPosition(), HIT_RANGE))
                 .first();
 
@@ -86,7 +86,7 @@ public class CanonShotMG extends Shot {
             this.remove();
         }
 
-        if (!getGame().inGame(getPosition())) {
+        if (!getGameEngine().inGame(getPosition())) {
             this.remove();
         }
     }

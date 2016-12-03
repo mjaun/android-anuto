@@ -86,11 +86,11 @@ public class CanonDual extends AimingTower {
     public void init() {
         super.init();
 
-        getGame().add(mSpriteBase);
-        getGame().add(mSpriteTower);
+        getGameEngine().add(mSpriteBase);
+        getGameEngine().add(mSpriteTower);
 
         for (SubCanon c : mCanons) {
-            getGame().add(c.sprite);
+            getGameEngine().add(c.sprite);
         }
     }
 
@@ -98,11 +98,11 @@ public class CanonDual extends AimingTower {
     public void clean() {
         super.clean();
 
-        getGame().remove(mSpriteBase);
-        getGame().remove(mSpriteTower);
+        getGameEngine().remove(mSpriteBase);
+        getGameEngine().remove(mSpriteTower);
 
         for (SubCanon c : mCanons) {
-            getGame().remove(c.sprite);
+            getGameEngine().remove(c.sprite);
         }
 
         mCanons = null;
@@ -143,7 +143,7 @@ public class CanonDual extends AimingTower {
                     Shot shot = new CanonShot(this, getPosition(), getTarget(), getDamage());
                     shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
                     shot.move(Vector2.polar(0.3f, mAngle + 90f));
-                    getGame().add(shot);
+                    getGameEngine().add(shot);
 
                     setReloaded(false);
                     mCanons[0].reboundActive = true;
@@ -152,7 +152,7 @@ public class CanonDual extends AimingTower {
                     Shot shot = new CanonShot(this, getPosition(), getTarget(), getDamage());
                     shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
                     shot.move(Vector2.polar(0.3f, mAngle - 90f));
-                    getGame().add(shot);
+                    getGameEngine().add(shot);
 
                     setReloaded(false);
                     mCanons[1].reboundActive = true;

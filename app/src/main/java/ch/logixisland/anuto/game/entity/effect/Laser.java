@@ -93,14 +93,14 @@ public class Laser extends Effect {
     public void init() {
         super.init();
 
-        getGame().add(mDrawObject);
+        getGameEngine().add(mDrawObject);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        getGame().remove(mDrawObject);
+        getGameEngine().remove(mDrawObject);
     }
 
     @Override
@@ -124,12 +124,12 @@ public class Laser extends Effect {
                 mPrevTargets.add(mTarget);
             }
 
-            Enemy enemy = (Enemy) getGame().get(Enemy.TYPE_ID)
+            Enemy enemy = (Enemy) getGameEngine().get(Enemy.TYPE_ID)
                     .exclude(mPrevTargets)
                     .min(distanceTo(mTarget.getPosition()));
 
             if (enemy != null && mTarget.getDistanceTo(enemy) <= mMaxBounceDist) {
-                getGame().add(new Laser(this, enemy));
+                getGameEngine().add(new Laser(this, enemy));
             }
         }
 

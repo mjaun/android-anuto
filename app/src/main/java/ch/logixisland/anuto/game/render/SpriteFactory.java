@@ -3,20 +3,21 @@ package ch.logixisland.anuto.game.render;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.SparseArray;
 
-import ch.logixisland.anuto.game.GameEngine;
+import ch.logixisland.anuto.game.theme.ThemeManager;
 
 public class SpriteFactory {
 
     private final Resources mResources;
+    private final ThemeManager mThemeManager;
 
-    public SpriteFactory(Resources resources) {
+    public SpriteFactory(Resources resources, ThemeManager themeManager) {
         mResources = resources;
+        mThemeManager = themeManager;
     }
 
     public SpriteTemplate createTemplate(int resourceId, int spriteCount) {
-        resourceId = GameEngine.getInstance().getTheme().resourceMap(resourceId);
+        resourceId = mThemeManager.getTheme().resourceMap(resourceId);
 
         Bitmap sheet = BitmapFactory.decodeResource(mResources, resourceId);
         Bitmap[] sprites = new Bitmap[spriteCount];

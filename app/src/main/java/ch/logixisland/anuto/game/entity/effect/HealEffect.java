@@ -59,14 +59,14 @@ public class HealEffect extends Effect {
     public void init() {
         super.init();
 
-        getGame().add(mDrawable);
+        getGameEngine().add(mDrawable);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        getGame().remove(mDrawable);
+        getGameEngine().remove(mDrawable);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class HealEffect extends Effect {
 
     @Override
     protected void effectBegin() {
-        StreamIterator<Enemy> enemies = getGame().get(Enemy.TYPE_ID)
+        StreamIterator<Enemy> enemies = getGameEngine().get(Enemy.TYPE_ID)
                 .filter(inRange(getPosition(), mRange))
                 .cast(Enemy.class);
 

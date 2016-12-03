@@ -71,14 +71,14 @@ public class LaserStraight extends Effect {
     public void init() {
         super.init();
 
-        getGame().add(mDrawObject);
+        getGameEngine().add(mDrawObject);
     }
 
     @Override
     public void clean() {
         super.clean();
 
-        getGame().remove(mDrawObject);
+        getGameEngine().remove(mDrawObject);
     }
 
     @Override
@@ -90,7 +90,7 @@ public class LaserStraight extends Effect {
 
     @Override
     protected void effectBegin() {
-        StreamIterator<Enemy> enemies = getGame().get(Enemy.TYPE_ID)
+        StreamIterator<Enemy> enemies = getGameEngine().get(Enemy.TYPE_ID)
                 .filter(onLine(getPosition(), mLaserTo, LASER_WIDTH))
                 .cast(Enemy.class);
 

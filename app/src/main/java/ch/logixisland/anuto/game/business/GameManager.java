@@ -1,6 +1,5 @@
 package ch.logixisland.anuto.game.business;
 
-import android.content.Context;
 import android.util.Log;
 
 import java.util.Iterator;
@@ -28,20 +27,6 @@ public class GameManager {
      */
 
     private final static String TAG = GameManager.class.getSimpleName();
-
-    /*
-    ------ Static ------
-     */
-
-    private static GameManager sInstance;
-
-    public static GameManager getInstance() {
-        if (sInstance == null) {
-            sInstance = new GameManager();
-        }
-
-        return sInstance;
-    }
 
     /*
     ------ Listener Interface ------
@@ -99,7 +84,7 @@ public class GameManager {
     ------ Members ------
      */
 
-    private GameEngine mGame;
+    private final GameEngine mGameEngine;
     private Level mLevel;
     private Tower mSelectedTower;
 
@@ -128,7 +113,7 @@ public class GameManager {
             mActiveWaves.add(m);
             calcEarlyBonus();
 
-            mGame.add(new Runnable() {
+            mGameEngine.add(new Runnable() {
                 private final TickTimer mTimer = TickTimer.createInterval(m.getWave().getNextWaveDelay());
 
                 @Override
@@ -139,7 +124,7 @@ public class GameManager {
                             mNextWaveReady = true;
                         }
 
-                        mGame.remove(this);
+                        mGameEngine.remove(this);
                     }
                 }
             });
@@ -186,8 +171,8 @@ public class GameManager {
     ------ Constructors ------
      */
 
-    public GameManager() {
-        mGame = GameEngine.getInstance();
+    public GameManager(GameEngine gameEngine) {
+        mGameEngine = gameEngine;
         mGameOver = true;
     }
 
@@ -201,7 +186,7 @@ public class GameManager {
         }
 
         mActiveWaves.clear();
-        mGame.clear();
+        mGameEngine.clear();
 
         mSelectedTower = null;
         mNextWaveIndex = 0;
@@ -216,10 +201,10 @@ public class GameManager {
         for (PlateauDescriptor d : mLevel.getPlateaus()) {
             Plateau p = d.createInstance();
             p.setPosition(d.getX(), d.getY());
-            mGame.add(p);
+            mGameEngine.add(p);
         }
 
-        mGame.setGameSize(getSettings().getWidth(), getSettings().getHeight());
+        mGameEngine.setGameSize(getSettings().getWidth(), getSettings().getHeight());
 
         mEarlyBonus = 0;
         mNextWaveReady = true;
@@ -311,7 +296,7 @@ public class GameManager {
             extend = nextWave.getMaxExtend();
         }
 
-        WaveManager m = new WaveManager(nextWave, extend);
+        WaveManager m = new WaveManager(mGameEngine, this, nextWave, extend);
         m.addListener(mWaveListener);
 
         if (getSettings().isEndless()) {
@@ -442,7 +427,7 @@ public class GameManager {
 
 
     private void ageTowers() {
-        Iterator<Tower> it = mGame.get(Types.TOWER).cast(Tower.class);
+        Iterator<Tower> it = mGameEngine.get(Types.TOWER).cast(Tower.class);
         while (it.hasNext()) {
             Tower t = it.next();
             t.devalue(getSettings().getAgeModifier());

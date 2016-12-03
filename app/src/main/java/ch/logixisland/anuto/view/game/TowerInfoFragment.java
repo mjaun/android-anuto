@@ -1,7 +1,7 @@
 package ch.logixisland.anuto.view.game;
 
-import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -14,7 +14,9 @@ import android.widget.TextView;
 import java.util.Arrays;
 import java.util.List;
 
+import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.game.GameFactory;
 import ch.logixisland.anuto.game.business.GameManager;
 import ch.logixisland.anuto.game.entity.tower.AimingTower;
 import ch.logixisland.anuto.game.entity.tower.Tower;
@@ -26,9 +28,9 @@ public class TowerInfoFragment extends Fragment implements
         GameManager.OnCreditsChangedListener, GameManager.OnTowersAgedListener,
         GameManager.OnGameOverListener {
 
-    private Handler mHandler;
-    private GameManager mManager;
+    private final GameManager mGameManager;
 
+    private Handler mHandler;
     private Tower mTower;
 
     private TextView txt_level;
@@ -52,6 +54,10 @@ public class TowerInfoFragment extends Fragment implements
     private TowerView view_tower;
 
     private boolean mVisible = true;
+
+    public TowerInfoFragment() {
+        mGameManager = AnutoApplication.getInstance().getGameFactory().getGameManager();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -162,26 +168,22 @@ public class TowerInfoFragment extends Fragment implements
             btn_lock_target.setEnabled(false);
         }
 
-        btn_upgrade.setEnabled(mTower.isUpgradeable() && mManager.getCredits() >= mTower.getUpgradeCost());
-        btn_enhance.setEnabled(mTower.isEnhanceable() && mManager.getCredits() >= mTower.getEnhanceCost());
+        btn_upgrade.setEnabled(mTower.isUpgradeable() && mGameManager.getCredits() >= mTower.getUpgradeCost());
+        btn_enhance.setEnabled(mTower.isEnhanceable() && mGameManager.getCredits() >= mTower.getEnhanceCost());
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-
+    public void onAttach(Context context) {
+        super.onAttach(context);
         hide();
-
-        mManager = GameManager.getInstance();
-        mManager.addListener(this);
+        mGameManager.addListener(this);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-
         view_tower.close();
-        mManager.removeListener(this);
+        mGameManager.removeListener(this);
     }
 
     @Override
@@ -220,15 +222,15 @@ public class TowerInfoFragment extends Fragment implements
             mTower.remove();
             mTower = null;
 
-            mManager.hideTowerInfo();
+            mGameManager.hideTowerInfo();
         }
     }
 
     private void onUpgradeClicked() {
         if (mTower != null && mTower.isUpgradeable()) {
             mTower = mTower.upgrade();
-            mManager.setSelectedTower(mTower);
-            mManager.showTowerInfo(mTower);
+            mGameManager.setSelectedTower(mTower);
+            mGameManager.showTowerInfo(mTower);
         }
     }
 

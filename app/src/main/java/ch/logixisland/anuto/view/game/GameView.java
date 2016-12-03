@@ -7,7 +7,9 @@ import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
 
+import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.game.GameEngine;
+import ch.logixisland.anuto.game.GameFactory;
 import ch.logixisland.anuto.game.business.GameManager;
 import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.entity.plateau.Plateau;
@@ -17,17 +19,11 @@ import ch.logixisland.anuto.util.math.vector.Vector2;
 public class GameView extends View implements Runnable, View.OnDragListener, View.OnTouchListener {
 
     /*
-    ------ Constants ------
-     */
-
-    private final static String TAG = GameView.class.getName();
-
-    /*
     ------ Members ------
      */
 
-    private GameEngine mGame;
-    private GameManager mManager;
+    private final GameEngine mGameEngine;
+    private final GameManager mGameManager;
 
     /*
     ------ Constructors ------
@@ -35,6 +31,10 @@ public class GameView extends View implements Runnable, View.OnDragListener, Vie
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        GameFactory factory = AnutoApplication.getInstance().getGameFactory();
+        mGameEngine = factory.getGameEngine();
+        mGameManager = factory.getGameManager();
 
         setFocusable(true);
         setOnDragListener(this);
@@ -46,26 +46,20 @@ public class GameView extends View implements Runnable, View.OnDragListener, Vie
     */
 
     public void start() {
-        mGame = GameEngine.getInstance();
-        mManager = GameManager.getInstance();
-
-        mGame.setScreenSize(getWidth(), getHeight());
-        mGame.setView(this);
+        mGameEngine.setScreenSize(getWidth(), getHeight());
+        mGameEngine.setView(this);
     }
 
     public void stop() {
-        mGame.remove(this);
-
-        mGame = null;
-        mManager = null;
+        mGameEngine.remove(this);
     }
 
     @Override
     public void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
 
-        if (mGame != null) {
-            mGame.setScreenSize(w, h);
+        if (mGameEngine != null) {
+            mGameEngine.setScreenSize(w, h);
         }
     }
 
@@ -73,32 +67,32 @@ public class GameView extends View implements Runnable, View.OnDragListener, Vie
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        if (mGame != null) {
-            mGame.draw(canvas);
+        if (mGameEngine != null) {
+            mGameEngine.draw(canvas);
         }
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if (mGame == null) {
+        if (mGameEngine == null) {
             return false;
         }
 
-        if (event.getAction() == MotionEvent.ACTION_DOWN && !mManager.isGameOver()) {
-            Vector2 pos = mGame.screenToGame(new Vector2(event.getX(), event.getY()));
+        if (event.getAction() == MotionEvent.ACTION_DOWN && !mGameManager.isGameOver()) {
+            Vector2 pos = mGameEngine.screenToGame(new Vector2(event.getX(), event.getY()));
 
-            Tower closest = (Tower)mGame.get(Tower.TYPE_ID)
+            Tower closest = (Tower) mGameEngine.get(Tower.TYPE_ID)
                     .min(Entity.distanceTo(pos));
 
-            mManager.hideTowerInfo();
+            mGameManager.hideTowerInfo();
             if (closest != null && closest.getDistanceTo(pos) < 0.5f) {
-                if (mManager.getSelectedTower() == closest) {
-                    mManager.showTowerInfo(closest);
+                if (mGameManager.getSelectedTower() == closest) {
+                    mGameManager.showTowerInfo(closest);
                 } else {
-                    mManager.setSelectedTower(closest);
+                    mGameManager.setSelectedTower(closest);
                 }
             } else {
-                mManager.setSelectedTower(null);
+                mGameManager.setSelectedTower(null);
             }
 
             return true;
@@ -109,14 +103,14 @@ public class GameView extends View implements Runnable, View.OnDragListener, Vie
 
     @Override
     public boolean onDrag(View v, DragEvent event) {
-        if (mGame == null) {
+        if (mGameEngine == null) {
             return false;
         }
 
         Tower tower = (Tower)event.getLocalState();
-        Vector2 pos = mGame.screenToGame(new Vector2(event.getX(), event.getY()));
+        Vector2 pos = mGameEngine.screenToGame(new Vector2(event.getX(), event.getY()));
 
-        Plateau closestPlateau = mGame.get(Plateau.TYPE_ID)
+        Plateau closestPlateau = mGameEngine.get(Plateau.TYPE_ID)
                 .cast(Plateau.class)
                 .filter(Plateau.unoccupied())
                 .min(Entity.distanceTo(pos));
@@ -124,15 +118,15 @@ public class GameView extends View implements Runnable, View.OnDragListener, Vie
         switch (event.getAction()) {
             case DragEvent.ACTION_DRAG_ENTERED:
                 if (closestPlateau != null) {
-                    mGame.add(tower);
-                    mManager.setSelectedTower(tower);
+                    mGameEngine.add(tower);
+                    mGameManager.setSelectedTower(tower);
                 }
                 break;
 
             case DragEvent.ACTION_DRAG_EXITED:
                 if (tower.isInGame()) {
                     tower.remove();
-                    mManager.setSelectedTower(null);
+                    mGameManager.setSelectedTower(null);
                 }
                 break;
 
@@ -147,7 +141,7 @@ public class GameView extends View implements Runnable, View.OnDragListener, Vie
                     tower.buy();
                     tower.setPlateau(closestPlateau);
                     tower.setEnabled(true);
-                    mManager.setSelectedTower(null);
+                    mGameManager.setSelectedTower(null);
                 }
                 break;
         }
