@@ -1,7 +1,7 @@
 package ch.logixisland.anuto.game.entity.shot;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.game.GameEngine;
+import ch.logixisland.anuto.game.engine.GameEngine;
 import ch.logixisland.anuto.game.entity.effect.GlueEffect;
 import ch.logixisland.anuto.game.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.game.render.Layers;

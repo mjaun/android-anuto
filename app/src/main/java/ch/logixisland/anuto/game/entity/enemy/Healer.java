@@ -3,11 +3,12 @@ package ch.logixisland.anuto.game.entity.enemy;
 import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.game.GameEngine;
+import ch.logixisland.anuto.game.engine.GameEngine;
+import ch.logixisland.anuto.game.engine.TickListener;
 import ch.logixisland.anuto.game.entity.effect.HealEffect;
 import ch.logixisland.anuto.game.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.game.render.Layers;
-import ch.logixisland.anuto.game.TickTimer;
+import ch.logixisland.anuto.game.engine.TickTimer;
 import ch.logixisland.anuto.game.render.sprite.ReplicatedSprite;
 import ch.logixisland.anuto.game.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.game.render.sprite.SpriteTemplate;
@@ -20,7 +21,7 @@ public class Healer extends Enemy {
     private final static float HEAL_SCALE_FACTOR = 2f;
     private final static float HEAL_ROTATION = 2.5f;
 
-    private class StaticData implements Runnable {
+    private class StaticData implements TickListener {
         float mHealDuration;
         float mHealInterval;
 
@@ -36,7 +37,7 @@ public class Healer extends Enemy {
         AnimatedSprite mReferenceSprite;
 
         @Override
-        public void run() {
+        public void tick() {
             mReferenceSprite.tick();
 
             if (mHealTimer.tick()) {

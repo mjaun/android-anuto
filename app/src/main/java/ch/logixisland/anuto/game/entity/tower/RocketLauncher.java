@@ -5,7 +5,7 @@ import android.graphics.Canvas;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.entity.shot.Rocket;
 import ch.logixisland.anuto.game.render.Layers;
-import ch.logixisland.anuto.game.TickTimer;
+import ch.logixisland.anuto.game.engine.TickTimer;
 import ch.logixisland.anuto.game.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.game.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.game.render.sprite.StaticSprite;

@@ -1,6 +1,7 @@
 package ch.logixisland.anuto.game.entity.enemy;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.game.engine.TickListener;
 import ch.logixisland.anuto.game.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.render.sprite.ReplicatedSprite;
@@ -10,12 +11,12 @@ public class Blob extends Enemy {
 
     private final static float ANIMATION_SPEED = 1.5f;
 
-    private class StaticData implements Runnable {
+    private class StaticData implements TickListener {
         SpriteTemplate mSpriteTemplate;
         AnimatedSprite mReferenceSprite;
 
         @Override
-        public void run() {
+        public void tick() {
             mReferenceSprite.tick();
         }
     }

@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.game;
+package ch.logixisland.anuto.game.engine;
 
 public class TickTimer {
 
@@ -8,28 +8,15 @@ public class TickTimer {
         return ret;
     }
 
-    public static TickTimer createFrequency(float frequency) {
-        TickTimer ret = new TickTimer();
-        ret.setFrequency(frequency);
-        return ret;
-    }
-
     private float mReloadValue = 0f;
     private float mValue = 0f;
-
-    public TickTimer() {
-    }
 
     public void setInterval(float interval) {
         mValue = mReloadValue = GameEngine.TARGET_FRAME_RATE * interval;
     }
 
-    public void setFrequency(float frequency) {
-        setInterval(1f / frequency);
-    }
-
-    public void addDelay(float delay) {
-        mValue += GameEngine.TARGET_FRAME_RATE * delay;
+    public void reset() {
+        mValue = mReloadValue;
     }
 
     public boolean tick() {
@@ -43,7 +30,4 @@ public class TickTimer {
         }
     }
 
-    public void reset() {
-        mValue = mReloadValue;
-    }
 }

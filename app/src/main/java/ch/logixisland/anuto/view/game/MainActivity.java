@@ -8,7 +8,7 @@ import java.io.InputStream;
 
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.game.GameEngine;
+import ch.logixisland.anuto.game.engine.GameEngine;
 import ch.logixisland.anuto.game.GameFactory;
 import ch.logixisland.anuto.game.business.GameManager;
 import ch.logixisland.anuto.game.data.Level;

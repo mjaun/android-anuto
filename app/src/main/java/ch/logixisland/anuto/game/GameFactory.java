@@ -3,6 +3,7 @@ package ch.logixisland.anuto.game;
 import android.content.Context;
 
 import ch.logixisland.anuto.game.business.GameManager;
+import ch.logixisland.anuto.game.engine.GameEngine;
 import ch.logixisland.anuto.game.render.Renderer;
 import ch.logixisland.anuto.game.render.sprite.SpriteFactory;
 import ch.logixisland.anuto.game.render.Viewport;

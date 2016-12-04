@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.AnutoApplication;
-import ch.logixisland.anuto.game.GameEngine;
+import ch.logixisland.anuto.game.engine.GameEngine;
+import ch.logixisland.anuto.game.engine.TickListener;
 import ch.logixisland.anuto.game.business.GameManager;
 import ch.logixisland.anuto.game.render.sprite.SpriteFactory;
 import ch.logixisland.anuto.game.render.sprite.SpriteInstance;
@@ -17,7 +18,7 @@ import ch.logixisland.anuto.util.iterator.Function;
 import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
-public abstract class Entity implements SpriteListener {
+public abstract class Entity implements SpriteListener, TickListener {
 
     /*
     ------ Listener Interface ------
@@ -131,7 +132,7 @@ public abstract class Entity implements SpriteListener {
         }
     }
 
-
+    @Override
     public void tick() {
 
     }

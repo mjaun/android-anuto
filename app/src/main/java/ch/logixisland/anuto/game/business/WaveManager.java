@@ -3,8 +3,7 @@ package ch.logixisland.anuto.game.business;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.game.GameEngine;
-import ch.logixisland.anuto.game.TickTimer;
+import ch.logixisland.anuto.game.engine.GameEngine;
 import ch.logixisland.anuto.game.data.EnemyDescriptor;
 import ch.logixisland.anuto.game.data.Wave;
 import ch.logixisland.anuto.game.entity.Entity;
@@ -120,7 +119,7 @@ public class WaveManager {
     }
 
     public void start() {
-        mGameEngine.add(new Runnable() {
+        mGameEngine.post(new Runnable() {
             @Override
             public void run() {
                 int delay = 0;
@@ -151,37 +150,28 @@ public class WaveManager {
                             delay += (int)d.getDelay();
                         }
 
-                        final int thisDelay = delay;
                         mEarlyBonus += e.getReward();
 
-                        mGameEngine.add(new Runnable() {
-                            TickTimer mTimer = TickTimer.createInterval(thisDelay);
-
+                        mGameEngine.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                if (mTimer.tick()) {
-                                    mGameEngine.add(e);
-                                    mGameEngine.remove(this);
-                                }
+                                mGameEngine.add(e);
                             }
-                        });
+                        }, delay);
                     }
                 }
 
                 onStarted();
-                mGameEngine.remove(this);
             }
         });
     }
 
     public void abort() {
-        mGameEngine.add(new Runnable() {
+        mGameEngine.post(new Runnable() {
             @Override
             public void run() {
                 mAborted = true;
                 onAborted();
-
-                mGameEngine.remove(this);
             }
         });
     }
@@ -191,12 +181,11 @@ public class WaveManager {
     }
 
     public void giveReward() {
-        mGameEngine.add(new Runnable() {
+        mGameEngine.post(new Runnable() {
             @Override
             public void run() {
                 mGameManager.giveCredits(mWaveReward, true);
                 mWaveReward = 0;
-                mGameEngine.remove(this);
             }
         });
     }

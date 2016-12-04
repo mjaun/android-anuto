@@ -1,61 +1,42 @@
-package ch.logixisland.anuto.game;
+package ch.logixisland.anuto.game.engine;
 
-import android.graphics.Canvas;
 import android.util.Log;
-import android.view.View;
 
-import java.lang.ref.WeakReference;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.render.Renderer;
-import ch.logixisland.anuto.game.render.Viewport;
-import ch.logixisland.anuto.game.render.theme.ThemeManager;
 import ch.logixisland.anuto.util.container.SmartIteratorCollection;
 import ch.logixisland.anuto.util.container.SparseCollectionArray;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
 public class GameEngine implements Runnable {
 
-    /*
-    ------ Constants ------
-     */
-
     public final static int TARGET_FRAME_RATE = 30;
-    private final static int TARGET_FRAME_PERIOD_MS = 1000 / TARGET_FRAME_RATE;
-    private final static int TICKS_100MS = Math.round(TARGET_FRAME_RATE * 0.1f);
-
     private final static String TAG = GameEngine.class.getSimpleName();
-
-    /*
-    ------ Members ------
-     */
 
     private final Renderer mRenderer;
 
     private final SparseCollectionArray<Entity> mEntities = new SparseCollectionArray<>();
-    private final HashMap<Class<? extends Entity>, Object> mStaticData = new HashMap<>();
-    private final SmartIteratorCollection<Runnable> mRunnables = new SmartIteratorCollection<>();
+    private final Map<Class<? extends Entity>, Object> mStaticData = new HashMap<>();
+    private final Collection<TickListener> mTickListeners = new SmartIteratorCollection<>();
+    private final BlockingQueue<Runnable> mMessages = new ArrayBlockingQueue<>(100);
 
     private Thread mGameThread;
     private volatile boolean mRunning = false;
     private long mTickCount = 0;
 
-    /*
-    ------ Constructors ------
-     */
-
-    GameEngine(Renderer renderer) {
+    public GameEngine(Renderer renderer) {
         mRenderer = renderer;
     }
 
-    /*
-    ------ Methods ------
-     */
-
     public boolean tick100ms(Object caller) {
-        return (mTickCount + System.identityHashCode(caller)) % TICKS_100MS == 0;
+        return (mTickCount + System.identityHashCode(caller)) % (TARGET_FRAME_RATE / 10) == 0;
     }
 
     public Object getStaticData(Entity obj) {
@@ -72,37 +53,49 @@ public class GameEngine implements Runnable {
         }
     }
 
-    public void add(Entity obj) {
+    public void add(Entity entity) {
         synchronized (mEntities) {
-            mEntities.add(obj.getType(), obj);
-            obj.init();
+            mEntities.add(entity.getType(), entity);
+            entity.init();
         }
     }
 
-    public void add(Drawable obj) {
-        mRenderer.add(obj);
+    public void add(Drawable drawable) {
+        mRenderer.add(drawable);
     }
 
-    public void remove(Entity obj) {
+    public void add(TickListener listener) {
         synchronized (mEntities) {
-            mEntities.remove(obj.getType(), obj);
-            obj.clean();
+            mTickListeners.add(listener);
         }
     }
 
-    public void remove(Drawable obj) {
-        mRenderer.remove(obj);
-    }
-
-    public void add(Runnable r) {
-        synchronized (mEntities) {
-            mRunnables.add(r);
+    public void post(Runnable message) {
+        try {
+            mMessages.put(message);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
-    public void remove(Runnable r) {
+    public void postDelayed(Runnable message, float delay) {
+        post(new DelayedMessage(this, message, delay));
+    }
+
+    public void remove(Entity entity) {
         synchronized (mEntities) {
-            mRunnables.remove(r);
+            mEntities.remove(entity.getType(), entity);
+            entity.clean();
+        }
+    }
+
+    public void remove(Drawable drawable) {
+        mRenderer.remove(drawable);
+    }
+
+    public void remove(TickListener listener) {
+        synchronized (mEntities) {
+            mTickListeners.remove(listener);
         }
     }
 
@@ -113,15 +106,12 @@ public class GameEngine implements Runnable {
                 obj.clean();
             }
 
-            mRunnables.clear();
+            mMessages.clear();
+            mTickListeners.clear();
             mStaticData.clear();
             mRenderer.clear();
         }
     }
-
-    /*
-    ------ GameEngine Loop ------
-     */
 
     public void start() {
         if (!mRunning) {
@@ -155,13 +145,18 @@ public class GameEngine implements Runnable {
                 long timeTickBegin = System.currentTimeMillis();
 
                 synchronized (mEntities) {
-                    for (Runnable r : mRunnables) {
-                        r.run();
+                    for (TickListener listener : mTickListeners) {
+                        listener.tick();
                     }
 
-                    for (Entity obj : mEntities) {
-                        obj.tick();
+                    for (Entity entity : mEntities) {
+                        entity.tick();
                     }
+                }
+
+                while (!mMessages.isEmpty()) {
+                    Runnable message = mMessages.remove();
+                    message.run();
                 }
 
                 mRenderer.render();
@@ -169,7 +164,7 @@ public class GameEngine implements Runnable {
 
                 long timeTickFinished = System.currentTimeMillis();
 
-                int sleepTime = TARGET_FRAME_PERIOD_MS - (int)(timeTickFinished - timeTickBegin);
+                int sleepTime = 1000 / TARGET_FRAME_RATE - (int)(timeTickFinished - timeTickBegin);
 
                 if (sleepTime > 0) {
                     Thread.sleep(sleepTime);

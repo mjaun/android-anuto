@@ -1,6 +1,6 @@
 package ch.logixisland.anuto.game.entity.effect;
 
-import ch.logixisland.anuto.game.TickTimer;
+import ch.logixisland.anuto.game.engine.TickTimer;
 import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.entity.Types;
 

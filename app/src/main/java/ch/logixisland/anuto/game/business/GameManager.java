@@ -6,8 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.game.GameEngine;
-import ch.logixisland.anuto.game.TickTimer;
+import ch.logixisland.anuto.game.engine.GameEngine;
 import ch.logixisland.anuto.game.data.EnemyDescriptor;
 import ch.logixisland.anuto.game.data.Level;
 import ch.logixisland.anuto.game.data.PlateauDescriptor;
@@ -116,21 +115,15 @@ public class GameManager {
             mActiveWaves.add(m);
             calcEarlyBonus();
 
-            mGameEngine.add(new Runnable() {
-                private final TickTimer mTimer = TickTimer.createInterval(m.getWave().getNextWaveDelay());
-
+            mGameEngine.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if (mTimer.tick()) {
-                        if (getCurrentWaveManager() == m && !mNextWaveReady && hasNextWave()) {
-                            onNextWaveReady();
-                            mNextWaveReady = true;
-                        }
-
-                        mGameEngine.remove(this);
+                    if (getCurrentWaveManager() == m && !mNextWaveReady && hasNextWave()) {
+                        onNextWaveReady();
+                        mNextWaveReady = true;
                     }
                 }
-            });
+            }, m.getWave().getNextWaveDelay());
 
             onWaveStarted(m.getWave());
         }

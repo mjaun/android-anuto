@@ -3,7 +3,8 @@ package ch.logixisland.anuto.game.entity.enemy;
 import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.game.GameEngine;
+import ch.logixisland.anuto.game.engine.GameEngine;
+import ch.logixisland.anuto.game.engine.TickListener;
 import ch.logixisland.anuto.game.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.render.sprite.ReplicatedSprite;
@@ -16,14 +17,14 @@ public class Sprinter extends Enemy {
 
     private final static float ANIMATION_SPEED = 0.7f;
 
-    private class StaticData implements Runnable {
+    private class StaticData implements TickListener {
         SampledFunction mSpeedFunction;
 
         SpriteTemplate mSpriteTemplate;
         AnimatedSprite mReferenceSprite;
 
         @Override
-        public void run() {
+        public void tick() {
             mReferenceSprite.tick();
             mSpeedFunction.step();
         }

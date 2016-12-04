@@ -12,7 +12,7 @@ import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.entity.plateau.Plateau;
 import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.render.Layers;
-import ch.logixisland.anuto.game.TickTimer;
+import ch.logixisland.anuto.game.engine.TickTimer;
 import ch.logixisland.anuto.game.entity.Types;
 import ch.logixisland.anuto.game.data.Path;
 import ch.logixisland.anuto.game.data.TowerConfig;

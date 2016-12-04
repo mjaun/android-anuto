@@ -3,7 +3,7 @@ package ch.logixisland.anuto.game.entity.tower;
 import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.game.GameEngine;
+import ch.logixisland.anuto.game.engine.GameEngine;
 import ch.logixisland.anuto.game.entity.shot.CanonShot;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.entity.shot.Shot;

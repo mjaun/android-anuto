@@ -1,6 +1,6 @@
 package ch.logixisland.anuto.game.render.sprite;
 
-import ch.logixisland.anuto.game.TickTimer;
+import ch.logixisland.anuto.game.engine.TickTimer;
 
 public class AnimatedSprite extends SpriteInstance {
 
@@ -23,7 +23,7 @@ public class AnimatedSprite extends SpriteInstance {
     }
 
     public void setFrequency(float frequency) {
-        mTimer.setFrequency(frequency * mSequence.length);
+        mTimer.setInterval(1f / frequency);
     }
 
     public void setInterval(float interval) {
