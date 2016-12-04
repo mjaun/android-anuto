@@ -14,16 +14,18 @@ import ch.logixisland.anuto.game.business.GameManager;
 import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.entity.plateau.Plateau;
 import ch.logixisland.anuto.game.entity.tower.Tower;
+import ch.logixisland.anuto.game.render.Renderer;
 import ch.logixisland.anuto.game.render.Viewport;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
-public class GameView extends View implements Runnable, View.OnDragListener, View.OnTouchListener {
+public class GameView extends View implements View.OnDragListener, View.OnTouchListener {
 
     /*
     ------ Members ------
      */
 
     private final Viewport mViewport;
+    private final Renderer mRenderer;
     private final GameEngine mGameEngine;
     private final GameManager mGameManager;
 
@@ -36,6 +38,7 @@ public class GameView extends View implements Runnable, View.OnDragListener, Vie
 
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
         mViewport = factory.getViewport();
+        mRenderer = factory.getRenderer();
         mGameEngine = factory.getGameEngine();
         mGameManager = factory.getGameManager();
 
@@ -50,11 +53,11 @@ public class GameView extends View implements Runnable, View.OnDragListener, Vie
 
     public void start() {
         mViewport.setScreenSize(getWidth(), getHeight());
-        mGameEngine.setView(this);
+        mRenderer.setView(this);
     }
 
     public void stop() {
-        mGameEngine.remove(this);
+
     }
 
     @Override
@@ -66,18 +69,11 @@ public class GameView extends View implements Runnable, View.OnDragListener, Vie
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
-        if (mGameEngine != null) {
-            mGameEngine.draw(canvas);
-        }
+        mRenderer.draw(canvas);
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if (mGameEngine == null) {
-            return false;
-        }
-
         if (event.getAction() == MotionEvent.ACTION_DOWN && !mGameManager.isGameOver()) {
             Vector2 pos = mViewport.screenToGame(new Vector2(event.getX(), event.getY()));
 
@@ -103,10 +99,6 @@ public class GameView extends View implements Runnable, View.OnDragListener, Vie
 
     @Override
     public boolean onDrag(View v, DragEvent event) {
-        if (mGameEngine == null) {
-            return false;
-        }
-
         Tower tower = (Tower)event.getLocalState();
         Vector2 pos = mViewport.screenToGame(new Vector2(event.getX(), event.getY()));
 
@@ -149,8 +141,4 @@ public class GameView extends View implements Runnable, View.OnDragListener, Vie
         return true;
     }
 
-    @Override
-    public void run() {
-        postInvalidate();
-    }
 }
