@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.game.render;
+package ch.logixisland.anuto.game.render.sprite;
 
 import ch.logixisland.anuto.game.TickTimer;
 

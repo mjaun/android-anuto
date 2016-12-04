@@ -6,9 +6,9 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.entity.shot.Rocket;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.TickTimer;
-import ch.logixisland.anuto.game.render.SpriteInstance;
-import ch.logixisland.anuto.game.render.SpriteTemplate;
-import ch.logixisland.anuto.game.render.StaticSprite;
+import ch.logixisland.anuto.game.render.sprite.SpriteInstance;
+import ch.logixisland.anuto.game.render.sprite.SpriteTemplate;
+import ch.logixisland.anuto.game.render.sprite.StaticSprite;
 import ch.logixisland.anuto.util.RandomUtils;
 
 public class RocketLauncher extends AimingTower {

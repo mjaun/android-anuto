@@ -17,9 +17,9 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameFactory;
 import ch.logixisland.anuto.game.business.GameManager;
 import ch.logixisland.anuto.game.data.Wave;
-import ch.logixisland.anuto.game.theme.ThemeManager;
+import ch.logixisland.anuto.game.render.theme.ThemeManager;
 import ch.logixisland.anuto.util.StringUtils;
-import ch.logixisland.anuto.game.theme.Theme;
+import ch.logixisland.anuto.game.render.theme.Theme;
 
 public class StatusFragment extends Fragment implements GameManager.OnWaveStartedListener,
         GameManager.OnCreditsChangedListener, GameManager.OnLivesChangedListener,

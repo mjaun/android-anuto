@@ -12,7 +12,7 @@ import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.GameFactory;
 import ch.logixisland.anuto.game.business.GameManager;
 import ch.logixisland.anuto.game.data.Level;
-import ch.logixisland.anuto.game.theme.ThemeManager;
+import ch.logixisland.anuto.game.render.theme.ThemeManager;
 import ch.logixisland.anuto.view.menu.LevelSelectFragment;
 
 public class MainActivity extends Activity {

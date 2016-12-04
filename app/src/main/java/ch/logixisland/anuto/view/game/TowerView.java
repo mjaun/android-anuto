@@ -17,7 +17,7 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameFactory;
 import ch.logixisland.anuto.game.business.GameManager;
 import ch.logixisland.anuto.game.entity.tower.Tower;
-import ch.logixisland.anuto.game.theme.ThemeManager;
+import ch.logixisland.anuto.game.render.theme.ThemeManager;
 
 public class TowerView extends View implements View.OnTouchListener {
 

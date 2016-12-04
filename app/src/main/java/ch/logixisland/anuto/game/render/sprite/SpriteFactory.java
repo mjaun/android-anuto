@@ -1,10 +1,10 @@
-package ch.logixisland.anuto.game.render;
+package ch.logixisland.anuto.game.render.sprite;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import ch.logixisland.anuto.game.theme.ThemeManager;
+import ch.logixisland.anuto.game.render.theme.ThemeManager;
 
 public class SpriteFactory {
 

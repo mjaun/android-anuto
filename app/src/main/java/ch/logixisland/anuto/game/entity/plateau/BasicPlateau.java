@@ -2,8 +2,8 @@ package ch.logixisland.anuto.game.entity.plateau;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.render.Layers;
-import ch.logixisland.anuto.game.render.SpriteTemplate;
-import ch.logixisland.anuto.game.render.StaticSprite;
+import ch.logixisland.anuto.game.render.sprite.SpriteTemplate;
+import ch.logixisland.anuto.game.render.sprite.StaticSprite;
 import ch.logixisland.anuto.util.RandomUtils;
 
 public class BasicPlateau extends Plateau {

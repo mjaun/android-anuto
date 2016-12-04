@@ -14,7 +14,7 @@ import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameFactory;
 import ch.logixisland.anuto.game.business.GameManager;
-import ch.logixisland.anuto.game.theme.ThemeManager;
+import ch.logixisland.anuto.game.render.theme.ThemeManager;
 
 public class GameOverFragment extends Fragment implements GameManager.OnGameStartedListener,
         GameManager.OnGameOverListener {

@@ -1,10 +1,10 @@
 package ch.logixisland.anuto.game.entity.enemy;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.game.render.AnimatedSprite;
+import ch.logixisland.anuto.game.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.game.render.Layers;
-import ch.logixisland.anuto.game.render.ReplicatedSprite;
-import ch.logixisland.anuto.game.render.SpriteTemplate;
+import ch.logixisland.anuto.game.render.sprite.ReplicatedSprite;
+import ch.logixisland.anuto.game.render.sprite.SpriteTemplate;
 
 public class Blob extends Enemy {
 

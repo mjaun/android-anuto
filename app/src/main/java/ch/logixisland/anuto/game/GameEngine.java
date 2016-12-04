@@ -1,7 +1,6 @@
 package ch.logixisland.anuto.game;
 
 import android.graphics.Canvas;
-import android.graphics.Matrix;
 import android.util.Log;
 import android.view.View;
 
@@ -11,11 +10,10 @@ import java.util.HashMap;
 import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.render.Viewport;
-import ch.logixisland.anuto.game.theme.ThemeManager;
+import ch.logixisland.anuto.game.render.theme.ThemeManager;
 import ch.logixisland.anuto.util.container.SmartIteratorCollection;
 import ch.logixisland.anuto.util.container.SparseCollectionArray;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
-import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class GameEngine implements Runnable {
 

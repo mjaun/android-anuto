@@ -3,10 +3,10 @@ package ch.logixisland.anuto.game.entity.shot;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameEngine;
 import ch.logixisland.anuto.game.entity.effect.GlueEffect;
-import ch.logixisland.anuto.game.render.AnimatedSprite;
+import ch.logixisland.anuto.game.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.entity.Entity;
-import ch.logixisland.anuto.game.render.SpriteTemplate;
+import ch.logixisland.anuto.game.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class GlueShot extends Shot {

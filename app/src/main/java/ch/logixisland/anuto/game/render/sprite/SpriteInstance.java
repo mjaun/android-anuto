@@ -1,9 +1,11 @@
-package ch.logixisland.anuto.game.render;
+package ch.logixisland.anuto.game.render.sprite;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+
+import ch.logixisland.anuto.game.render.Drawable;
 
 public abstract class SpriteInstance implements Drawable {
 

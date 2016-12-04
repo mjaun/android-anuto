@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.game.theme;
+package ch.logixisland.anuto.game.render.theme;
 
 public class ThemeManager {
 

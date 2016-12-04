@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.game.theme;
+package ch.logixisland.anuto.game.render.theme;
 
 import android.graphics.Color;
 

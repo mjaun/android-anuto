@@ -9,9 +9,9 @@ import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
 import ch.logixisland.anuto.game.entity.enemy.Flyer;
 import ch.logixisland.anuto.game.render.Layers;
-import ch.logixisland.anuto.game.render.SpriteInstance;
-import ch.logixisland.anuto.game.render.SpriteTemplate;
-import ch.logixisland.anuto.game.render.StaticSprite;
+import ch.logixisland.anuto.game.render.sprite.SpriteInstance;
+import ch.logixisland.anuto.game.render.sprite.SpriteTemplate;
+import ch.logixisland.anuto.game.render.sprite.StaticSprite;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
