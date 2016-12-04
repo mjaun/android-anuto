@@ -148,6 +148,8 @@ public class GameEngine implements Runnable {
 
     @Override
     public void run() {
+        long lastLogTick = 0;
+
         try {
             while (mRunning) {
                 long timeTickBegin = System.currentTimeMillis();
@@ -171,6 +173,9 @@ public class GameEngine implements Runnable {
 
                 if (sleepTime > 0) {
                     Thread.sleep(sleepTime);
+                } else if (sleepTime < 0 && mTickCount - lastLogTick > TARGET_FRAME_RATE) {
+                    Log.d(TAG, "Frame did not finish in time!");
+                    lastLogTick = mTickCount;
                 }
             }
         } catch (Exception e) {
