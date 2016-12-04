@@ -11,7 +11,7 @@ import ch.logixisland.anuto.game.data.EnemyDescriptor;
 import ch.logixisland.anuto.game.data.Level;
 import ch.logixisland.anuto.game.data.PlateauDescriptor;
 import ch.logixisland.anuto.game.data.Settings;
-import ch.logixisland.anuto.game.data.Wave;
+import ch.logixisland.anuto.game.data.WaveDescriptor;
 import ch.logixisland.anuto.game.entity.Types;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
 import ch.logixisland.anuto.game.entity.plateau.Plateau;
@@ -45,15 +45,15 @@ public class GameManager {
     }
 
     public interface OnWaveStartedListener extends Listener {
-        void onWaveStarted(Wave wave);
+        void onWaveStarted(WaveDescriptor waveDescriptor);
     }
 
     public interface OnNextWaveReadyListener extends Listener {
-        void onNextWaveReady(Wave wave);
+        void onNextWaveReady(WaveDescriptor waveDescriptor);
     }
 
     public interface OnWaveDoneListener extends Listener {
-        void onWaveDone(Wave wave);
+        void onWaveDone(WaveDescriptor waveDescriptor);
     }
 
     public interface OnCreditsChangedListener extends Listener {
@@ -123,9 +123,9 @@ public class GameManager {
                         mNextWaveReady = true;
                     }
                 }
-            }, m.getWave().getNextWaveDelay());
+            }, m.getWaveDescriptor().getNextWaveDelay());
 
-            onWaveStarted(m.getWave());
+            onWaveStarted(m.getWaveDescriptor());
         }
 
         @Override
@@ -143,7 +143,7 @@ public class GameManager {
             m.giveReward();
 
             ageTowers();
-            onWaveDone(m.getWave());
+            onWaveDone(m.getWaveDescriptor());
 
             if (!hasNextWave()) {
                 mGameOver = true;
@@ -245,19 +245,19 @@ public class GameManager {
     }
 
     public boolean hasNextWave() {
-        if (getSettings().isEndless() && !mLevel.getWaves().isEmpty()) {
+        if (getSettings().isEndless() && !mLevel.getWaveDescriptors().isEmpty()) {
             return true;
         }
 
-        return mNextWaveIndex < mLevel.getWaves().size();
+        return mNextWaveIndex < mLevel.getWaveDescriptors().size();
     }
 
-    public Wave getCurrentWave() {
+    public WaveDescriptor getCurrentWave() {
         if (!hasCurrentWave()) {
             return null;
         }
 
-        return getCurrentWaveManager().getWave();
+        return getCurrentWaveManager().getWaveDescriptor();
     }
 
     private WaveManager getCurrentWaveManager() {
@@ -268,16 +268,16 @@ public class GameManager {
         return mActiveWaves.get(mActiveWaves.size() - 1);
     }
 
-    public Wave getNextWave() {
+    public WaveDescriptor getNextWave() {
         if (!hasNextWave()) {
             return null;
         }
 
-        return mLevel.getWaves().get(mNextWaveIndex % mLevel.getWaves().size());
+        return mLevel.getWaveDescriptors().get(mNextWaveIndex % mLevel.getWaveDescriptors().size());
     }
 
     public int getWaveIterationCount() {
-        return mNextWaveIndex / mLevel.getWaves().size();
+        return mNextWaveIndex / mLevel.getWaveDescriptors().size();
     }
 
     public void startNextWave() {
@@ -286,14 +286,14 @@ public class GameManager {
             giveCredits(mEarlyBonus, false);
         }
 
-        Wave nextWave = getNextWave();
-        int extend = nextWave.getExtend() * getWaveIterationCount();
+        WaveDescriptor nextWaveDescriptor = getNextWave();
+        int extend = nextWaveDescriptor.getExtend() * getWaveIterationCount();
 
-        if (nextWave.getMaxExtend() > 0 && extend > nextWave.getMaxExtend()) {
-            extend = nextWave.getMaxExtend();
+        if (nextWaveDescriptor.getMaxExtend() > 0 && extend > nextWaveDescriptor.getMaxExtend()) {
+            extend = nextWaveDescriptor.getMaxExtend();
         }
 
-        WaveManager m = new WaveManager(mGameEngine, this, nextWave, extend);
+        WaveManager m = new WaveManager(mGameEngine, this, nextWaveDescriptor, extend);
         m.addListener(mWaveListener);
 
         if (getSettings().isEndless()) {
@@ -453,7 +453,7 @@ public class GameManager {
 
         float waveHealth = 0f;
 
-        for (EnemyDescriptor d : waveMan.getWave().getEnemies()) {
+        for (EnemyDescriptor d : waveMan.getWaveDescriptor().getEnemies()) {
             waveHealth += mLevel.getEnemyConfig(d.getEnemyClass()).getHealth();
         }
 
@@ -476,7 +476,7 @@ public class GameManager {
         }
 
         waveMan.modifyReward(rewardModifier);
-        waveMan.modifyWaveReward((getWaveNumber() / mLevel.getWaves().size()) + 1);
+        waveMan.modifyWaveReward((getWaveNumber() / mLevel.getWaveDescriptors().size()) + 1);
 
         Log.d(TAG, String.format("waveNumber=%d", getWaveNumber()));
         Log.d(TAG, String.format("damagePossible=%f\n", damagePossible));
@@ -531,11 +531,11 @@ public class GameManager {
         }
     }
 
-    public void onWaveStarted(Wave wave) {
+    public void onWaveStarted(WaveDescriptor waveDescriptor) {
         Log.i(TAG, "Wave started.");
 
         for (OnWaveStartedListener l : mListeners.get(OnWaveStartedListener.class)) {
-            l.onWaveStarted(wave);
+            l.onWaveStarted(waveDescriptor);
         }
     }
 
@@ -547,11 +547,11 @@ public class GameManager {
         }
     }
 
-    public void onWaveDone(Wave wave) {
+    public void onWaveDone(WaveDescriptor waveDescriptor) {
         Log.i(TAG, "Wave done.");
 
         for (OnWaveDoneListener l : mListeners.get(OnWaveDoneListener.class)) {
-            l.onWaveDone(wave);
+            l.onWaveDone(waveDescriptor);
         }
     }
 

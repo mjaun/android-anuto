@@ -16,7 +16,7 @@ import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameFactory;
 import ch.logixisland.anuto.game.business.GameManager;
-import ch.logixisland.anuto.game.data.Wave;
+import ch.logixisland.anuto.game.data.WaveDescriptor;
 import ch.logixisland.anuto.game.render.theme.ThemeManager;
 import ch.logixisland.anuto.util.StringUtils;
 import ch.logixisland.anuto.game.render.theme.Theme;
@@ -120,7 +120,7 @@ public class StatusFragment extends Fragment implements GameManager.OnWaveStarte
     }
 
     @Override
-    public void onWaveStarted(Wave wave) {
+    public void onWaveStarted(WaveDescriptor waveDescriptor) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -131,7 +131,7 @@ public class StatusFragment extends Fragment implements GameManager.OnWaveStarte
     }
 
     @Override
-    public void onNextWaveReady(Wave wave) {
+    public void onNextWaveReady(WaveDescriptor waveDescriptor) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {

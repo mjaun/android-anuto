@@ -43,9 +43,9 @@ public class Level {
     @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
     private List<Path> paths = new ArrayList<>();
 
-    @ElementList(name="waves")
+    @ElementList(name="waves", entry="wave")
     @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
-    private List<Wave> waves = new ArrayList<>();
+    private List<WaveDescriptor> mWaveDescriptors = new ArrayList<>();
 
     /*
     ------ Methods ------
@@ -69,8 +69,8 @@ public class Level {
         return Collections.unmodifiableList(paths);
     }
 
-    public List<Wave> getWaves() {
-        return Collections.unmodifiableList(waves);
+    public List<WaveDescriptor> getWaveDescriptors() {
+        return Collections.unmodifiableList(mWaveDescriptors);
     }
 
     public TowerConfig getTowerConfig(Tower t) {

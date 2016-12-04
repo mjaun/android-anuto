@@ -5,7 +5,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.game.engine.GameEngine;
 import ch.logixisland.anuto.game.data.EnemyDescriptor;
-import ch.logixisland.anuto.game.data.Wave;
+import ch.logixisland.anuto.game.data.WaveDescriptor;
 import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.math.MathUtils;
@@ -31,7 +31,7 @@ public class WaveManager {
     private final GameEngine mGameEngine;
     private final GameManager mGameManager;
 
-    private final Wave mWave;
+    private final WaveDescriptor mWaveDescriptor;
     private final int mExtend;
 
     private boolean mAborted;
@@ -71,23 +71,23 @@ public class WaveManager {
     ------ Constructors ------
      */
 
-    public WaveManager(GameEngine gameEngine, GameManager gameManager, Wave wave, int extend) {
+    public WaveManager(GameEngine gameEngine, GameManager gameManager, WaveDescriptor waveDescriptor, int extend) {
         mGameEngine = gameEngine;
         mGameManager = gameManager;
-        mWave = wave;
+        mWaveDescriptor = waveDescriptor;
         mExtend = extend;
 
-        mWaveReward = mWave.getWaveReward();
-        mHealthModifier = mWave.getHealthModifier();
-        mRewardModifier = mWave.getRewardModifier();
+        mWaveReward = mWaveDescriptor.getWaveReward();
+        mHealthModifier = mWaveDescriptor.getHealthModifier();
+        mRewardModifier = mWaveDescriptor.getRewardModifier();
     }
 
     /*
     ------ Methods ------
      */
 
-    public Wave getWave() {
-        return mWave;
+    public WaveDescriptor getWaveDescriptor() {
+        return mWaveDescriptor;
     }
 
     public int getEarlyBonus() {
@@ -127,10 +127,10 @@ public class WaveManager {
                 float offsetY = 0f;
 
                 mAborted = false;
-                mEnemiesRemaining = mWave.getEnemies().size() * (mExtend + 1);
+                mEnemiesRemaining = mWaveDescriptor.getEnemies().size() * (mExtend + 1);
 
                 for (int i = 0; i < mExtend + 1; i++) {
-                    for (EnemyDescriptor d : mWave.getEnemies()) {
+                    for (EnemyDescriptor d : mWaveDescriptor.getEnemies()) {
                         if (MathUtils.equals(d.getDelay(), 0f, 0.1f)) {
                             offsetX += d.getOffsetX();
                             offsetY += d.getOffsetY();
@@ -146,7 +146,7 @@ public class WaveManager {
                         e.setPath(mGameManager.getLevel().getPaths().get(d.getPathIndex()));
                         e.move(offsetX, offsetY);
 
-                        if (i > 0 || mWave.getEnemies().indexOf(d) > 0) {
+                        if (i > 0 || mWaveDescriptor.getEnemies().indexOf(d) > 0) {
                             delay += (int)d.getDelay();
                         }
 
