@@ -10,7 +10,7 @@ import ch.logixisland.anuto.game.entity.shot.Shot;
 import ch.logixisland.anuto.game.render.SpriteInstance;
 import ch.logixisland.anuto.game.render.SpriteTemplate;
 import ch.logixisland.anuto.game.render.StaticSprite;
-import ch.logixisland.anuto.util.Random;
+import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class CanonMG extends AimingTower {
@@ -32,7 +32,7 @@ public class CanonMG extends AimingTower {
 
         mSpriteBase = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplateBase);
         mSpriteBase.setListener(this);
-        mSpriteBase.setIndex(Random.next(4));
+        mSpriteBase.setIndex(RandomUtils.next(4));
 
         mSpriteCanon = getSpriteFactory().createAnimated(Layers.TOWER, s.mSpriteTemplateCanon);
         mSpriteCanon.setListener(this);

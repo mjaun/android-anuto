@@ -1,10 +1,10 @@
 package ch.logixisland.anuto.util;
 
-public final class Random {
+public final class RandomUtils {
 
     private static final java.util.Random sRandom = new java.util.Random();
 
-    private Random() {
+    private RandomUtils() {
     }
 
     public static int next(int max) {

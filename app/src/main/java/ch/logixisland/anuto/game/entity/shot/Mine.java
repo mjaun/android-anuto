@@ -12,7 +12,7 @@ import ch.logixisland.anuto.game.entity.enemy.Enemy;
 import ch.logixisland.anuto.game.render.SpriteInstance;
 import ch.logixisland.anuto.game.render.SpriteTemplate;
 import ch.logixisland.anuto.game.render.StaticSprite;
-import ch.logixisland.anuto.util.Random;
+import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.function.Function;
@@ -54,7 +54,7 @@ public class Mine extends Shot {
         mDamage = damage;
         mRadius = radius;
 
-        mRotationStep = Random.next(ROTATION_RATE_MIN, ROTATION_RATE_MAX) * 360f / GameEngine.TARGET_FRAME_RATE;
+        mRotationStep = RandomUtils.next(ROTATION_RATE_MIN, ROTATION_RATE_MAX) * 360f / GameEngine.TARGET_FRAME_RATE;
 
         StaticData s = (StaticData)getStaticData();
 
@@ -67,7 +67,7 @@ public class Mine extends Shot {
                 .stretch(GameEngine.TARGET_FRAME_RATE * TIME_TO_TARGET / (x1 + x2))
                 .sample();
 
-        int index = Random.next(4);
+        int index = RandomUtils.next(4);
 
         mSpriteFlying = getSpriteFactory().createStatic(Layers.SHOT, s.mSpriteTemplate);
         mSpriteFlying.setListener(this);

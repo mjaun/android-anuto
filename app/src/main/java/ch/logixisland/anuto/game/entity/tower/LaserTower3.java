@@ -8,7 +8,7 @@ import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.render.SpriteInstance;
 import ch.logixisland.anuto.game.render.SpriteTemplate;
 import ch.logixisland.anuto.game.render.StaticSprite;
-import ch.logixisland.anuto.util.Random;
+import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class LaserTower3 extends AimingTower {
@@ -32,11 +32,11 @@ public class LaserTower3 extends AimingTower {
         StaticData s = (StaticData)getStaticData();
 
         mSpriteBase = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplateBase);
-        mSpriteBase.setIndex(Random.next(4));
+        mSpriteBase.setIndex(RandomUtils.next(4));
         mSpriteBase.setListener(this);
 
         mSpriteCanon = getSpriteFactory().createStatic(Layers.TOWER, s.mSpriteTemplateCanon);
-        mSpriteCanon.setIndex(Random.next(4));
+        mSpriteCanon.setIndex(RandomUtils.next(4));
         mSpriteCanon.setListener(this);
     }
 

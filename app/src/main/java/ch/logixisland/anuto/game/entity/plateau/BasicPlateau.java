@@ -4,7 +4,7 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.render.SpriteTemplate;
 import ch.logixisland.anuto.game.render.StaticSprite;
-import ch.logixisland.anuto.util.Random;
+import ch.logixisland.anuto.util.RandomUtils;
 
 public class BasicPlateau extends Plateau {
 
@@ -18,7 +18,7 @@ public class BasicPlateau extends Plateau {
         StaticData s = (StaticData)getStaticData();
 
         mSprite = getSpriteFactory().createStatic(Layers.PLATEAU, s.mSpriteTemplate);
-        mSprite.setIndex(Random.next(4));
+        mSprite.setIndex(RandomUtils.next(4));
         mSprite.setListener(this);
     }
 

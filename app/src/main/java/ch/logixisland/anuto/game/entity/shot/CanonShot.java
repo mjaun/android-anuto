@@ -10,7 +10,7 @@ import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.render.SpriteInstance;
 import ch.logixisland.anuto.game.render.SpriteTemplate;
 import ch.logixisland.anuto.game.render.StaticSprite;
-import ch.logixisland.anuto.util.Random;
+import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class CanonShot extends HomingShot {
@@ -40,7 +40,7 @@ public class CanonShot extends HomingShot {
 
         mSprite = getSpriteFactory().createStatic(Layers.SHOT, s.mSpriteTemplate);
         mSprite.setListener(this);
-        mSprite.setIndex(Random.next(4));
+        mSprite.setIndex(RandomUtils.next(4));
     }
 
     @Override

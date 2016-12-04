@@ -12,7 +12,7 @@ import ch.logixisland.anuto.game.render.SpriteInstance;
 import ch.logixisland.anuto.game.render.SpriteListener;
 import ch.logixisland.anuto.game.render.SpriteTemplate;
 import ch.logixisland.anuto.game.render.StaticSprite;
-import ch.logixisland.anuto.util.Random;
+import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.vector.Vector2;
@@ -58,11 +58,11 @@ public class GlueTower extends Tower {
 
         mSpriteBase = getSpriteFactory().createStatic(Layers.TOWER, s.mSpriteTemplateBase);
         mSpriteBase.setListener(this);
-        mSpriteBase.setIndex(Random.next(4));
+        mSpriteBase.setIndex(RandomUtils.next(4));
 
         mSpriteTower = getSpriteFactory().createStatic(Layers.TOWER_UPPER, s.mSpriteTemplateTower);
         mSpriteTower.setListener(this);
-        mSpriteTower.setIndex(Random.next(6));
+        mSpriteTower.setIndex(RandomUtils.next(6));
 
         for (int i = 0; i < mCanons.length; i++) {
             SubCanon c = new SubCanon();

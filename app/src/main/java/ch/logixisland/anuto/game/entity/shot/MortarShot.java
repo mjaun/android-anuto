@@ -10,7 +10,7 @@ import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.render.SpriteInstance;
 import ch.logixisland.anuto.game.render.SpriteTemplate;
 import ch.logixisland.anuto.game.render.StaticSprite;
-import ch.logixisland.anuto.util.Random;
+import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.math.function.Function;
 import ch.logixisland.anuto.util.math.function.SampledFunction;
 import ch.logixisland.anuto.util.math.vector.Vector2;
@@ -41,7 +41,7 @@ public class MortarShot extends Shot {
 
         mDamage = damage;
         mRadius = radius;
-        mAngle = Random.next(360f);
+        mAngle = RandomUtils.next(360f);
 
         StaticData s = (StaticData)getStaticData();
 
@@ -56,7 +56,7 @@ public class MortarShot extends Shot {
 
         mSprite = getSpriteFactory().createStatic(Layers.SHOT, s.mSpriteTemplate);
         mSprite.setListener(this);
-        mSprite.setIndex(Random.next(4));
+        mSprite.setIndex(RandomUtils.next(4));
     }
 
     @Override

@@ -11,7 +11,7 @@ import ch.logixisland.anuto.game.entity.enemy.Enemy;
 import ch.logixisland.anuto.game.render.SpriteInstance;
 import ch.logixisland.anuto.game.render.SpriteTemplate;
 import ch.logixisland.anuto.game.render.StaticSprite;
-import ch.logixisland.anuto.util.Random;
+import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class Rocket extends HomingShot {
@@ -44,7 +44,7 @@ public class Rocket extends HomingShot {
 
         mSprite = getSpriteFactory().createStatic(Layers.SHOT, s.mSpriteTemplate);
         mSprite.setListener(this);
-        mSprite.setIndex(Random.next(4));
+        mSprite.setIndex(RandomUtils.next(4));
 
         mSpriteFire = getSpriteFactory().createAnimated(Layers.SHOT, s.mSpriteTemplateFire);
         mSpriteFire.setListener(this);

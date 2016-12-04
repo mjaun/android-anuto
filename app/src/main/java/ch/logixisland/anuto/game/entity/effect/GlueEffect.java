@@ -12,7 +12,7 @@ import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.render.SpriteInstance;
 import ch.logixisland.anuto.game.render.SpriteTemplate;
 import ch.logixisland.anuto.game.render.StaticSprite;
-import ch.logixisland.anuto.util.Random;
+import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class GlueEffect extends AreaEffect {
@@ -35,14 +35,14 @@ public class GlueEffect extends AreaEffect {
         setPosition(position);
 
         mSpeedModifier = speedModifier;
-        mAngle = Random.next(360f);
+        mAngle = RandomUtils.next(360f);
         mAlphaStep = (int)(ALPHA_START / (GameEngine.TARGET_FRAME_RATE * duration));
 
         StaticData s = (StaticData)getStaticData();
 
         mSprite = getSpriteFactory().createStatic(Layers.BOTTOM, s.mSpriteTemplate);
         mSprite.setListener(this);
-        mSprite.setIndex(Random.next(4));
+        mSprite.setIndex(RandomUtils.next(4));
 
         mPaint = new Paint();
         mPaint.setAlpha(ALPHA_START);
