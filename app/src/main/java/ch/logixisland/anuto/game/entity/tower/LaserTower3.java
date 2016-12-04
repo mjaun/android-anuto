@@ -27,7 +27,7 @@ public class LaserTower3 extends AimingTower {
     private StaticSprite mSpriteCanon;
 
     public LaserTower3() {
-        mLaserLength = getGameEngine().getGameSize().len() + 1f;
+        mLaserLength = getViewport().getGameSize().len() + 1f;
 
         StaticData s = (StaticData)getStaticData();
 

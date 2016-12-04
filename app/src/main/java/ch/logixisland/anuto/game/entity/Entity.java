@@ -11,6 +11,7 @@ import ch.logixisland.anuto.game.business.GameManager;
 import ch.logixisland.anuto.game.render.SpriteFactory;
 import ch.logixisland.anuto.game.render.SpriteInstance;
 import ch.logixisland.anuto.game.render.SpriteListener;
+import ch.logixisland.anuto.game.render.Viewport;
 import ch.logixisland.anuto.game.theme.ThemeManager;
 import ch.logixisland.anuto.util.iterator.Function;
 import ch.logixisland.anuto.util.iterator.Predicate;
@@ -168,6 +169,10 @@ public abstract class Entity implements SpriteListener {
 
     protected ThemeManager getThemeManager() {
         return AnutoApplication.getInstance().getGameFactory().getThemeManager();
+    }
+
+    protected Viewport getViewport() {
+        return AnutoApplication.getInstance().getGameFactory().getViewport();
     }
 
     public boolean isInGame() {

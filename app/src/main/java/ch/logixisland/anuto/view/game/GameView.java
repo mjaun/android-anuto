@@ -14,6 +14,7 @@ import ch.logixisland.anuto.game.business.GameManager;
 import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.entity.plateau.Plateau;
 import ch.logixisland.anuto.game.entity.tower.Tower;
+import ch.logixisland.anuto.game.render.Viewport;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class GameView extends View implements Runnable, View.OnDragListener, View.OnTouchListener {
@@ -22,6 +23,7 @@ public class GameView extends View implements Runnable, View.OnDragListener, Vie
     ------ Members ------
      */
 
+    private final Viewport mViewport;
     private final GameEngine mGameEngine;
     private final GameManager mGameManager;
 
@@ -33,6 +35,7 @@ public class GameView extends View implements Runnable, View.OnDragListener, Vie
         super(context, attrs);
 
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
+        mViewport = factory.getViewport();
         mGameEngine = factory.getGameEngine();
         mGameManager = factory.getGameManager();
 
@@ -46,7 +49,7 @@ public class GameView extends View implements Runnable, View.OnDragListener, Vie
     */
 
     public void start() {
-        mGameEngine.setScreenSize(getWidth(), getHeight());
+        mViewport.setScreenSize(getWidth(), getHeight());
         mGameEngine.setView(this);
     }
 
@@ -57,10 +60,7 @@ public class GameView extends View implements Runnable, View.OnDragListener, Vie
     @Override
     public void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-
-        if (mGameEngine != null) {
-            mGameEngine.setScreenSize(w, h);
-        }
+        mViewport.setScreenSize(w, h);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class GameView extends View implements Runnable, View.OnDragListener, Vie
         }
 
         if (event.getAction() == MotionEvent.ACTION_DOWN && !mGameManager.isGameOver()) {
-            Vector2 pos = mGameEngine.screenToGame(new Vector2(event.getX(), event.getY()));
+            Vector2 pos = mViewport.screenToGame(new Vector2(event.getX(), event.getY()));
 
             Tower closest = (Tower) mGameEngine.get(Tower.TYPE_ID)
                     .min(Entity.distanceTo(pos));
@@ -108,7 +108,7 @@ public class GameView extends View implements Runnable, View.OnDragListener, Vie
         }
 
         Tower tower = (Tower)event.getLocalState();
-        Vector2 pos = mGameEngine.screenToGame(new Vector2(event.getX(), event.getY()));
+        Vector2 pos = mViewport.screenToGame(new Vector2(event.getX(), event.getY()));
 
         Plateau closestPlateau = mGameEngine.get(Plateau.TYPE_ID)
                 .cast(Plateau.class)

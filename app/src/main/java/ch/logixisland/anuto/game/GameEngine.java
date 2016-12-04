@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.render.Drawable;
+import ch.logixisland.anuto.game.render.Viewport;
 import ch.logixisland.anuto.game.theme.ThemeManager;
 import ch.logixisland.anuto.util.container.SmartIteratorCollection;
 import ch.logixisland.anuto.util.container.SparseCollectionArray;
@@ -33,6 +34,13 @@ public class GameEngine implements Runnable {
      */
 
     private final ThemeManager mThemeManager;
+    private final Viewport mViewport;
+
+    private final SparseCollectionArray<Entity> mEntities = new SparseCollectionArray<>();
+    private final SparseCollectionArray<Drawable> mDrawables = new SparseCollectionArray<>();
+    private final HashMap<Class<? extends Entity>, Object> mStaticData = new HashMap<>();
+    private final SmartIteratorCollection<Runnable> mRunnables = new SmartIteratorCollection<>();
+
     private WeakReference<View> mViewRef;
 
     private Thread mGameThread;
@@ -41,22 +49,13 @@ public class GameEngine implements Runnable {
     private int mMaxTickTime;
     private int mMaxRenderTime;
 
-    private final SparseCollectionArray<Entity> mEntities = new SparseCollectionArray<>();
-    private final SparseCollectionArray<Drawable> mDrawables = new SparseCollectionArray<>();
-    private final HashMap<Class<? extends Entity>, Object> mStaticData = new HashMap<>();
-    private final SmartIteratorCollection<Runnable> mRunnables = new SmartIteratorCollection<>();
-
-    private final Vector2 mGameSize = new Vector2(10, 10);
-    private final Vector2 mScreenSize = new Vector2(100, 100);
-    private final Matrix mScreenMatrix = new Matrix();
-    private final Matrix mScreenMatrixInverse = new Matrix();
-
     /*
     ------ Constructors ------
      */
 
-    GameEngine(ThemeManager themeManager) {
+    GameEngine(ThemeManager themeManager, Viewport viewport) {
         mThemeManager = themeManager;
+        mViewport = viewport;
     }
 
     /*
@@ -139,50 +138,6 @@ public class GameEngine implements Runnable {
         }
     }
 
-
-    public Vector2 getGameSize() {
-        return new Vector2(mGameSize);
-    }
-
-    public void setGameSize(int width, int height) {
-        mGameSize.set(width, height);
-        calcScreenMatrix();
-    }
-
-    public void setScreenSize(int width, int height) {
-        mScreenSize.set(width, height);
-        calcScreenMatrix();
-    }
-
-    public Vector2 screenToGame(Vector2 pos) {
-        float[] pts = {pos.x, pos.y};
-        mScreenMatrixInverse.mapPoints(pts);
-        return new Vector2(pts[0], pts[1]);
-    }
-
-    public boolean inGame(Vector2 pos) {
-        return pos.x >= -0.5f && pos.y >= -0.5f &&
-                pos.x < mGameSize.x + 0.5f && pos.y < mGameSize.y + 0.5f;
-    }
-
-
-    private void calcScreenMatrix() {
-        mScreenMatrix.reset();
-
-        float tileSize = Math.min(mScreenSize.x / mGameSize.x, mScreenSize.y / mGameSize.y);
-        mScreenMatrix.postTranslate(0.5f, 0.5f);
-        mScreenMatrix.postScale(tileSize, tileSize);
-
-        float paddingLeft = (mScreenSize.x - (tileSize * mGameSize.x)) / 2f;
-        float paddingTop = (mScreenSize.y - (tileSize * mGameSize.y)) / 2f;
-        mScreenMatrix.postTranslate(paddingLeft, paddingTop);
-
-        mScreenMatrix.postScale(1f, -1f);
-        mScreenMatrix.postTranslate(0, mScreenSize.y);
-
-        mScreenMatrix.invert(mScreenMatrixInverse);
-    }
-
     /*
     ------ GameEngine Loop ------
      */
@@ -252,7 +207,7 @@ public class GameEngine implements Runnable {
 
     public void draw(Canvas canvas) {
         canvas.drawColor(mThemeManager.getTheme().getBackgroundColor());
-        canvas.concat(mScreenMatrix);
+        canvas.concat(mViewport.getScreenMatrix());
 
         synchronized (mDrawables) {
             for (Drawable obj : mDrawables) {

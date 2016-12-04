@@ -17,6 +17,7 @@ import ch.logixisland.anuto.game.entity.Types;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
 import ch.logixisland.anuto.game.entity.plateau.Plateau;
 import ch.logixisland.anuto.game.entity.tower.Tower;
+import ch.logixisland.anuto.game.render.Viewport;
 import ch.logixisland.anuto.util.container.ListenerList;
 import ch.logixisland.anuto.util.math.MathUtils;
 
@@ -85,6 +86,8 @@ public class GameManager {
      */
 
     private final GameEngine mGameEngine;
+    private final Viewport mViewport;
+
     private Level mLevel;
     private Tower mSelectedTower;
 
@@ -171,8 +174,9 @@ public class GameManager {
     ------ Constructors ------
      */
 
-    public GameManager(GameEngine gameEngine) {
+    public GameManager(GameEngine gameEngine, Viewport viewport) {
         mGameEngine = gameEngine;
+        mViewport = viewport;
         mGameOver = true;
     }
 
@@ -204,7 +208,7 @@ public class GameManager {
             mGameEngine.add(p);
         }
 
-        mGameEngine.setGameSize(getSettings().getWidth(), getSettings().getHeight());
+        mViewport.setGameSize(getSettings().getWidth(), getSettings().getHeight());
 
         mEarlyBonus = 0;
         mNextWaveReady = true;
