@@ -2,6 +2,8 @@ package ch.logixisland.anuto.game.engine;
 
 import android.util.Log;
 
+import junit.framework.Assert;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +27,7 @@ public class GameEngine implements Runnable {
     private final SparseCollectionArray<Entity> mEntities = new SparseCollectionArray<>();
     private final Map<Class<? extends Entity>, Object> mStaticData = new HashMap<>();
     private final Collection<TickListener> mTickListeners = new SmartIteratorCollection<>();
-    private final BlockingQueue<Runnable> mMessages = new ArrayBlockingQueue<>(100);
+    private final MessageQueue mMessageQueue = new MessageQueue();
 
     private Thread mGameThread;
     private volatile boolean mRunning = false;
@@ -70,18 +72,6 @@ public class GameEngine implements Runnable {
         }
     }
 
-    public void post(Runnable message) {
-        try {
-            mMessages.put(message);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void postDelayed(Runnable message, float delay) {
-        post(new DelayedMessage(this, message, delay));
-    }
-
     public void remove(Entity entity) {
         synchronized (mEntities) {
             mEntities.remove(entity.getType(), entity);
@@ -106,7 +96,7 @@ public class GameEngine implements Runnable {
                 obj.clean();
             }
 
-            mMessages.clear();
+            mMessageQueue.clear();
             mTickListeners.clear();
             mStaticData.clear();
             mRenderer.clear();
@@ -136,6 +126,18 @@ public class GameEngine implements Runnable {
         }
     }
 
+    public void post(Runnable runnable) {
+        postDelayed(runnable, 0);
+    }
+
+    public void postDelayed(Runnable runnable, float delay) {
+        mMessageQueue.post(runnable, (int)(delay * TARGET_FRAME_RATE));
+    }
+
+    public boolean isThreadChangeNeeded() {
+        return Thread.currentThread() != mGameThread;
+    }
+
     @Override
     public void run() {
         long lastLogTick = 0;
@@ -154,11 +156,7 @@ public class GameEngine implements Runnable {
                     }
                 }
 
-                while (!mMessages.isEmpty()) {
-                    Runnable message = mMessages.remove();
-                    message.run();
-                }
-
+                mMessageQueue.tick();
                 mRenderer.render();
                 mTickCount++;
 
