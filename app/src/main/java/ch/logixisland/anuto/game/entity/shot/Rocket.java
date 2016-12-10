@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.entity.Entity;
+import ch.logixisland.anuto.game.entity.Types;
 import ch.logixisland.anuto.game.entity.effect.Explosion;
 import ch.logixisland.anuto.game.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.game.render.Layers;
@@ -105,8 +106,8 @@ public class Rocket extends HomingShot {
     }
 
     @Override
-    public void onDraw(SpriteInstance sprite, Canvas canvas) {
-        super.onDraw(sprite, canvas);
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        super.draw(sprite, canvas);
 
         canvas.rotate(mAngle);
     }
@@ -124,8 +125,8 @@ public class Rocket extends HomingShot {
     }
 
     @Override
-    protected void onTargetLost() {
-        Enemy closest = (Enemy) getGameEngine().get(Enemy.TYPE_ID)
+    protected void targetLost() {
+        Enemy closest = (Enemy) getGameEngine().get(Types.ENEMY)
                 .min(distanceTo(getPosition()));
 
         if (closest == null) {
@@ -136,7 +137,7 @@ public class Rocket extends HomingShot {
     }
 
     @Override
-    protected void onTargetReached() {
+    protected void targetReached() {
         getGameEngine().add(new Explosion(getOrigin(), getTarget().getPosition(), mDamage, mRadius));
         getGameEngine().remove(this);
     }

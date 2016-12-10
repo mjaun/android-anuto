@@ -82,8 +82,8 @@ public class Mortar extends AimingTower {
     }
 
     @Override
-    public void onDraw(SpriteInstance sprite, Canvas canvas) {
-        super.onDraw(sprite, canvas);
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        super.draw(sprite, canvas);
 
         if (sprite == mSpriteCanon) {
             canvas.rotate(mAngle);

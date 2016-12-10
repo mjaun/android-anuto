@@ -34,8 +34,8 @@ public class GlueTower extends Tower {
         StaticSprite mSprite;
 
         @Override
-        public void onDraw(SpriteInstance sprite, Canvas canvas) {
-            GlueTower.this.onDraw(sprite, canvas);
+        public void draw(SpriteInstance sprite, Canvas canvas) {
+            GlueTower.this.draw(sprite, canvas);
 
             canvas.rotate(mAngle);
             canvas.translate(mCanonOffset, 0);
@@ -123,8 +123,8 @@ public class GlueTower extends Tower {
     }
 
     @Override
-    public void onDraw(SpriteInstance sprite, Canvas canvas) {
-        super.onDraw(sprite, canvas);
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        super.draw(sprite, canvas);
     }
 
     @Override

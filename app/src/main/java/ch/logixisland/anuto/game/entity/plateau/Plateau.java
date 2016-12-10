@@ -10,16 +10,6 @@ import ch.logixisland.anuto.util.iterator.Predicate;
 @Root
 public abstract class Plateau extends Entity {
 
-    /*
-    ------ Constants ------
-     */
-
-    public static final int TYPE_ID = Types.PLATEAU;
-
-    /*
-    ------ Static ------
-     */
-
     public static Predicate<Plateau> unoccupied() {
         return new Predicate<Plateau>() {
             @Override
@@ -29,21 +19,12 @@ public abstract class Plateau extends Entity {
         };
     }
 
-    /*
-    ------ Members ------
-     */
-
     private Tower mOccupant;
-
-    /*
-    ------ Methods ------
-     */
 
     @Override
     public final int getType() {
-        return TYPE_ID;
+        return Types.PLATEAU;
     }
-
 
     public boolean isOccupied() {
         return mOccupant != null;
@@ -52,4 +33,5 @@ public abstract class Plateau extends Entity {
     public void setOccupant(Tower occupant) {
         mOccupant = occupant;
     }
+
 }

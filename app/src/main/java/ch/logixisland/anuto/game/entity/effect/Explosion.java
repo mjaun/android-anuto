@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import ch.logixisland.anuto.game.engine.GameEngine;
+import ch.logixisland.anuto.game.entity.Types;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
@@ -87,7 +88,7 @@ public class Explosion extends Effect {
 
     @Override
     protected void effectBegin() {
-        StreamIterator<Enemy> enemies = getGameEngine().get(Enemy.TYPE_ID)
+        StreamIterator<Enemy> enemies = getGameEngine().get(Types.ENEMY)
                 .filter(inRange(getPosition(), mRadius))
                 .cast(Enemy.class);
 

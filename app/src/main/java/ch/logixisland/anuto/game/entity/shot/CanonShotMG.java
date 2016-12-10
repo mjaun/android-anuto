@@ -3,6 +3,7 @@ package ch.logixisland.anuto.game.entity.shot;
 import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.game.entity.Types;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
 import ch.logixisland.anuto.game.entity.Entity;
@@ -67,8 +68,8 @@ public class CanonShotMG extends Shot {
     }
 
     @Override
-    public void onDraw(SpriteInstance sprite, Canvas canvas) {
-        super.onDraw(sprite, canvas);
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        super.draw(sprite, canvas);
 
         canvas.rotate(mAngle);
     }
@@ -77,7 +78,7 @@ public class CanonShotMG extends Shot {
     public void tick() {
         super.tick();
 
-        Enemy enemy = (Enemy) getGameEngine().get(Enemy.TYPE_ID)
+        Enemy enemy = (Enemy) getGameEngine().get(Types.ENEMY)
                 .filter(inRange(getPosition(), HIT_RANGE))
                 .first();
 

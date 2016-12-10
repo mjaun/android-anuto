@@ -1,73 +1,17 @@
 package ch.logixisland.anuto.game.entity.enemy;
 
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-
 import ch.logixisland.anuto.game.engine.GameEngine;
 import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.entity.tower.Tower;
-import ch.logixisland.anuto.game.render.Drawable;
-import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.entity.Types;
 import ch.logixisland.anuto.game.data.EnemyConfig;
 import ch.logixisland.anuto.game.data.Path;
+import ch.logixisland.anuto.game.render.shape.HealthBar;
 import ch.logixisland.anuto.util.iterator.Function;
-import ch.logixisland.anuto.util.math.MathUtils;
 import ch.logixisland.anuto.util.math.vector.Vector2;
-import ch.logixisland.anuto.game.render.theme.Theme;
 
 
 public abstract class Enemy extends Entity {
-
-    /*
-    ------ Constants ------
-     */
-
-    public static final int TYPE_ID = Types.ENEMY;
-
-    private static final float HEALTHBAR_WIDTH = 1.0f;
-    private static final float HEALTHBAR_HEIGHT = 0.1f;
-    private static final float HEALTHBAR_OFFSET = 0.6f;
-
-    /*
-    ------ Healthbar Class ------
-     */
-
-    private class HealthBar implements Drawable {
-        private Paint mHealthBarBg;
-        private Paint mHealthBarFg;
-
-        public HealthBar() {
-            Theme theme = getThemeManager().getTheme();
-
-            mHealthBarBg = new Paint();
-            mHealthBarBg.setColor(theme.getAltBackgroundColor());
-            mHealthBarFg = new Paint();
-            mHealthBarFg.setColor(Color.GREEN);
-        }
-
-        @Override
-        public int getLayer() {
-            return Layers.ENEMY_HEALTHBAR;
-        }
-
-        @Override
-        public void draw(Canvas canvas) {
-            if (!MathUtils.equals(mHealth, mConfig.getHealth(), 1f)) {
-                canvas.save();
-                canvas.translate(getPosition().x - HEALTHBAR_WIDTH / 2f, getPosition().y + HEALTHBAR_OFFSET);
-
-                canvas.drawRect(0, 0, HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT, mHealthBarBg);
-                canvas.drawRect(0, 0, mHealth / mConfig.getHealth() * HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT, mHealthBarFg);
-                canvas.restore();
-            }
-        }
-    }
-
-    /*
-    ------ Static ------
-     */
 
     public static Function<Enemy, Float> health() {
         return new Function<Enemy, Float>() {
@@ -87,49 +31,32 @@ public abstract class Enemy extends Entity {
         };
     }
 
-    /*
-    ------ Members -----
-     */
-
     private EnemyConfig mConfig;
-
     private float mHealth;
     private float mBaseSpeed;
-
     private float mHealthModifier = 1f;
     private float mRewardModifier = 1f;
     private float mSpeedModifier = 1f;
-
     private Path mPath = null;
     private int mWayPointIndex;
-
     private HealthBar mHealthBar;
-
-    /*
-    ------ Constructors ------
-     */
 
     public Enemy() {
         mConfig = getGameManager().getLevel().getEnemyConfig(this);
         mBaseSpeed = mConfig.getSpeed();
         mHealth = mConfig.getHealth();
 
-        mHealthBar = new HealthBar();
+        mHealthBar = new HealthBar(getThemeManager(), this);
     }
-
-    /*
-    ------ Methods ------
-     */
 
     @Override
     public final int getType() {
-        return TYPE_ID;
+        return Types.ENEMY;
     }
 
     @Override
     public void init() {
         super.init();
-
         getGameEngine().add(mHealthBar);
     }
 
@@ -160,11 +87,6 @@ public abstract class Enemy extends Entity {
         }
     }
 
-
-    public Path getPath() {
-        return mPath;
-    }
-
     public void setPath(Path path) {
         mPath = path;
 
@@ -172,20 +94,14 @@ public abstract class Enemy extends Entity {
         mWayPointIndex = 1;
     }
 
-
     public float getSpeed() {
         float speed = mBaseSpeed * mSpeedModifier;
         float minSpeed = getGameManager().getSettings().getMinSpeedModifier() * getConfigSpeed();
-
         return Math.max(minSpeed, speed);
     }
 
     protected float getConfigSpeed() {
         return mConfig.getSpeed();
-    }
-
-    protected float getBaseSpeed() {
-        return mBaseSpeed;
     }
 
     protected void setBaseSpeed(float baseSpeed) {

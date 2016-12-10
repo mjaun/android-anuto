@@ -103,8 +103,8 @@ public class MineLayer extends Tower {
     }
 
     @Override
-    public void onDraw(SpriteInstance sprite, Canvas canvas) {
-        super.onDraw(sprite, canvas);
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        super.draw(sprite, canvas);
 
         canvas.rotate(mAngle);
     }

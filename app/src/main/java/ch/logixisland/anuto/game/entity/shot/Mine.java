@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.engine.GameEngine;
 import ch.logixisland.anuto.game.entity.Entity;
+import ch.logixisland.anuto.game.entity.Types;
 import ch.logixisland.anuto.game.entity.effect.Explosion;
 import ch.logixisland.anuto.game.entity.enemy.Flyer;
 import ch.logixisland.anuto.game.render.Layers;
@@ -111,8 +112,8 @@ public class Mine extends Shot {
     }
 
     @Override
-    public void onDraw(SpriteInstance sprite, Canvas canvas) {
-        super.onDraw(sprite, canvas);
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        super.draw(sprite, canvas);
 
         float s = mHeightScalingFunction.getValue();
         canvas.scale(s, s);
@@ -135,7 +136,7 @@ public class Mine extends Shot {
                 setSpeed(0f);
             }
         } else if (getGameEngine().tick100ms(this)) {
-            StreamIterator<Enemy> enemiesInRange = getGameEngine().get(Enemy.TYPE_ID)
+            StreamIterator<Enemy> enemiesInRange = getGameEngine().get(Types.ENEMY)
                     .filter(inRange(getPosition(), TRIGGER_RADIUS))
                     .cast(Enemy.class)
                     .filter(new Predicate<Enemy>() {

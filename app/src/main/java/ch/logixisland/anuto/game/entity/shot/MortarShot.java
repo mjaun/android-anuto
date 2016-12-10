@@ -84,8 +84,8 @@ public class MortarShot extends Shot {
     }
 
     @Override
-    public void onDraw(SpriteInstance sprite, Canvas canvas) {
-        super.onDraw(sprite, canvas);
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        super.draw(sprite, canvas);
 
         float s = mHeightScalingFunction.getValue();
         canvas.scale(s, s);

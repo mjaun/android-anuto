@@ -2,6 +2,7 @@ package ch.logixisland.anuto.game.business.control;
 
 import ch.logixisland.anuto.game.engine.GameEngine;
 import ch.logixisland.anuto.game.entity.Entity;
+import ch.logixisland.anuto.game.entity.Types;
 import ch.logixisland.anuto.game.entity.tower.Tower;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
@@ -34,7 +35,7 @@ public class TowerSelector {
         }
 
         Tower closest = (Tower) mGameEngine
-                .get(Tower.TYPE_ID)
+                .get(Types.TOWER)
                 .min(Entity.distanceTo(position));
 
         hideTowerInfo();

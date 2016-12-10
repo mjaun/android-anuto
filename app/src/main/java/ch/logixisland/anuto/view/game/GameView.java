@@ -12,6 +12,7 @@ import ch.logixisland.anuto.game.engine.GameEngine;
 import ch.logixisland.anuto.game.GameFactory;
 import ch.logixisland.anuto.game.business.GameManager;
 import ch.logixisland.anuto.game.entity.Entity;
+import ch.logixisland.anuto.game.entity.Types;
 import ch.logixisland.anuto.game.entity.plateau.Plateau;
 import ch.logixisland.anuto.game.entity.tower.Tower;
 import ch.logixisland.anuto.game.render.Renderer;
@@ -77,7 +78,7 @@ public class GameView extends View implements View.OnDragListener, View.OnTouchL
         if (event.getAction() == MotionEvent.ACTION_DOWN && !mGameManager.isGameOver()) {
             Vector2 pos = mViewport.screenToGame(new Vector2(event.getX(), event.getY()));
 
-            Tower closest = (Tower) mGameEngine.get(Tower.TYPE_ID)
+            Tower closest = (Tower) mGameEngine.get(Types.ENEMY)
                     .min(Entity.distanceTo(pos));
 
             mGameManager.hideTowerInfo();
@@ -102,7 +103,7 @@ public class GameView extends View implements View.OnDragListener, View.OnTouchL
         Tower tower = (Tower)event.getLocalState();
         Vector2 pos = mViewport.screenToGame(new Vector2(event.getX(), event.getY()));
 
-        Plateau closestPlateau = mGameEngine.get(Plateau.TYPE_ID)
+        Plateau closestPlateau = mGameEngine.get(Types.ENEMY)
                 .cast(Plateau.class)
                 .filter(Plateau.unoccupied())
                 .min(Entity.distanceTo(pos));

@@ -1,21 +1,18 @@
 package ch.logixisland.anuto.game.entity.tower;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.logixisland.anuto.game.entity.Types;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
 import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.entity.plateau.Plateau;
-import ch.logixisland.anuto.game.render.Drawable;
-import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.engine.TickTimer;
-import ch.logixisland.anuto.game.entity.Types;
 import ch.logixisland.anuto.game.data.Path;
 import ch.logixisland.anuto.game.data.TowerConfig;
+import ch.logixisland.anuto.game.render.shape.RangeIndicator;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.vector.Intersections;
 import ch.logixisland.anuto.util.math.MathUtils;
@@ -23,51 +20,11 @@ import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public abstract class Tower extends Entity {
 
-    /*
-    ------ Constants ------
-     */
-
-    public static final int TYPE_ID = Types.TOWER;
-
-    /*
-    ------ RangeIndicator Class ------
-     */
-
-    private class RangeIndicator implements Drawable {
-        private Paint mPen;
-
-        public RangeIndicator() {
-            mPen = new Paint();
-            mPen.setStyle(Paint.Style.STROKE);
-            mPen.setStrokeWidth(0.05f);
-            mPen.setColor(Color.GREEN);
-            mPen.setAlpha(128);
-        }
-
-        @Override
-        public int getLayer() {
-            return Layers.TOWER_RANGE;
-        }
-
-        @Override
-        public void draw(Canvas canvas) {
-            canvas.drawCircle(getPosition().x, getPosition().y, getRange(), mPen);
-        }
+    class PathSection {
+        Vector2 p1;
+        Vector2 p2;
+        float len;
     }
-
-    /*
-    ------ PathSection Class ------
-     */
-
-    public class PathSection {
-        public Vector2 p1;
-        public Vector2 p2;
-        public float len;
-    }
-
-    /*
-    ------ Members ------
-     */
 
     private TowerConfig mConfig;
 
@@ -84,10 +41,6 @@ public abstract class Tower extends Entity {
     private TickTimer mReloadTimer;
     private RangeIndicator mRangeIndicator;
 
-    /*
-    ------ Constructors ------
-     */
-
     public Tower() {
         mConfig = getGameManager().getLevel().getTowerConfig(this);
 
@@ -102,13 +55,9 @@ public abstract class Tower extends Entity {
         setEnabled(false);
     }
 
-    /*
-    ------ Methods ------
-     */
-
     @Override
     public final int getType() {
-        return TYPE_ID;
+        return Types.TOWER;
     }
 
     @Override
@@ -288,7 +237,7 @@ public abstract class Tower extends Entity {
 
     public void showRange() {
         if (mRangeIndicator == null) {
-            mRangeIndicator = new RangeIndicator();
+            mRangeIndicator = new RangeIndicator(this);
             getGameEngine().add(mRangeIndicator);
         }
     }
@@ -302,7 +251,7 @@ public abstract class Tower extends Entity {
 
 
     public StreamIterator<Enemy> getPossibleTargets() {
-        return getGameEngine().get(Enemy.TYPE_ID)
+        return getGameEngine().get(Types.ENEMY)
                 .filter(inRange(getPosition(), getRange()))
                 .cast(Enemy.class);
     }

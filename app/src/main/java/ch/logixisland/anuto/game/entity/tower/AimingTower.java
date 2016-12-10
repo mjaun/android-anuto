@@ -4,7 +4,7 @@ import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.entity.EntityListener;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
 
-public abstract class AimingTower extends Tower {
+public abstract class AimingTower extends Tower implements EntityListener {
 
     public enum Strategy {
         Closest,
@@ -14,36 +14,12 @@ public abstract class AimingTower extends Tower {
         Last
     }
 
-    /*
-    ------ Static ------
-     */
-
     private static Strategy sDefaultStrategy = Strategy.Closest;
     private static boolean sDefaultLockTarget = true;
-
-    /*
-    ------ Members ------
-     */
 
     private Enemy mTarget = null;
     private Strategy mStrategy = sDefaultStrategy;
     private boolean mLockOnTarget = sDefaultLockTarget;
-
-    /*
-    ------ Listener Implementations ------
-     */
-
-    private final EntityListener mTargetListener = new EntityListener() {
-
-        @Override
-        public void entityRemoved(Entity obj) {
-            onTargetLost();
-        }
-    };
-
-    /*
-    ------ Methods ------
-     */
 
     @Override
     public void init() {
@@ -62,7 +38,7 @@ public abstract class AimingTower extends Tower {
 
         if (getGameEngine().tick100ms(this)) {
             if (mTarget != null && getDistanceTo(mTarget) > getRange()) {
-                onTargetLost();
+                targetLost();
             }
 
             if (mTarget == null || !mLockOnTarget) {
@@ -110,13 +86,13 @@ public abstract class AimingTower extends Tower {
 
     protected void setTarget(Enemy target) {
         if (mTarget != null) {
-            mTarget.removeListener(mTargetListener);
+            mTarget.removeListener(this);
         }
 
         mTarget = target;
 
         if (mTarget != null) {
-            mTarget.addListener(mTargetListener);
+            mTarget.addListener(this);
         }
     }
 
@@ -143,7 +119,12 @@ public abstract class AimingTower extends Tower {
         }
      }
 
-    protected void onTargetLost() {
+    protected void targetLost() {
         setTarget(null);
+    }
+
+    @Override
+    public void entityRemoved(Entity obj) {
+        targetLost();
     }
 }

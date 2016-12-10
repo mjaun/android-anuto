@@ -9,6 +9,7 @@ import java.util.Collection;
 
 import ch.logixisland.anuto.game.engine.GameEngine;
 import ch.logixisland.anuto.game.entity.Entity;
+import ch.logixisland.anuto.game.entity.Types;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.render.Drawable;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
@@ -124,7 +125,7 @@ public class Laser extends Effect {
                 mPrevTargets.add(mTarget);
             }
 
-            Enemy enemy = (Enemy) getGameEngine().get(Enemy.TYPE_ID)
+            Enemy enemy = (Enemy) getGameEngine().get(Types.ENEMY)
                     .exclude(mPrevTargets)
                     .min(distanceTo(mTarget.getPosition()));
 

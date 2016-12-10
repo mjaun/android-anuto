@@ -68,8 +68,8 @@ public class CanonShot extends HomingShot {
     }
 
     @Override
-    public void onDraw(SpriteInstance sprite, Canvas canvas) {
-        super.onDraw(sprite, canvas);
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        super.draw(sprite, canvas);
 
         canvas.rotate(mAngle);
     }
@@ -83,12 +83,12 @@ public class CanonShot extends HomingShot {
     }
 
     @Override
-    protected void onTargetLost() {
+    protected void targetLost() {
         this.remove();
     }
 
     @Override
-    protected void onTargetReached() {
+    protected void targetReached() {
         getTarget().damage(mDamage, getOrigin());
         this.remove();
     }

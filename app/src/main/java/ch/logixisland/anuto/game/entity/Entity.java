@@ -72,22 +72,11 @@ public abstract class Entity implements SpriteListener, TickListener {
         };
     }
 
-    /*
-    ------ Members ------
-     */
-
     private boolean mEnabled = true;
-
     private final Vector2 mPosition = new Vector2();
-
     private final List<EntityListener> mListeners = new CopyOnWriteArrayList<>();
 
-    /*
-    ------ Methods ------
-     */
-
     public abstract int getType();
-
 
     public Object initStatic() {
         return null;
@@ -103,13 +92,17 @@ public abstract class Entity implements SpriteListener, TickListener {
         }
     }
 
+    public void remove() {
+        getGameEngine().remove(this);
+    }
+
     @Override
     public void tick() {
 
     }
 
     @Override
-    public void onDraw(SpriteInstance sprite, Canvas canvas) {
+    public void draw(SpriteInstance sprite, Canvas canvas) {
         canvas.translate(mPosition.x, mPosition.y);
     }
 
@@ -145,11 +138,6 @@ public abstract class Entity implements SpriteListener, TickListener {
 
     protected Viewport getViewport() {
         return AnutoApplication.getInstance().getGameFactory().getViewport();
-    }
-
-
-    public void remove() {
-        getGameEngine().remove(this);
     }
 
 
@@ -214,4 +202,5 @@ public abstract class Entity implements SpriteListener, TickListener {
     public void removeListener(EntityListener listener) {
         mListeners.remove(listener);
     }
+
 }

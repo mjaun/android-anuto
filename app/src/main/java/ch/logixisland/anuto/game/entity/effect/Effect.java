@@ -6,47 +6,23 @@ import ch.logixisland.anuto.game.entity.Types;
 
 public abstract class Effect extends Entity {
 
-    /*
-    ------ Constants ------
-     */
-
-    public static final int TYPE_ID = Types.EFFECT;
-
-    /*
-    ------ Members ------
-     */
-
     private Entity mOrigin;
-
     private TickTimer mTimer;
-    private boolean mEffectBegun = false;
-
+    private boolean mEffectBegun;
     private float mDuration;
-
-    /*
-    ------ Constructors ------
-     */
 
     protected Effect(Entity origin, float duration) {
         mOrigin = origin;
         mDuration = duration;
     }
 
-    /*
-    ------ Methods ------
-     */
-
     public Entity getOrigin() {
         return mOrigin;
     }
 
-    public float getDuration() {
-        return mDuration;
-    }
-
     @Override
     public final int getType() {
-        return TYPE_ID;
+        return Types.EFFECT;
     }
 
     @Override

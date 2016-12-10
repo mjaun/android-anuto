@@ -5,41 +5,14 @@ import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.entity.EntityListener;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
 
-public abstract class HomingShot extends Shot {
-
-    /*
-    ------ Listener Implementations ------
-     */
-
-    private final EntityListener mTargetListener = new EntityListener() {
-
-        @Override
-        public void entityRemoved(Entity obj) {
-            if (!mTargetReached) {
-                setTarget(null);
-                onTargetLost();
-            }
-        }
-    };
-
-    /*
-    ------ Members ------
-     */
+public abstract class HomingShot extends Shot implements EntityListener {
 
     private Enemy mTarget;
     private boolean mTargetReached;
 
-    /*
-    ------ Constructors ------
-     */
-
     protected HomingShot(Entity origin) {
         super(origin);
     }
-
-    /*
-    ------ Methods ------
-     */
 
     @Override
     public void clean() {
@@ -51,10 +24,9 @@ public abstract class HomingShot extends Shot {
     public void tick() {
         super.tick();
 
-        if (isEnabled() && mTarget != null &&
-                getDistanceTo(mTarget) <= getSpeed() / GameEngine.TARGET_FRAME_RATE) {
+        if (isEnabled() && mTarget != null && getDistanceTo(mTarget) <= getSpeed() / GameEngine.TARGET_FRAME_RATE) {
             mTargetReached = true;
-            onTargetReached();
+            targetReached();
         }
     }
 
@@ -64,18 +36,26 @@ public abstract class HomingShot extends Shot {
 
     public void setTarget(Enemy target) {
         if (mTarget != null) {
-            mTarget.removeListener(mTargetListener);
+            mTarget.removeListener(this);
         }
 
         mTarget = target;
         mTargetReached = false;
 
         if (mTarget != null) {
-            mTarget.addListener(mTargetListener);
+            mTarget.addListener(this);
         }
     }
 
-    protected abstract void onTargetReached();
+    protected abstract void targetReached();
 
-    protected abstract void onTargetLost();
+    protected abstract void targetLost();
+
+    @Override
+    public void entityRemoved(Entity obj) {
+        if (!mTargetReached) {
+            setTarget(null);
+            targetLost();
+        }
+    }
 }

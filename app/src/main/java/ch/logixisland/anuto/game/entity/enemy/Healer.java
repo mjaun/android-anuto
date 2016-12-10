@@ -132,8 +132,8 @@ public class Healer extends Enemy {
     }
 
     @Override
-    public void onDraw(SpriteInstance sprite, Canvas canvas) {
-        super.onDraw(sprite, canvas);
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        super.draw(sprite, canvas);
 
         canvas.rotate(mStatic.mAngle);
         canvas.scale(mStatic.mScale, mStatic.mScale);

@@ -1,74 +1,48 @@
 package ch.logixisland.anuto.game.entity.effect;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.entity.EntityListener;
+import ch.logixisland.anuto.game.entity.Types;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
-public abstract class AreaEffect extends Effect {
-
-    /*
-    ------ Members ------
-     */
+public abstract class AreaEffect extends Effect implements EntityListener {
 
     private float mRange = 1f;
-
     private final List<Enemy> mAffectedEnemies = new CopyOnWriteArrayList<>();
-
-    private final EntityListener mEnemyListener = new EntityListener() {
-
-        @Override
-        public void entityRemoved(Entity obj) {
-            obj.removeListener(this);
-            mAffectedEnemies.remove(obj);
-            enemyExit((Enemy)obj);
-        }
-    };
-
-    /*
-    ------ Constructors ------
-     */
 
     protected AreaEffect(Entity origin, float duration) {
         super(origin, duration);
     }
-
-    /*
-    ------ Methods ------
-     */
-
-    public StreamIterator<Enemy> getEnemiesInRange() {
-        return StreamIterator.fromIterable(mAffectedEnemies);
-    }
-
 
     @Override
     public void tick() {
         super.tick();
 
         if (getGameEngine().tick100ms(this)) {
-            for (Enemy e : mAffectedEnemies) {
-                if (getDistanceTo(e) > mRange) {
-                    mAffectedEnemies.remove(e);
-                    e.removeListener(mEnemyListener);
-                    enemyExit(e);
+            for (Enemy enemy : mAffectedEnemies) {
+                if (getDistanceTo(enemy) > mRange) {
+                    mAffectedEnemies.remove(enemy);
+                    enemy.removeListener(this);
+                    enemyExit(enemy);
                 }
             }
 
-            StreamIterator<Enemy> enemies = getGameEngine().get(Enemy.TYPE_ID)
+            Iterator<Enemy> enemies = getGameEngine().get(Types.ENEMY)
                     .filter(inRange(getPosition(), mRange))
                     .cast(Enemy.class);
 
             while (enemies.hasNext()) {
-                Enemy e = enemies.next();
+                Enemy enemy = enemies.next();
 
-                if (!mAffectedEnemies.contains(e)) {
-                    mAffectedEnemies.add(e);
-                    e.addListener(mEnemyListener);
-                    enemyEnter(e);
+                if (!mAffectedEnemies.contains(enemy)) {
+                    mAffectedEnemies.add(enemy);
+                    enemy.addListener(this);
+                    enemyEnter(enemy);
                 }
             }
         }
@@ -81,9 +55,9 @@ public abstract class AreaEffect extends Effect {
 
     @Override
     protected void effectEnd() {
-        for (Enemy e : mAffectedEnemies) {
-            e.removeListener(mEnemyListener);
-            enemyExit(e);
+        for (Enemy enemy : mAffectedEnemies) {
+            enemy.removeListener(this);
+            enemyExit(enemy);
         }
 
         mAffectedEnemies.clear();
@@ -93,4 +67,11 @@ public abstract class AreaEffect extends Effect {
     protected abstract void enemyEnter(Enemy e);
 
     protected abstract void enemyExit(Enemy e);
+
+    @Override
+    public void entityRemoved(Entity obj) {
+        obj.removeListener(this);
+        mAffectedEnemies.remove(obj);
+        enemyExit((Enemy)obj);
+    }
 }

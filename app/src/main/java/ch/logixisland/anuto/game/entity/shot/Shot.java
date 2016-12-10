@@ -7,36 +7,17 @@ import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public abstract class Shot extends Entity {
 
-    /*
-    ------ Constants ------
-     */
-
-    public static final int TYPE_ID = Types.SHOT;
-
-    /*
-    ------ Members ------
-     */
-
     private Entity mOrigin;
-
     private float mSpeed;
     private Vector2 mDirection;
-
-    /*
-    ------ Constructors ------
-     */
 
     protected Shot(Entity origin) {
         mOrigin = origin;
     }
 
-    /*
-    ------ Methods ------
-     */
-
     @Override
     public final int getType() {
-        return TYPE_ID;
+        return Types.SHOT;
     }
 
     @Override
@@ -47,7 +28,6 @@ public abstract class Shot extends Entity {
             move(mDirection, mSpeed / GameEngine.TARGET_FRAME_RATE);
         }
     }
-
 
     public Entity getOrigin() {
         return mOrigin;
