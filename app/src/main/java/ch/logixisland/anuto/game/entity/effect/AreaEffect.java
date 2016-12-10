@@ -49,7 +49,7 @@ public abstract class AreaEffect extends Effect {
     public void tick() {
         super.tick();
 
-        if (getGameEngine().tick100ms(this) && isInGame()) {
+        if (getGameEngine().tick100ms(this)) {
             for (Enemy e : mAffectedEnemies) {
                 if (getDistanceTo(e) > mRange) {
                     mAffectedEnemies.remove(e);

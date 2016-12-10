@@ -20,23 +20,6 @@ import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public abstract class Entity implements SpriteListener, TickListener {
 
-    /*
-    ------ Listener Interface ------
-     */
-
-    /*
-    ------ Static ------
-     */
-
-    public static Predicate<Entity> inGame() {
-        return new Predicate<Entity>() {
-            @Override
-            public boolean apply(Entity value) {
-                return value.isInGame();
-            }
-        };
-    }
-
     public static Predicate<Entity> enabled() {
         return new Predicate<Entity>() {
             @Override
@@ -93,7 +76,6 @@ public abstract class Entity implements SpriteListener, TickListener {
     ------ Members ------
      */
 
-    private boolean mInGame = false;
     private boolean mEnabled = true;
 
     private final Vector2 mPosition = new Vector2();
@@ -112,12 +94,10 @@ public abstract class Entity implements SpriteListener, TickListener {
     }
 
     public void init() {
-        mInGame = true;
+
     }
 
     public void clean() {
-        mInGame = false;
-
         for (EntityListener l : mListeners) {
             l.entityRemoved(this);
         }
@@ -167,9 +147,6 @@ public abstract class Entity implements SpriteListener, TickListener {
         return AnutoApplication.getInstance().getGameFactory().getViewport();
     }
 
-    public boolean isInGame() {
-        return mInGame;
-    }
 
     public void remove() {
         getGameEngine().remove(this);

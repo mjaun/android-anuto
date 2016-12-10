@@ -116,25 +116,19 @@ public class GameView extends View implements View.OnDragListener, View.OnTouchL
                 break;
 
             case DragEvent.ACTION_DRAG_EXITED:
-                if (tower.isInGame()) {
-                    tower.remove();
-                    mGameManager.setSelectedTower(null);
-                }
+                tower.remove();
+                mGameManager.setSelectedTower(null);
                 break;
 
             case DragEvent.ACTION_DRAG_LOCATION:
-                if (tower.isInGame()) {
-                    tower.setPosition(closestPlateau.getPosition());
-                }
+                tower.setPosition(closestPlateau.getPosition());
                 break;
 
             case DragEvent.ACTION_DROP:
-                if (tower.isInGame()) {
-                    tower.buy();
-                    tower.setPlateau(closestPlateau);
-                    tower.setEnabled(true);
-                    mGameManager.setSelectedTower(null);
-                }
+                tower.buy();
+                tower.setPlateau(closestPlateau);
+                tower.setEnabled(true);
+                mGameManager.setSelectedTower(null);
                 break;
         }
 
