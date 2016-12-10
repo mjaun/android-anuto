@@ -7,6 +7,7 @@ import ch.logixisland.anuto.game.engine.GameEngine;
 import ch.logixisland.anuto.game.data.EnemyDescriptor;
 import ch.logixisland.anuto.game.data.WaveDescriptor;
 import ch.logixisland.anuto.game.entity.Entity;
+import ch.logixisland.anuto.game.entity.EntityListener;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.math.MathUtils;
 
@@ -49,13 +50,9 @@ public class WaveManager {
     ------ Entity.Listener Implementation ------
      */
 
-    private Entity.Listener mObjectListener = new Entity.Listener() {
+    private EntityListener mObjectListener = new EntityListener() {
         @Override
-        public void onObjectAdded(Entity obj) {
-        }
-
-        @Override
-        public void onObjectRemoved(Entity obj) {
+        public void entityRemoved(Entity obj) {
             mEnemiesRemaining--;
             mEarlyBonus -= ((Enemy)obj).getReward();
 

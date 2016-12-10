@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.game.entity.EntityListener;
 import ch.logixisland.anuto.game.entity.shot.Mine;
 import ch.logixisland.anuto.game.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.game.render.Layers;
@@ -32,14 +33,10 @@ public class MineLayer extends Tower {
 
     private AnimatedSprite mSprite;
 
-    private final Listener mMineListener = new Listener() {
-        @Override
-        public void onObjectAdded(Entity obj) {
-
-        }
+    private final EntityListener mMineListener = new EntityListener() {
 
         @Override
-        public void onObjectRemoved(Entity obj) {
+        public void entityRemoved(Entity obj) {
             mMines.remove(obj);
             obj.removeListener(this);
         }

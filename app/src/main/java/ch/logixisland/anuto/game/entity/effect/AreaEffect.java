@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.game.entity.Entity;
+import ch.logixisland.anuto.game.entity.EntityListener;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
@@ -17,14 +18,10 @@ public abstract class AreaEffect extends Effect {
 
     private final List<Enemy> mAffectedEnemies = new CopyOnWriteArrayList<>();
 
-    private final Listener mEnemyListener = new Listener() {
-        @Override
-        public void onObjectAdded(Entity obj) {
-
-        }
+    private final EntityListener mEnemyListener = new EntityListener() {
 
         @Override
-        public void onObjectRemoved(Entity obj) {
+        public void entityRemoved(Entity obj) {
             obj.removeListener(this);
             mAffectedEnemies.remove(obj);
             enemyExit((Enemy)obj);

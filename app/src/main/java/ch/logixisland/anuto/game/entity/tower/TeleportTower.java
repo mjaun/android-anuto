@@ -7,6 +7,7 @@ import java.util.List;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.entity.Entity;
+import ch.logixisland.anuto.game.entity.EntityListener;
 import ch.logixisland.anuto.game.entity.effect.TeleportEffect;
 import ch.logixisland.anuto.game.render.Layers;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
@@ -22,14 +23,10 @@ public class TeleportTower extends AimingTower {
         SpriteTemplate mSpriteTemplateTower;
     }
 
-    private final Listener mEnemyListener = new Listener() {
-        @Override
-        public void onObjectAdded(Entity obj) {
-
-        }
+    private final EntityListener mEnemyListener = new EntityListener() {
 
         @Override
-        public void onObjectRemoved(Entity obj) {
+        public void entityRemoved(Entity obj) {
             mTeleportedEnemies.remove(obj);
             obj.removeListener(this);
         }

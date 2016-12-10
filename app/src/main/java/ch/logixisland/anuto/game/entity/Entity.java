@@ -24,11 +24,6 @@ public abstract class Entity implements SpriteListener, TickListener {
     ------ Listener Interface ------
      */
 
-    public interface Listener {
-        void onObjectAdded(Entity obj);
-        void onObjectRemoved(Entity obj);
-    }
-
     /*
     ------ Static ------
      */
@@ -103,7 +98,7 @@ public abstract class Entity implements SpriteListener, TickListener {
 
     private final Vector2 mPosition = new Vector2();
 
-    private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
+    private final List<EntityListener> mListeners = new CopyOnWriteArrayList<>();
 
     /*
     ------ Methods ------
@@ -118,17 +113,13 @@ public abstract class Entity implements SpriteListener, TickListener {
 
     public void init() {
         mInGame = true;
-
-        for (Listener l : mListeners) {
-            l.onObjectAdded(this);
-        }
     }
 
     public void clean() {
         mInGame = false;
 
-        for (Listener l : mListeners) {
-            l.onObjectRemoved(this);
+        for (EntityListener l : mListeners) {
+            l.entityRemoved(this);
         }
     }
 
@@ -239,11 +230,11 @@ public abstract class Entity implements SpriteListener, TickListener {
     }
 
 
-    public void addListener(Listener listener) {
+    public void addListener(EntityListener listener) {
         mListeners.add(listener);
     }
 
-    public void removeListener(Listener listener) {
+    public void removeListener(EntityListener listener) {
         mListeners.remove(listener);
     }
 }

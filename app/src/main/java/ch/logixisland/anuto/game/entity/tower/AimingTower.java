@@ -1,6 +1,7 @@
 package ch.logixisland.anuto.game.entity.tower;
 
 import ch.logixisland.anuto.game.entity.Entity;
+import ch.logixisland.anuto.game.entity.EntityListener;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
 
 public abstract class AimingTower extends Tower {
@@ -32,14 +33,10 @@ public abstract class AimingTower extends Tower {
     ------ Listener Implementations ------
      */
 
-    private final Entity.Listener mTargetListener = new Entity.Listener() {
-        @Override
-        public void onObjectAdded(Entity obj) {
-
-        }
+    private final EntityListener mTargetListener = new EntityListener() {
 
         @Override
-        public void onObjectRemoved(Entity obj) {
+        public void entityRemoved(Entity obj) {
             onTargetLost();
         }
     };
