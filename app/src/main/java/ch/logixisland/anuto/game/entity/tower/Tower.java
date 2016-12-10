@@ -237,7 +237,7 @@ public abstract class Tower extends Entity {
 
     public void showRange() {
         if (mRangeIndicator == null) {
-            mRangeIndicator = new RangeIndicator(this);
+            mRangeIndicator = getShapeFactory().createRangeIndicator(this);
             getGameEngine().add(mRangeIndicator);
         }
     }

@@ -46,7 +46,7 @@ public abstract class Enemy extends Entity {
         mBaseSpeed = mConfig.getSpeed();
         mHealth = mConfig.getHealth();
 
-        mHealthBar = new HealthBar(getThemeManager(), this);
+        mHealthBar = getShapeFactory().createHealthBar(this);
     }
 
     @Override

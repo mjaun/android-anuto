@@ -9,6 +9,7 @@ import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.game.engine.GameEngine;
 import ch.logixisland.anuto.game.engine.TickListener;
 import ch.logixisland.anuto.game.business.GameManager;
+import ch.logixisland.anuto.game.render.shape.ShapeFactory;
 import ch.logixisland.anuto.game.render.sprite.SpriteFactory;
 import ch.logixisland.anuto.game.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.game.render.sprite.SpriteListener;
@@ -132,8 +133,8 @@ public abstract class Entity implements SpriteListener, TickListener {
         return AnutoApplication.getInstance().getGameFactory().getSpriteFactory();
     }
 
-    protected ThemeManager getThemeManager() {
-        return AnutoApplication.getInstance().getGameFactory().getThemeManager();
+    protected ShapeFactory getShapeFactory() {
+        return AnutoApplication.getInstance().getGameFactory().getShapeFactory();
     }
 
     protected Viewport getViewport() {
