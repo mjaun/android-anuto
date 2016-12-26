@@ -23,7 +23,7 @@ public class AnimatedSprite extends SpriteInstance {
     }
 
     public void setFrequency(float frequency) {
-        mTimer.setInterval(1f / frequency);
+        setInterval(1f / frequency);
     }
 
     public void setInterval(float interval) {
