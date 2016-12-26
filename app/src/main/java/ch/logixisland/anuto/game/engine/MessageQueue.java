@@ -21,11 +21,14 @@ class MessageQueue {
         int index = mQueue.size() - 1;
         long dueTickCount = mTickCount + afterTicks;
 
-        while (index >= 0 && mQueue.get(index).mDueTickCount > dueTickCount) {
-            index--;
+        for (int i = 0; i < mQueue.size(); i++) {
+            if (dueTickCount <= mQueue.get(i).mDueTickCount) {
+                mQueue.add(i, new Message(runnable, dueTickCount));
+                return;
+            }
         }
 
-        mQueue.add(index, new Message(runnable, dueTickCount));
+        mQueue.add(new Message(runnable, dueTickCount));
     }
 
     synchronized void clear() {
@@ -35,7 +38,7 @@ class MessageQueue {
     synchronized void tick() {
         mTickCount++;
 
-        while (!mQueue.isEmpty() && mQueue.get(0).mDueTickCount <= mTickCount) {
+        while (!mQueue.isEmpty() && mTickCount >= mQueue.get(0).mDueTickCount) {
             Message message = mQueue.remove(0);
             message.mRunnable.run();
         }
