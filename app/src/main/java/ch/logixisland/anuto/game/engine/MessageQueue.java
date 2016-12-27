@@ -22,7 +22,7 @@ class MessageQueue {
         long dueTickCount = mTickCount + afterTicks;
 
         for (int i = 0; i < mQueue.size(); i++) {
-            if (dueTickCount <= mQueue.get(i).mDueTickCount) {
+            if (dueTickCount < mQueue.get(i).mDueTickCount) {
                 mQueue.add(i, new Message(runnable, dueTickCount));
                 return;
             }
