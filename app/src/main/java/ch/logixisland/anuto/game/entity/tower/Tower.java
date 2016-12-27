@@ -155,10 +155,6 @@ public abstract class Tower extends Entity {
         mValue *= getGameManager().getSettings().getAgeModifier();
     }
 
-    public void sell() {
-        getScoreBoard().reimburseCredits(mValue);
-    }
-
     public void devalue(float factor) {
         mValue *= factor;
     }
@@ -178,7 +174,6 @@ public abstract class Tower extends Entity {
         }
 
         int cost = getUpgradeCost();
-        getScoreBoard().takeCredits(cost);
         upgrade.mValue = this.mValue + cost;
 
         this.remove();
@@ -202,8 +197,6 @@ public abstract class Tower extends Entity {
     }
 
     public void enhance() {
-        getScoreBoard().takeCredits(getEnhanceCost());
-
         mValue += getEnhanceCost();
         mDamage += mConfig.getEnhanceDamage() * (float)Math.pow(mConfig.getEnhanceBase(), mLevel - 1);
         mRange += mConfig.getEnhanceRange();
