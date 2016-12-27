@@ -18,6 +18,8 @@ import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameFactory;
 import ch.logixisland.anuto.game.business.GameManager;
+import ch.logixisland.anuto.game.business.control.TowerInfoView;
+import ch.logixisland.anuto.game.business.control.TowerSelector;
 import ch.logixisland.anuto.game.business.score.CreditsListener;
 import ch.logixisland.anuto.game.business.score.ScoreBoard;
 import ch.logixisland.anuto.game.entity.tower.AimingTower;
@@ -26,11 +28,11 @@ import ch.logixisland.anuto.util.StringUtils;
 
 public class TowerInfoFragment extends Fragment implements
         View.OnTouchListener, View.OnClickListener,
-        GameManager.OnShowTowerInfoListener, GameManager.OnHideTowerInfoListener,
         GameManager.OnTowersAgedListener, GameManager.OnGameOverListener,
-        CreditsListener {
+        CreditsListener, TowerInfoView {
 
     private final GameManager mGameManager;
+    private final TowerSelector mTowerSelector;
     private final ScoreBoard mScoreBoard;
 
     private Handler mHandler;
@@ -59,8 +61,10 @@ public class TowerInfoFragment extends Fragment implements
     private boolean mVisible = true;
 
     public TowerInfoFragment() {
-        mGameManager = AnutoApplication.getInstance().getGameFactory().getGameManager();
-        mScoreBoard = AnutoApplication.getInstance().getGameFactory().getScoreBoard();
+        GameFactory factory = AnutoApplication.getInstance().getGameFactory();
+        mGameManager = factory.getGameManager();
+        mScoreBoard = factory.getScoreBoard();
+        mTowerSelector = factory.getTowerSelector();
     }
 
     @Override
@@ -182,6 +186,7 @@ public class TowerInfoFragment extends Fragment implements
         hide();
         mGameManager.addListener(this);
         mScoreBoard.addCreditsListener(this);
+        mTowerSelector.setTowerInfoView(this);
     }
 
     @Override
@@ -190,6 +195,7 @@ public class TowerInfoFragment extends Fragment implements
         view_tower.close();
         mGameManager.removeListener(this);
         mScoreBoard.removeCreditsListener(this);
+        mTowerSelector.setTowerInfoView(null);
     }
 
     @Override
@@ -227,16 +233,13 @@ public class TowerInfoFragment extends Fragment implements
             mTower.sell();
             mTower.remove();
             mTower = null;
-
-            mGameManager.hideTowerInfo();
         }
     }
 
     private void onUpgradeClicked() {
         if (mTower != null && mTower.isUpgradeable()) {
             mTower = mTower.upgrade();
-            mGameManager.setSelectedTower(mTower);
-            mGameManager.showTowerInfo(mTower);
+            mTowerSelector.showTowerInfo(mTower);
         }
     }
 
@@ -271,7 +274,7 @@ public class TowerInfoFragment extends Fragment implements
     }
 
     @Override
-    public void onShowTowerInfo(Tower tower) {
+    public void showTowerInfo(Tower tower) {
         mTower = tower;
         view_tower.setTowerClass(tower.getClass());
 
@@ -285,7 +288,7 @@ public class TowerInfoFragment extends Fragment implements
     }
 
     @Override
-    public void onHideTowerInfo() {
+    public void hideTowerInfo() {
         mHandler.post(new Runnable() {
             @Override
             public void run() {

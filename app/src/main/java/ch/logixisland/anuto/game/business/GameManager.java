@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.game.business.control.TowerSelector;
 import ch.logixisland.anuto.game.business.score.LivesListener;
 import ch.logixisland.anuto.game.business.score.ScoreBoard;
 import ch.logixisland.anuto.game.engine.GameEngine;
@@ -58,14 +59,6 @@ public class GameManager implements LivesListener {
         void onWaveDone(WaveDescriptor waveDescriptor);
     }
 
-    public interface OnShowTowerInfoListener extends Listener {
-        void onShowTowerInfo(Tower tower);
-    }
-
-    public interface OnHideTowerInfoListener extends Listener {
-        void onHideTowerInfo();
-    }
-
     public interface OnTowersAgedListener extends Listener {
         void onTowersAged();
     }
@@ -76,11 +69,10 @@ public class GameManager implements LivesListener {
 
     private final GameEngine mGameEngine;
     private final ScoreBoard mScoreBoard;
+    private final TowerSelector mTowerSelector;
     private final Viewport mViewport;
 
     private Level mLevel;
-    private Tower mSelectedTower;
-
     private int mNextWaveIndex;
 
     private volatile boolean mGameOver;
@@ -151,10 +143,12 @@ public class GameManager implements LivesListener {
     ------ Constructors ------
      */
 
-    public GameManager(GameEngine gameEngine, Viewport viewport, ScoreBoard scoreBoard) {
+    public GameManager(GameEngine gameEngine, Viewport viewport, ScoreBoard scoreBoard,
+                       TowerSelector towerSelector) {
         mGameEngine = gameEngine;
         mScoreBoard = scoreBoard;
         mViewport = viewport;
+        mTowerSelector = towerSelector;
         mGameOver = true;
         mScoreBoard.addLivesListener(this);
     }
@@ -171,11 +165,9 @@ public class GameManager implements LivesListener {
         mActiveWaves.clear();
         mGameEngine.clear();
 
-        mSelectedTower = null;
+        mTowerSelector.selectTower(null);
         mNextWaveIndex = 0;
         mGameOver = false;
-
-        hideTowerInfo();
     }
 
     public void restart() {
@@ -306,31 +298,6 @@ public class GameManager implements LivesListener {
     }
 
 
-    public Tower getSelectedTower() {
-        return mSelectedTower;
-    }
-
-    public void setSelectedTower(Tower tower) {
-        if (mSelectedTower != null) {
-            mSelectedTower.hideRange();
-        }
-
-        mSelectedTower = tower;
-
-        if (mSelectedTower != null) {
-            mSelectedTower.showRange();
-        }
-    }
-
-    public void showTowerInfo(Tower tower) {
-        onShowTowerInfo(tower);
-    }
-
-    public void hideTowerInfo() {
-        onHideTowerInfo();
-    }
-
-
     private void ageTowers() {
         Iterator<Tower> it = mGameEngine.get(Types.TOWER).cast(Tower.class);
         while (it.hasNext()) {
@@ -442,18 +409,6 @@ public class GameManager implements LivesListener {
 
         for (OnWaveDoneListener l : mListeners.get(OnWaveDoneListener.class)) {
             l.onWaveDone(waveDescriptor);
-        }
-    }
-
-    private void onShowTowerInfo(Tower tower) {
-        for (OnShowTowerInfoListener l : mListeners.get(OnShowTowerInfoListener.class)) {
-            l.onShowTowerInfo(tower);
-        }
-    }
-
-    private void onHideTowerInfo() {
-        for (OnHideTowerInfoListener l : mListeners.get(OnHideTowerInfoListener.class)) {
-            l.onHideTowerInfo();
         }
     }
 

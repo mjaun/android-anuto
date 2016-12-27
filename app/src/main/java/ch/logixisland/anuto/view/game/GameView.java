@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import ch.logixisland.anuto.AnutoApplication;
+import ch.logixisland.anuto.game.business.control.TowerSelector;
 import ch.logixisland.anuto.game.engine.GameEngine;
 import ch.logixisland.anuto.game.GameFactory;
 import ch.logixisland.anuto.game.business.GameManager;
@@ -29,6 +30,7 @@ public class GameView extends View implements View.OnDragListener, View.OnTouchL
     private final Renderer mRenderer;
     private final GameEngine mGameEngine;
     private final GameManager mGameManager;
+    private final TowerSelector mTowerSelector;
 
     /*
     ------ Constructors ------
@@ -42,6 +44,7 @@ public class GameView extends View implements View.OnDragListener, View.OnTouchL
         mRenderer = factory.getRenderer();
         mGameEngine = factory.getGameEngine();
         mGameManager = factory.getGameManager();
+        mTowerSelector = factory.getTowerSelector();
 
         setFocusable(true);
         setOnDragListener(this);
@@ -77,21 +80,7 @@ public class GameView extends View implements View.OnDragListener, View.OnTouchL
     public boolean onTouch(View v, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN && !mGameManager.isGameOver()) {
             Vector2 pos = mViewport.screenToGame(new Vector2(event.getX(), event.getY()));
-
-            Tower closest = (Tower) mGameEngine.get(Types.TOWER)
-                    .min(Entity.distanceTo(pos));
-
-            mGameManager.hideTowerInfo();
-            if (closest != null && closest.getDistanceTo(pos) < 0.5f) {
-                if (mGameManager.getSelectedTower() == closest) {
-                    mGameManager.showTowerInfo(closest);
-                } else {
-                    mGameManager.setSelectedTower(closest);
-                }
-            } else {
-                mGameManager.setSelectedTower(null);
-            }
-
+            mTowerSelector.selectTowerAt(pos);
             return true;
         }
 
@@ -112,13 +101,13 @@ public class GameView extends View implements View.OnDragListener, View.OnTouchL
             case DragEvent.ACTION_DRAG_ENTERED:
                 if (closestPlateau != null) {
                     mGameEngine.add(tower);
-                    mGameManager.setSelectedTower(tower);
+                    mTowerSelector.selectTower(tower);
                 }
                 break;
 
             case DragEvent.ACTION_DRAG_EXITED:
                 tower.remove();
-                mGameManager.setSelectedTower(null);
+                mTowerSelector.selectTower(null);
                 break;
 
             case DragEvent.ACTION_DRAG_LOCATION:
@@ -129,7 +118,7 @@ public class GameView extends View implements View.OnDragListener, View.OnTouchL
                 tower.buy();
                 tower.setPlateau(closestPlateau);
                 tower.setEnabled(true);
-                mGameManager.setSelectedTower(null);
+                mTowerSelector.selectTower(null);
                 break;
         }
 

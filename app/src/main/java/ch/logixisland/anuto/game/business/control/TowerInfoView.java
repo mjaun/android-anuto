@@ -1,7 +1,8 @@
 package ch.logixisland.anuto.game.business.control;
 
+import ch.logixisland.anuto.game.entity.tower.Tower;
+
 public interface TowerInfoView {
-    void showTowerInfo(TowerInfo info);
-    void updateTowerInfo(TowerInfo info);
+    void showTowerInfo(Tower tower);
     void hideTowerInfo();
 }

@@ -21,7 +21,7 @@ public class TowerControl implements TowerSelectionListener {
     }
 
     @Override
-    public void onSelectedTowerChanged(Tower tower) {
+    public void selectedTowerChanged(Tower tower) {
         mSelectedTower = tower;
     }
 
