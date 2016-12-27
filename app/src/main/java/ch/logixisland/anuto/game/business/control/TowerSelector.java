@@ -53,7 +53,7 @@ public class TowerSelector {
                 .get(Types.TOWER)
                 .min(Entity.distanceTo(position));
 
-        if (closest.getDistanceTo(position) < 0.6f) {
+        if (closest != null && closest.getDistanceTo(position) < 0.6f) {
             selectTower(closest);
         } else {
             selectTower(null);
