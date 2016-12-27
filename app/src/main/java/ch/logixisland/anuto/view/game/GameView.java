@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import ch.logixisland.anuto.AnutoApplication;
+import ch.logixisland.anuto.game.business.control.TowerInserter;
 import ch.logixisland.anuto.game.business.control.TowerSelector;
 import ch.logixisland.anuto.game.engine.GameEngine;
 import ch.logixisland.anuto.game.GameFactory;
@@ -28,9 +29,8 @@ public class GameView extends View implements View.OnDragListener, View.OnTouchL
 
     private final Viewport mViewport;
     private final Renderer mRenderer;
-    private final GameEngine mGameEngine;
-    private final GameManager mGameManager;
     private final TowerSelector mTowerSelector;
+    private final TowerInserter mTowerInserter;
 
     /*
     ------ Constructors ------
@@ -42,9 +42,8 @@ public class GameView extends View implements View.OnDragListener, View.OnTouchL
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
         mViewport = factory.getViewport();
         mRenderer = factory.getRenderer();
-        mGameEngine = factory.getGameEngine();
-        mGameManager = factory.getGameManager();
         mTowerSelector = factory.getTowerSelector();
+        mTowerInserter = factory.getTowerInserter();
 
         setFocusable(true);
         setOnDragListener(this);
@@ -78,7 +77,7 @@ public class GameView extends View implements View.OnDragListener, View.OnTouchL
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN && !mGameManager.isGameOver()) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
             Vector2 pos = mViewport.screenToGame(new Vector2(event.getX(), event.getY()));
             mTowerSelector.selectTowerAt(pos);
             return true;
@@ -92,33 +91,22 @@ public class GameView extends View implements View.OnDragListener, View.OnTouchL
         Tower tower = (Tower)event.getLocalState();
         Vector2 pos = mViewport.screenToGame(new Vector2(event.getX(), event.getY()));
 
-        Plateau closestPlateau = mGameEngine.get(Types.PLATEAU)
-                .cast(Plateau.class)
-                .filter(Plateau.unoccupied())
-                .min(Entity.distanceTo(pos));
-
         switch (event.getAction()) {
             case DragEvent.ACTION_DRAG_ENTERED:
-                if (closestPlateau != null) {
-                    mGameEngine.add(tower);
-                    mTowerSelector.selectTower(tower);
-                }
+                mTowerInserter.insertTower(tower);
+                mTowerInserter.setPosition(pos);
                 break;
 
             case DragEvent.ACTION_DRAG_EXITED:
-                tower.remove();
-                mTowerSelector.selectTower(null);
+                mTowerInserter.cancel();;
                 break;
 
             case DragEvent.ACTION_DRAG_LOCATION:
-                tower.setPosition(closestPlateau.getPosition());
+                mTowerInserter.setPosition(pos);
                 break;
 
             case DragEvent.ACTION_DROP:
-                tower.buy();
-                tower.setPlateau(closestPlateau);
-                tower.setEnabled(true);
-                mTowerSelector.selectTower(null);
+                mTowerInserter.buyTower();
                 break;
         }
 

@@ -3,6 +3,7 @@ package ch.logixisland.anuto.game.business.control;
 import ch.logixisland.anuto.game.business.score.ScoreBoard;
 import ch.logixisland.anuto.game.engine.GameEngine;
 import ch.logixisland.anuto.game.entity.Entity;
+import ch.logixisland.anuto.game.entity.Types;
 import ch.logixisland.anuto.game.entity.plateau.Plateau;
 import ch.logixisland.anuto.game.entity.tower.Tower;
 import ch.logixisland.anuto.util.math.vector.Vector2;
@@ -10,12 +11,15 @@ import ch.logixisland.anuto.util.math.vector.Vector2;
 public class TowerInserter {
 
     private final GameEngine mGameEngine;
+    private final TowerSelector mTowerSelector;
     private final ScoreBoard mScoreBoard;
 
     private Tower mInsertedTower;
+    private Plateau mCurrentPlateau;
 
-    public TowerInserter(GameEngine gameEngine, ScoreBoard scoreBoard) {
+    public TowerInserter(GameEngine gameEngine, ScoreBoard scoreBoard, TowerSelector towerSelector) {
         mGameEngine = gameEngine;
+        mTowerSelector = towerSelector;
         mScoreBoard = scoreBoard;
     }
 
@@ -31,9 +35,10 @@ public class TowerInserter {
             return;
         }
 
-        if (mInsertedTower != null) {
+        if (mInsertedTower == null) {
             mInsertedTower = tower;
             mGameEngine.add(tower);
+            mTowerSelector.selectTower(mInsertedTower);
         }
     }
 
@@ -47,6 +52,20 @@ public class TowerInserter {
                 }
             });
             return;
+        }
+
+        if (mInsertedTower != null) {
+            Plateau closestPlateau = mGameEngine.get(Types.PLATEAU)
+                    .cast(Plateau.class)
+                    .filter(Plateau.unoccupied())
+                    .min(Entity.distanceTo(position));
+
+            if (closestPlateau != null) {
+                mCurrentPlateau = closestPlateau;
+                mInsertedTower.setPosition(mCurrentPlateau.getPosition());
+            } else {
+                cancel();
+            }
         }
     }
 
@@ -63,7 +82,12 @@ public class TowerInserter {
 
         if (mInsertedTower != null) {
             mInsertedTower.setEnabled(true);
+            mCurrentPlateau.setOccupant(mInsertedTower);
             mScoreBoard.takeCredits(mInsertedTower.getValue());
+            mTowerSelector.selectTower(null);
+
+            mCurrentPlateau = null;
+            mInsertedTower = null;
         }
     }
 
@@ -80,6 +104,8 @@ public class TowerInserter {
 
         if (mInsertedTower != null) {
             mGameEngine.remove(mInsertedTower);
+
+            mCurrentPlateau = null;
             mInsertedTower = null;
         }
     }
