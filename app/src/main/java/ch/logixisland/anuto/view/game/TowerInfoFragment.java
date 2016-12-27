@@ -18,6 +18,7 @@ import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameFactory;
 import ch.logixisland.anuto.game.business.GameManager;
+import ch.logixisland.anuto.game.business.control.TowerControl;
 import ch.logixisland.anuto.game.business.control.TowerInfoView;
 import ch.logixisland.anuto.game.business.control.TowerSelector;
 import ch.logixisland.anuto.game.business.score.CreditsListener;
@@ -33,6 +34,7 @@ public class TowerInfoFragment extends Fragment implements
 
     private final GameManager mGameManager;
     private final TowerSelector mTowerSelector;
+    private final TowerControl mTowerControl;
     private final ScoreBoard mScoreBoard;
 
     private Handler mHandler;
@@ -65,6 +67,7 @@ public class TowerInfoFragment extends Fragment implements
         mGameManager = factory.getGameManager();
         mScoreBoard = factory.getScoreBoard();
         mTowerSelector = factory.getTowerSelector();
+        mTowerControl = factory.getTowerControl();
     }
 
     @Override
@@ -206,70 +209,23 @@ public class TowerInfoFragment extends Fragment implements
     @Override
     public void onClick(View v) {
         if (v == btn_strategy) {
-            onStrategyClicked();
+            mTowerControl.cycleTowerStrategy();
         }
 
         if (v == btn_lock_target) {
-            onLockTargetClicked();
+            mTowerControl.toggleLockTarget();
         }
 
         if (v == btn_enhance) {
-            onEnhanceClicked();
+            mTowerControl.enhanceTower();
         }
 
         if (v == btn_upgrade) {
-            onUpgradeClicked();
+            mTowerControl.upgradeTower();
         }
 
         if (v == btn_sell) {
-            onSellClicked();
-        }
-    }
-
-    private void onSellClicked() {
-        if (mTower != null) {
-            view_tower.setTower(null);
-
-            mTower.sell();
-            mTower.remove();
-            mTower = null;
-        }
-    }
-
-    private void onUpgradeClicked() {
-        if (mTower != null && mTower.isUpgradeable()) {
-            mTower = mTower.upgrade();
-            mTowerSelector.showTowerInfo(mTower);
-        }
-    }
-
-    private void onEnhanceClicked() {
-        if (mTower != null && mTower.isEnhanceable()) {
-            mTower.enhance();
-            refresh();
-        }
-    }
-
-    private void onLockTargetClicked() {
-        if (mTower != null && mTower instanceof AimingTower) {
-            AimingTower t = (AimingTower) mTower;
-            t.setLockOnTarget(!t.doesLockOnTarget());
-
-            refresh();
-        }
-    }
-
-    private void onStrategyClicked() {
-        if (mTower != null && mTower instanceof AimingTower) {
-            AimingTower t = (AimingTower) mTower;
-            List<AimingTower.Strategy> values = Arrays.asList(AimingTower.Strategy.values());
-            int index = values.indexOf(t.getStrategy()) + 1;
-            if (index >= values.size()) {
-                index = 0;
-            }
-            t.setStrategy(values.get(index));
-
-            refresh();
+            mTowerControl.sellTower();
         }
     }
 

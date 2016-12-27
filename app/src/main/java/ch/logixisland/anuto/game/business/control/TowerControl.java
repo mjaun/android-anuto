@@ -8,21 +8,16 @@ import ch.logixisland.anuto.game.engine.GameEngine;
 import ch.logixisland.anuto.game.entity.tower.AimingTower;
 import ch.logixisland.anuto.game.entity.tower.Tower;
 
-public class TowerControl implements TowerSelectionListener {
+public class TowerControl {
 
     private final GameEngine mGameEngine;
     private final ScoreBoard mScoreBoard;
+    private final TowerSelector mTowerSelector;
 
-    private Tower mSelectedTower;
-
-    public TowerControl(GameEngine gameEngine, ScoreBoard scoreBoard) {
+    public TowerControl(GameEngine gameEngine, ScoreBoard scoreBoard, TowerSelector towerSelector) {
         mGameEngine = gameEngine;
         mScoreBoard = scoreBoard;
-    }
-
-    @Override
-    public void selectedTowerChanged(Tower tower) {
-        mSelectedTower = tower;
+        mTowerSelector = towerSelector;
     }
 
     public void upgradeTower() {
@@ -36,10 +31,12 @@ public class TowerControl implements TowerSelectionListener {
             return;
         }
 
-        if (mSelectedTower != null && mSelectedTower.isUpgradeable()) {
-            if (mSelectedTower.getUpgradeCost() <= mScoreBoard.getCredits()) {
-                mScoreBoard.takeCredits(mSelectedTower.getUpgradeCost());
-                mSelectedTower.upgrade();
+        Tower selectedTower = mTowerSelector.getSelectedTower();
+        if (selectedTower != null && selectedTower.isUpgradeable()) {
+            if (selectedTower.getUpgradeCost() <= mScoreBoard.getCredits()) {
+                mScoreBoard.takeCredits(selectedTower.getUpgradeCost());
+                Tower upgradedTower = selectedTower.upgrade();
+                mTowerSelector.showTowerInfo(upgradedTower);
             }
         }
     }
@@ -55,10 +52,12 @@ public class TowerControl implements TowerSelectionListener {
             return;
         }
 
-        if (mSelectedTower != null && mSelectedTower.isEnhanceable()) {
-            if (mSelectedTower.getEnhanceCost() <= mScoreBoard.getCredits()) {
-                mScoreBoard.takeCredits(mSelectedTower.getEnhanceCost());
-                mSelectedTower.enhance();
+        Tower selectedTower = mTowerSelector.getSelectedTower();
+        if (selectedTower != null && selectedTower.isEnhanceable()) {
+            if (selectedTower.getEnhanceCost() <= mScoreBoard.getCredits()) {
+                mScoreBoard.takeCredits(selectedTower.getEnhanceCost());
+                selectedTower.enhance();
+                mTowerSelector.updateTowerInfo();
             }
         }
     }
@@ -74,8 +73,9 @@ public class TowerControl implements TowerSelectionListener {
             return;
         }
 
-        if (mSelectedTower instanceof AimingTower) {
-            AimingTower tower = (AimingTower) mSelectedTower;
+        Tower selectedTower = mTowerSelector.getSelectedTower();
+        if (selectedTower instanceof AimingTower) {
+            AimingTower tower = (AimingTower) selectedTower;
 
             List<AimingTower.Strategy> values = Arrays.asList(AimingTower.Strategy.values());
             int index = values.indexOf(tower.getStrategy()) + 1;
@@ -83,6 +83,7 @@ public class TowerControl implements TowerSelectionListener {
                 index = 0;
             }
             tower.setStrategy(values.get(index));
+            mTowerSelector.updateTowerInfo();
         }
     }
 
@@ -97,9 +98,11 @@ public class TowerControl implements TowerSelectionListener {
             return;
         }
 
-        if (mSelectedTower instanceof AimingTower) {
-            AimingTower tower = (AimingTower) mSelectedTower;
+        Tower selectedTower = mTowerSelector.getSelectedTower();
+        if (selectedTower instanceof AimingTower) {
+            AimingTower tower = (AimingTower) selectedTower;
             tower.setLockOnTarget(!tower.doesLockOnTarget());
+            mTowerSelector.updateTowerInfo();
         }
     }
 
@@ -114,9 +117,10 @@ public class TowerControl implements TowerSelectionListener {
             return;
         }
 
-        if (mSelectedTower != null) {
-            mScoreBoard.reimburseCredits(mSelectedTower.getValue());
-            mGameEngine.remove(mSelectedTower);
+        Tower selectedTower = mTowerSelector.getSelectedTower();
+        if (selectedTower != null) {
+            mScoreBoard.reimburseCredits(selectedTower.getValue());
+            mGameEngine.remove(selectedTower);
         }
     }
 

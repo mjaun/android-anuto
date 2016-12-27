@@ -3,6 +3,7 @@ package ch.logixisland.anuto.game;
 import android.content.Context;
 
 import ch.logixisland.anuto.game.business.GameManager;
+import ch.logixisland.anuto.game.business.control.TowerControl;
 import ch.logixisland.anuto.game.business.control.TowerSelector;
 import ch.logixisland.anuto.game.business.score.ScoreBoard;
 import ch.logixisland.anuto.game.engine.GameEngine;
@@ -22,6 +23,7 @@ public class GameFactory {
 
     private final ScoreBoard mScoreBoard;
     private final TowerSelector mTowerSelector;
+    private final TowerControl mTowerControl;
 
     private final GameEngine mGameEngine;
     private final GameManager mGameManager;
@@ -35,6 +37,7 @@ public class GameFactory {
         mRenderer = new Renderer(mViewport, mThemeManager);
         mGameEngine = new GameEngine(mRenderer);
         mTowerSelector = new TowerSelector(mGameEngine);
+        mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector);
         mGameManager = new GameManager(mGameEngine, mViewport, mScoreBoard, mTowerSelector);
     }
 
@@ -72,5 +75,9 @@ public class GameFactory {
 
     public TowerSelector getTowerSelector() {
         return mTowerSelector;
+    }
+
+    public TowerControl getTowerControl() {
+        return mTowerControl;
     }
 }

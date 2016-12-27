@@ -1,5 +1,9 @@
 package ch.logixisland.anuto.game.business.control;
 
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.RunnableFuture;
+
 import ch.logixisland.anuto.game.engine.GameEngine;
 import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.entity.EntityListener;
@@ -7,12 +11,19 @@ import ch.logixisland.anuto.game.entity.Types;
 import ch.logixisland.anuto.game.entity.tower.Tower;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
-public class TowerSelector implements EntityListener {
+public class TowerSelector {
 
     private final GameEngine mGameEngine;
 
     private TowerInfoView mTowerInfoView;
     private Tower mSelectedTower;
+
+    private final EntityListener mEntityListener = new EntityListener() {
+        @Override
+        public void entityRemoved(Entity obj) {
+            selectTower(null);
+        }
+    };
 
     public TowerSelector(GameEngine gameEngine) {
         mGameEngine = gameEngine;
@@ -90,16 +101,30 @@ public class TowerSelector implements EntityListener {
         showTowerInfo();
     }
 
+    public void updateTowerInfo() {
+        if (mGameEngine.isThreadChangeNeeded()) {
+            mGameEngine.post(new Runnable() {
+                @Override
+                public void run() {
+                    updateTowerInfo();
+                }
+            });
+            return;
+        }
+
+        showTowerInfo();
+    }
+
     private void setSelectedTower(Tower tower) {
         if (mSelectedTower != null) {
-            mSelectedTower.removeListener(this);
+            mSelectedTower.removeListener(mEntityListener);
             mSelectedTower.hideRange();
         }
 
         mSelectedTower = tower;
 
         if (mSelectedTower != null) {
-            mSelectedTower.addListener(this);
+            mSelectedTower.addListener(mEntityListener);
             mSelectedTower.showRange();
         }
     }
@@ -114,11 +139,6 @@ public class TowerSelector implements EntityListener {
         if (mTowerInfoView != null) {
             mTowerInfoView.showTowerInfo(mSelectedTower);
         }
-    }
-
-    @Override
-    public void entityRemoved(Entity obj) {
-        selectTower(null);
     }
 
 }
