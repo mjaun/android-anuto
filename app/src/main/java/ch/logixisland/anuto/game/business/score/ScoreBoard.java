@@ -1,7 +1,7 @@
 package ch.logixisland.anuto.game.business.score;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ScoreBoard {
 
@@ -12,9 +12,9 @@ public class ScoreBoard {
     private int mEarlyBonus;
     private int mWaveBonus;
 
-    private final List<CreditsListener> mCreditsListeners = new ArrayList<>();
-    private final List<LivesListener> mLivesListeners = new ArrayList<>();
-    private final List<BonusListener> mBonusListeners = new ArrayList<>();
+    private final List<CreditsListener> mCreditsListeners = new CopyOnWriteArrayList<>();
+    private final List<LivesListener> mLivesListeners = new CopyOnWriteArrayList<>();
+    private final List<BonusListener> mBonusListeners = new CopyOnWriteArrayList<>();
 
     public synchronized void reset(int lives, int credits) {
         mCredits = credits;
