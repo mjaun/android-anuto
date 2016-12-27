@@ -3,6 +3,7 @@ package ch.logixisland.anuto.game.business;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.game.business.score.ScoreBoard;
 import ch.logixisland.anuto.game.engine.GameEngine;
 import ch.logixisland.anuto.game.data.EnemyDescriptor;
 import ch.logixisland.anuto.game.data.WaveDescriptor;
@@ -31,6 +32,7 @@ public class WaveManager {
 
     private final GameEngine mGameEngine;
     private final GameManager mGameManager;
+    private final ScoreBoard mScoreBoard;
 
     private final WaveDescriptor mWaveDescriptor;
     private final int mExtend;
@@ -68,9 +70,11 @@ public class WaveManager {
     ------ Constructors ------
      */
 
-    public WaveManager(GameEngine gameEngine, GameManager gameManager, WaveDescriptor waveDescriptor, int extend) {
+    public WaveManager(GameEngine gameEngine, GameManager gameManager, ScoreBoard scoreBoard,
+                       WaveDescriptor waveDescriptor, int extend) {
         mGameEngine = gameEngine;
         mGameManager = gameManager;
+        mScoreBoard = scoreBoard;
         mWaveDescriptor = waveDescriptor;
         mExtend = extend;
 
@@ -181,7 +185,7 @@ public class WaveManager {
         mGameEngine.post(new Runnable() {
             @Override
             public void run() {
-                mGameManager.giveCredits(mWaveReward, true);
+                mScoreBoard.giveCredits(mWaveReward);
                 mWaveReward = 0;
             }
         });

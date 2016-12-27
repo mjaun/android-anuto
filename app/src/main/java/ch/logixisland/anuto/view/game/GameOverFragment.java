@@ -14,6 +14,7 @@ import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameFactory;
 import ch.logixisland.anuto.game.business.GameManager;
+import ch.logixisland.anuto.game.business.score.ScoreBoard;
 import ch.logixisland.anuto.game.render.theme.ThemeManager;
 
 public class GameOverFragment extends Fragment implements GameManager.OnGameStartedListener,
@@ -21,6 +22,7 @@ public class GameOverFragment extends Fragment implements GameManager.OnGameStar
 
     private final ThemeManager mThemeManager;
     private final GameManager mGameManager;
+    private final ScoreBoard mScoreBoard;
 
     private TextView txt_game_over;
     private TextView txt_score;
@@ -29,6 +31,7 @@ public class GameOverFragment extends Fragment implements GameManager.OnGameStar
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
         mThemeManager = factory.getThemeManager();
         mGameManager = factory.getGameManager();
+        mScoreBoard = factory.getScoreBoard();
     }
 
     @Override
@@ -75,15 +78,11 @@ public class GameOverFragment extends Fragment implements GameManager.OnGameStar
         txt_game_over.post(new Runnable() {
             @Override
             public void run() {
-                if (mGameManager.isGameWon()) {
-                    txt_game_over.setText(R.string.game_over_won);
-                } else {
-                    txt_game_over.setText(R.string.game_over_lost);
-                }
+                txt_game_over.setText(R.string.game_over_lost);
 
                 DecimalFormat fmt = new DecimalFormat("###,###,###,###");
                 txt_score.setText(getResources().getString(R.string.score) +
-                        ": " + fmt.format(mGameManager.getScore()));
+                        ": " + fmt.format(mScoreBoard.getScore()));
             }
         });
 

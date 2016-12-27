@@ -115,7 +115,7 @@ public class TowerControl implements TowerSelectionListener {
         }
 
         if (mSelectedTower != null) {
-            mScoreBoard.giveCredits(mSelectedTower.getValue(), false);
+            mScoreBoard.reimburseCredits(mSelectedTower.getValue());
             mGameEngine.remove(mSelectedTower);
         }
     }

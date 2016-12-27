@@ -16,6 +16,8 @@ import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameFactory;
 import ch.logixisland.anuto.game.business.GameManager;
+import ch.logixisland.anuto.game.business.score.CreditsListener;
+import ch.logixisland.anuto.game.business.score.ScoreBoard;
 import ch.logixisland.anuto.game.entity.tower.Tower;
 import ch.logixisland.anuto.game.render.theme.ThemeManager;
 
@@ -25,6 +27,7 @@ public class TowerView extends View implements View.OnTouchListener {
 
     private final ThemeManager mThemeManager;
     private final GameManager mGameManager;
+    private final ScoreBoard mScoreBoard;
 
     private Tower mTower;
     private Class<? extends Tower> mTowerClass;
@@ -34,9 +37,9 @@ public class TowerView extends View implements View.OnTouchListener {
     private final Paint mPaintText;
     private final Matrix mScreenMatrix;
 
-    private GameManager.Listener mCreditsListener = new GameManager.OnCreditsChangedListener() {
+    private CreditsListener mCreditsListener = new CreditsListener() {
         @Override
-        public void onCreditsChanged(int credits) {
+        public void creditsChanged(int credits) {
             if (mTower != null) {
                 if (credits >= mTower.getValue()) {
                     mPaintText.setColor(mThemeManager.getTheme().getTextColor());
@@ -54,13 +57,8 @@ public class TowerView extends View implements View.OnTouchListener {
 
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
         mThemeManager = factory.getThemeManager();
-
-        if (!isInEditMode()) {
-            mGameManager = factory.getGameManager();
-            mGameManager.addListener(mCreditsListener);
-        } else {
-            mGameManager = null;
-        }
+        mScoreBoard = factory.getScoreBoard();
+        mGameManager = factory.getGameManager();
 
         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.TowerView);
         mDrawSize = a.getFloat(R.styleable.TowerView_drawSize, mDrawSize);
@@ -122,7 +120,7 @@ public class TowerView extends View implements View.OnTouchListener {
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if (isEnabled() && mTowerClass != null && mGameManager.getCredits() >= mTower.getValue() &&
+            if (isEnabled() && mTowerClass != null && mScoreBoard.getCredits() >= mTower.getValue() &&
                     !mGameManager.isGameOver()) {
                 View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder() {
                     @Override
@@ -169,7 +167,7 @@ public class TowerView extends View implements View.OnTouchListener {
 
 
     public void close() {
-        mGameManager.removeListener(mCreditsListener);
+        mScoreBoard.removeCreditsListener(mCreditsListener);
     }
 
 

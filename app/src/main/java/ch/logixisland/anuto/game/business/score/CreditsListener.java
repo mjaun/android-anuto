@@ -1,5 +1,5 @@
 package ch.logixisland.anuto.game.business.score;
 
 public interface CreditsListener {
-    void onCreditsChanged();
+    void creditsChanged(int credits);
 }

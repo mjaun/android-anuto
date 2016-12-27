@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.game.business.score.LivesListener;
+import ch.logixisland.anuto.game.business.score.ScoreBoard;
 import ch.logixisland.anuto.game.engine.GameEngine;
 import ch.logixisland.anuto.game.data.EnemyDescriptor;
 import ch.logixisland.anuto.game.data.Level;
@@ -20,7 +22,7 @@ import ch.logixisland.anuto.game.render.Viewport;
 import ch.logixisland.anuto.util.container.ListenerList;
 import ch.logixisland.anuto.util.math.MathUtils;
 
-public class GameManager {
+public class GameManager implements LivesListener {
 
     /*
     ------ Constants ------
@@ -56,18 +58,6 @@ public class GameManager {
         void onWaveDone(WaveDescriptor waveDescriptor);
     }
 
-    public interface OnCreditsChangedListener extends Listener {
-        void onCreditsChanged(int credits);
-    }
-
-    public interface OnBonusChangedListener extends Listener {
-        void onBonusChanged(int bonus, int earlyBonus);
-    }
-
-    public interface OnLivesChangedListener extends Listener {
-        void onLivesChanged(int lives);
-    }
-
     public interface OnShowTowerInfoListener extends Listener {
         void onShowTowerInfo(Tower tower);
     }
@@ -85,6 +75,7 @@ public class GameManager {
      */
 
     private final GameEngine mGameEngine;
+    private final ScoreBoard mScoreBoard;
     private final Viewport mViewport;
 
     private Level mLevel;
@@ -92,13 +83,7 @@ public class GameManager {
 
     private int mNextWaveIndex;
 
-    private volatile int mCredits;
-    private volatile int mCreditsEarned;
-    private volatile int mScore;
-    private volatile int mLives;
-    private volatile int mEarlyBonus;
     private volatile boolean mGameOver;
-    private volatile boolean mGameWon;
     private volatile boolean mNextWaveReady;
 
     private List<WaveManager> mActiveWaves = new CopyOnWriteArrayList<>();
@@ -147,7 +132,6 @@ public class GameManager {
 
             if (!hasNextWave()) {
                 mGameOver = true;
-                mGameWon = true;
                 onGameOver();
             }
         }
@@ -167,10 +151,12 @@ public class GameManager {
     ------ Constructors ------
      */
 
-    public GameManager(GameEngine gameEngine, Viewport viewport) {
+    public GameManager(GameEngine gameEngine, Viewport viewport, ScoreBoard scoreBoard) {
         mGameEngine = gameEngine;
+        mScoreBoard = scoreBoard;
         mViewport = viewport;
         mGameOver = true;
+        mScoreBoard.addLivesListener(this);
     }
 
     /*
@@ -202,18 +188,10 @@ public class GameManager {
         }
 
         mViewport.setGameSize(getSettings().getWidth(), getSettings().getHeight());
-
-        mEarlyBonus = 0;
         mNextWaveReady = true;
-        mCreditsEarned = getSettings().getCredits();
-        mScore = 0;
+        mScoreBoard.reset(getSettings().getLives(), getSettings().getCredits());
 
         onGameStarted();
-
-        setCredits(getSettings().getCredits());
-        setLives(getSettings().getLives());
-
-        onBonusChanged();
     }
 
 
@@ -283,7 +261,7 @@ public class GameManager {
     public void startNextWave() {
         if (hasCurrentWave()) {
             getCurrentWaveManager().giveReward();
-            giveCredits(mEarlyBonus, false);
+            mScoreBoard.giveCredits(mScoreBoard.getEarlyBonus());
         }
 
         WaveDescriptor nextWaveDescriptor = getNextWave();
@@ -293,7 +271,7 @@ public class GameManager {
             extend = nextWaveDescriptor.getMaxExtend();
         }
 
-        WaveManager m = new WaveManager(mGameEngine, this, nextWaveDescriptor, extend);
+        WaveManager m = new WaveManager(mGameEngine, this, mScoreBoard, nextWaveDescriptor, extend);
         m.addListener(mWaveListener);
 
         if (getSettings().isEndless()) {
@@ -306,48 +284,7 @@ public class GameManager {
         mNextWaveReady = false;
     }
 
-
-    public int getScore() {
-        return mScore;
-    }
-
-    public int getCredits() {
-        return mCredits;
-    }
-
-    public void setCredits(int credits) {
-        mCredits = credits;
-        onCreditsChanged();
-    }
-
-    public void giveCredits(int amount, boolean earned) {
-        if (amount <= 0) {
-            return;
-        }
-
-        mCredits += amount;
-
-        if (!mGameOver) {
-            mScore += amount;
-        }
-
-        if (earned) {
-            mCreditsEarned += amount;
-        }
-
-        onCreditsChanged();
-    }
-
-    public void takeCredits(int amount) {
-        if (amount <= 0) {
-            return;
-        }
-
-        mCredits -= amount;
-        onCreditsChanged();
-    }
-
-    public int getBonus() {
+    public int getWaveBonus() {
         if (!hasCurrentWave()) {
             return 0;
         }
@@ -355,35 +292,10 @@ public class GameManager {
         return getCurrentWaveManager().getReward();
     }
 
-    public int getEarlyBonus() {
-        return mEarlyBonus;
-    }
-
-
-    public int getLives() {
-        return mLives;
-    }
-
-    public void setLives(int lives) {
-        mLives = lives;
-        onLivesChanged();
-    }
-
-    public void giveLives(int count) {
-        if (!isGameOver()) {
-            mLives += count;
-            onLivesChanged();
-        }
-    }
-
-    public void takeLives(int count) {
-        mLives -= count;
-
-        onLivesChanged();
-
-        if (mLives < 0 && !mGameOver) {
+    @Override
+    public void livesChanged(int lives) {
+        if (!mGameOver && mScoreBoard.getLives() < 0) {
             mGameOver = true;
-            mGameWon = false;
             onGameOver();
         }
     }
@@ -391,10 +303,6 @@ public class GameManager {
 
     public boolean isGameOver() {
         return mGameOver;
-    }
-
-    public boolean isGameWon() {
-        return mGameWon;
     }
 
 
@@ -443,13 +351,13 @@ public class GameManager {
         float modifier = getSettings().getEarlyModifier();
         float root = getSettings().getEarlyRoot();
 
-        mEarlyBonus = Math.round(modifier * (float)Math.pow(earlyBonus, 1f / root));
-        onBonusChanged();
+        mScoreBoard.setEarlyBonus(Math.round(modifier * (float)Math.pow(earlyBonus, 1f / root)));
+        mScoreBoard.setWaveBonus(getWaveBonus());
     }
 
     private void calcWaveModifiers(WaveManager waveMan) {
         Log.d(TAG, String.format("calculating wave modifiers for wave %d...", getWaveNumber() + 1));
-        Log.d(TAG, String.format("creditsEarned=%d", mCreditsEarned));
+        Log.d(TAG, String.format("creditsEarned=%d", mScoreBoard.getCreditsEarned()));
 
         float waveHealth = 0f;
 
@@ -462,8 +370,8 @@ public class GameManager {
         Log.d(TAG, String.format("waveHealth=%f", waveHealth));
 
         float damagePossible = getSettings().getDifficultyOffset()
-                + getSettings().getDifficultyLinear() * mCreditsEarned
-                + getSettings().getDifficultyQuadratic() * MathUtils.square(mCreditsEarned);
+                + getSettings().getDifficultyLinear() * mScoreBoard.getCreditsEarned()
+                + getSettings().getDifficultyQuadratic() * MathUtils.square(mScoreBoard.getCreditsEarned());
         float healthModifier = damagePossible / waveHealth;
 
         waveMan.modifyHealth(healthModifier);
@@ -510,24 +418,6 @@ public class GameManager {
 
         for (OnGameOverListener l : mListeners.get(OnGameOverListener.class)) {
             l.onGameOver();
-        }
-    }
-
-    private void onCreditsChanged() {
-        for (OnCreditsChangedListener l : mListeners.get(OnCreditsChangedListener.class)) {
-            l.onCreditsChanged(getCredits());
-        }
-    }
-
-    private void onBonusChanged() {
-        for (OnBonusChangedListener l : mListeners.get(OnBonusChangedListener.class)) {
-            l.onBonusChanged(getBonus(), getEarlyBonus());
-        }
-    }
-
-    private void onLivesChanged() {
-        for (OnLivesChangedListener l : mListeners.get(OnLivesChangedListener.class)) {
-            l.onLivesChanged(getLives());
         }
     }
 

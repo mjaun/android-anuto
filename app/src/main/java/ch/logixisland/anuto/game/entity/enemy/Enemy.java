@@ -72,7 +72,7 @@ public abstract class Enemy extends Entity {
 
         if (isEnabled()) {
             if (!hasWayPoint()) {
-                getGameManager().takeLives(1);
+                getScoreBoard().takeLives(1);
                 this.remove();
                 return;
             }
@@ -210,7 +210,7 @@ public abstract class Enemy extends Entity {
         mHealth -= dmg / mHealthModifier;
 
         if (mHealth <= 0) {
-            getGameManager().giveCredits(getReward(), true);
+            getScoreBoard().giveCredits(getReward());
             this.remove();
         }
     }

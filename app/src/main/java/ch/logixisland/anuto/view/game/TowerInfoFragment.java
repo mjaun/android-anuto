@@ -18,6 +18,8 @@ import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameFactory;
 import ch.logixisland.anuto.game.business.GameManager;
+import ch.logixisland.anuto.game.business.score.CreditsListener;
+import ch.logixisland.anuto.game.business.score.ScoreBoard;
 import ch.logixisland.anuto.game.entity.tower.AimingTower;
 import ch.logixisland.anuto.game.entity.tower.Tower;
 import ch.logixisland.anuto.util.StringUtils;
@@ -25,10 +27,11 @@ import ch.logixisland.anuto.util.StringUtils;
 public class TowerInfoFragment extends Fragment implements
         View.OnTouchListener, View.OnClickListener,
         GameManager.OnShowTowerInfoListener, GameManager.OnHideTowerInfoListener,
-        GameManager.OnCreditsChangedListener, GameManager.OnTowersAgedListener,
-        GameManager.OnGameOverListener {
+        GameManager.OnTowersAgedListener, GameManager.OnGameOverListener,
+        CreditsListener {
 
     private final GameManager mGameManager;
+    private final ScoreBoard mScoreBoard;
 
     private Handler mHandler;
     private Tower mTower;
@@ -57,6 +60,7 @@ public class TowerInfoFragment extends Fragment implements
 
     public TowerInfoFragment() {
         mGameManager = AnutoApplication.getInstance().getGameFactory().getGameManager();
+        mScoreBoard = AnutoApplication.getInstance().getGameFactory().getScoreBoard();
     }
 
     @Override
@@ -168,8 +172,8 @@ public class TowerInfoFragment extends Fragment implements
             btn_lock_target.setEnabled(false);
         }
 
-        btn_upgrade.setEnabled(mTower.isUpgradeable() && mGameManager.getCredits() >= mTower.getUpgradeCost());
-        btn_enhance.setEnabled(mTower.isEnhanceable() && mGameManager.getCredits() >= mTower.getEnhanceCost());
+        btn_upgrade.setEnabled(mTower.isUpgradeable() && mScoreBoard.getCredits() >= mTower.getUpgradeCost());
+        btn_enhance.setEnabled(mTower.isEnhanceable() && mScoreBoard.getCredits() >= mTower.getEnhanceCost());
     }
 
     @Override
@@ -177,6 +181,7 @@ public class TowerInfoFragment extends Fragment implements
         super.onAttach(context);
         hide();
         mGameManager.addListener(this);
+        mScoreBoard.addCreditsListener(this);
     }
 
     @Override
@@ -184,6 +189,7 @@ public class TowerInfoFragment extends Fragment implements
         super.onDetach();
         view_tower.close();
         mGameManager.removeListener(this);
+        mScoreBoard.removeCreditsListener(this);
     }
 
     @Override
@@ -289,7 +295,7 @@ public class TowerInfoFragment extends Fragment implements
     }
 
     @Override
-    public void onCreditsChanged(final int credits) {
+    public void creditsChanged(final int credits) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {

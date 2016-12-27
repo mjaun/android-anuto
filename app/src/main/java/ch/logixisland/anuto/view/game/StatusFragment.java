@@ -16,19 +16,23 @@ import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameFactory;
 import ch.logixisland.anuto.game.business.GameManager;
+import ch.logixisland.anuto.game.business.score.BonusListener;
+import ch.logixisland.anuto.game.business.score.CreditsListener;
+import ch.logixisland.anuto.game.business.score.LivesListener;
+import ch.logixisland.anuto.game.business.score.ScoreBoard;
 import ch.logixisland.anuto.game.data.WaveDescriptor;
 import ch.logixisland.anuto.game.render.theme.ThemeManager;
 import ch.logixisland.anuto.util.StringUtils;
 import ch.logixisland.anuto.game.render.theme.Theme;
 
 public class StatusFragment extends Fragment implements GameManager.OnWaveStartedListener,
-        GameManager.OnCreditsChangedListener, GameManager.OnLivesChangedListener,
-        GameManager.OnGameStartedListener, GameManager.OnGameOverListener,
-        GameManager.OnBonusChangedListener, GameManager.OnNextWaveReadyListener,
+        GameManager.OnGameStartedListener, GameManager.OnGameOverListener, GameManager.OnNextWaveReadyListener,
+        CreditsListener, LivesListener, BonusListener,
         View.OnClickListener {
 
     private final ThemeManager mThemeManager;
     private final GameManager mGameManager;
+    private final ScoreBoard mScoreBoard;
 
     private Handler mHandler;
 
@@ -44,6 +48,7 @@ public class StatusFragment extends Fragment implements GameManager.OnWaveStarte
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
         mThemeManager = factory.getThemeManager();
         mGameManager = factory.getGameManager();
+        mScoreBoard = factory.getScoreBoard();
     }
 
     @Override
@@ -78,12 +83,18 @@ public class StatusFragment extends Fragment implements GameManager.OnWaveStarte
     public void onAttach(Context context) {
         super.onAttach(context);
         mGameManager.addListener(this);
+        mScoreBoard.addBonusListener(this);
+        mScoreBoard.addCreditsListener(this);
+        mScoreBoard.addLivesListener(this);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         mGameManager.removeListener(this);
+        mScoreBoard.removeBonusListener(this);
+        mScoreBoard.removeCreditsListener(this);
+        mScoreBoard.removeLivesListener(this);
     }
 
     @Override
@@ -141,7 +152,7 @@ public class StatusFragment extends Fragment implements GameManager.OnWaveStarte
     }
 
     @Override
-    public void onCreditsChanged(final int credits) {
+    public void creditsChanged(final int credits) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -151,7 +162,7 @@ public class StatusFragment extends Fragment implements GameManager.OnWaveStarte
     }
 
     @Override
-    public void onLivesChanged(final int lives) {
+    public void livesChanged(final int lives) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -182,13 +193,13 @@ public class StatusFragment extends Fragment implements GameManager.OnWaveStarte
     }
 
     @Override
-    public void onBonusChanged(final int bonus, final int earlyBonus) {
+    public void bonusChanged(final int waveBonus, final int earlyBonus) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
                 txt_bonus.setText(String.format("%s: %s (+%s)",
                         getResources().getString(R.string.status_bonus),
-                        StringUtils.formatSuffix(bonus),
+                        StringUtils.formatSuffix(waveBonus),
                         StringUtils.formatSuffix(earlyBonus)));
             }
         });
