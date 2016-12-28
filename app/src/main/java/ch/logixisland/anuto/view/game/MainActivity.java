@@ -8,10 +8,11 @@ import java.io.InputStream;
 
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.game.business.level.LevelLoader;
 import ch.logixisland.anuto.game.engine.GameEngine;
 import ch.logixisland.anuto.game.GameFactory;
 import ch.logixisland.anuto.game.business.GameManager;
-import ch.logixisland.anuto.game.data.Level;
+import ch.logixisland.anuto.game.data.LevelDescriptor;
 import ch.logixisland.anuto.game.render.theme.ThemeManager;
 import ch.logixisland.anuto.view.menu.LevelSelectFragment;
 
@@ -44,7 +45,7 @@ public class MainActivity extends Activity {
         try {
             int levelId = getIntent().getIntExtra(LevelSelectFragment.SELECTED_LEVEL, R.raw.level_1);
             try (InputStream inStream = getResources().openRawResource(levelId)) {
-                mGameManager.setLevel(Level.deserialize(inStream));
+                mGameManager.setLevel(LevelDescriptor.deserialize(inStream));
             }
         } catch (Exception e) {
             throw new RuntimeException("Could not load level!", e);

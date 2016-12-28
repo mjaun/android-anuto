@@ -7,11 +7,12 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.game.business.control.TowerSelector;
+import ch.logixisland.anuto.game.business.level.LevelLoader;
 import ch.logixisland.anuto.game.business.score.LivesListener;
 import ch.logixisland.anuto.game.business.score.ScoreBoard;
 import ch.logixisland.anuto.game.engine.GameEngine;
 import ch.logixisland.anuto.game.data.EnemyDescriptor;
-import ch.logixisland.anuto.game.data.Level;
+import ch.logixisland.anuto.game.data.LevelDescriptor;
 import ch.logixisland.anuto.game.data.PlateauDescriptor;
 import ch.logixisland.anuto.game.data.Settings;
 import ch.logixisland.anuto.game.data.WaveDescriptor;
@@ -71,8 +72,8 @@ public class GameManager implements LivesListener {
     private final ScoreBoard mScoreBoard;
     private final TowerSelector mTowerSelector;
     private final Viewport mViewport;
+    private final LevelLoader mLevelLoader;
 
-    private Level mLevel;
     private int mNextWaveIndex;
 
     private volatile boolean mGameOver;
@@ -95,7 +96,7 @@ public class GameManager implements LivesListener {
             mGameEngine.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if (getCurrentWaveManager() == m && !mNextWaveReady && hasNextWave()) {
+                    if (getCurrentWaveManager() == m && !mNextWaveReady) {
                         onNextWaveReady();
                         mNextWaveReady = true;
                     }
@@ -111,7 +112,7 @@ public class GameManager implements LivesListener {
 
         @Override
         public void onFinished(WaveManager m) {
-            if (getCurrentWaveManager() == m && !mNextWaveReady && hasNextWave()) {
+            if (getCurrentWaveManager() == m && !mNextWaveReady) {
                 onNextWaveReady();
                 mNextWaveReady = true;
             }
@@ -121,11 +122,6 @@ public class GameManager implements LivesListener {
 
             ageTowers();
             onWaveDone(m.getWaveDescriptor());
-
-            if (!hasNextWave()) {
-                mGameOver = true;
-                onGameOver();
-            }
         }
 
         @Override
@@ -144,11 +140,13 @@ public class GameManager implements LivesListener {
      */
 
     public GameManager(GameEngine gameEngine, Viewport viewport, ScoreBoard scoreBoard,
-                       TowerSelector towerSelector) {
+                       TowerSelector towerSelector, LevelLoader levelLoader) {
         mGameEngine = gameEngine;
         mScoreBoard = scoreBoard;
         mViewport = viewport;
         mTowerSelector = towerSelector;
+        mLevelLoader = levelLoader;
+
         mGameOver = true;
         mScoreBoard.addLivesListener(this);
     }
@@ -158,53 +156,48 @@ public class GameManager implements LivesListener {
      */
 
     private void reset() {
+
+    }
+
+    public void setLevel(LevelDescriptor level) {
+        if (mGameEngine.isThreadChangeNeeded()) {
+            final LevelDescriptor finalLevel = level;
+            mGameEngine.post(new Runnable() {
+                @Override
+                public void run() {
+                    setLevel(finalLevel);
+                }
+            });
+            return;
+        }
+
+        mLevelLoader.setLevel(level);
+        restart();
+    }
+
+    public void restart() {
+        if (mGameEngine.isThreadChangeNeeded()) {
+            mGameEngine.post(new Runnable() {
+                @Override
+                public void run() {
+                    restart();
+                }
+            });
+            return;
+        }
+
+        mLevelLoader.reset();
+
         for (WaveManager m : mActiveWaves) {
             m.abort();
         }
 
         mActiveWaves.clear();
-        mGameEngine.clear();
-
-        mTowerSelector.selectTower(null);
         mNextWaveIndex = 0;
         mGameOver = false;
-    }
-
-    public void restart() {
-        reset();
-
-        for (PlateauDescriptor d : mLevel.getPlateaus()) {
-            Plateau p = d.createInstance();
-            p.setPosition(d.getX(), d.getY());
-            mGameEngine.add(p);
-        }
-
-        mViewport.setGameSize(getSettings().getWidth(), getSettings().getHeight());
-        mNextWaveReady = true;
-        mScoreBoard.reset(getSettings().getLives(), getSettings().getCredits());
 
         onGameStarted();
     }
-
-
-    public Level getLevel() {
-        return mLevel;
-    }
-
-    public void setLevel(Level level) {
-        mLevel = level;
-
-        if (mLevel == null) {
-            reset();
-        } else {
-            restart();
-        }
-    }
-
-    public Settings getSettings() {
-        return mLevel.getSettings();
-    }
-
 
     public int getWaveNumber() {
         return mNextWaveIndex;
@@ -212,14 +205,6 @@ public class GameManager implements LivesListener {
 
     public boolean hasCurrentWave() {
         return !mActiveWaves.isEmpty();
-    }
-
-    public boolean hasNextWave() {
-        if (getSettings().isEndless() && !mLevel.getWaveDescriptors().isEmpty()) {
-            return true;
-        }
-
-        return mNextWaveIndex < mLevel.getWaveDescriptors().size();
     }
 
     public WaveDescriptor getCurrentWave() {
@@ -239,15 +224,13 @@ public class GameManager implements LivesListener {
     }
 
     public WaveDescriptor getNextWave() {
-        if (!hasNextWave()) {
-            return null;
-        }
-
-        return mLevel.getWaveDescriptors().get(mNextWaveIndex % mLevel.getWaveDescriptors().size());
+        List<WaveDescriptor> waveDescriptors = mLevelLoader.getLevel().getWaveDescriptors();
+        return waveDescriptors.get(mNextWaveIndex % waveDescriptors.size());
     }
 
     public int getWaveIterationCount() {
-        return mNextWaveIndex / mLevel.getWaveDescriptors().size();
+        List<WaveDescriptor> waveDescriptors = mLevelLoader.getLevel().getWaveDescriptors();
+        return mNextWaveIndex / waveDescriptors.size();
     }
 
     public void startNextWave() {
@@ -263,13 +246,10 @@ public class GameManager implements LivesListener {
             extend = nextWaveDescriptor.getMaxExtend();
         }
 
-        WaveManager m = new WaveManager(mGameEngine, this, mScoreBoard, nextWaveDescriptor, extend);
+        WaveManager m = new WaveManager(mGameEngine, this, mScoreBoard, mLevelLoader, nextWaveDescriptor, extend);
         m.addListener(mWaveListener);
 
-        if (getSettings().isEndless()) {
-            calcWaveModifiers(m);
-        }
-
+        calcWaveModifiers(m);
         m.start();
 
         mNextWaveIndex++;
@@ -329,7 +309,7 @@ public class GameManager implements LivesListener {
         float waveHealth = 0f;
 
         for (EnemyDescriptor d : waveMan.getWaveDescriptor().getEnemies()) {
-            waveHealth += mLevel.getEnemyConfig(d.getEnemyClass()).getHealth();
+            waveHealth += mLevelLoader.getLevel().getEnemyConfig(d.getEnemyClass()).getHealth();
         }
 
         waveHealth *= waveMan.getExtend() + 1;
@@ -351,12 +331,16 @@ public class GameManager implements LivesListener {
         }
 
         waveMan.modifyReward(rewardModifier);
-        waveMan.modifyWaveReward((getWaveNumber() / mLevel.getWaveDescriptors().size()) + 1);
+        waveMan.modifyWaveReward((getWaveNumber() / mLevelLoader.getLevel().getWaveDescriptors().size()) + 1);
 
         Log.d(TAG, String.format("waveNumber=%d", getWaveNumber()));
         Log.d(TAG, String.format("damagePossible=%f\n", damagePossible));
         Log.d(TAG, String.format("healthModifier=%f", waveMan.getHealthModifier()));
         Log.d(TAG, String.format("rewardModifier=%f", waveMan.getRewardModifier()));
+    }
+
+    private Settings getSettings() {
+        return mLevelLoader.getLevel().getSettings();
     }
 
     /*

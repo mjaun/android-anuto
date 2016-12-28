@@ -11,9 +11,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.Arrays;
-import java.util.List;
-
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameFactory;
@@ -137,7 +134,7 @@ public class TowerInfoFragment extends Fragment implements
             return;
         }
 
-        txt_level.setText(mTower.getLevel() + " / " + mTower.getLevelMax());
+        txt_level.setText(mTower.getTowerLevel() + " / " + mTower.getTowerLevelMax());
         txt_damage.setText(StringUtils.formatSuffix(mTower.getDamage()));
         txt_range.setText(StringUtils.formatSuffix(mTower.getRange()));
         txt_reload.setText(StringUtils.formatSuffix(mTower.getReloadTime()));

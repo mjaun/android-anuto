@@ -18,7 +18,7 @@ import ch.logixisland.anuto.game.entity.enemy.Enemy;
 import ch.logixisland.anuto.game.entity.tower.Tower;
 
 @Root
-public class Level {
+public class LevelDescriptor {
 
     /*
     ------ Fields ------
@@ -51,10 +51,10 @@ public class Level {
     ------ Methods ------
      */
 
-    public static Level deserialize(InputStream inStream) throws Exception {
+    public static LevelDescriptor deserialize(InputStream inStream) throws Exception {
         Strategy strategy = new CycleStrategy("id", "ref");
         Serializer serializer = new Persister(strategy);
-        return serializer.read(Level.class, inStream);
+        return serializer.read(LevelDescriptor.class, inStream);
     }
 
     public Settings getSettings() {

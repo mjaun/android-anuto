@@ -42,7 +42,7 @@ public abstract class Enemy extends Entity {
     private HealthBar mHealthBar;
 
     public Enemy() {
-        mConfig = getGameManager().getLevel().getEnemyConfig(this);
+        mConfig = getLevel().getEnemyConfig(this);
         mBaseSpeed = mConfig.getSpeed();
         mHealth = mConfig.getHealth();
 
@@ -96,7 +96,7 @@ public abstract class Enemy extends Entity {
 
     public float getSpeed() {
         float speed = mBaseSpeed * mSpeedModifier;
-        float minSpeed = getGameManager().getSettings().getMinSpeedModifier() * getConfigSpeed();
+        float minSpeed = getLevel().getSettings().getMinSpeedModifier() * getConfigSpeed();
         return Math.max(minSpeed, speed);
     }
 
@@ -197,11 +197,11 @@ public abstract class Enemy extends Entity {
             Tower originTower = (Tower)origin;
 
             if (originTower.getConfig().getStrongAgainstEnemies().contains(getClass())) {
-                dmg *= getGameManager().getSettings().getStrongAgainstModifier();
+                dmg *= getLevel().getSettings().getStrongAgainstModifier();
             }
 
             if (originTower.getConfig().getWeakAgainstEnemies().contains(getClass())) {
-                dmg *= getGameManager().getSettings().getWeakAgainstModifier();
+                dmg *= getLevel().getSettings().getWeakAgainstModifier();
             }
 
             originTower.reportDamageInflicted(dmg);

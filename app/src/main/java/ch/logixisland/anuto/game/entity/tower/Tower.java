@@ -42,7 +42,7 @@ public abstract class Tower extends Entity {
     private RangeIndicator mRangeIndicator;
 
     public Tower() {
-        mConfig = getGameManager().getLevel().getTowerConfig(this);
+        mConfig = getLevel().getTowerConfig(this);
 
         mValue = mConfig.getValue();
         mDamage = mConfig.getDamage();
@@ -150,11 +150,6 @@ public abstract class Tower extends Entity {
     }
 
 
-    public void buy() {
-        getScoreBoard().takeCredits(mValue);
-        mValue *= getGameManager().getSettings().getAgeModifier();
-    }
-
     public void devalue(float factor) {
         mValue *= factor;
     }
@@ -219,11 +214,11 @@ public abstract class Tower extends Entity {
         return Math.round(mConfig.getEnhanceCost() * (float)Math.pow(mConfig.getEnhanceBase(), mLevel - 1));
     }
 
-    public int getLevel() {
+    public int getTowerLevel() {
         return mLevel;
     }
 
-    public int getLevelMax() {
+    public int getTowerLevelMax() {
         return mConfig.getMaxLevel();
     }
 
@@ -254,7 +249,7 @@ public abstract class Tower extends Entity {
 
         float r2 = MathUtils.square(getRange());
 
-        for (Path p : getGameManager().getLevel().getPaths()) {
+        for (Path p : getLevel().getPaths()) {
             for (int i = 1; i < p.size(); i++) {
                 Vector2 p1 = p.get(i - 1).copy().sub(getPosition());
                 Vector2 p2 = p.get(i).copy().sub(getPosition());

@@ -9,16 +9,21 @@ import android.view.ViewGroup;
 
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.game.GameFactory;
 import ch.logixisland.anuto.game.business.GameManager;
+import ch.logixisland.anuto.game.business.level.LevelLoader;
 
 public class InventoryFragment extends Fragment implements GameManager.OnGameStartedListener {
 
     private final GameManager mGameManager;
+    private final LevelLoader mLevelLoader;
 
     private TowerView[] view_tower_x = new TowerView[4];
 
     public InventoryFragment() {
-        mGameManager = AnutoApplication.getInstance().getGameFactory().getGameManager();
+        GameFactory factory = AnutoApplication.getInstance().getGameFactory();
+        mGameManager = factory.getGameManager();
+        mLevelLoader = factory.getLevelLoader();
     }
 
     @Override
@@ -54,7 +59,7 @@ public class InventoryFragment extends Fragment implements GameManager.OnGameSta
     @Override
     public void onGameStarted() {
         for (int i = 0; i < view_tower_x.length; i++) {
-            view_tower_x[i].setTowerClass(mGameManager.getLevel().getTowerConfig(i).getTowerClass());
+            view_tower_x[i].setTowerClass(mLevelLoader.getLevel().getTowerConfig(i).getTowerClass());
         }
     }
 }

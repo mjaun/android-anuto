@@ -7,6 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.game.business.score.ScoreBoard;
+import ch.logixisland.anuto.game.data.LevelDescriptor;
 import ch.logixisland.anuto.game.engine.GameEngine;
 import ch.logixisland.anuto.game.engine.TickListener;
 import ch.logixisland.anuto.game.business.GameManager;
@@ -122,8 +123,8 @@ public abstract class Entity implements SpriteListener, TickListener {
         return AnutoApplication.getInstance().getGameFactory().getGameEngine();
     }
 
-    protected GameManager getGameManager() {
-        return AnutoApplication.getInstance().getGameFactory().getGameManager();
+    protected LevelDescriptor getLevel() {
+        return AnutoApplication.getInstance().getGameFactory().getLevelLoader().getLevel();
     }
 
     protected ScoreBoard getScoreBoard() {

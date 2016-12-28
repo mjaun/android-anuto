@@ -177,7 +177,7 @@ public class StatusFragment extends Fragment implements GameManager.OnWaveStarte
             @Override
             public void run() {
                 txt_wave.setText(getResources().getString(R.string.status_wave) + ": " + mGameManager.getWaveNumber());
-                btn_next_wave.setEnabled(mGameManager.hasNextWave());
+                btn_next_wave.setEnabled(true);
             }
         });
     }

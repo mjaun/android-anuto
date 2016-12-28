@@ -3,6 +3,7 @@ package ch.logixisland.anuto.game.business;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.game.business.level.LevelLoader;
 import ch.logixisland.anuto.game.business.score.ScoreBoard;
 import ch.logixisland.anuto.game.engine.GameEngine;
 import ch.logixisland.anuto.game.data.EnemyDescriptor;
@@ -33,6 +34,7 @@ public class WaveManager {
     private final GameEngine mGameEngine;
     private final GameManager mGameManager;
     private final ScoreBoard mScoreBoard;
+    private final LevelLoader mLevelLoader;
 
     private final WaveDescriptor mWaveDescriptor;
     private final int mExtend;
@@ -71,10 +73,11 @@ public class WaveManager {
      */
 
     public WaveManager(GameEngine gameEngine, GameManager gameManager, ScoreBoard scoreBoard,
-                       WaveDescriptor waveDescriptor, int extend) {
+                       LevelLoader levelLoader, WaveDescriptor waveDescriptor, int extend) {
         mGameEngine = gameEngine;
         mGameManager = gameManager;
         mScoreBoard = scoreBoard;
+        mLevelLoader = levelLoader;
         mWaveDescriptor = waveDescriptor;
         mExtend = extend;
 
@@ -144,7 +147,7 @@ public class WaveManager {
                         e.addListener(mObjectListener);
                         e.modifyHealth(mHealthModifier);
                         e.modifyReward(mRewardModifier);
-                        e.setPath(mGameManager.getLevel().getPaths().get(d.getPathIndex()));
+                        e.setPath(mLevelLoader.getLevel().getPaths().get(d.getPathIndex()));
                         e.move(offsetX, offsetY);
 
                         if (i > 0 || mWaveDescriptor.getEnemies().indexOf(d) > 0) {
