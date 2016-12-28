@@ -8,17 +8,16 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.game.business.control.TowerSelector;
 import ch.logixisland.anuto.game.business.level.LevelLoader;
+import ch.logixisland.anuto.game.business.level.WaveAttender;
 import ch.logixisland.anuto.game.business.score.LivesListener;
 import ch.logixisland.anuto.game.business.score.ScoreBoard;
 import ch.logixisland.anuto.game.engine.GameEngine;
 import ch.logixisland.anuto.game.data.EnemyDescriptor;
 import ch.logixisland.anuto.game.data.LevelDescriptor;
-import ch.logixisland.anuto.game.data.PlateauDescriptor;
 import ch.logixisland.anuto.game.data.Settings;
 import ch.logixisland.anuto.game.data.WaveDescriptor;
 import ch.logixisland.anuto.game.entity.Types;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
-import ch.logixisland.anuto.game.entity.plateau.Plateau;
 import ch.logixisland.anuto.game.entity.tower.Tower;
 import ch.logixisland.anuto.game.render.Viewport;
 import ch.logixisland.anuto.util.container.ListenerList;
@@ -79,17 +78,17 @@ public class GameManager implements LivesListener {
     private volatile boolean mGameOver;
     private volatile boolean mNextWaveReady;
 
-    private List<WaveManager> mActiveWaves = new CopyOnWriteArrayList<>();
+    private List<WaveAttender> mActiveWaves = new CopyOnWriteArrayList<>();
 
     private ListenerList<Listener> mListeners = new ListenerList<>();
 
     /*
-    ------ WaveManager.Listener Implementation ------
+    ------ WaveAttender.Listener Implementation ------
      */
 
-    private WaveManager.Listener mWaveListener = new WaveManager.Listener() {
+    private WaveAttender.Listener mWaveListener = new WaveAttender.Listener() {
         @Override
-        public void onStarted(final WaveManager m) {
+        public void onStarted(final WaveAttender m) {
             mActiveWaves.add(m);
             calcEarlyBonus();
 
@@ -107,11 +106,11 @@ public class GameManager implements LivesListener {
         }
 
         @Override
-        public void onAborted(WaveManager m) {
+        public void onAborted(WaveAttender m) {
         }
 
         @Override
-        public void onFinished(WaveManager m) {
+        public void onFinished(WaveAttender m) {
             if (getCurrentWaveManager() == m && !mNextWaveReady) {
                 onNextWaveReady();
                 mNextWaveReady = true;
@@ -125,12 +124,12 @@ public class GameManager implements LivesListener {
         }
 
         @Override
-        public void onEnemyAdded(WaveManager m, Enemy e) {
+        public void onEnemyAdded(WaveAttender m, Enemy e) {
             mActiveWaves.remove(m);
         }
 
         @Override
-        public void onEnemyRemoved(WaveManager m, Enemy e) {
+        public void onEnemyRemoved(WaveAttender m, Enemy e) {
             calcEarlyBonus();
         }
     };
@@ -188,7 +187,7 @@ public class GameManager implements LivesListener {
 
         mLevelLoader.reset();
 
-        for (WaveManager m : mActiveWaves) {
+        for (WaveAttender m : mActiveWaves) {
             m.abort();
         }
 
@@ -215,7 +214,7 @@ public class GameManager implements LivesListener {
         return getCurrentWaveManager().getWaveDescriptor();
     }
 
-    private WaveManager getCurrentWaveManager() {
+    private WaveAttender getCurrentWaveManager() {
         if (!hasCurrentWave()) {
             return null;
         }
@@ -246,7 +245,7 @@ public class GameManager implements LivesListener {
             extend = nextWaveDescriptor.getMaxExtend();
         }
 
-        WaveManager m = new WaveManager(mGameEngine, this, mScoreBoard, mLevelLoader, nextWaveDescriptor, extend);
+        WaveAttender m = new WaveAttender(mGameEngine, this, mScoreBoard, mLevelLoader, nextWaveDescriptor, extend);
         m.addListener(mWaveListener);
 
         calcWaveModifiers(m);
@@ -291,7 +290,7 @@ public class GameManager implements LivesListener {
     private void calcEarlyBonus() {
         float earlyBonus = 0;
 
-        for (WaveManager m : mActiveWaves) {
+        for (WaveAttender m : mActiveWaves) {
             earlyBonus += m.getEarlyBonus();
         }
 
@@ -302,7 +301,7 @@ public class GameManager implements LivesListener {
         mScoreBoard.setWaveBonus(getWaveBonus());
     }
 
-    private void calcWaveModifiers(WaveManager waveMan) {
+    private void calcWaveModifiers(WaveAttender waveMan) {
         Log.d(TAG, String.format("calculating wave modifiers for wave %d...", getWaveNumber() + 1));
         Log.d(TAG, String.format("creditsEarned=%d", mScoreBoard.getCreditsEarned()));
 
