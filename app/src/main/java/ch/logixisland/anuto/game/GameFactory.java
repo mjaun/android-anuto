@@ -7,6 +7,7 @@ import ch.logixisland.anuto.game.business.control.TowerControl;
 import ch.logixisland.anuto.game.business.control.TowerInserter;
 import ch.logixisland.anuto.game.business.control.TowerSelector;
 import ch.logixisland.anuto.game.business.level.LevelLoader;
+import ch.logixisland.anuto.game.business.level.WaveManager;
 import ch.logixisland.anuto.game.business.score.ScoreBoard;
 import ch.logixisland.anuto.game.engine.GameEngine;
 import ch.logixisland.anuto.game.render.Renderer;
@@ -28,6 +29,7 @@ public class GameFactory {
     private final TowerControl mTowerControl;
     private final TowerInserter mTowerInserter;
     private final LevelLoader mLevelLoader;
+    private final WaveManager mWaveManager;
 
     private final GameEngine mGameEngine;
     private final GameManager mGameManager;
@@ -44,7 +46,8 @@ public class GameFactory {
         mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector);
         mTowerInserter = new TowerInserter(mGameEngine, mScoreBoard, mTowerSelector);
         mLevelLoader = new LevelLoader(mGameEngine, mViewport, mScoreBoard);
-        mGameManager = new GameManager(mGameEngine, mViewport, mScoreBoard, mTowerSelector, mLevelLoader);
+        mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mLevelLoader);
+        mGameManager = new GameManager(mGameEngine, mScoreBoard, mLevelLoader, mWaveManager);
     }
 
     public SpriteFactory getSpriteFactory() {
@@ -93,5 +96,9 @@ public class GameFactory {
 
     public LevelLoader getLevelLoader() {
         return mLevelLoader;
+    }
+
+    public WaveManager getWaveManager() {
+        return mWaveManager;
     }
 }

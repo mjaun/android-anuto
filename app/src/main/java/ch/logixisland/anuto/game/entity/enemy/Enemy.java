@@ -1,5 +1,8 @@
 package ch.logixisland.anuto.game.entity.enemy;
 
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import ch.logixisland.anuto.game.engine.GameEngine;
 import ch.logixisland.anuto.game.entity.Entity;
 import ch.logixisland.anuto.game.entity.tower.Tower;
@@ -41,6 +44,8 @@ public abstract class Enemy extends Entity {
     private int mWayPointIndex;
     private HealthBar mHealthBar;
 
+    private final List<EnemyListener> mListeners = new CopyOnWriteArrayList<>();
+
     public Enemy() {
         mConfig = getLevel().getEnemyConfig(this);
         mBaseSpeed = mConfig.getSpeed();
@@ -64,32 +69,41 @@ public abstract class Enemy extends Entity {
     public void clean() {
         super.clean();
         getGameEngine().remove(mHealthBar);
+
+        for (EnemyListener listener : mListeners) {
+            listener.enemyRemoved(this);
+        }
+
+        mListeners.clear();
     }
 
     @Override
     public void tick() {
         super.tick();
 
-        if (isEnabled()) {
-            if (!hasWayPoint()) {
-                getScoreBoard().takeLives(1);
-                this.remove();
-                return;
-            }
+        if (!isEnabled()) {
+            return;
+        }
 
-            float stepSize = getSpeed() / GameEngine.TARGET_FRAME_RATE;
-            if (getDistanceTo(getWayPoint()) < stepSize) {
-                setPosition(getWayPoint());
-                mWayPointIndex++;
-            } else {
-                move(getDirection(), stepSize);
+        if (!hasWayPoint()) {
+            for (EnemyListener listener : mListeners) {
+                listener.enemyFinished(this);
             }
+            remove();
+            return;
+        }
+
+        float stepSize = getSpeed() / GameEngine.TARGET_FRAME_RATE;
+        if (getDistanceTo(getWayPoint()) >= stepSize) {
+            move(getDirection(), stepSize);
+        } else {
+            setPosition(getWayPoint());
+            mWayPointIndex++;
         }
     }
 
-    public void setPath(Path path) {
-        mPath = path;
-
+    public void setPathIndex(int pathIndex) {
+        mPath = getLevel().getPaths().get(pathIndex);
         setPosition(mPath.get(0));
         mWayPointIndex = 1;
     }
@@ -210,8 +224,10 @@ public abstract class Enemy extends Entity {
         mHealth -= dmg / mHealthModifier;
 
         if (mHealth <= 0) {
-            getScoreBoard().giveCredits(getReward());
-            this.remove();
+            for (EnemyListener listener : mListeners) {
+                listener.enemyKilled(this);
+            }
+            remove();
         }
     }
 
@@ -238,6 +254,15 @@ public abstract class Enemy extends Entity {
 
     public void modifyReward(float f) {
         mRewardModifier *= f;
+    }
+
+
+    public void addListener(EnemyListener listener) {
+        mListeners.add(listener);
+    }
+
+    public void removeListener(EnemyListener listener) {
+        mListeners.remove(listener);
     }
 
 

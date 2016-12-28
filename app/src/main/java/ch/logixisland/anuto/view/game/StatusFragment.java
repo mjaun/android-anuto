@@ -16,6 +16,8 @@ import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameFactory;
 import ch.logixisland.anuto.game.business.GameManager;
+import ch.logixisland.anuto.game.business.level.WaveListener;
+import ch.logixisland.anuto.game.business.level.WaveManager;
 import ch.logixisland.anuto.game.business.score.BonusListener;
 import ch.logixisland.anuto.game.business.score.CreditsListener;
 import ch.logixisland.anuto.game.business.score.LivesListener;
@@ -25,13 +27,14 @@ import ch.logixisland.anuto.game.render.theme.ThemeManager;
 import ch.logixisland.anuto.util.StringUtils;
 import ch.logixisland.anuto.game.render.theme.Theme;
 
-public class StatusFragment extends Fragment implements GameManager.OnWaveStartedListener,
-        GameManager.OnGameStartedListener, GameManager.OnGameOverListener, GameManager.OnNextWaveReadyListener,
-        CreditsListener, LivesListener, BonusListener,
+public class StatusFragment extends Fragment implements
+        GameManager.OnGameStartedListener, GameManager.OnGameOverListener,
+        WaveListener, CreditsListener, LivesListener, BonusListener,
         View.OnClickListener {
 
     private final ThemeManager mThemeManager;
     private final GameManager mGameManager;
+    private final WaveManager mWaveManager;
     private final ScoreBoard mScoreBoard;
 
     private Handler mHandler;
@@ -49,6 +52,7 @@ public class StatusFragment extends Fragment implements GameManager.OnWaveStarte
         mThemeManager = factory.getThemeManager();
         mGameManager = factory.getGameManager();
         mScoreBoard = factory.getScoreBoard();
+        mWaveManager = factory.getWaveManager();
     }
 
     @Override
@@ -83,6 +87,7 @@ public class StatusFragment extends Fragment implements GameManager.OnWaveStarte
     public void onAttach(Context context) {
         super.onAttach(context);
         mGameManager.addListener(this);
+        mWaveManager.addListener(this);
         mScoreBoard.addBonusListener(this);
         mScoreBoard.addCreditsListener(this);
         mScoreBoard.addLivesListener(this);
@@ -92,6 +97,7 @@ public class StatusFragment extends Fragment implements GameManager.OnWaveStarte
     public void onDetach() {
         super.onDetach();
         mGameManager.removeListener(this);
+        mWaveManager.removeListeners(this);
         mScoreBoard.removeBonusListener(this);
         mScoreBoard.removeCreditsListener(this);
         mScoreBoard.removeLivesListener(this);
@@ -100,7 +106,7 @@ public class StatusFragment extends Fragment implements GameManager.OnWaveStarte
     @Override
     public void onClick(View v) {
         if (v == btn_next_wave) {
-            mGameManager.startNextWave();
+            mWaveManager.startNextWave();
         }
 
         if (v == btn_restart) {
@@ -131,24 +137,29 @@ public class StatusFragment extends Fragment implements GameManager.OnWaveStarte
     }
 
     @Override
-    public void onWaveStarted(WaveDescriptor waveDescriptor) {
+    public void waveStarted() {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                txt_wave.setText(getResources().getString(R.string.status_wave) + ": " + mGameManager.getWaveNumber());
+                txt_wave.setText(getResources().getString(R.string.status_wave) + ": " + mWaveManager.getWaveNumber());
                 btn_next_wave.setEnabled(false);
             }
         });
     }
 
     @Override
-    public void onNextWaveReady(WaveDescriptor waveDescriptor) {
+    public void nextWaveReady() {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
                 btn_next_wave.setEnabled(!mGameManager.isGameOver());
             }
         });
+    }
+
+    @Override
+    public void waveFinished() {
+
     }
 
     @Override
@@ -176,7 +187,7 @@ public class StatusFragment extends Fragment implements GameManager.OnWaveStarte
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                txt_wave.setText(getResources().getString(R.string.status_wave) + ": " + mGameManager.getWaveNumber());
+                txt_wave.setText(getResources().getString(R.string.status_wave) + ": " + mWaveManager.getWaveNumber());
                 btn_next_wave.setEnabled(true);
             }
         });

@@ -1,239 +1,148 @@
 package ch.logixisland.anuto.game.business.level;
 
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.game.business.GameManager;
 import ch.logixisland.anuto.game.business.score.ScoreBoard;
 import ch.logixisland.anuto.game.engine.GameEngine;
 import ch.logixisland.anuto.game.data.EnemyDescriptor;
 import ch.logixisland.anuto.game.data.WaveDescriptor;
-import ch.logixisland.anuto.game.entity.Entity;
-import ch.logixisland.anuto.game.entity.EntityListener;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.math.MathUtils;
 
-public class WaveAttender {
+class WaveAttender {
 
-    /*
-    ------ Listener Interface ------
-     */
-
-    public interface Listener {
-        void onStarted(WaveAttender m);
-        void onAborted(WaveAttender m);
-        void onFinished(WaveAttender m);
-        void onEnemyAdded(WaveAttender m, Enemy e);
-        void onEnemyRemoved(WaveAttender m, Enemy e);
-    }
-
-    /*
-    ------ Members ------
-     */
-
+    private final WaveManager mWaveManager;
     private final GameEngine mGameEngine;
-    private final GameManager mGameManager;
     private final ScoreBoard mScoreBoard;
-    private final LevelLoader mLevelLoader;
-
     private final WaveDescriptor mWaveDescriptor;
-    private final int mExtend;
 
-    private boolean mAborted;
-    private int mEnemiesRemaining;
-    private int mEarlyBonus;
+    private final EnemyAttender mEnemyAttender;
 
-    private float mHealthModifier;
-    private float mRewardModifier;
-
+    private int mExtend;
     private int mWaveReward;
+    private float mEnemyHealthModifier;
+    private float mEnemyRewardModifier;
 
-    private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
+    private boolean mNextWaveReady;
 
-    /*
-    ------ Entity.Listener Implementation ------
-     */
-
-    private EntityListener mObjectListener = new EntityListener() {
-        @Override
-        public void entityRemoved(Entity obj) {
-            mEnemiesRemaining--;
-            mEarlyBonus -= ((Enemy)obj).getReward();
-
-            if (mEnemiesRemaining == 0 && !mAborted) {
-                onFinished();
-            }
-
-            onEnemyRemoved((Enemy)obj);
-        }
-    };
-
-    /*
-    ------ Constructors ------
-     */
-
-    public WaveAttender(GameEngine gameEngine, GameManager gameManager, ScoreBoard scoreBoard,
-                        LevelLoader levelLoader, WaveDescriptor waveDescriptor, int extend) {
+    WaveAttender(WaveManager waveManager, GameEngine gameEngine, ScoreBoard scoreBoard, WaveDescriptor waveDescriptor) {
+        mWaveManager = waveManager;
         mGameEngine = gameEngine;
-        mGameManager = gameManager;
         mScoreBoard = scoreBoard;
-        mLevelLoader = levelLoader;
         mWaveDescriptor = waveDescriptor;
-        mExtend = extend;
 
+        mEnemyAttender = new EnemyAttender(this, mGameEngine, mScoreBoard);
+
+        mExtend = 1;
         mWaveReward = mWaveDescriptor.getWaveReward();
-        mHealthModifier = mWaveDescriptor.getHealthModifier();
-        mRewardModifier = mWaveDescriptor.getRewardModifier();
+        mEnemyHealthModifier = mWaveDescriptor.getHealthModifier();
+        mEnemyRewardModifier = mWaveDescriptor.getRewardModifier();
     }
 
-    /*
-    ------ Methods ------
-     */
-
-    public WaveDescriptor getWaveDescriptor() {
-        return mWaveDescriptor;
-    }
-
-    public int getEarlyBonus() {
-        return mEarlyBonus;
-    }
-
-    public int getExtend() {
+    int getExtend() {
         return mExtend;
     }
 
-    public float getHealthModifier() {
-        return mHealthModifier;
+    float getEnemyHealthModifier() {
+        return mEnemyHealthModifier;
     }
 
-    public void modifyHealth(float modifier) {
-        mHealthModifier *= modifier;
+    float getEnemyRewardModifier() {
+        return mEnemyRewardModifier;
     }
 
-    public float getRewardModifier() {
-        return mRewardModifier;
+    WaveDescriptor getWaveDescriptor() {
+        return mWaveDescriptor;
     }
 
-    public void modifyReward(float modifier) {
-        mRewardModifier *= modifier;
+    void setExtend(int extend) {
+        mExtend = extend;
     }
 
-    public void modifyWaveReward(int modifier) {
+    void modifyEnemyHealth(float modifier) {
+        mEnemyHealthModifier *= modifier;
+    }
+
+    void modifyEnemyReward(float modifier) {
+        mEnemyRewardModifier *= modifier;
+    }
+
+    void modifyWaveReward(float modifier) {
         mWaveReward *= modifier;
     }
 
-    public void start() {
-        mGameEngine.post(new Runnable() {
+    void start() {
+        scheduleEnemies();
+        mNextWaveReady = false;
+
+        mGameEngine.postDelayed(new Runnable() {
             @Override
             public void run() {
-                int delay = 0;
-                float offsetX = 0f;
-                float offsetY = 0f;
+                notifyNextWaveReady();
+            }
+        }, mWaveDescriptor.getNextWaveDelay());
+    }
 
-                mAborted = false;
-                mEnemiesRemaining = mWaveDescriptor.getEnemies().size() * (mExtend + 1);
+    void giveWaveReward() {
+        mScoreBoard.giveCredits(mWaveReward);
+        mWaveReward = 0;
+    }
 
-                for (int i = 0; i < mExtend + 1; i++) {
-                    for (EnemyDescriptor d : mWaveDescriptor.getEnemies()) {
-                        if (MathUtils.equals(d.getDelay(), 0f, 0.1f)) {
-                            offsetX += d.getOffsetX();
-                            offsetY += d.getOffsetY();
-                        } else {
-                            offsetX = d.getOffsetX();
-                            offsetY = d.getOffsetY();
-                        }
+    float getRemainingEnemiesReward() {
+        return mEnemyAttender.getRemainingEnemiesReward();
+    }
 
-                        final Enemy e = d.createInstance();
-                        e.addListener(mObjectListener);
-                        e.modifyHealth(mHealthModifier);
-                        e.modifyReward(mRewardModifier);
-                        e.setPath(mLevelLoader.getLevel().getPaths().get(d.getPathIndex()));
-                        e.move(offsetX, offsetY);
+    void enemyRemoved(Enemy enemy) {
+        mWaveManager.enemyRemoved();
 
-                        if (i > 0 || mWaveDescriptor.getEnemies().indexOf(d) > 0) {
-                            delay += (int)d.getDelay();
-                        }
+        if (mEnemyAttender.getRemainingEnemiesCount() == 0) {
+            giveWaveReward();
+            notifyNextWaveReady();
+            mWaveManager.waveFinished(this);
+        }
+    }
 
-                        mEarlyBonus += e.getReward();
+    private void scheduleEnemies() {
+        int delay = 0;
+        float offsetX = 0f;
+        float offsetY = 0f;
 
-                        mGameEngine.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                mGameEngine.add(e);
-                            }
-                        }, delay);
-                    }
+        List<EnemyDescriptor> enemyDescriptors = mWaveDescriptor.getEnemies();
+
+        for (int extendIndex = 0; extendIndex < mExtend + 1; extendIndex++) {
+            for (EnemyDescriptor descriptor : enemyDescriptors) {
+                if (MathUtils.equals(descriptor.getDelay(), 0f, 0.1f)) {
+                    offsetX += descriptor.getOffsetX();
+                    offsetY += descriptor.getOffsetY();
+                } else {
+                    offsetX = descriptor.getOffsetX();
+                    offsetY = descriptor.getOffsetY();
                 }
 
-                onStarted();
+                Enemy enemy = createAndConfigureEnemy(offsetX, offsetY, descriptor);
+
+                if (extendIndex > 0 || enemyDescriptors.indexOf(descriptor) > 0) {
+                    delay += (int)descriptor.getDelay();
+                }
+
+                mEnemyAttender.addEnemy(enemy, delay);
             }
-        });
-    }
-
-    public void abort() {
-        mGameEngine.post(new Runnable() {
-            @Override
-            public void run() {
-                mAborted = true;
-                onAborted();
-            }
-        });
-    }
-
-    public int getReward() {
-        return mWaveReward;
-    }
-
-    public void giveReward() {
-        mGameEngine.post(new Runnable() {
-            @Override
-            public void run() {
-                mScoreBoard.giveCredits(mWaveReward);
-                mWaveReward = 0;
-            }
-        });
-    }
-
-    /*
-    ------ Listener Stuff ------
-     */
-
-    public void addListener(Listener listener) {
-        mListeners.add(listener);
-    }
-
-    public void removeListener(Listener listener) {
-        mListeners.remove(listener);
-    }
-
-
-    private void onStarted() {
-        for (Listener l : mListeners) {
-            l.onStarted(this);
         }
     }
 
-    private void onAborted() {
-        for (Listener l : mListeners) {
-            l.onAborted(this);
-        }
+    private Enemy createAndConfigureEnemy(float offsetX, float offsetY, EnemyDescriptor descriptor) {
+        final Enemy enemy = descriptor.createInstance();
+        enemy.modifyHealth(mEnemyHealthModifier);
+        enemy.modifyReward(mEnemyRewardModifier);
+        enemy.setPathIndex(descriptor.getPathIndex());
+        enemy.move(offsetX, offsetY);
+        return enemy;
     }
 
-    private void onFinished() {
-        for (Listener l : mListeners) {
-            l.onFinished(this);
-        }
-    }
-
-    private void onEnemyAdded(Enemy e) {
-        for (Listener l : mListeners) {
-            l.onEnemyAdded(this, e);
-        }
-    }
-
-    private void onEnemyRemoved(Enemy e) {
-        for (Listener l : mListeners) {
-            l.onEnemyRemoved(this, e);
+    private void notifyNextWaveReady() {
+        if (!mNextWaveReady) {
+            mNextWaveReady = true;
+            mWaveManager.nextWaveReady();
         }
     }
 }
