@@ -15,21 +15,20 @@ import android.widget.TextView;
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameFactory;
-import ch.logixisland.anuto.game.business.GameManager;
+import ch.logixisland.anuto.game.business.manager.GameListener;
+import ch.logixisland.anuto.game.business.manager.GameManager;
 import ch.logixisland.anuto.game.business.level.WaveListener;
 import ch.logixisland.anuto.game.business.level.WaveManager;
 import ch.logixisland.anuto.game.business.score.BonusListener;
 import ch.logixisland.anuto.game.business.score.CreditsListener;
 import ch.logixisland.anuto.game.business.score.LivesListener;
 import ch.logixisland.anuto.game.business.score.ScoreBoard;
-import ch.logixisland.anuto.game.data.WaveDescriptor;
 import ch.logixisland.anuto.game.render.theme.ThemeManager;
 import ch.logixisland.anuto.util.StringUtils;
 import ch.logixisland.anuto.game.render.theme.Theme;
 
 public class StatusFragment extends Fragment implements
-        GameManager.OnGameStartedListener, GameManager.OnGameOverListener,
-        WaveListener, CreditsListener, LivesListener, BonusListener,
+        GameListener, WaveListener, CreditsListener, LivesListener, BonusListener,
         View.OnClickListener {
 
     private final ThemeManager mThemeManager;
@@ -183,7 +182,7 @@ public class StatusFragment extends Fragment implements
     }
 
     @Override
-    public void onGameStarted() {
+    public void gameStarted() {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -194,7 +193,7 @@ public class StatusFragment extends Fragment implements
     }
 
     @Override
-    public void onGameOver() {
+    public void gameOver() {
         mHandler.post(new Runnable() {
             @Override
             public void run() {

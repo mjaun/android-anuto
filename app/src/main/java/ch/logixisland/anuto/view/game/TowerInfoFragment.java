@@ -14,7 +14,8 @@ import android.widget.TextView;
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameFactory;
-import ch.logixisland.anuto.game.business.GameManager;
+import ch.logixisland.anuto.game.business.manager.GameListener;
+import ch.logixisland.anuto.game.business.manager.GameManager;
 import ch.logixisland.anuto.game.business.control.TowerControl;
 import ch.logixisland.anuto.game.business.control.TowerInfoView;
 import ch.logixisland.anuto.game.business.control.TowerSelector;
@@ -22,12 +23,12 @@ import ch.logixisland.anuto.game.business.score.CreditsListener;
 import ch.logixisland.anuto.game.business.score.ScoreBoard;
 import ch.logixisland.anuto.game.entity.tower.AimingTower;
 import ch.logixisland.anuto.game.entity.tower.Tower;
+import ch.logixisland.anuto.game.entity.tower.TowerListener;
 import ch.logixisland.anuto.util.StringUtils;
 
-public class TowerInfoFragment extends Fragment implements
-        View.OnTouchListener, View.OnClickListener,
-        GameManager.OnTowersAgedListener, GameManager.OnGameOverListener,
-        CreditsListener, TowerInfoView {
+public class TowerInfoFragment extends Fragment implements View.OnTouchListener,
+        View.OnClickListener, GameListener, TowerListener, CreditsListener,
+        TowerInfoView {
 
     private final GameManager mGameManager;
     private final TowerSelector mTowerSelector;
@@ -228,7 +229,12 @@ public class TowerInfoFragment extends Fragment implements
 
     @Override
     public void showTowerInfo(Tower tower) {
+        if (mTower != null) {
+            mTower.removeListener(this);
+        }
+
         mTower = tower;
+        mTower.addListener(this);
         view_tower.setTowerClass(tower.getClass());
 
         mHandler.post(new Runnable() {
@@ -261,7 +267,7 @@ public class TowerInfoFragment extends Fragment implements
     }
 
     @Override
-    public void onTowersAged() {
+    public void damageInflicted(float totalDamage) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -271,12 +277,27 @@ public class TowerInfoFragment extends Fragment implements
     }
 
     @Override
-    public void onGameOver() {
+    public void valueChanged(int value) {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                refresh();
+            }
+        });
+    }
+
+    @Override
+    public void gameOver() {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
                 hide();
             }
         });
+    }
+
+    @Override
+    public void gameStarted() {
+
     }
 }

@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.game.entity.Types;
 import ch.logixisland.anuto.game.entity.enemy.Enemy;
@@ -41,6 +42,8 @@ public abstract class Tower extends Entity {
     private TickTimer mReloadTimer;
     private RangeIndicator mRangeIndicator;
 
+    private final List<TowerListener> mListeners = new CopyOnWriteArrayList<>();
+
     public Tower() {
         mConfig = getLevel().getTowerConfig(this);
 
@@ -58,11 +61,6 @@ public abstract class Tower extends Entity {
     @Override
     public final int getType() {
         return Types.TOWER;
-    }
-
-    @Override
-    public void init() {
-        super.init();
     }
 
     @Override
@@ -126,6 +124,10 @@ public abstract class Tower extends Entity {
 
     public void setValue(int value) {
         mValue = value;
+
+        for (TowerListener listener : mListeners) {
+            listener.valueChanged(mValue);
+        }
     }
 
     public float getDamage() {
@@ -147,12 +149,12 @@ public abstract class Tower extends Entity {
 
     public void reportDamageInflicted(float damage) {
         mDamageInflicted += damage;
+
+        for (TowerListener listener : mListeners) {
+            listener.damageInflicted(mDamageInflicted);
+        }
     }
 
-
-    public void devalue(float factor) {
-        mValue *= factor;
-    }
 
     public Tower upgrade() {
         Plateau plateau = this.getPlateau();
@@ -316,5 +318,14 @@ public abstract class Tower extends Entity {
 
     public float getProperty(String name) {
         return mConfig.getProperties().get(name);
+    }
+
+
+    public void addListener(TowerListener listener) {
+        mListeners.add(listener);
+    }
+
+    public void removeListener(TowerListener listener) {
+        mListeners.remove(listener);
     }
 }

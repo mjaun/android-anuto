@@ -8,10 +8,9 @@ import java.io.InputStream;
 
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.game.business.level.LevelLoader;
 import ch.logixisland.anuto.game.engine.GameEngine;
 import ch.logixisland.anuto.game.GameFactory;
-import ch.logixisland.anuto.game.business.GameManager;
+import ch.logixisland.anuto.game.business.manager.GameManager;
 import ch.logixisland.anuto.game.data.LevelDescriptor;
 import ch.logixisland.anuto.game.render.theme.ThemeManager;
 import ch.logixisland.anuto.view.menu.LevelSelectFragment;

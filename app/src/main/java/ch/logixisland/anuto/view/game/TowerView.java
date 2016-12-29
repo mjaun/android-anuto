@@ -15,7 +15,7 @@ import android.view.View;
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameFactory;
-import ch.logixisland.anuto.game.business.GameManager;
+import ch.logixisland.anuto.game.business.manager.GameManager;
 import ch.logixisland.anuto.game.business.score.CreditsListener;
 import ch.logixisland.anuto.game.business.score.ScoreBoard;
 import ch.logixisland.anuto.game.entity.tower.Tower;

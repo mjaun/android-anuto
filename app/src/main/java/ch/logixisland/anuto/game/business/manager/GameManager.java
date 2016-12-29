@@ -1,9 +1,11 @@
-package ch.logixisland.anuto.game.business;
+package ch.logixisland.anuto.game.business.manager;
 
 import android.util.Log;
 
-import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.game.business.level.TowerAging;
 import ch.logixisland.anuto.game.business.level.LevelLoader;
 import ch.logixisland.anuto.game.business.level.WaveListener;
 import ch.logixisland.anuto.game.business.level.WaveManager;
@@ -11,38 +13,20 @@ import ch.logixisland.anuto.game.business.score.LivesListener;
 import ch.logixisland.anuto.game.business.score.ScoreBoard;
 import ch.logixisland.anuto.game.engine.GameEngine;
 import ch.logixisland.anuto.game.data.LevelDescriptor;
-import ch.logixisland.anuto.game.entity.Types;
-import ch.logixisland.anuto.game.entity.tower.Tower;
-import ch.logixisland.anuto.util.container.ListenerList;
 
 public class GameManager {
 
     private final static String TAG = GameManager.class.getSimpleName();
 
-    public interface Listener {
-
-    }
-
-    public interface OnGameStartedListener extends Listener {
-        void onGameStarted();
-    }
-
-    public interface OnGameOverListener extends Listener {
-        void onGameOver();
-    }
-
-    public interface OnTowersAgedListener extends Listener {
-        void onTowersAged();
-    }
-
     private final GameEngine mGameEngine;
     private final ScoreBoard mScoreBoard;
     private final LevelLoader mLevelLoader;
     private final WaveManager mWaveManager;
+    private final TowerAging mTowerAging;
 
     private volatile boolean mGameOver;
 
-    private ListenerList<Listener> mListeners = new ListenerList<>();
+    private List<GameListener> mListeners = new CopyOnWriteArrayList<>();
 
     private final WaveListener mWaveListener = new WaveListener() {
         @Override
@@ -57,7 +41,7 @@ public class GameManager {
 
         @Override
         public void waveFinished() {
-            ageTowers();
+            mTowerAging.ageTowers();
         }
     };
 
@@ -66,17 +50,21 @@ public class GameManager {
         public void livesChanged(int lives) {
             if (!mGameOver && mScoreBoard.getLives() < 0) {
                 mGameOver = true;
-                onGameOver();
+
+                for (GameListener listener : mListeners) {
+                    listener.gameOver();
+                }
             }
         }
     };
 
     public GameManager(GameEngine gameEngine, ScoreBoard scoreBoard, LevelLoader levelLoader,
-                       WaveManager waveManager) {
+                       TowerAging towerAging, WaveManager waveManager) {
         mGameEngine = gameEngine;
         mLevelLoader = levelLoader;
         mScoreBoard = scoreBoard;
         mWaveManager = waveManager;
+        mTowerAging = towerAging;
 
         mGameOver = true;
         mScoreBoard.addLivesListener(mLivesListener);
@@ -96,6 +84,7 @@ public class GameManager {
         }
 
         mLevelLoader.setLevel(level);
+        mTowerAging.setValueModifier(mLevelLoader.getLevel().getSettings().getAgeModifier());
         restart();
     }
 
@@ -114,7 +103,10 @@ public class GameManager {
         mWaveManager.reset();
 
         mGameOver = false;
-        onGameStarted();
+
+        for (GameListener listener : mListeners) {
+            listener.gameStarted();
+        }
     }
 
 
@@ -123,45 +115,12 @@ public class GameManager {
     }
 
 
-    private void ageTowers() {
-        Iterator<Tower> it = mGameEngine.get(Types.TOWER).cast(Tower.class);
-        while (it.hasNext()) {
-            Tower t = it.next();
-            t.devalue(mLevelLoader.getLevel().getSettings().getAgeModifier());
-        }
-
-        onTowersAged();
-    }
-
-
-    public void addListener(Listener listener) {
+    public void addListener(GameListener listener) {
         mListeners.add(listener);
     }
 
-    public void removeListener(Listener listener) {
+    public void removeListener(GameListener listener) {
         mListeners.remove(listener);
     }
 
-
-    private void onGameStarted() {
-        Log.i(TAG, "Game started.");
-
-        for (OnGameStartedListener l : mListeners.get(OnGameStartedListener.class)) {
-            l.onGameStarted();
-        }
-    }
-
-    private void onGameOver() {
-        Log.i(TAG, "Game over.");
-
-        for (OnGameOverListener l : mListeners.get(OnGameOverListener.class)) {
-            l.onGameOver();
-        }
-    }
-
-    private void onTowersAged() {
-        for (OnTowersAgedListener l : mListeners.get(OnTowersAgedListener.class)) {
-            l.onTowersAged();
-        }
-    }
 }

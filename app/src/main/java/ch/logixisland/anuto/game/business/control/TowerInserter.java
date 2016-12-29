@@ -1,5 +1,6 @@
 package ch.logixisland.anuto.game.business.control;
 
+import ch.logixisland.anuto.game.business.level.TowerAging;
 import ch.logixisland.anuto.game.business.score.ScoreBoard;
 import ch.logixisland.anuto.game.engine.GameEngine;
 import ch.logixisland.anuto.game.entity.Entity;
@@ -13,14 +14,17 @@ public class TowerInserter {
     private final GameEngine mGameEngine;
     private final TowerSelector mTowerSelector;
     private final ScoreBoard mScoreBoard;
+    private final TowerAging mTowerAging;
 
     private Tower mInsertedTower;
     private Plateau mCurrentPlateau;
 
-    public TowerInserter(GameEngine gameEngine, ScoreBoard scoreBoard, TowerSelector towerSelector) {
+    public TowerInserter(GameEngine gameEngine, ScoreBoard scoreBoard, TowerSelector towerSelector,
+                         TowerAging towerAging) {
         mGameEngine = gameEngine;
         mTowerSelector = towerSelector;
         mScoreBoard = scoreBoard;
+        mTowerAging = towerAging;
     }
 
     public void insertTower(Tower tower) {
@@ -85,6 +89,7 @@ public class TowerInserter {
             mCurrentPlateau.setOccupant(mInsertedTower);
             mScoreBoard.takeCredits(mInsertedTower.getValue());
             mTowerSelector.selectTower(null);
+            mTowerAging.ageTower(mInsertedTower);
 
             mCurrentPlateau = null;
             mInsertedTower = null;

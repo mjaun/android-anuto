@@ -10,10 +10,11 @@ import android.view.ViewGroup;
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameFactory;
-import ch.logixisland.anuto.game.business.GameManager;
+import ch.logixisland.anuto.game.business.manager.GameListener;
+import ch.logixisland.anuto.game.business.manager.GameManager;
 import ch.logixisland.anuto.game.business.level.LevelLoader;
 
-public class InventoryFragment extends Fragment implements GameManager.OnGameStartedListener {
+public class InventoryFragment extends Fragment implements GameListener {
 
     private final GameManager mGameManager;
     private final LevelLoader mLevelLoader;
@@ -57,9 +58,14 @@ public class InventoryFragment extends Fragment implements GameManager.OnGameSta
     }
 
     @Override
-    public void onGameStarted() {
+    public void gameStarted() {
         for (int i = 0; i < view_tower_x.length; i++) {
             view_tower_x[i].setTowerClass(mLevelLoader.getLevel().getTowerConfig(i).getTowerClass());
         }
+    }
+
+    @Override
+    public void gameOver() {
+
     }
 }

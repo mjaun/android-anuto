@@ -13,12 +13,12 @@ import java.text.DecimalFormat;
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.game.GameFactory;
-import ch.logixisland.anuto.game.business.GameManager;
+import ch.logixisland.anuto.game.business.manager.GameListener;
+import ch.logixisland.anuto.game.business.manager.GameManager;
 import ch.logixisland.anuto.game.business.score.ScoreBoard;
 import ch.logixisland.anuto.game.render.theme.ThemeManager;
 
-public class GameOverFragment extends Fragment implements GameManager.OnGameStartedListener,
-        GameManager.OnGameOverListener {
+public class GameOverFragment extends Fragment implements GameListener {
 
     private final ThemeManager mThemeManager;
     private final GameManager mGameManager;
@@ -66,7 +66,7 @@ public class GameOverFragment extends Fragment implements GameManager.OnGameStar
     }
 
     @Override
-    public void onGameStarted() {
+    public void gameStarted() {
         getFragmentManager().beginTransaction()
                 .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
                 .hide(this)
@@ -74,7 +74,7 @@ public class GameOverFragment extends Fragment implements GameManager.OnGameStar
     }
 
     @Override
-    public void onGameOver() {
+    public void gameOver() {
         txt_game_over.post(new Runnable() {
             @Override
             public void run() {

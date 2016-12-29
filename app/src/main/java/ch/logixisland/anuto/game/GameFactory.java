@@ -2,7 +2,8 @@ package ch.logixisland.anuto.game;
 
 import android.content.Context;
 
-import ch.logixisland.anuto.game.business.GameManager;
+import ch.logixisland.anuto.game.business.manager.GameManager;
+import ch.logixisland.anuto.game.business.level.TowerAging;
 import ch.logixisland.anuto.game.business.control.TowerControl;
 import ch.logixisland.anuto.game.business.control.TowerInserter;
 import ch.logixisland.anuto.game.business.control.TowerSelector;
@@ -28,6 +29,7 @@ public class GameFactory {
     private final TowerSelector mTowerSelector;
     private final TowerControl mTowerControl;
     private final TowerInserter mTowerInserter;
+    private final TowerAging mTowerAging;
     private final LevelLoader mLevelLoader;
     private final WaveManager mWaveManager;
 
@@ -44,10 +46,11 @@ public class GameFactory {
         mGameEngine = new GameEngine(mRenderer);
         mTowerSelector = new TowerSelector(mGameEngine);
         mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector);
-        mTowerInserter = new TowerInserter(mGameEngine, mScoreBoard, mTowerSelector);
+        mTowerAging = new TowerAging(mGameEngine);
+        mTowerInserter = new TowerInserter(mGameEngine, mScoreBoard, mTowerSelector, mTowerAging);
         mLevelLoader = new LevelLoader(mGameEngine, mViewport, mScoreBoard);
         mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mLevelLoader);
-        mGameManager = new GameManager(mGameEngine, mScoreBoard, mLevelLoader, mWaveManager);
+        mGameManager = new GameManager(mGameEngine, mScoreBoard, mLevelLoader, mTowerAging, mWaveManager);
     }
 
     public SpriteFactory getSpriteFactory() {
