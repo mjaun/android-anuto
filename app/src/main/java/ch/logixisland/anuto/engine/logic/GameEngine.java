@@ -42,16 +42,12 @@ public class GameEngine implements Runnable {
     }
 
     public StreamIterator<Entity> get(int typeId) {
-        synchronized (mEntities) {
-            return mEntities.get(typeId).iterator();
-        }
+        return mEntities.get(typeId).iterator();
     }
 
     public void add(Entity entity) {
-        synchronized (mEntities) {
-            mEntities.add(entity.getType(), entity);
-            entity.init();
-        }
+        mEntities.add(entity.getType(), entity);
+        entity.init();
     }
 
     public void add(Drawable drawable) {
@@ -59,16 +55,12 @@ public class GameEngine implements Runnable {
     }
 
     public void add(TickListener listener) {
-        synchronized (mEntities) {
-            mTickListeners.add(listener);
-        }
+        mTickListeners.add(listener);
     }
 
     public void remove(Entity entity) {
-        synchronized (mEntities) {
-            mEntities.remove(entity.getType(), entity);
-            entity.clean();
-        }
+        mEntities.remove(entity.getType(), entity);
+        entity.clean();
     }
 
     public void remove(Drawable drawable) {
@@ -76,23 +68,19 @@ public class GameEngine implements Runnable {
     }
 
     public void remove(TickListener listener) {
-        synchronized (mEntities) {
-            mTickListeners.remove(listener);
-        }
+        mTickListeners.remove(listener);
     }
 
     public void clear() {
-        synchronized (mEntities) {
-            for (Entity obj : mEntities) {
-                mEntities.remove(obj.getType(), obj);
-                obj.clean();
-            }
-
-            mMessageQueue.clear();
-            mTickListeners.clear();
-            mStaticData.clear();
-            mRenderer.clear();
+        for (Entity obj : mEntities) {
+            mEntities.remove(obj.getType(), obj);
+            obj.clean();
         }
+
+        mMessageQueue.clear();
+        mTickListeners.clear();
+        mStaticData.clear();
+        mRenderer.clear();
     }
 
     public void start() {
@@ -138,14 +126,12 @@ public class GameEngine implements Runnable {
             while (mRunning) {
                 long timeTickBegin = System.currentTimeMillis();
 
-                synchronized (mEntities) {
-                    for (TickListener listener : mTickListeners) {
-                        listener.tick();
-                    }
+                for (TickListener listener : mTickListeners) {
+                    listener.tick();
+                }
 
-                    for (Entity entity : mEntities) {
-                        entity.tick();
-                    }
+                for (Entity entity : mEntities) {
+                    entity.tick();
                 }
 
                 mMessageQueue.tick();
@@ -169,5 +155,4 @@ public class GameEngine implements Runnable {
             throw new RuntimeException(e);
         }
     }
-
 }
