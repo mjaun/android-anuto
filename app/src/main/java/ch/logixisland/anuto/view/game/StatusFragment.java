@@ -14,18 +14,18 @@ import android.widget.TextView;
 
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.game.GameFactory;
-import ch.logixisland.anuto.game.business.manager.GameListener;
-import ch.logixisland.anuto.game.business.manager.GameManager;
-import ch.logixisland.anuto.game.business.level.WaveListener;
-import ch.logixisland.anuto.game.business.level.WaveManager;
-import ch.logixisland.anuto.game.business.score.BonusListener;
-import ch.logixisland.anuto.game.business.score.CreditsListener;
-import ch.logixisland.anuto.game.business.score.LivesListener;
-import ch.logixisland.anuto.game.business.score.ScoreBoard;
-import ch.logixisland.anuto.game.render.theme.ThemeManager;
+import ch.logixisland.anuto.GameFactory;
+import ch.logixisland.anuto.business.manager.GameListener;
+import ch.logixisland.anuto.business.manager.GameManager;
+import ch.logixisland.anuto.business.level.WaveListener;
+import ch.logixisland.anuto.business.level.WaveManager;
+import ch.logixisland.anuto.business.score.BonusListener;
+import ch.logixisland.anuto.business.score.CreditsListener;
+import ch.logixisland.anuto.business.score.LivesListener;
+import ch.logixisland.anuto.business.score.ScoreBoard;
+import ch.logixisland.anuto.engine.render.theme.ThemeManager;
 import ch.logixisland.anuto.util.StringUtils;
-import ch.logixisland.anuto.game.render.theme.Theme;
+import ch.logixisland.anuto.engine.render.theme.Theme;
 
 public class StatusFragment extends Fragment implements
         GameListener, WaveListener, CreditsListener, LivesListener, BonusListener,

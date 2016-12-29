@@ -8,12 +8,12 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import ch.logixisland.anuto.AnutoApplication;
-import ch.logixisland.anuto.game.business.control.TowerInserter;
-import ch.logixisland.anuto.game.business.control.TowerSelector;
-import ch.logixisland.anuto.game.GameFactory;
-import ch.logixisland.anuto.game.entity.tower.Tower;
-import ch.logixisland.anuto.game.render.Renderer;
-import ch.logixisland.anuto.game.render.Viewport;
+import ch.logixisland.anuto.business.control.TowerInserter;
+import ch.logixisland.anuto.business.control.TowerSelector;
+import ch.logixisland.anuto.GameFactory;
+import ch.logixisland.anuto.entity.tower.Tower;
+import ch.logixisland.anuto.engine.render.Renderer;
+import ch.logixisland.anuto.engine.render.Viewport;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class GameView extends View implements View.OnDragListener, View.OnTouchListener {

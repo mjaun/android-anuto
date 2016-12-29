@@ -12,11 +12,11 @@ import java.text.DecimalFormat;
 
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.game.GameFactory;
-import ch.logixisland.anuto.game.business.manager.GameListener;
-import ch.logixisland.anuto.game.business.manager.GameManager;
-import ch.logixisland.anuto.game.business.score.ScoreBoard;
-import ch.logixisland.anuto.game.render.theme.ThemeManager;
+import ch.logixisland.anuto.GameFactory;
+import ch.logixisland.anuto.business.manager.GameListener;
+import ch.logixisland.anuto.business.manager.GameManager;
+import ch.logixisland.anuto.business.score.ScoreBoard;
+import ch.logixisland.anuto.engine.render.theme.ThemeManager;
 
 public class GameOverFragment extends Fragment implements GameListener {
 

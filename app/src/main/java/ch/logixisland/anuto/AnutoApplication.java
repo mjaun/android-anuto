@@ -2,8 +2,6 @@ package ch.logixisland.anuto;
 
 import android.app.Application;
 
-import ch.logixisland.anuto.game.GameFactory;
-
 public class AnutoApplication extends Application {
 
     private static AnutoApplication sInstance;

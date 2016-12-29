@@ -13,17 +13,17 @@ import android.widget.TextView;
 
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.game.GameFactory;
-import ch.logixisland.anuto.game.business.manager.GameListener;
-import ch.logixisland.anuto.game.business.manager.GameManager;
-import ch.logixisland.anuto.game.business.control.TowerControl;
-import ch.logixisland.anuto.game.business.control.TowerInfoView;
-import ch.logixisland.anuto.game.business.control.TowerSelector;
-import ch.logixisland.anuto.game.business.score.CreditsListener;
-import ch.logixisland.anuto.game.business.score.ScoreBoard;
-import ch.logixisland.anuto.game.entity.tower.AimingTower;
-import ch.logixisland.anuto.game.entity.tower.Tower;
-import ch.logixisland.anuto.game.entity.tower.TowerListener;
+import ch.logixisland.anuto.GameFactory;
+import ch.logixisland.anuto.business.manager.GameListener;
+import ch.logixisland.anuto.business.manager.GameManager;
+import ch.logixisland.anuto.business.control.TowerControl;
+import ch.logixisland.anuto.business.control.TowerInfoView;
+import ch.logixisland.anuto.business.control.TowerSelector;
+import ch.logixisland.anuto.business.score.CreditsListener;
+import ch.logixisland.anuto.business.score.ScoreBoard;
+import ch.logixisland.anuto.entity.tower.AimingTower;
+import ch.logixisland.anuto.entity.tower.Tower;
+import ch.logixisland.anuto.entity.tower.TowerListener;
 import ch.logixisland.anuto.util.StringUtils;
 
 public class TowerInfoFragment extends Fragment implements View.OnTouchListener,

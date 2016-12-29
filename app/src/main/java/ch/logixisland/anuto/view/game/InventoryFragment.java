@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.game.GameFactory;
-import ch.logixisland.anuto.game.business.manager.GameListener;
-import ch.logixisland.anuto.game.business.manager.GameManager;
-import ch.logixisland.anuto.game.business.level.LevelLoader;
+import ch.logixisland.anuto.GameFactory;
+import ch.logixisland.anuto.business.manager.GameListener;
+import ch.logixisland.anuto.business.manager.GameManager;
+import ch.logixisland.anuto.business.level.LevelLoader;
 
 public class InventoryFragment extends Fragment implements GameListener {
 

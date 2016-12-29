@@ -8,11 +8,11 @@ import java.io.InputStream;
 
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.game.engine.GameEngine;
-import ch.logixisland.anuto.game.GameFactory;
-import ch.logixisland.anuto.game.business.manager.GameManager;
-import ch.logixisland.anuto.game.data.LevelDescriptor;
-import ch.logixisland.anuto.game.render.theme.ThemeManager;
+import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.GameFactory;
+import ch.logixisland.anuto.business.manager.GameManager;
+import ch.logixisland.anuto.util.data.LevelDescriptor;
+import ch.logixisland.anuto.engine.render.theme.ThemeManager;
 import ch.logixisland.anuto.view.menu.LevelSelectFragment;
 
 public class MainActivity extends Activity {
