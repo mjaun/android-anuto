@@ -33,10 +33,6 @@ public class GameEngine implements Runnable {
         mRenderer = renderer;
     }
 
-    public boolean tick100ms(Object caller) {
-        return (mTickCount + System.identityHashCode(caller)) % (TARGET_FRAME_RATE / 10) == 0;
-    }
-
     public Object getStaticData(Entity obj) {
         if (!mStaticData.containsKey(obj.getClass())) {
             mStaticData.put(obj.getClass(), obj.initStatic());

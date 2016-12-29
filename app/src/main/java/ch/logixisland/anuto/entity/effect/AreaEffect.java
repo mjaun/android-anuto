@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.engine.logic.TickTimer;
 import ch.logixisland.anuto.entity.Entity;
 import ch.logixisland.anuto.entity.EntityListener;
 import ch.logixisland.anuto.entity.Types;
@@ -12,6 +13,7 @@ import ch.logixisland.anuto.entity.enemy.Enemy;
 public abstract class AreaEffect extends Effect implements EntityListener {
 
     private float mRange = 1f;
+    private final TickTimer mUpdateTimer = TickTimer.createInterval(0.1f);
     private final List<Enemy> mAffectedEnemies = new CopyOnWriteArrayList<>();
 
     protected AreaEffect(Entity origin, float duration) {
@@ -22,7 +24,7 @@ public abstract class AreaEffect extends Effect implements EntityListener {
     public void tick() {
         super.tick();
 
-        if (getGameEngine().tick100ms(this)) {
+        if (mUpdateTimer.tick()) {
             for (Enemy enemy : mAffectedEnemies) {
                 if (getDistanceTo(enemy) > mRange) {
                     mAffectedEnemies.remove(enemy);

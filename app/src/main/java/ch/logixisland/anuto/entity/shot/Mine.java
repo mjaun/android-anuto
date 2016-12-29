@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.engine.logic.TickTimer;
 import ch.logixisland.anuto.entity.Entity;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.effect.Explosion;
@@ -44,6 +45,8 @@ public class Mine extends Shot {
 
     private StaticSprite mSpriteFlying;
     private StaticSprite mSpriteMine;
+
+    private final TickTimer mUpdateTimer = TickTimer.createInterval(0.1f);
 
     public Mine(Entity origin, Vector2 position, Vector2 target, float damage, float radius) {
         super(origin);
@@ -135,7 +138,7 @@ public class Mine extends Shot {
                 mFlying = false;
                 setSpeed(0f);
             }
-        } else if (getGameEngine().tick100ms(this)) {
+        } else if (mUpdateTimer.tick()) {
             StreamIterator<Enemy> enemiesInRange = getGameEngine().get(Types.ENEMY)
                     .filter(inRange(getPosition(), TRIGGER_RADIUS))
                     .cast(Enemy.class)

@@ -1,5 +1,6 @@
 package ch.logixisland.anuto.entity.tower;
 
+import ch.logixisland.anuto.engine.logic.TickTimer;
 import ch.logixisland.anuto.entity.Entity;
 import ch.logixisland.anuto.entity.EntityListener;
 import ch.logixisland.anuto.entity.enemy.Enemy;
@@ -21,6 +22,8 @@ public abstract class AimingTower extends Tower implements EntityListener {
     private Strategy mStrategy = sDefaultStrategy;
     private boolean mLockOnTarget = sDefaultLockTarget;
 
+    private final TickTimer mUpdateTimer = TickTimer.createInterval(0.1f);
+
     @Override
     public void init() {
         super.init();
@@ -36,7 +39,7 @@ public abstract class AimingTower extends Tower implements EntityListener {
     public void tick() {
         super.tick();
 
-        if (getGameEngine().tick100ms(this)) {
+        if (mUpdateTimer.tick()) {
             if (mTarget != null && getDistanceTo(mTarget) > getRange()) {
                 targetLost();
             }

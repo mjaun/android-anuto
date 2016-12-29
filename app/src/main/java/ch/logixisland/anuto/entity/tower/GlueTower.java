@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.engine.logic.TickTimer;
 import ch.logixisland.anuto.entity.shot.GlueShot;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
@@ -50,6 +51,8 @@ public class GlueTower extends Tower {
 
     private StaticSprite mSpriteBase;
     private StaticSprite mSpriteTower;
+
+    private final TickTimer mUpdateTimer = TickTimer.createInterval(0.1f);
 
     public GlueTower() {
         mGlueDuration = getProperty("glueDuration");
@@ -131,7 +134,7 @@ public class GlueTower extends Tower {
     public void tick() {
         super.tick();
 
-        if (isReloaded() && getGameEngine().tick100ms(this) && !getPossibleTargets().isEmpty()) {
+        if (isReloaded() && mUpdateTimer.tick() && !getPossibleTargets().isEmpty()) {
             mShooting = true;
             setReloaded(false);
         }
