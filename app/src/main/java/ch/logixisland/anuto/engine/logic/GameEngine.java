@@ -16,6 +16,8 @@ import ch.logixisland.anuto.util.iterator.StreamIterator;
 public class GameEngine implements Runnable {
 
     public final static int TARGET_FRAME_RATE = 30;
+    public final static int MAX_FRAME_SKIPS = 3;
+
     private final static String TAG = GameEngine.class.getSimpleName();
 
     private final Renderer mRenderer;
@@ -27,7 +29,6 @@ public class GameEngine implements Runnable {
 
     private Thread mGameThread;
     private volatile boolean mRunning = false;
-    private long mTickCount = 0;
 
     public GameEngine(Renderer renderer) {
         mRenderer = renderer;
@@ -120,33 +121,32 @@ public class GameEngine implements Runnable {
 
     @Override
     public void run() {
-        long lastLogTick = 0;
+        long timeNextTick = System.currentTimeMillis();
+        long timeCurrent;
+        int skippedFrames = 0;
 
         try {
             while (mRunning) {
-                long timeTickBegin = System.currentTimeMillis();
+                timeNextTick += 1000 / TARGET_FRAME_RATE;
+                executeTick();
 
-                for (TickListener listener : mTickListeners) {
-                    listener.tick();
+                timeCurrent = System.currentTimeMillis();
+
+                if (timeCurrent < timeNextTick || skippedFrames >= MAX_FRAME_SKIPS) {
+                    mRenderer.render();
+                    skippedFrames = 0;
+                } else {
+                    Log.d(TAG, "Rendering frame skipped!");
+                    skippedFrames++;
                 }
 
-                for (Entity entity : mEntities) {
-                    entity.tick();
-                }
-
-                mMessageQueue.tick();
-                mRenderer.render();
-                mTickCount++;
-
-                long timeTickFinished = System.currentTimeMillis();
-
-                int sleepTime = 1000 / TARGET_FRAME_RATE - (int)(timeTickFinished - timeTickBegin);
+                timeCurrent = System.currentTimeMillis();
+                int sleepTime = (int)(timeNextTick - timeCurrent);
 
                 if (sleepTime > 0) {
                     Thread.sleep(sleepTime);
-                } else if (sleepTime < 0 && mTickCount - lastLogTick > TARGET_FRAME_RATE) {
-                    Log.d(TAG, "Frame did not finish in time!");
-                    lastLogTick = mTickCount;
+                } else if (skippedFrames == MAX_FRAME_SKIPS) {
+                    timeNextTick = timeCurrent; // resync
                 }
             }
         } catch (Exception e) {
@@ -154,5 +154,17 @@ public class GameEngine implements Runnable {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
+    }
+
+    private void executeTick() {
+        for (TickListener listener : mTickListeners) {
+            listener.tick();
+        }
+
+        for (Entity entity : mEntities) {
+            entity.tick();
+        }
+
+        mMessageQueue.tick();
     }
 }

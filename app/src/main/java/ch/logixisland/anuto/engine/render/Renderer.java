@@ -4,6 +4,10 @@ import android.graphics.Canvas;
 import android.view.View;
 
 import java.lang.ref.WeakReference;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.TransferQueue;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import ch.logixisland.anuto.engine.render.theme.ThemeManager;
 import ch.logixisland.anuto.util.container.SparseCollectionArray;
@@ -13,9 +17,9 @@ public class Renderer {
     private final Viewport mViewport;
     private final ThemeManager mThemeManager;
     private final SparseCollectionArray<Drawable> mDrawables = new SparseCollectionArray<>();
-    private WeakReference<View> mViewRef;
+    private final Semaphore mSemaphore = new Semaphore(0);
 
-    private volatile boolean mAllowedToDraw = false;
+    private WeakReference<View> mViewRef;
 
     public Renderer(Viewport viewport, ThemeManager themeManager) {
         mViewport = viewport;
@@ -38,18 +42,25 @@ public class Renderer {
         mDrawables.clear();
     }
 
-    public synchronized void render() throws InterruptedException {
+    public void render() throws InterruptedException {
         View view = mViewRef.get();
 
         if (view != null) {
-            mAllowedToDraw = true;
             view.postInvalidate();
-            wait();
+
+            if (mSemaphore.hasQueuedThreads()) {
+                synchronized (mSemaphore) {
+                    mSemaphore.release();
+                    mSemaphore.wait();
+                }
+            }
         }
     }
 
-    public synchronized void draw(Canvas canvas) {
-        if (!mAllowedToDraw) {
+    public void draw(Canvas canvas) {
+        try {
+            mSemaphore.acquire();
+        } catch (InterruptedException e) {
             return;
         }
 
@@ -60,8 +71,9 @@ public class Renderer {
             obj.draw(canvas);
         }
 
-        mAllowedToDraw = false;
-        notifyAll();
+        synchronized (mSemaphore) {
+            mSemaphore.notify();
+        }
     }
 
 }
