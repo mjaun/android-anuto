@@ -5,6 +5,7 @@ import android.view.View;
 
 import java.lang.ref.WeakReference;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TransferQueue;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -59,7 +60,9 @@ public class Renderer {
 
     public void draw(Canvas canvas) {
         try {
-            mSemaphore.acquire();
+            if (!mSemaphore.tryAcquire(100, TimeUnit.MILLISECONDS)) {
+                return;
+            }
         } catch (InterruptedException e) {
             return;
         }
