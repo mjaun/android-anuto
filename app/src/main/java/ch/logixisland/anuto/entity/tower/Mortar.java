@@ -97,8 +97,8 @@ public class Mortar extends AimingTower {
         if (getTarget() != null && isReloaded()) {
             Vector2 targetPos = getTarget().getPositionAfter(MortarShot.TIME_TO_TARGET);
             targetPos.add(Vector2.polar(RandomUtils.next(mInaccuracy), RandomUtils.next(360f)));
-            Vector2 shotPos = getPosition().copy().add(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
             mAngle = getAngleTo(targetPos);
+            Vector2 shotPos = getPosition().copy().add(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
 
             getGameEngine().add(new MortarShot(this, shotPos, targetPos, getDamage(), mExplosionRadius));
 
