@@ -23,17 +23,6 @@ public class TeleportTower extends AimingTower {
         SpriteTemplate mSpriteTemplateTower;
     }
 
-    private final EntityListener mEnemyListener = new EntityListener() {
-
-        @Override
-        public void entityRemoved(Entity obj) {
-            mTeleportedEnemies.remove(obj);
-            obj.removeListener(this);
-        }
-    };
-
-    private List<Enemy> mTeleportedEnemies = new ArrayList<>();
-
     private StaticSprite mSpriteBase;
     private StaticSprite mSpriteTower;
 
@@ -91,9 +80,6 @@ public class TeleportTower extends AimingTower {
             } else {
                 getGameEngine().add(new TeleportEffect(this, getPosition(), target, getDamage()));
                 setReloaded(false);
-
-                mTeleportedEnemies.add(target);
-                target.addListener(mEnemyListener);
             }
         }
     }
@@ -106,8 +92,6 @@ public class TeleportTower extends AimingTower {
 
     @Override
     public StreamIterator<Enemy> getPossibleTargets() {
-        return super.getPossibleTargets()
-                .filter(Entity.enabled())
-                .exclude(mTeleportedEnemies);
+        return super.getPossibleTargets().filter(Entity.enabled());
     }
 }
