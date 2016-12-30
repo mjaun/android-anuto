@@ -96,11 +96,11 @@ public class Rocket extends HomingShot {
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
 
-        if (!enabled) {
+        if (!enabled && mSpriteFire != null) {
             getGameEngine().remove(mSpriteFire);
         }
 
-        if (enabled) {
+        if (enabled && mSpriteFire != null) {
             getGameEngine().add(mSpriteFire);
         }
     }
