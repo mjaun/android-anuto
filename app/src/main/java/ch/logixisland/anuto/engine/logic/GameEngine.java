@@ -136,7 +136,6 @@ public class GameEngine implements Runnable {
                     mRenderer.render();
                     skippedFrames = 0;
                 } else {
-                    Log.d(TAG, "Rendering frame skipped!");
                     skippedFrames++;
                 }
 
