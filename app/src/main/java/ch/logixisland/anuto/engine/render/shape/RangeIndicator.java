@@ -10,8 +10,8 @@ import ch.logixisland.anuto.engine.render.Layers;
 
 public class RangeIndicator implements Drawable {
 
-    private Tower mTower;
-    private Paint mPen;
+    private final Tower mTower;
+    private final Paint mPen;
 
     public RangeIndicator(Tower tower) {
         mTower = tower;

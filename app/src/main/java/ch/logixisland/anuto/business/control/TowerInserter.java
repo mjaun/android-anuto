@@ -1,5 +1,7 @@
 package ch.logixisland.anuto.business.control;
 
+import java.util.Iterator;
+
 import ch.logixisland.anuto.business.level.TowerAging;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
@@ -40,6 +42,7 @@ public class TowerInserter {
         }
 
         if (mInsertedTower == null) {
+            showTowerLevels();
             mInsertedTower = tower;
             mGameEngine.add(tower);
             mTowerSelector.selectTower(mInsertedTower);
@@ -92,6 +95,7 @@ public class TowerInserter {
             mTowerAging.ageTower(mInsertedTower);
 
             mTowerSelector.selectTower(null);
+            hideTowerLevels();
             mCurrentPlateau = null;
             mInsertedTower = null;
         }
@@ -111,8 +115,27 @@ public class TowerInserter {
         if (mInsertedTower != null) {
             mGameEngine.remove(mInsertedTower);
 
+            hideTowerLevels();
             mCurrentPlateau = null;
             mInsertedTower = null;
+        }
+    }
+
+    private void showTowerLevels() {
+        Iterator<Tower> towers = mGameEngine.get(Types.TOWER).cast(Tower.class);
+
+        while (towers.hasNext()) {
+            Tower tower = towers.next();
+            tower.showLevel();
+        }
+    }
+
+    private void hideTowerLevels() {
+        Iterator<Tower> towers = mGameEngine.get(Types.TOWER).cast(Tower.class);
+
+        while (towers.hasNext()) {
+            Tower tower = towers.next();
+            tower.hideLevel();
         }
     }
 

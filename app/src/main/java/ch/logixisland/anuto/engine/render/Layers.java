@@ -15,4 +15,5 @@ public final class Layers {
 
     public static final int ENEMY_HEALTHBAR = 60;
     public static final int TOWER_RANGE = 60;
+    public static final int TOWER_LEVEL = 60;
 }

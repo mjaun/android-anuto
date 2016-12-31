@@ -29,6 +29,10 @@ public class Viewport {
         return mScreenMatrix;
     }
 
+    public Matrix getScreenMatrixInverse() {
+        return mScreenMatrixInverse;
+    }
+
     public Vector2 screenToGame(Vector2 pos) {
         float[] pts = {pos.x, pos.y};
         mScreenMatrixInverse.mapPoints(pts);

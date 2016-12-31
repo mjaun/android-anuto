@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.engine.render.shape.LevelIndicator;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.entity.Entity;
@@ -41,6 +42,7 @@ public abstract class Tower extends Entity {
 
     private TickTimer mReloadTimer;
     private RangeIndicator mRangeIndicator;
+    private LevelIndicator mLevelIndicator;
 
     private final List<TowerListener> mListeners = new CopyOnWriteArrayList<>();
 
@@ -236,6 +238,20 @@ public abstract class Tower extends Entity {
         if (mRangeIndicator != null) {
             getGameEngine().remove(mRangeIndicator);
             mRangeIndicator = null;
+        }
+    }
+
+    public void showLevel() {
+        if (mLevelIndicator == null) {
+            mLevelIndicator = getShapeFactory().createLevelIndicator(this);
+            getGameEngine().add(mLevelIndicator);
+        }
+    }
+
+    public void hideLevel() {
+        if (mLevelIndicator != null) {
+            getGameEngine().remove(mLevelIndicator);
+            mLevelIndicator = null;
         }
     }
 

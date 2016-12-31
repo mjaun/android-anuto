@@ -60,13 +60,14 @@ public class TowerView extends View implements View.OnTouchListener {
         mScoreBoard = factory.getScoreBoard();
         mGameManager = factory.getGameManager();
 
+        mScoreBoard.addCreditsListener(mCreditsListener);
+
         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.TowerView);
         mDrawSize = a.getFloat(R.styleable.TowerView_drawSize, mDrawSize);
         a.recycle();
 
         float density = context.getResources().getDisplayMetrics().density;
         mPaintText = new Paint();
-        mPaintText.setColor(mThemeManager.getTheme().getTextColor());
         mPaintText.setTextAlign(Paint.Align.CENTER);
         mPaintText.setTextSize(TEXT_SIZE * density);
 
@@ -96,10 +97,6 @@ public class TowerView extends View implements View.OnTouchListener {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
-        if (isInEditMode()) {
-            canvas.drawColor(Color.GRAY);
-        }
 
         if (mTower != null) {
             canvas.save();
@@ -140,36 +137,22 @@ public class TowerView extends View implements View.OnTouchListener {
         return false;
     }
 
-
-    public Class<? extends Tower> getTowerClass() {
-        return mTowerClass;
-    }
-
     public void setTowerClass(Class<? extends Tower> clazz) {
         mTowerClass = clazz;
 
         if (mTowerClass != null) {
-            setTower(newTower());
+            mTower = newTower();
         } else {
-            setTower(null);
+            mTower = null;
         }
-    }
 
-    public void setTowerClass(String className) throws ClassNotFoundException {
-        mTowerClass = (Class<? extends Tower>) Class.forName(className);
-        newTower();
+        mCreditsListener.creditsChanged(mScoreBoard.getCredits());
+        postInvalidate();
     }
-
-    public void setTower(Tower tower) {
-        mTower = tower;
-        this.postInvalidate();
-    }
-
 
     public void close() {
         mScoreBoard.removeCreditsListener(mCreditsListener);
     }
-
 
     private Tower newTower() {
         try {

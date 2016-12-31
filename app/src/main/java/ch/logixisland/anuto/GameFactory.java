@@ -39,9 +39,9 @@ public class GameFactory {
     public GameFactory(Context context) {
         mScoreBoard = new ScoreBoard();
         mThemeManager = new ThemeManager();
+        mViewport = new Viewport();
         mSpriteFactory = new SpriteFactory(context.getResources(), mThemeManager);
         mShapeFactory = new ShapeFactory(mThemeManager);
-        mViewport = new Viewport();
         mRenderer = new Renderer(mViewport, mThemeManager);
         mGameEngine = new GameEngine(mRenderer);
         mTowerSelector = new TowerSelector(mGameEngine);
