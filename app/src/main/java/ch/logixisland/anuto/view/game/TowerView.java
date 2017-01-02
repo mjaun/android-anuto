@@ -24,6 +24,7 @@ import ch.logixisland.anuto.engine.render.theme.ThemeManager;
 public class TowerView extends View implements View.OnTouchListener {
 
     private final static float TEXT_SIZE = 20f;
+    private final static float DRAW_SIZE = 1.3f;
 
     private final ThemeManager mThemeManager;
     private final GameManager mGameManager;
@@ -31,8 +32,6 @@ public class TowerView extends View implements View.OnTouchListener {
 
     private Tower mTower;
     private Class<? extends Tower> mTowerClass;
-
-    private float mDrawSize = 1f;
 
     private final Paint mPaintText;
     private final Matrix mScreenMatrix;
@@ -68,10 +67,6 @@ public class TowerView extends View implements View.OnTouchListener {
             mGameManager = null;
         }
 
-        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.TowerView);
-        mDrawSize = a.getFloat(R.styleable.TowerView_drawSize, mDrawSize);
-        a.recycle();
-
         float density = context.getResources().getDisplayMetrics().density;
         mPaintText = new Paint();
         mPaintText.setTextAlign(Paint.Align.CENTER);
@@ -89,8 +84,8 @@ public class TowerView extends View implements View.OnTouchListener {
         mScreenMatrix.reset();
 
         float tileSize = Math.min(w, h);
-        mScreenMatrix.postTranslate(mDrawSize / 2, mDrawSize / 2);
-        mScreenMatrix.postScale(tileSize / mDrawSize, tileSize / mDrawSize);
+        mScreenMatrix.postTranslate(DRAW_SIZE / 2, DRAW_SIZE / 2);
+        mScreenMatrix.postScale(tileSize / DRAW_SIZE, tileSize / DRAW_SIZE);
 
         float paddingLeft = (w - tileSize) / 2f;
         float paddingTop = (h - tileSize) / 2f;

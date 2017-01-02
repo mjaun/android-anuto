@@ -15,6 +15,7 @@ import android.widget.TextView;
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.GameFactory;
+import ch.logixisland.anuto.business.level.LevelLoader;
 import ch.logixisland.anuto.business.manager.GameListener;
 import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.business.level.WaveListener;
@@ -27,14 +28,14 @@ import ch.logixisland.anuto.engine.render.theme.ThemeManager;
 import ch.logixisland.anuto.util.StringUtils;
 import ch.logixisland.anuto.engine.render.theme.Theme;
 
-public class StatusFragment extends Fragment implements
-        GameListener, WaveListener, CreditsListener, LivesListener, BonusListener,
-        View.OnClickListener {
+public class HeaderFragment extends Fragment implements GameListener, WaveListener, CreditsListener,
+        LivesListener, BonusListener, View.OnClickListener {
 
     private final ThemeManager mThemeManager;
     private final GameManager mGameManager;
     private final WaveManager mWaveManager;
     private final ScoreBoard mScoreBoard;
+    private final LevelLoader mLevelLoader;
 
     private Handler mHandler;
 
@@ -46,12 +47,15 @@ public class StatusFragment extends Fragment implements
     private Button btn_next_wave;
     private Button btn_restart;
 
-    public StatusFragment() {
+    private TowerView[] view_tower_x = new TowerView[4];
+
+    public HeaderFragment() {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
         mThemeManager = factory.getThemeManager();
         mGameManager = factory.getGameManager();
         mScoreBoard = factory.getScoreBoard();
         mWaveManager = factory.getWaveManager();
+        mLevelLoader = factory.getLevelLoader();
     }
 
     @Override
@@ -59,7 +63,7 @@ public class StatusFragment extends Fragment implements
                              Bundle savedInstanceState) {
         mHandler = new Handler();
 
-        View v = inflater.inflate(R.layout.fragment_status, container, false);
+        View v = inflater.inflate(R.layout.fragment_header, container, false);
         Theme theme = mThemeManager.getTheme();
         v.setBackgroundColor(theme.getBackgroundColor());
 
@@ -78,6 +82,11 @@ public class StatusFragment extends Fragment implements
 
         btn_next_wave.setOnClickListener(this);
         btn_restart.setOnClickListener(this);
+
+        view_tower_x[0] = (TowerView)v.findViewById(R.id.view_tower_1);
+        view_tower_x[1] = (TowerView)v.findViewById(R.id.view_tower_2);
+        view_tower_x[2] = (TowerView)v.findViewById(R.id.view_tower_3);
+        view_tower_x[3] = (TowerView)v.findViewById(R.id.view_tower_4);
 
         return v;
     }
@@ -100,6 +109,10 @@ public class StatusFragment extends Fragment implements
         mScoreBoard.removeBonusListener(this);
         mScoreBoard.removeCreditsListener(this);
         mScoreBoard.removeLivesListener(this);
+
+        for (TowerView towerView : view_tower_x) {
+            towerView.close();
+        }
     }
 
     @Override
@@ -115,7 +128,7 @@ public class StatusFragment extends Fragment implements
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        switch (which){
+                        switch (which) {
                             case DialogInterface.BUTTON_POSITIVE:
                                 mGameManager.restart();
                                 break;
@@ -188,6 +201,10 @@ public class StatusFragment extends Fragment implements
             public void run() {
                 txt_wave.setText(getResources().getString(R.string.status_wave) + ": " + mWaveManager.getWaveNumber());
                 btn_next_wave.setEnabled(true);
+
+                for (int i = 0; i < view_tower_x.length; i++) {
+                    view_tower_x[i].setTowerClass(mLevelLoader.getLevel().getTowerConfig(i).getTowerClass());
+                }
             }
         });
     }

@@ -138,7 +138,6 @@
     </TableLayout>
 
     <ch.logixisland.anuto.view.game.TowerView
-        app:drawSize="1.8"
         android:id="@+id/view_tower"
         android:layout_width="70dp"
         android:layout_height="70dp"

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="ch.logixisland.anuto.view.game.StatusFragment"
+    tools:context="ch.logixisland.anuto.view.game.HeaderFragment"
     android:orientation="vertical"
     android:background="@drawable/border_bottom">
 
@@ -56,13 +56,36 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
 
-        <fragment
-            android:id="@+id/fragment_inventory"
-            android:name="ch.logixisland.anuto.view.game.InventoryFragment"
-            android:layout_width="wrap_content"
+        <ch.logixisland.anuto.view.game.TowerView
+            android:id="@+id/view_tower_1"
+            android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_alignParentStart="true"
-            tools:layout="@layout/fragment_inventory" />
+            android:layout_marginRight="5dp"
+            android:layout_centerVertical="true" />
+
+        <ch.logixisland.anuto.view.game.TowerView
+            android:id="@+id/view_tower_2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="5dp"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/view_tower_1" />
+
+        <ch.logixisland.anuto.view.game.TowerView
+            android:id="@+id/view_tower_3"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="5dp"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/view_tower_2" />
+
+        <ch.logixisland.anuto.view.game.TowerView
+            android:id="@+id/view_tower_4"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="5dp"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/view_tower_3" />
 
         <Button
             android:id="@+id/btn_next_wave"

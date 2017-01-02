@@ -16,11 +16,11 @@
 
     <fragment
         android:id="@+id/fragment_status"
-        android:name="ch.logixisland.anuto.view.game.StatusFragment"
+        android:name="ch.logixisland.anuto.view.game.HeaderFragment"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        tools:layout="@layout/fragment_status" />
+        tools:layout="@layout/fragment_header" />
 
     <fragment
         android:id="@+id/fragment_tower_info"
