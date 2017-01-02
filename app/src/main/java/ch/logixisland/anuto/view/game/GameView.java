@@ -34,11 +34,18 @@ public class GameView extends View implements View.OnDragListener, View.OnTouchL
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        GameFactory factory = AnutoApplication.getInstance().getGameFactory();
-        mViewport = factory.getViewport();
-        mRenderer = factory.getRenderer();
-        mTowerSelector = factory.getTowerSelector();
-        mTowerInserter = factory.getTowerInserter();
+        if (!isInEditMode()) {
+            GameFactory factory = AnutoApplication.getInstance().getGameFactory();
+            mViewport = factory.getViewport();
+            mRenderer = factory.getRenderer();
+            mTowerSelector = factory.getTowerSelector();
+            mTowerInserter = factory.getTowerInserter();
+        } else {
+            mViewport = null;
+            mRenderer = null;
+            mTowerSelector = null;
+            mTowerInserter = null;
+        }
 
         setFocusable(true);
         setOnDragListener(this);
@@ -61,13 +68,19 @@ public class GameView extends View implements View.OnDragListener, View.OnTouchL
     @Override
     public void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        mViewport.setScreenSize(w, h);
+
+        if (!isInEditMode()) {
+            mViewport.setScreenSize(w, h);
+        }
     }
 
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        mRenderer.draw(canvas);
+
+        if (!isInEditMode()) {
+            mRenderer.draw(canvas);
+        }
     }
 
     @Override

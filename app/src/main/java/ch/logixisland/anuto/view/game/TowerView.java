@@ -55,12 +55,18 @@ public class TowerView extends View implements View.OnTouchListener {
     public TowerView(Context context, AttributeSet attrs) throws ClassNotFoundException{
         super(context, attrs);
 
-        GameFactory factory = AnutoApplication.getInstance().getGameFactory();
-        mThemeManager = factory.getThemeManager();
-        mScoreBoard = factory.getScoreBoard();
-        mGameManager = factory.getGameManager();
+        if (!isInEditMode()) {
+            GameFactory factory = AnutoApplication.getInstance().getGameFactory();
+            mThemeManager = factory.getThemeManager();
+            mScoreBoard = factory.getScoreBoard();
+            mGameManager = factory.getGameManager();
 
-        mScoreBoard.addCreditsListener(mCreditsListener);
+            mScoreBoard.addCreditsListener(mCreditsListener);
+        } else {
+            mThemeManager = null;
+            mScoreBoard = null;
+            mGameManager = null;
+        }
 
         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.TowerView);
         mDrawSize = a.getFloat(R.styleable.TowerView_drawSize, mDrawSize);
