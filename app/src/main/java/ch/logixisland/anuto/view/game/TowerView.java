@@ -2,7 +2,6 @@ package ch.logixisland.anuto.view.game;
 
 import android.content.ClipData;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -13,13 +12,14 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import ch.logixisland.anuto.AnutoApplication;
-import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.business.score.CreditsListener;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.engine.render.theme.ThemeManager;
+import ch.logixisland.anuto.entity.tower.TowerFactory;
+import ch.logixisland.anuto.util.data.TowerConfig;
 
 public class TowerView extends View implements View.OnTouchListener {
 
@@ -29,9 +29,9 @@ public class TowerView extends View implements View.OnTouchListener {
     private final ThemeManager mThemeManager;
     private final GameManager mGameManager;
     private final ScoreBoard mScoreBoard;
+    private final TowerFactory mTowerFactory;
 
-    private Tower mTower;
-    private Class<? extends Tower> mTowerClass;
+    private Tower mPreviewTower;
 
     private final Paint mPaintText;
     private final Matrix mScreenMatrix;
@@ -39,8 +39,8 @@ public class TowerView extends View implements View.OnTouchListener {
     private CreditsListener mCreditsListener = new CreditsListener() {
         @Override
         public void creditsChanged(int credits) {
-            if (mTower != null) {
-                if (credits >= mTower.getValue()) {
+            if (mPreviewTower != null) {
+                if (credits >= mPreviewTower.getValue()) {
                     mPaintText.setColor(mThemeManager.getTheme().getTextColor());
                 } else {
                     mPaintText.setColor(Color.RED);
@@ -59,12 +59,14 @@ public class TowerView extends View implements View.OnTouchListener {
             mThemeManager = factory.getThemeManager();
             mScoreBoard = factory.getScoreBoard();
             mGameManager = factory.getGameManager();
+            mTowerFactory = factory.getTowerFactory();
 
             mScoreBoard.addCreditsListener(mCreditsListener);
         } else {
             mThemeManager = null;
             mScoreBoard = null;
             mGameManager = null;
+            mTowerFactory = null;
         }
 
         float density = context.getResources().getDisplayMetrics().density;
@@ -99,27 +101,24 @@ public class TowerView extends View implements View.OnTouchListener {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        if (mTower != null) {
+        if (mPreviewTower != null) {
             canvas.save();
             canvas.concat(mScreenMatrix);
-            canvas.translate(-mTower.getPosition().x, -mTower.getPosition().y);
-            mTower.preview(canvas);
+            canvas.translate(-mPreviewTower.getPosition().x, -mPreviewTower.getPosition().y);
+            mPreviewTower.preview(canvas);
             canvas.restore();
 
-            if (isEnabled()) {
-                canvas.drawText(Integer.toString(mTower.getValue()),
-                        getWidth() / 2,
-                        getHeight() / 2 - (mPaintText.ascent() + mPaintText.descent()) / 2,
-                        mPaintText);
-            }
+            canvas.drawText(Integer.toString(mPreviewTower.getValue()),
+                    getWidth() / 2,
+                    getHeight() / 2 - (mPaintText.ascent() + mPaintText.descent()) / 2,
+                    mPaintText);
         }
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if (isEnabled() && mTowerClass != null && mScoreBoard.getCredits() >= mTower.getValue() &&
-                    !mGameManager.isGameOver()) {
+            if (mScoreBoard.getCredits() >= mPreviewTower.getValue() && !mGameManager.isGameOver()) {
                 View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder() {
                     @Override
                     public void onProvideShadowMetrics(Point shadowSize, Point shadowTouchPoint) {
@@ -138,15 +137,8 @@ public class TowerView extends View implements View.OnTouchListener {
         return false;
     }
 
-    public void setTowerClass(Class<? extends Tower> clazz) {
-        mTowerClass = clazz;
-
-        if (mTowerClass != null) {
-            mTower = newTower();
-        } else {
-            mTower = null;
-        }
-
+    public void setSlot(int slot) {
+        mPreviewTower = mTowerFactory.createTower(slot);
         mCreditsListener.creditsChanged(mScoreBoard.getCredits());
         postInvalidate();
     }
@@ -156,12 +148,6 @@ public class TowerView extends View implements View.OnTouchListener {
     }
 
     private Tower newTower() {
-        try {
-            return mTowerClass.getConstructor().newInstance();
-        } catch (NoSuchMethodException e) {
-            throw new NoSuchMethodError("Class " + mTowerClass.getName() + " has no default constructor!");
-        } catch (Exception e) {
-            throw new RuntimeException("Could not instantiate object!", e);
-        }
+        return mTowerFactory.createTower(mPreviewTower.getName());
     }
 }

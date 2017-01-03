@@ -10,6 +10,7 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.util.RandomUtils;
+import ch.logixisland.anuto.util.data.TowerConfig;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class GlueGun extends AimingTower {
@@ -29,7 +30,8 @@ public class GlueGun extends AimingTower {
     private StaticSprite mSpriteBase;
     private AnimatedSprite mSpriteCanon;
 
-    public GlueGun() {
+    public GlueGun(TowerConfig config) {
+        super(config);
         mGlueDuration = getProperty("glueDuration");
 
         StaticData s = (StaticData)getStaticData();

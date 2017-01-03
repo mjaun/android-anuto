@@ -10,6 +10,7 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.util.RandomUtils;
+import ch.logixisland.anuto.util.data.TowerConfig;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class Mortar extends AimingTower {
@@ -30,10 +31,8 @@ public class Mortar extends AimingTower {
     private StaticSprite mSpriteBase;
     private AnimatedSprite mSpriteCanon;
 
-    public Mortar() {
-        mInaccuracy = getProperty("inaccuracy");
-        mExplosionRadius = getProperty("explosionRadius");
-
+    public Mortar(TowerConfig config) {
+        super(config);
         StaticData s = (StaticData)getStaticData();
 
         mSpriteBase = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplateBase);
@@ -44,6 +43,9 @@ public class Mortar extends AimingTower {
         mSpriteCanon.setListener(this);
         mSpriteCanon.setSequenceForwardBackward();
         mSpriteCanon.setInterval(REBOUND_DURATION);
+
+        mInaccuracy = getProperty("inaccuracy");
+        mExplosionRadius = getProperty("explosionRadius");
     }
 
     @Override

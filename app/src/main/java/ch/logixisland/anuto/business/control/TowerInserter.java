@@ -89,7 +89,7 @@ public class TowerInserter {
 
         if (mInsertedTower != null) {
             mInsertedTower.setEnabled(true);
-            mInsertedTower.setPlateau(mCurrentPlateau);
+            mCurrentPlateau.setOccupant(mInsertedTower);
 
             mScoreBoard.takeCredits(mInsertedTower.getValue());
             mTowerAging.ageTower(mInsertedTower);

@@ -6,6 +6,7 @@ import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.ReplicatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
+import ch.logixisland.anuto.util.data.EnemyConfig;
 
 public class Blob extends Enemy {
 
@@ -23,7 +24,8 @@ public class Blob extends Enemy {
 
     private ReplicatedSprite mSprite;
 
-    public Blob() {
+    public Blob(EnemyConfig config) {
+        super(config);
         StaticData s = (StaticData)getStaticData();
 
         mSprite = getSpriteFactory().createReplication(s.mReferenceSprite);

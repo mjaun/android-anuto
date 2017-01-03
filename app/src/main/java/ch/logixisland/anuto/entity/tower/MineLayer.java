@@ -14,6 +14,8 @@ import ch.logixisland.anuto.entity.Entity;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.util.RandomUtils;
+import ch.logixisland.anuto.util.data.TowerConfig;
+import ch.logixisland.anuto.util.math.vector.Line;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class MineLayer extends Tower {
@@ -28,7 +30,7 @@ public class MineLayer extends Tower {
     private int mMaxMineCount;
     private float mExplosionRadius;
     private boolean mShooting;
-    private List<PathSection> mSections;
+    private List<Line> mSections;
     private List<Mine> mMines = new ArrayList<>();
 
     private AnimatedSprite mSprite;
@@ -42,17 +44,18 @@ public class MineLayer extends Tower {
         }
     };
 
-    public MineLayer() {
-        mAngle = RandomUtils.next(360f);
-        mMaxMineCount = (int)getProperty("maxMineCount");
-        mExplosionRadius = getProperty("explosionRadius");
-
+    public MineLayer(TowerConfig config) {
+        super(config);
         StaticData s = (StaticData)getStaticData();
 
         mSprite = getSpriteFactory().createAnimated(Layers.TOWER_BASE, s.mSpriteTemplate);
         mSprite.setListener(this);
         mSprite.setSequenceForwardBackward();
         mSprite.setInterval(ANIMATION_DURATION);
+
+        mAngle = RandomUtils.next(360f);
+        mMaxMineCount = (int)getProperty("maxMineCount");
+        mExplosionRadius = getProperty("explosionRadius");
     }
 
     @Override
@@ -91,7 +94,7 @@ public class MineLayer extends Tower {
         super.setEnabled(enabled);
 
         if (enabled) {
-            mSections = getPathSections();
+            mSections = getPathSectionsInRange();
         }
     }
 
@@ -144,18 +147,22 @@ public class MineLayer extends Tower {
     private Vector2 getTarget() {
         float totalLen = 0f;
 
-        for (PathSection s : mSections) {
-            totalLen += s.len;
+        for (Line section : mSections) {
+            totalLen += section.length();
         }
 
         float dist = RandomUtils.next(totalLen);
 
-        for (PathSection s : mSections) {
-            if (dist > s.len) {
-                dist -= s.len;
+        for (Line section : mSections) {
+            float length = section.length();
+
+            if (dist > length) {
+                dist -= length;
             } else {
-                Vector2 d = Vector2.fromTo(s.p1, s.p2);
-                return d.norm().mul(dist).add(s.p1);
+                return section.lineVector()
+                        .norm()
+                        .mul(dist)
+                        .add(section.getPoint1());
             }
         }
 

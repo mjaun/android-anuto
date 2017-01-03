@@ -5,6 +5,7 @@ import java.util.List;
 
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.entity.plateau.Plateau;
 import ch.logixisland.anuto.entity.tower.AimingTower;
 import ch.logixisland.anuto.entity.tower.Tower;
 
@@ -31,15 +32,68 @@ public class TowerControl {
             return;
         }
 
+        /*
         Tower selectedTower = mTowerSelector.getSelectedTower();
         if (selectedTower != null && selectedTower.isUpgradeable()) {
             if (selectedTower.getUpgradeCost() <= mScoreBoard.getCredits()) {
                 mScoreBoard.takeCredits(selectedTower.getUpgradeCost());
+
+
+
+                Plateau plateau = this.getPlateau();
+                Tower upgrade;
+
+                try {
+                    upgrade = mConfig.getUpgradeTowerConfig().getTowerClass().newInstance();
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException();
+                }
+
+                int cost = getUpgradeCost();
+                upgrade.mValue = this.mValue + cost;
+
+                this.remove();
+                upgrade.setPlateau(plateau);
+                upgrade.setEnabled(true);
+                getGameEngine().add(upgrade);
+
+                return upgrade;
+
+
+
                 Tower upgradedTower = selectedTower.upgrade();
                 mTowerSelector.showTowerInfo(upgradedTower);
             }
         }
+        */
     }
+
+    /*
+    @Override
+    public Tower upgrade() {
+        Tower upgrade = super.upgrade();
+
+        if (upgrade instanceof AimingTower) {
+            AimingTower aiming = (AimingTower)upgrade;
+            aiming.mStrategy = this.mStrategy;
+            aiming.mLockOnTarget = this.mLockOnTarget;
+        }
+
+        return upgrade;
+    }
+
+    public int getUpgradeCost() {
+        if (!isUpgradeable()) {
+            return -1;
+        }
+
+        return mConfig.getUpgradeTowerConfig().getValue() - mConfig.getValue();
+    }
+    */
 
     public void enhanceTower() {
         if (mGameEngine.isThreadChangeNeeded()) {

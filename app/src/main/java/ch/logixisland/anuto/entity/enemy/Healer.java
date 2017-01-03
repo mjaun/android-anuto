@@ -12,6 +12,7 @@ import ch.logixisland.anuto.engine.logic.TickTimer;
 import ch.logixisland.anuto.engine.render.sprite.ReplicatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
+import ch.logixisland.anuto.util.data.EnemyConfig;
 import ch.logixisland.anuto.util.math.function.Function;
 import ch.logixisland.anuto.util.math.function.SampledFunction;
 
@@ -72,14 +73,15 @@ public class Healer extends Enemy {
 
     private ReplicatedSprite mSprite;
 
-    public Healer() {
-        mHealAmount = getProperty("healAmount");
-        mHealRange = getProperty("healRadius");
-
+    public Healer(EnemyConfig config) {
+        super(config);
         mStatic = (StaticData)getStaticData();
 
         mSprite = getSpriteFactory().createReplication(mStatic.mReferenceSprite);
         mSprite.setListener(this);
+
+        mHealAmount = getProperty("healAmount");
+        mHealRange = getProperty("healRadius");
     }
 
     @Override

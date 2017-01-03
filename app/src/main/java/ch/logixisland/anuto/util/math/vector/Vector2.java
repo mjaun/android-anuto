@@ -2,20 +2,10 @@ package ch.logixisland.anuto.util.math.vector;
 
 import org.simpleframework.xml.Attribute;
 
-import ch.logixisland.anuto.util.math.MathUtils;
-
 public class Vector2 {
 
-    public static final float TO_RADIANS = (float)Math.PI / 180f;
-    public static final float TO_DEGREES = 180f / (float)Math.PI;
-
-    /*
-    ------ Static ------
-    */
-
-    public static Vector2 cartesian(float x, float y) {
-        return new Vector2(x, y);
-    }
+    private static final float TO_RADIANS = (float)Math.PI / 180f;
+    private static final float TO_DEGREES = 180f / (float)Math.PI;
 
     public static Vector2 polar(float length, float angle) {
         return new Vector2((float)Math.cos(angle * TO_RADIANS) * length,
@@ -38,19 +28,11 @@ public class Vector2 {
         return ret;
     }
 
-    /*
-    ------ Members ------
-     */
-
-    @Attribute
+    @Attribute(name="x")
     public float x;
 
-    @Attribute
+    @Attribute(name="y")
     public float y;
-
-    /*
-    ------ Constructors ------
-     */
 
     public Vector2() {
     }
@@ -62,10 +44,6 @@ public class Vector2 {
     public Vector2(Vector2 v) {
         set(v);
     }
-
-    /*
-    ------ Methods ------
-     */
 
     public Vector2 copy() {
         return new Vector2(this);
@@ -96,8 +74,8 @@ public class Vector2 {
     }
 
     public Vector2 mul(float s) {
-        this.x *= s;
-        this.y *= s;
+        x *= s;
+        y *= s;
         return this;
     }
 
@@ -117,8 +95,8 @@ public class Vector2 {
         float len = len();
 
         if (len != 0) {
-            this.x /= len;
-            this.y /= len;
+            x /= len;
+            y /= len;
         }
 
         return this;
@@ -136,23 +114,4 @@ public class Vector2 {
         return (float)Math.atan2(y, x) * TO_DEGREES;
     }
 
-    public Vector2 round() {
-        this.x = Math.round(this.x);
-        this.y = Math.round(this.y);
-        return this;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof Vector2) {
-            Vector2 v = (Vector2)o;
-            return this.x == v.x && this.y == v.y;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean equals(Vector2 v, float d) {
-        return MathUtils.equals(this.x, v.x, d) && MathUtils.equals(this.y, v.y, d);
-    }
 }

@@ -87,7 +87,7 @@ public class CanonShotMG extends Shot {
             this.remove();
         }
 
-        if (!getViewport().inGame(getPosition())) {
+        if (!isInGame()) {
             this.remove();
         }
     }

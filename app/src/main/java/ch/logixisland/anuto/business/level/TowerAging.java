@@ -9,36 +9,30 @@ import ch.logixisland.anuto.entity.tower.Tower;
 public class TowerAging {
 
     private final GameEngine mGameEngine;
+    private final LevelLoader mLevelLoader;
 
-    private float mValueModifier;
+    private final WaveListener mWaveListener = new WaveListener() {
+        @Override
+        public void nextWaveReady() {
 
-    public TowerAging(GameEngine gameEngine) {
+        }
+
+        @Override
+        public void waveStarted() {
+
+        }
+
+        @Override
+        public void waveFinished() {
+            ageTowers();
+        }
+    };
+
+    public TowerAging(GameEngine gameEngine, WaveManager waveManager, LevelLoader levelLoader) {
         mGameEngine = gameEngine;
-    }
+        mLevelLoader = levelLoader;
 
-    public void setValueModifier(float valueModifier) {
-        mValueModifier = valueModifier;
-    }
-
-    public void ageTowers() {
-        if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Runnable() {
-                @Override
-                public void run() {
-                    ageTowers();
-                }
-            });
-            return;
-        }
-
-        Iterator<Tower> towers = mGameEngine
-                .get(Types.TOWER)
-                .cast(Tower.class);
-
-        while (towers.hasNext()) {
-            Tower tower = towers.next();
-            ageTower(tower);
-        }
+        waveManager.addListener(mWaveListener);
     }
 
     public void ageTower(Tower tower) {
@@ -54,7 +48,18 @@ public class TowerAging {
         }
 
         int value = tower.getValue();
-        value = Math.round(value * mValueModifier);
+        value = Math.round(value * mLevelLoader.getGameSettings().getAgeModifier());
         tower.setValue(value);
+    }
+
+    private void ageTowers() {
+        Iterator<Tower> towers = mGameEngine
+                .get(Types.TOWER)
+                .cast(Tower.class);
+
+        while (towers.hasNext()) {
+            Tower tower = towers.next();
+            ageTower(tower);
+        }
     }
 }

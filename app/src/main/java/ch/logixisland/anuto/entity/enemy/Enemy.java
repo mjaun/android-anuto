@@ -8,13 +8,22 @@ import ch.logixisland.anuto.entity.Entity;
 import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.util.data.EnemyConfig;
-import ch.logixisland.anuto.util.data.Path;
 import ch.logixisland.anuto.engine.render.shape.HealthBar;
 import ch.logixisland.anuto.util.iterator.Function;
+import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
 
 public abstract class Enemy extends Entity {
+
+    public static Predicate<Enemy> enabled() {
+        return new Predicate<Enemy>() {
+            @Override
+            public boolean apply(Enemy enemy) {
+                return enemy.isEnabled();
+            }
+        };
+    }
 
     public static Function<Enemy, Float> health() {
         return new Function<Enemy, Float>() {
@@ -34,20 +43,22 @@ public abstract class Enemy extends Entity {
         };
     }
 
-    private EnemyConfig mConfig;
+    private final EnemyConfig mConfig;
+
+    private boolean mEnabled = true;
     private float mHealth;
     private float mBaseSpeed;
     private float mHealthModifier = 1f;
     private float mRewardModifier = 1f;
     private float mSpeedModifier = 1f;
-    private Path mPath = null;
+    private List<Vector2> mWayPoints = null;
     private int mWayPointIndex;
     private HealthBar mHealthBar;
 
     private final List<EnemyListener> mListeners = new CopyOnWriteArrayList<>();
 
-    public Enemy() {
-        mConfig = getLevel().getEnemyConfig(this);
+    public Enemy(EnemyConfig config) {
+        mConfig = config;
         mBaseSpeed = mConfig.getSpeed();
         mHealth = mConfig.getHealth();
 
@@ -81,7 +92,7 @@ public abstract class Enemy extends Entity {
     public void tick() {
         super.tick();
 
-        if (!isEnabled()) {
+        if (!mEnabled) {
             return;
         }
 
@@ -95,34 +106,51 @@ public abstract class Enemy extends Entity {
 
         float stepSize = getSpeed() / GameEngine.TARGET_FRAME_RATE;
         if (getDistanceTo(getWayPoint()) >= stepSize) {
-            move(getDirection(), stepSize);
+            move(getDirection().mul(stepSize));
         } else {
             setPosition(getWayPoint());
             mWayPointIndex++;
         }
     }
 
+
+    public boolean isEnabled() {
+        return mEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        mEnabled = enabled;
+    }
+
     public void setPathIndex(int pathIndex) {
-        mPath = getLevel().getPaths().get(pathIndex);
-        setPosition(mPath.get(0));
+        mWayPoints = getLevelDescriptor().getPaths().get(pathIndex).getWayPoints();
+        setPosition(mWayPoints.get(0));
         mWayPointIndex = 1;
     }
 
-    public float getSpeed() {
+    private Vector2 getWayPoint() {
+        return mWayPoints.get(mWayPointIndex);
+    }
+
+    boolean hasWayPoint() {
+        return mWayPoints != null && mWayPointIndex < mWayPoints.size();
+    }
+
+    private float getSpeed() {
         float speed = mBaseSpeed * mSpeedModifier;
-        float minSpeed = getLevel().getSettings().getMinSpeedModifier() * getConfigSpeed();
+        float minSpeed = getGameSettings().getMinSpeedModifier() * getConfigSpeed();
         return Math.max(minSpeed, speed);
     }
 
-    protected float getConfigSpeed() {
+    float getConfigSpeed() {
         return mConfig.getSpeed();
     }
 
-    protected void setBaseSpeed(float baseSpeed) {
+    void setBaseSpeed(float baseSpeed) {
         mBaseSpeed = baseSpeed;
     }
 
-    public Vector2 getDirection() {
+    Vector2 getDirection() {
         if (!hasWayPoint()) {
             return null;
         }
@@ -130,41 +158,16 @@ public abstract class Enemy extends Entity {
         return getDirectionTo(getWayPoint());
     }
 
-    public Vector2 getPositionAfter(float sec) {
-        if (mPath == null) {
-            return getPosition();
-        }
-
-        float distance = sec * getSpeed();
-        int index = mWayPointIndex;
-        Vector2 position = getPosition().copy();
-
-        while (index < mPath.size()) {
-            Vector2 toWaypoint = mPath.get(index).copy().sub(position);
-            float toWaypointDist = toWaypoint.len();
-
-            if (distance < toWaypointDist) {
-                return position.add(toWaypoint.mul(distance / toWaypointDist));
-            } else {
-                distance -= toWaypointDist;
-                position.set(mPath.get(index));
-                index++;
-            }
-        }
-
-        return position;
-    }
-
-    public float getDistanceRemaining() {
+    private float getDistanceRemaining() {
         if (!hasWayPoint()) {
             return 0;
         }
 
         float dist = getDistanceTo(getWayPoint());
 
-        for (int i = mWayPointIndex + 1; i < mPath.size(); i++) {
-            Vector2 wThis = mPath.get(i);
-            Vector2 wLast = mPath.get(i - 1);
+        for (int i = mWayPointIndex + 1; i < mWayPoints.size(); i++) {
+            Vector2 wThis = mWayPoints.get(i);
+            Vector2 wLast = mWayPoints.get(i - 1);
 
             dist += wThis.copy().sub(wLast).len();
         }
@@ -172,12 +175,37 @@ public abstract class Enemy extends Entity {
         return dist;
     }
 
+    public Vector2 getPositionAfter(float sec) {
+        if (mWayPoints == null) {
+            return getPosition();
+        }
+
+        float distance = sec * getSpeed();
+        int index = mWayPointIndex;
+        Vector2 position = getPosition().copy();
+
+        while (index < mWayPoints.size()) {
+            Vector2 toWaypoint = mWayPoints.get(index).copy().sub(position);
+            float toWaypointDist = toWaypoint.len();
+
+            if (distance < toWaypointDist) {
+                return position.add(toWaypoint.mul(distance / toWaypointDist));
+            } else {
+                distance -= toWaypointDist;
+                position.set(mWayPoints.get(index));
+                index++;
+            }
+        }
+
+        return position;
+    }
+
     public void sendBack(float dist) {
         int index = mWayPointIndex - 1;
         Vector2 pos = getPosition().copy();
 
         while (index > 0) {
-            Vector2 wp = mPath.get(index);
+            Vector2 wp = mWayPoints.get(index);
             Vector2 toWp = Vector2.fromTo(pos, wp);
             float toWpLen = toWp.len();
 
@@ -193,7 +221,7 @@ public abstract class Enemy extends Entity {
             }
         }
 
-        setPosition(mPath.get(0));
+        setPosition(mWayPoints.get(0));
         mWayPointIndex = 1;
     }
 
@@ -210,12 +238,12 @@ public abstract class Enemy extends Entity {
         if (origin != null && origin instanceof Tower) {
             Tower originTower = (Tower)origin;
 
-            if (originTower.getConfig().getStrongAgainstEnemies().contains(getClass())) {
-                dmg *= getLevel().getSettings().getStrongAgainstModifier();
+            if (mConfig.getStrongAgainst().contains(originTower.getWeaponType())) {
+                dmg *= getGameSettings().getStrongAgainstModifier();
             }
 
-            if (originTower.getConfig().getWeakAgainstEnemies().contains(getClass())) {
-                dmg *= getLevel().getSettings().getWeakAgainstModifier();
+            if (mConfig.getWeakAgainst().contains(originTower.getWeaponType())) {
+                dmg *= getGameSettings().getWeakAgainstModifier();
             }
 
             originTower.reportDamageInflicted(dmg);
@@ -266,15 +294,7 @@ public abstract class Enemy extends Entity {
     }
 
 
-    protected Vector2 getWayPoint() {
-        return mPath.get(mWayPointIndex);
-    }
-
-    protected boolean hasWayPoint() {
-        return mPath != null && mWayPointIndex < mPath.size();
-    }
-
-    public float getProperty(String name) {
+    float getProperty(String name) {
         return mConfig.getProperties().get(name);
     }
 }

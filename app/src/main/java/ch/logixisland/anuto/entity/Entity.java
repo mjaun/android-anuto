@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.AnutoApplication;
-import ch.logixisland.anuto.business.score.ScoreBoard;
+import ch.logixisland.anuto.util.data.GameSettings;
 import ch.logixisland.anuto.util.data.LevelDescriptor;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickListener;
@@ -14,21 +14,11 @@ import ch.logixisland.anuto.engine.render.shape.ShapeFactory;
 import ch.logixisland.anuto.engine.render.sprite.SpriteFactory;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteListener;
-import ch.logixisland.anuto.engine.render.Viewport;
 import ch.logixisland.anuto.util.iterator.Function;
 import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public abstract class Entity implements SpriteListener, TickListener {
-
-    public static Predicate<Entity> enabled() {
-        return new Predicate<Entity>() {
-            @Override
-            public boolean apply(Entity value) {
-                return value.isEnabled();
-            }
-        };
-    }
 
     public static Predicate<Entity> inRange(final Vector2 center, final float range) {
         return new Predicate<Entity>() {
@@ -73,7 +63,6 @@ public abstract class Entity implements SpriteListener, TickListener {
         };
     }
 
-    private boolean mEnabled = true;
     private final Vector2 mPosition = new Vector2();
     private final List<EntityListener> mListeners = new CopyOnWriteArrayList<>();
 
@@ -108,25 +97,16 @@ public abstract class Entity implements SpriteListener, TickListener {
     }
 
 
-    public boolean isEnabled() {
-        return mEnabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        mEnabled = enabled;
-    }
-
-
     protected GameEngine getGameEngine() {
         return AnutoApplication.getInstance().getGameFactory().getGameEngine();
     }
 
-    protected LevelDescriptor getLevel() {
-        return AnutoApplication.getInstance().getGameFactory().getLevelLoader().getLevel();
+    protected LevelDescriptor getLevelDescriptor() {
+        return AnutoApplication.getInstance().getGameFactory().getLevelLoader().getLevelDescriptor();
     }
 
-    protected ScoreBoard getScoreBoard() {
-        return AnutoApplication.getInstance().getGameFactory().getScoreBoard();
+    protected GameSettings getGameSettings() {
+        return AnutoApplication.getInstance().getGameFactory().getLevelLoader().getGameSettings();
     }
 
     protected Object getStaticData() {
@@ -141,39 +121,18 @@ public abstract class Entity implements SpriteListener, TickListener {
         return AnutoApplication.getInstance().getGameFactory().getShapeFactory();
     }
 
-    protected Viewport getViewport() {
-        return AnutoApplication.getInstance().getGameFactory().getViewport();
-    }
-
 
     public Vector2 getPosition() {
         return mPosition;
-    }
-
-    public void setPosition(float x, float y) {
-        mPosition.set(x, y);
     }
 
     public void setPosition(Vector2 position) {
         mPosition.set(position);
     }
 
-
-    public void move(float dx, float dy) {
-        mPosition.x += dx;
-        mPosition.y += dy;
-    }
-
     public void move(Vector2 offset) {
-        mPosition.x += offset.x;
-        mPosition.y += offset.y;
+        mPosition.add(offset);
     }
-
-    public void move(Vector2 direction, float distance) {
-        mPosition.x += direction.x * distance;
-        mPosition.y += direction.y * distance;
-    }
-
 
     public float getDistanceTo(Entity target) {
         return getDistanceTo(target.mPosition);
@@ -197,6 +156,12 @@ public abstract class Entity implements SpriteListener, TickListener {
 
     public float getAngleTo(Vector2 target) {
         return Vector2.fromTo(mPosition, target).angle();
+    }
+
+    public boolean isInGame() {
+        return mPosition.x >= -0.5f && mPosition.y >= 0.5f &&
+                mPosition.x <= getLevelDescriptor().getWidth() + 0.5f &&
+                mPosition.y <= getLevelDescriptor().getHeight() + 0.5f;
     }
 
 

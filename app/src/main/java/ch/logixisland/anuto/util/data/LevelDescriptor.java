@@ -17,108 +17,40 @@ import java.util.List;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.entity.tower.Tower;
 
-@Root
 public class LevelDescriptor {
 
-    /*
-    ------ Fields ------
-     */
+    @Element(name="width")
+    private int mWidth;
 
-    @Element(name="settings")
-    private Settings settings = new Settings();
+    @Element(name="height")
+    private int mHeight;
 
-    @ElementList(name="towers", entry="tower")
-    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
-    private List<TowerConfig> towers = new ArrayList<>();
+    @ElementList(name="plateaus", entry="plateau")
+    private List<PlateauDescriptor> mPlateaus = new ArrayList<>();
 
-    @ElementList(name="enemies", entry="enemy")
-    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
-    private List<EnemyConfig> enemies = new ArrayList<>();
-
-    @ElementList(name="plateaus")
-    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
-    private List<PlateauDescriptor> plateaus = new ArrayList<>();
-
-    @ElementList(name="paths")
-    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
-    private List<Path> paths = new ArrayList<>();
+    @ElementList(name="paths", entry="path")
+    private List<PathDescriptor> mPaths = new ArrayList<>();
 
     @ElementList(name="waves", entry="wave")
-    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
-    private List<WaveDescriptor> mWaveDescriptors = new ArrayList<>();
+    private List<WaveDescriptor> mWaves = new ArrayList<>();
 
-    /*
-    ------ Methods ------
-     */
-
-    public static LevelDescriptor deserialize(InputStream inStream) throws Exception {
-        Strategy strategy = new CycleStrategy("id", "ref");
-        Serializer serializer = new Persister(strategy);
-        return serializer.read(LevelDescriptor.class, inStream);
+    public int getHeight() {
+        return mHeight;
     }
 
-    public Settings getSettings() {
-        return settings;
+    public int getWidth() {
+        return mWidth;
     }
 
     public List<PlateauDescriptor> getPlateaus() {
-        return Collections.unmodifiableList(plateaus);
+        return mPlateaus;
     }
 
-    public List<Path> getPaths() {
-        return Collections.unmodifiableList(paths);
+    public List<PathDescriptor> getPaths() {
+        return mPaths;
     }
 
-    public List<WaveDescriptor> getWaveDescriptors() {
-        return Collections.unmodifiableList(mWaveDescriptors);
-    }
-
-    public TowerConfig getTowerConfig(Tower t) {
-        return getTowerConfig(t.getClass());
-    }
-
-    private TowerConfig getTowerConfig(Class<? extends Tower> c) {
-        for (TowerConfig config : towers) {
-            if (config.getTowerClass() == c) {
-                return config;
-            }
-        }
-
-        throw new RuntimeException("No config found for this tower class!");
-    }
-
-    public TowerConfig getTowerConfig(int slot) {
-        for (TowerConfig config : towers) {
-            if (config.getSlot() == slot) {
-                return config;
-            }
-        }
-
-        return null;
-    }
-
-    public EnemyConfig getEnemyConfig(Enemy e) {
-        return getEnemyConfig(e.getClass());
-    }
-
-    public EnemyConfig getEnemyConfig(Class<? extends Enemy> c) {
-        for (EnemyConfig config : enemies) {
-            if (config.getEnemyClass() == c) {
-                return config;
-            }
-        }
-
-        throw new RuntimeException("No config found for this enemy class!");
-    }
-
-    @Commit
-    void commit() {
-        for (TowerConfig config : towers) {
-            Class<? extends Tower> upgradeClass = config.getUpgradeTowerClass();
-
-            if (upgradeClass != null) {
-                config.setUpgradeTowerConfig(getTowerConfig(upgradeClass));
-            }
-        }
+    public List<WaveDescriptor> getWaves() {
+        return mWaves;
     }
 }

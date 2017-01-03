@@ -2,56 +2,25 @@ package ch.logixisland.anuto.util.data;
 
 import org.simpleframework.xml.Attribute;
 
-import ch.logixisland.anuto.entity.plateau.Plateau;
+import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class PlateauDescriptor {
-    private final static String CLASS_PREFIX = "ch.logixisland.anuto.entity.plateau.";
 
-    /*
-    ------ Fields ------
-     */
+    @Attribute(name="name")
+    private String mName;
 
-    private Class<? extends Plateau> plateauClass;
+    @Attribute(name="x")
+    private float mX;
 
-    @Attribute(required=false)
-    private float x;
+    @Attribute(name="y")
+    private float mY;
 
-    @Attribute(required=false)
-    private float y;
-
-    /*
-    ------ Methods ------
-     */
-
-    @Attribute(name="clazz")
-    private String getPlateauClassName() {
-        return plateauClass.getName();
+    public String getName() {
+        return mName;
     }
 
-    @Attribute(name="clazz")
-    @SuppressWarnings("unchecked")
-    private void setPlateauClassName(String className) throws ClassNotFoundException {
-        plateauClass = (Class<? extends Plateau>) Class.forName(CLASS_PREFIX + className);
+    public Vector2 getPosition() {
+        return new Vector2(mX, mY);
     }
 
-    public Plateau createInstance() {
-        Plateau p;
-
-        try {
-            p = plateauClass.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-            throw new RuntimeException();
-        }
-
-        return p;
-    }
-
-    public float getX() {
-        return x;
-    }
-
-    public float getY() {
-        return y;
-    }
 }

@@ -4,8 +4,9 @@ import ch.logixisland.anuto.engine.logic.TickTimer;
 import ch.logixisland.anuto.entity.Entity;
 import ch.logixisland.anuto.entity.EntityListener;
 import ch.logixisland.anuto.entity.enemy.Enemy;
+import ch.logixisland.anuto.util.data.TowerConfig;
 
-public abstract class AimingTower extends Tower implements EntityListener {
+public abstract class AimingTower extends Tower {
 
     public enum Strategy {
         Closest,
@@ -23,6 +24,17 @@ public abstract class AimingTower extends Tower implements EntityListener {
     private boolean mLockOnTarget = sDefaultLockTarget;
 
     private final TickTimer mUpdateTimer = TickTimer.createInterval(0.1f);
+
+    private final EntityListener mEntityListener = new EntityListener() {
+        @Override
+        public void entityRemoved(Entity obj) {
+            targetLost();
+        }
+    };
+
+    protected AimingTower(TowerConfig config) {
+        super(config);
+    }
 
     @Override
     public void init() {
@@ -70,36 +82,23 @@ public abstract class AimingTower extends Tower implements EntityListener {
     }
 
 
-    @Override
-    public Tower upgrade() {
-        Tower upgrade = super.upgrade();
-
-        if (upgrade instanceof AimingTower) {
-            AimingTower aiming = (AimingTower)upgrade;
-            aiming.mStrategy = this.mStrategy;
-            aiming.mLockOnTarget = this.mLockOnTarget;
-        }
-
-        return upgrade;
-    }
-
     public Enemy getTarget() {
         return mTarget;
     }
 
     protected void setTarget(Enemy target) {
         if (mTarget != null) {
-            mTarget.removeListener(this);
+            mTarget.removeListener(mEntityListener);
         }
 
         mTarget = target;
 
         if (mTarget != null) {
-            mTarget.addListener(this);
+            mTarget.addListener(mEntityListener);
         }
     }
 
-    protected void nextTarget() {
+    private void nextTarget() {
         switch (mStrategy) {
             case Closest:
                 setTarget(getPossibleTargets().min(Entity.distanceTo(getPosition())));
@@ -122,12 +121,8 @@ public abstract class AimingTower extends Tower implements EntityListener {
         }
      }
 
-    protected void targetLost() {
+    private void targetLost() {
         setTarget(null);
     }
 
-    @Override
-    public void entityRemoved(Entity obj) {
-        targetLost();
-    }
 }

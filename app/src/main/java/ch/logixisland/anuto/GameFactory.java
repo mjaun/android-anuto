@@ -16,41 +16,52 @@ import ch.logixisland.anuto.engine.render.shape.ShapeFactory;
 import ch.logixisland.anuto.engine.render.sprite.SpriteFactory;
 import ch.logixisland.anuto.engine.render.Viewport;
 import ch.logixisland.anuto.engine.render.theme.ThemeManager;
+import ch.logixisland.anuto.entity.enemy.EnemyFactory;
+import ch.logixisland.anuto.entity.plateau.PlateauFactory;
+import ch.logixisland.anuto.entity.tower.TowerFactory;
 
 public class GameFactory {
 
+    private final ThemeManager mThemeManager;
     private final SpriteFactory mSpriteFactory;
     private final ShapeFactory mShapeFactory;
-    private final ThemeManager mThemeManager;
     private final Viewport mViewport;
     private final Renderer mRenderer;
+
+    private final GameEngine mGameEngine;
+    private final PlateauFactory mPlateauFactory;
+    private final TowerFactory mTowerFactory;
+    private final EnemyFactory mEnemyFactory;
 
     private final ScoreBoard mScoreBoard;
     private final TowerSelector mTowerSelector;
     private final TowerControl mTowerControl;
-    private final TowerInserter mTowerInserter;
     private final TowerAging mTowerAging;
+    private final TowerInserter mTowerInserter;
     private final LevelLoader mLevelLoader;
     private final WaveManager mWaveManager;
-
-    private final GameEngine mGameEngine;
     private final GameManager mGameManager;
 
     public GameFactory(Context context) {
-        mScoreBoard = new ScoreBoard();
         mThemeManager = new ThemeManager();
-        mViewport = new Viewport();
         mSpriteFactory = new SpriteFactory(context.getResources(), mThemeManager);
         mShapeFactory = new ShapeFactory(mThemeManager);
+        mViewport = new Viewport();
         mRenderer = new Renderer(mViewport, mThemeManager);
+
         mGameEngine = new GameEngine(mRenderer);
+        mPlateauFactory = new PlateauFactory();
+        mTowerFactory = new TowerFactory();
+        mEnemyFactory = new EnemyFactory();
+
+        mScoreBoard = new ScoreBoard();
         mTowerSelector = new TowerSelector(mGameEngine);
         mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector);
-        mTowerAging = new TowerAging(mGameEngine);
+        mLevelLoader = new LevelLoader(mGameEngine, mViewport, mScoreBoard, mPlateauFactory);
+        mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mLevelLoader, mEnemyFactory);
+        mTowerAging = new TowerAging(mGameEngine, mWaveManager, mLevelLoader);
         mTowerInserter = new TowerInserter(mGameEngine, mScoreBoard, mTowerSelector, mTowerAging);
-        mLevelLoader = new LevelLoader(mGameEngine, mViewport, mScoreBoard);
-        mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mLevelLoader);
-        mGameManager = new GameManager(mGameEngine, mScoreBoard, mLevelLoader, mTowerAging, mWaveManager);
+        mGameManager = new GameManager(mGameEngine, mScoreBoard, mLevelLoader, mWaveManager);
     }
 
     public SpriteFactory getSpriteFactory() {
@@ -103,5 +114,9 @@ public class GameFactory {
 
     public WaveManager getWaveManager() {
         return mWaveManager;
+    }
+
+    public TowerFactory getTowerFactory() {
+        return mTowerFactory;
     }
 }

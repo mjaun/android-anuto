@@ -78,7 +78,7 @@ public class TeleportEffect extends Effect {
     public void tick() {
         super.tick();
 
-        mTarget.move(mMoveDirection, mMoveStep);
+        mTarget.move(mMoveDirection.copy().mul(mMoveStep));
     }
 
     @Override

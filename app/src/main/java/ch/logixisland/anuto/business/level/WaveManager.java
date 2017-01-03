@@ -7,8 +7,9 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.business.score.ScoreBoard;
+import ch.logixisland.anuto.entity.enemy.EnemyFactory;
 import ch.logixisland.anuto.util.data.EnemyDescriptor;
-import ch.logixisland.anuto.util.data.Settings;
+import ch.logixisland.anuto.util.data.GameSettings;
 import ch.logixisland.anuto.util.data.WaveDescriptor;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.util.math.MathUtils;
@@ -20,6 +21,7 @@ public class WaveManager {
     private final GameEngine mGameEngine;
     private final ScoreBoard mScoreBoard;
     private final LevelLoader mLevelLoader;
+    private final EnemyFactory mEnemyFactory;
 
     private int mNextWaveIndex;
     private boolean mNextWaveReady;
@@ -27,10 +29,12 @@ public class WaveManager {
     private final List<WaveAttender> mActiveWaves = new ArrayList<>();
     private final List<WaveListener> mListeners = new CopyOnWriteArrayList<>();
 
-    public WaveManager(GameEngine gameEngine, ScoreBoard scoreBoard, LevelLoader levelLoader) {
+    public WaveManager(GameEngine gameEngine, ScoreBoard scoreBoard, LevelLoader levelLoader,
+                       EnemyFactory enemyFactory) {
         mGameEngine = gameEngine;
         mScoreBoard = scoreBoard;
         mLevelLoader = levelLoader;
+        mEnemyFactory = enemyFactory;
 
         mNextWaveIndex = 0;
         mNextWaveReady = true;
@@ -126,7 +130,7 @@ public class WaveManager {
             remainingReward += wave.getRemainingEnemiesReward();
         }
 
-        Settings settings = mLevelLoader.getLevel().getSettings();
+        GameSettings settings = mLevelLoader.getGameSettings();
         float modifier = settings.getEarlyModifier();
         float root = settings.getEarlyRoot();
 
@@ -140,7 +144,7 @@ public class WaveManager {
     }
 
     private void createAndStartWaveAttender() {
-        List<WaveDescriptor> waveDescriptors = mLevelLoader.getLevel().getWaveDescriptors();
+        List<WaveDescriptor> waveDescriptors = mLevelLoader.getLevelDescriptor().getWaves();
         WaveDescriptor nextWaveDescriptor = waveDescriptors.get(mNextWaveIndex % waveDescriptors.size());
 
         int extend = mNextWaveIndex / waveDescriptors.size() * nextWaveDescriptor.getExtend();
@@ -148,7 +152,7 @@ public class WaveManager {
             extend = nextWaveDescriptor.getMaxExtend();
         }
 
-        WaveAttender nextWave = new WaveAttender(this, mGameEngine, mScoreBoard, nextWaveDescriptor);
+        WaveAttender nextWave = new WaveAttender(mGameEngine, mScoreBoard, mEnemyFactory, this, nextWaveDescriptor);
         nextWave.setExtend(extend);
         updateWaveModifiers(nextWave);
         mActiveWaves.add(nextWave);
@@ -161,14 +165,14 @@ public class WaveManager {
 
         float waveHealth = 0f;
         for (EnemyDescriptor d : wave.getWaveDescriptor().getEnemies()) {
-            waveHealth += mLevelLoader.getLevel().getEnemyConfig(d.getEnemyClass()).getHealth();
+            waveHealth += mLevelLoader.getEnemySettings().getEnemyConfig(d.getName()).getHealth();
         }
 
         waveHealth *= wave.getExtend() + 1;
 
         Log.d(TAG, String.format("waveHealth=%f", waveHealth));
 
-        Settings settings = mLevelLoader.getLevel().getSettings();
+        GameSettings settings = mLevelLoader.getGameSettings();
         float damagePossible = settings.getDifficultyOffset()
                 + settings.getDifficultyLinear() * mScoreBoard.getCreditsEarned()
                 + settings.getDifficultyQuadratic() * MathUtils.square(mScoreBoard.getCreditsEarned());
@@ -184,7 +188,7 @@ public class WaveManager {
         }
 
         wave.modifyEnemyReward(rewardModifier);
-        wave.modifyWaveReward((getWaveNumber() / mLevelLoader.getLevel().getWaveDescriptors().size()) + 1);
+        wave.modifyWaveReward((getWaveNumber() / mLevelLoader.getLevelDescriptor().getWaves().size()) + 1);
 
         Log.d(TAG, String.format("waveNumber=%d", getWaveNumber()));
         Log.d(TAG, String.format("damagePossible=%f\n", damagePossible));

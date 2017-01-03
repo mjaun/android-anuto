@@ -20,28 +20,10 @@ public class GameManager {
     private final ScoreBoard mScoreBoard;
     private final LevelLoader mLevelLoader;
     private final WaveManager mWaveManager;
-    private final TowerAging mTowerAging;
 
     private volatile boolean mGameOver;
 
     private List<GameListener> mListeners = new CopyOnWriteArrayList<>();
-
-    private final WaveListener mWaveListener = new WaveListener() {
-        @Override
-        public void nextWaveReady() {
-
-        }
-
-        @Override
-        public void waveStarted() {
-
-        }
-
-        @Override
-        public void waveFinished() {
-            mTowerAging.ageTowers();
-        }
-    };
 
     private final LivesListener mLivesListener = new LivesListener() {
         @Override
@@ -57,33 +39,14 @@ public class GameManager {
     };
 
     public GameManager(GameEngine gameEngine, ScoreBoard scoreBoard, LevelLoader levelLoader,
-                       TowerAging towerAging, WaveManager waveManager) {
+                       WaveManager waveManager) {
         mGameEngine = gameEngine;
         mLevelLoader = levelLoader;
         mScoreBoard = scoreBoard;
         mWaveManager = waveManager;
-        mTowerAging = towerAging;
 
         mGameOver = true;
         mScoreBoard.addLivesListener(mLivesListener);
-        mWaveManager.addListener(mWaveListener);
-    }
-
-    public void setLevel(LevelDescriptor level) {
-        if (mGameEngine.isThreadChangeNeeded()) {
-            final LevelDescriptor finalLevel = level;
-            mGameEngine.post(new Runnable() {
-                @Override
-                public void run() {
-                    setLevel(finalLevel);
-                }
-            });
-            return;
-        }
-
-        mLevelLoader.setLevel(level);
-        mTowerAging.setValueModifier(mLevelLoader.getLevel().getSettings().getAgeModifier());
-        restart();
     }
 
     public void restart() {

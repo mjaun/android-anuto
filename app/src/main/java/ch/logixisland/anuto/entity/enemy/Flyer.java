@@ -9,6 +9,7 @@ import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.ReplicatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
+import ch.logixisland.anuto.util.data.EnemyConfig;
 
 public class Flyer extends Enemy {
 
@@ -28,7 +29,8 @@ public class Flyer extends Enemy {
 
     private ReplicatedSprite mSprite;
 
-    public Flyer() {
+    public Flyer(EnemyConfig config) {
+        super(config);
         StaticData s = (StaticData)getStaticData();
 
         mSprite = getSpriteFactory().createReplication(s.mReferenceSprite);

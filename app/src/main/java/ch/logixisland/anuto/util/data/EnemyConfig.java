@@ -1,68 +1,63 @@
 package ch.logixisland.anuto.util.data;
 
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.ElementMap;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import ch.logixisland.anuto.entity.enemy.Enemy;
-
 public class EnemyConfig {
-    private final static String CLASS_PREFIX = "ch.logixisland.anuto.entity.enemy.";
+    @Element(name="name")
+    private String mName;
 
-    /*
-    ------ Fields ------
-     */
+    @Element(name="health")
+    private float mHealth;
 
-    private Class<? extends Enemy> enemyClass;
+    @Element(name="speed")
+    private float mSpeed;
 
-    @Element
-    private float health;
+    @Element(name="reward")
+    private int mReward;
 
-    @Element
-    private float speed;
+    @ElementList(name="weakAgainst", inline=true, required=false)
+    private List<WeaponType> mWeakAgainst = new ArrayList<>();
 
-    @Element
-    private int reward;
+    @ElementList(name="strongAgainst", inline=true, required=false)
+    private List<WeaponType> mStrongAgainst = new ArrayList<>();
 
     @ElementMap(required=false, entry="property", key="name", attribute=true, inline=true)
-    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
-    private Map<String, Float> properties = new HashMap<>();
+    private Map<String, Float> mProperties = new HashMap<>();
 
-    /*
-    ------ Methods ------
-     */
-
-    @Element(name="clazz")
-    private String getEnemyClassName() {
-        return enemyClass.getName();
-    }
-
-    @Element(name="clazz")
-    @SuppressWarnings("unchecked")
-    private void setEnemyClassName(String className) throws ClassNotFoundException {
-        enemyClass = (Class<? extends Enemy>) Class.forName(CLASS_PREFIX + className);
-    }
-
-    Class<? extends Enemy> getEnemyClass() {
-        return enemyClass;
+    public String getName() {
+        return mName;
     }
 
     public float getHealth() {
-        return health;
+        return mHealth;
     }
 
     public float getSpeed() {
-        return speed;
+        return mSpeed;
     }
 
     public int getReward() {
-        return reward;
+        return mReward;
+    }
+
+    public Collection<WeaponType> getWeakAgainst() {
+        return mWeakAgainst;
+    }
+
+    public Collection<WeaponType> getStrongAgainst() {
+        return mStrongAgainst;
     }
 
     public Map<String, Float> getProperties() {
-        return Collections.unmodifiableMap(properties);
+        return Collections.unmodifiableMap(mProperties);
     }
 }

@@ -10,6 +10,7 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.util.RandomUtils;
+import ch.logixisland.anuto.util.data.TowerConfig;
 
 public class RocketLauncher extends AimingTower {
 
@@ -28,12 +29,9 @@ public class RocketLauncher extends AimingTower {
     private StaticSprite mSprite;
     private StaticSprite mSpriteRocket; // used for preview only
 
-    public RocketLauncher() {
-        mExplosionRadius = getProperty("explosionRadius");
-
+    public RocketLauncher(TowerConfig config) {
+        super(config);
         StaticData s = (StaticData)getStaticData();
-
-        mRocketLoadTimer = TickTimer.createInterval(ROCKET_LOAD_TIME);
 
         mSprite = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplate);
         mSprite.setListener(this);
@@ -42,6 +40,9 @@ public class RocketLauncher extends AimingTower {
         mSpriteRocket = getSpriteFactory().createStatic(Layers.TOWER, s.mSpriteTemplateRocket);
         mSpriteRocket.setListener(this);
         mSpriteRocket.setIndex(RandomUtils.next(4));
+
+        mExplosionRadius = getProperty("explosionRadius");
+        mRocketLoadTimer = TickTimer.createInterval(ROCKET_LOAD_TIME);
     }
 
     @Override

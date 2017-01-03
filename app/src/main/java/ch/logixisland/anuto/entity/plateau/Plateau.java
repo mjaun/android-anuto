@@ -2,8 +2,8 @@ package ch.logixisland.anuto.entity.plateau;
 
 import org.simpleframework.xml.Root;
 
+import ch.logixisland.anuto.entity.EntityListener;
 import ch.logixisland.anuto.entity.Types;
-import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.entity.Entity;
 import ch.logixisland.anuto.util.iterator.Predicate;
 
@@ -19,7 +19,14 @@ public abstract class Plateau extends Entity {
         };
     }
 
-    private Tower mOccupant;
+    private Entity mOccupant;
+
+    private final EntityListener mEntityListener = new EntityListener() {
+        @Override
+        public void entityRemoved(Entity obj) {
+            mOccupant = null;
+        }
+    };
 
     @Override
     public final int getType() {
@@ -30,8 +37,16 @@ public abstract class Plateau extends Entity {
         return mOccupant != null;
     }
 
-    public void setOccupant(Tower occupant) {
+    public void setOccupant(Entity occupant) {
+        if (mOccupant != null) {
+            mOccupant.removeListener(mEntityListener);
+        }
+
         mOccupant = occupant;
+
+        if (mOccupant != null) {
+            mOccupant.addListener(mEntityListener);
+        }
     }
 
 }

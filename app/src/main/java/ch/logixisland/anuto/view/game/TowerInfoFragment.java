@@ -131,6 +131,7 @@ public class TowerInfoFragment extends Fragment implements View.OnTouchListener,
     }
 
     private void refresh() {
+        /*
         if (mTower == null) {
             return;
         }
@@ -179,6 +180,7 @@ public class TowerInfoFragment extends Fragment implements View.OnTouchListener,
 
         btn_upgrade.setEnabled(mTower.isUpgradeable() && mScoreBoard.getCredits() >= mTower.getUpgradeCost());
         btn_enhance.setEnabled(mTower.isEnhanceable() && mScoreBoard.getCredits() >= mTower.getEnhanceCost());
+        */
     }
 
     @Override
@@ -193,7 +195,7 @@ public class TowerInfoFragment extends Fragment implements View.OnTouchListener,
     @Override
     public void onDetach() {
         super.onDetach();
-        view_tower.close();
+
         mGameManager.removeListener(this);
         mScoreBoard.removeCreditsListener(this);
         mTowerSelector.setTowerInfoView(null);
@@ -235,7 +237,6 @@ public class TowerInfoFragment extends Fragment implements View.OnTouchListener,
 
         mTower = tower;
         mTower.addListener(this);
-        view_tower.setTowerClass(tower.getClass());
 
         mHandler.post(new Runnable() {
             @Override

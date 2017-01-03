@@ -10,6 +10,7 @@ public abstract class Shot extends Entity {
     private Entity mOrigin;
     private float mSpeed;
     private Vector2 mDirection;
+    private boolean mEnabled = true;
 
     protected Shot(Entity origin) {
         mOrigin = origin;
@@ -24,9 +25,17 @@ public abstract class Shot extends Entity {
     public void tick() {
         super.tick();
 
-        if (isEnabled()) {
-            move(mDirection, mSpeed / GameEngine.TARGET_FRAME_RATE);
+        if (mEnabled) {
+            move(mDirection.copy().mul(mSpeed / GameEngine.TARGET_FRAME_RATE));
         }
+    }
+
+    public boolean isEnabled() {
+        return mEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        mEnabled = enabled;
     }
 
     public Entity getOrigin() {
@@ -41,11 +50,8 @@ public abstract class Shot extends Entity {
         this.mSpeed = speed;
     }
 
-    public Vector2 getDirection() {
-        return mDirection;
-    }
-
     protected void setDirection(Vector2 direction) {
         this.mDirection = direction;
     }
+
 }

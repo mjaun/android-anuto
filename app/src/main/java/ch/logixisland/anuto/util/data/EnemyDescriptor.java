@@ -2,74 +2,38 @@ package ch.logixisland.anuto.util.data;
 
 import org.simpleframework.xml.Attribute;
 
-import ch.logixisland.anuto.entity.enemy.Enemy;
+import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class EnemyDescriptor {
-    private final static String CLASS_PREFIX = "ch.logixisland.anuto.entity.enemy.";
 
-    /*
-    ------ Fields ------
-     */
-
-    private Class<? extends Enemy> enemyClass;
+    @Attribute(name="name")
+    private String mName;
 
     @Attribute(required=false)
-    private int pathIndex;
+    private int mPathIndex;
 
     @Attribute(required=false)
-    private float delay;
+    private float mDelay;
 
     @Attribute(required=false)
-    private float offsetX;
+    private float mOffsetX;
 
     @Attribute(required=false)
-    private float offsetY;
+    private float mOffsetY;
 
-    /*
-    ------ Methods ------
-     */
-
-    @Attribute(name="clazz")
-    private String getEnemyClassName() {
-        return enemyClass.getName();
-    }
-
-    @Attribute(name="clazz")
-    @SuppressWarnings("unchecked")
-    private void setEnemyClassName(String className) throws ClassNotFoundException {
-        enemyClass = (Class<? extends Enemy>) Class.forName(CLASS_PREFIX + className);
-    }
-
-    public Enemy createInstance() {
-        Enemy enemy;
-
-        try {
-            enemy = enemyClass.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-            throw new RuntimeException();
-        }
-
-        return enemy;
-    }
-
-    public Class<? extends Enemy> getEnemyClass() {
-        return enemyClass;
+    public String getName() {
+        return mName;
     }
 
     public int getPathIndex() {
-        return pathIndex;
+        return mPathIndex;
     }
 
     public float getDelay() {
-        return delay;
+        return mDelay;
     }
 
-    public float getOffsetX() {
-        return offsetX;
-    }
-
-    public float getOffsetY() {
-        return offsetY;
+    public Vector2 getOffset() {
+        return new Vector2(mOffsetX, mOffsetY);
     }
 }

@@ -11,6 +11,7 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.util.RandomUtils;
+import ch.logixisland.anuto.util.data.TowerConfig;
 import ch.logixisland.anuto.util.math.function.Function;
 import ch.logixisland.anuto.util.math.function.SampledFunction;
 import ch.logixisland.anuto.util.math.vector.Vector2;
@@ -34,7 +35,8 @@ public class Canon extends AimingTower {
     private StaticSprite mSpriteBase;
     private StaticSprite mSpriteCanon;
 
-    public Canon() {
+    public Canon(TowerConfig config) {
+        super(config);
         StaticData s = (StaticData)getStaticData();
 
         mReboundFunction = Function.sine()

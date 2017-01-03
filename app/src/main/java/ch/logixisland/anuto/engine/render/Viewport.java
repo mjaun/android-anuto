@@ -11,10 +11,6 @@ public class Viewport {
     private final Matrix mScreenMatrix = new Matrix();
     private final Matrix mScreenMatrixInverse = new Matrix();
 
-    public Vector2 getGameSize() {
-        return new Vector2(mGameSize);
-    }
-
     public void setGameSize(int width, int height) {
         mGameSize.set(width, height);
         calcScreenMatrix();
@@ -29,21 +25,11 @@ public class Viewport {
         return mScreenMatrix;
     }
 
-    public Matrix getScreenMatrixInverse() {
-        return mScreenMatrixInverse;
-    }
-
     public Vector2 screenToGame(Vector2 pos) {
         float[] pts = {pos.x, pos.y};
         mScreenMatrixInverse.mapPoints(pts);
         return new Vector2(pts[0], pts[1]);
     }
-
-    public boolean inGame(Vector2 pos) {
-        return pos.x >= -0.5f && pos.y >= -0.5f &&
-                pos.x < mGameSize.x + 0.5f && pos.y < mGameSize.y + 0.5f;
-    }
-
 
     private void calcScreenMatrix() {
         mScreenMatrix.reset();

@@ -4,18 +4,20 @@ import java.util.List;
 
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.entity.enemy.EnemyFactory;
 import ch.logixisland.anuto.util.data.EnemyDescriptor;
 import ch.logixisland.anuto.util.data.WaveDescriptor;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.math.MathUtils;
+import ch.logixisland.anuto.util.math.vector.Vector2;
 
 class WaveAttender {
 
-    private final WaveManager mWaveManager;
     private final GameEngine mGameEngine;
     private final ScoreBoard mScoreBoard;
+    private final EnemyFactory mEnemyFactory;
+    private final WaveManager mWaveManager;
     private final WaveDescriptor mWaveDescriptor;
-
     private final EnemyAttender mEnemyAttender;
 
     private int mExtend;
@@ -25,10 +27,12 @@ class WaveAttender {
 
     private boolean mNextWaveReady;
 
-    WaveAttender(WaveManager waveManager, GameEngine gameEngine, ScoreBoard scoreBoard, WaveDescriptor waveDescriptor) {
-        mWaveManager = waveManager;
+    WaveAttender(GameEngine gameEngine, ScoreBoard scoreBoard, EnemyFactory enemyFactory,
+                 WaveManager waveManager, WaveDescriptor waveDescriptor) {
         mGameEngine = gameEngine;
         mScoreBoard = scoreBoard;
+        mEnemyFactory = enemyFactory;
+        mWaveManager = waveManager;
         mWaveDescriptor = waveDescriptor;
 
         mEnemyAttender = new EnemyAttender(this, mGameEngine, mScoreBoard);
@@ -104,22 +108,19 @@ class WaveAttender {
 
     private void scheduleEnemies() {
         int delay = 0;
-        float offsetX = 0f;
-        float offsetY = 0f;
+        Vector2 offset = new Vector2();
 
         List<EnemyDescriptor> enemyDescriptors = mWaveDescriptor.getEnemies();
 
         for (int extendIndex = 0; extendIndex < mExtend + 1; extendIndex++) {
             for (EnemyDescriptor descriptor : enemyDescriptors) {
                 if (MathUtils.equals(descriptor.getDelay(), 0f, 0.1f)) {
-                    offsetX += descriptor.getOffsetX();
-                    offsetY += descriptor.getOffsetY();
+                    offset.add(descriptor.getOffset());
                 } else {
-                    offsetX = descriptor.getOffsetX();
-                    offsetY = descriptor.getOffsetY();
+                    offset.set(descriptor.getOffset());
                 }
 
-                Enemy enemy = createAndConfigureEnemy(offsetX, offsetY, descriptor);
+                Enemy enemy = createAndConfigureEnemy(offset, descriptor);
 
                 if (extendIndex > 0 || enemyDescriptors.indexOf(descriptor) > 0) {
                     delay += (int)descriptor.getDelay();
@@ -130,12 +131,12 @@ class WaveAttender {
         }
     }
 
-    private Enemy createAndConfigureEnemy(float offsetX, float offsetY, EnemyDescriptor descriptor) {
-        final Enemy enemy = descriptor.createInstance();
+    private Enemy createAndConfigureEnemy(Vector2 offset, EnemyDescriptor descriptor) {
+        final Enemy enemy = mEnemyFactory.createEnemy(descriptor.getName());
         enemy.modifyHealth(mEnemyHealthModifier);
         enemy.modifyReward(mEnemyRewardModifier);
         enemy.setPathIndex(descriptor.getPathIndex());
-        enemy.move(offsetX, offsetY);
+        enemy.move(offset);
         return enemy;
     }
 

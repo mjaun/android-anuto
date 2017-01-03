@@ -14,8 +14,10 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteListener;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.util.RandomUtils;
+import ch.logixisland.anuto.util.data.TowerConfig;
 import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
+import ch.logixisland.anuto.util.math.vector.Line;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class GlueTower extends Tower {
@@ -54,7 +56,8 @@ public class GlueTower extends Tower {
 
     private final TickTimer mUpdateTimer = TickTimer.createInterval(0.1f);
 
-    public GlueTower() {
+    public GlueTower(TowerConfig config) {
+        super(config);
         mGlueDuration = getProperty("glueDuration");
 
         StaticData s = (StaticData)getStaticData();
@@ -164,16 +167,17 @@ public class GlueTower extends Tower {
     }
 
     private void determineTargets() {
-        List<PathSection> sections = getPathSections();
+        List<Line> sections = getPathSectionsInRange();
         float dist = 0f;
 
         mTargets.clear();
 
-        for (PathSection sect : sections) {
-            float angle = Vector2.fromTo(sect.p1, sect.p2).angle();
+        for (Line sect : sections) {
+            float angle = sect.angle();
+            float length = sect.length();
 
-            while (dist < sect.len) {
-                final Vector2 target = Vector2.polar(dist, angle).add(sect.p1);
+            while (dist < length) {
+                final Vector2 target = Vector2.polar(dist, angle).add(sect.getPoint1());
 
                 boolean free = StreamIterator.fromIterable(mTargets)
                         .filter(new Predicate<Vector2>() {
@@ -191,7 +195,7 @@ public class GlueTower extends Tower {
                 dist += 1f;
             }
 
-            dist -= sect.len;
+            dist -= length;
         }
     }
 }

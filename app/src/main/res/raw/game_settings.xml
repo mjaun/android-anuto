@@ -1,0 +1,17 @@
+<settings>
+    <height>15</height>
+    <width>10</width>
+    <credits>400</credits>
+    <lives>5</lives>
+    <ageModifier>0.97</ageModifier>
+    <minSpeedModifier>0.05</minSpeedModifier>
+    <strongAgainstModifier>0.5</strongAgainstModifier>
+    <weakAgainstModifier>1.5</weakAgainstModifier>
+    <difficultyOffset>-10e3</difficultyOffset>
+    <difficultyLinear>30</difficultyLinear>
+    <difficultyQuadratic>6e-4</difficultyQuadratic>
+    <rewardModifier>1</rewardModifier>
+    <rewardRoot>3</rewardRoot>
+    <earlyModifier>35</earlyModifier>
+    <earlyRoot>3</earlyRoot>
+</settings>
