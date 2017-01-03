@@ -122,7 +122,7 @@ public class TowerInfoFragment extends Fragment implements
     }
 
     private void refresh() {
-        if (mTower == null) {
+        if (mTower == null || !isAdded()) {
             return;
         }
 
