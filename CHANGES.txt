@@ -1,0 +1,6 @@
+# Anuto - Another Ugly Tower Defense
+
+
+General
+
+ * Tower info popup has semi-transparent background
