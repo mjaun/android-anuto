@@ -144,6 +144,17 @@ public class MineLayer extends Tower {
         mSprite.draw(canvas);
     }
 
+    @Override
+    public List<TowerProperty> getProperties() {
+        List<TowerProperty> properties = new ArrayList<>();
+        properties.add(new TowerProperty(R.string.damage, getDamage()));
+        properties.add(new TowerProperty(R.string.splash, mExplosionRadius));
+        properties.add(new TowerProperty(R.string.reload, getReloadTime()));
+        properties.add(new TowerProperty(R.string.range, getRange()));
+        properties.add(new TowerProperty(R.string.inflicted, getDamageInflicted()));
+        return properties;
+    }
+
     private Vector2 getTarget() {
         float totalLen = 0f;
 

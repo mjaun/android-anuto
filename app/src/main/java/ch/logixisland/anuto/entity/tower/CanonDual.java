@@ -2,6 +2,9 @@ package ch.logixisland.anuto.entity.tower;
 
 import android.graphics.Canvas;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.entity.shot.CanonShot;
@@ -186,5 +189,15 @@ public class CanonDual extends AimingTower {
         mSpriteTower.draw(canvas);
         mCanons[0].sprite.draw(canvas);
         mCanons[1].sprite.draw(canvas);
+    }
+
+    @Override
+    public List<TowerProperty> getProperties() {
+        List<TowerProperty> properties = new ArrayList<>();
+        properties.add(new TowerProperty(R.string.damage, getDamage()));
+        properties.add(new TowerProperty(R.string.reload, getReloadTime()));
+        properties.add(new TowerProperty(R.string.range, getRange()));
+        properties.add(new TowerProperty(R.string.inflicted, getDamageInflicted()));
+        return properties;
     }
 }

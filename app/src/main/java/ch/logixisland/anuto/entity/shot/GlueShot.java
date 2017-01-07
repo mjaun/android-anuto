@@ -18,13 +18,13 @@ public class GlueShot extends Shot {
         public SpriteTemplate mSpriteTemplate;
     }
 
-    private float mSpeedModifier;
+    private float mIntensity;
     private float mDuration;
     private Vector2 mTarget;
 
     private AnimatedSprite mSprite;
 
-    public GlueShot(Entity origin, Vector2 position, Vector2 target, float speedModifier, float duration) {
+    public GlueShot(Entity origin, Vector2 position, Vector2 target, float intensity, float duration) {
         super(origin);
         setPosition(position);
         mTarget = new Vector2(target);
@@ -32,7 +32,7 @@ public class GlueShot extends Shot {
         setSpeed(MOVEMENT_SPEED);
         setDirection(getDirectionTo(target));
 
-        mSpeedModifier = speedModifier;
+        mIntensity = intensity;
         mDuration = duration;
 
         StaticData s = (StaticData)getStaticData();
@@ -74,7 +74,7 @@ public class GlueShot extends Shot {
         mSprite.tick();
 
         if (getDistanceTo(mTarget) < getSpeed() / GameEngine.TARGET_FRAME_RATE) {
-            getGameEngine().add(new GlueEffect(getOrigin(), mTarget, mSpeedModifier, mDuration));
+            getGameEngine().add(new GlueEffect(getOrigin(), mTarget, mIntensity, mDuration));
             this.remove();
         }
     }

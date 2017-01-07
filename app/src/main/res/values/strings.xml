@@ -15,10 +15,15 @@
     <string name="status_wave">Wave</string>
     <string name="status_bonus">Bonus</string>
 
+    <string name="property_string">%1$s:</string>
     <string name="level">Level</string>
     <string name="damage">Damage</string>
     <string name="reload">Reload</string>
     <string name="range">Range</string>
+    <string name="splash">Splash</string>
+    <string name="distance">Distance</string>
+    <string name="intensity">Intensity</string>
+    <string name="duration">Duration</string>
     <string name="inflicted">Inflicted</string>
 
     <string name="lock_target">Lock Target</string>

@@ -54,6 +54,7 @@ public abstract class Tower extends Entity {
         setEnabled(false);
     }
 
+
     @Override
     public final int getType() {
         return Types.TOWER;
@@ -82,7 +83,10 @@ public abstract class Tower extends Entity {
         }
     }
 
+
     public abstract void preview(Canvas canvas);
+
+    public abstract List<TowerProperty> getProperties();
 
 
     public String getName() {

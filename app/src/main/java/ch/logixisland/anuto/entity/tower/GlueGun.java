@@ -2,6 +2,9 @@ package ch.logixisland.anuto.entity.tower;
 
 import android.graphics.Canvas;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.entity.shot.GlueShot;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
@@ -23,6 +26,7 @@ public class GlueGun extends AimingTower {
         SpriteTemplate mSpriteTemplateCanon;
     }
 
+    private float mGlueIntensity;
     private float mGlueDuration;
     private float mAngle = 90f;
     private boolean mRebounding = false;
@@ -32,6 +36,7 @@ public class GlueGun extends AimingTower {
 
     public GlueGun(TowerConfig config) {
         super(config);
+        mGlueIntensity = getProperty("glueIntensity");
         mGlueDuration = getProperty("glueDuration");
 
         StaticData s = (StaticData)getStaticData();
@@ -76,6 +81,12 @@ public class GlueGun extends AimingTower {
     }
 
     @Override
+    public void enhance() {
+        super.enhance();
+        mGlueIntensity += getProperty("enhanceGlueIntensity");
+    }
+
+    @Override
     public void draw(SpriteInstance sprite, Canvas canvas) {
         super.draw(sprite, canvas);
 
@@ -97,7 +108,7 @@ public class GlueGun extends AimingTower {
             Vector2 position = Vector2.polar(SHOT_SPAWN_OFFSET, getAngleTo(target));
             position.add(getPosition());
 
-            getGameEngine().add(new GlueShot(this, position, target, 1f / getDamage(), mGlueDuration));
+            getGameEngine().add(new GlueShot(this, position, target, mGlueIntensity, mGlueDuration));
 
             setReloaded(false);
             mRebounding = true;
@@ -112,5 +123,15 @@ public class GlueGun extends AimingTower {
     public void preview(Canvas canvas) {
         mSpriteBase.draw(canvas);
         mSpriteCanon.draw(canvas);
+    }
+
+    @Override
+    public List<TowerProperty> getProperties() {
+        List<TowerProperty> properties = new ArrayList<>();
+        properties.add(new TowerProperty(R.string.intensity, mGlueIntensity));
+        properties.add(new TowerProperty(R.string.duration, mGlueDuration));
+        properties.add(new TowerProperty(R.string.reload, getReloadTime()));
+        properties.add(new TowerProperty(R.string.range, getRange()));
+        return properties;
     }
 }

@@ -24,17 +24,17 @@ public class GlueEffect extends AreaEffect {
     }
 
     private float mAngle;
-    private float mSpeedModifier;
+    private float mIntensity;
     private int mAlphaStep;
 
     private Paint mPaint;
     private StaticSprite mSprite;
 
-    public GlueEffect(Entity origin, Vector2 position, float speedModifier, float duration) {
+    public GlueEffect(Entity origin, Vector2 position, float intensity, float duration) {
         super(origin, duration);
         setPosition(position);
 
-        mSpeedModifier = speedModifier;
+        mIntensity = intensity;
         mAngle = RandomUtils.next(360f);
         mAlphaStep = (int)(ALPHA_START / (GameEngine.TARGET_FRAME_RATE * duration));
 
@@ -90,14 +90,14 @@ public class GlueEffect extends AreaEffect {
     @Override
     protected void enemyEnter(Enemy e) {
         if (!(e instanceof Flyer)) {
-            e.modifySpeed(mSpeedModifier);
+            e.modifySpeed(1f / mIntensity);
         }
     }
 
     @Override
     protected void enemyExit(Enemy e) {
         if (!(e instanceof Flyer)) {
-            e.modifySpeed(1f / mSpeedModifier);
+            e.modifySpeed(mIntensity);
         }
     }
 }

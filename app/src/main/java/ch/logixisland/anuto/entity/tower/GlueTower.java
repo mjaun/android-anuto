@@ -45,6 +45,7 @@ public class GlueTower extends Tower {
         }
     }
 
+    private float mGlueIntensity;
     private float mGlueDuration;
     private boolean mShooting;
     private float mCanonOffset;
@@ -58,6 +59,7 @@ public class GlueTower extends Tower {
 
     public GlueTower(TowerConfig config) {
         super(config);
+        mGlueIntensity = getProperty("glueIntensity");
         mGlueDuration = getProperty("glueDuration");
 
         StaticData s = (StaticData)getStaticData();
@@ -152,7 +154,7 @@ public class GlueTower extends Tower {
                     Vector2 position = Vector2.polar(SHOT_SPAWN_OFFSET, getAngleTo(target));
                     position.add(getPosition());
 
-                    getGameEngine().add(new GlueShot(this, position, target, 1f / getDamage(), mGlueDuration));
+                    getGameEngine().add(new GlueShot(this, position, target, mGlueIntensity, mGlueDuration));
                 }
             }
         } else if (mCanonOffset > 0f) {
@@ -161,9 +163,25 @@ public class GlueTower extends Tower {
     }
 
     @Override
+    public void enhance() {
+        super.enhance();
+        mGlueIntensity += getProperty("enhanceGlueIntensity");
+    }
+
+    @Override
     public void preview(Canvas canvas) {
         mSpriteBase.draw(canvas);
         mSpriteTower.draw(canvas);
+    }
+
+    @Override
+    public List<TowerProperty> getProperties() {
+        List<TowerProperty> properties = new ArrayList<>();
+        properties.add(new TowerProperty(R.string.intensity, mGlueIntensity));
+        properties.add(new TowerProperty(R.string.duration, mGlueDuration));
+        properties.add(new TowerProperty(R.string.reload, getReloadTime()));
+        properties.add(new TowerProperty(R.string.range, getRange()));
+        return properties;
     }
 
     private void determineTargets() {

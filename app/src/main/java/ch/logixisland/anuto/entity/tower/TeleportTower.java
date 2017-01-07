@@ -24,11 +24,15 @@ public class TeleportTower extends AimingTower {
         SpriteTemplate mSpriteTemplateTower;
     }
 
+    private float mTeleportDistance;
+
     private StaticSprite mSpriteBase;
     private StaticSprite mSpriteTower;
 
     public TeleportTower(TowerConfig config) {
         super(config);
+        mTeleportDistance = getProperty("teleportDistance");
+
         StaticData s = (StaticData)getStaticData();
 
         mSpriteBase = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplateBase);
@@ -70,6 +74,12 @@ public class TeleportTower extends AimingTower {
     }
 
     @Override
+    public void enhance() {
+        super.enhance();
+        mTeleportDistance += getProperty("enhanceTeleportDistance");
+    }
+
+    @Override
     public void tick() {
         super.tick();
 
@@ -80,7 +90,7 @@ public class TeleportTower extends AimingTower {
             if (!target.isEnabled() || getDistanceTo(target) > getRange()) {
                 setTarget(null);
             } else {
-                getGameEngine().add(new TeleportEffect(this, getPosition(), target, getDamage()));
+                getGameEngine().add(new TeleportEffect(this, getPosition(), target, mTeleportDistance));
                 setReloaded(false);
             }
         }
@@ -90,6 +100,15 @@ public class TeleportTower extends AimingTower {
     public void preview(Canvas canvas) {
         mSpriteBase.draw(canvas);
         mSpriteTower.draw(canvas);
+    }
+
+    @Override
+    public List<TowerProperty> getProperties() {
+        List<TowerProperty> properties = new ArrayList<>();
+        properties.add(new TowerProperty(R.string.distance, mTeleportDistance));
+        properties.add(new TowerProperty(R.string.reload, getReloadTime()));
+        properties.add(new TowerProperty(R.string.range, getRange()));
+        return properties;
     }
 
     @Override
