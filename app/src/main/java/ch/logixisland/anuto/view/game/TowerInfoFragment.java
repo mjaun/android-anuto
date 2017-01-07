@@ -11,44 +11,33 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.List;
+
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.GameFactory;
+import ch.logixisland.anuto.business.control.TowerInfo;
 import ch.logixisland.anuto.business.manager.GameListener;
 import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.business.control.TowerControl;
 import ch.logixisland.anuto.business.control.TowerInfoView;
 import ch.logixisland.anuto.business.control.TowerSelector;
-import ch.logixisland.anuto.business.score.CreditsListener;
-import ch.logixisland.anuto.business.score.ScoreBoard;
-import ch.logixisland.anuto.entity.tower.AimingTower;
-import ch.logixisland.anuto.entity.tower.Tower;
-import ch.logixisland.anuto.entity.tower.TowerListener;
+import ch.logixisland.anuto.entity.tower.TowerProperty;
 import ch.logixisland.anuto.util.StringUtils;
 
 public class TowerInfoFragment extends Fragment implements View.OnTouchListener,
-        View.OnClickListener, GameListener, TowerListener, CreditsListener,
-        TowerInfoView {
+        View.OnClickListener, GameListener, TowerInfoView {
 
     private final GameManager mGameManager;
     private final TowerSelector mTowerSelector;
     private final TowerControl mTowerControl;
-    private final ScoreBoard mScoreBoard;
 
     private Handler mHandler;
-    private Tower mTower;
 
     private TextView txt_level;
-    private TextView txt_damage;
-    private TextView txt_range;
-    private TextView txt_reload;
-    private TextView txt_inflicted;
-
     private TextView txt_level_text;
-    private TextView txt_damage_text;
-    private TextView txt_range_text;
-    private TextView txt_reload_text;
-    private TextView txt_inflicted_text;
+    private TextView[] txt_property = new TextView[5];
+    private TextView[] txt_property_text = new TextView[5];
 
     private Button btn_strategy;
     private Button btn_lock_target;
@@ -56,14 +45,11 @@ public class TowerInfoFragment extends Fragment implements View.OnTouchListener,
     private Button btn_upgrade;
     private Button btn_sell;
 
-    private TowerView view_tower;
-
     private boolean mVisible = true;
 
     public TowerInfoFragment() {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
         mGameManager = factory.getGameManager();
-        mScoreBoard = factory.getScoreBoard();
         mTowerSelector = factory.getTowerSelector();
         mTowerControl = factory.getTowerControl();
     }
@@ -73,16 +59,18 @@ public class TowerInfoFragment extends Fragment implements View.OnTouchListener,
         View v = inflater.inflate(R.layout.fragment_tower_info, container, false);
 
         txt_level = (TextView)v.findViewById(R.id.txt_level);
-        txt_damage = (TextView)v.findViewById(R.id.txt_damage);
-        txt_range = (TextView)v.findViewById(R.id.txt_range);
-        txt_reload = (TextView)v.findViewById(R.id.txt_reload);
-        txt_inflicted = (TextView)v.findViewById(R.id.txt_inflicted);
+        txt_property[0] = (TextView)v.findViewById(R.id.txt_property1);
+        txt_property[1] = (TextView)v.findViewById(R.id.txt_property2);
+        txt_property[2] = (TextView)v.findViewById(R.id.txt_property3);
+        txt_property[3] = (TextView)v.findViewById(R.id.txt_property4);
+        txt_property[4] = (TextView)v.findViewById(R.id.txt_property5);
 
         txt_level_text = (TextView)v.findViewById(R.id.txt_level_text);
-        txt_damage_text = (TextView)v.findViewById(R.id.txt_damage_text);
-        txt_range_text = (TextView)v.findViewById(R.id.txt_range_text);
-        txt_reload_text = (TextView)v.findViewById(R.id.txt_reload_text);
-        txt_inflicted_text = (TextView)v.findViewById(R.id.txt_inflicted_text);
+        txt_property_text[0] = (TextView)v.findViewById(R.id.txt_property_text1);
+        txt_property_text[1] = (TextView)v.findViewById(R.id.txt_property_text2);
+        txt_property_text[2] = (TextView)v.findViewById(R.id.txt_property_text3);
+        txt_property_text[3] = (TextView)v.findViewById(R.id.txt_property_text4);
+        txt_property_text[4] = (TextView)v.findViewById(R.id.txt_property_text5);
 
         btn_strategy = (Button)v.findViewById(R.id.btn_strategy);
         btn_lock_target = (Button)v.findViewById(R.id.btn_lock_target);
@@ -90,20 +78,13 @@ public class TowerInfoFragment extends Fragment implements View.OnTouchListener,
         btn_enhance = (Button)v.findViewById(R.id.btn_enhance);
         btn_sell = (Button)v.findViewById(R.id.btn_sell);
 
-        view_tower = (TowerView)v.findViewById(R.id.view_tower);
-
         btn_strategy.setOnClickListener(this);
         btn_lock_target.setOnClickListener(this);
         btn_enhance.setOnClickListener(this);
         btn_upgrade.setOnClickListener(this);
         btn_sell.setOnClickListener(this);
 
-        view_tower.setEnabled(false);
-
         txt_level_text.setText(getResources().getString(R.string.level) + ":");
-        txt_range_text.setText(getResources().getString(R.string.range) + ":");
-        txt_reload_text.setText(getResources().getString(R.string.reload) + ":");
-        txt_inflicted_text.setText(getResources().getString(R.string.inflicted) + ":");
 
         mHandler = new Handler();
 
@@ -130,65 +111,59 @@ public class TowerInfoFragment extends Fragment implements View.OnTouchListener,
         }
     }
 
-    private void refresh() {
-        /*
-        if (mTower == null) {
-            return;
+    private void refresh(TowerInfo towerInfo) {
+        txt_level.setText(towerInfo.getLevel() + " / " + towerInfo.getLevelMax());
+
+        List<TowerProperty> properties = towerInfo.getProperties();
+        for (int i = 0; i < properties.size(); i++) {
+            TowerProperty property = properties.get(i);
+            txt_property_text[i].setText(getResources().getString(property.getTextId()) + ":");
+            txt_property[i].setText(StringUtils.formatSuffix(property.getValue()));
         }
 
-        txt_level.setText(mTower.getTowerLevel() + " / " + mTower.getTowerLevelMax());
-        txt_damage.setText(StringUtils.formatSuffix(mTower.getDamage()));
-        txt_range.setText(StringUtils.formatSuffix(mTower.getRange()));
-        txt_reload.setText(StringUtils.formatSuffix(mTower.getReloadTime()));
-        txt_inflicted.setText(StringUtils.formatSuffix(mTower.getDamageInflicted()));
-
-        if (mTower.getConfig().getDamageText() == null) {
-            txt_damage_text.setText(getResources().getString(R.string.damage) + ":");
-        } else {
-            txt_damage_text.setText(mTower.getConfig().getDamageText() + ":");
-        }
-
-        if (mTower.isEnhanceable()) {
+        if (towerInfo.getEnhanceCost() > 0) {
             btn_enhance.setText(getResources().getString(R.string.enhance)
-                    + " (" + StringUtils.formatSuffix(mTower.getEnhanceCost()) + ")");
+                    + " (" + StringUtils.formatSuffix(towerInfo.getEnhanceCost()) + ")");
         } else {
             btn_enhance.setText(getResources().getString(R.string.enhance));
         }
 
-        if (mTower.isUpgradeable()) {
+        if (towerInfo.getUpgradeCost() > 0) {
             btn_upgrade.setText(getResources().getString(R.string.upgrade)
-                    + " (" + StringUtils.formatSuffix(mTower.getUpgradeCost()) + ")");
+                    + " (" + StringUtils.formatSuffix(towerInfo.getUpgradeCost()) + ")");
         } else {
             btn_upgrade.setText(getResources().getString(R.string.upgrade));
         }
 
         btn_sell.setText(getResources().getString(R.string.sell)
-                + " (" + StringUtils.formatSuffix(mTower.getValue()) + ")");
+                + " (" + StringUtils.formatSuffix(towerInfo.getValue()) + ")");
 
-        if (mTower instanceof AimingTower) {
-            AimingTower t = (AimingTower) mTower;
-            btn_strategy.setText(getResources().getString(R.string.strategy) + " (" + t.getStrategy().name() + ")");
-            btn_lock_target.setText(getResources().getString(R.string.lock_target) + " (" + t.doesLockOnTarget() + ")");
-            btn_strategy.setEnabled(true);
+        btn_upgrade.setEnabled(towerInfo.isUpgradeable());
+        btn_enhance.setEnabled(towerInfo.isEnhanceable());
+
+        if (towerInfo.canLockTarget()) {
+            btn_lock_target.setText(getResources().getString(R.string.lock_target) + " (" + towerInfo.doesLockTarget() + ")");
             btn_lock_target.setEnabled(true);
         } else {
-            btn_strategy.setText(getResources().getString(R.string.strategy));
             btn_lock_target.setText(getResources().getString(R.string.lock_target));
-            btn_strategy.setEnabled(false);
             btn_lock_target.setEnabled(false);
         }
 
-        btn_upgrade.setEnabled(mTower.isUpgradeable() && mScoreBoard.getCredits() >= mTower.getUpgradeCost());
-        btn_enhance.setEnabled(mTower.isEnhanceable() && mScoreBoard.getCredits() >= mTower.getEnhanceCost());
-        */
+        if (towerInfo.hasStrategy()) {
+            btn_strategy.setText(getResources().getString(R.string.strategy) + " (" + towerInfo.getStrategy().name() + ")");
+            btn_strategy.setEnabled(true);
+        } else {
+            btn_strategy.setText(getResources().getString(R.string.strategy));
+            btn_strategy.setEnabled(false);
+        }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         hide();
+
         mGameManager.addListener(this);
-        mScoreBoard.addCreditsListener(this);
         mTowerSelector.setTowerInfoView(this);
     }
 
@@ -197,7 +172,6 @@ public class TowerInfoFragment extends Fragment implements View.OnTouchListener,
         super.onDetach();
 
         mGameManager.removeListener(this);
-        mScoreBoard.removeCreditsListener(this);
         mTowerSelector.setTowerInfoView(null);
     }
 
@@ -230,19 +204,21 @@ public class TowerInfoFragment extends Fragment implements View.OnTouchListener,
     }
 
     @Override
-    public void showTowerInfo(Tower tower) {
-        if (mTower != null) {
-            mTower.removeListener(this);
-        }
-
-        mTower = tower;
-        mTower.addListener(this);
-
+    public void showTowerInfo(final TowerInfo towerInfo) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                refresh();
-                show();
+                refresh(towerInfo);
+            }
+        });
+    }
+
+    @Override
+    public void updateTowerInfo(final TowerInfo towerInfo) {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                refresh(towerInfo);
             }
         });
     }
@@ -253,36 +229,6 @@ public class TowerInfoFragment extends Fragment implements View.OnTouchListener,
             @Override
             public void run() {
                 hide();
-            }
-        });
-    }
-
-    @Override
-    public void creditsChanged(final int credits) {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                refresh();
-            }
-        });
-    }
-
-    @Override
-    public void damageInflicted(float totalDamage) {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                refresh();
-            }
-        });
-    }
-
-    @Override
-    public void valueChanged(int value) {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                refresh();
             }
         });
     }

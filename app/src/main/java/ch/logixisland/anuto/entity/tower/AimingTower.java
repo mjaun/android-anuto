@@ -8,20 +8,12 @@ import ch.logixisland.anuto.util.data.TowerConfig;
 
 public abstract class AimingTower extends Tower {
 
-    public enum Strategy {
-        Closest,
-        Weakest,
-        Strongest,
-        First,
-        Last
-    }
-
-    private static Strategy sDefaultStrategy = Strategy.Closest;
+    private static TowerStrategy sDefaultStrategy = TowerStrategy.Closest;
     private static boolean sDefaultLockTarget = true;
 
     private Enemy mTarget = null;
-    private Strategy mStrategy = sDefaultStrategy;
-    private boolean mLockOnTarget = sDefaultLockTarget;
+    private TowerStrategy mStrategy = sDefaultStrategy;
+    private boolean mLockTarget = sDefaultLockTarget;
 
     private final TickTimer mUpdateTimer = TickTimer.createInterval(0.1f);
 
@@ -56,28 +48,28 @@ public abstract class AimingTower extends Tower {
                 targetLost();
             }
 
-            if (mTarget == null || !mLockOnTarget) {
+            if (mTarget == null || !mLockTarget) {
                 nextTarget();
             }
         }
     }
 
 
-    public Strategy getStrategy() {
+    public TowerStrategy getStrategy() {
         return mStrategy;
     }
 
-    public void setStrategy(Strategy strategy) {
+    public void setStrategy(TowerStrategy strategy) {
         mStrategy = strategy;
         sDefaultStrategy = strategy;
     }
 
-    public boolean doesLockOnTarget() {
-        return mLockOnTarget;
+    public boolean doesLockTarget() {
+        return mLockTarget;
     }
 
-    public void setLockOnTarget(boolean lock) {
-        mLockOnTarget = lock;
+    public void setLockTarget(boolean lock) {
+        mLockTarget = lock;
         sDefaultLockTarget = lock;
     }
 

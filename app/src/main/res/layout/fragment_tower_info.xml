@@ -1,10 +1,92 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="200dp"
     android:layout_height="330dp"
     android:padding="10dp"
     android:background="@drawable/border">
+
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TableRow>
+            <TextView
+                android:textAppearance="?android:attr/textAppearanceSmallInverse"
+                android:id="@+id/txt_level_text"
+                android:layout_column="0"
+                android:paddingRight="10dp" />
+
+            <TextView
+                android:textAppearance="?android:attr/textAppearanceSmallInverse"
+                android:id="@+id/txt_level"
+                android:layout_column="1" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:textAppearance="?android:attr/textAppearanceSmallInverse"
+                android:id="@+id/txt_property_text1"
+                android:layout_column="0"
+                android:paddingRight="10dp" />
+
+            <TextView
+                android:textAppearance="?android:attr/textAppearanceSmallInverse"
+                android:id="@+id/txt_property1"
+                android:layout_column="1" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:textAppearance="?android:attr/textAppearanceSmallInverse"
+                android:id="@+id/txt_property_text2"
+                android:layout_column="0"
+                android:paddingRight="10dp" />
+
+            <TextView
+                android:textAppearance="?android:attr/textAppearanceSmallInverse"
+                android:id="@+id/txt_property2"
+                android:layout_column="1" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:textAppearance="?android:attr/textAppearanceSmallInverse"
+                android:id="@+id/txt_property_text3"
+                android:layout_column="0"
+                android:paddingRight="10dp" />
+
+            <TextView
+                android:textAppearance="?android:attr/textAppearanceSmallInverse"
+                android:id="@+id/txt_property3"
+                android:layout_column="1" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:textAppearance="?android:attr/textAppearanceSmallInverse"
+                android:id="@+id/txt_property_text4"
+                android:layout_column="0"
+                android:paddingRight="10dp" />
+
+            <TextView
+                android:textAppearance="?android:attr/textAppearanceSmallInverse"
+                android:id="@+id/txt_property4"
+                android:layout_column="1" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:textAppearance="?android:attr/textAppearanceSmallInverse"
+                android:id="@+id/txt_property_text5"
+                android:layout_column="0"
+                android:paddingRight="10dp" />
+
+            <TextView
+                android:textAppearance="?android:attr/textAppearanceSmallInverse"
+                android:id="@+id/txt_property5"
+                android:layout_column="1" />
+        </TableRow>
+    </TableLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -52,98 +134,5 @@
             android:text="@string/sell"
             android:id="@+id/btn_sell" />
     </LinearLayout>
-
-    <TableLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <TableRow>
-            <TextView
-                android:textAppearance="?android:attr/textAppearanceSmallInverse"
-                android:text="@string/level"
-                android:id="@+id/txt_level_text"
-                android:layout_column="0"
-                android:paddingRight="10dp" />
-
-            <TextView
-                android:textAppearance="?android:attr/textAppearanceSmallInverse"
-                android:text="\?"
-                android:id="@+id/txt_level"
-                android:layout_column="1" />
-        </TableRow>
-
-        <TableRow>
-            <TextView
-                android:textAppearance="?android:attr/textAppearanceSmallInverse"
-                android:text="@string/damage"
-                android:id="@+id/txt_damage_text"
-                android:layout_column="0"
-                android:paddingRight="10dp" />
-
-            <TextView
-                android:textAppearance="?android:attr/textAppearanceSmallInverse"
-                android:text="\?"
-                android:id="@+id/txt_damage"
-                android:layout_column="1" />
-        </TableRow>
-
-        <TableRow>
-            <TextView
-                android:textAppearance="?android:attr/textAppearanceSmallInverse"
-                android:text="@string/reload"
-                android:layout_column="0"
-                android:paddingRight="10dp"
-                android:id="@+id/txt_reload_text"/>
-
-            <TextView
-                android:textAppearance="?android:attr/textAppearanceSmallInverse"
-                android:text="\?"
-                android:id="@+id/txt_reload"
-                android:layout_column="1" />
-        </TableRow>
-
-        <TableRow>
-            <TextView
-                android:textAppearance="?android:attr/textAppearanceSmallInverse"
-                android:text="@string/range"
-                android:layout_column="0"
-                android:paddingRight="10dp"
-                android:id="@+id/txt_range_text" />
-
-            <TextView
-                android:textAppearance="?android:attr/textAppearanceSmallInverse"
-                android:text="\?"
-                android:id="@+id/txt_range"
-                android:layout_column="1" />
-        </TableRow>
-
-        <TableRow>
-            <Space android:layout_height="10dp"/>
-        </TableRow>
-
-        <TableRow>
-            <TextView
-                android:textAppearance="?android:attr/textAppearanceSmallInverse"
-                android:text="@string/inflicted"
-                android:layout_column="0"
-                android:paddingRight="10dp"
-                android:id="@+id/txt_inflicted_text" />
-
-            <TextView
-                android:textAppearance="?android:attr/textAppearanceSmallInverse"
-                android:text="\?"
-                android:id="@+id/txt_inflicted"
-                android:layout_column="1" />
-        </TableRow>
-    </TableLayout>
-
-    <ch.logixisland.anuto.view.game.TowerView
-        android:id="@+id/view_tower"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="-5dp"
-        android:layout_marginEnd="-10dp" />
 
 </RelativeLayout>

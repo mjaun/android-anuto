@@ -5,20 +5,26 @@ import java.util.List;
 
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.plateau.Plateau;
 import ch.logixisland.anuto.entity.tower.AimingTower;
 import ch.logixisland.anuto.entity.tower.Tower;
+import ch.logixisland.anuto.entity.tower.TowerFactory;
+import ch.logixisland.anuto.entity.tower.TowerStrategy;
 
 public class TowerControl {
 
     private final GameEngine mGameEngine;
     private final ScoreBoard mScoreBoard;
     private final TowerSelector mTowerSelector;
+    private final TowerFactory mTowerFactory;
 
-    public TowerControl(GameEngine gameEngine, ScoreBoard scoreBoard, TowerSelector towerSelector) {
+    public TowerControl(GameEngine gameEngine, ScoreBoard scoreBoard, TowerSelector towerSelector,
+                        TowerFactory towerFactory) {
         mGameEngine = gameEngine;
         mScoreBoard = scoreBoard;
         mTowerSelector = towerSelector;
+        mTowerFactory = towerFactory;
     }
 
     public void upgradeTower() {
@@ -32,68 +38,40 @@ public class TowerControl {
             return;
         }
 
-        /*
         Tower selectedTower = mTowerSelector.getSelectedTower();
-        if (selectedTower != null && selectedTower.isUpgradeable()) {
-            if (selectedTower.getUpgradeCost() <= mScoreBoard.getCredits()) {
-                mScoreBoard.takeCredits(selectedTower.getUpgradeCost());
-
-
-
-                Plateau plateau = this.getPlateau();
-                Tower upgrade;
-
-                try {
-                    upgrade = mConfig.getUpgradeTowerConfig().getTowerClass().newInstance();
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                    throw new RuntimeException();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                    throw new RuntimeException();
-                }
-
-                int cost = getUpgradeCost();
-                upgrade.mValue = this.mValue + cost;
-
-                this.remove();
-                upgrade.setPlateau(plateau);
-                upgrade.setEnabled(true);
-                getGameEngine().add(upgrade);
-
-                return upgrade;
-
-
-
-                Tower upgradedTower = selectedTower.upgrade();
-                mTowerSelector.showTowerInfo(upgradedTower);
-            }
-        }
-        */
-    }
-
-    /*
-    @Override
-    public Tower upgrade() {
-        Tower upgrade = super.upgrade();
-
-        if (upgrade instanceof AimingTower) {
-            AimingTower aiming = (AimingTower)upgrade;
-            aiming.mStrategy = this.mStrategy;
-            aiming.mLockOnTarget = this.mLockOnTarget;
+        if (selectedTower == null || !selectedTower.isUpgradeable()) {
+            return;
         }
 
-        return upgrade;
-    }
-
-    public int getUpgradeCost() {
-        if (!isUpgradeable()) {
-            return -1;
+        int upgradeCost = selectedTower.getUpgradeCost();
+        if (upgradeCost > mScoreBoard.getCredits()) {
+            return;
         }
 
-        return mConfig.getUpgradeTowerConfig().getValue() - mConfig.getValue();
+        mScoreBoard.takeCredits(upgradeCost);
+        Tower upgradedTower = mTowerFactory.createTower(selectedTower.getUpgradeName());
+
+        if (upgradedTower instanceof AimingTower && selectedTower instanceof AimingTower) {
+            AimingTower aimingTower = (AimingTower)selectedTower;
+            AimingTower aimingUpgraded = (AimingTower)upgradedTower;
+            aimingUpgraded.setLockTarget(aimingTower.doesLockTarget());
+            aimingUpgraded.setStrategy(aimingTower.getStrategy());
+        }
+
+        Plateau plateau = mGameEngine.get(Types.PLATEAU)
+                .cast(Plateau.class)
+                .filter(Plateau.occupiedBy(selectedTower))
+                .first();
+
+        selectedTower.remove();
+
+        upgradedTower.setValue(selectedTower.getValue() + upgradeCost);
+        upgradedTower.setEnabled(true);
+        plateau.setOccupant(upgradedTower);
+        mGameEngine.add(upgradedTower);
+
+        mTowerSelector.showTowerInfo(upgradedTower);
     }
-    */
 
     public void enhanceTower() {
         if (mGameEngine.isThreadChangeNeeded()) {
@@ -131,7 +109,7 @@ public class TowerControl {
         if (selectedTower instanceof AimingTower) {
             AimingTower tower = (AimingTower) selectedTower;
 
-            List<AimingTower.Strategy> values = Arrays.asList(AimingTower.Strategy.values());
+            List<TowerStrategy> values = Arrays.asList(TowerStrategy.values());
             int index = values.indexOf(tower.getStrategy()) + 1;
             if (index >= values.size()) {
                 index = 0;
@@ -155,7 +133,7 @@ public class TowerControl {
         Tower selectedTower = mTowerSelector.getSelectedTower();
         if (selectedTower instanceof AimingTower) {
             AimingTower tower = (AimingTower) selectedTower;
-            tower.setLockOnTarget(!tower.doesLockOnTarget());
+            tower.setLockTarget(!tower.doesLockTarget());
             mTowerSelector.updateTowerInfo();
         }
     }

@@ -145,6 +145,14 @@ public abstract class Tower extends Entity {
         return mConfig.getUpgrade() != null;
     }
 
+    public String getUpgradeName() {
+        return mConfig.getUpgrade();
+    }
+
+    public int getUpgradeCost() {
+        return mConfig.getUpgradeCost();
+    }
+
     public void enhance() {
         mValue += getEnhanceCost();
         mDamage += mConfig.getEnhanceDamage() * (float)Math.pow(mConfig.getEnhanceBase(), mLevel - 1);

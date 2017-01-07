@@ -17,6 +17,8 @@ public class TowerConfig {
     @Element(name="upgrade", required=false)
     private String mUpgrade;
 
+    private int mUpgradeCost;
+
     @Element(name="value")
     private int mValue;
 
@@ -63,6 +65,14 @@ public class TowerConfig {
 
     public String getUpgrade() {
         return mUpgrade;
+    }
+
+    public int getUpgradeCost() {
+        return mUpgradeCost;
+    }
+
+    public void setUpgradeCost(int upgradeCost) {
+        mUpgradeCost = upgradeCost;
     }
 
     public int getValue() {

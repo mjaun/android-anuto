@@ -51,13 +51,13 @@ public class GameFactory {
 
         mGameEngine = new GameEngine(mRenderer);
         mPlateauFactory = new PlateauFactory();
-        mTowerFactory = new TowerFactory();
-        mEnemyFactory = new EnemyFactory();
 
         mScoreBoard = new ScoreBoard();
-        mTowerSelector = new TowerSelector(mGameEngine);
-        mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector);
+        mTowerSelector = new TowerSelector(mGameEngine, mScoreBoard);
         mLevelLoader = new LevelLoader(mGameEngine, mViewport, mScoreBoard, mPlateauFactory);
+        mTowerFactory = new TowerFactory(mLevelLoader);
+        mEnemyFactory = new EnemyFactory(mLevelLoader);
+        mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector, mTowerFactory);
         mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mLevelLoader, mEnemyFactory);
         mTowerAging = new TowerAging(mGameEngine, mWaveManager, mLevelLoader);
         mTowerInserter = new TowerInserter(mGameEngine, mScoreBoard, mTowerSelector, mTowerAging);

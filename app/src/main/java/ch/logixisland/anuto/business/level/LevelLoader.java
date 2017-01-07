@@ -1,7 +1,9 @@
 package ch.logixisland.anuto.business.level;
 
 import ch.logixisland.anuto.business.score.ScoreBoard;
+import ch.logixisland.anuto.entity.enemy.EnemyFactory;
 import ch.logixisland.anuto.entity.plateau.PlateauFactory;
+import ch.logixisland.anuto.entity.tower.TowerFactory;
 import ch.logixisland.anuto.util.data.EnemySettings;
 import ch.logixisland.anuto.util.data.LevelDescriptor;
 import ch.logixisland.anuto.util.data.PlateauDescriptor;
@@ -23,7 +25,8 @@ public class LevelLoader {
     private EnemySettings mEnemySettings;
     private LevelDescriptor mLevelDescriptor;
 
-    public LevelLoader(GameEngine gameEngine, Viewport viewport, ScoreBoard scoreBoard, PlateauFactory plateauFactory) {
+    public LevelLoader(GameEngine gameEngine, Viewport viewport, ScoreBoard scoreBoard,
+                       PlateauFactory plateauFactory) {
         mGameEngine = gameEngine;
         mViewport = viewport;
         mScoreBoard = scoreBoard;

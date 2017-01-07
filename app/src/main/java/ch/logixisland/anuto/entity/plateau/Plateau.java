@@ -19,6 +19,15 @@ public abstract class Plateau extends Entity {
         };
     }
 
+    public static Predicate<Plateau> occupiedBy(final Entity occupant) {
+        return new Predicate<Plateau>() {
+            @Override
+            public boolean apply(Plateau value) {
+                return value.mOccupant == occupant;
+            }
+        };
+    }
+
     private Entity mOccupant;
 
     private final EntityListener mEntityListener = new EntityListener() {
