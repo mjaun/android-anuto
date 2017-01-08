@@ -22,7 +22,7 @@ public class TowerConfig {
     @Element(name="value")
     private int mValue;
 
-    @Element(name="damage")
+    @Element(name="damage", required=false)
     private float mDamage;
 
     @Element(name="range")
@@ -34,7 +34,7 @@ public class TowerConfig {
     @Element(name="maxLevel")
     private int mMaxLevel;
 
-    @Element(name="weaponType")
+    @Element(name="weaponType", required=false)
     private WeaponType mWeaponType;
 
     @Element(name="enhanceBase")
@@ -43,16 +43,16 @@ public class TowerConfig {
     @Element(name="enhanceCost")
     private int mEnhanceCost;
 
-    @Element(name="enhanceDamage")
+    @Element(name="enhanceDamage", required=false)
     private float mEnhanceDamage;
 
-    @Element(name="enhanceRange")
+    @Element(name="enhanceRange", required=false)
     private float mEnhanceRange;
 
-    @Element(name="enhanceReload")
+    @Element(name="enhanceReload", required=false)
     private float mEnhanceReload;
 
-    @ElementMap(required=false, entry="property", key="name", attribute=true, inline=true)
+    @ElementMap(entry="property", key="name", inline=true, required=false, attribute=true)
     private Map<String, Float> mProperties = new HashMap<>();
 
     public int getSlot() {

@@ -9,16 +9,16 @@ public class EnemyDescriptor {
     @Attribute(name="name")
     private String mName;
 
-    @Attribute(required=false)
+    @Attribute(name="pathIndex", required=false)
     private int mPathIndex;
 
-    @Attribute(required=false)
+    @Attribute(name="delay", required=false)
     private float mDelay;
 
-    @Attribute(required=false)
+    @Attribute(name="offsetX", required=false)
     private float mOffsetX;
 
-    @Attribute(required=false)
+    @Attribute(name="offsetY", required=false)
     private float mOffsetY;
 
     public String getName() {

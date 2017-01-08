@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public class EnemyConfig {
+
     @Element(name="name")
     private String mName;
 
@@ -24,13 +25,13 @@ public class EnemyConfig {
     @Element(name="reward")
     private int mReward;
 
-    @ElementList(name="weakAgainst", inline=true, required=false)
+    @ElementList(entry="weakAgainst", inline=true, required=false)
     private List<WeaponType> mWeakAgainst = new ArrayList<>();
 
-    @ElementList(name="strongAgainst", inline=true, required=false)
+    @ElementList(entry="strongAgainst", inline=true, required=false)
     private List<WeaponType> mStrongAgainst = new ArrayList<>();
 
-    @ElementMap(required=false, entry="property", key="name", attribute=true, inline=true)
+    @ElementMap(entry="property", key="name", inline=true, required=false, attribute=true)
     private Map<String, Float> mProperties = new HashMap<>();
 
     public String getName() {
@@ -60,4 +61,5 @@ public class EnemyConfig {
     public Map<String, Float> getProperties() {
         return Collections.unmodifiableMap(mProperties);
     }
+
 }

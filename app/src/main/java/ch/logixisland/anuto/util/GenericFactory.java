@@ -1,7 +1,5 @@
 package ch.logixisland.anuto.util;
 
-import org.reflections.Reflections;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -9,16 +7,17 @@ import java.util.Map;
 
 public class GenericFactory<T> {
 
-    final Map<String, Constructor<? extends T>> mConstructorMap = new HashMap<>();
+    private final Map<String, Constructor<? extends T>> mConstructorMap = new HashMap<>();
+    private final Class<?>[] mConstructorParameterTypes;
 
-    public GenericFactory(Class<T> baseClass, Class<?>... constructorParameterTypes) {
-        Reflections reflections = new Reflections(baseClass.getPackage().getName());
+    public GenericFactory(Class<?>... constructorParameterTypes) {
+        mConstructorParameterTypes = constructorParameterTypes;
+    }
 
+    public void registerClass(Class<? extends T> type) {
         try {
-            for (Class<? extends T> subClass : reflections.getSubTypesOf(baseClass)) {
-                Constructor<? extends T> constructor = subClass.getConstructor(constructorParameterTypes);
-                mConstructorMap.put(subClass.getSimpleName(), constructor);
-            }
+            Constructor<? extends T> constructor = type.getConstructor(mConstructorParameterTypes);
+            mConstructorMap.put(type.getSimpleName(), constructor);
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(e);
         }

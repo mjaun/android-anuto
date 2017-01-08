@@ -126,18 +126,18 @@
     <!-- Path configuration -->
     <paths>
         <path>
-            <vector2 x="2" y="15.5" />
-            <vector2 x="2" y="12" />
-            <vector2 x="8" y="12" />
-            <vector2 x="8" y="7" />
-            <vector2 x="1" y="7" />
-            <vector2 x="1" y="9" />
-            <vector2 x="3" y="9" />
-            <vector2 x="3" y="3" />
-            <vector2 x="7" y="3" />
-            <vector2 x="7" y="1" />
-            <vector2 x="1" y="1" />
-            <vector2 x="1" y="-1.5" />
+            <wayPoint x="2" y="15.5" />
+            <wayPoint x="2" y="12" />
+            <wayPoint x="8" y="12" />
+            <wayPoint x="8" y="7" />
+            <wayPoint x="1" y="7" />
+            <wayPoint x="1" y="9" />
+            <wayPoint x="3" y="9" />
+            <wayPoint x="3" y="3" />
+            <wayPoint x="7" y="3" />
+            <wayPoint x="7" y="1" />
+            <wayPoint x="1" y="1" />
+            <wayPoint x="1" y="-1.5" />
         </path>
     </paths>
 
