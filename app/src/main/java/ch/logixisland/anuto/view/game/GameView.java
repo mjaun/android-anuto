@@ -18,18 +18,10 @@ import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class GameView extends View implements View.OnDragListener, View.OnTouchListener {
 
-    /*
-    ------ Members ------
-     */
-
     private final Viewport mViewport;
     private final Renderer mRenderer;
     private final TowerSelector mTowerSelector;
     private final TowerInserter mTowerInserter;
-
-    /*
-    ------ Constructors ------
-     */
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -52,17 +44,13 @@ public class GameView extends View implements View.OnDragListener, View.OnTouchL
         setOnTouchListener(this);
     }
 
-    /*
-    ------ Methods ------
-    */
-
     public void start() {
         mViewport.setScreenSize(getWidth(), getHeight());
         mRenderer.setView(this);
     }
 
     public void stop() {
-
+        mRenderer.setView(null);
     }
 
     @Override
@@ -84,7 +72,7 @@ public class GameView extends View implements View.OnDragListener, View.OnTouchL
     }
 
     @Override
-    public boolean onTouch(View v, MotionEvent event) {
+    public boolean onTouch(View view, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             Vector2 pos = mViewport.screenToGame(new Vector2(event.getX(), event.getY()));
             mTowerSelector.selectTowerAt(pos);
@@ -95,30 +83,27 @@ public class GameView extends View implements View.OnDragListener, View.OnTouchL
     }
 
     @Override
-    public boolean onDrag(View v, DragEvent event) {
-        Tower tower = (Tower)event.getLocalState();
-        Vector2 pos = mViewport.screenToGame(new Vector2(event.getX(), event.getY()));
-
-        switch (event.getAction()) {
-            case DragEvent.ACTION_DRAG_ENTERED:
-                mTowerInserter.insertTower(tower);
-                mTowerInserter.setPosition(pos);
-                break;
-
-            case DragEvent.ACTION_DRAG_EXITED:
-                mTowerInserter.cancel();;
-                break;
-
-            case DragEvent.ACTION_DRAG_LOCATION:
-                mTowerInserter.setPosition(pos);
-                break;
-
-            case DragEvent.ACTION_DROP:
-                mTowerInserter.buyTower();
-                break;
+    public boolean onDrag(View view, DragEvent event) {
+        if (event.getAction() == DragEvent.ACTION_DRAG_STARTED) {
+            if (event.getLocalState() instanceof TowerView) {
+                return true;
+            }
         }
 
-        return true;
+        if (event.getAction() == DragEvent.ACTION_DRAG_LOCATION) {
+            Vector2 pos = mViewport.screenToGame(new Vector2(event.getX(), event.getY()));
+            mTowerInserter.setPosition(pos);
+        }
+
+        if (event.getAction() == DragEvent.ACTION_DROP) {
+            mTowerInserter.buyTower();
+        }
+
+        if (event.getAction() == DragEvent.ACTION_DRAG_EXITED) {
+            mTowerInserter.cancel();
+        }
+
+        return false;
     }
 
 }

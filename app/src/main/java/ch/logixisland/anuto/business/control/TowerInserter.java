@@ -3,59 +3,61 @@ package ch.logixisland.anuto.business.control;
 import java.util.Iterator;
 
 import ch.logixisland.anuto.business.level.TowerAging;
+import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.entity.Entity;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.plateau.Plateau;
 import ch.logixisland.anuto.entity.tower.Tower;
+import ch.logixisland.anuto.entity.tower.TowerFactory;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class TowerInserter {
 
     private final GameEngine mGameEngine;
+    private final GameManager mGameManager;
+    private final TowerFactory mTowerFactory;
     private final TowerSelector mTowerSelector;
-    private final ScoreBoard mScoreBoard;
     private final TowerAging mTowerAging;
+    private final ScoreBoard mScoreBoard;
 
     private Tower mInsertedTower;
     private Plateau mCurrentPlateau;
 
-    public TowerInserter(GameEngine gameEngine, ScoreBoard scoreBoard, TowerSelector towerSelector,
-                         TowerAging towerAging) {
+    public TowerInserter(GameEngine gameEngine, GameManager gameManager, TowerFactory towerFactory,
+                         TowerSelector towerSelector, TowerAging towerAging, ScoreBoard scoreBoard) {
         mGameEngine = gameEngine;
+        mGameManager = gameManager;
+        mTowerFactory = towerFactory;
         mTowerSelector = towerSelector;
-        mScoreBoard = scoreBoard;
         mTowerAging = towerAging;
+        mScoreBoard = scoreBoard;
     }
 
-    public void insertTower(Tower tower) {
+    public void insertTower(final String towerName) {
         if (mGameEngine.isThreadChangeNeeded()) {
-            final Tower finalTower = tower;
             mGameEngine.post(new Runnable() {
                 @Override
                 public void run() {
-                    insertTower(finalTower);
+                    insertTower(towerName);
                 }
             });
             return;
         }
 
-        if (mInsertedTower == null) {
+        if (mInsertedTower == null && !mGameManager.isGameOver()) {
             showTowerLevels();
-            mInsertedTower = tower;
-            mGameEngine.add(tower);
-            mTowerSelector.selectTower(mInsertedTower);
+            mInsertedTower = mTowerFactory.createTower(towerName);
         }
     }
 
-    public void setPosition(Vector2 position) {
+    public void setPosition(final Vector2 position) {
         if (mGameEngine.isThreadChangeNeeded()) {
-            final Vector2 finalPosition = position;
             mGameEngine.post(new Runnable() {
                 @Override
                 public void run() {
-                    setPosition(finalPosition);
+                    setPosition(position);
                 }
             });
             return;
@@ -68,6 +70,11 @@ public class TowerInserter {
                     .min(Entity.distanceTo(position));
 
             if (closestPlateau != null) {
+                if (mCurrentPlateau == null) {
+                    mGameEngine.add(mInsertedTower);
+                    mTowerSelector.selectTower(mInsertedTower);
+                }
+
                 mCurrentPlateau = closestPlateau;
                 mInsertedTower.setPosition(mCurrentPlateau.getPosition());
             } else {
@@ -96,6 +103,7 @@ public class TowerInserter {
 
             mTowerSelector.selectTower(null);
             hideTowerLevels();
+
             mCurrentPlateau = null;
             mInsertedTower = null;
         }

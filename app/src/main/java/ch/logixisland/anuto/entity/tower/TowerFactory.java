@@ -36,9 +36,9 @@ public class TowerFactory {
     }
 
     public Tower createTower(int slot) {
-        for (TowerConfig towerConfig : mLevelLoader.getTowerSettings().getTowerConfigs()) {
-            if (towerConfig.getSlot() == slot) {
-                return mFactory.createInstance(towerConfig.getName(), towerConfig);
+        for (TowerConfig config : mLevelLoader.getTowerSettings().getTowerConfigs()) {
+            if (config.getSlot() == slot) {
+                return mFactory.createInstance(config.getName(), config);
             }
         }
 

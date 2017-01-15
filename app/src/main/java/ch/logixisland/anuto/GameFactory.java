@@ -60,8 +60,8 @@ public class GameFactory {
         mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector, mTowerFactory);
         mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mLevelLoader, mEnemyFactory);
         mTowerAging = new TowerAging(mGameEngine, mWaveManager, mLevelLoader);
-        mTowerInserter = new TowerInserter(mGameEngine, mScoreBoard, mTowerSelector, mTowerAging);
         mGameManager = new GameManager(mGameEngine, mScoreBoard, mLevelLoader, mWaveManager);
+        mTowerInserter = new TowerInserter(mGameEngine, mGameManager, mTowerFactory, mTowerSelector, mTowerAging, mScoreBoard);
     }
 
     public SpriteFactory getSpriteFactory() {

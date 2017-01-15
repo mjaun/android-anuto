@@ -15,7 +15,6 @@ import android.widget.TextView;
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.GameFactory;
-import ch.logixisland.anuto.business.level.LevelLoader;
 import ch.logixisland.anuto.business.manager.GameListener;
 import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.business.level.WaveListener;
@@ -25,10 +24,8 @@ import ch.logixisland.anuto.business.score.CreditsListener;
 import ch.logixisland.anuto.business.score.LivesListener;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.render.theme.ThemeManager;
-import ch.logixisland.anuto.entity.tower.TowerFactory;
 import ch.logixisland.anuto.util.StringUtils;
 import ch.logixisland.anuto.engine.render.theme.Theme;
-import ch.logixisland.anuto.util.data.TowerConfig;
 
 public class HeaderFragment extends Fragment implements GameListener, WaveListener, CreditsListener,
         LivesListener, BonusListener, View.OnClickListener {
@@ -37,8 +34,6 @@ public class HeaderFragment extends Fragment implements GameListener, WaveListen
     private final GameManager mGameManager;
     private final WaveManager mWaveManager;
     private final ScoreBoard mScoreBoard;
-    private final LevelLoader mLevelLoader;
-    private final TowerFactory mTowerFactory;
 
     private Handler mHandler;
 
@@ -58,8 +53,6 @@ public class HeaderFragment extends Fragment implements GameListener, WaveListen
         mGameManager = factory.getGameManager();
         mScoreBoard = factory.getScoreBoard();
         mWaveManager = factory.getWaveManager();
-        mLevelLoader = factory.getLevelLoader();
-        mTowerFactory = factory.getTowerFactory();
     }
 
     @Override

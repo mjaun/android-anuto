@@ -8,11 +8,13 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.util.AttributeSet;
+import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
 
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
+import ch.logixisland.anuto.business.control.TowerInserter;
 import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.business.score.CreditsListener;
 import ch.logixisland.anuto.business.score.ScoreBoard;
@@ -21,13 +23,13 @@ import ch.logixisland.anuto.engine.render.theme.ThemeManager;
 import ch.logixisland.anuto.entity.tower.TowerFactory;
 import ch.logixisland.anuto.util.data.TowerConfig;
 
-public class TowerView extends View implements View.OnTouchListener {
+public class TowerView extends View implements View.OnTouchListener, View.OnDragListener {
 
     private final static float TEXT_SIZE = 20f;
     private final static float DRAW_SIZE = 1.3f;
 
     private final ThemeManager mThemeManager;
-    private final GameManager mGameManager;
+    private final TowerInserter mTowerInserter;
     private final ScoreBoard mScoreBoard;
     private final TowerFactory mTowerFactory;
 
@@ -58,14 +60,14 @@ public class TowerView extends View implements View.OnTouchListener {
             GameFactory factory = AnutoApplication.getInstance().getGameFactory();
             mThemeManager = factory.getThemeManager();
             mScoreBoard = factory.getScoreBoard();
-            mGameManager = factory.getGameManager();
+            mTowerInserter = factory.getTowerInserter();
             mTowerFactory = factory.getTowerFactory();
 
             mScoreBoard.addCreditsListener(mCreditsListener);
         } else {
             mThemeManager = null;
             mScoreBoard = null;
-            mGameManager = null;
+            mTowerInserter = null;
             mTowerFactory = null;
         }
 
@@ -77,6 +79,7 @@ public class TowerView extends View implements View.OnTouchListener {
         mScreenMatrix = new Matrix();
 
         setOnTouchListener(this);
+        setOnDragListener(this);
     }
 
     @Override
@@ -104,7 +107,6 @@ public class TowerView extends View implements View.OnTouchListener {
         if (mPreviewTower != null) {
             canvas.save();
             canvas.concat(mScreenMatrix);
-            canvas.translate(-mPreviewTower.getPosition().x, -mPreviewTower.getPosition().y);
             mPreviewTower.preview(canvas);
             canvas.restore();
 
@@ -116,22 +118,37 @@ public class TowerView extends View implements View.OnTouchListener {
     }
 
     @Override
-    public boolean onTouch(View v, MotionEvent event) {
+    public boolean onTouch(View view, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if (mScoreBoard.getCredits() >= mPreviewTower.getValue() && !mGameManager.isGameOver()) {
-                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder() {
-                    @Override
-                    public void onProvideShadowMetrics(Point shadowSize, Point shadowTouchPoint) {
-                    }
+            mTowerInserter.insertTower(mPreviewTower.getName());
 
-                    @Override
-                    public void onDrawShadow(Canvas canvas) {
-                    }
-                };
+            View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder() {
+                @Override
+                public void onProvideShadowMetrics(Point shadowSize, Point shadowTouchPoint) {
+                }
 
-                ClipData data = ClipData.newPlainText("", "");
-                startDrag(data, shadowBuilder, newTower(), 0);
+                @Override
+                public void onDrawShadow(Canvas canvas) {
+                }
+            };
+
+            ClipData data = ClipData.newPlainText("", "");
+            startDrag(data, shadowBuilder, this, 0);
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean onDrag(View view, DragEvent event) {
+        if (event.getAction() == DragEvent.ACTION_DRAG_STARTED) {
+            if (event.getLocalState() == this) {
+                return true;
             }
+        }
+
+        if (event.getAction() == DragEvent.ACTION_DRAG_ENDED) {
+            mTowerInserter.cancel();
         }
 
         return false;
@@ -147,7 +164,4 @@ public class TowerView extends View implements View.OnTouchListener {
         mScoreBoard.removeCreditsListener(mCreditsListener);
     }
 
-    private Tower newTower() {
-        return mTowerFactory.createTower(mPreviewTower.getName());
-    }
 }
