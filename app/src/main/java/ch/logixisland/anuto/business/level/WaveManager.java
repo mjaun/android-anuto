@@ -77,7 +77,7 @@ public class WaveManager {
 
         if (!mActiveWaves.isEmpty()) {
             currentWave().giveWaveReward();
-            mScoreBoard.giveCredits(mScoreBoard.getEarlyBonus());
+            mScoreBoard.giveCredits(mScoreBoard.getEarlyBonus(), false);
         }
 
         createAndStartWaveAttender();

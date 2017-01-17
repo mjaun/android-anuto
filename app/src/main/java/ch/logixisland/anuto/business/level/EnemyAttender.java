@@ -3,6 +3,7 @@ package ch.logixisland.anuto.business.level;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.entity.enemy.Enemy;
@@ -19,7 +20,7 @@ class EnemyAttender {
     private final EnemyListener mEnemyListener = new EnemyListener() {
         @Override
         public void enemyKilled(Enemy enemy) {
-            mScoreBoard.giveCredits(enemy.getReward());
+            mScoreBoard.giveCredits(enemy.getReward(), true);
         }
 
         @Override

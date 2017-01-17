@@ -7,7 +7,6 @@ public class ScoreBoard {
 
     private int mCredits;
     private int mCreditsEarned;
-    private int mScore;
     private int mLives;
     private int mEarlyBonus;
     private int mWaveBonus;
@@ -19,7 +18,6 @@ public class ScoreBoard {
     public synchronized void reset(int lives, int credits) {
         mCredits = credits;
         mCreditsEarned = credits;
-        mScore = 0;
         mLives = lives;
         mEarlyBonus = 0;
         mWaveBonus = 0;
@@ -29,23 +27,18 @@ public class ScoreBoard {
         bonusChanged();
     }
 
-    public synchronized void addScore(int score) {
-        mScore += score;
-    }
-
     public synchronized void takeLives(int lives) {
         mLives -= lives;
         livesChanged();
     }
 
-    public synchronized void giveCredits(int credits) {
+    public synchronized void giveCredits(int credits, boolean earned) {
         mCredits += credits;
-        mCreditsEarned += credits;
-        creditsChanged();
-    }
 
-    public synchronized void reimburseCredits(int credits) {
-        mCredits += credits;
+        if (earned) {
+            mCreditsEarned += credits;
+        }
+
         creditsChanged();
     }
 
@@ -73,7 +66,7 @@ public class ScoreBoard {
     }
 
     public int getScore() {
-        return mScore;
+        return mCreditsEarned;
     }
 
     public int getLives() {

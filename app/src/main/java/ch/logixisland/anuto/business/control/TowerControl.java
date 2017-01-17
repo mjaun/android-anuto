@@ -151,7 +151,7 @@ public class TowerControl {
 
         Tower selectedTower = mTowerSelector.getSelectedTower();
         if (selectedTower != null) {
-            mScoreBoard.reimburseCredits(selectedTower.getValue());
+            mScoreBoard.giveCredits(selectedTower.getValue(), false);
             mGameEngine.remove(selectedTower);
         }
     }

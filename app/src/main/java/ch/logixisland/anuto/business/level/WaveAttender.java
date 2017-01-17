@@ -2,6 +2,7 @@ package ch.logixisland.anuto.business.level;
 
 import java.util.List;
 
+import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.entity.enemy.EnemyFactory;
@@ -88,7 +89,7 @@ class WaveAttender {
     }
 
     void giveWaveReward() {
-        mScoreBoard.giveCredits(mWaveReward);
+        mScoreBoard.giveCredits(mWaveReward, true);
         mWaveReward = 0;
     }
 
