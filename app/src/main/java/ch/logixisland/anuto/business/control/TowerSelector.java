@@ -1,5 +1,7 @@
 package ch.logixisland.anuto.business.control;
 
+import ch.logixisland.anuto.business.manager.GameListener;
+import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.business.score.CreditsListener;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
@@ -13,6 +15,7 @@ import ch.logixisland.anuto.util.math.vector.Vector2;
 public class TowerSelector {
 
     private final GameEngine mGameEngine;
+    private final GameManager mGameManager;
     private final ScoreBoard mScoreBoard;
 
     private TowerInfoView mTowerInfoView;
@@ -47,11 +50,29 @@ public class TowerSelector {
         }
     };
 
-    public TowerSelector(GameEngine gameEngine, ScoreBoard scoreBoard) {
+    private final GameListener mGameListener = new GameListener() {
+        @Override
+        public void gameStarted() {
+            if (mTowerInfoVisible) {
+                updateTowerInfo();
+            }
+        }
+
+        @Override
+        public void gameOver() {
+            if (mTowerInfoVisible) {
+                updateTowerInfo();
+            }
+        }
+    };
+
+    public TowerSelector(GameEngine gameEngine, GameManager gameManager, ScoreBoard scoreBoard) {
         mGameEngine = gameEngine;
+        mGameManager = gameManager;
         mScoreBoard = scoreBoard;
 
         mScoreBoard.addCreditsListener(mCreditsListener);
+        mGameManager.addListener(mGameListener);
     }
 
     public void setTowerInfoView(TowerInfoView view) {
@@ -137,7 +158,10 @@ public class TowerSelector {
         }
 
         if (mTowerInfoView != null) {
-            mTowerInfoView.updateTowerInfo(new TowerInfo(mSelectedTower, mScoreBoard.getCredits()));
+            mTowerInfoView.showTowerInfo(new TowerInfo(
+                    mSelectedTower,
+                    mScoreBoard.getCredits(),
+                    mGameManager.isGameOver()));
         }
     }
 
@@ -159,7 +183,10 @@ public class TowerSelector {
 
     private void showTowerInfo() {
         if (mTowerInfoView != null) {
-            mTowerInfoView.showTowerInfo(new TowerInfo(mSelectedTower, mScoreBoard.getCredits()));
+            mTowerInfoView.showTowerInfo(new TowerInfo(
+                    mSelectedTower,
+                    mScoreBoard.getCredits(),
+                    mGameManager.isGameOver()));
         }
 
         mTowerInfoVisible = true;

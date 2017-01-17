@@ -26,9 +26,8 @@ import ch.logixisland.anuto.entity.tower.TowerProperty;
 import ch.logixisland.anuto.util.StringUtils;
 
 public class TowerInfoFragment extends Fragment implements View.OnTouchListener,
-        View.OnClickListener, GameListener, TowerInfoView {
+        View.OnClickListener, TowerInfoView {
 
-    private final GameManager mGameManager;
     private final TowerSelector mTowerSelector;
     private final TowerControl mTowerControl;
 
@@ -49,7 +48,6 @@ public class TowerInfoFragment extends Fragment implements View.OnTouchListener,
 
     public TowerInfoFragment() {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
-        mGameManager = factory.getGameManager();
         mTowerSelector = factory.getTowerSelector();
         mTowerControl = factory.getTowerControl();
     }
@@ -89,6 +87,78 @@ public class TowerInfoFragment extends Fragment implements View.OnTouchListener,
         mHandler = new Handler();
 
         return v;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mTowerSelector.setTowerInfoView(this);
+        hide();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mTowerSelector.setTowerInfoView(null);
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == btn_strategy) {
+            mTowerControl.cycleTowerStrategy();
+        }
+
+        if (v == btn_lock_target) {
+            mTowerControl.toggleLockTarget();
+        }
+
+        if (v == btn_enhance) {
+            mTowerControl.enhanceTower();
+        }
+
+        if (v == btn_upgrade) {
+            mTowerControl.upgradeTower();
+        }
+
+        if (v == btn_sell) {
+            mTowerControl.sellTower();
+        }
+    }
+
+    @Override
+    public void showTowerInfo(final TowerInfo towerInfo) {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                show();
+                refresh(towerInfo);
+            }
+        });
+    }
+
+    @Override
+    public void updateTowerInfo(final TowerInfo towerInfo) {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                refresh(towerInfo);
+            }
+        });
+    }
+
+    @Override
+    public void hideTowerInfo() {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                hide();
+            }
+        });
     }
 
     private void show() {
@@ -140,6 +210,7 @@ public class TowerInfoFragment extends Fragment implements View.OnTouchListener,
 
         btn_upgrade.setEnabled(towerInfo.isUpgradeable());
         btn_enhance.setEnabled(towerInfo.isEnhanceable());
+        btn_sell.setEnabled(towerInfo.isSellable());
 
         if (towerInfo.canLockTarget()) {
             btn_lock_target.setText(getResources().getString(R.string.lock_target) + " (" + towerInfo.doesLockTarget() + ")");
@@ -156,95 +227,5 @@ public class TowerInfoFragment extends Fragment implements View.OnTouchListener,
             btn_strategy.setText(getResources().getString(R.string.strategy));
             btn_strategy.setEnabled(false);
         }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        hide();
-
-        mGameManager.addListener(this);
-        mTowerSelector.setTowerInfoView(this);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-
-        mGameManager.removeListener(this);
-        mTowerSelector.setTowerInfoView(null);
-    }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        return true;
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v == btn_strategy) {
-            mTowerControl.cycleTowerStrategy();
-        }
-
-        if (v == btn_lock_target) {
-            mTowerControl.toggleLockTarget();
-        }
-
-        if (v == btn_enhance) {
-            mTowerControl.enhanceTower();
-        }
-
-        if (v == btn_upgrade) {
-            mTowerControl.upgradeTower();
-        }
-
-        if (v == btn_sell) {
-            mTowerControl.sellTower();
-        }
-    }
-
-    @Override
-    public void showTowerInfo(final TowerInfo towerInfo) {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                refresh(towerInfo);
-            }
-        });
-    }
-
-    @Override
-    public void updateTowerInfo(final TowerInfo towerInfo) {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                refresh(towerInfo);
-            }
-        });
-    }
-
-    @Override
-    public void hideTowerInfo() {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                hide();
-            }
-        });
-    }
-
-    @Override
-    public void gameOver() {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                hide();
-            }
-        });
-    }
-
-    @Override
-    public void gameStarted() {
-
     }
 }

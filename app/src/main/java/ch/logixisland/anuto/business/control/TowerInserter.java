@@ -94,7 +94,7 @@ public class TowerInserter {
             return;
         }
 
-        if (mInsertedTower != null) {
+        if (mInsertedTower != null && mCurrentPlateau != null) {
             mInsertedTower.setEnabled(true);
             mCurrentPlateau.setOccupant(mInsertedTower);
 

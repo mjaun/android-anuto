@@ -32,6 +32,8 @@ public class GameView extends View implements View.OnDragListener, View.OnTouchL
             mRenderer = factory.getRenderer();
             mTowerSelector = factory.getTowerSelector();
             mTowerInserter = factory.getTowerInserter();
+
+            mRenderer.setView(this);
         } else {
             mViewport = null;
             mRenderer = null;
@@ -44,12 +46,7 @@ public class GameView extends View implements View.OnDragListener, View.OnTouchL
         setOnTouchListener(this);
     }
 
-    public void start() {
-        mViewport.setScreenSize(getWidth(), getHeight());
-        mRenderer.setView(this);
-    }
-
-    public void stop() {
+    public void close() {
         mRenderer.setView(null);
     }
 

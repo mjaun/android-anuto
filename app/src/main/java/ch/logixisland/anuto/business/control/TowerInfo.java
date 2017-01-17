@@ -9,27 +9,29 @@ import ch.logixisland.anuto.entity.tower.TowerStrategy;
 
 public class TowerInfo {
 
-    private float mValue;
+    private int mValue;
     private int mLevel;
     private int mLevelMax;
     private boolean mEnhanceable;
     private int mEnhanceCost;
     private boolean mUpgradeable;
     private int mUpgradeCost;
+    private boolean mSellable;
     private boolean mCanLockTarget;
     private boolean mDoesLockTarget;
     private boolean mHasStrategy;
     private TowerStrategy mStrategy;
     private List<TowerProperty> mProperties;
 
-    public TowerInfo(Tower tower, int credits) {
+    public TowerInfo(Tower tower, int credits, boolean gameOver) {
         mValue = tower.getValue();
         mLevel = tower.getTowerLevel();
         mLevelMax = tower.getTowerLevelMax();
         mEnhanceCost = tower.getEnhanceCost();
-        mEnhanceable = tower.isEnhanceable() && mEnhanceCost <= credits;
+        mEnhanceable = tower.isEnhanceable() && mEnhanceCost <= credits && !gameOver;
         mUpgradeCost = tower.getUpgradeCost();
-        mUpgradeable = tower.isUpgradeable() && mUpgradeCost <= credits;
+        mUpgradeable = tower.isUpgradeable() && mUpgradeCost <= credits && !gameOver;
+        mSellable = !gameOver;
 
         if (tower instanceof AimingTower) {
             AimingTower aimingTower = (AimingTower)tower;
@@ -45,8 +47,12 @@ public class TowerInfo {
         mProperties = tower.getProperties();
     }
 
-    public float getValue() {
+    public int getValue() {
         return mValue;
+    }
+
+    public boolean isSellable() {
+        return mSellable;
     }
 
     public int getLevel() {

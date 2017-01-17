@@ -17,7 +17,7 @@
         android:allowBackup="false" >
 
         <activity
-            android:name=".view.game.MainActivity"
+            android:name=".view.game.GameActivity"
             android:screenOrientation="portrait">
         </activity>
         <activity android:name=".view.menu.MenuActivity"

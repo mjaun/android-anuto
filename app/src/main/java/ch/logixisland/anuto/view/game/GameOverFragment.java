@@ -3,6 +3,7 @@ package ch.logixisland.anuto.view.game;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,8 @@ public class GameOverFragment extends Fragment implements GameListener {
     private final GameManager mGameManager;
     private final ScoreBoard mScoreBoard;
 
+    private Handler mHandler;
+
     private TextView txt_game_over;
     private TextView txt_score;
 
@@ -44,38 +47,44 @@ public class GameOverFragment extends Fragment implements GameListener {
 
         txt_game_over.setTextColor(mThemeManager.getTheme().getTextColor());
         txt_score.setTextColor(mThemeManager.getTheme().getTextColor());
+
+        mHandler = new Handler();
+
         return v;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        mGameManager.addListener(this);
 
         getFragmentManager().beginTransaction()
                 .hide(this)
                 .commit();
-
-        mGameManager.addListener(this);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-
         mGameManager.removeListener(this);
     }
 
     @Override
     public void gameStarted() {
-        getFragmentManager().beginTransaction()
-                .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-                .hide(this)
-                .commit();
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                getFragmentManager().beginTransaction()
+                        .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                        .hide(GameOverFragment.this)
+                        .commit();
+            }
+        });
     }
 
     @Override
     public void gameOver() {
-        txt_game_over.post(new Runnable() {
+        mHandler.post(new Runnable() {
             @Override
             public void run() {
                 txt_game_over.setText(R.string.game_over_lost);
@@ -83,12 +92,13 @@ public class GameOverFragment extends Fragment implements GameListener {
                 DecimalFormat fmt = new DecimalFormat("###,###,###,###");
                 txt_score.setText(getResources().getString(R.string.score) +
                         ": " + fmt.format(mScoreBoard.getScore()));
+
+                getFragmentManager().beginTransaction()
+                        .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                        .show(GameOverFragment.this)
+                        .commit();
             }
         });
-
-        getFragmentManager().beginTransaction()
-                .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-                .show(this)
-                .commit();
     }
+
 }

@@ -2,6 +2,10 @@ package ch.logixisland.anuto;
 
 import android.content.Context;
 
+import org.simpleframework.xml.core.Persister;
+
+import java.io.InputStream;
+
 import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.business.level.TowerAging;
 import ch.logixisland.anuto.business.control.TowerControl;
@@ -19,6 +23,10 @@ import ch.logixisland.anuto.engine.render.theme.ThemeManager;
 import ch.logixisland.anuto.entity.enemy.EnemyFactory;
 import ch.logixisland.anuto.entity.plateau.PlateauFactory;
 import ch.logixisland.anuto.entity.tower.TowerFactory;
+import ch.logixisland.anuto.util.data.EnemySettings;
+import ch.logixisland.anuto.util.data.GameSettings;
+import ch.logixisland.anuto.util.data.LevelDescriptor;
+import ch.logixisland.anuto.util.data.TowerSettings;
 
 public class GameFactory {
 
@@ -50,18 +58,39 @@ public class GameFactory {
         mRenderer = new Renderer(mViewport, mThemeManager);
 
         mGameEngine = new GameEngine(mRenderer);
-        mPlateauFactory = new PlateauFactory();
 
         mScoreBoard = new ScoreBoard();
-        mTowerSelector = new TowerSelector(mGameEngine, mScoreBoard);
+        mPlateauFactory = new PlateauFactory();
         mLevelLoader = new LevelLoader(mGameEngine, mViewport, mScoreBoard, mPlateauFactory);
         mTowerFactory = new TowerFactory(mLevelLoader);
         mEnemyFactory = new EnemyFactory(mLevelLoader);
-        mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector, mTowerFactory);
         mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mLevelLoader, mEnemyFactory);
         mTowerAging = new TowerAging(mGameEngine, mWaveManager, mLevelLoader);
         mGameManager = new GameManager(mGameEngine, mScoreBoard, mLevelLoader, mWaveManager);
+        mTowerSelector = new TowerSelector(mGameEngine, mGameManager, mScoreBoard);
+        mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector, mTowerFactory);
         mTowerInserter = new TowerInserter(mGameEngine, mGameManager, mTowerFactory, mTowerSelector, mTowerAging, mScoreBoard);
+
+        try {
+            Persister serializer = new Persister();
+            InputStream stream;
+
+            stream = context.getResources().openRawResource(R.raw.game_settings);
+            mLevelLoader.setGameSettings(serializer.read(GameSettings.class, stream));
+
+            stream = context.getResources().openRawResource(R.raw.tower_settings);
+            mLevelLoader.setTowerSettings(serializer.read(TowerSettings.class, stream));
+
+            stream = context.getResources().openRawResource(R.raw.enemy_settings);
+            mLevelLoader.setEnemySettings(serializer.read(EnemySettings.class, stream));
+
+            stream = context.getResources().openRawResource(R.raw.level_1);
+            mLevelLoader.setLevelDescriptor(serializer.read(LevelDescriptor.class, stream));
+
+            mGameManager.restart();
+        } catch (Exception e) {
+            throw new RuntimeException("Could not load level!", e);
+        }
     }
 
     public SpriteFactory getSpriteFactory() {

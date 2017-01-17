@@ -10,7 +10,7 @@ import android.widget.Spinner;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.render.theme.Theme;
-import ch.logixisland.anuto.view.game.MainActivity;
+import ch.logixisland.anuto.view.game.GameActivity;
 
 import java.util.Map;
 
@@ -52,7 +52,7 @@ public class MenuActivity extends AppCompatActivity {
         }
         Spinner dt = (Spinner)findViewById(R.id.darktheme_dd);
 
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, GameActivity.class);
         intent.putExtra(LevelSelectFragment.SELECTED_LEVEL, levelId);
         intent.putExtra("theme", dt.getSelectedItemPosition());
         startActivity(intent);
