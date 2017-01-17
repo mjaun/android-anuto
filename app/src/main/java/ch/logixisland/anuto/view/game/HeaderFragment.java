@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.render.theme.ThemeManager;
 import ch.logixisland.anuto.util.StringUtils;
 import ch.logixisland.anuto.engine.render.theme.Theme;
+import ch.logixisland.anuto.view.menu.MenuActivity;
 
 public class HeaderFragment extends Fragment implements GameListener, WaveListener, CreditsListener,
         LivesListener, BonusListener, View.OnClickListener {
@@ -43,7 +45,7 @@ public class HeaderFragment extends Fragment implements GameListener, WaveListen
     private TextView txt_bonus;
 
     private Button btn_next_wave;
-    private Button btn_restart;
+    private Button btn_menu;
 
     private TowerView[] view_tower_x = new TowerView[4];
 
@@ -75,10 +77,10 @@ public class HeaderFragment extends Fragment implements GameListener, WaveListen
         txt_bonus.setTextColor(theme.getTextColor());
 
         btn_next_wave = (Button) v.findViewById(R.id.btn_next_wave);
-        btn_restart = (Button) v.findViewById(R.id.btn_restart);
+        btn_menu = (Button) v.findViewById(R.id.btn_menu);
 
         btn_next_wave.setOnClickListener(this);
-        btn_restart.setOnClickListener(this);
+        btn_menu.setOnClickListener(this);
 
         view_tower_x[0] = (TowerView)v.findViewById(R.id.view_tower_1);
         view_tower_x[1] = (TowerView)v.findViewById(R.id.view_tower_2);
@@ -118,30 +120,9 @@ public class HeaderFragment extends Fragment implements GameListener, WaveListen
             mWaveManager.startNextWave();
         }
 
-        if (v == btn_restart) {
-            if (mGameManager.isGameOver()) {
-                mGameManager.restart();
-            } else {
-                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case DialogInterface.BUTTON_POSITIVE:
-                                mGameManager.restart();
-                                break;
-
-                            case DialogInterface.BUTTON_NEGATIVE:
-                                break;
-                        }
-                    }
-                };
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setMessage(R.string.msg_are_you_sure)
-                        .setPositiveButton(android.R.string.yes, dialogClickListener)
-                        .setNegativeButton(android.R.string.no, dialogClickListener)
-                        .show();
-            }
+        if (v == btn_menu) {
+            Intent intent = new Intent(getActivity(), MenuActivity.class);
+            startActivity(intent);
         }
     }
 

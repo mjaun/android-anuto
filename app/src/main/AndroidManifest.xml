@@ -9,25 +9,26 @@
         android:xlargeScreens="false" />
 
     <application
-        android:name="ch.logixisland.anuto.AnutoApplication"
+        android:name=".AnutoApplication"
         android:label="@string/app_name"
         android:icon="@mipmap/icon"
-        android:theme="@style/AppTheme"
         android:hardwareAccelerated="true"
         android:allowBackup="false" >
 
         <activity
             android:name=".view.game.GameActivity"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity android:name=".view.menu.MenuActivity"
-            android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/GameTheme"
+            android:keepScreenOn="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".view.menu.MenuActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MenuTheme">
         </activity>
     </application>
 </manifest>

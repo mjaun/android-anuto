@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="@android:style/Theme.NoTitleBar.Fullscreen">
-        <!-- Customize your theme here. -->
+    <style name="GameTheme" parent="@android:style/Theme.NoTitleBar.Fullscreen">
+    </style>
+    <style name="MenuTheme" parent="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
+        <item name="android:background">#33555555</item>
     </style>
 </resources>

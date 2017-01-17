@@ -2,11 +2,14 @@
 <resources>
     <string name="app_name">Anuto TD</string>
 
+    <string name="menu">Menu</string>
     <string name="restart">Restart</string>
+    <string name="change_level">Change Level</string>
+    <string name="dark_theme">Dark Theme</string>
+    <string name="normal_theme">Normal Theme</string>
     <string name="next_wave">Next Wave</string>
 
-    <string name="game_over_lost">Game Over!</string>
-    <string name="game_over_won">You won!</string>
+    <string name="game_over">Game Over!</string>
     <string name="score">Score</string>
 
     <string name="status_credits">Credits</string>
@@ -31,10 +34,6 @@
     <string name="upgrade">Upgrade</string>
     <string name="sell">Sell</string>
 
-    <string name="msg_are_you_sure">Are you sure?</string>
-
-    <string name="select_a_level">Select a Level</string>
-    
     <string-array name="strategies">
         <item>Closest</item>
         <item>Weakest</item>
