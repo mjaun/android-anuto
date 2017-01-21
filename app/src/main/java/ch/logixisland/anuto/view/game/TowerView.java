@@ -14,6 +14,7 @@ import android.view.View;
 
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
+import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.control.TowerInserter;
 import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.business.score.CreditsListener;
@@ -45,7 +46,7 @@ public class TowerView extends View implements View.OnTouchListener, View.OnDrag
                 if (credits >= mPreviewTower.getValue()) {
                     mPaintText.setColor(mThemeManager.getTheme().getTextColor());
                 } else {
-                    mPaintText.setColor(Color.RED);
+                    mPaintText.setColor(getResources().getColor(R.color.red));
                 }
 
                 TowerView.this.postInvalidate();

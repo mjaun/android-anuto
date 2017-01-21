@@ -1,5 +1,12 @@
 package ch.logixisland.anuto.business.level;
 
+import android.content.res.Resources;
+
+import org.simpleframework.xml.core.Persister;
+
+import java.io.InputStream;
+
+import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.entity.enemy.EnemyFactory;
 import ch.logixisland.anuto.entity.plateau.PlateauFactory;
@@ -15,6 +22,7 @@ import ch.logixisland.anuto.util.data.TowerSettings;
 
 public class LevelLoader {
 
+    private final Resources mResources;
     private final GameEngine mGameEngine;
     private final Viewport mViewport;
     private final ScoreBoard mScoreBoard;
@@ -25,44 +33,68 @@ public class LevelLoader {
     private EnemySettings mEnemySettings;
     private LevelDescriptor mLevelDescriptor;
 
-    public LevelLoader(GameEngine gameEngine, Viewport viewport, ScoreBoard scoreBoard,
-                       PlateauFactory plateauFactory) {
+    public LevelLoader(Resources resources, GameEngine gameEngine, Viewport viewport,
+                       ScoreBoard scoreBoard, PlateauFactory plateauFactory) {
+        mResources = resources;
         mGameEngine = gameEngine;
         mViewport = viewport;
         mScoreBoard = scoreBoard;
         mPlateauFactory = plateauFactory;
+
+        try {
+            Persister serializer = new Persister();
+            InputStream stream;
+
+            stream = mResources.openRawResource(R.raw.game_settings);
+            mGameSettings = serializer.read(GameSettings.class, stream);
+
+            stream = mResources.openRawResource(R.raw.tower_settings);
+            mTowerSettings = serializer.read(TowerSettings.class, stream);
+
+            stream = mResources.openRawResource(R.raw.enemy_settings);
+            mEnemySettings = serializer.read(EnemySettings.class, stream);
+        } catch (Exception e) {
+            throw new RuntimeException("Could not load settings!", e);
+        }
+
+        loadLevel(R.raw.level_1);
     }
 
     public GameSettings getGameSettings() {
         return mGameSettings;
     }
 
-    public void setGameSettings(GameSettings gameSettings) {
-        mGameSettings = gameSettings;
-    }
-
     public TowerSettings getTowerSettings() {
         return mTowerSettings;
-    }
-
-    public void setTowerSettings(TowerSettings towerSettings) {
-        mTowerSettings = towerSettings;
     }
 
     public EnemySettings getEnemySettings() {
         return mEnemySettings;
     }
 
-    public void setEnemySettings(EnemySettings enemySettings) {
-        mEnemySettings = enemySettings;
-    }
-
     public LevelDescriptor getLevelDescriptor() {
         return mLevelDescriptor;
     }
 
-    public void setLevelDescriptor(LevelDescriptor levelDescriptor) {
-        mLevelDescriptor = levelDescriptor;
+    public void loadLevel(final int levelId) {
+        if (mGameEngine.isThreadChangeNeeded()) {
+            mGameEngine.post(new Runnable() {
+                @Override
+                public void run() {
+                    loadLevel(levelId);
+                }
+            });
+        }
+
+        try {
+            Persister serializer = new Persister();
+            InputStream stream;
+
+            stream = mResources.openRawResource(levelId);
+            mLevelDescriptor = serializer.read(LevelDescriptor.class, stream);
+        } catch (Exception e) {
+            throw new RuntimeException("Could not load level!", e);
+        }
     }
 
     public void reset() {

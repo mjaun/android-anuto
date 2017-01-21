@@ -61,7 +61,7 @@ public class GameFactory {
 
         mScoreBoard = new ScoreBoard();
         mPlateauFactory = new PlateauFactory();
-        mLevelLoader = new LevelLoader(mGameEngine, mViewport, mScoreBoard, mPlateauFactory);
+        mLevelLoader = new LevelLoader(context.getResources(), mGameEngine, mViewport, mScoreBoard, mPlateauFactory);
         mTowerFactory = new TowerFactory(mLevelLoader);
         mEnemyFactory = new EnemyFactory(mLevelLoader);
         mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mLevelLoader, mEnemyFactory);
@@ -71,26 +71,7 @@ public class GameFactory {
         mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector, mTowerFactory);
         mTowerInserter = new TowerInserter(mGameEngine, mGameManager, mTowerFactory, mTowerSelector, mTowerAging, mScoreBoard);
 
-        try {
-            Persister serializer = new Persister();
-            InputStream stream;
-
-            stream = context.getResources().openRawResource(R.raw.game_settings);
-            mLevelLoader.setGameSettings(serializer.read(GameSettings.class, stream));
-
-            stream = context.getResources().openRawResource(R.raw.tower_settings);
-            mLevelLoader.setTowerSettings(serializer.read(TowerSettings.class, stream));
-
-            stream = context.getResources().openRawResource(R.raw.enemy_settings);
-            mLevelLoader.setEnemySettings(serializer.read(EnemySettings.class, stream));
-
-            stream = context.getResources().openRawResource(R.raw.level_1);
-            mLevelLoader.setLevelDescriptor(serializer.read(LevelDescriptor.class, stream));
-
-            mGameManager.restart();
-        } catch (Exception e) {
-            throw new RuntimeException("Could not load level!", e);
-        }
+        mGameManager.restart();
     }
 
     public SpriteFactory getSpriteFactory() {
