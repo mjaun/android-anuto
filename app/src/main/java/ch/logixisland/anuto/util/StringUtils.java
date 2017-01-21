@@ -26,13 +26,11 @@ public final class StringUtils {
             suffix = "G";
             number /= 1e9f;
             big = true;
-        }
-        else if (number >= 1e7f) {
+        } else if (number >= 1e7f) {
             suffix = "M";
             number /= 1e6f;
             big = true;
-        }
-        else if (number >= 1e4f) {
+        } else if (number >= 1e4f) {
             suffix = "k";
             number /= 1e3f;
             big = true;

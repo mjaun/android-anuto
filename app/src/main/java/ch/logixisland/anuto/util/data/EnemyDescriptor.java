@@ -6,19 +6,19 @@ import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class EnemyDescriptor {
 
-    @Attribute(name="name")
+    @Attribute(name = "name")
     private String mName;
 
-    @Attribute(name="pathIndex", required=false)
+    @Attribute(name = "pathIndex", required = false)
     private int mPathIndex;
 
-    @Attribute(name="delay", required=false)
+    @Attribute(name = "delay", required = false)
     private float mDelay;
 
-    @Attribute(name="offsetX", required=false)
+    @Attribute(name = "offsetX", required = false)
     private float mOffsetX;
 
-    @Attribute(name="offsetY", required=false)
+    @Attribute(name = "offsetY", required = false)
     private float mOffsetY;
 
     public String getName() {

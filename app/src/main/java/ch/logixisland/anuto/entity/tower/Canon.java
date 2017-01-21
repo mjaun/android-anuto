@@ -7,12 +7,12 @@ import java.util.List;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.GameEngine;
-import ch.logixisland.anuto.entity.shot.CanonShot;
 import ch.logixisland.anuto.engine.render.Layers;
-import ch.logixisland.anuto.entity.shot.Shot;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
+import ch.logixisland.anuto.entity.shot.CanonShot;
+import ch.logixisland.anuto.entity.shot.Shot;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.data.TowerConfig;
 import ch.logixisland.anuto.util.math.function.Function;
@@ -40,11 +40,11 @@ public class Canon extends AimingTower {
 
     public Canon(TowerConfig config) {
         super(config);
-        StaticData s = (StaticData)getStaticData();
+        StaticData s = (StaticData) getStaticData();
 
         mReboundFunction = Function.sine()
                 .multiply(REBOUND_RANGE)
-                .stretch(GameEngine.TARGET_FRAME_RATE * REBOUND_DURATION / (float)Math.PI)
+                .stretch(GameEngine.TARGET_FRAME_RATE * REBOUND_DURATION / (float) Math.PI)
                 .sample();
 
         mSpriteBase = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplateBase);

@@ -3,7 +3,6 @@ package ch.logixisland.anuto.view.game;
 import android.content.ClipData;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
@@ -16,13 +15,11 @@ import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.control.TowerInserter;
-import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.business.score.CreditsListener;
 import ch.logixisland.anuto.business.score.ScoreBoard;
-import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.engine.render.theme.ThemeManager;
+import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.entity.tower.TowerFactory;
-import ch.logixisland.anuto.util.data.TowerConfig;
 
 public class TowerView extends View implements View.OnTouchListener, View.OnDragListener {
 
@@ -54,7 +51,7 @@ public class TowerView extends View implements View.OnTouchListener, View.OnDrag
         }
     };
 
-    public TowerView(Context context, AttributeSet attrs) throws ClassNotFoundException{
+    public TowerView(Context context, AttributeSet attrs) throws ClassNotFoundException {
         super(context, attrs);
 
         if (!isInEditMode()) {

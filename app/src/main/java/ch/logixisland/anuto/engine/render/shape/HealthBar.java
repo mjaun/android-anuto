@@ -4,10 +4,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.theme.ThemeManager;
+import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.math.MathUtils;
 
 public class HealthBar implements Drawable {

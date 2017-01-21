@@ -2,8 +2,8 @@ package ch.logixisland.anuto.entity.enemy;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.TickListener;
-import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.Layers;
+import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.ReplicatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.util.data.EnemyConfig;
@@ -26,7 +26,7 @@ public class Soldier extends Enemy {
 
     public Soldier(EnemyConfig config) {
         super(config);
-        StaticData s = (StaticData)getStaticData();
+        StaticData s = (StaticData) getStaticData();
 
         mSprite = getSpriteFactory().createReplication(s.mReferenceSprite);
         mSprite.setListener(this);

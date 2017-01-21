@@ -132,7 +132,7 @@ public abstract class StreamIterator<T> implements Iterator<T> {
         T minObject = null;
         float minValue = 0f;
 
-        while(this.hasNext()) {
+        while (this.hasNext()) {
             T object = this.next();
             float value = scoreFunction.apply(object);
 
@@ -149,7 +149,7 @@ public abstract class StreamIterator<T> implements Iterator<T> {
         T maxObject = null;
         float maxValue = 0f;
 
-        while(this.hasNext()) {
+        while (this.hasNext()) {
             T object = this.next();
             float value = scoreFunction.apply(object);
 

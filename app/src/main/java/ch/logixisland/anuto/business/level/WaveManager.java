@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.business.score.ScoreBoard;
+import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.entity.enemy.EnemyFactory;
 import ch.logixisland.anuto.util.data.EnemyDescriptor;
 import ch.logixisland.anuto.util.data.GameSettings;
 import ch.logixisland.anuto.util.data.WaveDescriptor;
-import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.util.math.MathUtils;
 
 public class WaveManager {
@@ -134,7 +134,7 @@ public class WaveManager {
         float modifier = settings.getEarlyModifier();
         float root = settings.getEarlyRoot();
 
-        mScoreBoard.setEarlyBonus(Math.round(modifier * (float)Math.pow(remainingReward, 1f / root)));
+        mScoreBoard.setEarlyBonus(Math.round(modifier * (float) Math.pow(remainingReward, 1f / root)));
 
         if (!mActiveWaves.isEmpty()) {
             mScoreBoard.setWaveBonus(currentWave().getWaveDescriptor().getWaveReward());
@@ -181,7 +181,7 @@ public class WaveManager {
         wave.modifyEnemyHealth(healthModifier);
 
         float rewardModifier = settings.getRewardModifier()
-                * (float)Math.pow(wave.getEnemyHealthModifier(), 1f / settings.getRewardRoot());
+                * (float) Math.pow(wave.getEnemyHealthModifier(), 1f / settings.getRewardRoot());
 
         if (rewardModifier < 1f) {
             rewardModifier = 1f;

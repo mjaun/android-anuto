@@ -2,13 +2,12 @@ package ch.logixisland.anuto.business.level;
 
 import java.util.List;
 
-import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.entity.enemy.EnemyFactory;
 import ch.logixisland.anuto.util.data.EnemyDescriptor;
 import ch.logixisland.anuto.util.data.WaveDescriptor;
-import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.math.MathUtils;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
@@ -124,7 +123,7 @@ class WaveAttender {
                 Enemy enemy = createAndConfigureEnemy(offset, descriptor);
 
                 if (extendIndex > 0 || enemyDescriptors.indexOf(descriptor) > 0) {
-                    delay += (int)descriptor.getDelay();
+                    delay += (int) descriptor.getDelay();
                 }
 
                 mEnemyAttender.addEnemy(enemy, delay);

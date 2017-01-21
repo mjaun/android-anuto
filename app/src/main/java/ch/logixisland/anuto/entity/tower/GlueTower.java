@@ -7,12 +7,12 @@ import java.util.List;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.TickTimer;
-import ch.logixisland.anuto.entity.shot.GlueShot;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteListener;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
+import ch.logixisland.anuto.entity.shot.GlueShot;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.data.TowerConfig;
 import ch.logixisland.anuto.util.iterator.Predicate;
@@ -62,7 +62,7 @@ public class GlueTower extends Tower {
         mGlueIntensity = getProperty("glueIntensity");
         mGlueDuration = getProperty("glueDuration");
 
-        StaticData s = (StaticData)getStaticData();
+        StaticData s = (StaticData) getStaticData();
 
         mSpriteBase = getSpriteFactory().createStatic(Layers.TOWER, s.mSpriteTemplateBase);
         mSpriteBase.setListener(this);

@@ -1,7 +1,5 @@
 package ch.logixisland.anuto.util.container;
 
-import android.support.annotation.NonNull;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -93,7 +91,7 @@ public class SmartIteratorCollection<T> implements Collection<T>, StreamIterable
     }
 
     @Override
-    public boolean addAll(@NonNull Collection<? extends T> collection) {
+    public boolean addAll(Collection<? extends T> collection) {
         return mItems.addAll(collection);
     }
 
@@ -112,7 +110,7 @@ public class SmartIteratorCollection<T> implements Collection<T>, StreamIterable
     }
 
     @Override
-    public boolean containsAll(@NonNull Collection<?> collection) {
+    public boolean containsAll(Collection<?> collection) {
         return mItems.containsAll(collection);
     }
 
@@ -121,7 +119,6 @@ public class SmartIteratorCollection<T> implements Collection<T>, StreamIterable
         return mItems.isEmpty();
     }
 
-    @NonNull
     @Override
     public StreamIterator<T> iterator() {
         return new SmartIterator();
@@ -141,7 +138,7 @@ public class SmartIteratorCollection<T> implements Collection<T>, StreamIterable
     }
 
     @Override
-    public boolean removeAll(@NonNull Collection<?> collection) {
+    public boolean removeAll(Collection<?> collection) {
         boolean ret = false;
 
         for (Object item : collection) {
@@ -154,7 +151,7 @@ public class SmartIteratorCollection<T> implements Collection<T>, StreamIterable
     }
 
     @Override
-    public boolean retainAll(@NonNull Collection<?> collection) {
+    public boolean retainAll(Collection<?> collection) {
         boolean ret = false;
 
         for (T item : this) {
@@ -172,15 +169,13 @@ public class SmartIteratorCollection<T> implements Collection<T>, StreamIterable
         return mItems.size();
     }
 
-    @NonNull
     @Override
     public Object[] toArray() {
         return mItems.toArray();
     }
 
-    @NonNull
     @Override
-    public <T1> T1[] toArray(@NonNull T1[] array) {
+    public <T1> T1[] toArray(T1[] array) {
         //noinspection SuspiciousToArrayCall
         return mItems.toArray(array);
     }

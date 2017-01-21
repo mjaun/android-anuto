@@ -30,8 +30,8 @@ public class MenuActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        btn_restart = (Button)findViewById(R.id.btn_restart);
-        btn_change_level = (Button)findViewById(R.id.btn_change_level);
+        btn_restart = (Button) findViewById(R.id.btn_restart);
+        btn_change_level = (Button) findViewById(R.id.btn_change_level);
 
         btn_restart.setOnClickListener(this);
         btn_change_level.setOnClickListener(this);

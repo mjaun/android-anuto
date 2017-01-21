@@ -19,7 +19,7 @@ public final class Intersections {
 
         Vector2[] ret = new Vector2[2];
 
-        discriminant = (float)Math.sqrt(discriminant);
+        discriminant = (float) Math.sqrt(discriminant);
 
         ret[0] = new Vector2(
                 (D * d.y + MathUtils.sign(d.y) * d.x * discriminant) / dr2,

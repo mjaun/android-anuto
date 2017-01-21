@@ -6,13 +6,13 @@ import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class PlateauDescriptor {
 
-    @Attribute(name="name")
+    @Attribute(name = "name")
     private String mName;
 
-    @Attribute(name="x")
+    @Attribute(name = "x")
     private float mX;
 
-    @Attribute(name="y")
+    @Attribute(name = "y")
     private float mY;
 
     public String getName() {

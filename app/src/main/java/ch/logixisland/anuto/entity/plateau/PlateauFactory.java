@@ -1,7 +1,6 @@
 package ch.logixisland.anuto.entity.plateau;
 
 import ch.logixisland.anuto.util.GenericFactory;
-import ch.logixisland.anuto.util.data.PlateauDescriptor;
 
 public class PlateauFactory {
 

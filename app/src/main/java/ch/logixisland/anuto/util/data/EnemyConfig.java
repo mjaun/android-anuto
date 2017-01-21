@@ -13,25 +13,25 @@ import java.util.Map;
 
 public class EnemyConfig {
 
-    @Element(name="name")
+    @Element(name = "name")
     private String mName;
 
-    @Element(name="health")
+    @Element(name = "health")
     private float mHealth;
 
-    @Element(name="speed")
+    @Element(name = "speed")
     private float mSpeed;
 
-    @Element(name="reward")
+    @Element(name = "reward")
     private int mReward;
 
-    @ElementList(entry="weakAgainst", inline=true, required=false)
+    @ElementList(entry = "weakAgainst", inline = true, required = false)
     private List<WeaponType> mWeakAgainst = new ArrayList<>();
 
-    @ElementList(entry="strongAgainst", inline=true, required=false)
+    @ElementList(entry = "strongAgainst", inline = true, required = false)
     private List<WeaponType> mStrongAgainst = new ArrayList<>();
 
-    @ElementMap(entry="property", key="name", inline=true, required=false, attribute=true)
+    @ElementMap(entry = "property", key = "name", inline = true, required = false, attribute = true)
     private Map<String, Float> mProperties = new HashMap<>();
 
     public String getName() {

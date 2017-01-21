@@ -5,13 +5,13 @@ import android.graphics.Paint;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.GameEngine;
-import ch.logixisland.anuto.entity.Entity;
-import ch.logixisland.anuto.entity.enemy.Enemy;
-import ch.logixisland.anuto.entity.enemy.Flyer;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
+import ch.logixisland.anuto.entity.Entity;
+import ch.logixisland.anuto.entity.enemy.Enemy;
+import ch.logixisland.anuto.entity.enemy.Flyer;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
@@ -36,9 +36,9 @@ public class GlueEffect extends AreaEffect {
 
         mIntensity = intensity;
         mAngle = RandomUtils.next(360f);
-        mAlphaStep = (int)(ALPHA_START / (GameEngine.TARGET_FRAME_RATE * duration));
+        mAlphaStep = (int) (ALPHA_START / (GameEngine.TARGET_FRAME_RATE * duration));
 
-        StaticData s = (StaticData)getStaticData();
+        StaticData s = (StaticData) getStaticData();
 
         mSprite = getSpriteFactory().createStatic(Layers.BOTTOM, s.mSpriteTemplate);
         mSprite.setListener(this);

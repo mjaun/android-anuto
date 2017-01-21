@@ -42,7 +42,9 @@ public class Theme {
     //public static  int textBackgroundColor = Color.BLACK;
     //public static  int HEALTHBARBD = Color.DKGRAY;
 
-    public int resourceMap(int id) { return id; }
+    public int resourceMap(int id) {
+        return id;
+    }
 
 
     public int getAltBackgroundColor() {
@@ -52,8 +54,9 @@ public class Theme {
     public static int getDefaultTheme() {
         return 0;
     }
-    public static Map<Integer,String> getThemes() {
-        Map<Integer,String> themes = new LinkedHashMap<>();
+
+    public static Map<Integer, String> getThemes() {
+        Map<Integer, String> themes = new LinkedHashMap<>();
         themes.put(0, "Original");
         themes.put(1, "Dark");
         return themes;

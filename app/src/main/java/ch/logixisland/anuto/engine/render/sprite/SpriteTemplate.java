@@ -34,7 +34,7 @@ public class SpriteTemplate {
     }
 
     public void setMatrix(Float width, Float height, Vector2 center, Float rotate) {
-        float aspect = (float)mBitmaps.get(0).getWidth() / mBitmaps.get(0).getHeight();
+        float aspect = (float) mBitmaps.get(0).getWidth() / mBitmaps.get(0).getHeight();
 
         if (width == null && height == null) {
             height = 1f;

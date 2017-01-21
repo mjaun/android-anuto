@@ -9,25 +9,25 @@ import java.util.List;
 
 public class WaveDescriptor {
 
-    @ElementList(name="enemies", entry="enemy")
+    @ElementList(name = "enemies", entry = "enemy")
     private List<EnemyDescriptor> mEnemies = new ArrayList<>();
 
-    @Element(name="waveReward", required=false)
+    @Element(name = "waveReward", required = false)
     private int mWaveReward = 0;
 
-    @Element(name="healthModifier", required=false)
+    @Element(name = "healthModifier", required = false)
     private float mHealthModifier = 1f;
 
-    @Element(name="rewardModifier", required=false)
+    @Element(name = "rewardModifier", required = false)
     private float mRewardModifier = 1f;
 
-    @Element(name="extend", required=false)
+    @Element(name = "extend", required = false)
     private int mExtend = 0;
 
-    @Element(name="maxExtend", required=false)
+    @Element(name = "maxExtend", required = false)
     private int mMaxExtend = 0;
 
-    @Element(name="nextWaveDelay", required=false)
+    @Element(name = "nextWaveDelay", required = false)
     private float mNextWaveDelay = 10;
 
     public List<EnemyDescriptor> getEnemies() {

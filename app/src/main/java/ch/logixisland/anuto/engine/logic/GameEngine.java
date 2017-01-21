@@ -6,9 +6,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import ch.logixisland.anuto.entity.Entity;
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Renderer;
+import ch.logixisland.anuto.entity.Entity;
 import ch.logixisland.anuto.util.container.SmartIteratorCollection;
 import ch.logixisland.anuto.util.container.SparseCollectionArray;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
@@ -112,7 +112,7 @@ public class GameEngine implements Runnable {
     }
 
     public void postDelayed(Runnable runnable, float delay) {
-        mMessageQueue.post(runnable, (int)(delay * TARGET_FRAME_RATE));
+        mMessageQueue.post(runnable, (int) (delay * TARGET_FRAME_RATE));
     }
 
     public boolean isThreadChangeNeeded() {
@@ -140,7 +140,7 @@ public class GameEngine implements Runnable {
                 }
 
                 timeCurrent = System.currentTimeMillis();
-                int sleepTime = (int)(timeNextTick - timeCurrent);
+                int sleepTime = (int) (timeNextTick - timeCurrent);
 
                 if (sleepTime > 0) {
                     Thread.sleep(sleepTime);

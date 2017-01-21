@@ -12,7 +12,9 @@ public class ThemeManager {
         setTheme(Theme.getTheme(dt));
     }
 
-    public Theme getTheme() { return mTheme; }
+    public Theme getTheme() {
+        return mTheme;
+    }
 
     public void setTheme(Theme theme) {
         mTheme = theme;

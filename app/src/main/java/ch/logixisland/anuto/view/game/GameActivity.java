@@ -1,18 +1,14 @@
 package ch.logixisland.anuto.view.game;
 
 import android.app.Activity;
-import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
 import android.view.KeyEvent;
-import android.view.WindowManager;
 
 import ch.logixisland.anuto.AnutoApplication;
+import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.control.TowerSelector;
-import ch.logixisland.anuto.business.level.LevelLoader;
 import ch.logixisland.anuto.engine.logic.GameEngine;
-import ch.logixisland.anuto.GameFactory;
-import ch.logixisland.anuto.business.manager.GameManager;
 
 public class GameActivity extends Activity {
 
@@ -32,7 +28,7 @@ public class GameActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        view_tower_defense = (GameView)findViewById(R.id.view_tower_defense);
+        view_tower_defense = (GameView) findViewById(R.id.view_tower_defense);
     }
 
     @Override

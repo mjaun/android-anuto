@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class TowerSettings {
 
-    @ElementList(entry="tower", inline=true)
+    @ElementList(entry = "tower", inline = true)
     private List<TowerConfig> mTowerConfigList = new ArrayList<>();
     private Map<String, TowerConfig> mTowerConfigMap = new HashMap<>();
 

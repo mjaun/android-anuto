@@ -2,31 +2,23 @@ package ch.logixisland.anuto;
 
 import android.content.Context;
 
-import org.simpleframework.xml.core.Persister;
-
-import java.io.InputStream;
-
-import ch.logixisland.anuto.business.manager.GameManager;
-import ch.logixisland.anuto.business.level.TowerAging;
 import ch.logixisland.anuto.business.control.TowerControl;
 import ch.logixisland.anuto.business.control.TowerInserter;
 import ch.logixisland.anuto.business.control.TowerSelector;
 import ch.logixisland.anuto.business.level.LevelLoader;
+import ch.logixisland.anuto.business.level.TowerAging;
 import ch.logixisland.anuto.business.level.WaveManager;
+import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Renderer;
+import ch.logixisland.anuto.engine.render.Viewport;
 import ch.logixisland.anuto.engine.render.shape.ShapeFactory;
 import ch.logixisland.anuto.engine.render.sprite.SpriteFactory;
-import ch.logixisland.anuto.engine.render.Viewport;
 import ch.logixisland.anuto.engine.render.theme.ThemeManager;
 import ch.logixisland.anuto.entity.enemy.EnemyFactory;
 import ch.logixisland.anuto.entity.plateau.PlateauFactory;
 import ch.logixisland.anuto.entity.tower.TowerFactory;
-import ch.logixisland.anuto.util.data.EnemySettings;
-import ch.logixisland.anuto.util.data.GameSettings;
-import ch.logixisland.anuto.util.data.LevelDescriptor;
-import ch.logixisland.anuto.util.data.TowerSettings;
 
 public class GameFactory {
 

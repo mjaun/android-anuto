@@ -5,11 +5,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import ch.logixisland.anuto.engine.logic.GameEngine;
-import ch.logixisland.anuto.entity.Types;
-import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.Drawable;
-import ch.logixisland.anuto.entity.enemy.Enemy;
+import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.entity.Entity;
+import ch.logixisland.anuto.entity.Types;
+import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
@@ -19,7 +19,7 @@ public class LaserStraight extends Effect {
 
     private final static float EFFECT_DURATION = 0.5f;
     private final static int ALPHA_START = 180;
-    private final static int ALPHA_STEP = (int)(ALPHA_START / (GameEngine.TARGET_FRAME_RATE * EFFECT_DURATION));
+    private final static int ALPHA_STEP = (int) (ALPHA_START / (GameEngine.TARGET_FRAME_RATE * EFFECT_DURATION));
 
     private class LaserDrawable implements Drawable {
         private Paint mPaint;

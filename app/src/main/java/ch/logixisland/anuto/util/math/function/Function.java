@@ -37,7 +37,7 @@ public abstract class Function {
         return new Function() {
             @Override
             public float calculate(float input) {
-                return (float)Math.sin(input);
+                return (float) Math.sin(input);
             }
         };
     }

@@ -73,6 +73,6 @@ public abstract class AreaEffect extends Effect implements EntityListener {
     public void entityRemoved(Entity obj) {
         obj.removeListener(this);
         mAffectedEnemies.remove(obj);
-        enemyExit((Enemy)obj);
+        enemyExit((Enemy) obj);
     }
 }

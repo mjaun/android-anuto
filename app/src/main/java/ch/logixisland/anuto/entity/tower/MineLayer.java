@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.entity.EntityListener;
-import ch.logixisland.anuto.entity.shot.Mine;
-import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.Layers;
-import ch.logixisland.anuto.entity.Entity;
+import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
+import ch.logixisland.anuto.entity.Entity;
+import ch.logixisland.anuto.entity.EntityListener;
+import ch.logixisland.anuto.entity.shot.Mine;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.data.TowerConfig;
 import ch.logixisland.anuto.util.math.vector.Line;
@@ -46,7 +46,7 @@ public class MineLayer extends Tower {
 
     public MineLayer(TowerConfig config) {
         super(config);
-        StaticData s = (StaticData)getStaticData();
+        StaticData s = (StaticData) getStaticData();
 
         mSprite = getSpriteFactory().createAnimated(Layers.TOWER_BASE, s.mSpriteTemplate);
         mSprite.setListener(this);
@@ -54,7 +54,7 @@ public class MineLayer extends Tower {
         mSprite.setInterval(ANIMATION_DURATION);
 
         mAngle = RandomUtils.next(360f);
-        mMaxMineCount = (int)getProperty("maxMineCount");
+        mMaxMineCount = (int) getProperty("maxMineCount");
         mExplosionRadius = getProperty("explosionRadius");
     }
 

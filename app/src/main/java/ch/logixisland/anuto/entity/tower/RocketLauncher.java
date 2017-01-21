@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.entity.shot.Rocket;
-import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.logic.TickTimer;
+import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
+import ch.logixisland.anuto.entity.shot.Rocket;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.data.TowerConfig;
 
@@ -34,7 +34,7 @@ public class RocketLauncher extends AimingTower {
 
     public RocketLauncher(TowerConfig config) {
         super(config);
-        StaticData s = (StaticData)getStaticData();
+        StaticData s = (StaticData) getStaticData();
 
         mSprite = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplate);
         mSprite.setListener(this);

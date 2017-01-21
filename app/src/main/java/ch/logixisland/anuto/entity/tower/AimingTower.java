@@ -111,7 +111,7 @@ public abstract class AimingTower extends Tower {
             case Last:
                 setTarget(getPossibleTargets().max(Enemy.distanceRemaining()));
         }
-     }
+    }
 
     private void targetLost() {
         setTarget(null);

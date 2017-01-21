@@ -4,9 +4,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Layers;
+import ch.logixisland.anuto.entity.tower.Tower;
 
 public class RangeIndicator implements Drawable {
 

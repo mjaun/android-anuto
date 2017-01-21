@@ -3,7 +3,6 @@ package ch.logixisland.anuto.business.level;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.entity.enemy.Enemy;

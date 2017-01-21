@@ -5,15 +5,15 @@ import android.graphics.Canvas;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickTimer;
-import ch.logixisland.anuto.entity.Entity;
-import ch.logixisland.anuto.entity.Types;
-import ch.logixisland.anuto.entity.effect.Explosion;
-import ch.logixisland.anuto.entity.enemy.Flyer;
 import ch.logixisland.anuto.engine.render.Layers;
-import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
+import ch.logixisland.anuto.entity.Entity;
+import ch.logixisland.anuto.entity.Types;
+import ch.logixisland.anuto.entity.effect.Explosion;
+import ch.logixisland.anuto.entity.enemy.Enemy;
+import ch.logixisland.anuto.entity.enemy.Flyer;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
@@ -60,10 +60,10 @@ public class Mine extends Shot {
 
         mRotationStep = RandomUtils.next(ROTATION_RATE_MIN, ROTATION_RATE_MAX) * 360f / GameEngine.TARGET_FRAME_RATE;
 
-        StaticData s = (StaticData)getStaticData();
+        StaticData s = (StaticData) getStaticData();
 
-        float x1 = (float)Math.sqrt(HEIGHT_SCALING_PEAK - HEIGHT_SCALING_START);
-        float x2 = (float)Math.sqrt(HEIGHT_SCALING_PEAK - HEIGHT_SCALING_STOP);
+        float x1 = (float) Math.sqrt(HEIGHT_SCALING_PEAK - HEIGHT_SCALING_START);
+        float x2 = (float) Math.sqrt(HEIGHT_SCALING_PEAK - HEIGHT_SCALING_STOP);
         mHeightScalingFunction = Function.quadratic()
                 .multiply(-1f)
                 .offset(HEIGHT_SCALING_PEAK)

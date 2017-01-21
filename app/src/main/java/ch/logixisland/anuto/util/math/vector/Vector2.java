@@ -4,12 +4,12 @@ import org.simpleframework.xml.Attribute;
 
 public class Vector2 {
 
-    private static final float TO_RADIANS = (float)Math.PI / 180f;
-    private static final float TO_DEGREES = 180f / (float)Math.PI;
+    private static final float TO_RADIANS = (float) Math.PI / 180f;
+    private static final float TO_DEGREES = 180f / (float) Math.PI;
 
     public static Vector2 polar(float length, float angle) {
-        return new Vector2((float)Math.cos(angle * TO_RADIANS) * length,
-                (float)Math.sin(angle * TO_RADIANS) * length);
+        return new Vector2((float) Math.cos(angle * TO_RADIANS) * length,
+                (float) Math.sin(angle * TO_RADIANS) * length);
     }
 
     public static Vector2 fromTo(Vector2 p1, Vector2 p2) {
@@ -28,10 +28,10 @@ public class Vector2 {
         return ret;
     }
 
-    @Attribute(name="x")
+    @Attribute(name = "x")
     public float x;
 
-    @Attribute(name="y")
+    @Attribute(name = "y")
     public float y;
 
     public Vector2() {
@@ -84,7 +84,7 @@ public class Vector2 {
     }
 
     public float len() {
-        return (float)Math.sqrt(x * x + y * y);
+        return (float) Math.sqrt(x * x + y * y);
     }
 
     public float len2() {
@@ -111,7 +111,7 @@ public class Vector2 {
     }
 
     public float angle() {
-        return (float)Math.atan2(y, x) * TO_DEGREES;
+        return (float) Math.atan2(y, x) * TO_DEGREES;
     }
 
 }

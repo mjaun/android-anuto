@@ -1,9 +1,7 @@
 package ch.logixisland.anuto.view.game;
 
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,19 +12,19 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import ch.logixisland.anuto.AnutoApplication;
-import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.GameFactory;
-import ch.logixisland.anuto.business.manager.GameListener;
-import ch.logixisland.anuto.business.manager.GameManager;
+import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.level.WaveListener;
 import ch.logixisland.anuto.business.level.WaveManager;
+import ch.logixisland.anuto.business.manager.GameListener;
+import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.business.score.BonusListener;
 import ch.logixisland.anuto.business.score.CreditsListener;
 import ch.logixisland.anuto.business.score.LivesListener;
 import ch.logixisland.anuto.business.score.ScoreBoard;
+import ch.logixisland.anuto.engine.render.theme.Theme;
 import ch.logixisland.anuto.engine.render.theme.ThemeManager;
 import ch.logixisland.anuto.util.StringUtils;
-import ch.logixisland.anuto.engine.render.theme.Theme;
 import ch.logixisland.anuto.view.menu.MenuActivity;
 
 public class HeaderFragment extends Fragment implements GameListener, WaveListener, CreditsListener,
@@ -82,10 +80,10 @@ public class HeaderFragment extends Fragment implements GameListener, WaveListen
         btn_next_wave.setOnClickListener(this);
         btn_menu.setOnClickListener(this);
 
-        view_tower_x[0] = (TowerView)v.findViewById(R.id.view_tower_1);
-        view_tower_x[1] = (TowerView)v.findViewById(R.id.view_tower_2);
-        view_tower_x[2] = (TowerView)v.findViewById(R.id.view_tower_3);
-        view_tower_x[3] = (TowerView)v.findViewById(R.id.view_tower_4);
+        view_tower_x[0] = (TowerView) v.findViewById(R.id.view_tower_1);
+        view_tower_x[1] = (TowerView) v.findViewById(R.id.view_tower_2);
+        view_tower_x[2] = (TowerView) v.findViewById(R.id.view_tower_3);
+        view_tower_x[3] = (TowerView) v.findViewById(R.id.view_tower_4);
 
         return v;
     }

@@ -5,8 +5,8 @@ import android.graphics.Canvas;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickListener;
-import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.Layers;
+import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.ReplicatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
@@ -36,7 +36,7 @@ public class Sprinter extends Enemy {
 
     public Sprinter(EnemyConfig config) {
         super(config);
-        mStatic = (StaticData)getStaticData();
+        mStatic = (StaticData) getStaticData();
 
         mSprite = getSpriteFactory().createReplication(mStatic.mReferenceSprite);
         mSprite.setListener(this);
@@ -51,8 +51,8 @@ public class Sprinter extends Enemy {
         s.mSpeedFunction = Function.sine()
                 .multiply(getConfigSpeed() * 0.9f)
                 .offset(getConfigSpeed() * 0.1f)
-                .repeat((float)Math.PI)
-                .stretch(GameEngine.TARGET_FRAME_RATE / ANIMATION_SPEED / (float)Math.PI)
+                .repeat((float) Math.PI)
+                .stretch(GameEngine.TARGET_FRAME_RATE / ANIMATION_SPEED / (float) Math.PI)
                 .sample();
 
         s.mSpriteTemplate = getSpriteFactory().createTemplate(R.drawable.sprinter, 6);

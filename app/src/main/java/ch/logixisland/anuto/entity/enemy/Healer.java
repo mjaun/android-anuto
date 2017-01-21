@@ -5,13 +5,13 @@ import android.graphics.Canvas;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickListener;
-import ch.logixisland.anuto.entity.effect.HealEffect;
-import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
-import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.logic.TickTimer;
+import ch.logixisland.anuto.engine.render.Layers;
+import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.ReplicatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
+import ch.logixisland.anuto.entity.effect.HealEffect;
 import ch.logixisland.anuto.util.data.EnemyConfig;
 import ch.logixisland.anuto.util.math.function.Function;
 import ch.logixisland.anuto.util.math.function.SampledFunction;
@@ -75,7 +75,7 @@ public class Healer extends Enemy {
 
     public Healer(EnemyConfig config) {
         super(config);
-        mStatic = (StaticData)getStaticData();
+        mStatic = (StaticData) getStaticData();
 
         mSprite = getSpriteFactory().createReplication(mStatic.mReferenceSprite);
         mSprite.setListener(this);

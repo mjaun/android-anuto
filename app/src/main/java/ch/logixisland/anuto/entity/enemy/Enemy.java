@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.engine.logic.GameEngine;
-import ch.logixisland.anuto.entity.Entity;
-import ch.logixisland.anuto.entity.tower.Tower;
-import ch.logixisland.anuto.entity.Types;
-import ch.logixisland.anuto.util.data.EnemyConfig;
 import ch.logixisland.anuto.engine.render.shape.HealthBar;
+import ch.logixisland.anuto.entity.Entity;
+import ch.logixisland.anuto.entity.Types;
+import ch.logixisland.anuto.entity.tower.Tower;
+import ch.logixisland.anuto.util.data.EnemyConfig;
 import ch.logixisland.anuto.util.iterator.Function;
 import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.math.vector.Vector2;
@@ -236,7 +236,7 @@ public abstract class Enemy extends Entity {
 
     public void damage(float dmg, Entity origin) {
         if (origin != null && origin instanceof Tower) {
-            Tower originTower = (Tower)origin;
+            Tower originTower = (Tower) origin;
 
             if (mConfig.getStrongAgainst().contains(originTower.getWeaponType())) {
                 dmg *= getGameSettings().getStrongAgainstModifier();

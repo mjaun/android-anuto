@@ -34,7 +34,7 @@ public class TowerInfo {
         mSellable = !gameOver;
 
         if (tower instanceof AimingTower) {
-            AimingTower aimingTower = (AimingTower)tower;
+            AimingTower aimingTower = (AimingTower) tower;
             mCanLockTarget = true;
             mDoesLockTarget = aimingTower.doesLockTarget();
             mHasStrategy = true;

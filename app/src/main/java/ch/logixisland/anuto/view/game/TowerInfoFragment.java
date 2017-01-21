@@ -14,12 +14,10 @@ import android.widget.TextView;
 import java.util.List;
 
 import ch.logixisland.anuto.AnutoApplication;
-import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.GameFactory;
-import ch.logixisland.anuto.business.control.TowerInfo;
-import ch.logixisland.anuto.business.manager.GameListener;
-import ch.logixisland.anuto.business.manager.GameManager;
+import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.control.TowerControl;
+import ch.logixisland.anuto.business.control.TowerInfo;
 import ch.logixisland.anuto.business.control.TowerInfoView;
 import ch.logixisland.anuto.business.control.TowerSelector;
 import ch.logixisland.anuto.entity.tower.TowerProperty;
@@ -56,25 +54,25 @@ public class TowerInfoFragment extends Fragment implements View.OnTouchListener,
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_tower_info, container, false);
 
-        txt_level = (TextView)v.findViewById(R.id.txt_level);
-        txt_property[0] = (TextView)v.findViewById(R.id.txt_property1);
-        txt_property[1] = (TextView)v.findViewById(R.id.txt_property2);
-        txt_property[2] = (TextView)v.findViewById(R.id.txt_property3);
-        txt_property[3] = (TextView)v.findViewById(R.id.txt_property4);
-        txt_property[4] = (TextView)v.findViewById(R.id.txt_property5);
+        txt_level = (TextView) v.findViewById(R.id.txt_level);
+        txt_property[0] = (TextView) v.findViewById(R.id.txt_property1);
+        txt_property[1] = (TextView) v.findViewById(R.id.txt_property2);
+        txt_property[2] = (TextView) v.findViewById(R.id.txt_property3);
+        txt_property[3] = (TextView) v.findViewById(R.id.txt_property4);
+        txt_property[4] = (TextView) v.findViewById(R.id.txt_property5);
 
-        txt_level_text = (TextView)v.findViewById(R.id.txt_level_text);
-        txt_property_text[0] = (TextView)v.findViewById(R.id.txt_property_text1);
-        txt_property_text[1] = (TextView)v.findViewById(R.id.txt_property_text2);
-        txt_property_text[2] = (TextView)v.findViewById(R.id.txt_property_text3);
-        txt_property_text[3] = (TextView)v.findViewById(R.id.txt_property_text4);
-        txt_property_text[4] = (TextView)v.findViewById(R.id.txt_property_text5);
+        txt_level_text = (TextView) v.findViewById(R.id.txt_level_text);
+        txt_property_text[0] = (TextView) v.findViewById(R.id.txt_property_text1);
+        txt_property_text[1] = (TextView) v.findViewById(R.id.txt_property_text2);
+        txt_property_text[2] = (TextView) v.findViewById(R.id.txt_property_text3);
+        txt_property_text[3] = (TextView) v.findViewById(R.id.txt_property_text4);
+        txt_property_text[4] = (TextView) v.findViewById(R.id.txt_property_text5);
 
-        btn_strategy = (Button)v.findViewById(R.id.btn_strategy);
-        btn_lock_target = (Button)v.findViewById(R.id.btn_lock_target);
-        btn_upgrade = (Button)v.findViewById(R.id.btn_upgrade);
-        btn_enhance = (Button)v.findViewById(R.id.btn_enhance);
-        btn_sell = (Button)v.findViewById(R.id.btn_sell);
+        btn_strategy = (Button) v.findViewById(R.id.btn_strategy);
+        btn_lock_target = (Button) v.findViewById(R.id.btn_lock_target);
+        btn_upgrade = (Button) v.findViewById(R.id.btn_upgrade);
+        btn_enhance = (Button) v.findViewById(R.id.btn_enhance);
+        btn_sell = (Button) v.findViewById(R.id.btn_sell);
 
         btn_strategy.setOnClickListener(this);
         btn_lock_target.setOnClickListener(this);

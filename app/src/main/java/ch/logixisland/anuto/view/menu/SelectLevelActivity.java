@@ -2,7 +2,6 @@ package ch.logixisland.anuto.view.menu;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.media.session.IMediaControllerCallback;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.HorizontalScrollView;
@@ -45,9 +44,9 @@ public class SelectLevelActivity extends Activity implements View.OnClickListene
         setupLevelButton(R.id.btn_level_3, R.raw.level_3);
         setupLevelButton(R.id.btn_level_4, R.raw.level_4);
 
-        scroll_view = (HorizontalScrollView)findViewById(R.id.scroll_view);
-        arrow_left = (ImageView)findViewById(R.id.arrow_left);
-        arrow_right = (ImageView)findViewById(R.id.arrow_right);
+        scroll_view = (HorizontalScrollView) findViewById(R.id.scroll_view);
+        arrow_left = (ImageView) findViewById(R.id.arrow_left);
+        arrow_right = (ImageView) findViewById(R.id.arrow_right);
 
         scroll_view.setOnTouchListener(this);
         scroll_view.post(new Runnable() {
@@ -78,7 +77,7 @@ public class SelectLevelActivity extends Activity implements View.OnClickListene
     }
 
     private void setupLevelButton(int buttonId, int levelId) {
-        ImageButton button = (ImageButton)findViewById(buttonId);
+        ImageButton button = (ImageButton) findViewById(buttonId);
         mLevelButtons.put(button, levelId);
         button.setOnClickListener(this);
     }

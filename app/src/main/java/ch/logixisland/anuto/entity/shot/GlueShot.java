@@ -2,11 +2,11 @@ package ch.logixisland.anuto.entity.shot;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.GameEngine;
-import ch.logixisland.anuto.entity.effect.GlueEffect;
-import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.Layers;
-import ch.logixisland.anuto.entity.Entity;
+import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
+import ch.logixisland.anuto.entity.Entity;
+import ch.logixisland.anuto.entity.effect.GlueEffect;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public class GlueShot extends Shot {
@@ -35,7 +35,7 @@ public class GlueShot extends Shot {
         mIntensity = intensity;
         mDuration = duration;
 
-        StaticData s = (StaticData)getStaticData();
+        StaticData s = (StaticData) getStaticData();
 
         mSprite = getSpriteFactory().createAnimated(Layers.SHOT, s.mSpriteTemplate);
         mSprite.setListener(this);

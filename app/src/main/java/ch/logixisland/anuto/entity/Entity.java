@@ -6,14 +6,14 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.AnutoApplication;
-import ch.logixisland.anuto.util.data.GameSettings;
-import ch.logixisland.anuto.util.data.LevelDescriptor;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickListener;
 import ch.logixisland.anuto.engine.render.shape.ShapeFactory;
 import ch.logixisland.anuto.engine.render.sprite.SpriteFactory;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteListener;
+import ch.logixisland.anuto.util.data.GameSettings;
+import ch.logixisland.anuto.util.data.LevelDescriptor;
 import ch.logixisland.anuto.util.iterator.Function;
 import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.math.vector.Vector2;

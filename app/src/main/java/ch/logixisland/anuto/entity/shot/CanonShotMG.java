@@ -3,13 +3,13 @@ package ch.logixisland.anuto.entity.shot;
 import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.engine.render.Layers;
-import ch.logixisland.anuto.entity.enemy.Enemy;
-import ch.logixisland.anuto.entity.Entity;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
+import ch.logixisland.anuto.entity.Entity;
+import ch.logixisland.anuto.entity.Types;
+import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
@@ -36,7 +36,7 @@ public class CanonShotMG extends Shot {
         mAngle = direction.angle();
         mDamage = damage;
 
-        StaticData s = (StaticData)getStaticData();
+        StaticData s = (StaticData) getStaticData();
 
         mSprite = getSpriteFactory().createStatic(Layers.SHOT, s.mSpriteTemplate);
         mSprite.setListener(this);

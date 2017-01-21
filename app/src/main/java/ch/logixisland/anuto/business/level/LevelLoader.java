@@ -8,16 +8,14 @@ import java.io.InputStream;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.score.ScoreBoard;
-import ch.logixisland.anuto.entity.enemy.EnemyFactory;
+import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.engine.render.Viewport;
+import ch.logixisland.anuto.entity.plateau.Plateau;
 import ch.logixisland.anuto.entity.plateau.PlateauFactory;
-import ch.logixisland.anuto.entity.tower.TowerFactory;
 import ch.logixisland.anuto.util.data.EnemySettings;
+import ch.logixisland.anuto.util.data.GameSettings;
 import ch.logixisland.anuto.util.data.LevelDescriptor;
 import ch.logixisland.anuto.util.data.PlateauDescriptor;
-import ch.logixisland.anuto.util.data.GameSettings;
-import ch.logixisland.anuto.engine.logic.GameEngine;
-import ch.logixisland.anuto.entity.plateau.Plateau;
-import ch.logixisland.anuto.engine.render.Viewport;
 import ch.logixisland.anuto.util.data.TowerSettings;
 
 public class LevelLoader {

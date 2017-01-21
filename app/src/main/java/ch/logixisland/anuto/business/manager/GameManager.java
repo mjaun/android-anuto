@@ -3,14 +3,11 @@ package ch.logixisland.anuto.business.manager;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.business.level.TowerAging;
 import ch.logixisland.anuto.business.level.LevelLoader;
-import ch.logixisland.anuto.business.level.WaveListener;
 import ch.logixisland.anuto.business.level.WaveManager;
 import ch.logixisland.anuto.business.score.LivesListener;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
-import ch.logixisland.anuto.util.data.LevelDescriptor;
 
 public class GameManager {
 

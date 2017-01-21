@@ -8,51 +8,51 @@ import java.util.Map;
 
 public class TowerConfig {
 
-    @Element(name="slot", required=false)
+    @Element(name = "slot", required = false)
     private int mSlot = -1;
 
-    @Element(name="name")
+    @Element(name = "name")
     private String mName;
 
-    @Element(name="upgrade", required=false)
+    @Element(name = "upgrade", required = false)
     private String mUpgrade;
 
     private int mUpgradeCost;
 
-    @Element(name="value")
+    @Element(name = "value")
     private int mValue;
 
-    @Element(name="damage", required=false)
+    @Element(name = "damage", required = false)
     private float mDamage;
 
-    @Element(name="range")
+    @Element(name = "range")
     private float mRange;
 
-    @Element(name="reload")
+    @Element(name = "reload")
     private float mReload;
 
-    @Element(name="maxLevel")
+    @Element(name = "maxLevel")
     private int mMaxLevel;
 
-    @Element(name="weaponType", required=false)
+    @Element(name = "weaponType", required = false)
     private WeaponType mWeaponType;
 
-    @Element(name="enhanceBase")
+    @Element(name = "enhanceBase")
     private float mEnhanceBase;
 
-    @Element(name="enhanceCost")
+    @Element(name = "enhanceCost")
     private int mEnhanceCost;
 
-    @Element(name="enhanceDamage", required=false)
+    @Element(name = "enhanceDamage", required = false)
     private float mEnhanceDamage;
 
-    @Element(name="enhanceRange", required=false)
+    @Element(name = "enhanceRange", required = false)
     private float mEnhanceRange;
 
-    @Element(name="enhanceReload", required=false)
+    @Element(name = "enhanceReload", required = false)
     private float mEnhanceReload;
 
-    @ElementMap(entry="property", key="name", inline=true, required=false, attribute=true)
+    @ElementMap(entry = "property", key = "name", inline = true, required = false, attribute = true)
     private Map<String, Float> mProperties = new HashMap<>();
 
     public int getSlot() {

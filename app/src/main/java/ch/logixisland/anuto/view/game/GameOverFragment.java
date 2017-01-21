@@ -12,8 +12,8 @@ import android.widget.TextView;
 import java.text.DecimalFormat;
 
 import ch.logixisland.anuto.AnutoApplication;
-import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.GameFactory;
+import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.manager.GameListener;
 import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.business.score.ScoreBoard;
@@ -42,8 +42,8 @@ public class GameOverFragment extends Fragment implements GameListener {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_game_over, container, false);
 
-        txt_game_over = (TextView)v.findViewById(R.id.txt_game_over);
-        txt_score = (TextView)v.findViewById(R.id.txt_score);
+        txt_game_over = (TextView) v.findViewById(R.id.txt_game_over);
+        txt_score = (TextView) v.findViewById(R.id.txt_score);
 
         txt_game_over.setTextColor(mThemeManager.getTheme().getTextColor());
         txt_score.setTextColor(mThemeManager.getTheme().getTextColor());

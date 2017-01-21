@@ -15,7 +15,7 @@ public class BasicPlateau extends Plateau {
     private StaticSprite mSprite;
 
     public BasicPlateau() {
-        StaticData s = (StaticData)getStaticData();
+        StaticData s = (StaticData) getStaticData();
 
         mSprite = getSpriteFactory().createStatic(Layers.PLATEAU, s.mSpriteTemplate);
         mSprite.setIndex(RandomUtils.next(4));

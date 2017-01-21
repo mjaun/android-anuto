@@ -52,8 +52,8 @@ public class TowerControl {
         Tower upgradedTower = mTowerFactory.createTower(selectedTower.getUpgradeName());
 
         if (upgradedTower instanceof AimingTower && selectedTower instanceof AimingTower) {
-            AimingTower aimingTower = (AimingTower)selectedTower;
-            AimingTower aimingUpgraded = (AimingTower)upgradedTower;
+            AimingTower aimingTower = (AimingTower) selectedTower;
+            AimingTower aimingUpgraded = (AimingTower) upgradedTower;
             aimingUpgraded.setLockTarget(aimingTower.doesLockTarget());
             aimingUpgraded.setStrategy(aimingTower.getStrategy());
         }

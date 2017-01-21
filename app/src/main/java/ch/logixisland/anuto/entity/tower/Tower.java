@@ -6,18 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.engine.logic.TickTimer;
 import ch.logixisland.anuto.engine.render.shape.LevelIndicator;
+import ch.logixisland.anuto.engine.render.shape.RangeIndicator;
+import ch.logixisland.anuto.entity.Entity;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.enemy.Enemy;
-import ch.logixisland.anuto.entity.Entity;
-import ch.logixisland.anuto.engine.logic.TickTimer;
 import ch.logixisland.anuto.util.data.PathDescriptor;
 import ch.logixisland.anuto.util.data.TowerConfig;
-import ch.logixisland.anuto.engine.render.shape.RangeIndicator;
 import ch.logixisland.anuto.util.data.WeaponType;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
-import ch.logixisland.anuto.util.math.vector.Intersections;
 import ch.logixisland.anuto.util.math.MathUtils;
+import ch.logixisland.anuto.util.math.vector.Intersections;
 import ch.logixisland.anuto.util.math.vector.Line;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
@@ -155,7 +155,7 @@ public abstract class Tower extends Entity {
 
     public void enhance() {
         mValue += getEnhanceCost();
-        mDamage += mConfig.getEnhanceDamage() * (float)Math.pow(mConfig.getEnhanceBase(), mLevel - 1);
+        mDamage += mConfig.getEnhanceDamage() * (float) Math.pow(mConfig.getEnhanceBase(), mLevel - 1);
         mRange += mConfig.getEnhanceRange();
         mReloadTime -= mConfig.getEnhanceReload();
 
@@ -173,7 +173,7 @@ public abstract class Tower extends Entity {
             return -1;
         }
 
-        return Math.round(mConfig.getEnhanceCost() * (float)Math.pow(mConfig.getEnhanceBase(), mLevel - 1));
+        return Math.round(mConfig.getEnhanceCost() * (float) Math.pow(mConfig.getEnhanceBase(), mLevel - 1));
     }
 
     public int getTowerLevel() {

@@ -1,9 +1,8 @@
 package ch.logixisland.anuto.engine.render.shape;
 
-import ch.logixisland.anuto.engine.render.Viewport;
+import ch.logixisland.anuto.engine.render.theme.ThemeManager;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.entity.tower.Tower;
-import ch.logixisland.anuto.engine.render.theme.ThemeManager;
 
 public class ShapeFactory {
 

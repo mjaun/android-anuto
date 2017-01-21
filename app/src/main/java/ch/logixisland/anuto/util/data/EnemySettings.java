@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class EnemySettings {
 
-    @ElementList(entry="enemy", inline=true)
+    @ElementList(entry = "enemy", inline = true)
     private List<EnemyConfig> mEnemyConfigList = new ArrayList<>();
     private Map<String, EnemyConfig> mEnemyConfigMap = new HashMap<>();
 

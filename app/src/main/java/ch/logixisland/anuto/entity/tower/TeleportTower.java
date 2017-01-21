@@ -6,13 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.entity.Entity;
-import ch.logixisland.anuto.entity.EntityListener;
-import ch.logixisland.anuto.entity.effect.TeleportEffect;
 import ch.logixisland.anuto.engine.render.Layers;
-import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
+import ch.logixisland.anuto.entity.effect.TeleportEffect;
+import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.data.TowerConfig;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
@@ -33,7 +31,7 @@ public class TeleportTower extends AimingTower {
         super(config);
         mTeleportDistance = getProperty("teleportDistance");
 
-        StaticData s = (StaticData)getStaticData();
+        StaticData s = (StaticData) getStaticData();
 
         mSpriteBase = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplateBase);
         mSpriteBase.setListener(this);

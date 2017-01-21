@@ -4,43 +4,43 @@ import org.simpleframework.xml.Element;
 
 public class GameSettings {
 
-    @Element(name="credits")
+    @Element(name = "credits")
     private int mCredits;
 
-    @Element(name="lives")
+    @Element(name = "lives")
     private int mLives;
 
-    @Element(name="ageModifier")
+    @Element(name = "ageModifier")
     private float mAgeModifier;
 
-    @Element(name="minSpeedModifier")
+    @Element(name = "minSpeedModifier")
     private float mMinSpeedModifier;
 
-    @Element(name="weakAgainstModifier")
+    @Element(name = "weakAgainstModifier")
     private float mWeakAgainstModifier;
 
-    @Element(name="strongAgainstModifier")
+    @Element(name = "strongAgainstModifier")
     private float mStrongAgainstModifier;
 
-    @Element(name="difficultyOffset")
+    @Element(name = "difficultyOffset")
     private float mDifficultyOffset;
 
-    @Element(name="difficultyLinear")
+    @Element(name = "difficultyLinear")
     private float mDifficultyLinear;
 
-    @Element(name="difficultyQuadratic")
+    @Element(name = "difficultyQuadratic")
     private float mDifficultyQuadratic;
 
-    @Element(name="rewardModifier")
+    @Element(name = "rewardModifier")
     private float mRewardModifier;
 
-    @Element(name="rewardRoot")
+    @Element(name = "rewardRoot")
     private float mRewardRoot;
 
-    @Element(name="earlyModifier")
+    @Element(name = "earlyModifier")
     private float mEarlyModifier;
 
-    @Element(name="earlyRoot")
+    @Element(name = "earlyRoot")
     private float mEarlyRoot;
 
     public int getCredits() {
