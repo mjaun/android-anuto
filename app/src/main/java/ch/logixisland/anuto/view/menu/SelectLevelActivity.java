@@ -2,8 +2,8 @@ package ch.logixisland.anuto.view.menu;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -17,7 +17,7 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.level.LevelLoader;
 import ch.logixisland.anuto.business.manager.GameManager;
 
-public class SelectLevelActivity extends Activity implements View.OnClickListener, View.OnTouchListener {
+public class SelectLevelActivity extends Activity implements View.OnClickListener, ViewTreeObserver.OnScrollChangedListener {
 
     private final GameManager mGameManager;
     private final LevelLoader mLevelLoader;
@@ -48,12 +48,11 @@ public class SelectLevelActivity extends Activity implements View.OnClickListene
         arrow_left = (ImageView) findViewById(R.id.arrow_left);
         arrow_right = (ImageView) findViewById(R.id.arrow_right);
 
-        scroll_view.setOnTouchListener(this);
+        scroll_view.getViewTreeObserver().addOnScrollChangedListener(this);
         scroll_view.post(new Runnable() {
             @Override
             public void run() {
-                arrow_left.setVisibility(scroll_view.getScrollX() == 0 ? View.INVISIBLE : View.VISIBLE);
-                arrow_right.setVisibility(scroll_view.getScrollX() == scroll_view.getChildAt(0).getRight() - scroll_view.getWidth() ? View.INVISIBLE : View.VISIBLE);
+                updateArrowVisibility();
             }
         });
     }
@@ -68,17 +67,18 @@ public class SelectLevelActivity extends Activity implements View.OnClickListene
     }
 
     @Override
-    public boolean onTouch(View view, MotionEvent motionEvent) {
-        if (motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
-            arrow_left.setVisibility(scroll_view.getScrollX() == 0 ? View.INVISIBLE : View.VISIBLE);
-            arrow_right.setVisibility(scroll_view.getScrollX() == scroll_view.getChildAt(0).getRight() - scroll_view.getWidth() ? View.INVISIBLE : View.VISIBLE);
-        }
-        return false;
+    public void onScrollChanged() {
+        updateArrowVisibility();
     }
 
     private void setupLevelButton(int buttonId, int levelId) {
         ImageButton button = (ImageButton) findViewById(buttonId);
         mLevelButtons.put(button, levelId);
         button.setOnClickListener(this);
+    }
+
+    private void updateArrowVisibility() {
+        arrow_left.setVisibility(scroll_view.getScrollX() < 10 ? View.INVISIBLE : View.VISIBLE);
+        arrow_right.setVisibility(scroll_view.getScrollX() > scroll_view.getChildAt(0).getRight() - scroll_view.getWidth() - 10 ? View.INVISIBLE : View.VISIBLE);
     }
 }

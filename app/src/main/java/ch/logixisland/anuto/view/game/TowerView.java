@@ -3,6 +3,7 @@ package ch.logixisland.anuto.view.game;
 import android.content.ClipData;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
@@ -43,7 +44,7 @@ public class TowerView extends View implements View.OnTouchListener, View.OnDrag
                 if (credits >= mPreviewTower.getValue()) {
                     mPaintText.setColor(mThemeManager.getTheme().getTextColor());
                 } else {
-                    mPaintText.setColor(getResources().getColor(R.color.red));
+                    mPaintText.setColor(Color.RED);
                 }
 
                 TowerView.this.postInvalidate();
