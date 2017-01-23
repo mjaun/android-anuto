@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.engine.render.DrawCommandBuffer;
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.entity.Entity;
@@ -34,8 +35,8 @@ public class HealEffect extends Effect {
         }
 
         @Override
-        public void draw(Canvas canvas) {
-            canvas.drawCircle(getPosition().x, getPosition().y, mDrawRadius, mPaint);
+        public void draw(DrawCommandBuffer buffer) {
+            buffer.drawCircle(getPosition().x, getPosition().y, mDrawRadius, mPaint);
         }
     }
 

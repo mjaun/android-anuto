@@ -1,13 +1,12 @@
 package ch.logixisland.anuto.entity;
 
-import android.graphics.Canvas;
-
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickListener;
+import ch.logixisland.anuto.engine.render.DrawCommandBuffer;
 import ch.logixisland.anuto.engine.render.shape.ShapeFactory;
 import ch.logixisland.anuto.engine.render.sprite.SpriteFactory;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
@@ -92,8 +91,8 @@ public abstract class Entity implements SpriteListener, TickListener {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, Canvas canvas) {
-        canvas.translate(mPosition.x, mPosition.y);
+    public void draw(SpriteInstance sprite, DrawCommandBuffer buffer) {
+        buffer.translate(mPosition.x, mPosition.y);
     }
 
 

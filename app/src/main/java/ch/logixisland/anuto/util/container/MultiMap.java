@@ -6,13 +6,13 @@ import ch.logixisland.anuto.util.iterator.LazyIterator;
 import ch.logixisland.anuto.util.iterator.StreamIterable;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
-public class SparseCollectionArray<T> implements StreamIterable<T> {
+public class MultiMap<T> implements StreamIterable<T> {
 
     /*
     ------ Members ------
      */
 
-    private final SparseArray<SmartIteratorCollection<T>> mCollections = new SparseArray<>();
+    private final SparseArray<SmartCollection<T>> mCollections = new SparseArray<>();
 
     /*
     ------ SmartIterator Class ------
@@ -54,11 +54,11 @@ public class SparseCollectionArray<T> implements StreamIterable<T> {
     ------ Methods ------
      */
 
-    public SmartIteratorCollection<T> get(int key) {
-        SmartIteratorCollection<T> collection = mCollections.get(key);
+    public SmartCollection<T> get(int key) {
+        SmartCollection<T> collection = mCollections.get(key);
 
         if (collection == null) {
-            collection = new SmartIteratorCollection<T>();
+            collection = new SmartCollection<T>();
             mCollections.put(key, collection);
         }
 

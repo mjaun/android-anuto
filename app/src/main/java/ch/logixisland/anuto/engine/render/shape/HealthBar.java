@@ -1,9 +1,9 @@
 package ch.logixisland.anuto.engine.render.shape;
 
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import ch.logixisland.anuto.engine.render.DrawCommandBuffer;
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.theme.ThemeManager;
@@ -34,14 +34,13 @@ public class HealthBar implements Drawable {
     }
 
     @Override
-    public void draw(Canvas canvas) {
+    public void draw(DrawCommandBuffer buffer) {
         if (!MathUtils.equals(mEnemy.getHealth(), mEnemy.getHealthMax(), 1f)) {
-            canvas.save();
-            canvas.translate(mEnemy.getPosition().x - HEALTHBAR_WIDTH / 2f, mEnemy.getPosition().y + HEALTHBAR_OFFSET);
-
-            canvas.drawRect(0, 0, HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT, mHealthBarBg);
-            canvas.drawRect(0, 0, mEnemy.getHealth() / mEnemy.getHealthMax() * HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT, mHealthBarFg);
-            canvas.restore();
+            buffer.save();
+            buffer.translate(mEnemy.getPosition().x - HEALTHBAR_WIDTH / 2f, mEnemy.getPosition().y + HEALTHBAR_OFFSET);
+            buffer.drawRect(0, 0, HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT, mHealthBarBg);
+            buffer.drawRect(0, 0, mEnemy.getHealth() / mEnemy.getHealthMax() * HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT, mHealthBarFg);
+            buffer.restore();
         }
     }
 }

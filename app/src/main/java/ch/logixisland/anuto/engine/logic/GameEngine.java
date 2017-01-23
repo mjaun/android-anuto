@@ -9,8 +9,8 @@ import java.util.Map;
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Renderer;
 import ch.logixisland.anuto.entity.Entity;
-import ch.logixisland.anuto.util.container.SmartIteratorCollection;
-import ch.logixisland.anuto.util.container.SparseCollectionArray;
+import ch.logixisland.anuto.util.container.SmartCollection;
+import ch.logixisland.anuto.util.container.MultiMap;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
 public class GameEngine implements Runnable {
@@ -22,9 +22,9 @@ public class GameEngine implements Runnable {
 
     private final Renderer mRenderer;
 
-    private final SparseCollectionArray<Entity> mEntities = new SparseCollectionArray<>();
+    private final MultiMap<Entity> mEntities = new MultiMap<>();
     private final Map<Class<? extends Entity>, Object> mStaticData = new HashMap<>();
-    private final Collection<TickListener> mTickListeners = new SmartIteratorCollection<>();
+    private final Collection<TickListener> mTickListeners = new SmartCollection<>();
     private final MessageQueue mMessageQueue = new MessageQueue();
 
     private Thread mGameThread;
@@ -133,7 +133,7 @@ public class GameEngine implements Runnable {
                 timeCurrent = System.currentTimeMillis();
 
                 if (timeCurrent < timeNextTick || skippedFrames >= MAX_FRAME_SKIPS) {
-                    mRenderer.render();
+                    mRenderer.update();
                     skippedFrames = 0;
                 } else {
                     skippedFrames++;

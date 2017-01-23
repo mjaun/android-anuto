@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import ch.logixisland.anuto.engine.render.DrawCommandBuffer;
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.entity.tower.Tower;
@@ -28,8 +29,8 @@ public class RangeIndicator implements Drawable {
     }
 
     @Override
-    public void draw(Canvas canvas) {
-        canvas.drawCircle(mTower.getPosition().x, mTower.getPosition().y, mTower.getRange(), mPen);
+    public void draw(DrawCommandBuffer buffer) {
+        buffer.drawCircle(mTower.getPosition().x, mTower.getPosition().y, mTower.getRange(), mPen);
     }
 
 }

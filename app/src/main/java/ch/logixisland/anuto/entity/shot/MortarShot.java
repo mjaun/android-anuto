@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.engine.render.DrawCommandBuffer;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
@@ -84,12 +85,12 @@ public class MortarShot extends Shot {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, Canvas canvas) {
-        super.draw(sprite, canvas);
+    public void draw(SpriteInstance sprite, DrawCommandBuffer buffer) {
+        super.draw(sprite, buffer);
 
         float s = mHeightScalingFunction.getValue();
-        canvas.scale(s, s);
-        canvas.rotate(mAngle);
+        buffer.scale(s, s);
+        buffer.rotate(mAngle);
     }
 
     @Override

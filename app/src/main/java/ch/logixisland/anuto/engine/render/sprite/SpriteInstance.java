@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 
+import ch.logixisland.anuto.engine.render.DrawCommandBuffer;
 import ch.logixisland.anuto.engine.render.Drawable;
 
 public abstract class SpriteInstance implements Drawable {
@@ -40,17 +41,17 @@ public abstract class SpriteInstance implements Drawable {
     }
 
     @Override
-    public void draw(Canvas canvas) {
-        canvas.save();
+    public void draw(DrawCommandBuffer buffer) {
+        buffer.save();
 
         if (mListener != null) {
-            mListener.draw(this, canvas);
+            mListener.draw(this, buffer);
         }
 
         Bitmap bitmap = mTemplate.getBitmaps().get(getIndex());
         Matrix matrix = mTemplate.getMatrix();
-        canvas.drawBitmap(bitmap, matrix, mPaint);
-        canvas.restore();
+        buffer.drawBitmap(bitmap, matrix, mPaint);
+        buffer.restore();
     }
 
 }

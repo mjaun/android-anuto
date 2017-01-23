@@ -1,7 +1,7 @@
 package ch.logixisland.anuto.engine.render.sprite;
 
-import android.graphics.Canvas;
+import ch.logixisland.anuto.engine.render.DrawCommandBuffer;
 
 public interface SpriteListener {
-    void draw(SpriteInstance sprite, Canvas canvas);
+    void draw(SpriteInstance sprite, DrawCommandBuffer buffer);
 }

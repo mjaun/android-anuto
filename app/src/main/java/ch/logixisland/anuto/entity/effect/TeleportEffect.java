@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.engine.render.DrawCommandBuffer;
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.entity.Entity;
@@ -32,9 +33,9 @@ public class TeleportEffect extends Effect {
         }
 
         @Override
-        public void draw(Canvas canvas) {
+        public void draw(DrawCommandBuffer buffer) {
             Vector2 target = mTarget.getPosition();
-            canvas.drawLine(getPosition().x, getPosition().y, target.x, target.y, mPaint);
+            buffer.drawLine(getPosition().x, getPosition().y, target.x, target.y, mPaint);
         }
     }
 

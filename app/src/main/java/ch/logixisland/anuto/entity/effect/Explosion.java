@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.engine.render.DrawCommand;
+import ch.logixisland.anuto.engine.render.DrawCommandBuffer;
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.entity.Entity;
@@ -29,14 +31,8 @@ public class Explosion extends Effect {
             mPaint.setAlpha(mAlpha);
         }
 
-        public void decreaseVisibility() {
-            mAlpha -= ALPHA_STEP;
-
-            if (mAlpha < 0) {
-                mAlpha = 0;
-            }
-
-            mPaint.setAlpha(mAlpha);
+        public void setAlpha(int alpha) {
+            mPaint.setAlpha(alpha);
         }
 
         @Override
@@ -45,13 +41,14 @@ public class Explosion extends Effect {
         }
 
         @Override
-        public void draw(Canvas canvas) {
-            canvas.drawCircle(getPosition().x, getPosition().y, mRadius, mPaint);
+        public void draw(DrawCommandBuffer buffer) {
+            buffer.drawCircle(getPosition().x, getPosition().y, mRadius, mPaint);
         }
     }
 
     private float mDamage;
     private float mRadius;
+    private int mDrawAlpha;
 
     private ExplosionDrawable mDrawObject;
 
@@ -69,6 +66,7 @@ public class Explosion extends Effect {
     public void init() {
         super.init();
 
+        mDrawAlpha = ALPHA_START;
         getGameEngine().add(mDrawObject);
     }
 
@@ -83,7 +81,8 @@ public class Explosion extends Effect {
     public void tick() {
         super.tick();
 
-        mDrawObject.decreaseVisibility();
+        mDrawAlpha -= ALPHA_START;
+        mDrawObject.setAlpha(mDrawAlpha);
     }
 
     @Override

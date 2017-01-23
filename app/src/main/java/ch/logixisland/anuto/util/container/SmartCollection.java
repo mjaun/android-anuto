@@ -9,7 +9,7 @@ import ch.logixisland.anuto.util.iterator.StreamIterable;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public class SmartIteratorCollection<T> implements Collection<T>, StreamIterable<T> {
+public class SmartCollection<T> implements Collection<T>, StreamIterable<T> {
 
     /*
     ------ Members ------
@@ -22,15 +22,15 @@ public class SmartIteratorCollection<T> implements Collection<T>, StreamIterable
     ------ Constructors ------
      */
 
-    public SmartIteratorCollection() {
+    public SmartCollection() {
         mItems = new ArrayList<>();
     }
 
-    public SmartIteratorCollection(int capacity) {
+    public SmartCollection(int capacity) {
         mItems = new ArrayList<>(capacity);
     }
 
-    public SmartIteratorCollection(Collection<? extends T> collection) {
+    public SmartCollection(Collection<? extends T> collection) {
         mItems = new ArrayList<>(collection);
     }
 
@@ -65,7 +65,7 @@ public class SmartIteratorCollection<T> implements Collection<T>, StreamIterable
 
         @Override
         public void remove() {
-            SmartIteratorCollection.this.remove(mNextIndex - 1);
+            SmartCollection.this.remove(mNextIndex - 1);
         }
     }
 

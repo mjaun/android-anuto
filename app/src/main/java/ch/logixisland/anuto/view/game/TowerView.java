@@ -18,6 +18,8 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.control.TowerInserter;
 import ch.logixisland.anuto.business.score.CreditsListener;
 import ch.logixisland.anuto.business.score.ScoreBoard;
+import ch.logixisland.anuto.engine.render.DrawCommand;
+import ch.logixisland.anuto.engine.render.DrawCommandBuffer;
 import ch.logixisland.anuto.engine.render.theme.ThemeManager;
 import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.entity.tower.TowerFactory;
@@ -32,6 +34,7 @@ public class TowerView extends View implements View.OnTouchListener, View.OnDrag
     private final ScoreBoard mScoreBoard;
     private final TowerFactory mTowerFactory;
 
+    private DrawCommandBuffer mBuffer = new DrawCommandBuffer();
     private Tower mPreviewTower;
 
     private final Paint mPaintText;
@@ -106,7 +109,14 @@ public class TowerView extends View implements View.OnTouchListener, View.OnDrag
         if (mPreviewTower != null) {
             canvas.save();
             canvas.concat(mScreenMatrix);
-            mPreviewTower.preview(canvas);
+
+            mBuffer.clear();
+            mPreviewTower.preview(mBuffer);
+
+            for (DrawCommand command : mBuffer) {
+                command.execute(canvas);
+            }
+
             canvas.restore();
 
             canvas.drawText(Integer.toString(mPreviewTower.getValue()),

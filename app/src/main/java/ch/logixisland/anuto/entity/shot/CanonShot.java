@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.engine.render.DrawCommandBuffer;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
@@ -68,10 +69,10 @@ public class CanonShot extends HomingShot {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, Canvas canvas) {
-        super.draw(sprite, canvas);
+    public void draw(SpriteInstance sprite, DrawCommandBuffer buffer) {
+        super.draw(sprite, buffer);
 
-        canvas.rotate(mAngle);
+        buffer.rotate(mAngle);
     }
 
     @Override
