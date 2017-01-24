@@ -87,7 +87,7 @@ public class GameOverFragment extends Fragment implements GameListener {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                txt_game_over.setText(R.string.game_over_lost);
+                txt_game_over.setText(R.string.game_over);
 
                 DecimalFormat fmt = new DecimalFormat("###,###,###,###");
                 txt_score.setText(getResources().getString(R.string.score) +

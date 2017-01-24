@@ -6,14 +6,12 @@
     <string name="restart">Restart</string>
     <string name="change_level">Change Level</string>
     <string name="dark_theme">Dark Theme</string>
-    <string name="normal_theme">Normal Theme</string>
     <string name="next_wave">Next Wave</string>
 
     <string name="game_over">Game Over!</string>
     <string name="score">Score</string>
 
     <string name="status_credits">Credits</string>
-    <string name="status_live">Live</string>
     <string name="status_lives">Lives</string>
     <string name="status_wave">Wave</string>
     <string name="status_bonus">Bonus</string>
@@ -33,13 +31,5 @@
     <string name="enhance">Enhance</string>
     <string name="upgrade">Upgrade</string>
     <string name="sell">Sell</string>
-
-    <string-array name="strategies">
-        <item>Closest</item>
-        <item>Weakest</item>
-        <item>Strongest</item>
-        <item>First</item>
-        <item>Last</item>
-    </string-array>
 
 </resources>
