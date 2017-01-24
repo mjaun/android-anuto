@@ -143,7 +143,7 @@ public class GameEngine implements Runnable {
                 int sleepTime = (int) (timeNextTick - timeCurrent);
 
                 if (sleepTime > 0) {
-                    Thread.sleep(sleepTime);
+                    //Thread.sleep(sleepTime);
                 } else if (skippedFrames == MAX_FRAME_SKIPS) {
                     timeNextTick = timeCurrent; // resync
                 }

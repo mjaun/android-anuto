@@ -1,10 +1,12 @@
 package ch.logixisland.anuto.engine.render;
 
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.View;
 
 import java.lang.ref.WeakReference;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import ch.logixisland.anuto.engine.render.theme.ThemeManager;
 import ch.logixisland.anuto.util.container.MultiMap;
@@ -18,13 +20,26 @@ public class Renderer {
     private TripleBuffer mTripleBuffer = new TripleBuffer();
     private WeakReference<View> mViewRef;
 
+    private volatile int mUpdateCount;
+    private volatile int mDrawCount;
+
     public Renderer(Viewport viewport, ThemeManager themeManager) {
         mViewport = viewport;
         mThemeManager = themeManager;
     }
 
-    public void setView(View view) {
+    public void setView(final View view) {
         mViewRef = new WeakReference<>(view);
+
+        view.post(new Runnable() {
+            @Override
+            public void run() {
+                Log.d("Renderer", "UpdateCount = " + mUpdateCount);
+                Log.d("Renderer", "DrawCount = " + mDrawCount);
+                mUpdateCount = mDrawCount = 0;
+                view.postDelayed(this, 1000);
+            }
+        });
     }
 
     public void add(Drawable obj) {
@@ -52,6 +67,7 @@ public class Renderer {
             }
 
             mTripleBuffer.updateFinished();
+            mUpdateCount++;
         }
     }
 
@@ -66,6 +82,7 @@ public class Renderer {
         }
 
         mTripleBuffer.drawFinished();
+        mDrawCount++;
     }
 
 }
