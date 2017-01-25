@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import ch.logixisland.anuto.engine.logic.GameEngine;
-import ch.logixisland.anuto.engine.render.DrawCommandBuffer;
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.entity.Entity;
@@ -49,8 +48,8 @@ public class LaserStraight extends Effect {
         }
 
         @Override
-        public void draw(DrawCommandBuffer buffer) {
-            buffer.drawLine(getPosition().x, getPosition().y, mLaserTo.x, mLaserTo.y, mPaint);
+        public void draw(Canvas canvas) {
+            canvas.drawLine(getPosition().x, getPosition().y, mLaserTo.x, mLaserTo.y, mPaint);
         }
     }
 

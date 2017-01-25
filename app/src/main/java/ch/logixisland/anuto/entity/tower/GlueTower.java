@@ -1,11 +1,12 @@
 package ch.logixisland.anuto.entity.tower;
 
+import android.graphics.Canvas;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.TickTimer;
-import ch.logixisland.anuto.engine.render.DrawCommandBuffer;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteListener;
@@ -36,11 +37,11 @@ public class GlueTower extends Tower {
         StaticSprite mSprite;
 
         @Override
-        public void draw(SpriteInstance sprite, DrawCommandBuffer buffer) {
-            GlueTower.this.draw(sprite, buffer);
+        public void draw(SpriteInstance sprite, Canvas canvas) {
+            GlueTower.this.draw(sprite, canvas);
 
-            buffer.rotate(mAngle);
-            buffer.translate(mCanonOffset, 0);
+            canvas.rotate(mAngle);
+            canvas.translate(mCanonOffset, 0);
         }
     }
 
@@ -130,8 +131,8 @@ public class GlueTower extends Tower {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, DrawCommandBuffer buffer) {
-        super.draw(sprite, buffer);
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        super.draw(sprite, canvas);
     }
 
     @Override
@@ -168,9 +169,9 @@ public class GlueTower extends Tower {
     }
 
     @Override
-    public void preview(DrawCommandBuffer buffer) {
-        mSpriteBase.draw(buffer);
-        mSpriteTower.draw(buffer);
+    public void preview(Canvas canvas) {
+        mSpriteBase.draw(canvas);
+        mSpriteTower.draw(canvas);
     }
 
     @Override

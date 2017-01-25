@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.engine.render.DrawCommandBuffer;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
@@ -96,9 +95,9 @@ public class TeleportTower extends AimingTower {
     }
 
     @Override
-    public void preview(DrawCommandBuffer buffer) {
-        mSpriteBase.draw(buffer);
-        mSpriteTower.draw(buffer);
+    public void preview(Canvas canvas) {
+        mSpriteBase.draw(canvas);
+        mSpriteTower.draw(canvas);
     }
 
     @Override

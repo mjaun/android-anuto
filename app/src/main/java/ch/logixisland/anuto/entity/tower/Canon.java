@@ -7,7 +7,6 @@ import java.util.List;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.GameEngine;
-import ch.logixisland.anuto.engine.render.DrawCommandBuffer;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
@@ -87,13 +86,13 @@ public class Canon extends AimingTower {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, DrawCommandBuffer buffer) {
-        super.draw(sprite, buffer);
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        super.draw(sprite, canvas);
 
-        buffer.rotate(mAngle);
+        canvas.rotate(mAngle);
 
         if (sprite == mSpriteCanon && mReboundActive) {
-            buffer.translate(-mReboundFunction.getValue(), 0);
+            canvas.translate(-mReboundFunction.getValue(), 0);
         }
     }
 
@@ -124,9 +123,9 @@ public class Canon extends AimingTower {
     }
 
     @Override
-    public void preview(DrawCommandBuffer buffer) {
-        mSpriteBase.draw(buffer);
-        mSpriteCanon.draw(buffer);
+    public void preview(Canvas canvas) {
+        mSpriteBase.draw(canvas);
+        mSpriteCanon.draw(canvas);
     }
 
     @Override

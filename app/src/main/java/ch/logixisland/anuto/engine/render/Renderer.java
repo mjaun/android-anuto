@@ -5,8 +5,8 @@ import android.util.Log;
 import android.view.View;
 
 import java.lang.ref.WeakReference;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import ch.logixisland.anuto.engine.render.theme.ThemeManager;
 import ch.logixisland.anuto.util.container.MultiMap;
@@ -15,9 +15,9 @@ public class Renderer {
 
     private final Viewport mViewport;
     private final ThemeManager mThemeManager;
+    private final MultiMap<Drawable> mDrawables = new MultiMap<>();
+    private final Lock mLock = new ReentrantLock(true);
 
-    private MultiMap<Drawable> mDrawables = new MultiMap<>();
-    private TripleBuffer mTripleBuffer = new TripleBuffer();
     private WeakReference<View> mViewRef;
 
     private volatile int mUpdateCount;
@@ -54,35 +54,36 @@ public class Renderer {
         mDrawables.clear();
     }
 
-    public void update() {
+    public void lock() {
+        mLock.lock();
+    }
+
+    public void unlock() {
+        mLock.unlock();
+    }
+
+    public void invalidate() {
         View view = mViewRef.get();
 
         if (view != null) {
             view.postInvalidate();
-
-            DrawCommandBuffer buffer = mTripleBuffer.getBufferForUpdating();
-
-            for (Drawable drawable : mDrawables) {
-                drawable.draw(buffer);
-            }
-
-            mTripleBuffer.updateFinished();
             mUpdateCount++;
         }
     }
 
     public void draw(Canvas canvas) {
+        mLock.lock();
+
         canvas.drawColor(mThemeManager.getTheme().getBackgroundColor());
         canvas.concat(mViewport.getScreenMatrix());
 
-        DrawCommandBuffer buffer = mTripleBuffer.getBufferForDrawing();
-
-        for (DrawCommand command : buffer) {
-            command.execute(canvas);
+        for (Drawable obj : mDrawables) {
+            obj.draw(canvas);
         }
 
-        mTripleBuffer.drawFinished();
         mDrawCount++;
+
+        mLock.unlock();
     }
 
 }

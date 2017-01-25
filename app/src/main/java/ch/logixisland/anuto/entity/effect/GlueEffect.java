@@ -5,7 +5,6 @@ import android.graphics.Paint;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.GameEngine;
-import ch.logixisland.anuto.engine.render.DrawCommandBuffer;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
@@ -75,10 +74,10 @@ public class GlueEffect extends AreaEffect {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, DrawCommandBuffer buffer) {
-        super.draw(sprite, buffer);
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        super.draw(sprite, canvas);
 
-        buffer.rotate(mAngle);
+        canvas.rotate(mAngle);
     }
 
     @Override

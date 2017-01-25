@@ -7,7 +7,6 @@ import java.util.List;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.GameEngine;
-import ch.logixisland.anuto.engine.render.DrawCommandBuffer;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
@@ -115,24 +114,24 @@ public class CanonDual extends AimingTower {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, DrawCommandBuffer buffer) {
-        super.draw(sprite, buffer);
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        super.draw(sprite, canvas);
 
-        buffer.rotate(mAngle);
+        canvas.rotate(mAngle);
 
         if (sprite == mCanons[0].sprite) {
-            buffer.translate(0, 0.3f);
+            canvas.translate(0, 0.3f);
 
             if (mCanons[0].reboundActive) {
-                buffer.translate(-mCanons[0].reboundFunction.getValue(), 0);
+                canvas.translate(-mCanons[0].reboundFunction.getValue(), 0);
             }
         }
 
         if (sprite == mCanons[1].sprite) {
-            buffer.translate(0, -0.3f);
+            canvas.translate(0, -0.3f);
 
             if (mCanons[1].reboundActive) {
-                buffer.translate(-mCanons[1].reboundFunction.getValue(), 0);
+                canvas.translate(-mCanons[1].reboundFunction.getValue(), 0);
             }
         }
     }
@@ -185,11 +184,11 @@ public class CanonDual extends AimingTower {
     }
 
     @Override
-    public void preview(DrawCommandBuffer buffer) {
-        mSpriteBase.draw(buffer);
-        mSpriteTower.draw(buffer);
-        mCanons[0].sprite.draw(buffer);
-        mCanons[1].sprite.draw(buffer);
+    public void preview(Canvas canvas) {
+        mSpriteBase.draw(canvas);
+        mSpriteTower.draw(canvas);
+        mCanons[0].sprite.draw(canvas);
+        mCanons[1].sprite.draw(canvas);
     }
 
     @Override

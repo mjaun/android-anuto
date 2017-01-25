@@ -16,7 +16,7 @@ import ch.logixisland.anuto.util.iterator.StreamIterator;
 public class GameEngine implements Runnable {
 
     public final static int TARGET_FRAME_RATE = 30;
-    public final static int MAX_FRAME_SKIPS = 3;
+    public final static int TICK_TIME = 1000 / TARGET_FRAME_RATE;
 
     private final static String TAG = GameEngine.class.getSimpleName();
 
@@ -123,29 +123,21 @@ public class GameEngine implements Runnable {
     public void run() {
         long timeNextTick = System.currentTimeMillis();
         long timeCurrent;
-        int skippedFrames = 0;
 
         try {
             while (mRunning) {
-                timeNextTick += 1000 / TARGET_FRAME_RATE;
+                timeNextTick += TICK_TIME;
+
+                mRenderer.lock();
                 executeTick();
-
-                timeCurrent = System.currentTimeMillis();
-
-                if (timeCurrent < timeNextTick || skippedFrames >= MAX_FRAME_SKIPS) {
-                    mRenderer.update();
-                    skippedFrames = 0;
-                } else {
-                    skippedFrames++;
-                }
+                mRenderer.unlock();
+                mRenderer.invalidate();
 
                 timeCurrent = System.currentTimeMillis();
                 int sleepTime = (int) (timeNextTick - timeCurrent);
 
                 if (sleepTime > 0) {
-                    //Thread.sleep(sleepTime);
-                } else if (skippedFrames == MAX_FRAME_SKIPS) {
-                    timeNextTick = timeCurrent; // resync
+                    Thread.sleep(sleepTime);
                 }
             }
         } catch (Exception e) {

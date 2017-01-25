@@ -1,10 +1,11 @@
 package ch.logixisland.anuto.entity.tower;
 
+import android.graphics.Canvas;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.engine.render.DrawCommandBuffer;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
@@ -74,10 +75,10 @@ public class LaserTower3 extends AimingTower {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, DrawCommandBuffer buffer) {
-        super.draw(sprite, buffer);
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        super.draw(sprite, canvas);
 
-        buffer.rotate(mAngle);
+        canvas.rotate(mAngle);
     }
 
     @Override
@@ -97,9 +98,9 @@ public class LaserTower3 extends AimingTower {
     }
 
     @Override
-    public void preview(DrawCommandBuffer buffer) {
-        mSpriteBase.draw(buffer);
-        mSpriteCanon.draw(buffer);
+    public void preview(Canvas canvas) {
+        mSpriteBase.draw(canvas);
+        mSpriteCanon.draw(canvas);
     }
 
     @Override

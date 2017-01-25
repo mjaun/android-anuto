@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.engine.logic.TickTimer;
-import ch.logixisland.anuto.engine.render.DrawCommandBuffer;
 import ch.logixisland.anuto.engine.render.shape.LevelIndicator;
 import ch.logixisland.anuto.engine.render.shape.RangeIndicator;
 import ch.logixisland.anuto.entity.Entity;
@@ -85,7 +84,7 @@ public abstract class Tower extends Entity {
     }
 
 
-    public abstract void preview(DrawCommandBuffer buffer);
+    public abstract void preview(Canvas canvas);
 
     public abstract List<TowerProperty> getProperties();
 

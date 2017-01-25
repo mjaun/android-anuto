@@ -6,7 +6,6 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickListener;
 import ch.logixisland.anuto.engine.logic.TickTimer;
-import ch.logixisland.anuto.engine.render.DrawCommandBuffer;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.ReplicatedSprite;
@@ -135,11 +134,11 @@ public class Healer extends Enemy {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, DrawCommandBuffer buffer) {
-        super.draw(sprite, buffer);
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        super.draw(sprite, canvas);
 
-        buffer.rotate(mStatic.mAngle);
-        buffer.scale(mStatic.mScale, mStatic.mScale);
+        canvas.rotate(mStatic.mAngle);
+        canvas.scale(mStatic.mScale, mStatic.mScale);
     }
 
     @Override

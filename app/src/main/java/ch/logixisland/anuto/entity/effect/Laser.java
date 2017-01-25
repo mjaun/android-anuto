@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import ch.logixisland.anuto.engine.logic.GameEngine;
-import ch.logixisland.anuto.engine.render.DrawCommandBuffer;
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.entity.Entity;
@@ -49,8 +48,8 @@ public class Laser extends Effect {
         }
 
         @Override
-        public void draw(DrawCommandBuffer buffer) {
-            buffer.drawLine(getPosition().x, getPosition().y, mTargetPos.x, mTargetPos.y, mPaint);
+        public void draw(Canvas canvas) {
+            canvas.drawLine(getPosition().x, getPosition().y, mTargetPos.x, mTargetPos.y, mPaint);
         }
     }
 
