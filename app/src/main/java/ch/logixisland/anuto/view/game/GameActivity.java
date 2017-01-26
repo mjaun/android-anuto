@@ -29,12 +29,6 @@ public class GameActivity extends Activity {
         setContentView(R.layout.activity_game);
 
         view_tower_defense = (GameView) findViewById(R.id.view_tower_defense);
-        view_tower_defense.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                AnutoApplication.getInstance().getGameFactory().initTest();
-            }
-        }, 100);
     }
 
     @Override

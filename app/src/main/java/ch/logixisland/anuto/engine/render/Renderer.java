@@ -20,9 +20,6 @@ public class Renderer {
 
     private WeakReference<View> mViewRef;
 
-    private volatile int mUpdateCount;
-    private volatile int mDrawCount;
-
     public Renderer(Viewport viewport, ThemeManager themeManager) {
         mViewport = viewport;
         mThemeManager = themeManager;
@@ -30,16 +27,6 @@ public class Renderer {
 
     public void setView(final View view) {
         mViewRef = new WeakReference<>(view);
-
-        view.post(new Runnable() {
-            @Override
-            public void run() {
-                Log.d("Renderer", "UpdateCount = " + mUpdateCount);
-                Log.d("Renderer", "DrawCount = " + mDrawCount);
-                mUpdateCount = mDrawCount = 0;
-                view.postDelayed(this, 1000);
-            }
-        });
     }
 
     public void add(Drawable obj) {
@@ -67,7 +54,6 @@ public class Renderer {
 
         if (view != null) {
             view.postInvalidate();
-            mUpdateCount++;
         }
     }
 
@@ -80,8 +66,6 @@ public class Renderer {
         for (Drawable obj : mDrawables) {
             obj.draw(canvas);
         }
-
-        mDrawCount++;
 
         mLock.unlock();
     }

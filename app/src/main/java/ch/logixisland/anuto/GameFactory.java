@@ -71,24 +71,6 @@ public class GameFactory {
         mGameManager.restart();
     }
 
-    public void initTest() {
-        mGameEngine.post(new Runnable() {
-            @Override
-            public void run() {
-                Iterator<Plateau> iterator = mGameEngine.get(Types.PLATEAU).cast(Plateau.class);
-                while (iterator.hasNext())
-                {
-                    Plateau plateau = iterator.next();
-                    Tower tower = mTowerFactory.createTower("Canon");
-                    plateau.setOccupant(tower);
-                    tower.setPosition(plateau.getPosition());
-                    tower.setEnabled(true);
-                    mGameEngine.add(tower);
-                }
-            }
-        });
-    }
-
     public SpriteFactory getSpriteFactory() {
         return mSpriteFactory;
     }
