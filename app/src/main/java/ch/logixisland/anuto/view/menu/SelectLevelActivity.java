@@ -1,6 +1,5 @@
 package ch.logixisland.anuto.view.menu;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -16,8 +15,11 @@ import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.level.LevelLoader;
 import ch.logixisland.anuto.business.manager.GameManager;
+import ch.logixisland.anuto.engine.theme.ActivityType;
+import ch.logixisland.anuto.view.AnutoActivity;
 
-public class SelectLevelActivity extends Activity implements View.OnClickListener, ViewTreeObserver.OnScrollChangedListener {
+public class SelectLevelActivity extends AnutoActivity implements View.OnClickListener,
+        ViewTreeObserver.OnScrollChangedListener {
 
     private final GameManager mGameManager;
     private final LevelLoader mLevelLoader;
@@ -32,6 +34,11 @@ public class SelectLevelActivity extends Activity implements View.OnClickListene
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
         mGameManager = factory.getGameManager();
         mLevelLoader = factory.getLevelLoader();
+    }
+
+    @Override
+    protected ActivityType getActivityType() {
+        return ActivityType.Menu;
     }
 
     @Override

@@ -17,20 +17,15 @@
         android:label="@string/app_name">
         <activity
             android:name=".view.game.GameActivity"
-            android:keepScreenOn="true"
-            android:theme="@style/GameTheme">
+            android:keepScreenOn="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name=".view.menu.MenuActivity"
-            android:theme="@style/MenuTheme">
+        <activity android:name=".view.menu.MenuActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
         </activity>
-        <activity
-            android:name=".view.menu.SelectLevelActivity"
-            android:theme="@style/MenuTheme">
+        <activity android:name=".view.menu.SelectLevelActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
         </activity>
     </application>
 

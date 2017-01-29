@@ -36,7 +36,7 @@ public class Soldier extends Enemy {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.drawable.soldier, 12);
+        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.attr.soldier, 12);
         s.mSpriteTemplate.setMatrix(0.9f, 0.9f, null, null);
 
         s.mReferenceSprite = getSpriteFactory().createAnimated(Layers.ENEMY, s.mSpriteTemplate);

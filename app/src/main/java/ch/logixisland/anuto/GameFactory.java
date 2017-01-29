@@ -2,8 +2,6 @@ package ch.logixisland.anuto;
 
 import android.content.Context;
 
-import java.util.Iterator;
-
 import ch.logixisland.anuto.business.control.TowerControl;
 import ch.logixisland.anuto.business.control.TowerInserter;
 import ch.logixisland.anuto.business.control.TowerSelector;
@@ -17,12 +15,9 @@ import ch.logixisland.anuto.engine.render.Renderer;
 import ch.logixisland.anuto.engine.render.Viewport;
 import ch.logixisland.anuto.engine.render.shape.ShapeFactory;
 import ch.logixisland.anuto.engine.render.sprite.SpriteFactory;
-import ch.logixisland.anuto.engine.render.theme.ThemeManager;
-import ch.logixisland.anuto.entity.Types;
+import ch.logixisland.anuto.engine.theme.ThemeManager;
 import ch.logixisland.anuto.entity.enemy.EnemyFactory;
-import ch.logixisland.anuto.entity.plateau.Plateau;
 import ch.logixisland.anuto.entity.plateau.PlateauFactory;
-import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.entity.tower.TowerFactory;
 
 public class GameFactory {
@@ -48,7 +43,7 @@ public class GameFactory {
     private final GameManager mGameManager;
 
     public GameFactory(Context context) {
-        mThemeManager = new ThemeManager();
+        mThemeManager = new ThemeManager(context);
         mSpriteFactory = new SpriteFactory(context.getResources(), mThemeManager);
         mShapeFactory = new ShapeFactory(mThemeManager);
         mViewport = new Viewport();

@@ -26,7 +26,7 @@ public class BasicPlateau extends Plateau {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.drawable.plateau1, 4);
+        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.attr.plateau1, 4);
         s.mSpriteTemplate.setMatrix(1f, 1f, null, null);
 
         return s;

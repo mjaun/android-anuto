@@ -1,12 +1,12 @@
 package ch.logixisland.anuto.engine.render.shape;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 
+import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Layers;
-import ch.logixisland.anuto.engine.render.theme.ThemeManager;
+import ch.logixisland.anuto.engine.theme.ThemeManager;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.math.MathUtils;
 
@@ -23,9 +23,9 @@ public class HealthBar implements Drawable {
         mEnemy = enemy;
 
         mHealthBarBg = new Paint();
-        mHealthBarBg.setColor(themeManager.getTheme().getAltBackgroundColor());
+        mHealthBarBg.setColor(themeManager.getColor(R.attr.healthBarBackgroundColor));
         mHealthBarFg = new Paint();
-        mHealthBarFg.setColor(Color.GREEN);
+        mHealthBarFg.setColor(themeManager.getColor(R.attr.healthBarColor));
     }
 
     @Override

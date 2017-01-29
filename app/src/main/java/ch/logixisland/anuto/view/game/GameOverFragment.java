@@ -17,7 +17,7 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.manager.GameListener;
 import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.business.score.ScoreBoard;
-import ch.logixisland.anuto.engine.render.theme.ThemeManager;
+import ch.logixisland.anuto.engine.theme.ThemeManager;
 
 public class GameOverFragment extends Fragment implements GameListener {
 
@@ -44,9 +44,6 @@ public class GameOverFragment extends Fragment implements GameListener {
 
         txt_game_over = (TextView) v.findViewById(R.id.txt_game_over);
         txt_score = (TextView) v.findViewById(R.id.txt_score);
-
-        txt_game_over.setTextColor(mThemeManager.getTheme().getTextColor());
-        txt_score.setTextColor(mThemeManager.getTheme().getTextColor());
 
         mHandler = new Handler();
 

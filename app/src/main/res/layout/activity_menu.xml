@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/shadowColor"
     tools:context=".view.menu.MenuActivity">
 
     <LinearLayout
@@ -10,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:orientation="vertical"
-        android:background="@drawable/border"
+        android:background="?attr/backgroundBorder"
         android:padding="10dp"
         android:weightSum="1">
 
@@ -18,7 +19,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_gravity="center_horizontal"
-            android:background="#ffffff"
+            android:background="?attr/backgroundColor"
             android:src="@mipmap/icon"/>
         
         <Space

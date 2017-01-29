@@ -1,6 +1,5 @@
 package ch.logixisland.anuto.view.game;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 
@@ -9,8 +8,10 @@ import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.control.TowerSelector;
 import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.engine.theme.ActivityType;
+import ch.logixisland.anuto.view.AnutoActivity;
 
-public class GameActivity extends Activity {
+public class GameActivity extends AnutoActivity {
 
     private final GameEngine mGameEngine;
     private final TowerSelector mTowerSelector;
@@ -21,6 +22,11 @@ public class GameActivity extends Activity {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
         mGameEngine = factory.getGameEngine();
         mTowerSelector = factory.getTowerSelector();
+    }
+
+    @Override
+    protected ActivityType getActivityType() {
+        return ActivityType.Game;
     }
 
     @Override

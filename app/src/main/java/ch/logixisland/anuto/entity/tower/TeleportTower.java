@@ -46,10 +46,10 @@ public class TeleportTower extends AimingTower {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.mSpriteTemplateBase = getSpriteFactory().createTemplate(R.drawable.base4, 4);
+        s.mSpriteTemplateBase = getSpriteFactory().createTemplate(R.attr.base4, 4);
         s.mSpriteTemplateBase.setMatrix(1f, 1f, null, null);
 
-        s.mSpriteTemplateTower = getSpriteFactory().createTemplate(R.drawable.teleport_tower, 4);
+        s.mSpriteTemplateTower = getSpriteFactory().createTemplate(R.attr.teleportTower, 4);
         s.mSpriteTemplateTower.setMatrix(0.8f, 0.8f, null, null);
 
         return s;

@@ -95,7 +95,7 @@ public class WaveManager {
         mListeners.add(listener);
     }
 
-    public void removeListeners(WaveListener listener) {
+    public void removeListener(WaveListener listener) {
         mListeners.remove(listener);
     }
 

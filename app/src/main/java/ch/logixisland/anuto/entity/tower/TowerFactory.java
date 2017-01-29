@@ -15,7 +15,7 @@ public class TowerFactory {
 
         mFactory.registerClass(Canon.class);
         mFactory.registerClass(CanonDual.class);
-        mFactory.registerClass(CanonMG.class);
+        mFactory.registerClass(CanonMg.class);
 
         mFactory.registerClass(LaserTower1.class);
         mFactory.registerClass(LaserTower2.class);

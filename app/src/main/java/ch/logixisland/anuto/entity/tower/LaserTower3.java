@@ -49,10 +49,10 @@ public class LaserTower3 extends AimingTower {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.mSpriteTemplateBase = getSpriteFactory().createTemplate(R.drawable.base5, 4);
+        s.mSpriteTemplateBase = getSpriteFactory().createTemplate(R.attr.base5, 4);
         s.mSpriteTemplateBase.setMatrix(1f, 1f, null, -90f);
 
-        s.mSpriteTemplateCanon = getSpriteFactory().createTemplate(R.drawable.laser_tower3, 4);
+        s.mSpriteTemplateCanon = getSpriteFactory().createTemplate(R.attr.laserTower3, 4);
         s.mSpriteTemplateCanon.setMatrix(0.4f, 1.2f, new Vector2(0.2f, 0.2f), -90f);
 
         return s;

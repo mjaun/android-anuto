@@ -47,7 +47,7 @@ public class CanonShot extends HomingShot {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.drawable.canon_shot, 4);
+        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.attr.canonShot, 4);
         s.mSpriteTemplate.setMatrix(0.33f, 0.33f, null, null);
 
         return s;

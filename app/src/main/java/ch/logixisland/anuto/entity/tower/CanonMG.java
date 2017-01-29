@@ -11,13 +11,13 @@ import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
-import ch.logixisland.anuto.entity.shot.CanonShotMG;
+import ch.logixisland.anuto.entity.shot.CanonShotMg;
 import ch.logixisland.anuto.entity.shot.Shot;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.data.TowerConfig;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
-public class CanonMG extends AimingTower {
+public class CanonMg extends AimingTower {
 
     private final static float SHOT_SPAWN_OFFSET = 0.7f;
     private final static float MG_ROTATION_SPEED = 2f;
@@ -31,7 +31,7 @@ public class CanonMG extends AimingTower {
     private StaticSprite mSpriteBase;
     private AnimatedSprite mSpriteCanon;
 
-    public CanonMG(TowerConfig config) {
+    public CanonMg(TowerConfig config) {
         super(config);
         StaticData s = (StaticData) getStaticData();
 
@@ -49,10 +49,10 @@ public class CanonMG extends AimingTower {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.mSpriteTemplateBase = getSpriteFactory().createTemplate(R.drawable.base1, 4);
+        s.mSpriteTemplateBase = getSpriteFactory().createTemplate(R.attr.base1, 4);
         s.mSpriteTemplateBase.setMatrix(1f, 1f, null, null);
 
-        s.mSpriteTemplateCanon = getSpriteFactory().createTemplate(R.drawable.canon_mg, 5);
+        s.mSpriteTemplateCanon = getSpriteFactory().createTemplate(R.attr.canonMg, 5);
         s.mSpriteTemplateCanon.setMatrix(0.8f, 1.0f, new Vector2(0.4f, 0.4f), -90f);
 
         return s;
@@ -90,7 +90,7 @@ public class CanonMG extends AimingTower {
             mSpriteCanon.tick();
 
             if (isReloaded()) {
-                Shot shot = new CanonShotMG(this, getPosition(), getDirectionTo(getTarget()), getDamage());
+                Shot shot = new CanonShotMg(this, getPosition(), getDirectionTo(getTarget()), getDamage());
                 shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
                 getGameEngine().add(shot);
 

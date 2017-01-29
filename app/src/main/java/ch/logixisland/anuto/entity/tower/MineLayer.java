@@ -62,7 +62,7 @@ public class MineLayer extends Tower {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.drawable.minelayer, 6);
+        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.attr.mineLayer, 6);
         s.mSpriteTemplate.setMatrix(1f, 1f, null, null);
 
         return s;

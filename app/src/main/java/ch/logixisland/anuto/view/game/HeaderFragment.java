@@ -22,8 +22,7 @@ import ch.logixisland.anuto.business.score.BonusListener;
 import ch.logixisland.anuto.business.score.CreditsListener;
 import ch.logixisland.anuto.business.score.LivesListener;
 import ch.logixisland.anuto.business.score.ScoreBoard;
-import ch.logixisland.anuto.engine.render.theme.Theme;
-import ch.logixisland.anuto.engine.render.theme.ThemeManager;
+import ch.logixisland.anuto.engine.theme.ThemeManager;
 import ch.logixisland.anuto.util.StringUtils;
 import ch.logixisland.anuto.view.menu.MenuActivity;
 
@@ -61,18 +60,11 @@ public class HeaderFragment extends Fragment implements GameListener, WaveListen
         mHandler = new Handler();
 
         View v = inflater.inflate(R.layout.fragment_header, container, false);
-        Theme theme = mThemeManager.getTheme();
-        v.setBackgroundColor(theme.getBackgroundColor());
 
         txt_credits = (TextView) v.findViewById(R.id.txt_credits);
         txt_lives = (TextView) v.findViewById(R.id.txt_lives);
         txt_wave = (TextView) v.findViewById(R.id.txt_wave);
         txt_bonus = (TextView) v.findViewById(R.id.txt_bonus);
-
-        txt_credits.setTextColor(theme.getTextColor());
-        txt_lives.setTextColor(theme.getTextColor());
-        txt_wave.setTextColor(theme.getTextColor());
-        txt_bonus.setTextColor(theme.getTextColor());
 
         btn_next_wave = (Button) v.findViewById(R.id.btn_next_wave);
         btn_menu = (Button) v.findViewById(R.id.btn_menu);
@@ -102,7 +94,7 @@ public class HeaderFragment extends Fragment implements GameListener, WaveListen
     public void onDetach() {
         super.onDetach();
         mGameManager.removeListener(this);
-        mWaveManager.removeListeners(this);
+        mWaveManager.removeListener(this);
         mScoreBoard.removeBonusListener(this);
         mScoreBoard.removeCreditsListener(this);
         mScoreBoard.removeLivesListener(this);

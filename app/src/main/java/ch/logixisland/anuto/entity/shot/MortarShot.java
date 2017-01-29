@@ -63,7 +63,7 @@ public class MortarShot extends Shot {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.drawable.grenade, 4);
+        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.attr.grenade, 4);
         s.mSpriteTemplate.setMatrix(0.7f, 0.7f, null, null);
 
         return s;

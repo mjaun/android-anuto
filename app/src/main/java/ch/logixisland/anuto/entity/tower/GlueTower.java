@@ -85,13 +85,13 @@ public class GlueTower extends Tower {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.mSpriteTemplateBase = getSpriteFactory().createTemplate(R.drawable.base4, 4);
+        s.mSpriteTemplateBase = getSpriteFactory().createTemplate(R.attr.base4, 4);
         s.mSpriteTemplateBase.setMatrix(1f, 1f, null, null);
 
-        s.mSpriteTemplateTower = getSpriteFactory().createTemplate(R.drawable.glue_shot, 6);
+        s.mSpriteTemplateTower = getSpriteFactory().createTemplate(R.attr.glueShot, 6);
         s.mSpriteTemplateTower.setMatrix(0.3f, 0.3f, null, null);
 
-        s.mSpriteTemplateCanon = getSpriteFactory().createTemplate(R.drawable.glue_tower_gun, 4);
+        s.mSpriteTemplateCanon = getSpriteFactory().createTemplate(R.attr.glueTowerGun, 4);
         s.mSpriteTemplateCanon.setMatrix(0.3f, 0.4f, null, -90f);
 
         return s;

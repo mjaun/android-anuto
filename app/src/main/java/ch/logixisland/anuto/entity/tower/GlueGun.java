@@ -55,10 +55,10 @@ public class GlueGun extends AimingTower {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.mSpriteTemplateBase = getSpriteFactory().createTemplate(R.drawable.base1, 4);
+        s.mSpriteTemplateBase = getSpriteFactory().createTemplate(R.attr.base1, 4);
         s.mSpriteTemplateBase.setMatrix(1f, 1f, null, null);
 
-        s.mSpriteTemplateCanon = getSpriteFactory().createTemplate(R.drawable.glue_gun, 6);
+        s.mSpriteTemplateCanon = getSpriteFactory().createTemplate(R.attr.glueGun, 6);
         s.mSpriteTemplateCanon.setMatrix(0.8f, 1.0f, new Vector2(0.4f, 0.4f), -90f);
 
         return s;

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <style name="OriginalTheme" parent="@android:style/Theme.NoTitleBar.Fullscreen">
+        <item name="textColor">#000000</item>
+        <item name="textDisabledColor">#ff0000</item>
+        <item name="backgroundColor">#ffffff</item>
+        <item name="backgroundBorder">@drawable/border</item>
+        <item name="backgroundBorderBottom">@drawable/border_bottom</item>
+        <item name="arrow">@drawable/arrow</item>
+        <item name="shadowColor">#88333333</item>
+        <item name="healthBarBackgroundColor">#000000</item>
+        <item name="healthBarColor">#00ff00</item>
+        <item name="levelIndicatorColor">#ff0000</item>
+        <item name="rangeIndicatorColor">#8000ff00</item>
+        <item name="explosionColor">#b4ffff00</item>
+        <item name="laserColor">#b4ff0000</item>
+        <item name="healEffectColor">#460000ff</item>
+        <item name="teleportEffectColor">#46ff00ff</item>
+
+        <item name="base1">@drawable/base1</item>
+        <item name="base2">@drawable/base2</item>
+        <item name="base3">@drawable/base3</item>
+        <item name="base4">@drawable/base4</item>
+        <item name="base5">@drawable/base5</item>
+        <item name="blob">@drawable/blob</item>
+        <item name="canon">@drawable/canon</item>
+        <item name="canonDual">@drawable/canon_dual</item>
+        <item name="canonMg">@drawable/canon_mg</item>
+        <item name="canonMgShot">@drawable/canon_mg_shot_dk</item>
+        <item name="canonShot">@drawable/canon_shot</item>
+        <item name="flyer">@drawable/flyer</item>
+        <item name="glueEffect">@drawable/glue_effect</item>
+        <item name="glueGun">@drawable/glue_gun</item>
+        <item name="glueShot">@drawable/glue_shot</item>
+        <item name="glueTowerGun">@drawable/glue_tower_gun</item>
+        <item name="grenade">@drawable/grenade</item>
+        <item name="healer">@drawable/healer</item>
+        <item name="laserTower1">@drawable/laser_tower1</item>
+        <item name="laserTower2">@drawable/laser_tower2</item>
+        <item name="laserTower3">@drawable/laser_tower3</item>
+        <item name="mine">@drawable/mine</item>
+        <item name="mineLayer">@drawable/mine_layer</item>
+        <item name="mortar">@drawable/mortar</item>
+        <item name="plateau1">@drawable/plateau1</item>
+        <item name="rocket">@drawable/rocket</item>
+        <item name="rocketFire">@drawable/rocket_fire</item>
+        <item name="rocketLauncher">@drawable/rocket_launcher</item>
+        <item name="soldier">@drawable/soldier</item>
+        <item name="sprinter">@drawable/sprinter</item>
+        <item name="teleportTower">@drawable/teleport_tower</item>
+    </style>
+    <style name="OriginalTheme.Menu">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+    </style>
+</resources>

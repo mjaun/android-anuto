@@ -86,7 +86,7 @@ public class Mine extends Shot {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.drawable.mine, 4);
+        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.attr.mine, 4);
         s.mSpriteTemplate.setMatrix(0.7f, 0.7f, null, null);
 
         return s;

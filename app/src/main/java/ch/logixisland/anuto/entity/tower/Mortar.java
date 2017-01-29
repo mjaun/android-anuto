@@ -55,10 +55,10 @@ public class Mortar extends AimingTower {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.mSpriteTemplateBase = getSpriteFactory().createTemplate(R.drawable.base2, 4);
+        s.mSpriteTemplateBase = getSpriteFactory().createTemplate(R.attr.base2, 4);
         s.mSpriteTemplateBase.setMatrix(1f, 1f, null, null);
 
-        s.mSpriteTemplateCanon = getSpriteFactory().createTemplate(R.drawable.mortar, 8);
+        s.mSpriteTemplateCanon = getSpriteFactory().createTemplate(R.attr.mortar, 8);
         s.mSpriteTemplateCanon.setMatrix(0.8f, null, new Vector2(0.4f, 0.2f), -90f);
 
         return s;

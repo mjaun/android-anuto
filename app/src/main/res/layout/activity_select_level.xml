@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:orientation="horizontal"
-            android:background="#55333333">
+            android:background="?attr/shadowColor">
 
             <ImageButton
                 android:id="@+id/btn_level_1"

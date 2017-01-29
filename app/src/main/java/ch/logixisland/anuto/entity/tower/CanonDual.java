@@ -75,13 +75,13 @@ public class CanonDual extends AimingTower {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.mSpriteTemplateBase = getSpriteFactory().createTemplate(R.drawable.base1, 4);
+        s.mSpriteTemplateBase = getSpriteFactory().createTemplate(R.attr.base1, 4);
         s.mSpriteTemplateBase.setMatrix(1f, 1f, null, null);
 
-        s.mSpriteTemplateTower = getSpriteFactory().createTemplate(R.drawable.canon_dual, 4);
+        s.mSpriteTemplateTower = getSpriteFactory().createTemplate(R.attr.canonDual, 4);
         s.mSpriteTemplateTower.setMatrix(0.5f, 0.5f, null, -90f);
 
-        s.mSpriteTemplateCanon = getSpriteFactory().createTemplate(R.drawable.canon, 4);
+        s.mSpriteTemplateCanon = getSpriteFactory().createTemplate(R.attr.canon, 4);
         s.mSpriteTemplateCanon.setMatrix(0.3f, 1.0f, new Vector2(0.15f, 0.4f), -90f);
 
         return s;

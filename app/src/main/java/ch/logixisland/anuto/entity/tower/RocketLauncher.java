@@ -52,10 +52,10 @@ public class RocketLauncher extends AimingTower {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.drawable.rocket_launcher, 4);
+        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.attr.rocketLauncher, 4);
         s.mSpriteTemplate.setMatrix(1.1f, 1.1f, null, -90f);
 
-        s.mSpriteTemplateRocket = getSpriteFactory().createTemplate(R.drawable.rocket, 4);
+        s.mSpriteTemplateRocket = getSpriteFactory().createTemplate(R.attr.rocket, 4);
         s.mSpriteTemplateRocket.setMatrix(0.8f, 1f, null, -90f);
 
         return s;

@@ -5,6 +5,7 @@
     <string name="menu">Menu</string>
     <string name="restart">Restart</string>
     <string name="change_level">Change Level</string>
+    <string name="original_theme">Original Theme</string>
     <string name="dark_theme">Dark Theme</string>
     <string name="next_wave">Next Wave</string>
 

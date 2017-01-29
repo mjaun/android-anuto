@@ -61,10 +61,10 @@ public class Rocket extends HomingShot {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.drawable.rocket, 4);
+        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.attr.rocket, 4);
         s.mSpriteTemplate.setMatrix(0.8f, 1f, null, -90f);
 
-        s.mSpriteTemplateFire = getSpriteFactory().createTemplate(R.drawable.rocket_fire, 4);
+        s.mSpriteTemplateFire = getSpriteFactory().createTemplate(R.attr.rocketFire, 4);
         s.mSpriteTemplateFire.setMatrix(0.3f, 0.3f, new Vector2(0.15f, 0.6f), -90f);
 
         return s;

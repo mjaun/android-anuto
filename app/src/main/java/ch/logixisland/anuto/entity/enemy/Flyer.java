@@ -41,7 +41,7 @@ public class Flyer extends Enemy {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.drawable.flyer, 6);
+        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.attr.flyer, 6);
         s.mSpriteTemplate.setMatrix(0.9f, 0.9f, null, -90f);
 
         s.mReferenceSprite = getSpriteFactory().createAnimated(Layers.ENEMY, s.mSpriteTemplate);

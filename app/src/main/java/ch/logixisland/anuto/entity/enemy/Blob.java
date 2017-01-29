@@ -36,7 +36,7 @@ public class Blob extends Enemy {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.drawable.blob, 9);
+        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.attr.blob, 9);
         s.mSpriteTemplate.setMatrix(0.9f, 0.9f, null, null);
 
         s.mReferenceSprite = getSpriteFactory().createAnimated(Layers.ENEMY, s.mSpriteTemplate);

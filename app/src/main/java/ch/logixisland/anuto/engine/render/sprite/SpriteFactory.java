@@ -4,7 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import ch.logixisland.anuto.engine.render.theme.ThemeManager;
+import ch.logixisland.anuto.engine.theme.ThemeManager;
 
 public class SpriteFactory {
 
@@ -16,8 +16,8 @@ public class SpriteFactory {
         mThemeManager = themeManager;
     }
 
-    public SpriteTemplate createTemplate(int resourceId, int spriteCount) {
-        resourceId = mThemeManager.getTheme().resourceMap(resourceId);
+    public SpriteTemplate createTemplate(int attrId, int spriteCount) {
+        int resourceId = mThemeManager.getResourceId(attrId);
 
         Bitmap sheet = BitmapFactory.decodeResource(mResources, resourceId);
         Bitmap[] sprites = new Bitmap[spriteCount];

@@ -3,7 +3,6 @@ package ch.logixisland.anuto.view.game;
 import android.content.ClipData;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
@@ -18,7 +17,7 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.control.TowerInserter;
 import ch.logixisland.anuto.business.score.CreditsListener;
 import ch.logixisland.anuto.business.score.ScoreBoard;
-import ch.logixisland.anuto.engine.render.theme.ThemeManager;
+import ch.logixisland.anuto.engine.theme.ThemeManager;
 import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.entity.tower.TowerFactory;
 
@@ -33,6 +32,8 @@ public class TowerView extends View implements View.OnTouchListener, View.OnDrag
     private final TowerFactory mTowerFactory;
 
     private Tower mPreviewTower;
+    private int mTextColor;
+    private int mTextColorDisabled;
 
     private final Paint mPaintText;
     private final Matrix mScreenMatrix;
@@ -42,9 +43,9 @@ public class TowerView extends View implements View.OnTouchListener, View.OnDrag
         public void creditsChanged(int credits) {
             if (mPreviewTower != null) {
                 if (credits >= mPreviewTower.getValue()) {
-                    mPaintText.setColor(mThemeManager.getTheme().getTextColor());
+                    mPaintText.setColor(mTextColor);
                 } else {
-                    mPaintText.setColor(Color.RED);
+                    mPaintText.setColor(mTextColorDisabled);
                 }
 
                 TowerView.this.postInvalidate();
@@ -63,6 +64,8 @@ public class TowerView extends View implements View.OnTouchListener, View.OnDrag
             mTowerFactory = factory.getTowerFactory();
 
             mScoreBoard.addCreditsListener(mCreditsListener);
+            mTextColor = mThemeManager.getColor(R.attr.textColor);
+            mTextColorDisabled = mThemeManager.getColor(R.attr.textDisabledColor);
         } else {
             mThemeManager = null;
             mScoreBoard = null;

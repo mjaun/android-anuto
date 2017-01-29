@@ -1,28 +1,32 @@
 package ch.logixisland.anuto.engine.render;
 
 import android.graphics.Canvas;
-import android.util.Log;
 import android.view.View;
 
 import java.lang.ref.WeakReference;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import ch.logixisland.anuto.engine.render.theme.ThemeManager;
+import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.util.container.MultiMap;
+import ch.logixisland.anuto.engine.theme.ThemeListener;
+import ch.logixisland.anuto.engine.theme.ThemeManager;
 
-public class Renderer {
+public class Renderer implements ThemeListener {
 
     private final Viewport mViewport;
     private final ThemeManager mThemeManager;
     private final MultiMap<Drawable> mDrawables = new MultiMap<>();
     private final Lock mLock = new ReentrantLock(true);
 
+    private int mBackgroundColor;
     private WeakReference<View> mViewRef;
 
     public Renderer(Viewport viewport, ThemeManager themeManager) {
         mViewport = viewport;
         mThemeManager = themeManager;
+        mThemeManager.addListener(this);
+        themeChanged();
     }
 
     public void setView(final View view) {
@@ -60,7 +64,7 @@ public class Renderer {
     public void draw(Canvas canvas) {
         mLock.lock();
 
-        canvas.drawColor(mThemeManager.getTheme().getBackgroundColor());
+        canvas.drawColor(mBackgroundColor);
         canvas.concat(mViewport.getScreenMatrix());
 
         for (Drawable obj : mDrawables) {
@@ -70,4 +74,8 @@ public class Renderer {
         mLock.unlock();
     }
 
+    @Override
+    public void themeChanged() {
+        mBackgroundColor = mThemeManager.getColor(R.attr.backgroundColor);
+    }
 }

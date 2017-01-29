@@ -1,6 +1,6 @@
 package ch.logixisland.anuto.engine.render.shape;
 
-import ch.logixisland.anuto.engine.render.theme.ThemeManager;
+import ch.logixisland.anuto.engine.theme.ThemeManager;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.entity.tower.Tower;
 
@@ -17,11 +17,11 @@ public class ShapeFactory {
     }
 
     public RangeIndicator createRangeIndicator(Tower tower) {
-        return new RangeIndicator(tower);
+        return new RangeIndicator(mThemeManager, tower);
     }
 
     public LevelIndicator createLevelIndicator(Tower tower) {
-        return new LevelIndicator(tower);
+        return new LevelIndicator(mThemeManager, tower);
     }
 
 }

@@ -47,7 +47,7 @@ public class GlueShot extends Shot {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.drawable.glue_shot, 6);
+        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.attr.glueShot, 6);
         s.mSpriteTemplate.setMatrix(0.33f, 0.33f, null, null);
 
         return s;

@@ -188,6 +188,10 @@ public class TowerInfoFragment extends Fragment implements View.OnTouchListener,
             txt_property_text[i].setText(getResources().getString(property.getTextId()) + ":");
             txt_property[i].setText(StringUtils.formatSuffix(property.getValue()));
         }
+        for (int i = properties.size(); i < txt_property.length; i++) {
+            txt_property_text[i].setText("");
+            txt_property[i].setText("");
+        }
 
         if (towerInfo.getEnhanceCost() > 0) {
             btn_enhance.setText(getResources().getString(R.string.enhance)

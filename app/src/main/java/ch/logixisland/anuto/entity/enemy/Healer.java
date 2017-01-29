@@ -107,7 +107,7 @@ public class Healer extends Enemy {
                 .stretch(GameEngine.TARGET_FRAME_RATE * s.mHealDuration * 0.66f / (float) Math.PI)
                 .sample();
 
-        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.drawable.healer, 4);
+        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.attr.healer, 4);
         s.mSpriteTemplate.setMatrix(0.9f, 0.9f, null, null);
 
         s.mReferenceSprite = getSpriteFactory().createAnimated(Layers.ENEMY, s.mSpriteTemplate);

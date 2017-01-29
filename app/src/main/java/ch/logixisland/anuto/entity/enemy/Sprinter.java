@@ -55,7 +55,7 @@ public class Sprinter extends Enemy {
                 .stretch(GameEngine.TARGET_FRAME_RATE / ANIMATION_SPEED / (float) Math.PI)
                 .sample();
 
-        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.drawable.sprinter, 6);
+        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.attr.sprinter, 6);
         s.mSpriteTemplate.setMatrix(0.9f, 0.9f, null, null);
 
         s.mReferenceSprite = getSpriteFactory().createAnimated(Layers.ENEMY, s.mSpriteTemplate);

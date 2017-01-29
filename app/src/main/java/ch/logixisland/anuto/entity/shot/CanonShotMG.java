@@ -13,7 +13,7 @@ import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
-public class CanonShotMG extends Shot {
+public class CanonShotMg extends Shot {
 
     private final static float HIT_RANGE = 0.5f;
     private final static float MOVEMENT_SPEED = 8.0f;
@@ -27,7 +27,7 @@ public class CanonShotMG extends Shot {
 
     private StaticSprite mSprite;
 
-    public CanonShotMG(Entity origin, Vector2 position, Vector2 direction, float damage) {
+    public CanonShotMg(Entity origin, Vector2 position, Vector2 direction, float damage) {
         super(origin);
         setPosition(position);
         setSpeed(MOVEMENT_SPEED);
@@ -47,7 +47,7 @@ public class CanonShotMG extends Shot {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.drawable.canon_mg_shot, 4);
+        s.mSpriteTemplate = getSpriteFactory().createTemplate(R.attr.canonMgShot, 4);
         s.mSpriteTemplate.setMatrix(0.2f, null, null, -90f);
 
         return s;
