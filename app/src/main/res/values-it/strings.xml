@@ -28,7 +28,7 @@
     <string name="duration">Durata</string>
     <string name="inflicted">Inflitto</string>
 
-    <string name="lock_target">Fermo sull'obiettivo</string>
+    <string name="lock_target">Fermo sull\'obiettivo</string>
     <string name="strategy">Strategia</string>
     <string name="enhance">Migliora</string>
     <string name="upgrade">Aggiorna</string>
