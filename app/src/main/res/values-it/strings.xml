@@ -6,14 +6,13 @@
     <string name="restart">Ricomincia</string>
     <string name="change_level">Cambia livello</string>
     <string name="dark_theme">Tema scuro</string>
-    <string name="normal_theme">Tema normale</string>
+    <string name="original_theme">Tema originale</string>
     <string name="next_wave">Prossima ondata</string>
 
     <string name="game_over">Partita finita!</string>
     <string name="score">Punteggio</string>
 
     <string name="status_credits">Riconoscimenti</string>
-    <string name="status_live">Vita</string>
     <string name="status_lives">Vite</string>
     <string name="status_wave">Ondata</string>
     <string name="status_bonus">Bonus</string>
