@@ -9,8 +9,8 @@ import java.util.Map;
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Renderer;
 import ch.logixisland.anuto.entity.Entity;
-import ch.logixisland.anuto.util.container.SmartCollection;
 import ch.logixisland.anuto.util.container.MultiMap;
+import ch.logixisland.anuto.util.container.SmartCollection;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
 public class GameEngine implements Runnable {

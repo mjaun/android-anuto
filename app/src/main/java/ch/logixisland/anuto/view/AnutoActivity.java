@@ -9,7 +9,7 @@ import ch.logixisland.anuto.engine.theme.ActivityType;
 import ch.logixisland.anuto.engine.theme.ThemeListener;
 import ch.logixisland.anuto.engine.theme.ThemeManager;
 
-public abstract class AnutoActivity  extends Activity {
+public abstract class AnutoActivity extends Activity {
 
     private final ThemeManager mThemeManager;
 

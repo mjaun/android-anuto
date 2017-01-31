@@ -8,9 +8,9 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.util.container.MultiMap;
 import ch.logixisland.anuto.engine.theme.ThemeListener;
 import ch.logixisland.anuto.engine.theme.ThemeManager;
+import ch.logixisland.anuto.util.container.MultiMap;
 
 public class Renderer implements ThemeListener {
 
