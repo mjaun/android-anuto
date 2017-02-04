@@ -2,6 +2,7 @@ package ch.logixisland.anuto.view.menu;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 
@@ -27,6 +28,8 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener 
     private final WaveManager mWaveManager;
     private final ThemeManager mThemeManager;
 
+    private Handler mHandler;
+
     private Button btn_restart;
     private Button btn_change_level;
     private Button btn_switch_theme;
@@ -34,12 +37,22 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener 
     private final GameListener mGameListener = new GameListener() {
         @Override
         public void gameStarted() {
-            update();
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    update();
+                }
+            });
         }
 
         @Override
         public void gameOver() {
-            update();
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    update();
+                }
+            });
         }
     };
 
@@ -51,7 +64,12 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener 
 
         @Override
         public void waveStarted() {
-            update();
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    update();
+                }
+            });
         }
 
         @Override
@@ -87,6 +105,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener 
 
         btn_switch_theme.setText(getNextTheme().getThemeNameId());
 
+        mHandler = new Handler();
         mGameManager.addListener(mGameListener);
         mWaveManager.addListener(mWaveListener);
         update();
