@@ -74,6 +74,7 @@ public class CanonDual extends AimingTower {
         }
 
         mSound = getSoundFactory().createSound(R.raw.gun3_dit);
+        mSound.setVolume(0.5f);
     }
 
     @Override

@@ -48,6 +48,7 @@ public class CanonMg extends AimingTower {
         mSpriteCanon.setFrequency(MG_ROTATION_SPEED);
 
         mSound = getSoundFactory().createSound(R.raw.gun3_dit);
+        mSound.setVolume(0.5f);
     }
 
     @Override
