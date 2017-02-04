@@ -15,17 +15,25 @@
         android:screenOrientation="portrait"
         android:icon="@mipmap/icon"
         android:label="@string/app_name">
+
+        <!-- Activity themes are changed programatically later. In order for translucent activities
+             to work properly they need to have a translucent theme here. -->
         <activity
             android:name=".view.game.GameActivity"
-            android:keepScreenOn="true">
+            android:keepScreenOn="true"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".view.menu.MenuActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
+        <activity
+            android:name=".view.menu.MenuActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
         </activity>
-        <activity android:name=".view.menu.SelectLevelActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
+        <activity
+            android:name=".view.menu.SelectLevelActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
         </activity>
     </application>
 
