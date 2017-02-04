@@ -21,6 +21,7 @@ import ch.logixisland.anuto.business.control.TowerInfo;
 import ch.logixisland.anuto.business.control.TowerInfoView;
 import ch.logixisland.anuto.business.control.TowerSelector;
 import ch.logixisland.anuto.entity.tower.TowerProperty;
+import ch.logixisland.anuto.entity.tower.TowerStrategy;
 import ch.logixisland.anuto.util.StringUtils;
 
 public class TowerInfoFragment extends Fragment implements View.OnTouchListener,
@@ -175,7 +176,7 @@ public class TowerInfoFragment extends Fragment implements View.OnTouchListener,
         List<TowerProperty> properties = towerInfo.getProperties();
         for (int i = 0; i < properties.size(); i++) {
             TowerProperty property = properties.get(i);
-            txt_property_text[i].setText(getResources().getString(property.getTextId()) + ":");
+            txt_property_text[i].setText(getString(property.getTextId()) + ":");
             txt_property[i].setText(StringUtils.formatSuffix(property.getValue()));
         }
         for (int i = properties.size(); i < txt_property.length; i++) {
@@ -184,40 +185,73 @@ public class TowerInfoFragment extends Fragment implements View.OnTouchListener,
         }
 
         if (towerInfo.getEnhanceCost() > 0) {
-            btn_enhance.setText(getResources().getString(R.string.enhance)
-                    + " (" + StringUtils.formatSuffix(towerInfo.getEnhanceCost()) + ")");
+            btn_enhance.setText(StringUtils.formatSwitchButton(
+                    getString(R.string.enhance),
+                    StringUtils.formatSuffix(towerInfo.getEnhanceCost()))
+            );
         } else {
-            btn_enhance.setText(getResources().getString(R.string.enhance));
+            btn_enhance.setText(getString(R.string.enhance));
         }
 
         if (towerInfo.getUpgradeCost() > 0) {
-            btn_upgrade.setText(getResources().getString(R.string.upgrade)
-                    + " (" + StringUtils.formatSuffix(towerInfo.getUpgradeCost()) + ")");
+            btn_upgrade.setText(StringUtils.formatSwitchButton(
+                    getString(R.string.upgrade),
+                    StringUtils.formatSuffix(towerInfo.getUpgradeCost()))
+            );
         } else {
-            btn_upgrade.setText(getResources().getString(R.string.upgrade));
+            btn_upgrade.setText(getString(R.string.upgrade));
         }
 
-        btn_sell.setText(getResources().getString(R.string.sell)
-                + " (" + StringUtils.formatSuffix(towerInfo.getValue()) + ")");
+        btn_sell.setText(StringUtils.formatSwitchButton(
+                getString(R.string.sell),
+                StringUtils.formatSuffix(towerInfo.getValue()))
+        );
 
         btn_upgrade.setEnabled(towerInfo.isUpgradeable());
         btn_enhance.setEnabled(towerInfo.isEnhanceable());
         btn_sell.setEnabled(towerInfo.isSellable());
 
         if (towerInfo.canLockTarget()) {
-            btn_lock_target.setText(getResources().getString(R.string.lock_target) + " (" + towerInfo.doesLockTarget() + ")");
+            btn_lock_target.setText(StringUtils.formatSwitchButton(
+                    getString(R.string.lock_target),
+                    StringUtils.formatBoolean(towerInfo.doesLockTarget(), getResources()))
+            );
             btn_lock_target.setEnabled(true);
         } else {
-            btn_lock_target.setText(getResources().getString(R.string.lock_target));
+            btn_lock_target.setText(getString(R.string.lock_target));
             btn_lock_target.setEnabled(false);
         }
 
         if (towerInfo.hasStrategy()) {
-            btn_strategy.setText(getResources().getString(R.string.strategy) + " (" + towerInfo.getStrategy().name() + ")");
+            btn_strategy.setText(StringUtils.formatSwitchButton(
+                    getString(R.string.strategy),
+                    getStrategyString(towerInfo.getStrategy()))
+            );
             btn_strategy.setEnabled(true);
         } else {
-            btn_strategy.setText(getResources().getString(R.string.strategy));
+            btn_strategy.setText(getString(R.string.strategy));
             btn_strategy.setEnabled(false);
         }
+    }
+
+    private String getStrategyString(TowerStrategy strategy) {
+        switch (strategy) {
+            case Closest:
+                return getString(R.string.strategy_closest);
+
+            case Weakest:
+                return getString(R.string.strategy_weakest);
+
+            case Strongest:
+                return getString(R.string.strategy_strongest);
+
+            case First:
+                return getString(R.string.strategy_first);
+
+            case Last:
+                return getString(R.string.strategy_last);
+        }
+
+        throw new RuntimeException("Unknown strategy!");
     }
 }

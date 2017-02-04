@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <style name="OriginalTheme" parent="@android:style/Theme.NoTitleBar.Fullscreen">
+        <item name="android:textAppearance">?android:attr/textAppearanceSmallInverse</item>
+        <item name="android:textColor">?attr/textColor</item>
+
         <item name="textColor">#000000</item>
         <item name="textDisabledColor">#ff0000</item>
         <item name="backgroundColor">#ffffff</item>

@@ -16,6 +16,7 @@ import ch.logixisland.anuto.engine.render.Viewport;
 import ch.logixisland.anuto.engine.render.shape.ShapeFactory;
 import ch.logixisland.anuto.engine.render.sprite.SpriteFactory;
 import ch.logixisland.anuto.engine.sound.SoundFactory;
+import ch.logixisland.anuto.engine.sound.SoundManager;
 import ch.logixisland.anuto.engine.theme.ThemeManager;
 import ch.logixisland.anuto.entity.enemy.EnemyFactory;
 import ch.logixisland.anuto.entity.plateau.PlateauFactory;
@@ -25,6 +26,7 @@ public class GameFactory {
 
     // Engine
     private final ThemeManager mThemeManager;
+    private final SoundManager mSoundManager;
     private final SpriteFactory mSpriteFactory;
     private final ShapeFactory mShapeFactory;
     private final SoundFactory mSoundFactory;
@@ -50,9 +52,10 @@ public class GameFactory {
     public GameFactory(Context context) {
         // Engine
         mThemeManager = new ThemeManager(context);
+        mSoundManager = new SoundManager(context);
         mSpriteFactory = new SpriteFactory(context, mThemeManager);
         mShapeFactory = new ShapeFactory(mThemeManager);
-        mSoundFactory = new SoundFactory(context);
+        mSoundFactory = new SoundFactory(context, mSoundManager);
         mViewport = new Viewport();
         mRenderer = new Renderer(mViewport, mThemeManager);
         mGameEngine = new GameEngine(mRenderer);
@@ -77,6 +80,10 @@ public class GameFactory {
 
     public ThemeManager getThemeManager() {
         return mThemeManager;
+    }
+
+    public SoundManager getSoundManager() {
+        return mSoundManager;
     }
 
     public SpriteFactory getSpriteFactory() {

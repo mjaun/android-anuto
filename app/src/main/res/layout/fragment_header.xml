@@ -20,7 +20,7 @@
             android:layout_marginStart="5dp"
             android:textAppearance="?android:attr/textAppearanceSmallInverse"
             android:textColor="?attr/textColor"
-            android:text="@string/status_credits"/>
+            android:text="@string/credits"/>
 
         <TextView
             android:id="@+id/txt_bonus"
@@ -31,7 +31,7 @@
             android:layout_marginStart="10dp"
             android:textAppearance="?android:attr/textAppearanceSmallInverse"
             android:textColor="?attr/textColor"
-            android:text="@string/status_bonus" />
+            android:text="@string/bonus"/>
 
         <TextView
             android:id="@+id/txt_lives"
@@ -42,7 +42,7 @@
             android:layout_marginStart="10dp"
             android:textAppearance="?android:attr/textAppearanceSmallInverse"
             android:textColor="?attr/textColor"
-            android:text="@string/status_lives"/>
+            android:text="@string/lives"/>
 
         <TextView
             android:id="@+id/txt_wave"
@@ -53,7 +53,7 @@
             android:layout_marginEnd="5dp"
             android:textAppearance="?android:attr/textAppearanceSmallInverse"
             android:textColor="?attr/textColor"
-            android:text="@string/status_wave"/>
+            android:text="@string/wave"/>
     </RelativeLayout>
 
     <RelativeLayout

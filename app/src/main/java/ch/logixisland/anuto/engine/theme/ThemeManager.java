@@ -42,8 +42,8 @@ public class ThemeManager {
     }
 
     private void initThemes() {
-        mAvailableThemes.add(new Theme(R.string.original_theme, R.style.OriginalTheme, R.style.OriginalTheme_Menu));
-        mAvailableThemes.add(new Theme(R.string.dark_theme, R.style.DarkTheme, R.style.DarkTheme_Menu));
+        mAvailableThemes.add(new Theme(R.string.theme_original, R.style.OriginalTheme, R.style.OriginalTheme_Menu));
+        mAvailableThemes.add(new Theme(R.string.theme_dark, R.style.DarkTheme, R.style.DarkTheme_Menu));
     }
 
     public List<Theme> getAvailableThemes() {

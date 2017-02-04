@@ -4,16 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/shadowColor"
-    tools:context=".view.menu.MenuActivity">
+    tools:context=".view.menu.MenuActivity"
+    android:id="@+id/activity_menu">
 
     <LinearLayout
-        android:layout_width="200dp"
+        android:layout_width="260dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:orientation="vertical"
         android:background="?attr/backgroundBorder"
         android:padding="10dp"
-        android:weightSum="1">
+        android:id="@+id/menu_layout">
 
         <ImageView
             android:layout_width="80dp"
@@ -35,14 +36,24 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/change_level"
+            android:text="@string/change_map"
             android:id="@+id/btn_change_level" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/dark_theme"
+            android:text="@string/theme"
             android:id="@+id/btn_switch_theme" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sound"
+            android:id="@+id/btn_switch_sound"/>
 
     </LinearLayout>
 

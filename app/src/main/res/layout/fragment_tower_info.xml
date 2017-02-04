@@ -13,16 +13,12 @@
 
         <TableRow>
             <TextView
-                android:textAppearance="?android:attr/textAppearanceSmallInverse"
-                android:textColor="?attr/textColor"
                 android:id="@+id/txt_level_text"
                 android:layout_column="0"
                 android:paddingRight="10dp"
                 android:text="Property:" />
 
             <TextView
-                android:textAppearance="?android:attr/textAppearanceSmallInverse"
-                android:textColor="?attr/textColor"
                 android:id="@+id/txt_level"
                 android:layout_column="1"
                 android:text="1234" />
@@ -30,16 +26,12 @@
 
         <TableRow>
             <TextView
-                android:textAppearance="?android:attr/textAppearanceSmallInverse"
-                android:textColor="?attr/textColor"
                 android:id="@+id/txt_property_text1"
                 android:layout_column="0"
                 android:paddingRight="10dp"
                 android:text="Property:" />
 
             <TextView
-                android:textAppearance="?android:attr/textAppearanceSmallInverse"
-                android:textColor="?attr/textColor"
                 android:id="@+id/txt_property1"
                 android:layout_column="1"
                 android:text="1234" />
@@ -47,16 +39,12 @@
 
         <TableRow>
             <TextView
-                android:textAppearance="?android:attr/textAppearanceSmallInverse"
-                android:textColor="?attr/textColor"
                 android:id="@+id/txt_property_text2"
                 android:layout_column="0"
                 android:paddingRight="10dp"
                 android:text="Property:" />
 
             <TextView
-                android:textAppearance="?android:attr/textAppearanceSmallInverse"
-                android:textColor="?attr/textColor"
                 android:id="@+id/txt_property2"
                 android:layout_column="1"
                 android:text="1234" />
@@ -64,16 +52,12 @@
 
         <TableRow>
             <TextView
-                android:textAppearance="?android:attr/textAppearanceSmallInverse"
-                android:textColor="?attr/textColor"
                 android:id="@+id/txt_property_text3"
                 android:layout_column="0"
                 android:paddingRight="10dp"
                 android:text="Property:" />
 
             <TextView
-                android:textAppearance="?android:attr/textAppearanceSmallInverse"
-                android:textColor="?attr/textColor"
                 android:id="@+id/txt_property3"
                 android:layout_column="1"
                 android:text="1234" />
@@ -81,16 +65,12 @@
 
         <TableRow>
             <TextView
-                android:textAppearance="?android:attr/textAppearanceSmallInverse"
-                android:textColor="?attr/textColor"
                 android:id="@+id/txt_property_text4"
                 android:layout_column="0"
                 android:paddingRight="10dp"
                 android:text="Property:" />
 
             <TextView
-                android:textAppearance="?android:attr/textAppearanceSmallInverse"
-                android:textColor="?attr/textColor"
                 android:id="@+id/txt_property4"
                 android:layout_column="1"
                 android:text="1234" />
@@ -98,16 +78,12 @@
 
         <TableRow>
             <TextView
-                android:textAppearance="?android:attr/textAppearanceSmallInverse"
-                android:textColor="?attr/textColor"
                 android:id="@+id/txt_property_text5"
                 android:layout_column="0"
                 android:paddingRight="10dp"
                 android:text="Property:" />
 
             <TextView
-                android:textAppearance="?android:attr/textAppearanceSmallInverse"
-                android:textColor="?attr/textColor"
                 android:id="@+id/txt_property5"
                 android:layout_column="1"
                 android:text="1234" />

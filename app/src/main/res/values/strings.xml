@@ -3,19 +3,21 @@
     <string name="app_name">Anuto TD</string>
 
     <string name="menu">Menu</string>
-    <string name="restart">Restart</string>
-    <string name="change_level">Change Level</string>
-    <string name="original_theme">Original Theme</string>
-    <string name="dark_theme">Dark Theme</string>
     <string name="next_wave">Next Wave</string>
+
+    <string name="restart">Restart</string>
+    <string name="change_map">Change Map</string>
+    <string name="theme">Theme</string>
+    <string name="sound">Sound</string>
+    <string name="back">Back</string>
 
     <string name="game_over">Game Over!</string>
     <string name="score">Score</string>
 
-    <string name="status_credits">Credits</string>
-    <string name="status_lives">Lives</string>
-    <string name="status_wave">Wave</string>
-    <string name="status_bonus">Bonus</string>
+    <string name="credits">Credits</string>
+    <string name="lives">Lives</string>
+    <string name="wave">Wave</string>
+    <string name="bonus">Bonus</string>
 
     <string name="level">Level</string>
     <string name="damage">Damage</string>
@@ -32,5 +34,17 @@
     <string name="enhance">Enhance</string>
     <string name="upgrade">Upgrade</string>
     <string name="sell">Sell</string>
+
+    <string name="on">On</string>
+    <string name="off">Off</string>
+
+    <string name="strategy_closest">Closest</string>
+    <string name="strategy_weakest">Weakest</string>
+    <string name="strategy_strongest">Strongest</string>
+    <string name="strategy_first">First</string>
+    <string name="strategy_last">Last</string>
+
+    <string name="theme_original">Original</string>
+    <string name="theme_dark">Dark</string>
 
 </resources>

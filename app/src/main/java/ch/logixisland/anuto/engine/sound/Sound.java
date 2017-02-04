@@ -4,16 +4,20 @@ import android.media.SoundPool;
 
 public class Sound {
 
+    private final SoundManager mSoundManager;
     private final SoundPool mSoundPool;
     private final int mSoundId;
 
-    Sound(SoundPool soundPool, int soundId) {
+    public Sound(SoundManager soundManager, SoundPool soundPool, int soundId) {
+        mSoundManager = soundManager;
         mSoundPool = soundPool;
         mSoundId = soundId;
     }
 
     public void play() {
-        mSoundPool.play(mSoundId, 1, 1, 0, 0, 1);
+        if (mSoundManager.isSoundEnabled()) {
+            mSoundPool.play(mSoundId, 1, 1, 0, 0, 1);
+        }
     }
 
 }

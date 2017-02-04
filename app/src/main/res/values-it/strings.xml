@@ -1,22 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <string name="app_name">Anuto TD</string>
-
     <string name="menu">Menù</string>
     <string name="restart">Ricomincia</string>
-    <string name="change_level">Cambia livello</string>
-    <string name="dark_theme">Tema scuro</string>
-    <string name="original_theme">Tema originale</string>
     <string name="next_wave">Prossima ondata</string>
-
     <string name="game_over">Partita finita!</string>
     <string name="score">Punteggio</string>
-
-    <string name="status_credits">Riconoscimenti</string>
-    <string name="status_lives">Vite</string>
-    <string name="status_wave">Ondata</string>
-    <string name="status_bonus">Bonus</string>
-
     <string name="level">Livello</string>
     <string name="damage">Danno</string>
     <string name="reload">Ricarica</string>
@@ -26,18 +15,16 @@
     <string name="intensity">Intensità</string>
     <string name="duration">Durata</string>
     <string name="inflicted">Inflitto</string>
-
     <string name="lock_target">Fermo sull\'obiettivo</string>
     <string name="strategy">Strategia</string>
     <string name="enhance">Migliora</string>
     <string name="upgrade">Aggiorna</string>
     <string name="sell">Vendi</string>
-
-    <string-array name="strategies">
-        <item>Più vicino</item>
-        <item>Più debole</item>
-        <item>Più forte</item>
-        <item>Primo</item>
-        <item>Ultimo</item>
-    </string-array>
+    <string name="theme_dark">Scuro</string>
+    <string name="theme_original">Originale</string>
+    <string name="bonus">Bonus</string>
+    <string name="credits">Riconoscimenti</string>
+    <string name="lives">Vite</string>
+    <string name="wave">Ondata</string>
+    <string name="change_map">Cambia mappa</string>
 </resources>
