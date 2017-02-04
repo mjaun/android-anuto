@@ -90,12 +90,15 @@ public class MineLayer extends Tower {
     }
 
     @Override
-    public void setEnabled(boolean enabled) {
-        super.setEnabled(enabled);
+    public void setPosition(Vector2 position) {
+        super.setPosition(position);
+        mSections = getPathSectionsInRange();
+    }
 
-        if (enabled) {
-            mSections = getPathSectionsInRange();
-        }
+    @Override
+    public void move(Vector2 offset) {
+        super.move(offset);
+        mSections = getPathSectionsInRange();
     }
 
     @Override
