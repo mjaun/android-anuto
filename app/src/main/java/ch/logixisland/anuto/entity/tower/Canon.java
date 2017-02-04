@@ -58,7 +58,7 @@ public class Canon extends AimingTower {
         mSpriteCanon.setListener(this);
         mSpriteCanon.setIndex(RandomUtils.next(4));
 
-        mSound = getSoundFactory().createSound(R.raw.gun1_pew);
+        mSound = getSoundFactory().createSound(R.raw.gun3_dit);
     }
 
     @Override

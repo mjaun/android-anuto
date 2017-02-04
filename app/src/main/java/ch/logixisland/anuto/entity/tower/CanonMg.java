@@ -11,6 +11,7 @@ import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
+import ch.logixisland.anuto.engine.sound.Sound;
 import ch.logixisland.anuto.entity.shot.CanonShotMg;
 import ch.logixisland.anuto.entity.shot.Shot;
 import ch.logixisland.anuto.util.RandomUtils;
@@ -30,6 +31,7 @@ public class CanonMg extends AimingTower {
     private float mAngle = 90f;
     private StaticSprite mSpriteBase;
     private AnimatedSprite mSpriteCanon;
+    private Sound mSound;
 
     public CanonMg(TowerConfig config) {
         super(config);
@@ -43,6 +45,8 @@ public class CanonMg extends AimingTower {
         mSpriteCanon.setListener(this);
         mSpriteCanon.setSequenceForward();
         mSpriteCanon.setFrequency(MG_ROTATION_SPEED);
+
+        mSound = getSoundFactory().createSound(R.raw.gun3_dit);
     }
 
     @Override
@@ -93,6 +97,7 @@ public class CanonMg extends AimingTower {
                 Shot shot = new CanonShotMg(this, getPosition(), getDirectionTo(getTarget()), getDamage());
                 shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
                 getGameEngine().add(shot);
+                mSound.play();
 
                 setReloaded(false);
             }

@@ -11,6 +11,7 @@ import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
+import ch.logixisland.anuto.engine.sound.Sound;
 import ch.logixisland.anuto.entity.shot.CanonShot;
 import ch.logixisland.anuto.entity.shot.Shot;
 import ch.logixisland.anuto.util.RandomUtils;
@@ -44,6 +45,8 @@ public class CanonDual extends AimingTower {
     private StaticSprite mSpriteBase;
     private StaticSprite mSpriteTower;
 
+    private Sound mSound;
+
     public CanonDual(TowerConfig config) {
         super(config);
         StaticData s = (StaticData) getStaticData();
@@ -69,6 +72,8 @@ public class CanonDual extends AimingTower {
             mCanons[i].sprite.setListener(this);
             mCanons[i].sprite.setIndex(RandomUtils.next(4));
         }
+
+        mSound = getSoundFactory().createSound(R.raw.gun3_dit);
     }
 
     @Override
@@ -163,6 +168,8 @@ public class CanonDual extends AimingTower {
                     mCanons[1].reboundActive = true;
                     mShoot2 = false;
                 }
+
+                mSound.play();
             }
         }
 
