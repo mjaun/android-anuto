@@ -63,14 +63,13 @@ public class TowerControl {
                 .filter(Plateau.occupiedBy(selectedTower))
                 .first();
 
-        selectedTower.remove();
-
         upgradedTower.setValue(selectedTower.getValue() + upgradeCost);
         upgradedTower.setEnabled(true);
         plateau.setOccupant(upgradedTower);
         mGameEngine.add(upgradedTower);
-
         mTowerSelector.showTowerInfo(upgradedTower);
+
+        selectedTower.remove();
     }
 
     public void enhanceTower() {

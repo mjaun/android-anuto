@@ -140,16 +140,6 @@ public class TowerInfoFragment extends Fragment implements View.OnTouchListener,
     }
 
     @Override
-    public void updateTowerInfo(final TowerInfo towerInfo) {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                refresh(towerInfo);
-            }
-        });
-    }
-
-    @Override
     public void hideTowerInfo() {
         mHandler.post(new Runnable() {
             @Override

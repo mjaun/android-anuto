@@ -52,6 +52,7 @@ public abstract class Plateau extends Entity {
         }
 
         mOccupant = occupant;
+        mOccupant.setPosition(getPosition());
 
         if (mOccupant != null) {
             mOccupant.addListener(mEntityListener);

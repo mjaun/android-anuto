@@ -18,7 +18,7 @@
     </tower>
     <tower>
         <name>CanonDual</name>
-        <upgrade>CanonMG</upgrade>
+        <upgrade>CanonMg</upgrade>
         <value>1400</value>
         <damage>425</damage>
         <range>3.0</range>
@@ -32,7 +32,7 @@
         <enhanceReload>0.03</enhanceReload>
     </tower>
     <tower>
-        <name>CanonMG</name>
+        <name>CanonMg</name>
         <value>15000</value>
         <damage>550</damage>
         <range>3.5</range>
