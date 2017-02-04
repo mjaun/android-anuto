@@ -1,16 +1,16 @@
 package ch.logixisland.anuto.entity.tower;
 
-import ch.logixisland.anuto.business.level.LevelLoader;
 import ch.logixisland.anuto.util.GenericFactory;
 import ch.logixisland.anuto.util.data.TowerConfig;
+import ch.logixisland.anuto.util.data.TowerSettings;
 
 public class TowerFactory {
 
-    private final LevelLoader mLevelLoader;
     private final GenericFactory<Tower> mFactory;
 
-    public TowerFactory(LevelLoader levelLoader) {
-        mLevelLoader = levelLoader;
+    private TowerSettings mTowerSettings;
+
+    public TowerFactory() {
         mFactory = new GenericFactory<>(TowerConfig.class);
 
         mFactory.registerClass(Canon.class);
@@ -30,13 +30,17 @@ public class TowerFactory {
         mFactory.registerClass(TeleportTower.class);
     }
 
+    public void setTowerSettings(TowerSettings towerSettings) {
+        mTowerSettings = towerSettings;
+    }
+
     public Tower createTower(String name) {
-        TowerConfig config = mLevelLoader.getTowerSettings().getTowerConfig(name);
+        TowerConfig config = mTowerSettings.getTowerConfig(name);
         return mFactory.createInstance(name, config);
     }
 
     public Tower createTower(int slot) {
-        for (TowerConfig config : mLevelLoader.getTowerSettings().getTowerConfigs()) {
+        for (TowerConfig config : mTowerSettings.getTowerConfigs()) {
             if (config.getSlot() == slot) {
                 return mFactory.createInstance(config.getName(), config);
             }

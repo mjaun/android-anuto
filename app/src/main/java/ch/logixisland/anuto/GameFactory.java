@@ -22,17 +22,20 @@ import ch.logixisland.anuto.entity.tower.TowerFactory;
 
 public class GameFactory {
 
+    // Engine
     private final ThemeManager mThemeManager;
     private final SpriteFactory mSpriteFactory;
     private final ShapeFactory mShapeFactory;
     private final Viewport mViewport;
     private final Renderer mRenderer;
-
     private final GameEngine mGameEngine;
+
+    // Entity
     private final PlateauFactory mPlateauFactory;
     private final TowerFactory mTowerFactory;
     private final EnemyFactory mEnemyFactory;
 
+    // Business
     private final ScoreBoard mScoreBoard;
     private final TowerSelector mTowerSelector;
     private final TowerControl mTowerControl;
@@ -43,19 +46,22 @@ public class GameFactory {
     private final GameManager mGameManager;
 
     public GameFactory(Context context) {
+        // Engine
         mThemeManager = new ThemeManager(context);
         mSpriteFactory = new SpriteFactory(context.getResources(), mThemeManager);
         mShapeFactory = new ShapeFactory(mThemeManager);
         mViewport = new Viewport();
         mRenderer = new Renderer(mViewport, mThemeManager);
-
         mGameEngine = new GameEngine(mRenderer);
 
-        mScoreBoard = new ScoreBoard();
+        // Entity
         mPlateauFactory = new PlateauFactory();
-        mLevelLoader = new LevelLoader(context.getResources(), mGameEngine, mViewport, mScoreBoard, mPlateauFactory);
-        mTowerFactory = new TowerFactory(mLevelLoader);
-        mEnemyFactory = new EnemyFactory(mLevelLoader);
+        mTowerFactory = new TowerFactory();
+        mEnemyFactory = new EnemyFactory();
+
+        // Business
+        mScoreBoard = new ScoreBoard();
+        mLevelLoader = new LevelLoader(context.getResources(), mGameEngine, mViewport, mScoreBoard, mPlateauFactory, mTowerFactory, mEnemyFactory);
         mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mLevelLoader, mEnemyFactory);
         mTowerAging = new TowerAging(mGameEngine, mWaveManager, mLevelLoader);
         mGameManager = new GameManager(mGameEngine, mScoreBoard, mLevelLoader, mWaveManager);

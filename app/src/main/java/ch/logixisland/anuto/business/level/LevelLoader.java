@@ -10,8 +10,10 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Viewport;
+import ch.logixisland.anuto.entity.enemy.EnemyFactory;
 import ch.logixisland.anuto.entity.plateau.Plateau;
 import ch.logixisland.anuto.entity.plateau.PlateauFactory;
+import ch.logixisland.anuto.entity.tower.TowerFactory;
 import ch.logixisland.anuto.util.data.EnemySettings;
 import ch.logixisland.anuto.util.data.GameSettings;
 import ch.logixisland.anuto.util.data.LevelDescriptor;
@@ -25,6 +27,8 @@ public class LevelLoader {
     private final Viewport mViewport;
     private final ScoreBoard mScoreBoard;
     private final PlateauFactory mPlateauFactory;
+    private final TowerFactory mTowerFactory;
+    private final EnemyFactory mEnemyFactory;
 
     private GameSettings mGameSettings;
     private TowerSettings mTowerSettings;
@@ -32,12 +36,15 @@ public class LevelLoader {
     private LevelDescriptor mLevelDescriptor;
 
     public LevelLoader(Resources resources, GameEngine gameEngine, Viewport viewport,
-                       ScoreBoard scoreBoard, PlateauFactory plateauFactory) {
+                       ScoreBoard scoreBoard, PlateauFactory plateauFactory,
+                       TowerFactory towerFactory, EnemyFactory enemyFactory) {
         mResources = resources;
         mGameEngine = gameEngine;
         mViewport = viewport;
         mScoreBoard = scoreBoard;
         mPlateauFactory = plateauFactory;
+        mTowerFactory = towerFactory;
+        mEnemyFactory = enemyFactory;
 
         try {
             Persister serializer = new Persister();
@@ -55,6 +62,8 @@ public class LevelLoader {
             throw new RuntimeException("Could not load settings!", e);
         }
 
+        mTowerFactory.setTowerSettings(mTowerSettings);
+        mEnemyFactory.setEnemySettings(mEnemySettings);
         loadLevel(R.raw.level_1);
     }
 
