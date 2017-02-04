@@ -15,6 +15,7 @@ import ch.logixisland.anuto.engine.render.Renderer;
 import ch.logixisland.anuto.engine.render.Viewport;
 import ch.logixisland.anuto.engine.render.shape.ShapeFactory;
 import ch.logixisland.anuto.engine.render.sprite.SpriteFactory;
+import ch.logixisland.anuto.engine.sound.SoundFactory;
 import ch.logixisland.anuto.engine.theme.ThemeManager;
 import ch.logixisland.anuto.entity.enemy.EnemyFactory;
 import ch.logixisland.anuto.entity.plateau.PlateauFactory;
@@ -26,6 +27,7 @@ public class GameFactory {
     private final ThemeManager mThemeManager;
     private final SpriteFactory mSpriteFactory;
     private final ShapeFactory mShapeFactory;
+    private final SoundFactory mSoundFactory;
     private final Viewport mViewport;
     private final Renderer mRenderer;
     private final GameEngine mGameEngine;
@@ -48,8 +50,9 @@ public class GameFactory {
     public GameFactory(Context context) {
         // Engine
         mThemeManager = new ThemeManager(context);
-        mSpriteFactory = new SpriteFactory(context.getResources(), mThemeManager);
+        mSpriteFactory = new SpriteFactory(context, mThemeManager);
         mShapeFactory = new ShapeFactory(mThemeManager);
+        mSoundFactory = new SoundFactory(context);
         mViewport = new Viewport();
         mRenderer = new Renderer(mViewport, mThemeManager);
         mGameEngine = new GameEngine(mRenderer);
@@ -61,7 +64,7 @@ public class GameFactory {
 
         // Business
         mScoreBoard = new ScoreBoard();
-        mLevelLoader = new LevelLoader(context.getResources(), mGameEngine, mViewport, mScoreBoard, mPlateauFactory, mTowerFactory, mEnemyFactory);
+        mLevelLoader = new LevelLoader(context, mGameEngine, mViewport, mScoreBoard, mPlateauFactory, mTowerFactory, mEnemyFactory);
         mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mLevelLoader, mEnemyFactory);
         mTowerAging = new TowerAging(mGameEngine, mWaveManager, mLevelLoader);
         mGameManager = new GameManager(mGameEngine, mScoreBoard, mLevelLoader, mWaveManager);
@@ -72,20 +75,20 @@ public class GameFactory {
         mGameManager.restart();
     }
 
-    public SpriteFactory getSpriteFactory() {
-        return mSpriteFactory;
-    }
-
     public ThemeManager getThemeManager() {
         return mThemeManager;
     }
 
-    public GameEngine getGameEngine() {
-        return mGameEngine;
+    public SpriteFactory getSpriteFactory() {
+        return mSpriteFactory;
     }
 
-    public GameManager getGameManager() {
-        return mGameManager;
+    public ShapeFactory getShapeFactory() {
+        return mShapeFactory;
+    }
+
+    public SoundFactory getSoundFactory() {
+        return mSoundFactory;
     }
 
     public Viewport getViewport() {
@@ -96,8 +99,20 @@ public class GameFactory {
         return mRenderer;
     }
 
-    public ShapeFactory getShapeFactory() {
-        return mShapeFactory;
+    public GameEngine getGameEngine() {
+        return mGameEngine;
+    }
+
+    public PlateauFactory getPlateauFactory() {
+        return mPlateauFactory;
+    }
+
+    public TowerFactory getTowerFactory() {
+        return mTowerFactory;
+    }
+
+    public EnemyFactory getEnemyFactory() {
+        return mEnemyFactory;
     }
 
     public ScoreBoard getScoreBoard() {
@@ -112,6 +127,10 @@ public class GameFactory {
         return mTowerControl;
     }
 
+    public TowerAging getTowerAging() {
+        return mTowerAging;
+    }
+
     public TowerInserter getTowerInserter() {
         return mTowerInserter;
     }
@@ -124,7 +143,8 @@ public class GameFactory {
         return mWaveManager;
     }
 
-    public TowerFactory getTowerFactory() {
-        return mTowerFactory;
+    public GameManager getGameManager() {
+        return mGameManager;
     }
+
 }

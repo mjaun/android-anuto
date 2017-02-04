@@ -1,6 +1,6 @@
 package ch.logixisland.anuto.business.level;
 
-import android.content.res.Resources;
+import android.content.Context;
 
 import org.simpleframework.xml.core.Persister;
 
@@ -22,7 +22,7 @@ import ch.logixisland.anuto.util.data.TowerSettings;
 
 public class LevelLoader {
 
-    private final Resources mResources;
+    private final Context mContext;
     private final GameEngine mGameEngine;
     private final Viewport mViewport;
     private final ScoreBoard mScoreBoard;
@@ -35,10 +35,10 @@ public class LevelLoader {
     private EnemySettings mEnemySettings;
     private LevelDescriptor mLevelDescriptor;
 
-    public LevelLoader(Resources resources, GameEngine gameEngine, Viewport viewport,
+    public LevelLoader(Context context, GameEngine gameEngine, Viewport viewport,
                        ScoreBoard scoreBoard, PlateauFactory plateauFactory,
                        TowerFactory towerFactory, EnemyFactory enemyFactory) {
-        mResources = resources;
+        mContext = context;
         mGameEngine = gameEngine;
         mViewport = viewport;
         mScoreBoard = scoreBoard;
@@ -50,13 +50,13 @@ public class LevelLoader {
             Persister serializer = new Persister();
             InputStream stream;
 
-            stream = mResources.openRawResource(R.raw.game_settings);
+            stream = mContext.getResources().openRawResource(R.raw.game_settings);
             mGameSettings = serializer.read(GameSettings.class, stream);
 
-            stream = mResources.openRawResource(R.raw.tower_settings);
+            stream = mContext.getResources().openRawResource(R.raw.tower_settings);
             mTowerSettings = serializer.read(TowerSettings.class, stream);
 
-            stream = mResources.openRawResource(R.raw.enemy_settings);
+            stream = mContext.getResources().openRawResource(R.raw.enemy_settings);
             mEnemySettings = serializer.read(EnemySettings.class, stream);
         } catch (Exception e) {
             throw new RuntimeException("Could not load settings!", e);
@@ -97,7 +97,7 @@ public class LevelLoader {
             Persister serializer = new Persister();
             InputStream stream;
 
-            stream = mResources.openRawResource(levelId);
+            stream = mContext.getResources().openRawResource(levelId);
             mLevelDescriptor = serializer.read(LevelDescriptor.class, stream);
         } catch (Exception e) {
             throw new RuntimeException("Could not load level!", e);

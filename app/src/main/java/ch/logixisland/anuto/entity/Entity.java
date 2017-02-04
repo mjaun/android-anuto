@@ -12,6 +12,7 @@ import ch.logixisland.anuto.engine.render.shape.ShapeFactory;
 import ch.logixisland.anuto.engine.render.sprite.SpriteFactory;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteListener;
+import ch.logixisland.anuto.engine.sound.SoundFactory;
 import ch.logixisland.anuto.util.data.GameSettings;
 import ch.logixisland.anuto.util.data.LevelDescriptor;
 import ch.logixisland.anuto.util.iterator.Function;
@@ -119,6 +120,10 @@ public abstract class Entity implements SpriteListener, TickListener {
 
     protected ShapeFactory getShapeFactory() {
         return AnutoApplication.getInstance().getGameFactory().getShapeFactory();
+    }
+
+    protected SoundFactory getSoundFactory() {
+        return AnutoApplication.getInstance().getGameFactory().getSoundFactory();
     }
 
 

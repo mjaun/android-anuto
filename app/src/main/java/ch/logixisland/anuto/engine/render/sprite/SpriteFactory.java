@@ -1,6 +1,6 @@
 package ch.logixisland.anuto.engine.render.sprite;
 
-import android.content.res.Resources;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
@@ -8,18 +8,18 @@ import ch.logixisland.anuto.engine.theme.ThemeManager;
 
 public class SpriteFactory {
 
-    private final Resources mResources;
+    private final Context mContext;
     private final ThemeManager mThemeManager;
 
-    public SpriteFactory(Resources resources, ThemeManager themeManager) {
-        mResources = resources;
+    public SpriteFactory(Context context, ThemeManager themeManager) {
+        mContext = context;
         mThemeManager = themeManager;
     }
 
     public SpriteTemplate createTemplate(int attrId, int spriteCount) {
         int resourceId = mThemeManager.getResourceId(attrId);
 
-        Bitmap sheet = BitmapFactory.decodeResource(mResources, resourceId);
+        Bitmap sheet = BitmapFactory.decodeResource(mContext.getResources(), resourceId);
         Bitmap[] sprites = new Bitmap[spriteCount];
         int spriteWidth = sheet.getWidth() / spriteCount;
         int spriteHeight = sheet.getHeight();
