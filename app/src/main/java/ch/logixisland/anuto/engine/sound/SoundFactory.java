@@ -7,6 +7,8 @@ import android.media.SoundPool;
 import java.util.HashMap;
 import java.util.Map;
 
+import ch.logixisland.anuto.R;
+
 public class SoundFactory {
 
     private static final int MAX_STREAMS = 8;
@@ -18,6 +20,9 @@ public class SoundFactory {
     public SoundFactory(Context context) {
         mContext = context;
         mSoundPool = new SoundPool(MAX_STREAMS, AudioManager.STREAM_MUSIC, 0);
+
+        // FIXME: This is a workaround because the first explosion effect has no sound otherwise
+        createSound(R.raw.explosive3_bghgh);
     }
 
     public Sound createSound(int resId) {
