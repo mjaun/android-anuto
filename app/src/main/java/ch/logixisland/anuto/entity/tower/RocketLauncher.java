@@ -11,6 +11,7 @@ import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
+import ch.logixisland.anuto.engine.sound.Sound;
 import ch.logixisland.anuto.entity.shot.Rocket;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.data.TowerConfig;
@@ -31,6 +32,7 @@ public class RocketLauncher extends AimingTower {
 
     private StaticSprite mSprite;
     private StaticSprite mSpriteRocket; // used for preview only
+    private Sound mSound;
 
     public RocketLauncher(TowerConfig config) {
         super(config);
@@ -46,6 +48,8 @@ public class RocketLauncher extends AimingTower {
 
         mExplosionRadius = getProperty("explosionRadius");
         mRocketLoadTimer = TickTimer.createInterval(ROCKET_LOAD_TIME);
+
+        mSound = getSoundFactory().createSound(R.raw.explosive2_tsh);
     }
 
     @Override
@@ -112,6 +116,7 @@ public class RocketLauncher extends AimingTower {
                     mRocket.setTarget(getTarget());
                     mRocket.setEnabled(true);
                     mRocket = null;
+                    mSound.play();
 
                     setReloaded(false);
                 }

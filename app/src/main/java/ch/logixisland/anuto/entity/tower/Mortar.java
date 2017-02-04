@@ -11,6 +11,7 @@ import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
+import ch.logixisland.anuto.engine.sound.Sound;
 import ch.logixisland.anuto.entity.shot.MortarShot;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.data.TowerConfig;
@@ -33,6 +34,7 @@ public class Mortar extends AimingTower {
 
     private StaticSprite mSpriteBase;
     private AnimatedSprite mSpriteCanon;
+    private Sound mSound;
 
     public Mortar(TowerConfig config) {
         super(config);
@@ -49,6 +51,8 @@ public class Mortar extends AimingTower {
 
         mInaccuracy = getProperty("inaccuracy");
         mExplosionRadius = getProperty("explosionRadius");
+
+        mSound = getSoundFactory().createSound(R.raw.gas2_thomp);
     }
 
     @Override
@@ -106,6 +110,7 @@ public class Mortar extends AimingTower {
             Vector2 shotPos = getPosition().copy().add(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
 
             getGameEngine().add(new MortarShot(this, shotPos, targetPos, getDamage(), mExplosionRadius));
+            mSound.play();
 
             setReloaded(false);
             mRebounding = true;

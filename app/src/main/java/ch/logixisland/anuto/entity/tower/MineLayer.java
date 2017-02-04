@@ -10,6 +10,7 @@ import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
+import ch.logixisland.anuto.engine.sound.Sound;
 import ch.logixisland.anuto.entity.Entity;
 import ch.logixisland.anuto.entity.EntityListener;
 import ch.logixisland.anuto.entity.shot.Mine;
@@ -34,6 +35,7 @@ public class MineLayer extends Tower {
     private List<Mine> mMines = new ArrayList<>();
 
     private AnimatedSprite mSprite;
+    private Sound mSound;
 
     private final EntityListener mMineListener = new EntityListener() {
 
@@ -56,6 +58,8 @@ public class MineLayer extends Tower {
         mAngle = RandomUtils.next(360f);
         mMaxMineCount = (int) getProperty("maxMineCount");
         mExplosionRadius = getProperty("explosionRadius");
+
+        mSound = getSoundFactory().createSound(R.raw.gun2_donk);
     }
 
     @Override
@@ -132,6 +136,7 @@ public class MineLayer extends Tower {
                 m.addListener(mMineListener);
                 mMines.add(m);
                 getGameEngine().add(m);
+                mSound.play();
 
                 mShooting = false;
             }
