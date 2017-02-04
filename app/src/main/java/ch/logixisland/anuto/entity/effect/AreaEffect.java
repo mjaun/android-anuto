@@ -10,25 +10,36 @@ import ch.logixisland.anuto.entity.EntityListener;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 
-public abstract class AreaEffect extends Effect implements EntityListener {
+public abstract class AreaEffect extends Effect {
 
-    private float mRange = 1f;
+    private float mRange;
+
     private final TickTimer mUpdateTimer = TickTimer.createInterval(0.1f);
     private final List<Enemy> mAffectedEnemies = new CopyOnWriteArrayList<>();
 
-    protected AreaEffect(Entity origin, float duration) {
+    private final EntityListener mEntityListener = new EntityListener() {
+        @Override
+        public void entityRemoved(Entity obj) {
+            obj.removeListener(this);
+            mAffectedEnemies.remove(obj);
+            enemyExit((Enemy) obj);
+        }
+    };
+
+    protected AreaEffect(Entity origin, float duration, float range) {
         super(origin, duration);
+        mRange = range;
     }
 
     @Override
     public void tick() {
         super.tick();
 
-        if (mUpdateTimer.tick()) {
+        if (getState() == State.Active && mUpdateTimer.tick()) {
             for (Enemy enemy : mAffectedEnemies) {
                 if (getDistanceTo(enemy) > mRange) {
                     mAffectedEnemies.remove(enemy);
-                    enemy.removeListener(this);
+                    enemy.removeListener(mEntityListener);
                     enemyExit(enemy);
                 }
             }
@@ -42,7 +53,7 @@ public abstract class AreaEffect extends Effect implements EntityListener {
 
                 if (!mAffectedEnemies.contains(enemy)) {
                     mAffectedEnemies.add(enemy);
-                    enemy.addListener(this);
+                    enemy.addListener(mEntityListener);
                     enemyEnter(enemy);
                 }
             }
@@ -57,7 +68,7 @@ public abstract class AreaEffect extends Effect implements EntityListener {
     @Override
     protected void effectEnd() {
         for (Enemy enemy : mAffectedEnemies) {
-            enemy.removeListener(this);
+            enemy.removeListener(mEntityListener);
             enemyExit(enemy);
         }
 
@@ -69,10 +80,4 @@ public abstract class AreaEffect extends Effect implements EntityListener {
 
     protected abstract void enemyExit(Enemy e);
 
-    @Override
-    public void entityRemoved(Entity obj) {
-        obj.removeListener(this);
-        mAffectedEnemies.remove(obj);
-        enemyExit((Enemy) obj);
-    }
 }

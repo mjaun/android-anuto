@@ -123,6 +123,7 @@ public class GameEngine implements Runnable {
     public void run() {
         long timeNextTick = System.currentTimeMillis();
         long timeCurrent;
+        int skipSleepCount = 0;
 
         try {
             while (mRunning) {
@@ -138,6 +139,14 @@ public class GameEngine implements Runnable {
 
                 if (sleepTime > 0) {
                     Thread.sleep(sleepTime);
+                } else {
+                    skipSleepCount++;
+
+                    if (skipSleepCount > 5) {
+                        // resync
+                        timeNextTick = timeCurrent + TICK_TIME;
+                        skipSleepCount = 0;
+                    }
                 }
             }
         } catch (Exception e) {

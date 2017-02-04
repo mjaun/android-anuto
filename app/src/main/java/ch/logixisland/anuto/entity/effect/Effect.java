@@ -6,18 +6,28 @@ import ch.logixisland.anuto.entity.Types;
 
 public abstract class Effect extends Entity {
 
+    public enum State {
+        NotStarted,
+        Active,
+        Ended
+    }
+
     private Entity mOrigin;
     private TickTimer mTimer;
-    private boolean mEffectBegun;
-    private float mDuration;
+    private State mState;
 
     protected Effect(Entity origin, float duration) {
         mOrigin = origin;
-        mDuration = duration;
+        mTimer = TickTimer.createInterval(duration);
+        mState = State.NotStarted;
     }
 
     public Entity getOrigin() {
         return mOrigin;
+    }
+
+    public State getState() {
+        return mState;
     }
 
     @Override
@@ -26,26 +36,18 @@ public abstract class Effect extends Entity {
     }
 
     @Override
-    public void init() {
-        super.init();
-
-        if (mDuration > 0f) {
-            mTimer = TickTimer.createInterval(mDuration);
-        }
-    }
-
-    @Override
     public void tick() {
         super.tick();
 
-        if (!mEffectBegun) {
+        if (mState == State.NotStarted) {
+            mState = State.Active;
             effectBegin();
-            mEffectBegun = true;
         }
 
-        if (mTimer != null && mTimer.tick()) {
+        if (mTimer.tick()) {
+            mState = State.Ended;
             effectEnd();
-            this.remove();
+            remove();
         }
     }
 

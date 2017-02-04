@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickTimer;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
@@ -25,6 +26,7 @@ public class GlueTower extends Tower {
     private final static float SHOT_SPAWN_OFFSET = 0.8f;
 
     private final static float CANON_OFFSET_MAX = 0.5f;
+    private final static float CANON_OFFSET_STEP = CANON_OFFSET_MAX / GameEngine.TARGET_FRAME_RATE / 0.8f;
 
     private class StaticData {
         SpriteTemplate mSpriteTemplateBase;
@@ -145,7 +147,7 @@ public class GlueTower extends Tower {
         }
 
         if (mShooting) {
-            mCanonOffset += 0.01f;
+            mCanonOffset += CANON_OFFSET_STEP;
 
             if (mCanonOffset >= CANON_OFFSET_MAX) {
                 mShooting = false;
@@ -158,7 +160,7 @@ public class GlueTower extends Tower {
                 }
             }
         } else if (mCanonOffset > 0f) {
-            mCanonOffset -= 0.01f;
+            mCanonOffset -= CANON_OFFSET_STEP;
         }
     }
 

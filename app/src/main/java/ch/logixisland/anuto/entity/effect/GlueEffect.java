@@ -31,7 +31,7 @@ public class GlueEffect extends AreaEffect {
     private StaticSprite mSprite;
 
     public GlueEffect(Entity origin, Vector2 position, float intensity, float duration) {
-        super(origin, duration);
+        super(origin, duration, 1f);
         setPosition(position);
 
         mIntensity = intensity;
