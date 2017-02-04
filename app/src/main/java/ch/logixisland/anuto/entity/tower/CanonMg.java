@@ -31,6 +31,7 @@ public class CanonMg extends AimingTower {
     private float mAngle = 90f;
     private StaticSprite mSpriteBase;
     private AnimatedSprite mSpriteCanon;
+    private int mShotCount = 0;
     private Sound mSound;
 
     public CanonMg(TowerConfig config) {
@@ -97,7 +98,11 @@ public class CanonMg extends AimingTower {
                 Shot shot = new CanonShotMg(this, getPosition(), getDirectionTo(getTarget()), getDamage());
                 shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
                 getGameEngine().add(shot);
-                mSound.play();
+                mShotCount++;
+
+                if (mShotCount % 2 == 0) {
+                    mSound.play();
+                }
 
                 setReloaded(false);
             }

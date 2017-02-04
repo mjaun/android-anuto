@@ -3,8 +3,10 @@ package ch.logixisland.anuto.entity.enemy;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.shape.HealthBar;
+import ch.logixisland.anuto.engine.sound.Sound;
 import ch.logixisland.anuto.entity.Entity;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.tower.Tower;
@@ -55,6 +57,8 @@ public abstract class Enemy extends Entity {
     private int mWayPointIndex;
     private HealthBar mHealthBar;
 
+    private Sound mSound;
+
     private final List<EnemyListener> mListeners = new CopyOnWriteArrayList<>();
 
     public Enemy(EnemyConfig config) {
@@ -63,6 +67,7 @@ public abstract class Enemy extends Entity {
         mHealth = mConfig.getHealth();
 
         mHealthBar = getShapeFactory().createHealthBar(this);
+        mSound = getSoundFactory().createSound(R.raw.explosive1_chk);
     }
 
     @Override
@@ -255,6 +260,8 @@ public abstract class Enemy extends Entity {
             for (EnemyListener listener : mListeners) {
                 listener.enemyKilled(this);
             }
+
+            mSound.play();
             remove();
         }
     }

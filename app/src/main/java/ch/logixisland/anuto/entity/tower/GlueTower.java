@@ -24,7 +24,6 @@ import ch.logixisland.anuto.util.math.vector.Vector2;
 public class GlueTower extends Tower {
 
     private final static float SHOT_SPAWN_OFFSET = 0.8f;
-
     private final static float CANON_OFFSET_MAX = 0.5f;
     private final static float CANON_OFFSET_STEP = CANON_OFFSET_MAX / GameEngine.TARGET_FRAME_RATE / 0.8f;
 

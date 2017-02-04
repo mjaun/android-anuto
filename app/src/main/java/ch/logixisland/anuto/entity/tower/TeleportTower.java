@@ -9,6 +9,7 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
+import ch.logixisland.anuto.engine.sound.Sound;
 import ch.logixisland.anuto.entity.effect.TeleportEffect;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.RandomUtils;
@@ -26,6 +27,7 @@ public class TeleportTower extends AimingTower {
 
     private StaticSprite mSpriteBase;
     private StaticSprite mSpriteTower;
+    private Sound mSound;
 
     public TeleportTower(TowerConfig config) {
         super(config);
@@ -40,6 +42,8 @@ public class TeleportTower extends AimingTower {
         mSpriteTower = getSpriteFactory().createStatic(Layers.TOWER, s.mSpriteTemplateTower);
         mSpriteTower.setListener(this);
         mSpriteTower.setIndex(RandomUtils.next(4));
+
+        mSound = getSoundFactory().createSound(R.raw.gas3_hht);
     }
 
     @Override
@@ -89,6 +93,7 @@ public class TeleportTower extends AimingTower {
                 setTarget(null);
             } else {
                 getGameEngine().add(new TeleportEffect(this, getPosition(), target, mTeleportDistance));
+                mSound.play();
                 setReloaded(false);
             }
         }

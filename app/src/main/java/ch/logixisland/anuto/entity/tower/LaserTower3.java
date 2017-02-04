@@ -10,6 +10,7 @@ import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
+import ch.logixisland.anuto.engine.sound.Sound;
 import ch.logixisland.anuto.entity.effect.LaserStraight;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.data.TowerConfig;
@@ -18,6 +19,7 @@ import ch.logixisland.anuto.util.math.vector.Vector2;
 public class LaserTower3 extends AimingTower {
 
     private final static float LASER_SPAWN_OFFSET = 0.8f;
+    private final static float LASER_LENGTH = 100f;
 
     private class StaticData {
         SpriteTemplate mSpriteTemplateBase;
@@ -25,10 +27,10 @@ public class LaserTower3 extends AimingTower {
     }
 
     private float mAngle = 90f;
-    private float mLaserLength;
 
     private StaticSprite mSpriteBase;
     private StaticSprite mSpriteCanon;
+    private Sound mSound;
 
     public LaserTower3(TowerConfig config) {
         super(config);
@@ -42,7 +44,7 @@ public class LaserTower3 extends AimingTower {
         mSpriteCanon.setIndex(RandomUtils.next(4));
         mSpriteCanon.setListener(this);
 
-        mLaserLength = 100f;
+        mSound = getSoundFactory().createSound(R.raw.laser3_szh);
     }
 
     @Override
@@ -90,9 +92,10 @@ public class LaserTower3 extends AimingTower {
 
             if (isReloaded()) {
                 Vector2 laserFrom = Vector2.polar(LASER_SPAWN_OFFSET, mAngle).add(getPosition());
-                Vector2 laserTo = Vector2.polar(mLaserLength, mAngle).add(getPosition());
+                Vector2 laserTo = Vector2.polar(LASER_LENGTH, mAngle).add(getPosition());
                 getGameEngine().add(new LaserStraight(this, laserFrom, laserTo, getDamage()));
                 setReloaded(false);
+                mSound.play();
             }
         }
     }

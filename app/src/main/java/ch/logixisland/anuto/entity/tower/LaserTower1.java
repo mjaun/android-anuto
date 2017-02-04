@@ -10,6 +10,7 @@ import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
+import ch.logixisland.anuto.engine.sound.Sound;
 import ch.logixisland.anuto.entity.effect.Laser;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.data.TowerConfig;
@@ -28,6 +29,7 @@ public class LaserTower1 extends AimingTower {
 
     private StaticSprite mSpriteBase;
     private StaticSprite mSpriteCanon;
+    private Sound mSound;
 
     public LaserTower1(TowerConfig config) {
         super(config);
@@ -40,6 +42,8 @@ public class LaserTower1 extends AimingTower {
         mSpriteCanon = getSpriteFactory().createStatic(Layers.TOWER, s.mSpriteTemplateCanon);
         mSpriteCanon.setIndex(RandomUtils.next(4));
         mSpriteCanon.setListener(this);
+
+        mSound = getSoundFactory().createSound(R.raw.laser1_zz);
     }
 
     @Override
@@ -89,6 +93,7 @@ public class LaserTower1 extends AimingTower {
                 Vector2 from = Vector2.polar(LASER_SPAWN_OFFSET, mAngle).add(getPosition());
                 getGameEngine().add(new Laser(this, from, getTarget(), getDamage()));
                 setReloaded(false);
+                mSound.play();
             }
         }
     }
