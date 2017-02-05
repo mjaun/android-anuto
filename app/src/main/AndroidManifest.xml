@@ -21,6 +21,7 @@
         <activity
             android:name=".view.game.GameActivity"
             android:keepScreenOn="true"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -29,10 +30,12 @@
         </activity>
         <activity
             android:name=".view.menu.MenuActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
         </activity>
         <activity
             android:name=".view.menu.SelectLevelActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
         </activity>
     </application>
