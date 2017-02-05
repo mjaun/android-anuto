@@ -28,12 +28,14 @@
             android:layout_height="20dp"/>
         
         <Button
+            android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/restart"
             android:id="@+id/btn_restart" />
 
         <Button
+            android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/change_map"
@@ -44,12 +46,15 @@
             android:layout_height="10dp"/>
 
         <Button
+            android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/theme"
-            android:id="@+id/btn_switch_theme" />
+            android:id="@+id/btn_switch_theme"
+            />
 
         <Button
+            android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/sound"

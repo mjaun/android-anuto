@@ -9,7 +9,6 @@
     <string name="change_map">Change Map</string>
     <string name="theme">Theme</string>
     <string name="sound">Sound</string>
-    <string name="back">Back</string>
 
     <string name="game_over">Game Over!</string>
     <string name="score">Score</string>
@@ -23,7 +22,7 @@
     <string name="damage">Damage</string>
     <string name="reload">Reload</string>
     <string name="range">Range</string>
-    <string name="splash">Splash</string>
+    <string name="splash">Explosive radius</string>
     <string name="distance">Distance</string>
     <string name="intensity">Intensity</string>
     <string name="duration">Duration</string>

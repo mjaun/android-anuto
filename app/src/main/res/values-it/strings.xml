@@ -1,30 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <string name="app_name">Anuto TD</string>
+
     <string name="menu">Menù</string>
-    <string name="restart">Ricomincia</string>
     <string name="next_wave">Prossima ondata</string>
+
+    <string name="restart">Ricomincia</string>
+    <string name="change_map">Cambia mappa</string>
+    <string name="theme">Tema</string>
+    <string name="sound">Suono</string>
+
     <string name="game_over">Partita finita!</string>
     <string name="score">Punteggio</string>
+
+    <string name="credits">Riconoscimenti</string>
+    <string name="lives">Vite</string>
+    <string name="wave">Ondata</string>
+    <string name="bonus">Bonus</string>
+
     <string name="level">Livello</string>
     <string name="damage">Danno</string>
     <string name="reload">Ricarica</string>
     <string name="range">Distanza</string>
-    <string name="splash">Splash</string>
+    <string name="splash">Raggio di esplosione</string>
     <string name="distance">Distanza</string>
     <string name="intensity">Intensità</string>
     <string name="duration">Durata</string>
     <string name="inflicted">Inflitto</string>
+
     <string name="lock_target">Fermo sull\'obiettivo</string>
     <string name="strategy">Strategia</string>
     <string name="enhance">Migliora</string>
     <string name="upgrade">Aggiorna</string>
     <string name="sell">Vendi</string>
+
+    <string name="on">Acceso</string>
+    <string name="off">Spento</string>
+
+    <string name="strategy_closest">Più vicino</string>
+    <string name="strategy_weakest">Più debole</string>
+    <string name="strategy_strongest">Più forte</string>
+    <string name="strategy_first">Primo</string>
+    <string name="strategy_last">Ultimo</string>
+
     <string name="theme_dark">Scuro</string>
     <string name="theme_original">Originale</string>
-    <string name="bonus">Bonus</string>
-    <string name="credits">Riconoscimenti</string>
-    <string name="lives">Vite</string>
-    <string name="wave">Ondata</string>
-    <string name="change_map">Cambia mappa</string>
 </resources>

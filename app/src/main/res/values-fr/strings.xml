@@ -9,9 +9,8 @@
     <string name="change_map">Changer la carte</string>
     <string name="theme">Thème</string>
     <string name="sound">Sons</string>
-    <string name="back">Retour</string>
 
-    <string name="game_over">Fin de la partie !</string>
+    <string name="game_over">Fin de la partie!</string>
     <string name="score">Score</string>
 
     <string name="credits">Crédits</string>
@@ -23,7 +22,7 @@
     <string name="damage">Dégâts</string>
     <string name="reload">Recharger</string>
     <string name="range">Portée</string>
-    <string name="splash">Splash</string>
+    <string name="splash">Rayon d\'explosion</string>
     <string name="distance">Distance</string>
     <string name="intensity">Intensité</string>
     <string name="duration">Durée</string>
