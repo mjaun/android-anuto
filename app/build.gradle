@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "ch.logixisland.anuto"
-        minSdkVersion 19
+        minSdkVersion 17
         targetSdkVersion 25
         versionCode 6
         versionName "0.1-5"

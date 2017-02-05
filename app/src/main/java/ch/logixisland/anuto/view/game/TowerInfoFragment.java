@@ -1,6 +1,6 @@
 package ch.logixisland.anuto.view.game;
 
-import android.content.Context;
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -89,8 +89,8 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnTouchList
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
         mTowerSelector.setTowerInfoView(this);
         hide();
     }

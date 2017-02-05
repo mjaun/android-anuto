@@ -1,6 +1,6 @@
 package ch.logixisland.anuto.view.game;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -78,8 +78,8 @@ public class HeaderFragment extends AnutoFragment implements GameListener, WaveL
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
         mGameManager.addListener(this);
         mWaveManager.addListener(this);
         mScoreBoard.addBonusListener(this);
