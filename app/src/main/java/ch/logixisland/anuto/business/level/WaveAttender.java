@@ -82,7 +82,8 @@ class WaveAttender {
         mGameEngine.postDelayed(new Runnable() {
             @Override
             public void run() {
-                notifyNextWaveReady();
+                mNextWaveReady = true;
+                mWaveManager.checkNextWaveReady();
             }
         }, mWaveDescriptor.getNextWaveDelay());
     }
@@ -101,9 +102,12 @@ class WaveAttender {
 
         if (mEnemyAttender.getRemainingEnemiesCount() == 0) {
             giveWaveReward();
-            notifyNextWaveReady();
             mWaveManager.waveFinished(this);
         }
+    }
+
+    boolean isNextWaveReady() {
+        return mNextWaveReady;
     }
 
     private void scheduleEnemies() {
@@ -138,12 +142,5 @@ class WaveAttender {
         enemy.setPathIndex(descriptor.getPathIndex());
         enemy.move(offset);
         return enemy;
-    }
-
-    private void notifyNextWaveReady() {
-        if (!mNextWaveReady) {
-            mNextWaveReady = true;
-            mWaveManager.nextWaveReady();
-        }
     }
 }
