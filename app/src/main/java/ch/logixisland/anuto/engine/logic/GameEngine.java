@@ -17,6 +17,7 @@ public class GameEngine implements Runnable {
 
     public final static int TARGET_FRAME_RATE = 30;
     public final static int TICK_TIME = 1000 / TARGET_FRAME_RATE;
+    private final static int MAX_FRAME_SKIPS = 2;
 
     private final static String TAG = GameEngine.class.getSimpleName();
 
@@ -123,7 +124,7 @@ public class GameEngine implements Runnable {
     public void run() {
         long timeNextTick = System.currentTimeMillis();
         long timeCurrent;
-        int skipSleepCount = 0;
+        int skipFrameCount = 0;
 
         try {
             while (mRunning) {
@@ -132,21 +133,21 @@ public class GameEngine implements Runnable {
                 mRenderer.lock();
                 executeTick();
                 mRenderer.unlock();
-                mRenderer.invalidate();
 
                 timeCurrent = System.currentTimeMillis();
                 int sleepTime = (int) (timeNextTick - timeCurrent);
 
+                if (sleepTime > 0 || skipFrameCount >= MAX_FRAME_SKIPS) {
+                    mRenderer.invalidate();
+                    skipFrameCount = 0;
+                } else {
+                    skipFrameCount++;
+                }
+
                 if (sleepTime > 0) {
                     Thread.sleep(sleepTime);
                 } else {
-                    skipSleepCount++;
-
-                    if (skipSleepCount > 5) {
-                        // resync
-                        timeNextTick = timeCurrent + TICK_TIME;
-                        skipSleepCount = 0;
-                    }
+                    timeNextTick = timeCurrent; // resync
                 }
             }
         } catch (Exception e) {
