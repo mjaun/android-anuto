@@ -3,7 +3,7 @@
     <string name="app_name">Anuto TD</string>
 
     <string name="menu">Menù</string>
-    <string name="next_wave">Prossima ondata</string>
+    <string name="next_wave">Prossima</string>
 
     <string name="restart">Ricomincia</string>
     <string name="change_map">Cambia mappa</string>
@@ -13,7 +13,7 @@
     <string name="game_over">Partita finita!</string>
     <string name="score">Punteggio</string>
 
-    <string name="credits">Riconoscimenti</string>
+    <string name="credits">Crediti</string>
     <string name="lives">Vite</string>
     <string name="wave">Ondata</string>
     <string name="bonus">Bonus</string>

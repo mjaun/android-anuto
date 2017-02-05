@@ -118,7 +118,7 @@ public class HeaderFragment extends AnutoFragment implements GameListener, WaveL
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                txt_wave.setText(getResources().getString(R.string.wave) + ": " + mWaveManager.getWaveNumber());
+                txt_wave.setText(getString(R.string.wave) + ": " + mWaveManager.getWaveNumber());
                 btn_next_wave.setEnabled(false);
             }
         });
@@ -144,7 +144,7 @@ public class HeaderFragment extends AnutoFragment implements GameListener, WaveL
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                txt_credits.setText(getResources().getString(R.string.credits) + ": " + StringUtils.formatSuffix(credits));
+                txt_credits.setText(getString(R.string.credits) + ": " + StringUtils.formatSuffix(credits));
             }
         });
     }
@@ -154,7 +154,7 @@ public class HeaderFragment extends AnutoFragment implements GameListener, WaveL
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                txt_lives.setText(getResources().getString(R.string.lives) + ": " + lives);
+                txt_lives.setText(getString(R.string.lives) + ": " + lives);
             }
         });
     }
@@ -164,7 +164,7 @@ public class HeaderFragment extends AnutoFragment implements GameListener, WaveL
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                txt_wave.setText(getResources().getString(R.string.wave) + ": " + mWaveManager.getWaveNumber());
+                txt_wave.setText(getString(R.string.wave) + ": " + mWaveManager.getWaveNumber());
                 btn_next_wave.setEnabled(true);
 
                 for (int i = 0; i < view_tower_x.length; i++) {
@@ -189,10 +189,7 @@ public class HeaderFragment extends AnutoFragment implements GameListener, WaveL
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                txt_bonus.setText(String.format("%s: %s (+%s)",
-                        getResources().getString(R.string.bonus),
-                        StringUtils.formatSuffix(waveBonus),
-                        StringUtils.formatSuffix(earlyBonus)));
+                txt_bonus.setText(getString(R.string.bonus) + ": " + StringUtils.formatSuffix(waveBonus + earlyBonus));
             }
         });
     }
