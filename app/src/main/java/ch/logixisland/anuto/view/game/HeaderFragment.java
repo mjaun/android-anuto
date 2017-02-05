@@ -1,6 +1,5 @@
 package ch.logixisland.anuto.view.game;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,14 +21,13 @@ import ch.logixisland.anuto.business.score.BonusListener;
 import ch.logixisland.anuto.business.score.CreditsListener;
 import ch.logixisland.anuto.business.score.LivesListener;
 import ch.logixisland.anuto.business.score.ScoreBoard;
-import ch.logixisland.anuto.engine.theme.ThemeManager;
 import ch.logixisland.anuto.util.StringUtils;
+import ch.logixisland.anuto.view.AnutoFragment;
 import ch.logixisland.anuto.view.menu.MenuActivity;
 
-public class HeaderFragment extends Fragment implements GameListener, WaveListener, CreditsListener,
-        LivesListener, BonusListener, View.OnClickListener {
+public class HeaderFragment extends AnutoFragment implements GameListener, WaveListener,
+        CreditsListener, LivesListener, BonusListener, View.OnClickListener {
 
-    private final ThemeManager mThemeManager;
     private final GameManager mGameManager;
     private final WaveManager mWaveManager;
     private final ScoreBoard mScoreBoard;
@@ -48,7 +46,6 @@ public class HeaderFragment extends Fragment implements GameListener, WaveListen
 
     public HeaderFragment() {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
-        mThemeManager = factory.getThemeManager();
         mGameManager = factory.getGameManager();
         mScoreBoard = factory.getScoreBoard();
         mWaveManager = factory.getWaveManager();

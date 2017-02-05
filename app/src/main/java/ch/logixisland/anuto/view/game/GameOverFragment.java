@@ -1,6 +1,5 @@
 package ch.logixisland.anuto.view.game;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,11 +16,10 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.manager.GameListener;
 import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.business.score.ScoreBoard;
-import ch.logixisland.anuto.engine.theme.ThemeManager;
+import ch.logixisland.anuto.view.AnutoFragment;
 
-public class GameOverFragment extends Fragment implements GameListener {
+public class GameOverFragment extends AnutoFragment implements GameListener {
 
-    private final ThemeManager mThemeManager;
     private final GameManager mGameManager;
     private final ScoreBoard mScoreBoard;
 
@@ -32,7 +30,6 @@ public class GameOverFragment extends Fragment implements GameListener {
 
     public GameOverFragment() {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
-        mThemeManager = factory.getThemeManager();
         mGameManager = factory.getGameManager();
         mScoreBoard = factory.getScoreBoard();
     }

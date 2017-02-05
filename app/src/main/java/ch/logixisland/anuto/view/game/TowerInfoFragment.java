@@ -1,6 +1,5 @@
 package ch.logixisland.anuto.view.game;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,8 +22,9 @@ import ch.logixisland.anuto.business.control.TowerSelector;
 import ch.logixisland.anuto.entity.tower.TowerProperty;
 import ch.logixisland.anuto.entity.tower.TowerStrategy;
 import ch.logixisland.anuto.util.StringUtils;
+import ch.logixisland.anuto.view.AnutoFragment;
 
-public class TowerInfoFragment extends Fragment implements View.OnTouchListener,
+public class TowerInfoFragment extends AnutoFragment implements View.OnTouchListener,
         View.OnClickListener, TowerInfoView {
 
     private final TowerSelector mTowerSelector;
