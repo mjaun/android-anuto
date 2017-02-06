@@ -1,15 +1,18 @@
 # Anuto - Another Ugly Tower Defense
 
+<img src="./images/feature.png" width="400" />
+
 Anuto is yet another tower defense game for Android.
 However it features astonishing hand-drawn graphics and a smooth gameplay.
-
-It is [free/libre](https://www.gnu.org/philosophy/free-sw.html) and open-source software.
-The license use [copyleft](https://copyleft.org/).
 
 ## Download
 
 - [Google Play Store](https://play.google.com/store/apps/details?id=ch.logixisland.anuto)
 - [F-Droid](https://f-droid.org/repository/browse/?fdid=ch.logixisland.anuto)
+
+## Beta Testing
+
+Become a [beta tester](https://play.google.com/apps/testing/ch.logixisland.anuto)!
 
 ## How to play
 
