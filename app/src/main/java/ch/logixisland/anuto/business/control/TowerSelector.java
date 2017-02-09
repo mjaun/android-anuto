@@ -157,7 +157,7 @@ public class TowerSelector {
             return;
         }
 
-        if (mTowerInfoView != null) {
+        if (mTowerInfoView != null && mTowerInfoVisible) {
             mTowerInfoView.showTowerInfo(new TowerInfo(
                     mSelectedTower,
                     mScoreBoard.getCredits(),
