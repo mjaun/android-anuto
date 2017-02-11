@@ -25,7 +25,6 @@ public class GameOverFragment extends AnutoFragment implements GameListener {
 
     private Handler mHandler;
 
-    private TextView txt_game_over;
     private TextView txt_score;
 
     public GameOverFragment() {
@@ -39,10 +38,12 @@ public class GameOverFragment extends AnutoFragment implements GameListener {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_game_over, container, false);
 
-        txt_game_over = (TextView) v.findViewById(R.id.txt_game_over);
         txt_score = (TextView) v.findViewById(R.id.txt_score);
 
         mHandler = new Handler();
+
+        // in case it is already game over on initialization
+        updateScore();
 
         return v;
     }
@@ -52,9 +53,11 @@ public class GameOverFragment extends AnutoFragment implements GameListener {
         super.onAttach(activity);
         mGameManager.addListener(this);
 
-        getFragmentManager().beginTransaction()
-                .hide(this)
-                .commit();
+        if (!mGameManager.isGameOver()) {
+            getFragmentManager().beginTransaction()
+                    .hide(this)
+                    .commit();
+        }
     }
 
     @Override
@@ -81,11 +84,7 @@ public class GameOverFragment extends AnutoFragment implements GameListener {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                txt_game_over.setText(R.string.game_over);
-
-                DecimalFormat fmt = new DecimalFormat("###,###,###,###");
-                txt_score.setText(getResources().getString(R.string.score) +
-                        ": " + fmt.format(mScoreBoard.getScore()));
+                updateScore();
 
                 getFragmentManager().beginTransaction()
                         .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
@@ -93,6 +92,12 @@ public class GameOverFragment extends AnutoFragment implements GameListener {
                         .commit();
             }
         });
+    }
+
+    private void updateScore() {
+        DecimalFormat fmt = new DecimalFormat("###,###,###,###");
+        txt_score.setText(getResources().getString(R.string.score) +
+                ": " + fmt.format(mScoreBoard.getScore()));
     }
 
 }

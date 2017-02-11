@@ -74,6 +74,16 @@ public class HeaderFragment extends AnutoFragment implements GameListener, WaveL
         view_tower_x[2] = (TowerView) v.findViewById(R.id.view_tower_3);
         view_tower_x[3] = (TowerView) v.findViewById(R.id.view_tower_4);
 
+        btn_next_wave.setEnabled(!mGameManager.isGameOver());
+        txt_wave.setText(getString(R.string.wave) + ": " + mWaveManager.getWaveNumber());
+        txt_credits.setText(getString(R.string.credits) + ": " + StringUtils.formatSuffix(mScoreBoard.getCredits()));
+        txt_lives.setText(getString(R.string.lives) + ": " + mScoreBoard.getLives());
+        txt_bonus.setText(getString(R.string.bonus) + ": " + StringUtils.formatSuffix(mScoreBoard.getWaveBonus() + mScoreBoard.getEarlyBonus()));
+
+        for (int i = 0; i < view_tower_x.length; i++) {
+            view_tower_x[i].setSlot(i);
+        }
+
         return v;
     }
 

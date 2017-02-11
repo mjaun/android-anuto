@@ -85,6 +85,13 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnTouchList
 
         mHandler = new Handler();
 
+        TowerInfo towerInfo = mTowerSelector.getTowerInfo();
+
+        if (towerInfo != null) {
+            refresh(towerInfo);
+            show();
+        }
+
         return v;
     }
 

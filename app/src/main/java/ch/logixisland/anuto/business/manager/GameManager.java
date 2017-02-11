@@ -18,7 +18,7 @@ public class GameManager {
     private final LevelLoader mLevelLoader;
     private final WaveManager mWaveManager;
 
-    private volatile boolean mGameOver;
+    private volatile boolean mGameOver = false;
 
     private List<GameListener> mListeners = new CopyOnWriteArrayList<>();
 
@@ -42,7 +42,6 @@ public class GameManager {
         mScoreBoard = scoreBoard;
         mWaveManager = waveManager;
 
-        mGameOver = true;
         mScoreBoard.addLivesListener(mLivesListener);
     }
 
