@@ -74,7 +74,7 @@ public class GameOverFragment extends AnutoFragment implements GameListener {
                 getFragmentManager().beginTransaction()
                         .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
                         .hide(GameOverFragment.this)
-                        .commit();
+                        .commitAllowingStateLoss();
             }
         });
     }
@@ -89,7 +89,7 @@ public class GameOverFragment extends AnutoFragment implements GameListener {
                 getFragmentManager().beginTransaction()
                         .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
                         .show(GameOverFragment.this)
-                        .commit();
+                        .commitAllowingStateLoss();
             }
         });
     }

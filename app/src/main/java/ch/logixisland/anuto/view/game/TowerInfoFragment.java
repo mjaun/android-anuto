@@ -161,7 +161,7 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnTouchList
         if (!mVisible) {
             getFragmentManager().beginTransaction()
                     .show(this)
-                    .commit();
+                    .commitAllowingStateLoss();
 
             mVisible = true;
         }
@@ -171,7 +171,7 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnTouchList
         if (mVisible) {
             getFragmentManager().beginTransaction()
                     .hide(this)
-                    .commit();
+                    .commitAllowingStateLoss();
 
             mVisible = false;
         }
