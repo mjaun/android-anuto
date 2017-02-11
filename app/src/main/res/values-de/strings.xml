@@ -12,10 +12,10 @@
     <string name="game_over">Spiel vorbei!</string>
     <string name="score">Punkte</string>
 
-    <string name="credits">Kredit</string>
+    <string name="credits">Guthaben</string>
     <string name="lives">Leben</string>
     <string name="wave">Welle</string>
-    <string name="bonus">Prämie</string>
+    <string name="bonus">Bonus</string>
 
     <string name="level">Stufe</string>
     <string name="damage">Schaden</string>
