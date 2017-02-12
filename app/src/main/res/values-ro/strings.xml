@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Anuto TD</string>
+
+    <string name="menu">Meniu</string>
+    <string name="next_wave">Următorul val</string>
+
+    <string name="restart">Restart</string>
+    <string name="change_map">Alege nivelul</string>
+    <string name="theme">Temă</string>
+    <string name="sound">Sunet</string>
+
+    <string name="game_over">Sfârșit!</string>
+    <string name="score">Scor</string>
+
+    <string name="credits">Credits</string>
+    <string name="lives">Vieți</string>
+    <string name="wave">Val</string>
+    <string name="bonus">Bonus</string>
+
+    <string name="level">Nivel</string>
+    <string name="damage">Daună</string>
+    <string name="reload">Reîncarcă</string>
+    <string name="range">Rază</string>
+    <string name="splash">Raza de explozie</string>
+    <string name="distance">Distanță</string>
+    <string name="intensity">Intensitate</string>
+    <string name="duration">Durată</string>
+    <string name="inflicted">Daune aduse</string>
+
+    <string name="lock_target">Urmărește ținta</string>
+    <string name="strategy">Strategie</string>
+    <string name="enhance">Îmbunătățește</string>
+    <string name="upgrade">Upgrade</string>
+    <string name="sell">Vinde</string>
+
+    <string name="on">On</string>
+    <string name="off">Off</string>
+
+    <string name="strategy_closest">Cel mai apropiat</string>
+    <string name="strategy_weakest">Cel mai slab</string>
+    <string name="strategy_strongest">Cel mai puternic</string>
+    <string name="strategy_first">Primul</string>
+    <string name="strategy_last">Ultimul</string>
+
+    <string name="theme_dark">întunecată</string>
+    <string name="theme_original">obișnuită</string>
+</resources>
