@@ -34,6 +34,11 @@ public class TowerFactory {
         mTowerSettings = towerSettings;
     }
 
+    public int getTowerValue(String name) {
+        TowerConfig config = mTowerSettings.getTowerConfig(name);
+        return config.getValue();
+    }
+
     public Tower createTower(String name) {
         TowerConfig config = mTowerSettings.getTowerConfig(name);
         return mFactory.createInstance(name, config);

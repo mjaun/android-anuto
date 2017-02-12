@@ -46,7 +46,8 @@ public class TowerInserter {
             return;
         }
 
-        if (mInsertedTower == null && !mGameManager.isGameOver()) {
+        if (mInsertedTower == null && !mGameManager.isGameOver() &&
+                mScoreBoard.getCredits() >= mTowerFactory.getTowerValue(towerName)) {
             showTowerLevels();
             mInsertedTower = mTowerFactory.createTower(towerName);
         }
