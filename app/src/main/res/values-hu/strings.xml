@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Anuto TD</string>
+
+    <string name="menu">Menü</string>
+    <string name="next_wave">Következő hullám</string>
+
+    <string name="restart">Újra</string>
+    <string name="change_map">Change Map</string> <!-- Translate -->
+    <string name="theme">Theme</string> <!-- Translate -->
+    <string name="sound">Sound</string> <!-- Translate -->
+
+    <string name="game_over">Vége!</string>
+    <string name="score">Pontszám</string>
+
+    <string name="credits">Pontok</string>
+    <string name="lives">Életek</string>
+    <string name="wave">Hullám</string>
+    <string name="bonus">Bónusz</string>
+
+    <string name="level">Szint</string>
+    <string name="damage">Támadóerő</string>
+    <string name="reload">Újratöltés</string>
+    <string name="range">Hatókör</string>
+    <string name="splash">Explosive radius</string> <!-- Translate -->
+    <string name="distance">Distance</string> <!-- Translate -->
+    <string name="intensity">Intensity</string> <!-- Translate -->
+    <string name="duration">Duration</string> <!-- Translate -->
+    <string name="inflicted">Okozott veszteség</string>
+
+    <string name="lock_target">Célon tartás</string>
+    <string name="strategy">Stratégia</string>
+    <string name="enhance">Erősítés</string>
+    <string name="upgrade">Fejlesztés</string>
+    <string name="sell">Eladás</string>
+
+    <string name="on">On</string> <!-- Translate -->
+    <string name="off">Off</string> <!-- Translate -->
+
+    <string name="strategy_closest">Closest</string> <!-- Translate -->
+    <string name="strategy_weakest">Weakest</string> <!-- Translate -->
+    <string name="strategy_strongest">Strongest</string> <!-- Translate -->
+    <string name="strategy_first">First</string> <!-- Translate -->
+    <string name="strategy_last">Last</string> <!-- Translate -->
+
+    <string name="theme_original">Original</string> <!-- Translate -->
+    <string name="theme_dark">Dark</string> <!-- Translate -->
+</resources>
