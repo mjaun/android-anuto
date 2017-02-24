@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 class MessageQueue {
 
-    private class Message {
+    private static class Message {
         final Runnable mRunnable;
         final long mDueTickCount;
 
@@ -18,7 +18,6 @@ class MessageQueue {
     private int mTickCount = 0;
 
     synchronized void post(Runnable runnable, int afterTicks) {
-        int index = mQueue.size() - 1;
         long dueTickCount = mTickCount + afterTicks;
 
         for (int i = 0; i < mQueue.size(); i++) {

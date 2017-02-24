@@ -91,6 +91,7 @@ public class LevelLoader {
                     loadLevel(levelId);
                 }
             });
+            return;
         }
 
         try {
