@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">Anuto TD</string>
+
+    <string name="menu">Menü</string>
+    <string name="next_wave">Nöchschti</string>
+
+    <string name="restart">Neu starte</string>
+    <string name="change_map">Karte wächsle</string>
+    <string name="theme">Thema</string>
+    <string name="sound">Ton</string>
+
+    <string name="game_over">Speel vörbii!</string>
+    <string name="score">Pönkt</string>
+
+    <string name="credits">Guethabe</string>
+    <string name="lives">Läbe</string>
+    <string name="wave">Wälle</string>
+    <string name="bonus">Bonus</string>
+
+    <string name="level">Stufe</string>
+    <string name="damage">Schade</string>
+    <string name="reload">Nochelade</string>
+    <string name="range">Riichwiti</string>
+    <string name="splash">Explosionsradius</string>
+    <string name="distance">Dischtanz</string>
+    <string name="intensity">Intensität</string>
+    <string name="duration">Duur</string>
+    <string name="inflicted">Verursacht</string>
+
+    <string name="lock_target">Ziel verfolge</string>
+    <string name="strategy">Schtrategie</string>
+    <string name="enhance">Verbessere</string>
+    <string name="upgrade">Ufwärte</string>
+    <string name="sell">Verchoufe</string>
+
+    <string name="on">Iischalte</string>
+    <string name="off">Uusschalte</string>
+
+    <string name="strategy_closest">Nöchschte</string>
+    <string name="strategy_weakest">Schwächste</string>
+    <string name="strategy_strongest">Stärchschti</string>
+    <string name="strategy_first">Erschti</string>
+    <string name="strategy_last">Letschte</string>
+
+    <string name="theme_original">Original</string>
+    <string name="theme_dark">Donkel</string>
+</resources>
