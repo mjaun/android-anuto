@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="app_name">Anuto TD</string>
+
+    <string name="menu">Menu</string>
+    <string name="next_wave">Następna fala</string>
+
+    <string name="restart">Restart</string>
+    <string name="change_map">Zmień mapę</string>
+    <string name="theme">Skórka</string>
+    <string name="sound">Dźwięk</string>
+
+    <string name="game_over">Gra skończona!</string>
+    <string name="score">Punkty</string>
+
+    <string name="credits">Kasa</string>
+    <string name="lives">Życia</string>
+    <string name="wave">Fala</string>
+    <string name="bonus">Bonus</string>
+
+    <string name="level">Poziom</string>
+    <string name="damage">Obrażenia</string>
+    <string name="reload">Przeładowanie</string>
+    <string name="range">Zasięg</string>
+    <string name="splash">Promień eksplozji</string>
+    <string name="distance">Dystans</string>
+    <string name="intensity">Intensywność</string>
+    <string name="duration">Czas trwania</string>
+    <string name="inflicted">Zadane zniszczenia</string>
+
+    <string name="lock_target">Stały cel</string>
+    <string name="strategy">Strategia</string>
+    <string name="enhance">Ulepsz</string>
+    <string name="upgrade">Unowocześnij</string>
+    <string name="sell">Sprzedaj</string>
+
+    <string name="on">Wł</string>
+    <string name="off">Wył</string>
+
+    <string name="strategy_closest">Najbliższe</string>
+    <string name="strategy_weakest">Najsłabsze</string>
+    <string name="strategy_strongest">Najsilniejsze</string>
+    <string name="strategy_first">Pierwsze</string>
+    <string name="strategy_last">Ostatnie</string>
+
+    <string name="theme_original">Oryginalna</string>
+    <string name="theme_dark">Ciemna</string>
+
+</resources>
