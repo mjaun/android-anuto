@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="app_name">Anuto TD</string>
+
+    <string name="menu">Меню</string>
+    <string name="next_wave">Следующая</string>
+
+    <string name="restart">Начать сначала</string>
+    <string name="change_map">Сменить карту</string>
+    <string name="theme">Тема</string>
+    <string name="sound">Звук</string>
+
+    <string name="game_over">Игра окончена!</string>
+    <string name="score">Очки</string>
+
+    <string name="credits">Средства</string>
+    <string name="lives">Жизни</string>
+    <string name="wave">Волна</string>
+    <string name="bonus">Бонус</string>
+
+    <string name="level">Уровень</string>
+    <string name="damage">Урон</string>
+    <string name="reload">Перезарядка</string>
+    <string name="range">Радиус действия</string>
+    <string name="splash">Радиус взрыва</string>
+    <string name="distance">Расстояние</string>
+    <string name="intensity">Интенсивность</string>
+    <string name="duration">Продолжительность</string>
+    <string name="inflicted">Нанесено урона</string>
+
+    <string name="lock_target">Захват цели</string>
+    <string name="strategy">Стратегия</string>
+    <string name="enhance">Улучшить</string>
+    <string name="upgrade">Модернизировать</string>
+    <string name="sell">Продать</string>
+
+    <string name="on">Вкл</string>
+    <string name="off">Выкл</string>
+
+    <string name="strategy_closest">Ближайший</string>
+    <string name="strategy_weakest">Слабейший</string>
+    <string name="strategy_strongest">Сильнейший</string>
+    <string name="strategy_first">Первый</string>
+    <string name="strategy_last">Последний</string>
+
+    <string name="theme_original">Оригинальная</string>
+    <string name="theme_dark">Тёмная</string>
+
+</resources>

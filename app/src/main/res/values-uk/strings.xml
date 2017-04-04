@@ -23,15 +23,15 @@
     <string name="reload">Перезаряджання</string>
     <string name="range">Інтервал</string>
     <string name="splash">Радіус вибуху</string>
-    <string name="distance">Відстань</string>
+    <string name="distance">Радіус дії</string>
     <string name="intensity">Інтенсивність</string>
     <string name="duration">Тривалість</string>
-    <string name="inflicted">Inflicted</string>
+    <string name="inflicted">Завдано шкоди</string>
 
     <string name="lock_target">Захоплення цілі</string>
     <string name="strategy">Стратегія</string>
     <string name="enhance">Покращити</string>
-    <string name="upgrade">Оновити</string>
+    <string name="upgrade">Модернізувати</string>
     <string name="sell">Продати</string>
 
     <string name="on">Увімкнуто</string>
