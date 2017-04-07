@@ -1,0 +1,577 @@
+<level>
+    <!-- General Configuration -->
+    <height>15</height>
+    <width>10</width>
+
+    <!-- Map Configuration -->
+    <plateaus>
+        <plateau name="BasicPlateau" x="0" y="5" />
+        <plateau name="BasicPlateau" x="1" y="5" />
+        <plateau name="BasicPlateau" x="1" y="11" />
+        <plateau name="BasicPlateau" x="2" y="13" />
+        <plateau name="BasicPlateau" x="2" y="7" />
+        <plateau name="BasicPlateau" x="2" y="5" />
+        <plateau name="BasicPlateau" x="3" y="2" />
+        <plateau name="BasicPlateau" x="4" y="2" />
+        <plateau name="BasicPlateau" x="4" y="4" />
+        <plateau name="BasicPlateau" x="4" y="9" />
+        <plateau name="BasicPlateau" x="5" y="9" />
+        <plateau name="BasicPlateau" x="4" y="14" />
+        <plateau name="BasicPlateau" x="4" y="13" />
+        <plateau name="BasicPlateau" x="5" y="7" />
+        <plateau name="BasicPlateau" x="6" y="11" />
+        <plateau name="BasicPlateau" x="6" y="5" />
+        <plateau name="BasicPlateau" x="6" y="2" />
+        <plateau name="BasicPlateau" x="7" y="8" />
+        <plateau name="BasicPlateau" x="7" y="0" />
+        <plateau name="BasicPlateau" x="7" y="5" />
+        <plateau name="BasicPlateau" x="8" y="12" />
+        <plateau name="BasicPlateau" x="8" y="5" />
+        <plateau name="BasicPlateau" x="9" y="5" />
+    </plateaus>
+    <paths>
+        <path>
+            <wayPoint x="3" y="15.5" />
+            <wayPoint x="3" y="3" />
+            <wayPoint x="5" y="3" />
+            <wayPoint x="5" y="-1.5" />
+        </path>
+    </paths>
+
+    <!-- Wave Configuration -->
+    <waves>
+        <!-- Wave 1 -->
+        <wave>
+            <waveReward>100</waveReward>
+            <healthModifier>0.5</healthModifier>
+            <extend>2</extend>
+            <maxExtend>8</maxExtend>
+            <enemies>
+                <enemy name="Soldier" delay="8" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+            </enemies>
+        </wave>
+        <!-- Wave 2 -->
+        <wave>
+            <waveReward>100</waveReward>
+            <extend>2</extend>
+            <maxExtend>4</maxExtend>
+            <enemies>
+                <enemy name="Soldier" delay="8" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+
+                <enemy name="Soldier" delay="8" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+            </enemies>
+        </wave>
+        <!-- Wave 3 -->
+        <wave>
+            <waveReward>120</waveReward>
+            <extend>1</extend>
+            <maxExtend>4</maxExtend>
+            <enemies>
+                <enemy name="Soldier" delay="10" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+
+                <enemy name="Blob" delay="8" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+            </enemies>
+        </wave>
+        <!-- Wave 4 -->
+        <wave>
+            <waveReward>120</waveReward>
+            <extend>1</extend>
+            <maxExtend>4</maxExtend>
+            <enemies>
+                <enemy name="Soldier" delay="10" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+
+                <enemy name="Blob" delay="8" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+
+                <enemy name="Soldier" delay="10" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+            </enemies>
+        </wave>
+        <!-- Wave 5 -->
+        <wave>
+            <waveReward>150</waveReward>
+            <extend>1</extend>
+            <maxExtend>4</maxExtend>
+            <enemies>
+                <enemy name="Sprinter" delay="10" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+
+                <enemy name="Soldier" delay="8" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+
+                <enemy name="Blob" delay="8" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+            </enemies>
+        </wave>
+        <!-- Wave 6 -->
+        <wave>
+            <waveReward>150</waveReward>
+            <extend>1</extend>
+            <maxExtend>3</maxExtend>
+            <enemies>
+                <enemy name="Soldier" delay="10" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+
+                <enemy name="Sprinter" delay="10" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+
+                <enemy name="Blob" delay="5" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+
+                <enemy name="Sprinter" delay="10" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+
+                <enemy name="Soldier" delay="5" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+            </enemies>
+        </wave>
+        <!-- Wave 7 -->
+        <wave>
+            <waveReward>170</waveReward>
+            <healthModifier>0.5</healthModifier>
+            <extend>1</extend>
+            <maxExtend>4</maxExtend>
+            <enemies>
+                <enemy name="Flyer" delay="10" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+
+                <enemy name="Soldier" delay="10" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+            </enemies>
+        </wave>
+        <!-- Wave 8 -->
+        <wave>
+            <waveReward>170</waveReward>
+            <extend>1</extend>
+            <maxExtend>3</maxExtend>
+            <enemies>
+                <enemy name="Sprinter" delay="10" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+
+                <enemy name="Blob" delay="5" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+
+                <enemy name="Flyer" delay="10" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+
+                <enemy name="Soldier" delay="8" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+
+                <enemy name="Sprinter" delay="10" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+            </enemies>
+        </wave>
+        <!-- Wave 9 -->
+        <wave>
+            <waveReward>190</waveReward>
+            <extend>1</extend>
+            <maxExtend>3</maxExtend>
+            <enemies>
+                <enemy name="Sprinter" delay="10" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+
+                <enemy name="Blob" delay="5" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+
+                <enemy name="Flyer" delay="10" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+
+                <enemy name="Soldier" delay="10" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+
+                <enemy name="Sprinter" delay="10" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+            </enemies>
+        </wave>
+        <!-- Wave 10 -->
+        <wave>
+            <waveReward>190</waveReward>
+            <extend>1</extend>
+            <maxExtend>4</maxExtend>
+            <enemies>
+                <enemy name="Healer" delay="10" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetY="1.1" />
+
+                <enemy name="Sprinter" delay="8" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+
+                <enemy name="Blob" delay="8" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+            </enemies>
+        </wave>
+        <!-- Wave 11 -->
+        <wave>
+            <waveReward>240</waveReward>
+            <extend>1</extend>
+            <maxExtend>4</maxExtend>
+            <healthModifier>0.7</healthModifier>
+            <enemies>
+                <enemy name="Healer" delay="15" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" delay="10" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetY="1.1" />
+            </enemies>
+        </wave>
+        <!-- Wave 12 -->
+        <wave>
+            <waveReward>240</waveReward>
+            <extend>1</extend>
+            <maxExtend>4</maxExtend>
+            <enemies>
+                <enemy name="Healer" delay="10" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetY="1.1" />
+
+                <enemy name="Flyer" delay="10" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+
+                <enemy name="Sprinter" delay="10" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+            </enemies>
+        </wave>
+        <!-- Wave 13 -->
+        <wave>
+            <waveReward>240</waveReward>
+            <extend>1</extend>
+            <maxExtend>4</maxExtend>
+            <enemies>
+                <enemy name="Healer" delay="10" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetY="1.1" />
+
+                <enemy name="Soldier" delay="10" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+
+                <enemy name="Healer" delay="10" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetY="1.1" />
+
+                <enemy name="Soldier" delay="10" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+            </enemies>
+        </wave>
+        <!-- Wave 14 -->
+        <wave>
+            <waveReward>240</waveReward>
+            <extend>1</extend>
+            <maxExtend>4</maxExtend>
+            <enemies>
+                <enemy name="Healer" delay="10" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetY="1.1" />
+
+                <enemy name="Blob" delay="10" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+
+                <enemy name="Healer" delay="5" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetY="1.1" />
+
+                <enemy name="Flyer" delay="10" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+            </enemies>
+        </wave>
+        <!-- Wave 15 -->
+        <wave>
+            <waveReward>300</waveReward>
+            <healthModifier>2.0</healthModifier>
+            <extend>1</extend>
+            <maxExtend>2</maxExtend>
+            <enemies>
+                <enemy name="Soldier" delay="10" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+
+                <enemy name="Blob" delay="5" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+
+                <enemy name="Healer" delay="5" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetY="1.1" />
+
+                <enemy name="Flyer" delay="10" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+
+                <enemy name="Sprinter" delay="10" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+
+                <enemy name="Healer" delay="5" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetY="1.1" />
+
+                <enemy name="Soldier" delay="10" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+                <enemy name="Soldier" offsetY="1.1" />
+
+                <enemy name="Blob" delay="5" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+                <enemy name="Blob" offsetY="1.1" />
+
+                <enemy name="Healer" delay="10" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetY="1.1" />
+
+                <enemy name="Flyer" delay="10" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+                <enemy name="Flyer" offsetY="1.1" />
+
+                <enemy name="Sprinter" delay="10" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+                <enemy name="Sprinter" offsetY="1.1" />
+
+                <enemy name="Healer" delay="5" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetY="1.1" />
+            </enemies>
+        </wave>
+    </waves>
+</level>
