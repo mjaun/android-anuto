@@ -55,6 +55,24 @@
                 android:scaleType="fitXY"
                 android:background="@drawable/border" />
 
+            <ImageButton
+                android:id="@+id/btn_level_civyshk_2y"
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/level_civyshk_2y_thumb"
+                android:scaleType="fitXY"
+                android:background="@drawable/border" />
+
+            <ImageButton
+                android:id="@+id/btn_level_civyshk_line5"
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/level_civyshk_line5_thumb"
+                android:scaleType="fitXY"
+                android:background="@drawable/border" />
+
         </LinearLayout>
 
     </HorizontalScrollView>

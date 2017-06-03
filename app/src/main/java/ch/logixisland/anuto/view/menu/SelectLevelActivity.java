@@ -50,6 +50,8 @@ public class SelectLevelActivity extends AnutoActivity implements View.OnClickLi
         setupLevelButton(R.id.btn_level_2, R.raw.level_2);
         setupLevelButton(R.id.btn_level_3, R.raw.level_3);
         setupLevelButton(R.id.btn_level_4, R.raw.level_4);
+        setupLevelButton(R.id.btn_level_civyshk_2y, R.raw.level_civyshk_2y);
+        setupLevelButton(R.id.btn_level_civyshk_line5, R.raw.level_civyshk_line5);
 
         scroll_view = (HorizontalScrollView) findViewById(R.id.scroll_view);
         arrow_left = (ImageView) findViewById(R.id.arrow_left);
