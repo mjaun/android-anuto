@@ -10,12 +10,14 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.control.TowerSelector;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.theme.ActivityType;
+import ch.logixisland.anuto.engine.theme.ThemeManager;
 import ch.logixisland.anuto.view.AnutoActivity;
 
 public class GameActivity extends AnutoActivity {
 
     private final GameEngine mGameEngine;
     private final TowerSelector mTowerSelector;
+    private final ThemeManager mThemeManager;
 
     private GameView view_tower_defense;
 
@@ -23,6 +25,7 @@ public class GameActivity extends AnutoActivity {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
         mGameEngine = factory.getGameEngine();
         mTowerSelector = factory.getTowerSelector();
+        mThemeManager = factory.getThemeManager();
     }
 
     @Override
@@ -61,7 +64,7 @@ public class GameActivity extends AnutoActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             mTowerSelector.selectTower(null);
-            return true;
+            return mThemeManager.isBackEnabled() ? super.onKeyDown(keyCode, event) : true;
         }
 
         return super.onKeyDown(keyCode, event);

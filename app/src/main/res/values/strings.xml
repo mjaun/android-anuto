@@ -9,6 +9,7 @@
     <string name="change_map">Change Map</string>
     <string name="theme">Theme</string>
     <string name="sound">Sound</string>
+    <string name="back_button">Back button</string>
 
     <string name="game_over">Game Over!</string>
     <string name="score">Score</string>
