@@ -1,10 +1,17 @@
 <level>
     <!-- General Configuration -->
-    <height>8</height>
-    <width>5</width>
+    <height>15</height>
+    <width>7</width>
 
     <!-- Map Configuration -->
     <plateaus>
+        <plateau name="BasicPlateau" x="0" y="14" />
+        <plateau name="BasicPlateau" x="0" y="13" />
+        <plateau name="BasicPlateau" x="0" y="12" />
+        <plateau name="BasicPlateau" x="0" y="11" />
+        <plateau name="BasicPlateau" x="0" y="10" />
+        <plateau name="BasicPlateau" x="0" y="9" />
+        <plateau name="BasicPlateau" x="0" y="8" />
         <plateau name="BasicPlateau" x="0" y="7" />
         <plateau name="BasicPlateau" x="0" y="6" />
         <plateau name="BasicPlateau" x="0" y="5" />
@@ -14,25 +21,34 @@
         <plateau name="BasicPlateau" x="0" y="1" />
         <plateau name="BasicPlateau" x="0" y="0" />
 
-        <plateau name="BasicPlateau" x="1" y="7" />
-        <plateau name="BasicPlateau" x="1" y="6" />
+        <plateau name="BasicPlateau" x="1" y="5" />
         <plateau name="BasicPlateau" x="1" y="4" />
         <plateau name="BasicPlateau" x="1" y="3" />
         <plateau name="BasicPlateau" x="1" y="2" />
-        <plateau name="BasicPlateau" x="1" y="1" />
         <plateau name="BasicPlateau" x="1" y="0" />
 
+        <plateau name="BasicPlateau" x="2" y="14" />
+        <plateau name="BasicPlateau" x="2" y="13" />
+        <plateau name="BasicPlateau" x="2" y="12" />
+        <plateau name="BasicPlateau" x="2" y="11" />
+        <plateau name="BasicPlateau" x="2" y="10" />
+        <plateau name="BasicPlateau" x="2" y="9" />
+        <plateau name="BasicPlateau" x="2" y="8" />
         <plateau name="BasicPlateau" x="2" y="7" />
+        <plateau name="BasicPlateau" x="2" y="5" />
         <plateau name="BasicPlateau" x="2" y="0" />
 
-        <plateau name="BasicPlateau" x="3" y="7" />
-        <plateau name="BasicPlateau" x="3" y="6" />
-        <plateau name="BasicPlateau" x="3" y="5" />
-        <plateau name="BasicPlateau" x="3" y="4" />
+        <plateau name="BasicPlateau" x="3" y="14" />
+        <plateau name="BasicPlateau" x="3" y="13" />
+        <plateau name="BasicPlateau" x="3" y="12" />
+        <plateau name="BasicPlateau" x="3" y="11" />
         <plateau name="BasicPlateau" x="3" y="3" />
+        <plateau name="BasicPlateau" x="3" y="2" />
         <plateau name="BasicPlateau" x="3" y="1" />
         <plateau name="BasicPlateau" x="3" y="0" />
 
+        <plateau name="BasicPlateau" x="4" y="14" />
+        <plateau name="BasicPlateau" x="4" y="9" />
         <plateau name="BasicPlateau" x="4" y="7" />
         <plateau name="BasicPlateau" x="4" y="6" />
         <plateau name="BasicPlateau" x="4" y="5" />
@@ -41,18 +57,51 @@
         <plateau name="BasicPlateau" x="4" y="2" />
         <plateau name="BasicPlateau" x="4" y="1" />
         <plateau name="BasicPlateau" x="4" y="0" />
+
+        <plateau name="BasicPlateau" x="5" y="14" />
+        <plateau name="BasicPlateau" x="5" y="12" />
+        <plateau name="BasicPlateau" x="5" y="11" />
+        <plateau name="BasicPlateau" x="5" y="10" />
+        <plateau name="BasicPlateau" x="5" y="9" />
+
+        <plateau name="BasicPlateau" x="6" y="14" />
+        <plateau name="BasicPlateau" x="6" y="13" />
+        <plateau name="BasicPlateau" x="6" y="12" />
+        <plateau name="BasicPlateau" x="6" y="11" />
+        <plateau name="BasicPlateau" x="6" y="10" />
+        <plateau name="BasicPlateau" x="6" y="9" />
+        <plateau name="BasicPlateau" x="6" y="8" />
+        <plateau name="BasicPlateau" x="6" y="7" />
+        <plateau name="BasicPlateau" x="6" y="6" />
+        <plateau name="BasicPlateau" x="6" y="5" />
+        <plateau name="BasicPlateau" x="6" y="4" />
+        <plateau name="BasicPlateau" x="6" y="3" />
+        <plateau name="BasicPlateau" x="6" y="2" />
+        <plateau name="BasicPlateau" x="6" y="1" />
+        <plateau name="BasicPlateau" x="6" y="0" />
     </plateaus>
     <paths>
         <path>
-            <wayPoint x="1" y="8" />
-            <wayPoint x="1" y="5" />
-            <wayPoint x="2" y="5" />
-            <wayPoint x="2" y="6" />
+            <wayPoint x="1" y="15.5" />
+            <wayPoint x="1" y="6" />
+            <wayPoint x="3" y="6" />
+            <wayPoint x="3" y="4" />
+            <wayPoint x="2" y="4" />
             <wayPoint x="2" y="1" />
-            <wayPoint x="2" y="6" />
+            <wayPoint x="1" y="1" />
             <wayPoint x="2" y="1" />
-            <wayPoint x="2" y="2" />
-            <wayPoint x="3.6" y="2" />
+            <wayPoint x="2" y="4" />
+            <wayPoint x="3" y="4" />
+            <wayPoint x="3" y="10" />
+            <wayPoint x="4" y="10" />
+            <wayPoint x="4" y="13" />
+            <wayPoint x="5" y="13" />
+            <wayPoint x="4" y="13" />
+            <wayPoint x="4" y="10" />
+            <wayPoint x="3" y="10" />
+            <wayPoint x="3" y="8" />
+            <wayPoint x="5" y="8" />
+            <wayPoint x="5" y="-1.5" />
         </path>
     </paths>
 
