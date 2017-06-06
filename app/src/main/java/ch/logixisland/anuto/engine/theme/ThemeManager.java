@@ -15,6 +15,7 @@ public class ThemeManager {
 
     private static final String PREF_FILE = "theme.prefs";
     private static final String PREF_THEME = "themeId";
+    private static final String PREF_TRANSPARENT_TOWER_INFO = "transparentTowerInfoEnabled";
 
     private final Context mContext;
     private final SharedPreferences mPreferences;
@@ -23,12 +24,16 @@ public class ThemeManager {
     private List<Theme> mAvailableThemes = new ArrayList<>();
     private List<ThemeListener> mListeners = new CopyOnWriteArrayList<>();
 
+    private boolean mTransparentTowerInfoEnabled;
+
     public ThemeManager(Context context) {
         mContext = context;
         mPreferences = mContext.getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE);
 
         initThemes();
         loadTheme();
+
+        mTransparentTowerInfoEnabled = mPreferences.getBoolean(PREF_TRANSPARENT_TOWER_INFO, false);
     }
 
     private void loadTheme() {
@@ -66,6 +71,20 @@ public class ThemeManager {
             for (ThemeListener listener : mListeners) {
                 listener.themeChanged();
             }
+        }
+    }
+
+    public boolean isTransparentTowerInfoEnabled() {
+        return mTransparentTowerInfoEnabled;
+    }
+
+    public void setTransparentTowerInfoEnabled(boolean enabled){
+        if(mTransparentTowerInfoEnabled != enabled) {
+            mTransparentTowerInfoEnabled = enabled;
+
+            SharedPreferences.Editor editor = mPreferences.edit();
+            editor.putBoolean(PREF_TRANSPARENT_TOWER_INFO, mTransparentTowerInfoEnabled);
+            editor.apply();
         }
     }
 
