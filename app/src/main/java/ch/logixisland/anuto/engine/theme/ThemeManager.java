@@ -15,6 +15,7 @@ public class ThemeManager {
 
     private static final String PREF_FILE = "theme.prefs";
     private static final String PREF_THEME = "themeId";
+    private static final String PREF_BACK = "backButtonEnabled";
 
     private final Context mContext;
     private final SharedPreferences mPreferences;
@@ -23,12 +24,16 @@ public class ThemeManager {
     private List<Theme> mAvailableThemes = new ArrayList<>();
     private List<ThemeListener> mListeners = new CopyOnWriteArrayList<>();
 
+    private boolean mBackEnabled;
+
     public ThemeManager(Context context) {
         mContext = context;
         mPreferences = mContext.getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE);
 
         initThemes();
         loadTheme();
+
+        mBackEnabled = mPreferences.getBoolean(PREF_BACK, false);
     }
 
     private void loadTheme() {
@@ -66,6 +71,20 @@ public class ThemeManager {
             for (ThemeListener listener : mListeners) {
                 listener.themeChanged();
             }
+        }
+    }
+
+    public boolean isBackEnabled() {
+        return mBackEnabled;
+    }
+
+    public void setBackEnabled(boolean enabled){
+        if(mBackEnabled != enabled) {
+            mBackEnabled = enabled;
+
+            SharedPreferences.Editor editor = mPreferences.edit();
+            editor.putBoolean(PREF_BACK, mBackEnabled);
+            editor.apply();
         }
     }
 

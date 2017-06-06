@@ -41,6 +41,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
     private Button btn_change_level;
     private Button btn_switch_theme;
     private Button btn_switch_sound;
+    private Button btn_switch_back_button;
 
     private final GameListener mGameListener = new GameListener() {
         @Override
@@ -108,6 +109,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
         btn_change_level = (Button) findViewById(R.id.btn_change_level);
         btn_switch_theme = (Button) findViewById(R.id.btn_switch_theme);
         btn_switch_sound = (Button) findViewById(R.id.btn_switch_sound);
+        btn_switch_back_button = (Button) findViewById(R.id.btn_switch_back_button);
 
         activity_menu = findViewById(R.id.activity_menu);
         menu_layout = findViewById(R.id.menu_layout);
@@ -116,6 +118,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
         btn_change_level.setOnClickListener(this);
         btn_switch_theme.setOnClickListener(this);
         btn_switch_sound.setOnClickListener(this);
+        btn_switch_back_button.setOnClickListener(this);
 
         activity_menu.setOnTouchListener(this);
         menu_layout.setOnTouchListener(this);
@@ -161,6 +164,11 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
             mSoundManager.setSoundEnabled(!mSoundManager.isSoundEnabled());
             update();
         }
+
+        if (view == btn_switch_back_button) {
+            mThemeManager.setBackEnabled(!mThemeManager.isBackEnabled());
+            update();
+        }
     }
 
     @Override
@@ -204,6 +212,11 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
         btn_switch_sound.setText(StringUtils.formatSwitchButton(
                 getString(R.string.sound),
                 StringUtils.formatBoolean(mSoundManager.isSoundEnabled(), getResources()))
+        );
+
+        btn_switch_back_button.setText(StringUtils.formatSwitchButton(
+                getString(R.string.back_button),
+                StringUtils.formatBoolean(mThemeManager.isBackEnabled(), getResources()))
         );
     }
 }

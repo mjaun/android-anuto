@@ -60,6 +60,13 @@
             android:text="@string/sound"
             android:id="@+id/btn_switch_sound"/>
 
+        <Button
+            android:maxLines="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/back_button"
+            android:id="@+id/btn_switch_back_button"/>
+
     </LinearLayout>
 
 </RelativeLayout>
