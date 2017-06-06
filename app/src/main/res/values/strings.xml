@@ -10,6 +10,7 @@
     <string name="theme">Theme</string>
     <string name="sound">Sound</string>
     <string name="back_button">Back button</string>
+    <string name="transparent_tower_info_button">Transparent info</string>
 
     <string name="game_over">Game Over!</string>
     <string name="score">Score</string>

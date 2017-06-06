@@ -42,6 +42,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
     private Button btn_switch_theme;
     private Button btn_switch_sound;
     private Button btn_switch_back_button;
+    private Button btn_switch_transparent_tower_info_button;
 
     private final GameListener mGameListener = new GameListener() {
         @Override
@@ -110,6 +111,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
         btn_switch_theme = (Button) findViewById(R.id.btn_switch_theme);
         btn_switch_sound = (Button) findViewById(R.id.btn_switch_sound);
         btn_switch_back_button = (Button) findViewById(R.id.btn_switch_back_button);
+        btn_switch_transparent_tower_info_button = (Button) findViewById(R.id.btn_switch_transparent_tower_info_button);
 
         activity_menu = findViewById(R.id.activity_menu);
         menu_layout = findViewById(R.id.menu_layout);
@@ -119,6 +121,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
         btn_switch_theme.setOnClickListener(this);
         btn_switch_sound.setOnClickListener(this);
         btn_switch_back_button.setOnClickListener(this);
+        btn_switch_transparent_tower_info_button.setOnClickListener(this);
 
         activity_menu.setOnTouchListener(this);
         menu_layout.setOnTouchListener(this);
@@ -169,6 +172,11 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
             mThemeManager.setBackEnabled(!mThemeManager.isBackEnabled());
             update();
         }
+
+        if (view == btn_switch_transparent_tower_info_button) {
+            mThemeManager.setTransparentTowerInfoEnabled(!mThemeManager.isTransparentTowerInfoEnabled());
+            update();
+        }
     }
 
     @Override
@@ -217,6 +225,11 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
         btn_switch_back_button.setText(StringUtils.formatSwitchButton(
                 getString(R.string.back_button),
                 StringUtils.formatBoolean(mThemeManager.isBackEnabled(), getResources()))
+        );
+
+        btn_switch_transparent_tower_info_button.setText(StringUtils.formatSwitchButton(
+                getString(R.string.transparent_tower_info_button),
+                StringUtils.formatBoolean(mThemeManager.isTransparentTowerInfoEnabled(), getResources()))
         );
     }
 }

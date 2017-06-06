@@ -16,6 +16,7 @@ public class ThemeManager {
     private static final String PREF_FILE = "theme.prefs";
     private static final String PREF_THEME = "themeId";
     private static final String PREF_BACK = "backButtonEnabled";
+    private static final String PREF_TRANSPARENT_TOWER_INFO = "transparentTowerInfoEnabled";
 
     private final Context mContext;
     private final SharedPreferences mPreferences;
@@ -25,6 +26,7 @@ public class ThemeManager {
     private List<ThemeListener> mListeners = new CopyOnWriteArrayList<>();
 
     private boolean mBackEnabled;
+    private boolean mTransparentTowerInfoEnabled;
 
     public ThemeManager(Context context) {
         mContext = context;
@@ -34,6 +36,7 @@ public class ThemeManager {
         loadTheme();
 
         mBackEnabled = mPreferences.getBoolean(PREF_BACK, false);
+        mTransparentTowerInfoEnabled = mPreferences.getBoolean(PREF_TRANSPARENT_TOWER_INFO, false);
     }
 
     private void loadTheme() {
@@ -78,12 +81,27 @@ public class ThemeManager {
         return mBackEnabled;
     }
 
-    public void setBackEnabled(boolean enabled){
-        if(mBackEnabled != enabled) {
+    public void setBackEnabled(boolean enabled) {
+        if (mBackEnabled != enabled) {
             mBackEnabled = enabled;
 
             SharedPreferences.Editor editor = mPreferences.edit();
             editor.putBoolean(PREF_BACK, mBackEnabled);
+            editor.apply();
+        }
+    }
+
+    public boolean isTransparentTowerInfoEnabled() {
+        return mTransparentTowerInfoEnabled;
+    }
+
+    public void setTransparentTowerInfoEnabled(boolean enabled) {
+        if (mTransparentTowerInfoEnabled != enabled) {
+            mTransparentTowerInfoEnabled = enabled;
+
+            SharedPreferences.Editor editor = mPreferences.edit();
+            editor.putBoolean(PREF_TRANSPARENT_TOWER_INFO, mTransparentTowerInfoEnabled);
+            editor.apply();
             editor.apply();
         }
     }
