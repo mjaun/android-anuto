@@ -39,10 +39,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
 
     private Button btn_restart;
     private Button btn_change_level;
-    private Button btn_switch_theme;
-    private Button btn_switch_sound;
-    private Button btn_switch_back_button;
-    private Button btn_switch_transparent_tower_info_button;
+    private Button btn_settings;
 
     private final GameListener mGameListener = new GameListener() {
         @Override
@@ -108,20 +105,14 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
 
         btn_restart = (Button) findViewById(R.id.btn_restart);
         btn_change_level = (Button) findViewById(R.id.btn_change_level);
-        btn_switch_theme = (Button) findViewById(R.id.btn_switch_theme);
-        btn_switch_sound = (Button) findViewById(R.id.btn_switch_sound);
-        btn_switch_back_button = (Button) findViewById(R.id.btn_switch_back_button);
-        btn_switch_transparent_tower_info_button = (Button) findViewById(R.id.btn_switch_transparent_tower_info_button);
+        btn_settings = (Button) findViewById(R.id.btn_settings);
 
         activity_menu = findViewById(R.id.activity_menu);
         menu_layout = findViewById(R.id.menu_layout);
 
         btn_restart.setOnClickListener(this);
         btn_change_level.setOnClickListener(this);
-        btn_switch_theme.setOnClickListener(this);
-        btn_switch_sound.setOnClickListener(this);
-        btn_switch_back_button.setOnClickListener(this);
-        btn_switch_transparent_tower_info_button.setOnClickListener(this);
+        btn_settings.setOnClickListener(this);
 
         activity_menu.setOnTouchListener(this);
         menu_layout.setOnTouchListener(this);
@@ -157,25 +148,9 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
             startActivityForResult(intent, REQUEST_SELECT_LEVEL);
         }
 
-        if (view == btn_switch_theme) {
-            mThemeManager.setTheme(getNextTheme());
-            mGameManager.restart();
-            finish();
-        }
-
-        if (view == btn_switch_sound) {
-            mSoundManager.setSoundEnabled(!mSoundManager.isSoundEnabled());
-            update();
-        }
-
-        if (view == btn_switch_back_button) {
-            mThemeManager.setBackEnabled(!mThemeManager.isBackEnabled());
-            update();
-        }
-
-        if (view == btn_switch_transparent_tower_info_button) {
-            mThemeManager.setTransparentTowerInfoEnabled(!mThemeManager.isTransparentTowerInfoEnabled());
-            update();
+        if (view == btn_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
         }
     }
 
@@ -202,34 +177,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
         }
     }
 
-    private Theme getNextTheme() {
-        List<Theme> themes = mThemeManager.getAvailableThemes();
-        int index = themes.indexOf(mThemeManager.getTheme()) + 1;
-        return themes.get(index % themes.size());
-    }
-
     private void update() {
         btn_change_level.setEnabled(mGameManager.isGameOver() || mWaveManager.getWaveNumber() == 0);
-
-        btn_switch_theme.setText(StringUtils.formatSwitchButton(
-                getString(R.string.theme),
-                getString(mThemeManager.getTheme().getThemeNameId())
-        ));
-        btn_switch_theme.setEnabled(mGameManager.isGameOver() || mWaveManager.getWaveNumber() == 0);
-
-        btn_switch_sound.setText(StringUtils.formatSwitchButton(
-                getString(R.string.sound),
-                StringUtils.formatBoolean(mSoundManager.isSoundEnabled(), getResources()))
-        );
-
-        btn_switch_back_button.setText(StringUtils.formatSwitchButton(
-                getString(R.string.back_button),
-                StringUtils.formatBoolean(mThemeManager.isBackEnabled(), getResources()))
-        );
-
-        btn_switch_transparent_tower_info_button.setText(StringUtils.formatSwitchButton(
-                getString(R.string.transparent_tower_info_button),
-                StringUtils.formatBoolean(mThemeManager.isTransparentTowerInfoEnabled(), getResources()))
-        );
     }
 }

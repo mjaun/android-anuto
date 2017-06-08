@@ -31,6 +31,11 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
         </activity>
         <activity
+            android:name=".view.menu.SettingsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
+        </activity>
+        <activity
             android:name=".view.menu.SelectLevelActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">

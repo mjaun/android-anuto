@@ -12,6 +12,7 @@ import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.theme.ActivityType;
 import ch.logixisland.anuto.engine.theme.ThemeManager;
 import ch.logixisland.anuto.view.AnutoActivity;
+import ch.logixisland.anuto.view.menu.SettingsActivity;
 
 public class GameActivity extends AnutoActivity {
 
@@ -64,7 +65,13 @@ public class GameActivity extends AnutoActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             mTowerSelector.selectTower(null);
-            return mThemeManager.isBackEnabled() ? super.onKeyDown(keyCode, event) : true;
+            
+            boolean canWeExit = mThemeManager.backButtonPressed();
+            if(!canWeExit && mThemeManager.getBackButtonMode() == ThemeManager.BackButtonMode.TWICE){
+                SettingsActivity.showBackButtonToast(this, mThemeManager.getBackButtonMode());
+            }
+
+            return canWeExit ? super.onKeyDown(keyCode, event) : true;
         }
 
         return super.onKeyDown(keyCode, event);
