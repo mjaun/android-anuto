@@ -47,6 +47,10 @@ public class SelectLevelGridActivity extends AnutoActivity implements AdapterVie
         mAdapter.addLevel(R.raw.level_2, R.drawable.level_2_thumb, R.string.level_2_name);
         mAdapter.addLevel(R.raw.level_3, R.drawable.level_3_thumb, R.string.level_3_name);
         mAdapter.addLevel(R.raw.level_4, R.drawable.level_4_thumb, R.string.level_4_name);
+        mAdapter.addLevel(R.raw.level_civyshk_2y, R.drawable.level_civyshk_2y_thumb, R.string.level_civyshk_2y_name);
+        mAdapter.addLevel(R.raw.level_civyshk_line5, R.drawable.level_civyshk_line5_thumb, R.string.level_civyshk_line5_name);
+        mAdapter.addLevel(R.raw.level_civyshk_labyrinth, R.drawable.level_civyshk_labyrinth_thumb, R.string.level_civyshk_labyrinth_name);
+        mAdapter.addLevel(R.raw.level_civyshk_yard, R.drawable.level_civyshk_yard_thumb, R.string.level_civyshk_yard_name);
 
         arrow_up = (ImageView) findViewById(R.id.arrow_up);
         arrow_down = (ImageView) findViewById(R.id.arrow_down);

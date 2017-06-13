@@ -59,5 +59,9 @@
     <string name="level_2_name">Level 2</string>
     <string name="level_3_name">Level 3</string>
     <string name="level_4_name">Level 4</string>
+    <string name="level_civyshk_2y_name">Civyshk 2Y</string>
+    <string name="level_civyshk_line5_name">Civyshk Line5</string>
+    <string name="level_civyshk_labyrinth_name">Civyshk Labyrinth</string>
+    <string name="level_civyshk_yard_name">Civyshk Yard</string>
 
 </resources>
