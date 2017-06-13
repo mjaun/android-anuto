@@ -1,101 +1,126 @@
 <level>
     <!-- General Configuration -->
-    <height>12</height>
-    <width>11</width>
+    <height>14</height>
+    <width>12</width>
 
     <!-- Map Configuration -->
     <plateaus>
-        <plateau name="BasicPlateau" x="0" y="6" />
-        <plateau name="BasicPlateau" x="0" y="5" />
+        <plateau name="BasicPlateau" x="0" y="12" />
+        <plateau name="BasicPlateau" x="0" y="11" />
+        <plateau name="BasicPlateau" x="0" y="9" />
+        <plateau name="BasicPlateau" x="0" y="8" />
+        <plateau name="BasicPlateau" x="0" y="7" />
+        <plateau name="BasicPlateau" x="0" y="4" />
+        <plateau name="BasicPlateau" x="0" y="3" />
 
-        <plateau name="BasicPlateau" x="1" y="10" />
+        <plateau name="BasicPlateau" x="1" y="12" />
         <plateau name="BasicPlateau" x="1" y="9" />
         <plateau name="BasicPlateau" x="1" y="8" />
         <plateau name="BasicPlateau" x="1" y="7" />
         <plateau name="BasicPlateau" x="1" y="6" />
-        <plateau name="BasicPlateau" x="1" y="5" />
-        <plateau name="BasicPlateau" x="1" y="4" />
         <plateau name="BasicPlateau" x="1" y="3" />
-        <plateau name="BasicPlateau" x="1" y="2" />
-        <plateau name="BasicPlateau" x="1" y="1" />
 
+        <plateau name="BasicPlateau" x="2" y="13" />
+        <plateau name="BasicPlateau" x="2" y="11" />
         <plateau name="BasicPlateau" x="2" y="10" />
         <plateau name="BasicPlateau" x="2" y="9" />
+        <plateau name="BasicPlateau" x="2" y="8" />
+        <plateau name="BasicPlateau" x="2" y="7" />
+        <plateau name="BasicPlateau" x="2" y="6" />
+        <plateau name="BasicPlateau" x="2" y="5" />
+        <plateau name="BasicPlateau" x="2" y="4" />
+        <plateau name="BasicPlateau" x="2" y="3" />
         <plateau name="BasicPlateau" x="2" y="2" />
         <plateau name="BasicPlateau" x="2" y="1" />
 
-        <plateau name="BasicPlateau" x="3" y="10" />
-        <plateau name="BasicPlateau" x="3" y="1" />
+        <plateau name="BasicPlateau" x="3" y="12" />
+        <plateau name="BasicPlateau" x="3" y="11" />
+        <plateau name="BasicPlateau" x="3" y="3" />
+        <plateau name="BasicPlateau" x="3" y="2" />
 
+        <plateau name="BasicPlateau" x="4" y="12" />
         <plateau name="BasicPlateau" x="4" y="11" />
-        <plateau name="BasicPlateau" x="4" y="10" />
-        <plateau name="BasicPlateau" x="4" y="1" />
-        <plateau name="BasicPlateau" x="4" y="0" />
+        <plateau name="BasicPlateau" x="4" y="9" />
+        <plateau name="BasicPlateau" x="4" y="2" />
 
+        <plateau name="BasicPlateau" x="5" y="12" />
         <plateau name="BasicPlateau" x="5" y="11" />
-        <plateau name="BasicPlateau" x="5" y="10" />
+        <plateau name="BasicPlateau" x="5" y="2" />
         <plateau name="BasicPlateau" x="5" y="1" />
-        <plateau name="BasicPlateau" x="5" y="0" />
 
+        <plateau name="BasicPlateau" x="6" y="13" />
+        <plateau name="BasicPlateau" x="6" y="12" />
         <plateau name="BasicPlateau" x="6" y="11" />
-        <plateau name="BasicPlateau" x="6" y="10" />
+        <plateau name="BasicPlateau" x="6" y="5" />
+        <plateau name="BasicPlateau" x="6" y="2" />
         <plateau name="BasicPlateau" x="6" y="1" />
         <plateau name="BasicPlateau" x="6" y="0" />
 
-        <plateau name="BasicPlateau" x="7" y="10" />
+        <plateau name="BasicPlateau" x="7" y="12" />
+        <plateau name="BasicPlateau" x="7" y="11" />
+        <plateau name="BasicPlateau" x="7" y="2" />
         <plateau name="BasicPlateau" x="7" y="1" />
 
-        <plateau name="BasicPlateau" x="8" y="10" />
+        <plateau name="BasicPlateau" x="8" y="13" />
+        <plateau name="BasicPlateau" x="8" y="12" />
+        <plateau name="BasicPlateau" x="8" y="11" />
         <plateau name="BasicPlateau" x="8" y="2" />
-        <plateau name="BasicPlateau" x="8" y="1" />
 
-        <plateau name="BasicPlateau" x="9" y="10" />
-        <plateau name="BasicPlateau" x="9" y="7" />
-        <plateau name="BasicPlateau" x="9" y="6" />
-        <plateau name="BasicPlateau" x="9" y="5" />
-        <plateau name="BasicPlateau" x="9" y="4" />
+        <plateau name="BasicPlateau" x="9" y="12" />
+        <plateau name="BasicPlateau" x="9" y="11" />
         <plateau name="BasicPlateau" x="9" y="3" />
         <plateau name="BasicPlateau" x="9" y="2" />
         <plateau name="BasicPlateau" x="9" y="1" />
 
+        <plateau name="BasicPlateau" x="10" y="13" />
+        <plateau name="BasicPlateau" x="10" y="11" />
+        <plateau name="BasicPlateau" x="10" y="8" />
+        <plateau name="BasicPlateau" x="10" y="7" />
         <plateau name="BasicPlateau" x="10" y="6" />
         <plateau name="BasicPlateau" x="10" y="5" />
+        <plateau name="BasicPlateau" x="10" y="4" />
+        <plateau name="BasicPlateau" x="10" y="3" />
+        <plateau name="BasicPlateau" x="10" y="2" />
+        <plateau name="BasicPlateau" x="10" y="1" />
+
+        <plateau name="BasicPlateau" x="11" y="12" />
+        <plateau name="BasicPlateau" x="11" y="11" />
+        <plateau name="BasicPlateau" x="11" y="7" />
+        <plateau name="BasicPlateau" x="11" y="6" />
+        <plateau name="BasicPlateau" x="11" y="5" />
+        <plateau name="BasicPlateau" x="11" y="4" />
+        <plateau name="BasicPlateau" x="11" y="2" />
     </plateaus>
     <paths>
         <path>
-            <wayPoint x="11.5" y="9" />
-            <wayPoint x="3" y="9" />
-            <wayPoint x="3" y="8" />
-            <wayPoint x="2" y="8" />
-            <wayPoint x="2" y="3" />
-            <wayPoint x="3" y="3" />
-            <wayPoint x="3" y="2" />
-            <wayPoint x="7" y="2" />
-            <wayPoint x="7" y="3" />
+            <wayPoint x="12.5" y="10" />
+            <wayPoint x="3" y="10" />
+            <wayPoint x="3" y="4" />
+            <wayPoint x="4" y="4" />
+            <wayPoint x="4" y="3" />
             <wayPoint x="8" y="3" />
-            <wayPoint x="8" y="7" />
+            <wayPoint x="8" y="4" />
+            <wayPoint x="9" y="4" />
+            <wayPoint x="9" y="8" />
+            <wayPoint x="6" y="8" />
+            <wayPoint x="6" y="7" />
             <wayPoint x="5" y="7" />
             <wayPoint x="5" y="6" />
-            <wayPoint x="4" y="6" />
-            <wayPoint x="4" y="5" />
-            <wayPoint x="5" y="5" />
+            <wayPoint x="7" y="6" />
+            <wayPoint x="7" y="7" />
+            <wayPoint x="8" y="7" />
+            <wayPoint x="8" y="5" />
+            <wayPoint x="7" y="5" />
+            <wayPoint x="7" y="4" />
             <wayPoint x="5" y="4" />
             <wayPoint x="5" y="5" />
-            <wayPoint x="6" y="5" />
-            <wayPoint x="6" y="6" />
-            <wayPoint x="7" y="6" />
-            <wayPoint x="7" y="4" />
-            <wayPoint x="6" y="4" />
-            <wayPoint x="6" y="3" />
-            <wayPoint x="4" y="3" />
-            <wayPoint x="4" y="4" />
-            <wayPoint x="3" y="4" />
-            <wayPoint x="3" y="7" />
-            <wayPoint x="4" y="7" />
+            <wayPoint x="4" y="5" />
             <wayPoint x="4" y="8" />
-            <wayPoint x="10" y="8" />
-            <wayPoint x="10" y="7" />
-            <wayPoint x="11.5" y="7" />
+            <wayPoint x="5" y="8" />
+            <wayPoint x="5" y="9" />
+            <wayPoint x="11" y="9" />
+            <wayPoint x="11" y="8" />
+            <wayPoint x="12.5" y="8" />
         </path>
     </paths>
 
@@ -269,7 +294,7 @@
                 <enemy name="Flyer" offsetX="1.1" />
                 <enemy name="Flyer" offsetX="1.1" />
 
-                <enemy name="Soldier" delay="10" offsetY="1.1" />
+                <enemy name="Soldier" delay="10" offsetX="1.1" />
                 <enemy name="Soldier" offsetX="1.1" />
                 <enemy name="Soldier" offsetX="1.1" />
                 <enemy name="Soldier" offsetX="1.1" />
@@ -604,9 +629,9 @@
                 <enemy name="Blob" offsetX="1.1" />
 
                 <enemy name="Healer" delay="10" />
-                <enemy name="Healer" offsetY="1.1" />
-                <enemy name="Healer" offsetY="1.1" />
-                <enemy name="Healer" offsetY="1.1" />
+                <enemy name="Healer" offsetX="1.1" />
+                <enemy name="Healer" offsetX="1.1" />
+                <enemy name="Healer" offsetX="1.1" />
 
                 <enemy name="Flyer" delay="10" />
                 <enemy name="Flyer" offsetX="1.1" />
