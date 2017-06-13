@@ -9,6 +9,12 @@
     <string name="change_map">Change Map</string>
     <string name="theme">Theme</string>
     <string name="sound">Sound</string>
+    <string name="back_button">Back button</string>
+    <string name="transparent_tower_info_button">Transparent tower info</string>
+
+    <string name="back_button_toast_disabled">Back button is now disabled</string>
+    <string name="back_button_toast_enabled">Back button is now enabled</string>
+    <string name="back_button_toast_twice">Press back button twice to exit</string>
 
     <string name="game_over">Game Over!</string>
     <string name="score">Score</string>
