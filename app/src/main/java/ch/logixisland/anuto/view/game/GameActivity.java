@@ -88,7 +88,6 @@ public class GameActivity extends AnutoActivity {
     static public Toast showBackButtonToast(Context context, ThemeManager.BackButtonMode mode) {
         String message;
         switch(mode){
-            default:
             case DISABLED:
                 message = context.getString(R.string.back_button_toast_disabled);
                 break;
@@ -98,6 +97,8 @@ public class GameActivity extends AnutoActivity {
             case TWICE:
                 message = context.getString(R.string.back_button_toast_twice);
                 break;
+            default:
+                throw new RuntimeException("Unknown back button mode");
         }
         Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
         toast.show();
