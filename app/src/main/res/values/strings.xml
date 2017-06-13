@@ -10,7 +10,7 @@
     <string name="theme">Theme</string>
     <string name="sound">Sound</string>
     <string name="back_button">Back button</string>
-    <string name="transparent_tower_info_button">Transparent info</string>
+    <string name="transparent_tower_info_button">Transparent info for tower</string>
 
     <string name="back_button_toast_disabled">Back button is now disabled</string>
     <string name="back_button_toast_enabled">Back button is now enabled</string>
