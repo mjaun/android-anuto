@@ -67,7 +67,7 @@ public class ThemeManager {
         initThemes();
         loadTheme();
 
-        String modeCode = mPreferences.getString(PREF_BACK, BackButtonMode.DISABLED.getCode());
+        String modeCode = mPreferences.getString(PREF_BACK, BackButtonMode.TWICE.getCode());
         mBackButtonMode = BackButtonMode.modeFromCode(modeCode);
         if (mBackButtonMode == null) {
             mBackButtonMode = BackButtonMode.DISABLED;

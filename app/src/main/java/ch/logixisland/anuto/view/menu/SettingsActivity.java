@@ -23,6 +23,7 @@ import ch.logixisland.anuto.engine.theme.ActivityType;
 import ch.logixisland.anuto.engine.theme.Theme;
 import ch.logixisland.anuto.engine.theme.ThemeManager;
 import ch.logixisland.anuto.view.AnutoActivity;
+import ch.logixisland.anuto.view.game.GameActivity;
 
 public class SettingsActivity extends AnutoActivity implements View.OnClickListener, View.OnTouchListener {
 
@@ -155,12 +156,10 @@ public class SettingsActivity extends AnutoActivity implements View.OnClickListe
 
         if (view == cbox_sound) {
             mSoundManager.setSoundEnabled(cbox_sound.isChecked());
-            updateEnabledStates();
         }
 
         if (view == cbox_transparent_info) {
             mThemeManager.setTransparentTowerInfoEnabled(cbox_transparent_info.isChecked());
-            updateEnabledStates();
         }
 
         if (view == tggl_back_disabled) {
@@ -168,8 +167,7 @@ public class SettingsActivity extends AnutoActivity implements View.OnClickListe
                 tggl_back_enabled.setChecked(false);
                 tggl_back_twice.setChecked(false);
                 mThemeManager.setBackButtonMode(ThemeManager.BackButtonMode.DISABLED);
-                updateEnabledStates();
-                showBackButtonToast(this, mThemeManager.getBackButtonMode());
+                GameActivity.showBackButtonToast(this, mThemeManager.getBackButtonMode());
             }else{
                 tggl_back_disabled.setChecked(true);
             }
@@ -178,8 +176,7 @@ public class SettingsActivity extends AnutoActivity implements View.OnClickListe
                 tggl_back_disabled.setChecked(false);
                 tggl_back_twice.setChecked(false);
                 mThemeManager.setBackButtonMode(ThemeManager.BackButtonMode.ENABLED);
-                updateEnabledStates();
-                showBackButtonToast(this, mThemeManager.getBackButtonMode());
+                GameActivity.showBackButtonToast(this, mThemeManager.getBackButtonMode());
             }else{
                 tggl_back_enabled.setChecked(true);
             }
@@ -188,29 +185,11 @@ public class SettingsActivity extends AnutoActivity implements View.OnClickListe
                 tggl_back_disabled.setChecked(false);
                 tggl_back_enabled.setChecked(false);
                 mThemeManager.setBackButtonMode(ThemeManager.BackButtonMode.TWICE);
-                updateEnabledStates();
-                showBackButtonToast(this, mThemeManager.getBackButtonMode());
+                GameActivity.showBackButtonToast(this, mThemeManager.getBackButtonMode());
             }else{
                 tggl_back_twice.setChecked(true);
             }
         }
-    }
-
-    static public void showBackButtonToast(Context context, ThemeManager.BackButtonMode mode) {
-        String message;
-        switch(mode){
-            default:
-            case DISABLED:
-                message = context.getString(R.string.back_button_toast_disabled);
-                break;
-            case ENABLED:
-                message = context.getString(R.string.back_button_toast_enabled);
-                break;
-            case TWICE:
-                message = context.getString(R.string.back_button_toast_twice);
-                break;
-        }
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -234,27 +213,7 @@ public class SettingsActivity extends AnutoActivity implements View.OnClickListe
     }
 
     private void updateEnabledStates() {
-
-//        btn_switch_theme.setText(StringUtils.formatSwitchButton(
-//                getString(R.string.theme),
-//                getString(mThemeManager.getTheme().getThemeNameId())
-//        ));
         cbox_dark_theme.setEnabled(mGameManager.isGameOver() || mWaveManager.getWaveNumber() == 0);
-
-//        btn_switch_sound.setText(StringUtils.formatSwitchButton(
-//                getString(R.string.sound),
-//                StringUtils.formatBoolean(mSoundManager.isSoundEnabled(), getResources()))
-//        );
-
-//        btn_switch_back_button.setText(StringUtils.formatSwitchButton(
-//                getString(R.string.back_button),
-//                StringUtils.formatBoolean(mThemeManager.getBackButtonMode(), getResources()))
-//        );
-
-//        btn_switch_transparent_tower_info_button.setText(StringUtils.formatSwitchButton(
-//                getString(R.string.transparent_tower_info_button),
-//                StringUtils.formatBoolean(mThemeManager.isTransparentTowerInfoEnabled(), getResources()))
-//        );
     }
 
     private void updateCheckedStates(){

@@ -1,8 +1,10 @@
 package ch.logixisland.anuto.view.game;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
@@ -12,13 +14,14 @@ import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.theme.ActivityType;
 import ch.logixisland.anuto.engine.theme.ThemeManager;
 import ch.logixisland.anuto.view.AnutoActivity;
-import ch.logixisland.anuto.view.menu.SettingsActivity;
 
 public class GameActivity extends AnutoActivity {
 
     private final GameEngine mGameEngine;
     private final TowerSelector mTowerSelector;
     private final ThemeManager mThemeManager;
+
+    private Toast mBackButtonToast;
 
     private GameView view_tower_defense;
 
@@ -59,6 +62,11 @@ public class GameActivity extends AnutoActivity {
     protected void onDestroy() {
         super.onDestroy();
         view_tower_defense.close();
+        try {
+            mBackButtonToast.cancel();
+        }catch(NullPointerException e){
+            //noop;
+        }
     }
 
     @Override
@@ -68,12 +76,31 @@ public class GameActivity extends AnutoActivity {
             
             boolean canWeExit = mThemeManager.backButtonPressed();
             if(!canWeExit && mThemeManager.getBackButtonMode() == ThemeManager.BackButtonMode.TWICE){
-                SettingsActivity.showBackButtonToast(this, mThemeManager.getBackButtonMode());
+                mBackButtonToast = showBackButtonToast(this, mThemeManager.getBackButtonMode());
             }
 
             return canWeExit ? super.onKeyDown(keyCode, event) : true;
         }
 
         return super.onKeyDown(keyCode, event);
+    }
+
+    static public Toast showBackButtonToast(Context context, ThemeManager.BackButtonMode mode) {
+        String message;
+        switch(mode){
+            default:
+            case DISABLED:
+                message = context.getString(R.string.back_button_toast_disabled);
+                break;
+            case ENABLED:
+                message = context.getString(R.string.back_button_toast_enabled);
+                break;
+            case TWICE:
+                message = context.getString(R.string.back_button_toast_twice);
+                break;
+        }
+        Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+        toast.show();
+        return toast;
     }
 }
