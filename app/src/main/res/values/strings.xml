@@ -55,4 +55,9 @@
     <string name="back_button_behaviour">Back button behaviour</string>
     <string name="twice">Twice</string>
 
+    <string name="level_1_name">Level 1</string>
+    <string name="level_2_name">Level 2</string>
+    <string name="level_3_name">Level 3</string>
+    <string name="level_4_name">Level 4</string>
+
 </resources>

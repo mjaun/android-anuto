@@ -144,7 +144,8 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
         }
 
         if (view == btn_change_level) {
-            Intent intent = new Intent(this, SelectLevelActivity.class);
+//            Intent intent = new Intent(this, SelectLevelActivity.class);
+            Intent intent = new Intent(this, SelectLevelGridActivity.class);
             startActivityForResult(intent, REQUEST_SELECT_LEVEL);
         }
 

@@ -36,7 +36,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
         </activity>
         <activity
-            android:name=".view.menu.SelectLevelActivity"
+            android:name=".view.menu.SelectLevelGridActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
         </activity>
