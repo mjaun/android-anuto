@@ -1,15 +1,13 @@
 package ch.logixisland.anuto.view.menu;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
-import android.widget.Toast;
+import android.widget.Spinner;
 import android.widget.ToggleButton;
-
-import java.util.List;
 
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
@@ -20,7 +18,6 @@ import ch.logixisland.anuto.business.manager.GameListener;
 import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.engine.sound.SoundManager;
 import ch.logixisland.anuto.engine.theme.ActivityType;
-import ch.logixisland.anuto.engine.theme.Theme;
 import ch.logixisland.anuto.engine.theme.ThemeManager;
 import ch.logixisland.anuto.view.AnutoActivity;
 import ch.logixisland.anuto.view.game.GameActivity;
@@ -37,7 +34,7 @@ public class SettingsActivity extends AnutoActivity implements View.OnClickListe
     private View settings_menu;
     private View menu_layout;
 
-    private CheckBox cbox_dark_theme;
+    private Spinner spn_theme;
     private CheckBox cbox_sound;
     private CheckBox cbox_transparent_info;
     private ToggleButton tggl_back_disabled;
@@ -106,7 +103,7 @@ public class SettingsActivity extends AnutoActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        cbox_dark_theme = (CheckBox) findViewById(R.id.cbox_dark_theme);//TODO make spinner with every possible theme
+        spn_theme = (Spinner) findViewById(R.id.spn_theme);
         cbox_sound = (CheckBox) findViewById(R.id.cbox_sound);
         cbox_transparent_info = (CheckBox) findViewById(R.id.cbox_transparent_info);
         tggl_back_disabled = (ToggleButton) findViewById(R.id.tggl_back_disabled);
@@ -116,7 +113,19 @@ public class SettingsActivity extends AnutoActivity implements View.OnClickListe
         settings_menu = findViewById(R.id.settings_menu);
         menu_layout = findViewById(R.id.menu_layout);
 
-        cbox_dark_theme.setOnClickListener(this);
+        spn_theme.setAdapter(mThemeManager);
+        spn_theme.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mThemeManager.setTheme((int) id);
+                mGameManager.restart();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         cbox_sound.setOnClickListener(this);
         cbox_transparent_info.setOnClickListener(this);
         tggl_back_disabled.setOnClickListener(this);
@@ -148,11 +157,6 @@ public class SettingsActivity extends AnutoActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-
-        if (view == cbox_dark_theme) {
-            mThemeManager.setTheme(getNextTheme());
-            mGameManager.restart();
-        }
 
         if (view == cbox_sound) {
             mSoundManager.setSoundEnabled(cbox_sound.isChecked());
@@ -206,18 +210,12 @@ public class SettingsActivity extends AnutoActivity implements View.OnClickListe
         return false;
     }
 
-    private Theme getNextTheme() {
-        List<Theme> themes = mThemeManager.getAvailableThemes();
-        int index = themes.indexOf(mThemeManager.getTheme()) + 1;
-        return themes.get(index % themes.size());
-    }
-
     private void updateEnabledStates() {
-        cbox_dark_theme.setEnabled(mGameManager.isGameOver() || mWaveManager.getWaveNumber() == 0);
+        spn_theme.setEnabled(mGameManager.isGameOver() || mWaveManager.getWaveNumber() == 0);
     }
 
     private void updateCheckedStates(){
-        cbox_dark_theme.setChecked(mThemeManager.getTheme().getGameThemeId() == R.style.DarkTheme);
+        spn_theme.setSelection(mThemeManager.getThemeIndex());
         cbox_sound.setChecked(mSoundManager.isSoundEnabled());
         cbox_transparent_info.setChecked(mThemeManager.isTransparentTowerInfoEnabled());
         tggl_back_disabled.setChecked(mThemeManager.getBackButtonMode() == ThemeManager.BackButtonMode.DISABLED);

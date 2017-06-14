@@ -3,9 +3,13 @@ package ch.logixisland.anuto.engine.theme;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +17,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.R;
 
-public class ThemeManager {
+public class ThemeManager extends BaseAdapter {
 
     private static final String PREF_FILE = "theme.prefs";
     private static final String PREF_THEME = "themeId";
@@ -52,7 +56,6 @@ public class ThemeManager {
             return code;
         }
     }
-
     private BackButtonMode mBackButtonMode = BackButtonMode.DISABLED;
 
     private static final long BACK_TWICE_INTERVAL = 2000L;//ms
@@ -67,8 +70,8 @@ public class ThemeManager {
         initThemes();
         loadTheme();
 
-        String modeCode = mPreferences.getString(PREF_BACK, BackButtonMode.TWICE.getCode());
-        mBackButtonMode = BackButtonMode.modeFromCode(modeCode);
+        String backModeCode = mPreferences.getString(PREF_BACK, BackButtonMode.TWICE.getCode());
+        mBackButtonMode = BackButtonMode.modeFromCode(backModeCode);
         if (mBackButtonMode == null) {
             mBackButtonMode = BackButtonMode.DISABLED;
         }
@@ -91,12 +94,12 @@ public class ThemeManager {
         mAvailableThemes.add(new Theme(R.string.theme_dark, R.style.DarkTheme, R.style.DarkTheme_Menu));
     }
 
-    public List<Theme> getAvailableThemes() {
-        return Collections.unmodifiableList(mAvailableThemes);
-    }
-
     public Theme getTheme() {
         return mCurrentTheme;
+    }
+
+    public int getThemeIndex(){
+        return mAvailableThemes.indexOf(mCurrentTheme);
     }
 
     public void setTheme(Theme theme) {
@@ -112,6 +115,10 @@ public class ThemeManager {
                 listener.themeChanged();
             }
         }
+    }
+
+    public void setTheme(int index){
+        setTheme(mAvailableThemes.get(index));
     }
 
     public BackButtonMode getBackButtonMode() {
@@ -187,5 +194,30 @@ public class ThemeManager {
             mLastBackButtonPress = timeNow;
             return false;
         }
+    }
+
+    @Override
+    public int getCount() {
+        return mAvailableThemes.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return mAvailableThemes.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        if (convertView == null) {
+            convertView = LayoutInflater.from(mContext).inflate(android.R.layout.simple_spinner_item, parent, false);
+        }
+
+        ((TextView) convertView).setText(((Theme) getItem(position)).getThemeNameId());
+        return convertView;
     }
 }
