@@ -218,6 +218,7 @@ public class ThemeManager extends BaseAdapter {
         }
 
         ((TextView) convertView).setText(((Theme) getItem(position)).getThemeNameId());
+        ((TextView) convertView).setTextColor(mContext.getResources().getColor(android.R.color.primary_text_light));
         return convertView;
     }
 }
