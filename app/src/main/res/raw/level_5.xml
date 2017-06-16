@@ -115,7 +115,7 @@
         </path>
     </paths>
 
-    <!-- Wave Configuration -->
+    <!-- Wave Configuration from level 1 -->
     <waves>
         <!-- Wave 1 -->
         <wave>
@@ -132,6 +132,7 @@
                 <enemy name="Soldier" offsetY="1.1" />
             </enemies>
         </wave>
+
         <!-- Wave 2 -->
         <wave>
             <waveReward>100</waveReward>
@@ -153,6 +154,7 @@
                 <enemy name="Soldier" offsetY="1.1" />
             </enemies>
         </wave>
+
         <!-- Wave 3 -->
         <wave>
             <waveReward>120</waveReward>
@@ -174,6 +176,7 @@
                 <enemy name="Blob" offsetY="1.1" />
             </enemies>
         </wave>
+
         <!-- Wave 4 -->
         <wave>
             <waveReward>120</waveReward>
@@ -202,6 +205,7 @@
                 <enemy name="Soldier" offsetY="1.1" />
             </enemies>
         </wave>
+
         <!-- Wave 5 -->
         <wave>
             <waveReward>150</waveReward>
@@ -230,6 +234,7 @@
                 <enemy name="Blob" offsetY="1.1" />
             </enemies>
         </wave>
+
         <!-- Wave 6 -->
         <wave>
             <waveReward>150</waveReward>
@@ -272,6 +277,7 @@
                 <enemy name="Soldier" offsetY="1.1" />
             </enemies>
         </wave>
+
         <!-- Wave 7 -->
         <wave>
             <waveReward>170</waveReward>
@@ -293,6 +299,7 @@
                 <enemy name="Soldier" offsetY="1.1" />
             </enemies>
         </wave>
+
         <!-- Wave 8 -->
         <wave>
             <waveReward>170</waveReward>
@@ -335,6 +342,7 @@
                 <enemy name="Sprinter" offsetY="1.1" />
             </enemies>
         </wave>
+
         <!-- Wave 9 -->
         <wave>
             <waveReward>190</waveReward>
@@ -392,6 +400,7 @@
                 <enemy name="Sprinter" offsetY="1.1" />
             </enemies>
         </wave>
+
         <!-- Wave 10 -->
         <wave>
             <waveReward>190</waveReward>
@@ -426,6 +435,7 @@
                 <enemy name="Blob" offsetY="1.1" />
             </enemies>
         </wave>
+
         <!-- Wave 11 -->
         <wave>
             <waveReward>240</waveReward>
@@ -447,6 +457,7 @@
                 <enemy name="Healer" offsetY="1.1" />
             </enemies>
         </wave>
+
         <!-- Wave 12 -->
         <wave>
             <waveReward>240</waveReward>
@@ -480,6 +491,7 @@
                 <enemy name="Sprinter" offsetY="1.1" />
             </enemies>
         </wave>
+
         <!-- Wave 13 -->
         <wave>
             <waveReward>240</waveReward>
@@ -511,6 +523,7 @@
                 <enemy name="Soldier" offsetY="1.1" />
             </enemies>
         </wave>
+
         <!-- Wave 14 -->
         <wave>
             <waveReward>240</waveReward>
@@ -542,6 +555,7 @@
                 <enemy name="Flyer" offsetY="1.1" />
             </enemies>
         </wave>
+
         <!-- Wave 15 -->
         <wave>
             <waveReward>300</waveReward>
@@ -650,5 +664,5 @@
                 <enemy name="Healer" offsetY="1.1" />
             </enemies>
         </wave>
-    </waves>
+</waves>
 </level>
