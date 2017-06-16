@@ -6,11 +6,55 @@
     <!-- Map Configuration -->
     <plateaus>
         <plateau name="BasicPlateau" x="0" y="5" />
+        <plateau name="BasicPlateau" x="0" y="6" />
+        <plateau name="BasicPlateau" x="0" y="7" />
+        <plateau name="BasicPlateau" x="0" y="11" />
+        <plateau name="BasicPlateau" x="0" y="12" />
+        <plateau name="BasicPlateau" x="0" y="13" />
+        <plateau name="BasicPlateau" x="0" y="14" />
+        <plateau name="BasicPlateau" x="0" y="15" />
+        
         <plateau name="BasicPlateau" x="1" y="5" />
+        <plateau name="BasicPlateau" x="1" y="6" />
+        <plateau name="BasicPlateau" x="1" y="7" />
         <plateau name="BasicPlateau" x="1" y="11" />
-        <plateau name="BasicPlateau" x="2" y="13" />
-        <plateau name="BasicPlateau" x="2" y="7" />
+        <plateau name="BasicPlateau" x="1" y="12" />
+        <plateau name="BasicPlateau" x="1" y="13" />
+        <plateau name="BasicPlateau" x="1" y="14" />
+        <plateau name="BasicPlateau" x="1" y="15" />
+        
+        <plateau name="BasicPlateau" x="2" y="0" />
+        <plateau name="BasicPlateau" x="2" y="1" />
+        <plateau name="BasicPlateau" x="2" y="2" />
+        <plateau name="BasicPlateau" x="2" y="3" />
+        <plateau name="BasicPlateau" x="2" y="4" />
         <plateau name="BasicPlateau" x="2" y="5" />
+        <plateau name="BasicPlateau" x="2" y="6" />
+        <plateau name="BasicPlateau" x="2" y="7" />
+        <plateau name="BasicPlateau" x="2" y="13" />
+        <plateau name="BasicPlateau" x="2" y="14" />
+        <plateau name="BasicPlateau" x="2" y="15" />
+        
+        <plateau name="BasicPlateau" x="3" y="0" />
+        <plateau name="BasicPlateau" x="3" y="1" />
+        <plateau name="BasicPlateau" x="3" y="2" />
+        <plateau name="BasicPlateau" x="3" y="3" />
+
+        <plateau name="BasicPlateau" x="4" y="2" />
+        <plateau name="BasicPlateau" x="4" y="4" />
+        <plateau name="BasicPlateau" x="4" y="5" />
+        <plateau name="BasicPlateau" x="4" y="6" />
+        <plateau name="BasicPlateau" x="4" y="7" />
+        <plateau name="BasicPlateau" x="4" y="8" />
+        <plateau name="BasicPlateau" x="4" y="9" />
+        <plateau name="BasicPlateau" x="4" y="13" />
+        <plateau name="BasicPlateau" x="4" y="14" />
+        <plateau name="BasicPlateau" x="4" y="15" />
+        
+        
+        -------------------------------------------------
+        
+        
         <plateau name="BasicPlateau" x="3" y="2" />
         <plateau name="BasicPlateau" x="4" y="2" />
         <plateau name="BasicPlateau" x="4" y="4" />
