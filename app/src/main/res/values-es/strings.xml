@@ -13,7 +13,7 @@
     <string name="game_over">¡Se acabó!</string>
     <string name="score">Puntuación</string>
 
-    <string name="credits">Creditos</string>
+    <string name="credits">Créditos</string>
     <string name="lives">Vidas</string>
     <string name="wave">Oleada</string>
     <string name="bonus">Bonus</string>
@@ -37,11 +37,11 @@
     <string name="on">Encendido</string>
     <string name="off">Apagado</string>
 
-    <string name="strategy_closest">Mas cercano</string>
-    <string name="strategy_weakest">Mas débil</string>
-    <string name="strategy_strongest">Mas fuerte</string>
+    <string name="strategy_closest">Más cercano</string>
+    <string name="strategy_weakest">Más débil</string>
+    <string name="strategy_strongest">Más fuerte</string>
     <string name="strategy_first">Primero</string>
-    <string name="strategy_last">Ultimo</string>
+    <string name="strategy_last">Último</string>
 
     <string name="theme_original">Original</string>
     <string name="theme_dark">Obscuro</string>
