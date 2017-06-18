@@ -1,7 +1,6 @@
 package ch.logixisland.anuto.view.game;
 
-import android.app.Fragment;
-import android.content.Context;
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -20,15 +19,18 @@ import ch.logixisland.anuto.business.control.TowerControl;
 import ch.logixisland.anuto.business.control.TowerInfo;
 import ch.logixisland.anuto.business.control.TowerInfoView;
 import ch.logixisland.anuto.business.control.TowerSelector;
+import ch.logixisland.anuto.engine.theme.ThemeManager;
 import ch.logixisland.anuto.entity.tower.TowerProperty;
 import ch.logixisland.anuto.entity.tower.TowerStrategy;
 import ch.logixisland.anuto.util.StringUtils;
+import ch.logixisland.anuto.view.AnutoFragment;
 
-public class TowerInfoFragment extends Fragment implements View.OnTouchListener,
+public class TowerInfoFragment extends AnutoFragment implements View.OnTouchListener,
         View.OnClickListener, TowerInfoView {
 
     private final TowerSelector mTowerSelector;
     private final TowerControl mTowerControl;
+    private final ThemeManager mThemeManager;
 
     private Handler mHandler;
 
@@ -49,6 +51,7 @@ public class TowerInfoFragment extends Fragment implements View.OnTouchListener,
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
         mTowerSelector = factory.getTowerSelector();
         mTowerControl = factory.getTowerControl();
+        mThemeManager = factory.getThemeManager();
     }
 
     @Override
@@ -89,8 +92,20 @@ public class TowerInfoFragment extends Fragment implements View.OnTouchListener,
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        TowerInfo towerInfo = mTowerSelector.getTowerInfo();
+
+        if (towerInfo != null) {
+            refresh(towerInfo);
+            show();
+        }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
         mTowerSelector.setTowerInfoView(this);
         hide();
     }
@@ -152,9 +167,11 @@ public class TowerInfoFragment extends Fragment implements View.OnTouchListener,
 
     private void show() {
         if (!mVisible) {
+            getView().setBackgroundResource(mThemeManager.isTransparentTowerInfoEnabled() ? R.drawable.border_transparent : R.drawable.border);
+
             getFragmentManager().beginTransaction()
                     .show(this)
-                    .commit();
+                    .commitAllowingStateLoss();
 
             mVisible = true;
         }
@@ -164,7 +181,7 @@ public class TowerInfoFragment extends Fragment implements View.OnTouchListener,
         if (mVisible) {
             getFragmentManager().beginTransaction()
                     .hide(this)
-                    .commit();
+                    .commitAllowingStateLoss();
 
             mVisible = false;
         }

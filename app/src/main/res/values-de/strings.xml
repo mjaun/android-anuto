@@ -1,39 +1,47 @@
 <resources>
-  <string name="app_name">Anuto TD</string>
-  <string name="damage">Schaden</string>
-  <string name="enhance">Verbessern</string>
-  <string name="inflicted">Verursacht</string>
-  <string name="level">Stufe</string>
-  <string name="lock_target">Ziel weiter bekämpfen</string>
-  <string name="next_wave">Nächste Welle</string>
-  <string name="range">Reichweite</string>
-  <string name="reload">Nachladen</string>
-  <string name="restart">Neu starten</string>
-  <string name="score">Punkte</string>
-  <string name="sell">Verkaufen</string>
-  <string name="strategy">Strategie</string>
-  <string name="upgrade">Aufwerten</string>
-  <string name="bonus">Prämie</string>
-  <string name="credits">Punkte</string>
-  <string name="lives">Leben</string>
-  <string name="wave">Welle</string>
-  <string name="theme_original">Original</string>
-  <string name="theme_dark">Dunkel</string>
-  <string name="theme">Theme</string>
-  <string name="strategy_first">Erster</string>
-  <string name="strategy_closest">Nähester</string>
-  <string name="strategy_last">Letzter</string>
-  <string name="strategy_strongest">Stärkster</string>
-  <string name="strategy_weakest">Schwächster</string>
-  <string name="sound">Sound</string>
-  <string name="on">An</string>
-  <string name="off">Aus</string>
-  <string name="menu">Menü</string>
-  <string name="intensity">Intensivität</string>
-  <string name="game_over">Spiel vorbei!</string>
-  <string name="duration">Dauer</string>
-  <string name="distance">Distanz</string>
-  <string name="back">Zurück</string>
-  <string name="splash">Splitterwirkung</string>
-  <string name="change_map">Karte wechseln</string>
+    <string name="app_name">Anuto TD</string>
+
+    <string name="menu">Menü</string>
+    <string name="next_wave">Nächste</string>
+
+    <string name="restart">Neu starten</string>
+    <string name="change_map">Karte wechseln</string>
+    <string name="theme">Thema</string>
+    <string name="sound">Ton</string>
+
+    <string name="game_over">Spiel vorbei!</string>
+    <string name="score">Punkte</string>
+
+    <string name="credits">Guthaben</string>
+    <string name="lives">Leben</string>
+    <string name="wave">Welle</string>
+    <string name="bonus">Bonus</string>
+
+    <string name="level">Stufe</string>
+    <string name="damage">Schaden</string>
+    <string name="reload">Nachladen</string>
+    <string name="range">Reichweite</string>
+    <string name="splash">Explosionsradius</string>
+    <string name="distance">Distanz</string>
+    <string name="intensity">Intensität</string>
+    <string name="duration">Dauer</string>
+    <string name="inflicted">Verursacht</string>
+
+    <string name="lock_target">Ziel verfolgen</string>
+    <string name="strategy">Strategie</string>
+    <string name="enhance">Verbessern</string>
+    <string name="upgrade">Aufwerten</string>
+    <string name="sell">Verkaufen</string>
+
+    <string name="on">An</string>
+    <string name="off">Aus</string>
+
+    <string name="strategy_closest">Nächster</string>
+    <string name="strategy_weakest">Schwächster</string>
+    <string name="strategy_strongest">Stärkster</string>
+    <string name="strategy_first">Erster</string>
+    <string name="strategy_last">Letzter</string>
+
+    <string name="theme_original">Original</string>
+    <string name="theme_dark">Dunkel</string>
 </resources>

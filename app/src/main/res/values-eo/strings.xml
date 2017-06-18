@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="app_name">Anuto TD</string>
+
+    <string name="menu">Menuo</string>
+    <string name="next_wave">Sekva ondo</string>
+
+    <string name="restart">Reludi</string>
+    <string name="change_map">Ŝanĝi mapon</string>
+    <string name="theme">Etoso</string>
+    <string name="sound">Sono</string>
+
+    <string name="game_over">Ludo finita!</string>
+    <string name="score">Poentaro</string>
+
+    <string name="credits">Spesmiloj</string>
+    <string name="lives">Vivoj</string>
+    <string name="wave">Ondo</string>
+    <string name="bonus">Premio</string>
+
+    <string name="level">Nivelo</string>
+    <string name="damage">Damaĝo</string>
+    <string name="reload">Reŝargo</string>
+    <string name="range">Atingo</string>
+    <string name="splash">Eksplod-radiuso</string>
+    <string name="distance">Distanco</string>
+    <string name="intensity">Forteco</string>
+    <string name="duration">Daŭro</string>
+    <string name="inflicted">Kaŭzita damaĝo</string>
+
+    <string name="lock_target">Fiksi celon</string>
+    <string name="strategy">Strategio</string>
+    <string name="enhance">Plibonigi</string>
+    <string name="upgrade">Promocii</string>
+    <string name="sell">Vendi</string>
+
+    <string name="on">Ek</string>
+    <string name="off">For</string>
+
+    <string name="strategy_closest">Plej proksima</string>
+    <string name="strategy_weakest">Malplej forta</string>
+    <string name="strategy_strongest">Plej forta</string>
+    <string name="strategy_first">Unua</string>
+    <string name="strategy_last">Lasta</string>
+
+    <string name="theme_original">Originala</string>
+    <string name="theme_dark">Malluma</string>
+
+</resources>

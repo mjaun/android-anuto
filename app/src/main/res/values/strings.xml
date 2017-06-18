@@ -9,7 +9,12 @@
     <string name="change_map">Change Map</string>
     <string name="theme">Theme</string>
     <string name="sound">Sound</string>
-    <string name="back">Back</string>
+    <string name="back_button">Back button</string>
+    <string name="transparent_tower_info_button">Transparent info for tower</string>
+
+    <string name="back_button_toast_disabled">Back button is now disabled</string>
+    <string name="back_button_toast_enabled">Back button is now enabled</string>
+    <string name="back_button_toast_twice">Press back button twice to exit</string>
 
     <string name="game_over">Game Over!</string>
     <string name="score">Score</string>
@@ -23,7 +28,7 @@
     <string name="damage">Damage</string>
     <string name="reload">Reload</string>
     <string name="range">Range</string>
-    <string name="splash">Splash</string>
+    <string name="splash">Explosive radius</string>
     <string name="distance">Distance</string>
     <string name="intensity">Intensity</string>
     <string name="duration">Duration</string>
@@ -46,5 +51,17 @@
 
     <string name="theme_original">Original</string>
     <string name="theme_dark">Dark</string>
+    <string name="settings">Settings</string>
+    <string name="back_button_behaviour">Back button behaviour</string>
+    <string name="twice">Twice</string>
+
+    <string name="level_1_name">Level 1</string>
+    <string name="level_2_name">Level 2</string>
+    <string name="level_3_name">Level 3</string>
+    <string name="level_4_name">Level 4</string>
+    <string name="level_civyshk_2y_name">Civyshk 2Y</string>
+    <string name="level_civyshk_line5_name">Civyshk Line5</string>
+    <string name="level_civyshk_labyrinth_name">Civyshk Labyrinth</string>
+    <string name="level_civyshk_yard_name">Civyshk Yard</string>
 
 </resources>

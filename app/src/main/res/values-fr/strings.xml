@@ -1,22 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <string name="app_name">Anuto TD</string>
+
+    <string name="menu">Menu</string>
+    <string name="next_wave">Prochaine</string>
+
     <string name="restart">Redémarrer</string>
-    <string name="next_wave">Prochaine vague</string>
+    <string name="change_map">Changer la carte</string>
+    <string name="theme">Thème</string>
+    <string name="sound">Sons</string>
+
+    <string name="game_over">Fin de la partie!</string>
     <string name="score">Score</string>
+
+    <string name="credits">Crédits</string>
+    <string name="lives">Vies</string>
+    <string name="wave">Vague</string>
+    <string name="bonus">Bonus</string>
+
     <string name="level">Niveau</string>
     <string name="damage">Dégâts</string>
     <string name="reload">Recharger</string>
     <string name="range">Portée</string>
+    <string name="splash">Rayon d\'explosion</string>
+    <string name="distance">Distance</string>
+    <string name="intensity">Intensité</string>
+    <string name="duration">Durée</string>
     <string name="inflicted">Infligé</string>
+
     <string name="lock_target">Verrouiller la cible</string>
     <string name="strategy">Stratégie</string>
     <string name="enhance">Améliorer</string>
     <string name="upgrade">Surclasser</string>
     <string name="sell">Vendre</string>
-    <string name="wave">Vague</string>
-    <string name="lives">Vies</string>
-    <string name="credits">Crédits</string>
-    <string name="bonus">Bonus</string>
+
+    <string name="on">Activé</string>
+    <string name="off">Désactivé</string>
+
+    <string name="strategy_closest">Le plus proche</string>
+    <string name="strategy_weakest">Le plus faible</string>
+    <string name="strategy_strongest">Le plus fort</string>
+    <string name="strategy_first">Le premier</string>
+    <string name="strategy_last">Le dernier</string>
+
+    <string name="theme_original">Original</string>
+    <string name="theme_dark">Sombre</string>
 
 </resources>

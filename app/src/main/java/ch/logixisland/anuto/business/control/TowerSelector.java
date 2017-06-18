@@ -1,5 +1,7 @@
 package ch.logixisland.anuto.business.control;
 
+import java.lang.ref.WeakReference;
+
 import ch.logixisland.anuto.business.manager.GameListener;
 import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.business.score.CreditsListener;
@@ -18,9 +20,9 @@ public class TowerSelector {
     private final GameManager mGameManager;
     private final ScoreBoard mScoreBoard;
 
-    private TowerInfoView mTowerInfoView;
+    private WeakReference<TowerInfoView> mTowerInfoView;
+    private TowerInfo mTowerInfo;
     private Tower mSelectedTower;
-    private boolean mTowerInfoVisible;
 
     private final EntityListener mEntityListener = new EntityListener() {
         @Override
@@ -44,7 +46,7 @@ public class TowerSelector {
     private final CreditsListener mCreditsListener = new CreditsListener() {
         @Override
         public void creditsChanged(int credits) {
-            if (mTowerInfoVisible) {
+            if (mTowerInfo != null) {
                 updateTowerInfo();
             }
         }
@@ -53,14 +55,14 @@ public class TowerSelector {
     private final GameListener mGameListener = new GameListener() {
         @Override
         public void gameStarted() {
-            if (mTowerInfoVisible) {
+            if (mTowerInfo != null) {
                 updateTowerInfo();
             }
         }
 
         @Override
         public void gameOver() {
-            if (mTowerInfoVisible) {
+            if (mTowerInfo != null) {
                 updateTowerInfo();
             }
         }
@@ -76,11 +78,11 @@ public class TowerSelector {
     }
 
     public void setTowerInfoView(TowerInfoView view) {
-        mTowerInfoView = view;
+        mTowerInfoView = new WeakReference<>(view);
     }
 
-    Tower getSelectedTower() {
-        return mSelectedTower;
+    public TowerInfo getTowerInfo() {
+        return mTowerInfo;
     }
 
     public void selectTowerAt(Vector2 position) {
@@ -136,7 +138,7 @@ public class TowerSelector {
             mGameEngine.post(new Runnable() {
                 @Override
                 public void run() {
-                    updateTowerInfo();
+                    showTowerInfo();
                 }
             });
             return;
@@ -157,12 +159,13 @@ public class TowerSelector {
             return;
         }
 
-        if (mTowerInfoView != null) {
-            mTowerInfoView.showTowerInfo(new TowerInfo(
-                    mSelectedTower,
-                    mScoreBoard.getCredits(),
-                    mGameManager.isGameOver()));
+        if (mTowerInfo != null) {
+            showTowerInfo();
         }
+    }
+
+    Tower getSelectedTower() {
+        return mSelectedTower;
     }
 
     private void setSelectedTower(Tower tower) {
@@ -182,22 +185,27 @@ public class TowerSelector {
     }
 
     private void showTowerInfo() {
-        if (mTowerInfoView != null) {
-            mTowerInfoView.showTowerInfo(new TowerInfo(
-                    mSelectedTower,
-                    mScoreBoard.getCredits(),
-                    mGameManager.isGameOver()));
-        }
+        mTowerInfo = new TowerInfo(
+                mSelectedTower,
+                mScoreBoard.getCredits(),
+                mGameManager.isGameOver()
+        );
 
-        mTowerInfoVisible = true;
+        TowerInfoView view = mTowerInfoView.get();
+
+        if (view != null) {
+            view.showTowerInfo(mTowerInfo);
+        }
     }
 
     private void hideTowerInfo() {
-        if (mTowerInfoView != null) {
-            mTowerInfoView.hideTowerInfo();
-        }
+        mTowerInfo = null;
 
-        mTowerInfoVisible = false;
+        TowerInfoView view = mTowerInfoView.get();
+
+        if (view != null) {
+            view.hideTowerInfo();
+        }
     }
 
 }

@@ -17,6 +17,7 @@ import ch.logixisland.anuto.util.math.MathUtils;
 public class WaveManager {
 
     private static final String TAG = WaveManager.class.getSimpleName();
+    private static final int MAX_WAVES_IN_GAME = 5;
 
     private final GameEngine mGameEngine;
     private final ScoreBoard mScoreBoard;
@@ -111,15 +112,26 @@ public class WaveManager {
         }
 
         updateBonus();
+        checkNextWaveReady();
     }
 
-    void nextWaveReady() {
-        if (!mNextWaveReady) {
-            mNextWaveReady = true;
+    void checkNextWaveReady() {
+        if (mNextWaveReady) {
+            return;
+        }
 
-            for (WaveListener listener : mListeners) {
-                listener.nextWaveReady();
+        if (!mActiveWaves.isEmpty()) {
+            WaveAttender lastWave = mActiveWaves.get(mActiveWaves.size() - 1);
+
+            if (!lastWave.isNextWaveReady() || mActiveWaves.size() >= MAX_WAVES_IN_GAME) {
+                return;
             }
+        }
+
+        mNextWaveReady = true;
+
+        for (WaveListener listener : mListeners) {
+            listener.nextWaveReady();
         }
     }
 

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Anuto TD</string>
+    <string name="bonus">Bonus</string>
+    <string name="change_map">Verander Kaart</string>
+    <string name="credits">Credits</string>
+    <string name="damage">Schade</string>
+    <string name="distance">Afstand</string>
+    <string name="duration">Duur</string>
+    <string name="enhance">Verbeteren</string>
+    <string name="game_over">Spel Voorbij!</string>
+    <string name="intensity">Intensiteit</string>
+    <string name="level">Level</string>
+    <string name="lives">Levens</string>
+    <string name="menu">Menu</string>
+    <string name="next_wave">Volgende</string>
+    <string name="off">Uit</string>
+    <string name="on">Aan</string>
+    <string name="reload">Herladen</string>
+    <string name="restart">Herstarten</string>
+    <string name="score">Score</string>
+    <string name="sell">Verkopen</string>
+    <string name="sound">Geluid</string>
+    <string name="strategy">Strategie</string>
+    <string name="strategy_closest">Dichtstbijzijnde</string>
+    <string name="strategy_last">Laatste</string>
+    <string name="strategy_strongest">Sterkste</string>
+    <string name="strategy_weakest">Zwakste</string>
+    <string name="theme">Thema</string>
+    <string name="theme_dark">Donker</string>
+    <string name="theme_original">Origineel</string>
+    <string name="strategy_first">Eerste</string>
+    <string name="splash">Explosieve straal</string>
+    <string name="lock_target">Doelwit Vergrendelen</string>
+    <string name="range">Bereik</string>
+    <string name="upgrade">Opwaarderen</string>
+    <string name="wave">Golf</string>
+    <string name="inflicted">Toegebracht</string>
+</resources>

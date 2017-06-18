@@ -1,0 +1,40 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ch.logixisland.anuto.view.menu.SelectLevelGridActivity">
+
+    <GridView
+        android:id="@+id/gvLevels"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnWidth="@dimen/grid_column_width"
+        android:numColumns="auto_fit"
+        android:verticalSpacing="@dimen/grid_vertical_spacing"
+        android:horizontalSpacing="@dimen/grid_horizontal_spacing"
+        android:stretchMode="columnWidth"
+        android:gravity="center"
+        android:background="?attr/shadowColor"/>
+
+    <ImageView
+        android:id="@+id/arrow_up"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/transparent"
+        android:layout_alignParentTop="true"
+        android:rotation="270"
+        android:src="@drawable/arrow"/>
+
+    <ImageView
+        android:id="@+id/arrow_down"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/transparent"
+        android:layout_alignParentBottom="true"
+        android:rotation="90"
+        android:src="@drawable/arrow"/>
+
+</RelativeLayout>

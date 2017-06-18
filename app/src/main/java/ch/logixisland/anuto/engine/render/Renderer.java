@@ -1,9 +1,12 @@
 package ch.logixisland.anuto.engine.render;
 
 import android.graphics.Canvas;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 
 import java.lang.ref.WeakReference;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -14,10 +17,29 @@ import ch.logixisland.anuto.util.container.MultiMap;
 
 public class Renderer implements ThemeListener {
 
+    private static final String TAG = Renderer.class.getSimpleName();
+
+    private static final int LOG_INTERVAL = 5;
+
     private final Viewport mViewport;
     private final ThemeManager mThemeManager;
     private final MultiMap<Drawable> mDrawables = new MultiMap<>();
     private final Lock mLock = new ReentrantLock(true);
+
+    private final Handler mDebugHandler;
+    private final AtomicInteger mUpdateCount = new AtomicInteger();
+    private final AtomicInteger mRenderCount = new AtomicInteger();
+
+    private final Runnable mDebugOutput = new Runnable() {
+        @Override
+        public void run() {
+            int updateCount = mUpdateCount.getAndSet(0) / LOG_INTERVAL;
+            int renderCount = mRenderCount.getAndSet(0) / LOG_INTERVAL;
+
+            Log.d(TAG, String.format("update: %1$sHz; render: %2$sHz", updateCount, renderCount));
+            mDebugHandler.postDelayed(this, LOG_INTERVAL * 1000);
+        }
+    };
 
     private int mBackgroundColor;
     private WeakReference<View> mViewRef;
@@ -27,6 +49,9 @@ public class Renderer implements ThemeListener {
         mThemeManager = themeManager;
         mThemeManager.addListener(this);
         themeChanged();
+
+        mDebugHandler = new Handler();
+        mDebugHandler.post(mDebugOutput);
     }
 
     public void setView(final View view) {
@@ -47,6 +72,7 @@ public class Renderer implements ThemeListener {
 
     public void lock() {
         mLock.lock();
+        mUpdateCount.incrementAndGet();
     }
 
     public void unlock() {
@@ -63,6 +89,7 @@ public class Renderer implements ThemeListener {
 
     public void draw(Canvas canvas) {
         mLock.lock();
+        mRenderCount.incrementAndGet();
 
         canvas.drawColor(mBackgroundColor);
         canvas.concat(mViewport.getScreenMatrix());

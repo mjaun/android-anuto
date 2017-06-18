@@ -1,21 +1,20 @@
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="200dp"
-    android:layout_height="330dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:padding="10dp"
     android:background="?attr/backgroundBorder">
 
     <TableLayout
-        android:layout_width="160dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <TableRow>
             <TextView
                 android:id="@+id/txt_level_text"
                 android:layout_column="0"
-                android:paddingRight="10dp"
+                android:paddingRight="20dp"
                 android:text="Property:" />
 
             <TextView
@@ -28,7 +27,7 @@
             <TextView
                 android:id="@+id/txt_property_text1"
                 android:layout_column="0"
-                android:paddingRight="10dp"
+                android:paddingRight="20dp"
                 android:text="Property:" />
 
             <TextView
@@ -41,7 +40,7 @@
             <TextView
                 android:id="@+id/txt_property_text2"
                 android:layout_column="0"
-                android:paddingRight="10dp"
+                android:paddingRight="20dp"
                 android:text="Property:" />
 
             <TextView
@@ -54,7 +53,7 @@
             <TextView
                 android:id="@+id/txt_property_text3"
                 android:layout_column="0"
-                android:paddingRight="10dp"
+                android:paddingRight="20dp"
                 android:text="Property:" />
 
             <TextView
@@ -90,15 +89,18 @@
         </TableRow>
     </TableLayout>
 
+    <Space
+        android:layout_height="10dp"
+        android:layout_width="match_parent"/>
+
     <LinearLayout
-        android:layout_width="160dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
+        android:layout_width="200dp"
         android:orientation="vertical">
 
         <Button
             style="?android:attr/buttonStyleSmall"
+            android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/strategy"
@@ -106,6 +108,7 @@
 
         <Button
             style="?android:attr/buttonStyleSmall"
+            android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/lock_target"
@@ -117,6 +120,7 @@
 
         <Button
             style="?android:attr/buttonStyleSmall"
+            android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/enhance"
@@ -124,6 +128,7 @@
 
         <Button
             style="?android:attr/buttonStyleSmall"
+            android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/upgrade"
@@ -131,6 +136,7 @@
 
         <Button
             style="?android:attr/buttonStyleSmall"
+            android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/sell"
@@ -138,4 +144,4 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

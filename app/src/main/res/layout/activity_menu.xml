@@ -1,20 +1,20 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_menu"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/shadowColor"
-    tools:context=".view.menu.MenuActivity"
-    android:id="@+id/activity_menu">
+    tools:context=".view.menu.MenuActivity">
 
     <LinearLayout
+        android:id="@+id/menu_layout"
         android:layout_width="260dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:orientation="vertical"
         android:background="?attr/backgroundBorder"
-        android:padding="10dp"
-        android:id="@+id/menu_layout">
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <ImageView
             android:layout_width="80dp"
@@ -22,38 +22,35 @@
             android:layout_gravity="center_horizontal"
             android:background="?attr/backgroundColor"
             android:src="@mipmap/icon"/>
-        
+
         <Space
             android:layout_width="match_parent"
             android:layout_height="20dp"/>
-        
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/restart"
-            android:id="@+id/btn_restart" />
 
         <Button
+            android:id="@+id/btn_restart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/change_map"
-            android:id="@+id/btn_change_level" />
+            android:maxLines="1"
+            android:text="@string/restart"/>
+
+        <Button
+            android:id="@+id/btn_change_level"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="@string/change_map"/>
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="10dp"/>
 
         <Button
+            android:id="@+id/btn_settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/theme"
-            android:id="@+id/btn_switch_theme" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/sound"
-            android:id="@+id/btn_switch_sound"/>
+            android:maxLines="1"
+            android:text="@string/settings"/>
 
     </LinearLayout>
 

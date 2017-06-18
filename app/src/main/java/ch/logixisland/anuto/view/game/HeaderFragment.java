@@ -1,7 +1,6 @@
 package ch.logixisland.anuto.view.game;
 
-import android.app.Fragment;
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,14 +21,13 @@ import ch.logixisland.anuto.business.score.BonusListener;
 import ch.logixisland.anuto.business.score.CreditsListener;
 import ch.logixisland.anuto.business.score.LivesListener;
 import ch.logixisland.anuto.business.score.ScoreBoard;
-import ch.logixisland.anuto.engine.theme.ThemeManager;
 import ch.logixisland.anuto.util.StringUtils;
+import ch.logixisland.anuto.view.AnutoFragment;
 import ch.logixisland.anuto.view.menu.MenuActivity;
 
-public class HeaderFragment extends Fragment implements GameListener, WaveListener, CreditsListener,
-        LivesListener, BonusListener, View.OnClickListener {
+public class HeaderFragment extends AnutoFragment implements GameListener, WaveListener,
+        CreditsListener, LivesListener, BonusListener, View.OnClickListener {
 
-    private final ThemeManager mThemeManager;
     private final GameManager mGameManager;
     private final WaveManager mWaveManager;
     private final ScoreBoard mScoreBoard;
@@ -48,7 +46,6 @@ public class HeaderFragment extends Fragment implements GameListener, WaveListen
 
     public HeaderFragment() {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
-        mThemeManager = factory.getThemeManager();
         mGameManager = factory.getGameManager();
         mScoreBoard = factory.getScoreBoard();
         mWaveManager = factory.getWaveManager();
@@ -77,12 +74,22 @@ public class HeaderFragment extends Fragment implements GameListener, WaveListen
         view_tower_x[2] = (TowerView) v.findViewById(R.id.view_tower_3);
         view_tower_x[3] = (TowerView) v.findViewById(R.id.view_tower_4);
 
+        btn_next_wave.setEnabled(!mGameManager.isGameOver());
+        txt_wave.setText(getString(R.string.wave) + ": " + mWaveManager.getWaveNumber());
+        txt_credits.setText(getString(R.string.credits) + ": " + StringUtils.formatSuffix(mScoreBoard.getCredits()));
+        txt_lives.setText(getString(R.string.lives) + ": " + mScoreBoard.getLives());
+        txt_bonus.setText(getString(R.string.bonus) + ": " + StringUtils.formatSuffix(mScoreBoard.getWaveBonus() + mScoreBoard.getEarlyBonus()));
+
+        for (int i = 0; i < view_tower_x.length; i++) {
+            view_tower_x[i].setSlot(i);
+        }
+
         return v;
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
         mGameManager.addListener(this);
         mWaveManager.addListener(this);
         mScoreBoard.addBonusListener(this);
@@ -121,7 +128,7 @@ public class HeaderFragment extends Fragment implements GameListener, WaveListen
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                txt_wave.setText(getResources().getString(R.string.wave) + ": " + mWaveManager.getWaveNumber());
+                txt_wave.setText(getString(R.string.wave) + ": " + mWaveManager.getWaveNumber());
                 btn_next_wave.setEnabled(false);
             }
         });
@@ -147,7 +154,7 @@ public class HeaderFragment extends Fragment implements GameListener, WaveListen
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                txt_credits.setText(getResources().getString(R.string.credits) + ": " + StringUtils.formatSuffix(credits));
+                txt_credits.setText(getString(R.string.credits) + ": " + StringUtils.formatSuffix(credits));
             }
         });
     }
@@ -157,7 +164,7 @@ public class HeaderFragment extends Fragment implements GameListener, WaveListen
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                txt_lives.setText(getResources().getString(R.string.lives) + ": " + lives);
+                txt_lives.setText(getString(R.string.lives) + ": " + lives);
             }
         });
     }
@@ -167,7 +174,7 @@ public class HeaderFragment extends Fragment implements GameListener, WaveListen
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                txt_wave.setText(getResources().getString(R.string.wave) + ": " + mWaveManager.getWaveNumber());
+                txt_wave.setText(getString(R.string.wave) + ": " + mWaveManager.getWaveNumber());
                 btn_next_wave.setEnabled(true);
 
                 for (int i = 0; i < view_tower_x.length; i++) {
@@ -192,10 +199,7 @@ public class HeaderFragment extends Fragment implements GameListener, WaveListen
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                txt_bonus.setText(String.format("%s: %s (+%s)",
-                        getResources().getString(R.string.bonus),
-                        StringUtils.formatSuffix(waveBonus),
-                        StringUtils.formatSuffix(earlyBonus)));
+                txt_bonus.setText(getString(R.string.bonus) + ": " + StringUtils.formatSuffix(waveBonus + earlyBonus));
             }
         });
     }

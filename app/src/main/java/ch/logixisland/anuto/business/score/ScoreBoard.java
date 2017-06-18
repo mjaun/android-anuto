@@ -77,6 +77,10 @@ public class ScoreBoard {
         return mEarlyBonus;
     }
 
+    public int getWaveBonus() {
+        return mWaveBonus;
+    }
+
     public void addBonusListener(BonusListener listener) {
         mBonusListeners.add(listener);
     }

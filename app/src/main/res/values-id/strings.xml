@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">Anuto TD</string>
+
+    <string name="menu">Setelan</string>
+    <string name="next_wave">Gelombang Lain</string>
+    
+    <string name="restart">Mulai ulang</string>
+    <string name="change_map">Ubah peta</string>
+    <string name="theme">Tema</string>
+    <string name="sound">Suara</string>
+
+    <string name="game_over">Permainan telah berakhir!</string>
+    <string name="score">Skor</string>
+
+    <string name="credits">Uang</string>
+    <string name="lives">Nyawa</string>
+    <string name="wave">Gelombang</string>
+    <string name="bonus">Bonus</string>
+
+    <string name="level">Level</string>
+    <string name="damage">Kerusakan</string>
+    <string name="reload">Isi Ulang</string>
+    <string name="range">RuangLingkup</string>
+    <string name="splash">JarakLedakan</string>
+    <string name="distance">Jarak</string>
+    <string name="intensity">Intensitas</string>
+    <string name="duration">Durasi</string>
+    <string name="inflicted">Akibat</string>
+
+    <string name="lock_target">Kunci target</string>
+    <string name="strategy">strategi</string>
+    <string name="enhance">Tambahkan</string>
+    <string name="upgrade">Tingkatkan</string>
+    <string name="sell">Jual</string>
+
+    <string name="on">aktif</string>
+    <string name="off">mati</string>
+
+    <string name="strategy_closest">Terdekat</string>
+    <string name="strategy_weakest">Terlemah</string>
+    <string name="strategy_strongest">Terkuat</string>
+    <string name="strategy_first">Pertama</string>
+    <string name="strategy_last">Terakhir</string>
+
+    <string name="theme_original">Orisinal</string>
+    <string name="theme_dark">Gelap</string>
+</resources>

@@ -11,6 +11,7 @@ import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
+import ch.logixisland.anuto.engine.sound.Sound;
 import ch.logixisland.anuto.entity.shot.GlueShot;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.data.TowerConfig;
@@ -33,6 +34,7 @@ public class GlueGun extends AimingTower {
 
     private StaticSprite mSpriteBase;
     private AnimatedSprite mSpriteCanon;
+    private Sound mSound;
 
     public GlueGun(TowerConfig config) {
         super(config);
@@ -49,6 +51,8 @@ public class GlueGun extends AimingTower {
         mSpriteCanon.setListener(this);
         mSpriteCanon.setSequenceForwardBackward();
         mSpriteCanon.setInterval(REBOUND_DURATION);
+
+        mSound = getSoundFactory().createSound(R.raw.explosive1_chk);
     }
 
     @Override
@@ -109,6 +113,7 @@ public class GlueGun extends AimingTower {
             position.add(getPosition());
 
             getGameEngine().add(new GlueShot(this, position, target, mGlueIntensity, mGlueDuration));
+            mSound.play();
 
             setReloaded(false);
             mRebounding = true;

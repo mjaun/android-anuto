@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Anuto TD</string>
+
+    <string name="menu">Menü</string>
+    <string name="next_wave">Következő hullám</string>
+
+    <string name="restart">Újra</string>
+    <string name="change_map">Térképváltás</string>
+    <string name="theme">Téma</string>
+    <string name="sound">Hang</string>
+
+    <string name="game_over">Vége a játéknak!</string>
+    <string name="score">Pontszám</string>
+
+    <string name="credits">Pontok</string>
+    <string name="lives">Életek</string>
+    <string name="wave">Hullám</string>
+    <string name="bonus">Bónusz</string>
+
+    <string name="level">Szint</string>
+    <string name="damage">Támadóerő</string>
+    <string name="reload">Újratöltés</string>
+    <string name="range">Hatókör</string>
+    <string name="splash">Robbanási sugár</string>
+    <string name="distance">Távolság</string>
+    <string name="intensity">Intenzitás</string>
+    <string name="duration">Időtartam</string>
+    <string name="inflicted">Okozott veszteség</string>
+
+    <string name="lock_target">Célon tartás</string>
+    <string name="strategy">Stratégia</string>
+    <string name="enhance">Erősítés</string>
+    <string name="upgrade">Fejlesztés</string>
+    <string name="sell">Eladás</string>
+
+    <string name="on">Be</string>
+    <string name="off">Ki</string>
+
+    <string name="strategy_closest">Legközelebbi</string>
+    <string name="strategy_weakest">Leggyengébb</string>
+    <string name="strategy_strongest">Legerősebb</string>
+    <string name="strategy_first">Első</string>
+    <string name="strategy_last">Utolsó</string>
+
+    <string name="theme_original">Eredeti</string>
+    <string name="theme_dark">Sötét</string>
+</resources>

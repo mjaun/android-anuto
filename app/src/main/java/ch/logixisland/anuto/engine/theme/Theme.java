@@ -16,7 +16,7 @@ public class Theme {
         return mThemeNameId;
     }
 
-    int getGameThemeId() {
+    public int getGameThemeId() {
         return mGameThemeId;
     }
 

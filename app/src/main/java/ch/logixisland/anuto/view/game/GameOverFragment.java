@@ -1,7 +1,6 @@
 package ch.logixisland.anuto.view.game;
 
-import android.app.Fragment;
-import android.content.Context;
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -17,22 +16,19 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.manager.GameListener;
 import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.business.score.ScoreBoard;
-import ch.logixisland.anuto.engine.theme.ThemeManager;
+import ch.logixisland.anuto.view.AnutoFragment;
 
-public class GameOverFragment extends Fragment implements GameListener {
+public class GameOverFragment extends AnutoFragment implements GameListener {
 
-    private final ThemeManager mThemeManager;
     private final GameManager mGameManager;
     private final ScoreBoard mScoreBoard;
 
     private Handler mHandler;
 
-    private TextView txt_game_over;
     private TextView txt_score;
 
     public GameOverFragment() {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
-        mThemeManager = factory.getThemeManager();
         mGameManager = factory.getGameManager();
         mScoreBoard = factory.getScoreBoard();
     }
@@ -42,22 +38,26 @@ public class GameOverFragment extends Fragment implements GameListener {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_game_over, container, false);
 
-        txt_game_over = (TextView) v.findViewById(R.id.txt_game_over);
         txt_score = (TextView) v.findViewById(R.id.txt_score);
 
         mHandler = new Handler();
+
+        // in case it is already game over on initialization
+        updateScore();
 
         return v;
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
         mGameManager.addListener(this);
 
-        getFragmentManager().beginTransaction()
-                .hide(this)
-                .commit();
+        if (!mGameManager.isGameOver()) {
+            getFragmentManager().beginTransaction()
+                    .hide(this)
+                    .commit();
+        }
     }
 
     @Override
@@ -74,7 +74,7 @@ public class GameOverFragment extends Fragment implements GameListener {
                 getFragmentManager().beginTransaction()
                         .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
                         .hide(GameOverFragment.this)
-                        .commit();
+                        .commitAllowingStateLoss();
             }
         });
     }
@@ -84,18 +84,20 @@ public class GameOverFragment extends Fragment implements GameListener {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                txt_game_over.setText(R.string.game_over);
-
-                DecimalFormat fmt = new DecimalFormat("###,###,###,###");
-                txt_score.setText(getResources().getString(R.string.score) +
-                        ": " + fmt.format(mScoreBoard.getScore()));
+                updateScore();
 
                 getFragmentManager().beginTransaction()
                         .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
                         .show(GameOverFragment.this)
-                        .commit();
+                        .commitAllowingStateLoss();
             }
         });
+    }
+
+    private void updateScore() {
+        DecimalFormat fmt = new DecimalFormat("###,###,###,###");
+        txt_score.setText(getResources().getString(R.string.score) +
+                ": " + fmt.format(mScoreBoard.getScore()));
     }
 
 }
