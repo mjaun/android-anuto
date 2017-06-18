@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.view.game.TowerInfoFragment;
 
 public class ThemeManager extends BaseAdapter {
 
@@ -30,6 +31,7 @@ public class ThemeManager extends BaseAdapter {
     private Theme mCurrentTheme;
     private List<Theme> mAvailableThemes = new ArrayList<>();
     private List<ThemeListener> mListeners = new CopyOnWriteArrayList<>();
+    private TowerInfoFragment mVisibleTowerInfo;
 
     public enum BackButtonMode {
         DISABLED("DISABLED"), ENABLED("ENABLED"), TWICE("TWICE");
@@ -146,7 +148,10 @@ public class ThemeManager extends BaseAdapter {
             SharedPreferences.Editor editor = mPreferences.edit();
             editor.putBoolean(PREF_TRANSPARENT_TOWER_INFO, mTransparentTowerInfoEnabled);
             editor.apply();
-            editor.apply();
+
+            if (mVisibleTowerInfo != null) {
+                mVisibleTowerInfo.loadThemedBackground();
+            }
         }
     }
 
@@ -156,6 +161,16 @@ public class ThemeManager extends BaseAdapter {
 
     public void addListener(ThemeListener listener) {
         mListeners.add(listener);
+    }
+
+    public void addListener(TowerInfoFragment towerInfoFragment) {
+        mVisibleTowerInfo = towerInfoFragment;
+    }
+
+    public void removeListener(TowerInfoFragment towerInfoFragment) {
+        if (towerInfoFragment == mVisibleTowerInfo) {
+            mVisibleTowerInfo = null;
+        }
     }
 
     public int getColor(int attrId) {

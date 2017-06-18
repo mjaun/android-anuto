@@ -19,6 +19,7 @@ import ch.logixisland.anuto.business.control.TowerControl;
 import ch.logixisland.anuto.business.control.TowerInfo;
 import ch.logixisland.anuto.business.control.TowerInfoView;
 import ch.logixisland.anuto.business.control.TowerSelector;
+import ch.logixisland.anuto.engine.theme.ThemeListener;
 import ch.logixisland.anuto.engine.theme.ThemeManager;
 import ch.logixisland.anuto.entity.tower.TowerProperty;
 import ch.logixisland.anuto.entity.tower.TowerStrategy;
@@ -85,6 +86,8 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnTouchList
         btn_sell.setOnClickListener(this);
 
         txt_level_text.setText(getResources().getString(R.string.level) + ":");
+
+        mThemeManager.addListener(this);
 
         mHandler = new Handler();
 
@@ -167,7 +170,7 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnTouchList
 
     private void show() {
         if (!mVisible) {
-            getView().setBackgroundResource(mThemeManager.isTransparentTowerInfoEnabled() ? R.drawable.border_transparent : R.drawable.border);
+            loadThemedBackground();
 
             getFragmentManager().beginTransaction()
                     .show(this)
@@ -270,5 +273,9 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnTouchList
         }
 
         throw new RuntimeException("Unknown strategy!");
+    }
+
+    public void loadThemedBackground() {
+        getView().setBackgroundResource(mThemeManager.isTransparentTowerInfoEnabled() ? R.drawable.border_transparent : R.drawable.border);
     }
 }
