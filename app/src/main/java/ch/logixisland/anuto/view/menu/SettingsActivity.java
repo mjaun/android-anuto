@@ -9,6 +9,8 @@ import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.ToggleButton;
 
+import java.util.Set;
+
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
@@ -19,6 +21,7 @@ import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.engine.sound.SoundManager;
 import ch.logixisland.anuto.engine.theme.ActivityType;
 import ch.logixisland.anuto.engine.theme.ThemeManager;
+import ch.logixisland.anuto.util.SettingsManager;
 import ch.logixisland.anuto.view.AnutoActivity;
 import ch.logixisland.anuto.view.game.GameActivity;
 
@@ -28,6 +31,7 @@ public class SettingsActivity extends AnutoActivity implements View.OnClickListe
     private final WaveManager mWaveManager;
     private final ThemeManager mThemeManager;
     private final SoundManager mSoundManager;
+    private final SettingsManager mSettingsManager;
 
     private Handler mHandler;
 
@@ -91,6 +95,7 @@ public class SettingsActivity extends AnutoActivity implements View.OnClickListe
         mThemeManager = factory.getThemeManager();
         mWaveManager = factory.getWaveManager();
         mSoundManager = factory.getSoundManager();
+        mSettingsManager = factory.getSettingsManager();
     }
 
     @Override
@@ -174,8 +179,8 @@ public class SettingsActivity extends AnutoActivity implements View.OnClickListe
             if(tggl_back_disabled.isChecked()){
                 tggl_back_enabled.setChecked(false);
                 tggl_back_twice.setChecked(false);
-                mThemeManager.setBackButtonMode(ThemeManager.BackButtonMode.DISABLED);
-                GameActivity.showBackButtonToast(this, mThemeManager.getBackButtonMode());
+                mSettingsManager.setBackButtonMode(SettingsManager.BackButtonMode.DISABLED);
+                GameActivity.showBackButtonToast(this, mSettingsManager.getBackButtonMode());
             }else{
                 tggl_back_disabled.setChecked(true);
             }
@@ -183,8 +188,8 @@ public class SettingsActivity extends AnutoActivity implements View.OnClickListe
             if(tggl_back_enabled.isChecked()){
                 tggl_back_disabled.setChecked(false);
                 tggl_back_twice.setChecked(false);
-                mThemeManager.setBackButtonMode(ThemeManager.BackButtonMode.ENABLED);
-                GameActivity.showBackButtonToast(this, mThemeManager.getBackButtonMode());
+                mSettingsManager.setBackButtonMode(SettingsManager.BackButtonMode.ENABLED);
+                GameActivity.showBackButtonToast(this, mSettingsManager.getBackButtonMode());
             }else{
                 tggl_back_enabled.setChecked(true);
             }
@@ -192,8 +197,8 @@ public class SettingsActivity extends AnutoActivity implements View.OnClickListe
             if(tggl_back_twice.isChecked()){
                 tggl_back_disabled.setChecked(false);
                 tggl_back_enabled.setChecked(false);
-                mThemeManager.setBackButtonMode(ThemeManager.BackButtonMode.TWICE);
-                GameActivity.showBackButtonToast(this, mThemeManager.getBackButtonMode());
+                mSettingsManager.setBackButtonMode(SettingsManager.BackButtonMode.TWICE);
+                GameActivity.showBackButtonToast(this, mSettingsManager.getBackButtonMode());
             }else{
                 tggl_back_twice.setChecked(true);
             }
@@ -222,8 +227,8 @@ public class SettingsActivity extends AnutoActivity implements View.OnClickListe
         spn_theme.setSelection(mThemeManager.getThemeIndex());
         cbox_sound.setChecked(mSoundManager.isSoundEnabled());
         cbox_transparent_info.setChecked(mThemeManager.isTransparentTowerInfoEnabled());
-        tggl_back_disabled.setChecked(mThemeManager.getBackButtonMode() == ThemeManager.BackButtonMode.DISABLED);
-        tggl_back_enabled.setChecked(mThemeManager.getBackButtonMode() == ThemeManager.BackButtonMode.ENABLED);
-        tggl_back_twice.setChecked(mThemeManager.getBackButtonMode() == ThemeManager.BackButtonMode.TWICE);
+        tggl_back_disabled.setChecked(mSettingsManager.getBackButtonMode() == SettingsManager.BackButtonMode.DISABLED);
+        tggl_back_enabled.setChecked(mSettingsManager.getBackButtonMode() == SettingsManager.BackButtonMode.ENABLED);
+        tggl_back_twice.setChecked(mSettingsManager.getBackButtonMode() == SettingsManager.BackButtonMode.TWICE);
     }
 }
