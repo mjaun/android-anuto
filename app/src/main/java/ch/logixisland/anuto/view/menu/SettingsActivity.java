@@ -31,8 +31,8 @@ public class SettingsActivity extends AnutoActivity implements View.OnClickListe
 
     private Handler mHandler;
 
-    private View settings_menu;
-    private View menu_layout;
+    private View activity_settings;
+    private View settings_layout;
 
     private Spinner spn_theme;
     private CheckBox cbox_sound;
@@ -110,15 +110,19 @@ public class SettingsActivity extends AnutoActivity implements View.OnClickListe
         tggl_back_enabled = (ToggleButton) findViewById(R.id.tggl_back_enabled);
         tggl_back_twice = (ToggleButton) findViewById(R.id.tggl_back_twice);
 
-        settings_menu = findViewById(R.id.settings_menu);
-        menu_layout = findViewById(R.id.menu_layout);
+        activity_settings = findViewById(R.id.activity_settings);
+        settings_layout = findViewById(R.id.settings_layout);
 
         spn_theme.setAdapter(mThemeManager);
         spn_theme.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mThemeManager.setTheme((int) id);
-                mGameManager.restart();
+                int currentThemeIndex = mThemeManager.getThemeIndex();
+                if (currentThemeIndex != position) {
+                    //TODO if game started, show dialog
+                    mThemeManager.setTheme((int) id);
+                    mGameManager.restart();
+                }
             }
 
             @Override
@@ -132,8 +136,8 @@ public class SettingsActivity extends AnutoActivity implements View.OnClickListe
         tggl_back_enabled.setOnClickListener(this);
         tggl_back_twice.setOnClickListener(this);
 
-        settings_menu.setOnTouchListener(this);
-        menu_layout.setOnTouchListener(this);
+        activity_settings.setOnTouchListener(this);
+        settings_layout.setOnTouchListener(this);
 
         mHandler = new Handler();
 
@@ -198,11 +202,11 @@ public class SettingsActivity extends AnutoActivity implements View.OnClickListe
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-        if (view == menu_layout) {
+        if (view == settings_layout) {
             return true;
         }
 
-        if (view == settings_menu) {
+        if (view == activity_settings) {
             finish();
             return true;
         }

@@ -7,8 +7,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 
-import java.util.List;
-
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
@@ -18,9 +16,7 @@ import ch.logixisland.anuto.business.manager.GameListener;
 import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.engine.sound.SoundManager;
 import ch.logixisland.anuto.engine.theme.ActivityType;
-import ch.logixisland.anuto.engine.theme.Theme;
 import ch.logixisland.anuto.engine.theme.ThemeManager;
-import ch.logixisland.anuto.util.StringUtils;
 import ch.logixisland.anuto.view.AnutoActivity;
 
 public class MenuActivity extends AnutoActivity implements View.OnClickListener, View.OnTouchListener {
@@ -29,8 +25,6 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
 
     private final GameManager mGameManager;
     private final WaveManager mWaveManager;
-    private final ThemeManager mThemeManager;
-    private final SoundManager mSoundManager;
 
     private Handler mHandler;
 
@@ -88,9 +82,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
     public MenuActivity() {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
         mGameManager = factory.getGameManager();
-        mThemeManager = factory.getThemeManager();
         mWaveManager = factory.getWaveManager();
-        mSoundManager = factory.getSoundManager();
     }
 
     @Override
