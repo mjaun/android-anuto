@@ -23,7 +23,7 @@ public class SelectLevelGridActivity extends AnutoActivity implements AdapterVie
 
     ImageView arrow_up;
     ImageView arrow_down;
-    private GridView gridView;
+    private GridView grid_view;
     private LevelsAdapter mAdapter;
 
     public SelectLevelGridActivity() {
@@ -34,7 +34,7 @@ public class SelectLevelGridActivity extends AnutoActivity implements AdapterVie
 
     @Override
     protected ActivityType getActivityType() {
-        return ActivityType.Menu;
+        return ActivityType.Levels;
     }
 
     @Override
@@ -55,16 +55,16 @@ public class SelectLevelGridActivity extends AnutoActivity implements AdapterVie
         arrow_up = (ImageView) findViewById(R.id.arrow_up);
         arrow_down = (ImageView) findViewById(R.id.arrow_down);
 
-        gridView = (GridView) findViewById(R.id.gvLevels);
-        gridView.setOnItemClickListener(this);
-        gridView.getViewTreeObserver().addOnScrollChangedListener(this);
-        gridView.post(new Runnable(){
+        grid_view = (GridView) findViewById(R.id.gvLevels);
+        grid_view.setOnItemClickListener(this);
+        grid_view.getViewTreeObserver().addOnScrollChangedListener(this);
+        grid_view.post(new Runnable(){
             @Override
             public void run() {
                 updateArrowVisibility();
             }
         });
-        gridView.setAdapter(mAdapter);
+        grid_view.setAdapter(mAdapter);
     }
 
     @Override
@@ -80,29 +80,29 @@ public class SelectLevelGridActivity extends AnutoActivity implements AdapterVie
     }
 
     private void updateArrowVisibility() {
-//        int scrollY = gridView.getScrollY(); //gridView.getScrollY() doesn't work as I'd expect. Instead, it always gives values around 0
+//        int scrollY = grid_view.getScrollY(); //grid_view.getScrollY() doesn't work as I'd expect. Instead, it always gives values around 0
 //        Log.d("SelectLevelGridActivity", "getScrollY(): " + scrollY);
 //        arrow_up.setVisibility(scrollY < 10 ? View.INVISIBLE : View.VISIBLE);
-//        arrow_down.setVisibility(scrollY > gridView.getChildAt(0).getBottom() - gridView.getHeight() - 10 ? View.INVISIBLE : View.VISIBLE);
+//        arrow_down.setVisibility(scrollY > grid_view.getChildAt(0).getBottom() - grid_view.getHeight() - 10 ? View.INVISIBLE : View.VISIBLE);
 
-        final int numberViews = gridView.getChildCount();
+        final int numberViews = grid_view.getChildCount();
         if(numberViews <= 0){
             arrow_up.setVisibility(View.INVISIBLE);
             arrow_down.setVisibility(View.INVISIBLE);
             return;
         }
 
-        final int firstVisibleLevel = gridView.getFirstVisiblePosition();//starting from zero!
+        final int firstVisibleLevel = grid_view.getFirstVisiblePosition();//starting from zero!
         if(firstVisibleLevel == 0){
-            arrow_up.setVisibility(gridView.getChildAt(0).getTop() < -10 ? View.VISIBLE : View.INVISIBLE);
+            arrow_up.setVisibility(grid_view.getChildAt(0).getTop() < -10 ? View.VISIBLE : View.INVISIBLE);
         }else{
             arrow_up.setVisibility(firstVisibleLevel > 0 ? View.VISIBLE : View.INVISIBLE);
         }
 
         final int numberLevels = mAdapter.getCount();
-        final int lastVisibleLevel = gridView.getLastVisiblePosition();
+        final int lastVisibleLevel = grid_view.getLastVisiblePosition();
         if(lastVisibleLevel == numberLevels - 1){
-            arrow_down.setVisibility(gridView.getChildAt(numberViews - 1).getBottom() > gridView.getHeight() + 10 ? View.VISIBLE : View.INVISIBLE);
+            arrow_down.setVisibility(grid_view.getChildAt(numberViews - 1).getBottom() > grid_view.getHeight() + 10 ? View.VISIBLE : View.INVISIBLE);
         }else{
             arrow_down.setVisibility(lastVisibleLevel < numberLevels - 1 ? View.VISIBLE : View.INVISIBLE);
         }
