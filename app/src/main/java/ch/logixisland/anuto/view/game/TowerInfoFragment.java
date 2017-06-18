@@ -276,6 +276,12 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnTouchList
     }
 
     public void loadThemedBackground() {
-        getView().setBackgroundResource(mThemeManager.isTransparentTowerInfoEnabled() ? R.drawable.border_transparent : R.drawable.border);
+        int attrId;
+        if(mThemeManager.isTransparentTowerInfoEnabled()){
+            attrId = R.attr.backgroundBorderTransparent;
+        }else{
+            attrId = R.attr.backgroundBorder;
+        }
+        getView().setBackgroundResource(mThemeManager.getResourceId(attrId));
     }
 }

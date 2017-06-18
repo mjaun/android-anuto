@@ -8,6 +8,7 @@
         <item name="textDisabledColor">#ff0000</item>
         <item name="backgroundColor">#ffffff</item>
         <item name="backgroundBorder">@drawable/border</item>
+        <item name="backgroundBorderTransparent">@drawable/border_transparent</item>
         <item name="backgroundBorderBottom">@drawable/border_bottom</item>
         <item name="shadowColor">#88333333</item>
         <item name="healthBarBackgroundColor">#000000</item>

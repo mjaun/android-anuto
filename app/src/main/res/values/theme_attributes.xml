@@ -4,6 +4,7 @@
     <attr name="textDisabledColor" format="color"/>
     <attr name="backgroundColor" format="color"/>
     <attr name="backgroundBorder" format="reference"/>
+    <attr name="backgroundBorderTransparent" format="reference"/>
     <attr name="backgroundBorderBottom" format="reference"/>
     <attr name="backgroundLevelThumb" format="reference"/>
     <attr name="arrow" format="reference"/>
