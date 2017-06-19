@@ -17,7 +17,9 @@
         android:paddingBottom="@dimen/grid_vertical_spacing"
         android:verticalSpacing="@dimen/grid_vertical_spacing"
         android:horizontalSpacing="@dimen/grid_horizontal_spacing"
+        android:clipToPadding="false"
         android:stretchMode="columnWidth"
+        android:scrollbarStyle="outsideOverlay"
         android:gravity="center"
         android:background="?attr/backgroundColor"/>
 
