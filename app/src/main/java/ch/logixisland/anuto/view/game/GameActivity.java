@@ -13,6 +13,7 @@ import ch.logixisland.anuto.business.control.TowerSelector;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.theme.ActivityType;
 import ch.logixisland.anuto.engine.theme.ThemeManager;
+import ch.logixisland.anuto.util.SettingsManager;
 import ch.logixisland.anuto.view.AnutoActivity;
 
 public class GameActivity extends AnutoActivity {
@@ -20,6 +21,7 @@ public class GameActivity extends AnutoActivity {
     private final GameEngine mGameEngine;
     private final TowerSelector mTowerSelector;
     private final ThemeManager mThemeManager;
+    private final SettingsManager mSettingsManager;
 
     private Toast mBackButtonToast;
 
@@ -30,6 +32,7 @@ public class GameActivity extends AnutoActivity {
         mGameEngine = factory.getGameEngine();
         mTowerSelector = factory.getTowerSelector();
         mThemeManager = factory.getThemeManager();
+        mSettingsManager = factory.getSettingsManager();
     }
 
     @Override
@@ -74,9 +77,9 @@ public class GameActivity extends AnutoActivity {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             mTowerSelector.selectTower(null);
             
-            boolean canWeExit = mThemeManager.backButtonPressed();
-            if(!canWeExit && mThemeManager.getBackButtonMode() == ThemeManager.BackButtonMode.TWICE){
-                mBackButtonToast = showBackButtonToast(this, mThemeManager.getBackButtonMode());
+            boolean canWeExit = mSettingsManager.backButtonPressed();
+            if(!canWeExit && mSettingsManager.getBackButtonMode() == SettingsManager.BackButtonMode.TWICE){
+                mBackButtonToast = showBackButtonToast(this, mSettingsManager.getBackButtonMode());
             }
 
             return canWeExit ? super.onKeyDown(keyCode, event) : true;
@@ -85,7 +88,7 @@ public class GameActivity extends AnutoActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    static public Toast showBackButtonToast(Context context, ThemeManager.BackButtonMode mode) {
+    static public Toast showBackButtonToast(Context context, SettingsManager.BackButtonMode mode) {
         String message;
         switch(mode){
             case DISABLED:

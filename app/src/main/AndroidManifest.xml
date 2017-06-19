@@ -37,8 +37,9 @@
         </activity>
         <activity
             android:name=".view.menu.SelectLevelGridActivity"
+            android:label="@string/select_level"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
+            android:theme="@android:style/Theme.DeviceDefault">
         </activity>
     </application>
 

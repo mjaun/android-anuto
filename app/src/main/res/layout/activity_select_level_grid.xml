@@ -11,11 +11,15 @@
         android:layout_height="wrap_content"
         android:columnWidth="@dimen/grid_column_width"
         android:numColumns="auto_fit"
+        android:paddingLeft="@dimen/grid_horizontal_spacing"
+        android:paddingRight="@dimen/grid_horizontal_spacing"
+        android:paddingTop="@dimen/grid_vertical_spacing"
+        android:paddingBottom="@dimen/grid_vertical_spacing"
         android:verticalSpacing="@dimen/grid_vertical_spacing"
         android:horizontalSpacing="@dimen/grid_horizontal_spacing"
         android:stretchMode="columnWidth"
         android:gravity="center"
-        android:background="?attr/shadowColor"/>
+        android:background="?attr/backgroundColor"/>
 
     <ImageView
         android:id="@+id/arrow_up"

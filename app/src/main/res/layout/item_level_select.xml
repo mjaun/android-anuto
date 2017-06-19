@@ -9,11 +9,12 @@
         android:id="@+id/levelThumb"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:background="@drawable/border"/>
+        android:background="?attr/backgroundLevelThumb"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="?attr/backgroundBorderBottom">
 
         <TextView
             android:id="@+id/levelIndex"

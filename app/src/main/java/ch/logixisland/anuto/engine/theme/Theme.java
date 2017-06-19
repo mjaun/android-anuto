@@ -5,11 +5,13 @@ public class Theme {
     private final int mThemeNameId;
     private final int mGameThemeId;
     private final int mMenuThemeId;
+    private final int mLevelsThemeId;
 
-    Theme(int themeNameId, int gameThemeId, int menuThemeId) {
+    Theme(int themeNameId, int gameThemeId, int menuThemeId, int menuLevelsThemeId) {
         mThemeNameId = themeNameId;
         mGameThemeId = gameThemeId;
         mMenuThemeId = menuThemeId;
+        mLevelsThemeId = menuLevelsThemeId;
     }
 
     public int getThemeNameId() {
@@ -26,6 +28,8 @@ public class Theme {
                 return mGameThemeId;
             case Menu:
                 return mMenuThemeId;
+            case Levels:
+                return mLevelsThemeId;
         }
 
         throw new RuntimeException("Unknown activity type!");

@@ -21,6 +21,7 @@ import ch.logixisland.anuto.engine.theme.ThemeManager;
 import ch.logixisland.anuto.entity.enemy.EnemyFactory;
 import ch.logixisland.anuto.entity.plateau.PlateauFactory;
 import ch.logixisland.anuto.entity.tower.TowerFactory;
+import ch.logixisland.anuto.util.SettingsManager;
 
 public class GameFactory {
 
@@ -33,6 +34,7 @@ public class GameFactory {
     private final Viewport mViewport;
     private final Renderer mRenderer;
     private final GameEngine mGameEngine;
+    private final SettingsManager mSettingsManager;
 
     // Entity
     private final PlateauFactory mPlateauFactory;
@@ -59,6 +61,7 @@ public class GameFactory {
         mViewport = new Viewport();
         mRenderer = new Renderer(mViewport, mThemeManager);
         mGameEngine = new GameEngine(mRenderer);
+        mSettingsManager = new SettingsManager(context);
 
         // Entity
         mPlateauFactory = new PlateauFactory();
@@ -154,4 +157,7 @@ public class GameFactory {
         return mGameManager;
     }
 
+    public SettingsManager getSettingsManager() {
+        return mSettingsManager;
+    }
 }
