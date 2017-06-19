@@ -28,7 +28,7 @@ public class Theme {
                 return mGameThemeId;
             case Menu:
                 return mMenuThemeId;
-            case Levels:
+            case Normal:
                 return mLevelsThemeId;
         }
 

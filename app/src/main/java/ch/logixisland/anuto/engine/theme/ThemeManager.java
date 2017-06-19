@@ -51,8 +51,8 @@ public class ThemeManager extends BaseAdapter {
     }
 
     private void initThemes() {
-        mAvailableThemes.add(new Theme(R.string.theme_original, R.style.OriginalTheme, R.style.OriginalTheme_Menu, R.style.OriginalThemeLevels));
-        mAvailableThemes.add(new Theme(R.string.theme_dark, R.style.DarkTheme, R.style.DarkTheme_Menu, R.style.DarkThemeLevels));
+        mAvailableThemes.add(new Theme(R.string.theme_original, R.style.OriginalTheme, R.style.OriginalTheme_Menu, R.style.OriginalThemeNormal));
+        mAvailableThemes.add(new Theme(R.string.theme_dark, R.style.DarkTheme, R.style.DarkTheme_Menu, R.style.DarkThemeNormal));
     }
 
     public Theme getTheme() {
@@ -115,7 +115,7 @@ public class ThemeManager extends BaseAdapter {
         return color;
     }
 
-    public int getResourceId(int attrId) {
+    public int getResourceId(int attrId) {//TODO check calls to this. gametheme?
         TypedArray values = mContext.obtainStyledAttributes(mCurrentTheme.getGameThemeId(), new int[]{attrId});
         int resId = values.getResourceId(0, 0);
         values.recycle();
@@ -144,11 +144,13 @@ public class ThemeManager extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(android.R.layout.simple_spinner_item, parent, false);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.spinner_item, parent, false);
         }
 
         ((TextView) convertView).setText(((Theme) getItem(position)).getThemeNameId());
-        ((TextView) convertView).setTextColor(mContext.getResources().getColor(android.R.color.primary_text_light));
+        ((TextView) convertView).setTextColor(getColor(R.attr.textColor));
+        ((TextView) convertView).setBackgroundColor(getColor(R.attr.backgroundSpinnerItem));
+//        ((TextView) convertView).setTextColor(mContext.getResources().getColor(getColor(R.attr.textColor)));
         return convertView;
     }
 }

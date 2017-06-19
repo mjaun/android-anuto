@@ -34,7 +34,7 @@ public class SelectLevelGridActivity extends AnutoActivity implements AdapterVie
 
     @Override
     protected ActivityType getActivityType() {
-        return ActivityType.Levels;
+        return ActivityType.Normal;
     }
 
     @Override

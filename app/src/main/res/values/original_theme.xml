@@ -60,11 +60,13 @@
         <item name="android:windowAnimationStyle">@android:style/Animation</item>
     </style>
 
-    <style name="OriginalThemeLevels" parent="@android:style/Theme.DeviceDefault.Light">
+    <style name="OriginalThemeNormal" parent="@android:style/Theme.DeviceDefault.Light">
         <item name="android:textColor">?attr/textColor</item>
         <item name="textColor">#000000</item>
         <item name="backgroundColor">#ffffff</item>
+        <item name="backgroundBorder">@drawable/border</item>
         <item name="backgroundBorderBottom">@drawable/border_bottom</item>
+        <item name="backgroundSpinnerItem">#dd0000</item>
         <item name="arrow">@drawable/arrow</item>
         <item name="backgroundLevelThumb">@drawable/background_level_thumb</item>
 
