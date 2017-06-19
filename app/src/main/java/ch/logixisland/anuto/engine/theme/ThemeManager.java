@@ -10,13 +10,10 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.view.game.TowerInfoFragment;
 
 public class ThemeManager extends BaseAdapter {
 
@@ -30,7 +27,6 @@ public class ThemeManager extends BaseAdapter {
     private Theme mCurrentTheme;
     private List<Theme> mAvailableThemes = new ArrayList<>();
     private List<ThemeListener> mListeners = new CopyOnWriteArrayList<>();
-    private TowerInfoFragment mVisibleTowerInfo;
 
     private boolean mTransparentTowerInfoEnabled;
 
@@ -98,8 +94,8 @@ public class ThemeManager extends BaseAdapter {
             editor.putBoolean(PREF_TRANSPARENT_TOWER_INFO, mTransparentTowerInfoEnabled);
             editor.apply();
 
-            if (mVisibleTowerInfo != null) {
-                mVisibleTowerInfo.loadThemedBackground();
+            for (ThemeListener listener : mListeners) {
+                listener.themeSettingsChanged();
             }
         }
     }
@@ -110,16 +106,6 @@ public class ThemeManager extends BaseAdapter {
 
     public void addListener(ThemeListener listener) {
         mListeners.add(listener);
-    }
-
-    public void addListener(TowerInfoFragment towerInfoFragment) {
-        mVisibleTowerInfo = towerInfoFragment;
-    }
-
-    public void removeListener(TowerInfoFragment towerInfoFragment) {
-        if (towerInfoFragment == mVisibleTowerInfo) {
-            mVisibleTowerInfo = null;
-        }
     }
 
     public int getColor(int attrId) {

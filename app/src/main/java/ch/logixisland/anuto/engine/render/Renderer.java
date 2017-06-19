@@ -105,4 +105,9 @@ public class Renderer implements ThemeListener {
     public void themeChanged() {
         mBackgroundColor = mThemeManager.getColor(R.attr.backgroundColor);
     }
+
+    @Override
+    public void themeSettingsChanged() {
+
+    }
 }

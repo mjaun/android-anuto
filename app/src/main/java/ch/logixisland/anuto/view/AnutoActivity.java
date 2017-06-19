@@ -18,6 +18,11 @@ public abstract class AnutoActivity extends Activity {
         public void themeChanged() {
             recreate();
         }
+
+        @Override
+        public void themeSettingsChanged() {
+
+        }
     };
 
     public AnutoActivity() {

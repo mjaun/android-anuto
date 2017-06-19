@@ -27,7 +27,7 @@ import ch.logixisland.anuto.util.StringUtils;
 import ch.logixisland.anuto.view.AnutoFragment;
 
 public class TowerInfoFragment extends AnutoFragment implements View.OnTouchListener,
-        View.OnClickListener, TowerInfoView {
+        View.OnClickListener, TowerInfoView, ThemeListener {
 
     private final TowerSelector mTowerSelector;
     private final TowerControl mTowerControl;
@@ -166,6 +166,16 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnTouchList
                 hide();
             }
         });
+    }
+
+    @Override
+    public void themeChanged() {
+
+    }
+
+    @Override
+    public void themeSettingsChanged() {
+        loadThemedBackground();
     }
 
     private void show() {
