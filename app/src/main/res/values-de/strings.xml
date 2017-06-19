@@ -44,4 +44,15 @@
 
     <string name="theme_original">Original</string>
     <string name="theme_dark">Dunkel</string>
+    <string name="warning_change_theme">Sind Sie sicher, das Sie das Thema verändern wollen? Das spiel wird neustarten</string>
+    <string name="select_level">Karte auswählen</string>
+    <string name="settings">Einstellungen</string>
+    <string name="transparent_tower_info_button">Transparente Turm Info</string>
+    <string name="twice">Doppel</string>
+    <string name="change_theme">Thema verändern</string>
+    <string name="back_button_toast_twice">Drücken Sie zweimal auf Schaltfläche Zurück zum Schliessen</string>
+    <string name="back_button">Schaltfläche Zurück</string>
+    <string name="back_button_behaviour">Schaltfläche Zurück Mode</string>
+    <string name="back_button_toast_disabled">Schaltfläche Zurück ist deaktiviert</string>
+    <string name="back_button_toast_enabled">Schaltfläche Zurück ist aktiviert</string>
 </resources>

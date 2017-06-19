@@ -53,5 +53,8 @@
     <string name="settings">Configuración</string>
     <string name="transparent_tower_info_button">Ventana de torre transparente</string>
     <string name="twice">Doble</string>
+    <string name="change_theme">Cambiar tema</string>
+    <string name="select_level">Seleccionar Mapa</string>
+    <string name="warning_change_theme">¿Estás seguro de que quieres cambiar el tema? La partida se reiniciará</string>
 
 </resources>

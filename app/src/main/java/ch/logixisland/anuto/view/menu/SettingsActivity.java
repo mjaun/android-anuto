@@ -1,5 +1,8 @@
 package ch.logixisland.anuto.view.menu;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
@@ -33,8 +36,6 @@ public class SettingsActivity extends AnutoActivity implements View.OnClickListe
     private final SoundManager mSoundManager;
     private final SettingsManager mSettingsManager;
 
-    private Handler mHandler;
-
     private View activity_settings;
     private View settings_layout;
 
@@ -44,50 +45,6 @@ public class SettingsActivity extends AnutoActivity implements View.OnClickListe
     private ToggleButton tggl_back_disabled;
     private ToggleButton tggl_back_enabled;
     private ToggleButton tggl_back_twice;
-
-    private final GameListener mGameListener = new GameListener() {
-        @Override
-        public void gameStarted() {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    updateEnabledStates();
-                }
-            });
-        }
-
-        @Override
-        public void gameOver() {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    updateEnabledStates();
-                }
-            });
-        }
-    };
-
-    private final WaveListener mWaveListener = new WaveListener() {
-        @Override
-        public void nextWaveReady() {
-
-        }
-
-        @Override
-        public void waveStarted() {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    updateEnabledStates();
-                }
-            });
-        }
-
-        @Override
-        public void waveFinished() {
-
-        }
-    };
 
     public SettingsActivity() {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
@@ -124,9 +81,12 @@ public class SettingsActivity extends AnutoActivity implements View.OnClickListe
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 int currentThemeIndex = mThemeManager.getThemeIndex();
                 if (currentThemeIndex != position) {
-                    //TODO if game started, show dialog
-                    mThemeManager.setTheme((int) id);
-                    mGameManager.restart();
+                    if (themeChangeRequiresRestart()) {
+                        showDialogChangeTheme((int) id);
+                    }else {
+                        mThemeManager.setTheme((int) id);
+                        mGameManager.restart();
+                    }
                 }
             }
 
@@ -143,25 +103,17 @@ public class SettingsActivity extends AnutoActivity implements View.OnClickListe
 
         activity_settings.setOnTouchListener(this);
         settings_layout.setOnTouchListener(this);
-
-        mHandler = new Handler();
-
-        mGameManager.addListener(mGameListener);
-        mWaveManager.addListener(mWaveListener);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        updateEnabledStates();
         updateCheckedStates();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mGameManager.removeListener(mGameListener);
-        mWaveManager.removeListener(mWaveListener);
     }
 
     @Override
@@ -219,10 +171,6 @@ public class SettingsActivity extends AnutoActivity implements View.OnClickListe
         return false;
     }
 
-    private void updateEnabledStates() {
-        spn_theme.setEnabled(mGameManager.isGameOver() || mWaveManager.getWaveNumber() == 0);
-    }
-
     private void updateCheckedStates(){
         spn_theme.setSelection(mThemeManager.getThemeIndex());
         cbox_sound.setChecked(mSoundManager.isSoundEnabled());
@@ -230,5 +178,29 @@ public class SettingsActivity extends AnutoActivity implements View.OnClickListe
         tggl_back_disabled.setChecked(mSettingsManager.getBackButtonMode() == SettingsManager.BackButtonMode.DISABLED);
         tggl_back_enabled.setChecked(mSettingsManager.getBackButtonMode() == SettingsManager.BackButtonMode.ENABLED);
         tggl_back_twice.setChecked(mSettingsManager.getBackButtonMode() == SettingsManager.BackButtonMode.TWICE);
+    }
+
+    private boolean themeChangeRequiresRestart(){
+        return !mGameManager.isGameOver() && mWaveManager.getWaveNumber() != 0;
+    }
+
+    private void showDialogChangeTheme(final int themeId) {
+        AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(SettingsActivity.this);
+        builder.setTitle(R.string.change_theme)
+                .setMessage(R.string.warning_change_theme)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        mThemeManager.setTheme(themeId);
+                        mGameManager.restart();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        updateCheckedStates();
+                    }
+                })
+                .setIcon(R.drawable.alert)
+                .show();
     }
 }

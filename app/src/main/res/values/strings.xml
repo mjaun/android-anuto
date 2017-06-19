@@ -64,5 +64,7 @@
     <string name="level_civyshk_line5_name">Civyshk Line5</string>
     <string name="level_civyshk_labyrinth_name">Civyshk Labyrinth</string>
     <string name="level_civyshk_yard_name">Civyshk Yard</string>
+    <string name="change_theme">Change theme</string>
+    <string name="warning_change_theme">Are you sure you want to change the theme? The game will restart</string>
 
 </resources>

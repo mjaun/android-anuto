@@ -7,11 +7,11 @@ public class Theme {
     private final int mMenuThemeId;
     private final int mLevelsThemeId;
 
-    Theme(int themeNameId, int gameThemeId, int menuThemeId, int menuLevelsId) {
+    Theme(int themeNameId, int gameThemeId, int menuThemeId, int menuLevelsThemeId) {
         mThemeNameId = themeNameId;
         mGameThemeId = gameThemeId;
         mMenuThemeId = menuThemeId;
-        mLevelsThemeId = menuLevelsId;
+        mLevelsThemeId = menuLevelsThemeId;
     }
 
     public int getThemeNameId() {
