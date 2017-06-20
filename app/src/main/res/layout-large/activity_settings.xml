@@ -15,14 +15,13 @@
         android:layout_centerVertical="false"
         android:background="?attr/backgroundBorder"
         android:orientation="vertical"
-        android:padding="100dp">
+        android:padding="10dp">
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|center_horizontal|center"
-            android:layout_weight="0"
             android:src="@drawable/settings"/>
 
         <Space

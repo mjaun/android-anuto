@@ -7,7 +7,6 @@
     <attr name="backgroundBorderTransparent" format="reference"/>
     <attr name="backgroundBorderBottom" format="reference"/>
     <attr name="backgroundLevelThumb" format="reference"/>
-    <attr name="backgroundSpinnerItem" format="color"/>
     <attr name="arrow" format="reference"/>
     <attr name="shadowColor" format="color"/>
     <attr name="healthBarBackgroundColor" format="color"/>
