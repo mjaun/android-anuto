@@ -77,10 +77,6 @@ public class SettingsActivity extends AnutoActivity implements View.OnClickListe
                         mGameManager.restart();
                     }
                 }
-
-                if (view != null) {
-                    ((TextView) view).setTextColor(mThemeManager.getColor(R.attr.textColor));
-                }
             }
 
             @Override

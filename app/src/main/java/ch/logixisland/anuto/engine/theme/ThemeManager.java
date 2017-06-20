@@ -110,7 +110,7 @@ public class ThemeManager {
         return color;
     }
 
-    public int getResourceId(int attrId) {//TODO check calls to this. gametheme?
+    public int getResourceId(int attrId) {
         TypedArray values = mContext.obtainStyledAttributes(mCurrentTheme.getGameThemeId(), new int[]{attrId});
         int resId = values.getResourceId(0, 0);
         values.recycle();
