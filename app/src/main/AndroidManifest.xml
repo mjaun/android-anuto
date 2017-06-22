@@ -32,8 +32,10 @@
         </activity>
         <activity
             android:name=".view.menu.SettingsActivity"
+            android:label="@string/settings"
+            android:icon="@drawable/settings"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
+            android:theme="@android:style/Theme.DeviceDefault">
         </activity>
         <activity
             android:name=".view.menu.SelectLevelGridActivity"

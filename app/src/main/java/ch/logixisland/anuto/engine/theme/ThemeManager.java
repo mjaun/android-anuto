@@ -3,11 +3,6 @@ package ch.logixisland.anuto.engine.theme;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +10,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.R;
 
-public class ThemeManager extends BaseAdapter {
+public class ThemeManager {
 
     private static final String PREF_FILE = "theme.prefs";
     private static final String PREF_THEME = "themeId";
@@ -51,8 +46,8 @@ public class ThemeManager extends BaseAdapter {
     }
 
     private void initThemes() {
-        mAvailableThemes.add(new Theme(R.string.theme_original, R.style.OriginalTheme, R.style.OriginalTheme_Menu, R.style.OriginalThemeLevels));
-        mAvailableThemes.add(new Theme(R.string.theme_dark, R.style.DarkTheme, R.style.DarkTheme_Menu, R.style.DarkThemeLevels));
+        mAvailableThemes.add(new Theme(R.string.theme_original, R.style.OriginalTheme, R.style.OriginalTheme_Menu, R.style.OriginalThemeNormal));
+        mAvailableThemes.add(new Theme(R.string.theme_dark, R.style.DarkTheme, R.style.DarkTheme_Menu, R.style.DarkThemeNormal));
     }
 
     public Theme getTheme() {
@@ -126,29 +121,11 @@ public class ThemeManager extends BaseAdapter {
         mListeners.remove(listener);
     }
 
-    @Override
-    public int getCount() {
-        return mAvailableThemes.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return mAvailableThemes.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(android.R.layout.simple_spinner_item, parent, false);
+    public List<String> getThemeNames() {
+        List<String> names = new ArrayList<>(mAvailableThemes.size());
+        for (Theme theme : mAvailableThemes) {
+            names.add(mContext.getResources().getString(theme.getThemeNameId()));
         }
-
-        ((TextView) convertView).setText(((Theme) getItem(position)).getThemeNameId());
-        ((TextView) convertView).setTextColor(mContext.getResources().getColor(android.R.color.primary_text_light));
-        return convertView;
+        return names;
     }
 }
