@@ -43,10 +43,10 @@ public class SelectLevelGridActivity extends AnutoActivity implements AdapterVie
         setContentView(R.layout.activity_select_level_grid);
 
         mAdapter = new LevelsAdapter(this);
-        mAdapter.addLevel(R.raw.level_1, R.drawable.level_1_thumb, R.string.level_1_name);
-        mAdapter.addLevel(R.raw.level_2, R.drawable.level_2_thumb, R.string.level_2_name);
-        mAdapter.addLevel(R.raw.level_3, R.drawable.level_3_thumb, R.string.level_3_name);
-        mAdapter.addLevel(R.raw.level_4, R.drawable.level_4_thumb, R.string.level_4_name);
+        mAdapter.addLevel(R.raw.level_original, R.drawable.level_original_thumb, R.string.level_original_name);
+        mAdapter.addLevel(R.raw.level_waiting_line, R.drawable.level_waiting_line_thumb, R.string.level_waiting_line_name);
+        mAdapter.addLevel(R.raw.level_turn_round, R.drawable.level_turn_round_thumb, R.string.level_turn_round_name);
+        mAdapter.addLevel(R.raw.level_hurry, R.drawable.level_hurry_thumb, R.string.level_hurry_name);
         mAdapter.addLevel(R.raw.level_civyshk_2y, R.drawable.level_civyshk_2y_thumb, R.string.level_civyshk_2y_name);
         mAdapter.addLevel(R.raw.level_civyshk_line5, R.drawable.level_civyshk_line5_thumb, R.string.level_civyshk_line5_name);
         mAdapter.addLevel(R.raw.level_civyshk_labyrinth, R.drawable.level_civyshk_labyrinth_thumb, R.string.level_civyshk_labyrinth_name);

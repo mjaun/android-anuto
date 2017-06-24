@@ -56,10 +56,10 @@
     <string name="back_button_behaviour">Back button behaviour</string>
     <string name="twice">Twice</string>
 
-    <string name="level_1_name">Level 1</string>
-    <string name="level_2_name">Level 2</string>
-    <string name="level_3_name">Level 3</string>
-    <string name="level_4_name">Level 4</string>
+    <string name="level_original_name">The Original</string>
+    <string name="level_waiting_line_name">I hate waiting lines</string>
+    <string name="level_turn_round_name">Turn a round</string>
+    <string name="level_hurry_name">We\'re in a hurry!</string>
     <string name="level_civyshk_2y_name">Civyshk 2Y</string>
     <string name="level_civyshk_line5_name">Civyshk Line5</string>
     <string name="level_civyshk_labyrinth_name">Civyshk Labyrinth</string>
