@@ -18,7 +18,6 @@ import ch.logixisland.anuto.business.control.TowerInserter;
 import ch.logixisland.anuto.business.score.CreditsListener;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.theme.Theme;
-import ch.logixisland.anuto.engine.theme.ThemeManager;
 import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.entity.tower.TowerFactory;
 

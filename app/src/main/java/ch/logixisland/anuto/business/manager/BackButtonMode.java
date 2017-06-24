@@ -1,8 +1,5 @@
 package ch.logixisland.anuto.business.manager;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public enum BackButtonMode {
     DISABLED,
     ENABLED,

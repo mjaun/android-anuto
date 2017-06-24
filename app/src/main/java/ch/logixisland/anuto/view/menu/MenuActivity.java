@@ -14,9 +14,7 @@ import ch.logixisland.anuto.business.level.WaveListener;
 import ch.logixisland.anuto.business.level.WaveManager;
 import ch.logixisland.anuto.business.manager.GameListener;
 import ch.logixisland.anuto.business.manager.GameManager;
-import ch.logixisland.anuto.engine.sound.SoundManager;
 import ch.logixisland.anuto.engine.theme.ActivityType;
-import ch.logixisland.anuto.engine.theme.ThemeManager;
 import ch.logixisland.anuto.view.AnutoActivity;
 
 public class MenuActivity extends AnutoActivity implements View.OnClickListener, View.OnTouchListener {

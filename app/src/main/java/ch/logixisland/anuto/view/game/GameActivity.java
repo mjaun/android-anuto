@@ -11,9 +11,9 @@ import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.control.TowerSelector;
 import ch.logixisland.anuto.business.manager.BackButtonMode;
+import ch.logixisland.anuto.business.manager.SettingsManager;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.theme.ActivityType;
-import ch.logixisland.anuto.business.manager.SettingsManager;
 import ch.logixisland.anuto.view.AnutoActivity;
 
 public class GameActivity extends AnutoActivity {
@@ -67,7 +67,7 @@ public class GameActivity extends AnutoActivity {
         view_tower_defense.close();
         try {
             mBackButtonToast.cancel();
-        }catch(NullPointerException e){
+        } catch (NullPointerException e) {
             //noop;
         }
     }
@@ -76,9 +76,9 @@ public class GameActivity extends AnutoActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             mTowerSelector.selectTower(null);
-            
+
             boolean canWeExit = mBackButtonControl.backButtonPressed();
-            if(!canWeExit && mBackButtonControl.getBackButtonMode() == BackButtonMode.TWICE){
+            if (!canWeExit && mBackButtonControl.getBackButtonMode() == BackButtonMode.TWICE) {
                 mBackButtonToast = showBackButtonToast(this, mBackButtonControl.getBackButtonMode());
             }
 
@@ -90,7 +90,7 @@ public class GameActivity extends AnutoActivity {
 
     static public Toast showBackButtonToast(Context context, BackButtonMode mode) {
         String message;
-        switch(mode){
+        switch (mode) {
             case DISABLED:
                 message = context.getString(R.string.back_button_toast_disabled);
                 break;

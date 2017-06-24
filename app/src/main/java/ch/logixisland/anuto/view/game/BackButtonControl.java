@@ -39,8 +39,7 @@ public class BackButtonControl {
     public boolean backButtonPressed() {
         long timeNow = System.currentTimeMillis();
 
-        switch (mBackButtonMode)
-        {
+        switch (mBackButtonMode) {
             case DISABLED:
                 return false;
 

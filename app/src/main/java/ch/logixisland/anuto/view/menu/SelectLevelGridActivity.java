@@ -58,7 +58,7 @@ public class SelectLevelGridActivity extends AnutoActivity implements AdapterVie
         grid_view = (GridView) findViewById(R.id.gvLevels);
         grid_view.setOnItemClickListener(this);
         grid_view.getViewTreeObserver().addOnScrollChangedListener(this);
-        grid_view.post(new Runnable(){
+        grid_view.post(new Runnable() {
             @Override
             public void run() {
                 updateArrowVisibility();
@@ -74,7 +74,7 @@ public class SelectLevelGridActivity extends AnutoActivity implements AdapterVie
         finish();
     }
 
-        @Override
+    @Override
     public void onScrollChanged() {
         updateArrowVisibility();
     }
@@ -86,24 +86,24 @@ public class SelectLevelGridActivity extends AnutoActivity implements AdapterVie
 //        arrow_down.setVisibility(scrollY > grid_view.getChildAt(0).getBottom() - grid_view.getHeight() - 10 ? View.INVISIBLE : View.VISIBLE);
 
         final int numberViews = grid_view.getChildCount();
-        if(numberViews <= 0){
+        if (numberViews <= 0) {
             arrow_up.setVisibility(View.INVISIBLE);
             arrow_down.setVisibility(View.INVISIBLE);
             return;
         }
 
         final int firstVisibleLevel = grid_view.getFirstVisiblePosition();//starting from zero!
-        if(firstVisibleLevel == 0){
+        if (firstVisibleLevel == 0) {
             arrow_up.setVisibility(grid_view.getChildAt(0).getTop() < -10 ? View.VISIBLE : View.INVISIBLE);
-        }else{
+        } else {
             arrow_up.setVisibility(firstVisibleLevel > 0 ? View.VISIBLE : View.INVISIBLE);
         }
 
         final int numberLevels = mAdapter.getCount();
         final int lastVisibleLevel = grid_view.getLastVisiblePosition();
-        if(lastVisibleLevel == numberLevels - 1){
+        if (lastVisibleLevel == numberLevels - 1) {
             arrow_down.setVisibility(grid_view.getChildAt(numberViews - 1).getBottom() > grid_view.getHeight() + 10 ? View.VISIBLE : View.INVISIBLE);
-        }else{
+        } else {
             arrow_down.setVisibility(lastVisibleLevel < numberLevels - 1 ? View.VISIBLE : View.INVISIBLE);
         }
     }

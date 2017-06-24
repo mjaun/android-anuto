@@ -14,14 +14,14 @@ import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.level.WaveManager;
-import ch.logixisland.anuto.view.game.BackButtonControl;
 import ch.logixisland.anuto.business.manager.BackButtonMode;
 import ch.logixisland.anuto.business.manager.GameManager;
+import ch.logixisland.anuto.business.manager.SettingsManager;
 import ch.logixisland.anuto.engine.sound.SoundManager;
 import ch.logixisland.anuto.engine.theme.ActivityType;
 import ch.logixisland.anuto.engine.theme.ThemeManager;
-import ch.logixisland.anuto.business.manager.SettingsManager;
 import ch.logixisland.anuto.view.AnutoActivity;
+import ch.logixisland.anuto.view.game.BackButtonControl;
 import ch.logixisland.anuto.view.game.GameActivity;
 
 public class SettingsActivity extends AnutoActivity implements View.OnClickListener {

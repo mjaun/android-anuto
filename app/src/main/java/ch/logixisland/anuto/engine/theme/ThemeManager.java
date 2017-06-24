@@ -49,7 +49,7 @@ public class ThemeManager {
         return mTheme;
     }
 
-    public int getThemeIndex(){
+    public int getThemeIndex() {
         return mAvailableThemes.indexOf(mTheme);
     }
 
@@ -66,7 +66,7 @@ public class ThemeManager {
         }
     }
 
-    public void setTheme(int index){
+    public void setTheme(int index) {
         setTheme(mAvailableThemes.get(index));
     }
 

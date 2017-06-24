@@ -8,8 +8,8 @@ import ch.logixisland.anuto.business.control.TowerSelector;
 import ch.logixisland.anuto.business.level.LevelLoader;
 import ch.logixisland.anuto.business.level.TowerAging;
 import ch.logixisland.anuto.business.level.WaveManager;
-import ch.logixisland.anuto.view.game.BackButtonControl;
 import ch.logixisland.anuto.business.manager.GameManager;
+import ch.logixisland.anuto.business.manager.SettingsManager;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Renderer;
@@ -22,7 +22,7 @@ import ch.logixisland.anuto.engine.theme.ThemeManager;
 import ch.logixisland.anuto.entity.enemy.EnemyFactory;
 import ch.logixisland.anuto.entity.plateau.PlateauFactory;
 import ch.logixisland.anuto.entity.tower.TowerFactory;
-import ch.logixisland.anuto.business.manager.SettingsManager;
+import ch.logixisland.anuto.view.game.BackButtonControl;
 
 public class GameFactory {
 
