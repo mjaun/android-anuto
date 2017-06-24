@@ -21,7 +21,7 @@ import ch.logixisland.anuto.engine.theme.ThemeManager;
 import ch.logixisland.anuto.entity.enemy.EnemyFactory;
 import ch.logixisland.anuto.entity.plateau.PlateauFactory;
 import ch.logixisland.anuto.entity.tower.TowerFactory;
-import ch.logixisland.anuto.util.SettingsManager;
+import ch.logixisland.anuto.business.manager.SettingsManager;
 
 public class GameFactory {
 

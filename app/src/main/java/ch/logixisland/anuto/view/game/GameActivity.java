@@ -13,7 +13,7 @@ import ch.logixisland.anuto.business.control.TowerSelector;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.theme.ActivityType;
 import ch.logixisland.anuto.engine.theme.ThemeManager;
-import ch.logixisland.anuto.util.SettingsManager;
+import ch.logixisland.anuto.business.manager.SettingsManager;
 import ch.logixisland.anuto.view.AnutoActivity;
 
 public class GameActivity extends AnutoActivity {

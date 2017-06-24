@@ -8,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import ch.logixisland.anuto.AnutoApplication;
@@ -19,7 +18,7 @@ import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.engine.sound.SoundManager;
 import ch.logixisland.anuto.engine.theme.ActivityType;
 import ch.logixisland.anuto.engine.theme.ThemeManager;
-import ch.logixisland.anuto.util.SettingsManager;
+import ch.logixisland.anuto.business.manager.SettingsManager;
 import ch.logixisland.anuto.view.AnutoActivity;
 import ch.logixisland.anuto.view.game.GameActivity;
 

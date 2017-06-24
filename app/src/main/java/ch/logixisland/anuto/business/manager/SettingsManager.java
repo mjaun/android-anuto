@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.util;
+package ch.logixisland.anuto.business.manager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
