@@ -53,7 +53,8 @@ public class GameFactory {
 
     public GameFactory(Context context) {
         // Engine
-        mThemeManager = new ThemeManager(context);
+        mSettingsManager = new SettingsManager(context);
+        mThemeManager = new ThemeManager(context, mSettingsManager);
         mSoundManager = new SoundManager(context);
         mSpriteFactory = new SpriteFactory(context, mThemeManager);
         mShapeFactory = new ShapeFactory(mThemeManager);
@@ -61,7 +62,6 @@ public class GameFactory {
         mViewport = new Viewport();
         mRenderer = new Renderer(mViewport, mThemeManager);
         mGameEngine = new GameEngine(mRenderer);
-        mSettingsManager = new SettingsManager(context);
 
         // Entity
         mPlateauFactory = new PlateauFactory();

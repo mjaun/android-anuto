@@ -1,22 +1,18 @@
 package ch.logixisland.anuto.engine.theme;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.business.manager.SettingsManager;
 
 public class ThemeManager {
 
-    private static final String PREF_FILE = "theme.prefs";
-    private static final String PREF_THEME = "themeId";
-    private static final String PREF_TRANSPARENT_TOWER_INFO = "transparentTowerInfoEnabled";
-
-    public final Context mContext;
-    private final SharedPreferences mPreferences;
+    private final Context mContext;
+    private final SettingsManager mSettingsManager;
 
     private Theme mTheme;
     private List<Theme> mAvailableThemes = new ArrayList<>();
@@ -24,18 +20,18 @@ public class ThemeManager {
 
     private boolean mTransparentTowerInfoEnabled;
 
-    public ThemeManager(Context context) {
+    public ThemeManager(Context context, SettingsManager settingsManager) {
         mContext = context;
-        mPreferences = mContext.getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE);
+        mSettingsManager = settingsManager;
 
         initThemes();
         loadTheme();
 
-        mTransparentTowerInfoEnabled = mPreferences.getBoolean(PREF_TRANSPARENT_TOWER_INFO, false);
+        mTransparentTowerInfoEnabled = mSettingsManager.isTransparentTowerInfoEnabled();
     }
 
     private void loadTheme() {
-        int index = mPreferences.getInt(PREF_THEME, R.style.OriginalTheme);
+        int index = mSettingsManager.getThemeIndex();
 
         if (index < 0 || index > mAvailableThemes.size() - 1) {
             index = 0;
@@ -62,9 +58,7 @@ public class ThemeManager {
             mTheme = theme;
 
             int index = mAvailableThemes.indexOf(theme);
-            SharedPreferences.Editor editor = mPreferences.edit();
-            editor.putInt(PREF_THEME, index);
-            editor.apply();
+            mSettingsManager.setThemeIndex(index);
 
             for (ThemeListener listener : mListeners) {
                 listener.themeChanged();
@@ -84,9 +78,7 @@ public class ThemeManager {
         if (mTransparentTowerInfoEnabled != enabled) {
             mTransparentTowerInfoEnabled = enabled;
 
-            SharedPreferences.Editor editor = mPreferences.edit();
-            editor.putBoolean(PREF_TRANSPARENT_TOWER_INFO, mTransparentTowerInfoEnabled);
-            editor.apply();
+            mSettingsManager.setTransparentTowerInfoEnabled(mTransparentTowerInfoEnabled);
 
             for (ThemeListener listener : mListeners) {
                 listener.themeSettingsChanged();
