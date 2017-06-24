@@ -26,7 +26,7 @@ public class GenericFactory<T> {
     public T createInstance(String name, Object... arguments) {
         try {
             return mConstructorMap.get(name).newInstance(arguments);
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
