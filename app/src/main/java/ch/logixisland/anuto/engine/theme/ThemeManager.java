@@ -18,16 +18,12 @@ public class ThemeManager {
     private List<Theme> mAvailableThemes = new ArrayList<>();
     private List<ThemeListener> mListeners = new CopyOnWriteArrayList<>();
 
-    private boolean mTransparentTowerInfoEnabled;
-
     public ThemeManager(Context context, SettingsManager settingsManager) {
         mContext = context;
         mSettingsManager = settingsManager;
 
         initThemes();
         loadTheme();
-
-        mTransparentTowerInfoEnabled = mSettingsManager.isTransparentTowerInfoEnabled();
     }
 
     private void loadTheme() {
@@ -68,22 +64,6 @@ public class ThemeManager {
 
     public void setTheme(int index) {
         setTheme(mAvailableThemes.get(index));
-    }
-
-    public boolean isTransparentTowerInfoEnabled() {
-        return mTransparentTowerInfoEnabled;
-    }
-
-    public void setTransparentTowerInfoEnabled(boolean enabled) {
-        if (mTransparentTowerInfoEnabled != enabled) {
-            mTransparentTowerInfoEnabled = enabled;
-
-            mSettingsManager.setTransparentTowerInfoEnabled(mTransparentTowerInfoEnabled);
-
-            for (ThemeListener listener : mListeners) {
-                listener.themeSettingsChanged();
-            }
-        }
     }
 
     public void addListener(ThemeListener listener) {

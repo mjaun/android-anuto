@@ -113,7 +113,7 @@ public class SettingsActivity extends AnutoActivity implements View.OnClickListe
         }
 
         if (view == cbox_transparent_info) {
-            mThemeManager.setTransparentTowerInfoEnabled(cbox_transparent_info.isChecked());
+            mSettingsManager.setTransparentTowerInfoEnabled(cbox_transparent_info.isChecked());
         }
 
         if (view == tggl_back_disabled) {
@@ -149,7 +149,7 @@ public class SettingsActivity extends AnutoActivity implements View.OnClickListe
     private void updateCheckedStates() {
         spn_theme.setSelection(mThemeManager.getThemeIndex());
         cbox_sound.setChecked(mSoundManager.isSoundEnabled());
-        cbox_transparent_info.setChecked(mThemeManager.isTransparentTowerInfoEnabled());
+        cbox_transparent_info.setChecked(mSettingsManager.isTransparentTowerInfoEnabled());
         tggl_back_disabled.setChecked(mBackButtonControl.getBackButtonMode() == BackButtonMode.DISABLED);
         tggl_back_enabled.setChecked(mBackButtonControl.getBackButtonMode() == BackButtonMode.ENABLED);
         tggl_back_twice.setChecked(mBackButtonControl.getBackButtonMode() == BackButtonMode.TWICE);

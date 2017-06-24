@@ -41,9 +41,4 @@ public abstract class AnutoActivity extends Activity implements ThemeListener {
         recreate();
     }
 
-    @Override
-    public void themeSettingsChanged() {
-
-    }
-
 }

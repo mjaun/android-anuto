@@ -19,19 +19,20 @@ import ch.logixisland.anuto.business.control.TowerControl;
 import ch.logixisland.anuto.business.control.TowerInfo;
 import ch.logixisland.anuto.business.control.TowerInfoView;
 import ch.logixisland.anuto.business.control.TowerSelector;
-import ch.logixisland.anuto.engine.theme.ThemeListener;
-import ch.logixisland.anuto.engine.theme.ThemeManager;
+import ch.logixisland.anuto.business.manager.SettingsManager;
+import ch.logixisland.anuto.engine.theme.Theme;
 import ch.logixisland.anuto.entity.tower.TowerProperty;
 import ch.logixisland.anuto.entity.tower.TowerStrategy;
 import ch.logixisland.anuto.util.StringUtils;
 import ch.logixisland.anuto.view.AnutoFragment;
 
 public class TowerInfoFragment extends AnutoFragment implements View.OnTouchListener,
-        View.OnClickListener, TowerInfoView, ThemeListener {
+        View.OnClickListener, TowerInfoView {
 
     private final TowerSelector mTowerSelector;
     private final TowerControl mTowerControl;
-    private final ThemeManager mThemeManager;
+    private final SettingsManager mSettingsManager;
+    private final Theme mTheme;
 
     private Handler mHandler;
 
@@ -52,7 +53,8 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnTouchList
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
         mTowerSelector = factory.getTowerSelector();
         mTowerControl = factory.getTowerControl();
-        mThemeManager = factory.getThemeManager();
+        mSettingsManager = factory.getSettingsManager();
+        mTheme = factory.getThemeManager().getTheme();
     }
 
     @Override
@@ -86,8 +88,6 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnTouchList
         btn_sell.setOnClickListener(this);
 
         txt_level_text.setText(getResources().getString(R.string.level) + ":");
-
-        mThemeManager.addListener(this);
 
         mHandler = new Handler();
 
@@ -166,16 +166,6 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnTouchList
                 hide();
             }
         });
-    }
-
-    @Override
-    public void themeChanged() {
-
-    }
-
-    @Override
-    public void themeSettingsChanged() {
-        loadThemedBackground();
     }
 
     private void show() {
@@ -289,12 +279,12 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnTouchList
         View view = getView();
         if (view != null) {
             int attrId;
-            if (mThemeManager.isTransparentTowerInfoEnabled()) {
+            if (mSettingsManager.isTransparentTowerInfoEnabled()) {
                 attrId = R.attr.backgroundBorderTransparent;
             } else {
                 attrId = R.attr.backgroundBorder;
             }
-            view.setBackgroundResource(mThemeManager.getTheme().getResourceId(attrId));
+            view.setBackgroundResource(mTheme.getResourceId(attrId));
             int p = (int) getResources().getDimension(R.dimen.fragment_tower_info_padding);
             getView().setPadding(p, p, p, p);
         }
