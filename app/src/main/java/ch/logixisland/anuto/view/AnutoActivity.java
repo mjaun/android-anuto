@@ -9,25 +9,15 @@ import ch.logixisland.anuto.engine.theme.ActivityType;
 import ch.logixisland.anuto.engine.theme.ThemeListener;
 import ch.logixisland.anuto.engine.theme.ThemeManager;
 
-public abstract class AnutoActivity extends Activity {
+public abstract class AnutoActivity extends Activity implements ThemeListener {
 
     private final ThemeManager mThemeManager;
-
-    private final ThemeListener mThemeListener = new ThemeListener() {
-        @Override
-        public void themeChanged() {
-            recreate();
-        }
-
-        @Override
-        public void themeSettingsChanged() {
-
-        }
-    };
 
     public AnutoActivity() {
         mThemeManager = getGameFactory().getThemeManager();
     }
+
+    protected abstract ActivityType getActivityType();
 
     protected GameFactory getGameFactory() {
         return AnutoApplication.getInstance().getGameFactory();
@@ -35,17 +25,25 @@ public abstract class AnutoActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(mThemeManager.getActivityThemeId(getActivityType()));
+        setTheme(mThemeManager.getTheme().getActivityThemeId(getActivityType()));
         super.onCreate(savedInstanceState);
-        mThemeManager.addListener(mThemeListener);
+        mThemeManager.addListener(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mThemeManager.removeListener(mThemeListener);
+        mThemeManager.removeListener(this);
     }
 
-    protected abstract ActivityType getActivityType();
+    @Override
+    public void themeChanged() {
+        recreate();
+    }
+
+    @Override
+    public void themeSettingsChanged() {
+
+    }
 
 }

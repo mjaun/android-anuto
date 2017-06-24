@@ -17,6 +17,7 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.control.TowerInserter;
 import ch.logixisland.anuto.business.score.CreditsListener;
 import ch.logixisland.anuto.business.score.ScoreBoard;
+import ch.logixisland.anuto.engine.theme.Theme;
 import ch.logixisland.anuto.engine.theme.ThemeManager;
 import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.entity.tower.TowerFactory;
@@ -26,7 +27,7 @@ public class TowerView extends View implements View.OnTouchListener, View.OnDrag
     private final static float TEXT_SIZE = 20f;
     private final static float DRAW_SIZE = 1.3f;
 
-    private final ThemeManager mThemeManager;
+    private final Theme mTheme;
     private final TowerInserter mTowerInserter;
     private final ScoreBoard mScoreBoard;
     private final TowerFactory mTowerFactory;
@@ -58,16 +59,16 @@ public class TowerView extends View implements View.OnTouchListener, View.OnDrag
 
         if (!isInEditMode()) {
             GameFactory factory = AnutoApplication.getInstance().getGameFactory();
-            mThemeManager = factory.getThemeManager();
+            mTheme = factory.getThemeManager().getTheme();
             mScoreBoard = factory.getScoreBoard();
             mTowerInserter = factory.getTowerInserter();
             mTowerFactory = factory.getTowerFactory();
 
             mScoreBoard.addCreditsListener(mCreditsListener);
-            mTextColor = mThemeManager.getColor(R.attr.textColor);
-            mTextColorDisabled = mThemeManager.getColor(R.attr.textDisabledColor);
+            mTextColor = mTheme.getColor(R.attr.textColor);
+            mTextColorDisabled = mTheme.getColor(R.attr.textDisabledColor);
         } else {
-            mThemeManager = null;
+            mTheme = null;
             mScoreBoard = null;
             mTowerInserter = null;
             mTowerFactory = null;

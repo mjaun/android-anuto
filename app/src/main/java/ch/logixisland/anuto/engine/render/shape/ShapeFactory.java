@@ -13,15 +13,15 @@ public class ShapeFactory {
     }
 
     public HealthBar createHealthBar(Enemy enemy) {
-        return new HealthBar(mThemeManager, enemy);
+        return new HealthBar(mThemeManager.getTheme(), enemy);
     }
 
     public RangeIndicator createRangeIndicator(Tower tower) {
-        return new RangeIndicator(mThemeManager, tower);
+        return new RangeIndicator(mThemeManager.getTheme(), tower);
     }
 
     public LevelIndicator createLevelIndicator(Tower tower) {
-        return new LevelIndicator(mThemeManager, tower);
+        return new LevelIndicator(mThemeManager.getTheme(), tower);
     }
 
 }

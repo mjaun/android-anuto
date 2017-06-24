@@ -6,7 +6,7 @@ import android.graphics.Paint;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Layers;
-import ch.logixisland.anuto.engine.theme.ThemeManager;
+import ch.logixisland.anuto.engine.theme.Theme;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.math.MathUtils;
 
@@ -19,13 +19,13 @@ public class HealthBar implements Drawable {
     private final Paint mHealthBarBg;
     private final Paint mHealthBarFg;
 
-    public HealthBar(ThemeManager themeManager, Enemy enemy) {
+    public HealthBar(Theme theme, Enemy enemy) {
         mEnemy = enemy;
 
         mHealthBarBg = new Paint();
-        mHealthBarBg.setColor(themeManager.getColor(R.attr.healthBarBackgroundColor));
+        mHealthBarBg.setColor(theme.getColor(R.attr.healthBarBackgroundColor));
         mHealthBarFg = new Paint();
-        mHealthBarFg.setColor(themeManager.getColor(R.attr.healthBarColor));
+        mHealthBarFg.setColor(theme.getColor(R.attr.healthBarColor));
     }
 
     @Override
