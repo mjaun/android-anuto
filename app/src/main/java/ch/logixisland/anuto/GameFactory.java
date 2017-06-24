@@ -8,6 +8,7 @@ import ch.logixisland.anuto.business.control.TowerSelector;
 import ch.logixisland.anuto.business.level.LevelLoader;
 import ch.logixisland.anuto.business.level.TowerAging;
 import ch.logixisland.anuto.business.level.WaveManager;
+import ch.logixisland.anuto.view.game.BackButtonControl;
 import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
@@ -51,6 +52,9 @@ public class GameFactory {
     private final WaveManager mWaveManager;
     private final GameManager mGameManager;
 
+    // View
+    private final BackButtonControl mBackButtonControl;
+
     public GameFactory(Context context) {
         // Engine
         mSettingsManager = new SettingsManager(context);
@@ -77,6 +81,9 @@ public class GameFactory {
         mTowerSelector = new TowerSelector(mGameEngine, mGameManager, mScoreBoard);
         mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector, mTowerFactory);
         mTowerInserter = new TowerInserter(mGameEngine, mGameManager, mTowerFactory, mTowerSelector, mTowerAging, mScoreBoard);
+
+        // View
+        mBackButtonControl = new BackButtonControl(mSettingsManager);
 
         mGameManager.restart();
     }
@@ -113,16 +120,8 @@ public class GameFactory {
         return mGameEngine;
     }
 
-    public PlateauFactory getPlateauFactory() {
-        return mPlateauFactory;
-    }
-
     public TowerFactory getTowerFactory() {
         return mTowerFactory;
-    }
-
-    public EnemyFactory getEnemyFactory() {
-        return mEnemyFactory;
     }
 
     public ScoreBoard getScoreBoard() {
@@ -135,10 +134,6 @@ public class GameFactory {
 
     public TowerControl getTowerControl() {
         return mTowerControl;
-    }
-
-    public TowerAging getTowerAging() {
-        return mTowerAging;
     }
 
     public TowerInserter getTowerInserter() {
@@ -159,5 +154,9 @@ public class GameFactory {
 
     public SettingsManager getSettingsManager() {
         return mSettingsManager;
+    }
+
+    public BackButtonControl getBackButtonControl() {
+        return mBackButtonControl;
     }
 }

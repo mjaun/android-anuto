@@ -10,9 +10,9 @@ import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.control.TowerSelector;
+import ch.logixisland.anuto.business.manager.BackButtonMode;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.theme.ActivityType;
-import ch.logixisland.anuto.engine.theme.ThemeManager;
 import ch.logixisland.anuto.business.manager.SettingsManager;
 import ch.logixisland.anuto.view.AnutoActivity;
 
@@ -20,8 +20,8 @@ public class GameActivity extends AnutoActivity {
 
     private final GameEngine mGameEngine;
     private final TowerSelector mTowerSelector;
-    private final ThemeManager mThemeManager;
     private final SettingsManager mSettingsManager;
+    private final BackButtonControl mBackButtonControl;
 
     private Toast mBackButtonToast;
 
@@ -31,8 +31,8 @@ public class GameActivity extends AnutoActivity {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
         mGameEngine = factory.getGameEngine();
         mTowerSelector = factory.getTowerSelector();
-        mThemeManager = factory.getThemeManager();
         mSettingsManager = factory.getSettingsManager();
+        mBackButtonControl = factory.getBackButtonControl();
     }
 
     @Override
@@ -77,9 +77,9 @@ public class GameActivity extends AnutoActivity {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             mTowerSelector.selectTower(null);
             
-            boolean canWeExit = mSettingsManager.backButtonPressed();
-            if(!canWeExit && mSettingsManager.getBackButtonMode() == SettingsManager.BackButtonMode.TWICE){
-                mBackButtonToast = showBackButtonToast(this, mSettingsManager.getBackButtonMode());
+            boolean canWeExit = mBackButtonControl.backButtonPressed();
+            if(!canWeExit && mBackButtonControl.getBackButtonMode() == BackButtonMode.TWICE){
+                mBackButtonToast = showBackButtonToast(this, mBackButtonControl.getBackButtonMode());
             }
 
             return canWeExit ? super.onKeyDown(keyCode, event) : true;
@@ -88,7 +88,7 @@ public class GameActivity extends AnutoActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    static public Toast showBackButtonToast(Context context, SettingsManager.BackButtonMode mode) {
+    static public Toast showBackButtonToast(Context context, BackButtonMode mode) {
         String message;
         switch(mode){
             case DISABLED:
