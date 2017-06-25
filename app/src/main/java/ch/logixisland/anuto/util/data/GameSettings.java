@@ -1,7 +1,7 @@
 package ch.logixisland.anuto.util.data;
 
 import org.simpleframework.xml.Element;
-import org.simpleframework.xml.core.Persister;
+import org.simpleframework.xml.Serializer;
 
 import java.io.InputStream;
 
@@ -47,7 +47,7 @@ public class GameSettings {
     private float mEarlyRoot;
 
     public static GameSettings fromXml(InputStream stream) throws Exception {
-        Persister serializer = new Persister();
+        Serializer serializer = SerializerFactory.getInstance().getSerializer();
         return serializer.read(GameSettings.class, stream);
     }
 

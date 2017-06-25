@@ -1,7 +1,5 @@
 package ch.logixisland.anuto.util.math.vector;
 
-import org.simpleframework.xml.Attribute;
-
 import ch.logixisland.anuto.util.math.MathUtils;
 
 public class Vector2 {
@@ -16,10 +14,7 @@ public class Vector2 {
         return new Vector2(p2.x - p1.x, p2.y - p1.y);
     }
 
-    @Attribute(name = "x")
     public float x;
-
-    @Attribute(name = "y")
     public float y;
 
     public Vector2() {

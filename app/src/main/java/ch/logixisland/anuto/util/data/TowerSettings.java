@@ -1,8 +1,8 @@
 package ch.logixisland.anuto.util.data;
 
 import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Commit;
-import org.simpleframework.xml.core.Persister;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ public class TowerSettings {
     private Map<String, TowerConfig> mTowerConfigMap = new HashMap<>();
 
     public static TowerSettings fromXml(InputStream stream) throws Exception {
-        Persister serializer = new Persister();
+        Serializer serializer = SerializerFactory.getInstance().getSerializer();
         return serializer.read(TowerSettings.class, stream);
     }
 
