@@ -3,4 +3,5 @@
     <dimen name="grid_column_width">100dp</dimen>
     <dimen name="grid_vertical_spacing">30dp</dimen>
     <dimen name="grid_horizontal_spacing">28dp</dimen>
+    <dimen name="fragment_tower_info_padding">10dp</dimen>
 </resources>
