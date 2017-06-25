@@ -294,7 +294,7 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnTouchList
             } else {
                 attrId = R.attr.backgroundBorder;
             }
-            view.setBackgroundResource(mThemeManager.getResourceId(attrId));
+            view.setBackgroundResource(mThemeManager.getTheme().getResourceId(attrId));
             int p = (int) getResources().getDimension(R.dimen.fragment_tower_info_padding);
             getView().setPadding(p, p, p, p);
         }

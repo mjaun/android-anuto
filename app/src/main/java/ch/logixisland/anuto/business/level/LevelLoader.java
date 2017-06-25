@@ -64,7 +64,7 @@ public class LevelLoader {
 
         mTowerFactory.setTowerSettings(mTowerSettings);
         mEnemyFactory.setEnemySettings(mEnemySettings);
-        loadLevel(R.raw.level_1);
+        loadLevel(R.raw.level_original);
     }
 
     public GameSettings getGameSettings() {

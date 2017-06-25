@@ -43,10 +43,10 @@ public class SelectLevelGridActivity extends AnutoActivity implements AdapterVie
         setContentView(R.layout.activity_select_level_grid);
 
         mAdapter = new LevelsAdapter(this);
-        mAdapter.addLevel(R.raw.level_1, R.drawable.level_1_thumb, R.string.level_1_name);
-        mAdapter.addLevel(R.raw.level_2, R.drawable.level_2_thumb, R.string.level_2_name);
-        mAdapter.addLevel(R.raw.level_3, R.drawable.level_3_thumb, R.string.level_3_name);
-        mAdapter.addLevel(R.raw.level_4, R.drawable.level_4_thumb, R.string.level_4_name);
+        mAdapter.addLevel(R.raw.level_original, R.drawable.level_original_thumb, R.string.level_original_name);
+        mAdapter.addLevel(R.raw.level_waiting_line, R.drawable.level_waiting_line_thumb, R.string.level_waiting_line_name);
+        mAdapter.addLevel(R.raw.level_turn_round, R.drawable.level_turn_round_thumb, R.string.level_turn_round_name);
+        mAdapter.addLevel(R.raw.level_hurry, R.drawable.level_hurry_thumb, R.string.level_hurry_name);
         mAdapter.addLevel(R.raw.level_civyshk_2y, R.drawable.level_civyshk_2y_thumb, R.string.level_civyshk_2y_name);
         mAdapter.addLevel(R.raw.level_civyshk_line5, R.drawable.level_civyshk_line5_thumb, R.string.level_civyshk_line5_name);
         mAdapter.addLevel(R.raw.level_civyshk_labyrinth, R.drawable.level_civyshk_labyrinth_thumb, R.string.level_civyshk_labyrinth_name);
@@ -58,7 +58,7 @@ public class SelectLevelGridActivity extends AnutoActivity implements AdapterVie
         grid_view = (GridView) findViewById(R.id.gvLevels);
         grid_view.setOnItemClickListener(this);
         grid_view.getViewTreeObserver().addOnScrollChangedListener(this);
-        grid_view.post(new Runnable(){
+        grid_view.post(new Runnable() {
             @Override
             public void run() {
                 updateArrowVisibility();
@@ -74,7 +74,7 @@ public class SelectLevelGridActivity extends AnutoActivity implements AdapterVie
         finish();
     }
 
-        @Override
+    @Override
     public void onScrollChanged() {
         updateArrowVisibility();
     }
@@ -86,24 +86,24 @@ public class SelectLevelGridActivity extends AnutoActivity implements AdapterVie
 //        arrow_down.setVisibility(scrollY > grid_view.getChildAt(0).getBottom() - grid_view.getHeight() - 10 ? View.INVISIBLE : View.VISIBLE);
 
         final int numberViews = grid_view.getChildCount();
-        if(numberViews <= 0){
+        if (numberViews <= 0) {
             arrow_up.setVisibility(View.INVISIBLE);
             arrow_down.setVisibility(View.INVISIBLE);
             return;
         }
 
         final int firstVisibleLevel = grid_view.getFirstVisiblePosition();//starting from zero!
-        if(firstVisibleLevel == 0){
+        if (firstVisibleLevel == 0) {
             arrow_up.setVisibility(grid_view.getChildAt(0).getTop() < -10 ? View.VISIBLE : View.INVISIBLE);
-        }else{
+        } else {
             arrow_up.setVisibility(firstVisibleLevel > 0 ? View.VISIBLE : View.INVISIBLE);
         }
 
         final int numberLevels = mAdapter.getCount();
         final int lastVisibleLevel = grid_view.getLastVisiblePosition();
-        if(lastVisibleLevel == numberLevels - 1){
+        if (lastVisibleLevel == numberLevels - 1) {
             arrow_down.setVisibility(grid_view.getChildAt(numberViews - 1).getBottom() > grid_view.getHeight() + 10 ? View.VISIBLE : View.INVISIBLE);
-        }else{
+        } else {
             arrow_down.setVisibility(lastVisibleLevel < numberLevels - 1 ? View.VISIBLE : View.INVISIBLE);
         }
     }

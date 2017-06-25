@@ -24,12 +24,12 @@ class LevelsAdapter extends BaseAdapter {
         this.levelItems = new ArrayList<>();
     }
 
-    void addLevel(int level, int thumb, int name){
+    void addLevel(int level, int thumb, int name) {
         //beware the order of ints
         levelItems.add(new LevelItemInfo(level, thumb, name));
     }
 
-    static class LevelItemInfo{
+    static class LevelItemInfo {
         int levelResId;
         int thumbResId;
         int nameResId;
@@ -41,11 +41,11 @@ class LevelsAdapter extends BaseAdapter {
         }
     }
 
-    static private class ViewHolder{
+    static private class ViewHolder {
         ImageView ibThumb;
         TextView tvIndex, tvName;
 
-        ViewHolder(View view){
+        ViewHolder(View view) {
             ibThumb = (ImageView) view.findViewById(R.id.levelThumb);
             tvIndex = (TextView) view.findViewById(R.id.levelIndex);
             tvName = (TextView) view.findViewById(R.id.levelName);
@@ -79,7 +79,7 @@ class LevelsAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(act).inflate(R.layout.item_level_select, parent, false);
             viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
-        }else{
+        } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 

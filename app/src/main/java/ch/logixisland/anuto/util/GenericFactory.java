@@ -1,7 +1,6 @@
 package ch.logixisland.anuto.util;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +25,7 @@ public class GenericFactory<T> {
     public T createInstance(String name, Object... arguments) {
         try {
             return mConstructorMap.get(name).newInstance(arguments);
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

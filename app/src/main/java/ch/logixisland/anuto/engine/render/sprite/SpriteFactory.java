@@ -17,7 +17,7 @@ public class SpriteFactory {
     }
 
     public SpriteTemplate createTemplate(int attrId, int spriteCount) {
-        int resourceId = mThemeManager.getResourceId(attrId);
+        int resourceId = mThemeManager.getTheme().getResourceId(attrId);
 
         Bitmap sheet = BitmapFactory.decodeResource(mContext.getResources(), resourceId);
         Bitmap[] sprites = new Bitmap[spriteCount];
