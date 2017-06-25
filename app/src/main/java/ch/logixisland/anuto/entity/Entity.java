@@ -17,6 +17,7 @@ import ch.logixisland.anuto.util.data.GameSettings;
 import ch.logixisland.anuto.util.data.LevelDescriptor;
 import ch.logixisland.anuto.util.iterator.Function;
 import ch.logixisland.anuto.util.iterator.Predicate;
+import ch.logixisland.anuto.util.math.MathUtils;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
 public abstract class Entity implements SpriteListener, TickListener {
@@ -45,7 +46,7 @@ public abstract class Entity implements SpriteListener, TickListener {
 
                 float angle = toObj.angle() - line.angle();
 
-                if (Math.abs(Vector2.normalizeAngle(angle)) > 90f) {
+                if (Math.abs(MathUtils.normalizeAngle(angle)) > 90f) {
                     return false;
                 }
 

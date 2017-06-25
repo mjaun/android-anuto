@@ -2,30 +2,18 @@ package ch.logixisland.anuto.util.math.vector;
 
 import org.simpleframework.xml.Attribute;
 
+import ch.logixisland.anuto.util.math.MathUtils;
+
 public class Vector2 {
 
-    private static final float TO_RADIANS = (float) Math.PI / 180f;
-    private static final float TO_DEGREES = 180f / (float) Math.PI;
-
     public static Vector2 polar(float length, float angle) {
-        return new Vector2((float) Math.cos(angle * TO_RADIANS) * length,
-                (float) Math.sin(angle * TO_RADIANS) * length);
+        return new Vector2(
+                (float) Math.cos(MathUtils.toRadians(angle)) * length,
+                (float) Math.sin(MathUtils.toRadians(angle)) * length);
     }
 
     public static Vector2 fromTo(Vector2 p1, Vector2 p2) {
         return new Vector2(p2.x - p1.x, p2.y - p1.y);
-    }
-
-    public static float normalizeAngle(float angle) {
-        float ret = angle % 360f;
-
-        if (ret > 180f) {
-            ret -= 360f;
-        } else if (ret < -180f) {
-            ret += 360f;
-        }
-
-        return ret;
     }
 
     @Attribute(name = "x")
@@ -111,7 +99,7 @@ public class Vector2 {
     }
 
     public float angle() {
-        return (float) Math.atan2(y, x) * TO_DEGREES;
+        return MathUtils.toDegrees((float) Math.atan2(y, x));
     }
 
 }
