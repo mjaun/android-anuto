@@ -2,11 +2,13 @@ package ch.logixisland.anuto.util.data;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Root
 public class WaveDescriptor {
 
     @ElementList(name = "enemies", entry = "enemy")

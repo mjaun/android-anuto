@@ -29,7 +29,7 @@ public class GlueShot extends Shot {
     public GlueShot(Entity origin, Vector2 position, Vector2 target, float intensity, float duration) {
         super(origin);
         setPosition(position);
-        mTarget = new Vector2(target);
+        mTarget = target;
 
         setSpeed(MOVEMENT_SPEED);
         setDirection(getDirectionTo(target));

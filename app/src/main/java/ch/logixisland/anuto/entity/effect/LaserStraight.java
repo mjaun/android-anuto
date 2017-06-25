@@ -49,7 +49,7 @@ public class LaserStraight extends Effect {
 
         @Override
         public void draw(Canvas canvas) {
-            canvas.drawLine(getPosition().x, getPosition().y, mLaserTo.x, mLaserTo.y, mPaint);
+            canvas.drawLine(getPosition().x(), getPosition().y(), mLaserTo.x(), mLaserTo.y(), mPaint);
         }
     }
 
@@ -62,7 +62,7 @@ public class LaserStraight extends Effect {
         super(origin, EFFECT_DURATION);
         setPosition(position);
 
-        mLaserTo = new Vector2(laserTo);
+        mLaserTo = laserTo;
         mDamage = damage;
 
         mDrawObject = new LaserDrawable();

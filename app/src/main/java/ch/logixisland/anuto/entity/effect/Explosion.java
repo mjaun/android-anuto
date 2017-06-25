@@ -48,7 +48,7 @@ public class Explosion extends Effect {
 
         @Override
         public void draw(Canvas canvas) {
-            canvas.drawCircle(getPosition().x, getPosition().y, mRadius, mPaint);
+            canvas.drawCircle(getPosition().x(), getPosition().y(), mRadius, mPaint);
         }
     }
 

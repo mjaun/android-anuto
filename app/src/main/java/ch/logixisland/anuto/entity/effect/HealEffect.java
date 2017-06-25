@@ -35,7 +35,7 @@ public class HealEffect extends Effect {
 
         @Override
         public void draw(Canvas canvas) {
-            canvas.drawCircle(getPosition().x, getPosition().y, mDrawRadius, mPaint);
+            canvas.drawCircle(getPosition().x(), getPosition().y(), mDrawRadius, mPaint);
         }
     }
 

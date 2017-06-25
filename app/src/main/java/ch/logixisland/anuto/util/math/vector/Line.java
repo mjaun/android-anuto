@@ -31,7 +31,7 @@ public class Line {
     }
 
     public Vector2 lineVector() {
-        return Vector2.fromTo(mPoint1, mPoint2);
+        return mPoint1.to(mPoint2);
     }
 
     public float length() {

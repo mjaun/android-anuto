@@ -2,12 +2,14 @@ package ch.logixisland.anuto.util.data;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Serializer;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+@Root
 public class LevelDescriptor {
 
     @Element(name = "width")
@@ -26,7 +28,7 @@ public class LevelDescriptor {
     private List<WaveDescriptor> mWaves = new ArrayList<>();
 
     public static LevelDescriptor fromXml(InputStream inputStream) throws Exception {
-        Serializer serializer = SerializerFactory.getInstance().getSerializer();
+        Serializer serializer = new SerializerFactory().createSerializer();
         return serializer.read(LevelDescriptor.class, inputStream);
     }
 

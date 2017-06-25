@@ -152,9 +152,7 @@ public class GlueTower extends Tower {
                 mShooting = false;
 
                 for (Vector2 target : mTargets) {
-                    Vector2 position = Vector2.polar(SHOT_SPAWN_OFFSET, getAngleTo(target));
-                    position.add(getPosition());
-
+                    Vector2 position = getPosition().add(Vector2.polar(SHOT_SPAWN_OFFSET, getAngleTo(target)));
                     getGameEngine().add(new GlueShot(this, position, target, mGlueIntensity, mGlueDuration));
                 }
             }
@@ -202,7 +200,7 @@ public class GlueTower extends Tower {
                         .filter(new Predicate<Vector2>() {
                             @Override
                             public boolean apply(Vector2 value) {
-                                return Vector2.fromTo(value, target).len() < 0.5f;
+                                return value.to(target).len() < 0.5f;
                             }
                         })
                         .isEmpty();

@@ -1,10 +1,12 @@
 package ch.logixisland.anuto.util.data;
 
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Serializer;
 
 import java.io.InputStream;
 
+@Root
 public class GameSettings {
 
     @Element(name = "credits")
@@ -47,7 +49,7 @@ public class GameSettings {
     private float mEarlyRoot;
 
     public static GameSettings fromXml(InputStream stream) throws Exception {
-        Serializer serializer = SerializerFactory.getInstance().getSerializer();
+        Serializer serializer = new SerializerFactory().createSerializer();
         return serializer.read(GameSettings.class, stream);
     }
 

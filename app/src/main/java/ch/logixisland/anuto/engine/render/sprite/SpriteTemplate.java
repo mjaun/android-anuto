@@ -61,7 +61,7 @@ public class SpriteTemplate {
         mMatrix.postTranslate(0f, mBitmaps.get(0).getHeight());
 
         mMatrix.postScale(scaleX, scaleY);
-        mMatrix.postTranslate(-center.x, -center.y);
+        mMatrix.postTranslate(-center.x(), -center.y());
 
         if (rotate != null) {
             mMatrix.postRotate(rotate);

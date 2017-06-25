@@ -26,7 +26,7 @@ public abstract class Shot extends Entity {
         super.tick();
 
         if (mEnabled) {
-            move(mDirection.copy().mul(mSpeed / GameEngine.TARGET_FRAME_RATE));
+            move(mDirection.mul(mSpeed / GameEngine.TARGET_FRAME_RATE));
         }
     }
 

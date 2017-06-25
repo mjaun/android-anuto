@@ -25,8 +25,8 @@ public abstract class Entity implements SpriteListener, TickListener {
     public static Predicate<Entity> inRange(final Vector2 center, final float range) {
         return new Predicate<Entity>() {
             @Override
-            public boolean apply(Entity value) {
-                return value.getDistanceTo(center) <= range;
+            public boolean apply(Entity entity) {
+                return entity.getDistanceTo(center) <= range;
             }
         };
     }
@@ -34,11 +34,11 @@ public abstract class Entity implements SpriteListener, TickListener {
     public static Predicate<Entity> onLine(final Vector2 p1, final Vector2 p2, final float lineWidth) {
         return new Predicate<Entity>() {
             @Override
-            public boolean apply(Entity value) {
-                Vector2 line = Vector2.fromTo(p1, p2);
-                Vector2 toObj = Vector2.fromTo(p1, value.mPosition);
+            public boolean apply(Entity entity) {
+                Vector2 line = p1.to(p2);
+                Vector2 toObj = p1.to(entity.mPosition);
 
-                Vector2 proj = toObj.copy().proj(line);
+                Vector2 proj = toObj.proj(line);
 
                 if (proj.len() > line.len()) {
                     return false;
@@ -65,7 +65,7 @@ public abstract class Entity implements SpriteListener, TickListener {
         };
     }
 
-    private final Vector2 mPosition = new Vector2();
+    private Vector2 mPosition = new Vector2();
     private final List<EntityListener> mListeners = new CopyOnWriteArrayList<>();
 
     public abstract int getType();
@@ -95,7 +95,7 @@ public abstract class Entity implements SpriteListener, TickListener {
 
     @Override
     public void draw(SpriteInstance sprite, Canvas canvas) {
-        canvas.translate(mPosition.x, mPosition.y);
+        canvas.translate(mPosition.x(), mPosition.y());
     }
 
 
@@ -133,11 +133,11 @@ public abstract class Entity implements SpriteListener, TickListener {
     }
 
     public void setPosition(Vector2 position) {
-        mPosition.set(position);
+        mPosition = position;
     }
 
     public void move(Vector2 offset) {
-        mPosition.add(offset);
+        mPosition = mPosition.add(offset);
     }
 
     public float getDistanceTo(Entity target) {
@@ -145,7 +145,7 @@ public abstract class Entity implements SpriteListener, TickListener {
     }
 
     public float getDistanceTo(Vector2 target) {
-        return Vector2.fromTo(mPosition, target).len();
+        return mPosition.to(target).len();
     }
 
     public Vector2 getDirectionTo(Entity target) {
@@ -153,7 +153,7 @@ public abstract class Entity implements SpriteListener, TickListener {
     }
 
     public Vector2 getDirectionTo(Vector2 target) {
-        return Vector2.fromTo(mPosition, target).norm();
+        return mPosition.to(target).norm();
     }
 
     public float getAngleTo(Entity target) {
@@ -161,13 +161,13 @@ public abstract class Entity implements SpriteListener, TickListener {
     }
 
     public float getAngleTo(Vector2 target) {
-        return Vector2.fromTo(mPosition, target).angle();
+        return mPosition.to(target).angle();
     }
 
     public boolean isInGame() {
-        return mPosition.x >= -0.5f && mPosition.y >= 0.5f &&
-                mPosition.x <= getLevelDescriptor().getWidth() + 0.5f &&
-                mPosition.y <= getLevelDescriptor().getHeight() + 0.5f;
+        return mPosition.x() >= -0.5f && mPosition.y() >= 0.5f &&
+                mPosition.x() <= getLevelDescriptor().getWidth() + 0.5f &&
+                mPosition.y() <= getLevelDescriptor().getHeight() + 0.5f;
     }
 
 

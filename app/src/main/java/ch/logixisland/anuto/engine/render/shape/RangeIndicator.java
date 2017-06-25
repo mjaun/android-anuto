@@ -29,7 +29,7 @@ public class RangeIndicator implements Drawable {
 
     @Override
     public void draw(Canvas canvas) {
-        canvas.drawCircle(mTower.getPosition().x, mTower.getPosition().y, mTower.getRange(), mPen);
+        canvas.drawCircle(mTower.getPosition().x(), mTower.getPosition().y(), mTower.getRange(), mPen);
     }
 
 }

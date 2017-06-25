@@ -1,9 +1,11 @@
 package ch.logixisland.anuto.util.data;
 
 import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.Root;
 
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
+@Root
 public class PlateauDescriptor {
 
     @Attribute(name = "name")

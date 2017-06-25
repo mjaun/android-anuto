@@ -49,7 +49,7 @@ public class Laser extends Effect {
 
         @Override
         public void draw(Canvas canvas) {
-            canvas.drawLine(getPosition().x, getPosition().y, mTargetPos.x, mTargetPos.y, mPaint);
+            canvas.drawLine(getPosition().x(), getPosition().y(), mTargetPos.x(), mTargetPos.y(), mPaint);
         }
     }
 

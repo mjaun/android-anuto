@@ -37,7 +37,7 @@ public class HealthBar implements Drawable {
     public void draw(Canvas canvas) {
         if (!MathUtils.equals(mEnemy.getHealth(), mEnemy.getHealthMax(), 1f)) {
             canvas.save();
-            canvas.translate(mEnemy.getPosition().x - HEALTHBAR_WIDTH / 2f, mEnemy.getPosition().y + HEALTHBAR_OFFSET);
+            canvas.translate(mEnemy.getPosition().x() - HEALTHBAR_WIDTH / 2f, mEnemy.getPosition().y() + HEALTHBAR_OFFSET);
 
             canvas.drawRect(0, 0, HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT, mHealthBarBg);
             canvas.drawRect(0, 0, mEnemy.getHealth() / mEnemy.getHealthMax() * HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT, mHealthBarFg);

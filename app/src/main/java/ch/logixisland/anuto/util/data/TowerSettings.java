@@ -1,6 +1,7 @@
 package ch.logixisland.anuto.util.data;
 
 import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Commit;
 
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Root
 public class TowerSettings {
 
     @ElementList(entry = "tower", inline = true)
@@ -18,7 +20,7 @@ public class TowerSettings {
     private Map<String, TowerConfig> mTowerConfigMap = new HashMap<>();
 
     public static TowerSettings fromXml(InputStream stream) throws Exception {
-        Serializer serializer = SerializerFactory.getInstance().getSerializer();
+        Serializer serializer = new SerializerFactory().createSerializer();
         return serializer.read(TowerSettings.class, stream);
     }
 

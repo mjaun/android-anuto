@@ -2,10 +2,12 @@ package ch.logixisland.anuto.util.data;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementMap;
+import org.simpleframework.xml.Root;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Root
 public class TowerConfig {
 
     @Element(name = "slot", required = false)

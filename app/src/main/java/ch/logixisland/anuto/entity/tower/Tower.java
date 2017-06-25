@@ -228,8 +228,8 @@ public abstract class Tower extends Entity {
         for (PathDescriptor path : getLevelDescriptor().getPaths()) {
             List<Vector2> wayPoints = path.getWayPoints();
             for (int i = 1; i < wayPoints.size(); i++) {
-                Vector2 p1 = wayPoints.get(i - 1).copy().sub(getPosition());
-                Vector2 p2 = wayPoints.get(i).copy().sub(getPosition());
+                Vector2 p1 = wayPoints.get(i - 1).sub(getPosition());
+                Vector2 p2 = wayPoints.get(i).sub(getPosition());
 
                 boolean p1in = p1.len2() <= r2;
                 boolean p2in = p2.len2() <= r2;
@@ -246,8 +246,8 @@ public abstract class Tower extends Entity {
                         continue;
                     }
 
-                    float a1 = Vector2.fromTo(is[0], p1).angle();
-                    float a2 = Vector2.fromTo(is[0], p2).angle();
+                    float a1 = is[0].to(p1).angle();
+                    float a2 = is[0].to(p2).angle();
 
                     if (MathUtils.equals(a1, a2, 10f)) {
                         continue;
@@ -256,10 +256,10 @@ public abstract class Tower extends Entity {
                     section.setPoint1(is[0].add(getPosition()));
                     section.setPoint2(is[1].add(getPosition()));
                 } else {
-                    float angle = Vector2.fromTo(p1, p2).angle();
+                    float angle = p1.to(p2).angle();
 
                     if (p1in) {
-                        if (MathUtils.equals(angle, Vector2.fromTo(p1, is[0]).angle(), 10f)) {
+                        if (MathUtils.equals(angle, p1.to(is[0]).angle(), 10f)) {
                             section.setPoint2(is[0].add(getPosition()));
                         } else {
                             section.setPoint2(is[1].add(getPosition()));
@@ -267,7 +267,7 @@ public abstract class Tower extends Entity {
 
                         section.setPoint1(p1.add(getPosition()));
                     } else {
-                        if (MathUtils.equals(angle, Vector2.fromTo(is[0], p2).angle(), 10f)) {
+                        if (MathUtils.equals(angle, is[0].to(p2).angle(), 10f)) {
                             section.setPoint1(is[0].add(getPosition()));
                         } else {
                             section.setPoint1(is[1].add(getPosition()));

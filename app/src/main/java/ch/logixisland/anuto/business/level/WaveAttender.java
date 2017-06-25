@@ -119,9 +119,9 @@ class WaveAttender {
         for (int extendIndex = 0; extendIndex < mExtend + 1; extendIndex++) {
             for (EnemyDescriptor descriptor : enemyDescriptors) {
                 if (MathUtils.equals(descriptor.getDelay(), 0f, 0.1f)) {
-                    offset.add(descriptor.getOffset());
+                    offset = offset.add(descriptor.getOffset());
                 } else {
-                    offset.set(descriptor.getOffset());
+                    descriptor.getOffset();
                 }
 
                 Enemy enemy = createAndConfigureEnemy(offset, descriptor);

@@ -1,6 +1,7 @@
 package ch.logixisland.anuto.util.data;
 
 import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Commit;
 
@@ -10,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Root
 public class EnemySettings {
 
     @ElementList(entry = "enemy", inline = true)
@@ -17,7 +19,7 @@ public class EnemySettings {
     private Map<String, EnemyConfig> mEnemyConfigMap = new HashMap<>();
 
     public static EnemySettings fromXml(InputStream stream) throws Exception {
-        Serializer serializer = SerializerFactory.getInstance().getSerializer();
+        Serializer serializer = new SerializerFactory().createSerializer();
         return serializer.read(EnemySettings.class, stream);
     }
 

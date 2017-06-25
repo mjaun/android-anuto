@@ -34,16 +34,16 @@ public class TeleportEffect extends Effect {
         @Override
         public void draw(Canvas canvas) {
             Vector2 target = mTarget.getPosition();
-            canvas.drawLine(getPosition().x, getPosition().y, target.x, target.y, mPaint);
+            canvas.drawLine(getPosition().x(), getPosition().y(), target.x(), target.y(), mPaint);
         }
     }
 
-    Enemy mTarget;
-    float mDistance;
-    Vector2 mMoveDirection;
-    float mMoveStep;
+    private Enemy mTarget;
+    private float mDistance;
+    private Vector2 mMoveDirection;
+    private float mMoveStep;
 
-    TeleportDrawable mDrawObject;
+    private TeleportDrawable mDrawObject;
 
     public TeleportEffect(Entity origin, Vector2 position, Enemy target, float distance) {
         super(origin, EFFECT_DURATION);
@@ -78,7 +78,7 @@ public class TeleportEffect extends Effect {
     public void tick() {
         super.tick();
 
-        mTarget.move(mMoveDirection.copy().mul(mMoveStep));
+        mTarget.move(mMoveDirection.mul(mMoveStep));
     }
 
     @Override

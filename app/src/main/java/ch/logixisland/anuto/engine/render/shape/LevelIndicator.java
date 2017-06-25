@@ -29,7 +29,7 @@ public class LevelIndicator implements Drawable {
         Vector2 pos = mTower.getPosition();
 
         canvas.save();
-        canvas.translate(pos.x, pos.y);
+        canvas.translate(pos.x(), pos.y());
         canvas.scale(0.0075f, -0.0075f);
         String text = String.valueOf(mTower.getTowerLevel());
         float height = mText.ascent() + mText.descent();

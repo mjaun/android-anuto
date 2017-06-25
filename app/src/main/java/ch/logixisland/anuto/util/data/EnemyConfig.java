@@ -3,6 +3,7 @@ package ch.logixisland.anuto.util.data;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.ElementMap;
+import org.simpleframework.xml.Root;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Root
 public class EnemyConfig {
 
     @Element(name = "name")

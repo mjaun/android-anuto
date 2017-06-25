@@ -10,19 +10,7 @@ import ch.logixisland.anuto.util.math.vector.Vector2;
 
 class SerializerFactory {
 
-    private static SerializerFactory sInstance;
-
-    public static SerializerFactory getInstance() {
-        if (sInstance == null) {
-            sInstance = new SerializerFactory();
-        }
-
-        return sInstance;
-    }
-
-    private Serializer mSerializer;
-
-    private SerializerFactory() {
+    Serializer createSerializer() {
         Registry registry = new Registry();
 
         try {
@@ -32,11 +20,7 @@ class SerializerFactory {
         }
 
         Strategy strategy = new RegistryStrategy(registry);
-        mSerializer = new Persister(strategy);
-    }
-
-    Serializer getSerializer() {
-        return mSerializer;
+        return new Persister(strategy);
     }
 
 }
