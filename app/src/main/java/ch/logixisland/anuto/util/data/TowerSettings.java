@@ -2,7 +2,9 @@ package ch.logixisland.anuto.util.data;
 
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.core.Commit;
+import org.simpleframework.xml.core.Persister;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -14,6 +16,11 @@ public class TowerSettings {
     @ElementList(entry = "tower", inline = true)
     private List<TowerConfig> mTowerConfigList = new ArrayList<>();
     private Map<String, TowerConfig> mTowerConfigMap = new HashMap<>();
+
+    public static TowerSettings fromXml(InputStream stream) throws Exception {
+        Persister serializer = new Persister();
+        return serializer.read(TowerSettings.class, stream);
+    }
 
     public TowerConfig getTowerConfig(String name) {
         return mTowerConfigMap.get(name);

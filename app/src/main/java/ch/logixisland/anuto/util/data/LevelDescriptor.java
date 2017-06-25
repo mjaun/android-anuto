@@ -2,7 +2,9 @@ package ch.logixisland.anuto.util.data;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.core.Persister;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +24,11 @@ public class LevelDescriptor {
 
     @ElementList(name = "waves", entry = "wave")
     private List<WaveDescriptor> mWaves = new ArrayList<>();
+
+    public static LevelDescriptor fromXml(InputStream inputStream) throws Exception {
+        Persister serializer = new Persister();
+        return serializer.read(LevelDescriptor.class, inputStream);
+    }
 
     public int getHeight() {
         return mHeight;

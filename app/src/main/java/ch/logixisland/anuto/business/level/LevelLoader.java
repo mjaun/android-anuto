@@ -2,10 +2,6 @@ package ch.logixisland.anuto.business.level;
 
 import android.content.Context;
 
-import org.simpleframework.xml.core.Persister;
-
-import java.io.InputStream;
-
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
@@ -47,17 +43,9 @@ public class LevelLoader {
         mEnemyFactory = enemyFactory;
 
         try {
-            Persister serializer = new Persister();
-            InputStream stream;
-
-            stream = mContext.getResources().openRawResource(R.raw.game_settings);
-            mGameSettings = serializer.read(GameSettings.class, stream);
-
-            stream = mContext.getResources().openRawResource(R.raw.tower_settings);
-            mTowerSettings = serializer.read(TowerSettings.class, stream);
-
-            stream = mContext.getResources().openRawResource(R.raw.enemy_settings);
-            mEnemySettings = serializer.read(EnemySettings.class, stream);
+            mGameSettings = GameSettings.fromXml(mContext.getResources().openRawResource(R.raw.game_settings));
+            mTowerSettings = TowerSettings.fromXml(mContext.getResources().openRawResource(R.raw.tower_settings));
+            mEnemySettings = EnemySettings.fromXml(mContext.getResources().openRawResource(R.raw.enemy_settings));
         } catch (Exception e) {
             throw new RuntimeException("Could not load settings!", e);
         }
@@ -95,11 +83,7 @@ public class LevelLoader {
         }
 
         try {
-            Persister serializer = new Persister();
-            InputStream stream;
-
-            stream = mContext.getResources().openRawResource(levelId);
-            mLevelDescriptor = serializer.read(LevelDescriptor.class, stream);
+            mLevelDescriptor = LevelDescriptor.fromXml(mContext.getResources().openRawResource(levelId));
         } catch (Exception e) {
             throw new RuntimeException("Could not load level!", e);
         }
