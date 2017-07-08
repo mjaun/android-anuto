@@ -109,6 +109,27 @@
             android:layout_toStartOf="@id/btn_next_wave"
             android:layout_marginEnd="5dp"
             android:text="@string/menu" />
+
+        <Button
+            android:id="@+id/btn_inc_rate"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/btn_menu"
+            android:layout_marginEnd="5dp"
+            android:text="@string/increase_rate" />
+
+        <Button
+            android:id="@+id/btn_dec_rate"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/btn_inc_rate"
+            android:layout_marginEnd="5dp"
+            android:text="@string/decrease_rate" />
+
     </RelativeLayout>
 
 </LinearLayout>
