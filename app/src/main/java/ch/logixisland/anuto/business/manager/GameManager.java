@@ -3,6 +3,7 @@ package ch.logixisland.anuto.business.manager;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.business.level.GameSpeedManager;
 import ch.logixisland.anuto.business.level.LevelLoader;
 import ch.logixisland.anuto.business.level.WaveManager;
 import ch.logixisland.anuto.business.score.LivesListener;
@@ -17,6 +18,7 @@ public class GameManager {
     private final ScoreBoard mScoreBoard;
     private final LevelLoader mLevelLoader;
     private final WaveManager mWaveManager;
+    private final GameSpeedManager mSpeedManager;
 
     private volatile boolean mGameOver = false;
 
@@ -36,11 +38,12 @@ public class GameManager {
     };
 
     public GameManager(GameEngine gameEngine, ScoreBoard scoreBoard, LevelLoader levelLoader,
-                       WaveManager waveManager) {
+                       WaveManager waveManager, GameSpeedManager speedManager) {
         mGameEngine = gameEngine;
         mLevelLoader = levelLoader;
         mScoreBoard = scoreBoard;
         mWaveManager = waveManager;
+        mSpeedManager = speedManager;
 
         mScoreBoard.addLivesListener(mLivesListener);
     }
@@ -58,6 +61,7 @@ public class GameManager {
 
         mLevelLoader.reset();
         mWaveManager.reset();
+        mSpeedManager.reset();
 
         mGameOver = false;
 
