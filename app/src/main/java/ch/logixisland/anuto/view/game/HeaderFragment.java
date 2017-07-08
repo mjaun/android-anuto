@@ -231,7 +231,7 @@ public class HeaderFragment extends AnutoFragment implements GameListener, WaveL
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                txt_game_speed.setText(getString(R.string.game_speed) + ": " + newSpeed);
+                txt_game_speed.setText(getString(R.string.game_speed) + ": " + newSpeed +"x");
                 btn_inc_rate.setEnabled(canIncrease);
                 btn_dec_rate.setEnabled(canDecrease);
             }

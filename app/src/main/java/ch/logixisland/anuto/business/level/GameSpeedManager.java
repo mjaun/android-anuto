@@ -7,7 +7,7 @@ import ch.logixisland.anuto.engine.logic.GameEngine;
 
 public class GameSpeedManager {
 
-    private static final int MAX_SPEED = 10;
+    private static final int MAX_SPEED = 8;
 
     private final GameEngine mGameEngine;
 
@@ -37,13 +37,13 @@ public class GameSpeedManager {
 
     public void increaseGameSpeed() {
         if(!canIncreaseSpeed()) return;
-        gameSpeed++;
+        gameSpeed *= 2;
         updateGameSpeed();
     }
 
     public void decreaseGameSpeed() {
         if(!canDecreaseSpeed()) return;
-        gameSpeed--;
+        gameSpeed /= 2;
         updateGameSpeed();
     }
 
@@ -65,10 +65,10 @@ public class GameSpeedManager {
     }
 
     private boolean canDecreaseSpeed() {
-        return gameSpeed -1 > 0;
+        return gameSpeed / 2 >= 1;
     }
 
     private boolean canIncreaseSpeed() {
-        return gameSpeed + 1 <= MAX_SPEED;
+        return gameSpeed * 2 <= MAX_SPEED;
     }
 }
