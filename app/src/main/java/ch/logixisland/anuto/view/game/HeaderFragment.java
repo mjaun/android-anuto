@@ -150,7 +150,7 @@ public class HeaderFragment extends AnutoFragment implements GameListener, WaveL
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                txt_wave.setText(getString(R.string.wave) + ": " + mWaveManager.getWaveNumber());
+                txt_wave.setText(getString(R.string.wave) + ": " + mWaveManager.getWaveNumber() + " ("+ mWaveManager.getEnemiesCount()+ ")");
                 btn_next_wave.setEnabled(false);
             }
         });
@@ -222,6 +222,7 @@ public class HeaderFragment extends AnutoFragment implements GameListener, WaveL
             @Override
             public void run() {
                 txt_bonus.setText(getString(R.string.bonus) + ": " + StringUtils.formatSuffix(waveBonus + earlyBonus));
+                txt_wave.setText(getString(R.string.wave) + ": " + mWaveManager.getWaveNumber() + " ("+ mWaveManager.getEnemiesCount()+ ")");
             }
         });
     }

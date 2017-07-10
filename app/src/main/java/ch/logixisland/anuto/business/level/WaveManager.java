@@ -25,6 +25,7 @@ public class WaveManager {
     private final EnemyFactory mEnemyFactory;
 
     private int mNextWaveIndex;
+    private int mEnemiesCount;
     private boolean mNextWaveReady;
 
     private final List<WaveAttender> mActiveWaves = new ArrayList<>();
@@ -38,11 +39,20 @@ public class WaveManager {
         mEnemyFactory = enemyFactory;
 
         mNextWaveIndex = 0;
+        mEnemiesCount = 0;
         mNextWaveReady = true;
     }
 
     public int getWaveNumber() {
         return mNextWaveIndex;
+    }
+
+    public int getEnemiesCount() {
+        return mEnemiesCount;
+    }
+
+    void addWaveEnemiesCount(int waveEnemiesCount) {
+        mEnemiesCount += waveEnemiesCount;
     }
 
     public void reset() {
@@ -101,6 +111,7 @@ public class WaveManager {
     }
 
     void enemyRemoved() {
+        mEnemiesCount--;
         updateBonus();
     }
 

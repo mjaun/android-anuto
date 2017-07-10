@@ -133,6 +133,9 @@ class WaveAttender {
                 mEnemyAttender.addEnemy(enemy, delay);
             }
         }
+
+        int waveEnemiesCount = (mExtend + 1) * enemyDescriptors.size();
+        mWaveManager.addWaveEnemiesCount(waveEnemiesCount);
     }
 
     private Enemy createAndConfigureEnemy(Vector2 offset, EnemyDescriptor descriptor) {
