@@ -28,6 +28,8 @@ public class GameEngine implements Runnable {
     private final Collection<TickListener> mTickListeners = new SmartCollection<>();
     private final MessageQueue mMessageQueue = new MessageQueue();
 
+    private int gameTicksPerLoop = 1;
+
     private Thread mGameThread;
     private volatile boolean mRunning = false;
 
@@ -50,6 +52,10 @@ public class GameEngine implements Runnable {
     public void add(Entity entity) {
         mEntities.add(entity.getType(), entity);
         entity.init();
+    }
+
+    public void setTicksPerLoop(int newTicksPerLoopValue){
+        gameTicksPerLoop = newTicksPerLoopValue;
     }
 
     public void add(Drawable drawable) {
@@ -131,7 +137,8 @@ public class GameEngine implements Runnable {
                 timeNextTick += TICK_TIME;
 
                 mRenderer.lock();
-                executeTick();
+                for(int repeat = 0; repeat < gameTicksPerLoop; repeat++)
+                    executeTick();
                 mRenderer.unlock();
 
                 timeCurrent = System.currentTimeMillis();

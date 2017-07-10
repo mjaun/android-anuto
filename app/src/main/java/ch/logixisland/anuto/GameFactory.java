@@ -5,6 +5,7 @@ import android.content.Context;
 import ch.logixisland.anuto.business.control.TowerControl;
 import ch.logixisland.anuto.business.control.TowerInserter;
 import ch.logixisland.anuto.business.control.TowerSelector;
+import ch.logixisland.anuto.business.level.GameSpeedManager;
 import ch.logixisland.anuto.business.level.LevelLoader;
 import ch.logixisland.anuto.business.level.TowerAging;
 import ch.logixisland.anuto.business.level.WaveManager;
@@ -50,6 +51,7 @@ public class GameFactory {
     private final TowerInserter mTowerInserter;
     private final LevelLoader mLevelLoader;
     private final WaveManager mWaveManager;
+    private final GameSpeedManager mSpeedManager;
     private final GameManager mGameManager;
 
     // View
@@ -76,8 +78,9 @@ public class GameFactory {
         mScoreBoard = new ScoreBoard();
         mLevelLoader = new LevelLoader(context, mGameEngine, mViewport, mScoreBoard, mPlateauFactory, mTowerFactory, mEnemyFactory);
         mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mLevelLoader, mEnemyFactory);
+        mSpeedManager = new GameSpeedManager(mGameEngine);
         mTowerAging = new TowerAging(mGameEngine, mWaveManager, mLevelLoader);
-        mGameManager = new GameManager(mGameEngine, mScoreBoard, mLevelLoader, mWaveManager);
+        mGameManager = new GameManager(mGameEngine, mScoreBoard, mLevelLoader, mWaveManager, mSpeedManager);
         mTowerSelector = new TowerSelector(mGameEngine, mGameManager, mScoreBoard);
         mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector, mTowerFactory);
         mTowerInserter = new TowerInserter(mGameEngine, mGameManager, mTowerFactory, mTowerSelector, mTowerAging, mScoreBoard);
@@ -146,6 +149,10 @@ public class GameFactory {
 
     public WaveManager getWaveManager() {
         return mWaveManager;
+    }
+
+    public GameSpeedManager getSpeedManager() {
+        return mSpeedManager;
     }
 
     public GameManager getGameManager() {
