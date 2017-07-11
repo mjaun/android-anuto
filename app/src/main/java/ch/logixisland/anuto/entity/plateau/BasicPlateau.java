@@ -1,18 +1,22 @@
 package ch.logixisland.anuto.entity.plateau;
 
+import android.graphics.Canvas;
+
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.render.Layers;
+import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
+import ch.logixisland.anuto.engine.render.sprite.SpriteListener;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.util.RandomUtils;
 
-public class BasicPlateau extends Plateau {
+public class BasicPlateau extends Plateau implements SpriteListener {
 
     private class StaticData {
+
         SpriteTemplate mSpriteTemplate;
     }
-
     private StaticSprite mSprite;
 
     public BasicPlateau(EntityDependencies dependencies) {
@@ -46,5 +50,10 @@ public class BasicPlateau extends Plateau {
         super.clean();
 
         getGameEngine().remove(mSprite);
+    }
+
+    @Override
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        canvas.translate(getPosition().x(), getPosition().y());
     }
 }

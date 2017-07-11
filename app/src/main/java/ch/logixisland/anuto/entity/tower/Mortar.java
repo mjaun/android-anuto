@@ -10,6 +10,7 @@ import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
+import ch.logixisland.anuto.engine.render.sprite.SpriteListener;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.engine.sound.Sound;
@@ -18,7 +19,7 @@ import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.data.TowerConfig;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
-public class Mortar extends AimingTower {
+public class Mortar extends AimingTower implements SpriteListener {
 
     private final static float SHOT_SPAWN_OFFSET = 0.6f;
     private final static float REBOUND_DURATION = 0.5f;
@@ -92,15 +93,6 @@ public class Mortar extends AimingTower {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, Canvas canvas) {
-        super.draw(sprite, canvas);
-
-        if (sprite == mSpriteCanon) {
-            canvas.rotate(mAngle);
-        }
-    }
-
-    @Override
     public void tick() {
         super.tick();
 
@@ -119,6 +111,15 @@ public class Mortar extends AimingTower {
 
         if (mRebounding && mSpriteCanon.tick()) {
             mRebounding = false;
+        }
+    }
+
+    @Override
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        canvas.translate(getPosition().x(), getPosition().y());
+
+        if (sprite == mSpriteCanon) {
+            canvas.rotate(mAngle);
         }
     }
 

@@ -10,6 +10,7 @@ import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.TickTimer;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
+import ch.logixisland.anuto.engine.render.sprite.SpriteListener;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.engine.sound.Sound;
@@ -17,7 +18,7 @@ import ch.logixisland.anuto.entity.shot.Rocket;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.data.TowerConfig;
 
-public class RocketLauncher extends AimingTower {
+public class RocketLauncher extends AimingTower implements SpriteListener {
 
     private final static float ROCKET_LOAD_TIME = 1.0f;
 
@@ -91,13 +92,6 @@ public class RocketLauncher extends AimingTower {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, Canvas canvas) {
-        super.draw(sprite, canvas);
-
-        canvas.rotate(mAngle);
-    }
-
-    @Override
     public void tick() {
         super.tick();
 
@@ -123,6 +117,12 @@ public class RocketLauncher extends AimingTower {
                 }
             }
         }
+    }
+
+    @Override
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        canvas.translate(getPosition().x(), getPosition().y());
+        canvas.rotate(mAngle);
     }
 
     @Override

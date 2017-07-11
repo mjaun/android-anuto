@@ -22,7 +22,7 @@ import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.vector.Line;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
-public class GlueTower extends Tower {
+public class GlueTower extends Tower implements SpriteListener {
 
     private final static float SHOT_SPAWN_OFFSET = 0.8f;
     private final static float CANON_OFFSET_MAX = 0.5f;
@@ -133,8 +133,9 @@ public class GlueTower extends Tower {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, Canvas canvas) {
-        super.draw(sprite, canvas);
+    public void enhance() {
+        super.enhance();
+        mGlueIntensity += getProperty("enhanceGlueIntensity");
     }
 
     @Override
@@ -163,9 +164,8 @@ public class GlueTower extends Tower {
     }
 
     @Override
-    public void enhance() {
-        super.enhance();
-        mGlueIntensity += getProperty("enhanceGlueIntensity");
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        canvas.translate(getPosition().x(), getPosition().y());
     }
 
     @Override

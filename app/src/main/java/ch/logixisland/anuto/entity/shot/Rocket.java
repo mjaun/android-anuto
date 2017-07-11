@@ -7,6 +7,7 @@ import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
+import ch.logixisland.anuto.engine.render.sprite.SpriteListener;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.entity.Types;
@@ -15,7 +16,7 @@ import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
-public class Rocket extends HomingShot {
+public class Rocket extends HomingShot implements SpriteListener {
 
     private final static float MOVEMENT_SPEED = 2.5f;
     private final static float ANIMATION_SPEED = 3f;
@@ -105,10 +106,8 @@ public class Rocket extends HomingShot {
         }
     }
 
-    @Override
     public void draw(SpriteInstance sprite, Canvas canvas) {
-        super.draw(sprite, canvas);
-
+        canvas.translate(getPosition().x(), getPosition().y());
         canvas.rotate(mAngle);
     }
 

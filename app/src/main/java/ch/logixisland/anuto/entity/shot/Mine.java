@@ -8,6 +8,7 @@ import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickTimer;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
+import ch.logixisland.anuto.engine.render.sprite.SpriteListener;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.entity.Types;
@@ -21,7 +22,7 @@ import ch.logixisland.anuto.util.math.function.Function;
 import ch.logixisland.anuto.util.math.function.SampledFunction;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
-public class Mine extends Shot {
+public class Mine extends Shot implements SpriteListener {
 
     private final static float TRIGGER_RADIUS = 0.7f;
 
@@ -115,15 +116,6 @@ public class Mine extends Shot {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, Canvas canvas) {
-        super.draw(sprite, canvas);
-
-        float s = mHeightScalingFunction.getValue();
-        canvas.scale(s, s);
-        canvas.rotate(mAngle);
-    }
-
-    @Override
     public void tick() {
         super.tick();
 
@@ -154,5 +146,13 @@ public class Mine extends Shot {
                 this.remove();
             }
         }
+    }
+
+    @Override
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        float s = mHeightScalingFunction.getValue();
+        canvas.translate(getPosition().x(), getPosition().y());
+        canvas.scale(s, s);
+        canvas.rotate(mAngle);
     }
 }

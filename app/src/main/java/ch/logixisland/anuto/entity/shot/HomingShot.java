@@ -58,4 +58,5 @@ public abstract class HomingShot extends Shot implements EntityListener {
             targetLost();
         }
     }
+
 }

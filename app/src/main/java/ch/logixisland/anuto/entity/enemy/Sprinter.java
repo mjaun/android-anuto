@@ -10,12 +10,13 @@ import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.ReplicatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
+import ch.logixisland.anuto.engine.render.sprite.SpriteListener;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.util.data.EnemyConfig;
 import ch.logixisland.anuto.util.math.function.Function;
 import ch.logixisland.anuto.util.math.function.SampledFunction;
 
-public class Sprinter extends Enemy {
+public class Sprinter extends Enemy implements SpriteListener {
 
     private final static float ANIMATION_SPEED = 0.7f;
 
@@ -77,8 +78,7 @@ public class Sprinter extends Enemy {
 
     @Override
     public void draw(SpriteInstance sprite, Canvas canvas) {
-        super.draw(sprite, canvas);
-
+        canvas.translate(getPosition().x(), getPosition().y());
         canvas.rotate(mAngle);
     }
 

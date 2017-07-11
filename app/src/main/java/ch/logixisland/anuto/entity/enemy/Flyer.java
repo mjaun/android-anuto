@@ -9,10 +9,11 @@ import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.ReplicatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
+import ch.logixisland.anuto.engine.render.sprite.SpriteListener;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.util.data.EnemyConfig;
 
-public class Flyer extends Enemy {
+public class Flyer extends Enemy implements SpriteListener {
 
     private final static float ANIMATION_SPEED = 1.0f;
 
@@ -69,18 +70,17 @@ public class Flyer extends Enemy {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, Canvas canvas) {
-        super.draw(sprite, canvas);
-
-        canvas.rotate(mAngle);
-    }
-
-    @Override
     public void tick() {
         super.tick();
 
         if (hasWayPoint()) {
             mAngle = getDirection().angle();
         }
+    }
+
+    @Override
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        canvas.translate(getPosition().x(), getPosition().y());
+        canvas.rotate(mAngle);
     }
 }

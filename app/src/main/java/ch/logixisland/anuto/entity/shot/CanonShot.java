@@ -7,13 +7,14 @@ import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
+import ch.logixisland.anuto.engine.render.sprite.SpriteListener;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
-public class CanonShot extends HomingShot {
+public class CanonShot extends HomingShot implements SpriteListener {
 
     private final static float MOVEMENT_SPEED = 4.0f;
     private final static float ROTATION_SPEED = 1.0f;
@@ -68,18 +69,17 @@ public class CanonShot extends HomingShot {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, Canvas canvas) {
-        super.draw(sprite, canvas);
-
-        canvas.rotate(mAngle);
-    }
-
-    @Override
     public void tick() {
         setDirection(getDirectionTo(getTarget()));
         mAngle += ROTATION_STEP;
 
         super.tick();
+    }
+
+    @Override
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        canvas.translate(getPosition().x(), getPosition().y());
+        canvas.rotate(mAngle);
     }
 
     @Override

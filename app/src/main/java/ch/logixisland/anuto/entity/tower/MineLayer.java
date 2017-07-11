@@ -12,6 +12,7 @@ import ch.logixisland.anuto.engine.logic.EntityListener;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
+import ch.logixisland.anuto.engine.render.sprite.SpriteListener;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.sound.Sound;
 import ch.logixisland.anuto.entity.shot.Mine;
@@ -20,7 +21,7 @@ import ch.logixisland.anuto.util.data.TowerConfig;
 import ch.logixisland.anuto.util.math.vector.Line;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
-public class MineLayer extends Tower {
+public class MineLayer extends Tower implements SpriteListener {
 
     private final static float ANIMATION_DURATION = 1f;
 
@@ -114,13 +115,6 @@ public class MineLayer extends Tower {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, Canvas canvas) {
-        super.draw(sprite, canvas);
-
-        canvas.rotate(mAngle);
-    }
-
-    @Override
     public void tick() {
         super.tick();
 
@@ -146,6 +140,12 @@ public class MineLayer extends Tower {
         if (mSprite.getSequenceIndex() != 0) {
             mSprite.tick();
         }
+    }
+
+    @Override
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        canvas.translate(getPosition().x(), getPosition().y());
+        canvas.rotate(mAngle);
     }
 
     @Override

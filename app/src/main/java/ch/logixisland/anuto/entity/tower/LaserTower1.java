@@ -9,6 +9,7 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
+import ch.logixisland.anuto.engine.render.sprite.SpriteListener;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.engine.sound.Sound;
@@ -17,7 +18,7 @@ import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.data.TowerConfig;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
-public class LaserTower1 extends AimingTower {
+public class LaserTower1 extends AimingTower implements SpriteListener {
 
     private final static float LASER_SPAWN_OFFSET = 0.7f;
 
@@ -77,13 +78,6 @@ public class LaserTower1 extends AimingTower {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, Canvas canvas) {
-        super.draw(sprite, canvas);
-
-        canvas.rotate(mAngle);
-    }
-
-    @Override
     public void tick() {
         super.tick();
 
@@ -97,6 +91,12 @@ public class LaserTower1 extends AimingTower {
                 mSound.play();
             }
         }
+    }
+
+    @Override
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        canvas.translate(getPosition().x(), getPosition().y());
+        canvas.rotate(mAngle);
     }
 
     @Override

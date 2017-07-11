@@ -11,13 +11,14 @@ import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.ReplicatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
+import ch.logixisland.anuto.engine.render.sprite.SpriteListener;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.entity.effect.HealEffect;
 import ch.logixisland.anuto.util.data.EnemyConfig;
 import ch.logixisland.anuto.util.math.function.Function;
 import ch.logixisland.anuto.util.math.function.SampledFunction;
 
-public class Healer extends Enemy {
+public class Healer extends Enemy implements SpriteListener {
 
     private final static float ANIMATION_SPEED = 1.5f;
     private final static float HEAL_SCALE_FACTOR = 2f;
@@ -135,14 +136,6 @@ public class Healer extends Enemy {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, Canvas canvas) {
-        super.draw(sprite, canvas);
-
-        canvas.rotate(mStatic.mAngle);
-        canvas.scale(mStatic.mScale, mStatic.mScale);
-    }
-
-    @Override
     public void tick() {
         super.tick();
 
@@ -155,5 +148,12 @@ public class Healer extends Enemy {
         if (mStatic.mDropEffect) {
             getGameEngine().add(new HealEffect(this, getPosition(), mHealAmount, mHealRange));
         }
+    }
+
+    @Override
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        canvas.translate(getPosition().x(), getPosition().y());
+        canvas.rotate(mStatic.mAngle);
+        canvas.scale(mStatic.mScale, mStatic.mScale);
     }
 }

@@ -1,14 +1,10 @@
 package ch.logixisland.anuto.engine.logic;
 
-import android.graphics.Canvas;
-
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.engine.render.shape.ShapeFactory;
 import ch.logixisland.anuto.engine.render.sprite.SpriteFactory;
-import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
-import ch.logixisland.anuto.engine.render.sprite.SpriteListener;
 import ch.logixisland.anuto.engine.sound.SoundFactory;
 import ch.logixisland.anuto.util.data.GameSettings;
 import ch.logixisland.anuto.util.data.LevelDescriptor;
@@ -17,7 +13,7 @@ import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.math.MathUtils;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
-public abstract class Entity implements SpriteListener {
+public abstract class Entity {
 
     public static Predicate<Entity> inRange(final Vector2 center, final float range) {
         return new Predicate<Entity>() {
@@ -67,14 +63,11 @@ public abstract class Entity implements SpriteListener {
 
     private Vector2 mPosition = new Vector2();
 
-
     protected Entity(EntityDependencies dependencies) {
         mDependencies = dependencies;
     }
 
-
     public abstract int getType();
-
 
     public Object initStatic() {
         return null;
@@ -97,12 +90,6 @@ public abstract class Entity implements SpriteListener {
     public void tick() {
 
     }
-
-    @Override
-    public void draw(SpriteInstance sprite, Canvas canvas) {
-        canvas.translate(mPosition.x(), mPosition.y());
-    }
-
 
     protected Object getStaticData() {
         return getGameEngine().getStaticData(this);
@@ -135,7 +122,6 @@ public abstract class Entity implements SpriteListener {
     protected SoundFactory getSoundFactory() {
         return mDependencies.getSoundFactory();
     }
-
 
     public Vector2 getPosition() {
         return mPosition;
@@ -178,7 +164,6 @@ public abstract class Entity implements SpriteListener {
                 mPosition.x() <= getLevelDescriptor().getWidth() + 0.5f &&
                 mPosition.y() <= getLevelDescriptor().getHeight() + 0.5f;
     }
-
 
     public void addListener(EntityListener listener) {
         mListeners.add(listener);

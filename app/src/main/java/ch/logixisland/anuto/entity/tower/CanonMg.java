@@ -10,6 +10,7 @@ import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
+import ch.logixisland.anuto.engine.render.sprite.SpriteListener;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.engine.sound.Sound;
@@ -19,7 +20,7 @@ import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.data.TowerConfig;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
-public class CanonMg extends AimingTower {
+public class CanonMg extends AimingTower implements SpriteListener {
 
     private final static float SHOT_SPAWN_OFFSET = 0.7f;
     private final static float MG_ROTATION_SPEED = 2f;
@@ -81,10 +82,8 @@ public class CanonMg extends AimingTower {
         getGameEngine().remove(mSpriteCanon);
     }
 
-    @Override
     public void draw(SpriteInstance sprite, Canvas canvas) {
-        super.draw(sprite, canvas);
-
+        canvas.translate(getPosition().x(), getPosition().y());
         canvas.rotate(mAngle);
     }
 

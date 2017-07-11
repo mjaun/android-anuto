@@ -1,28 +1,32 @@
 package ch.logixisland.anuto.entity.enemy;
 
+import android.graphics.Canvas;
+
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.TickListener;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.ReplicatedSprite;
+import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
+import ch.logixisland.anuto.engine.render.sprite.SpriteListener;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.util.data.EnemyConfig;
 
-public class Blob extends Enemy {
+public class Blob extends Enemy implements SpriteListener {
 
     private final static float ANIMATION_SPEED = 1.5f;
 
     private class StaticData implements TickListener {
+
         SpriteTemplate mSpriteTemplate;
         AnimatedSprite mReferenceSprite;
-
         @Override
         public void tick() {
             mReferenceSprite.tick();
         }
-    }
 
+    }
     private ReplicatedSprite mSprite;
 
     public Blob(EntityDependencies dependencies, EnemyConfig config) {
@@ -61,5 +65,10 @@ public class Blob extends Enemy {
         super.clean();
 
         getGameEngine().remove(mSprite);
+    }
+
+    @Override
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        canvas.translate(getPosition().x(), getPosition().y());
     }
 }

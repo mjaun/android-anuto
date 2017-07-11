@@ -302,4 +302,5 @@ public abstract class Enemy extends Entity {
     float getProperty(String name) {
         return mConfig.getProperties().get(name);
     }
+
 }

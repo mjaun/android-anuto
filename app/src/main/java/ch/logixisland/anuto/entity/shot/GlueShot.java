@@ -1,31 +1,35 @@
 package ch.logixisland.anuto.entity.shot;
 
+import android.graphics.Canvas;
+
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
+import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
+import ch.logixisland.anuto.engine.render.sprite.SpriteListener;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.sound.Sound;
 import ch.logixisland.anuto.entity.effect.GlueEffect;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
-public class GlueShot extends Shot {
+public class GlueShot extends Shot implements SpriteListener {
 
     public final static float MOVEMENT_SPEED = 4.0f;
     private final static float ANIMATION_SPEED = 1.0f;
 
     private class StaticData {
+
         public SpriteTemplate mSpriteTemplate;
     }
-
     private float mIntensity;
+
     private float mDuration;
     private Vector2 mTarget;
-
     private AnimatedSprite mSprite;
-    private Sound mSound;
 
+    private Sound mSound;
     public GlueShot(Entity origin, Vector2 position, Vector2 target, float intensity, float duration) {
         super(origin);
         setPosition(position);
@@ -82,5 +86,10 @@ public class GlueShot extends Shot {
             mSound.play();
             this.remove();
         }
+    }
+
+    @Override
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        canvas.translate(getPosition().x(), getPosition().y());
     }
 }
