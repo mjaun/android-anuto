@@ -9,16 +9,17 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
-import ch.logixisland.anuto.engine.render.sprite.SpriteListener;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
+import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
+import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.engine.sound.Sound;
-import ch.logixisland.anuto.entity.effect.Laser;
+import ch.logixisland.anuto.entity.effect.BouncingLaser;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.data.TowerConfig;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
-public class LaserTower2 extends AimingTower implements SpriteListener {
+public class LaserTower2 extends AimingTower implements SpriteTransformation {
 
     private final static float LASER_SPAWN_OFFSET = 0.7f;
 
@@ -91,7 +92,7 @@ public class LaserTower2 extends AimingTower implements SpriteListener {
 
             if (isReloaded()) {
                 Vector2 origin = getPosition().add(Vector2.polar(LASER_SPAWN_OFFSET, mAngle));
-                getGameEngine().add(new Laser(this, origin, getTarget(), getDamage(), mBounce, mBounceDistance));
+                getGameEngine().add(new BouncingLaser(this, origin, getTarget(), getDamage(), mBounce, mBounceDistance));
                 setReloaded(false);
                 mSound.play();
             }
@@ -99,9 +100,9 @@ public class LaserTower2 extends AimingTower implements SpriteListener {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, Canvas canvas) {
-        canvas.translate(getPosition().x(), getPosition().y());
-        canvas.rotate(mAngle);
+    public void draw(SpriteInstance sprite, SpriteTransformer transformer) {
+        transformer.translate(this);
+        transformer.rotate(mAngle);
     }
 
     @Override

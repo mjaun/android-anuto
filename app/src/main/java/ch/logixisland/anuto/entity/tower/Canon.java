@@ -10,8 +10,9 @@ import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
-import ch.logixisland.anuto.engine.render.sprite.SpriteListener;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
+import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
+import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.engine.sound.Sound;
 import ch.logixisland.anuto.entity.shot.CanonShot;
@@ -22,7 +23,7 @@ import ch.logixisland.anuto.util.math.function.Function;
 import ch.logixisland.anuto.util.math.function.SampledFunction;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
-public class Canon extends AimingTower implements SpriteListener {
+public class Canon extends AimingTower implements SpriteTransformation {
 
     private final static float SHOT_SPAWN_OFFSET = 0.7f;
     private final static float REBOUND_RANGE = 0.25f;
@@ -93,15 +94,6 @@ public class Canon extends AimingTower implements SpriteListener {
         getGameEngine().remove(mSpriteCanon);
     }
 
-    public void draw(SpriteInstance sprite, Canvas canvas) {
-        canvas.translate(getPosition().x(), getPosition().y());
-        canvas.rotate(mAngle);
-
-        if (sprite == mSpriteCanon && mReboundActive) {
-            canvas.translate(-mReboundFunction.getValue(), 0);
-        }
-    }
-
     @Override
     public void tick() {
         super.tick();
@@ -126,6 +118,16 @@ public class Canon extends AimingTower implements SpriteListener {
                 mReboundFunction.reset();
                 mReboundActive = false;
             }
+        }
+    }
+
+    @Override
+    public void draw(SpriteInstance sprite, SpriteTransformer transformer) {
+        transformer.translate(this);
+        transformer.rotate(mAngle);
+
+        if (sprite == mSpriteCanon && mReboundActive) {
+            transformer.translate(-mReboundFunction.getValue(), 0);
         }
     }
 

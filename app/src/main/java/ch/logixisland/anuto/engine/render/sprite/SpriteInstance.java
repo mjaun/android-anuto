@@ -13,7 +13,7 @@ public abstract class SpriteInstance implements Drawable {
     private final SpriteTemplate mTemplate;
 
     private Paint mPaint;
-    private SpriteListener mListener;
+    private SpriteTransformation mListener;
 
     SpriteInstance(int layer, SpriteTemplate template) {
         mLayer = layer;
@@ -26,7 +26,7 @@ public abstract class SpriteInstance implements Drawable {
 
     abstract int getIndex();
 
-    public void setListener(SpriteListener listener) {
+    public void setListener(SpriteTransformation listener) {
         mListener = listener;
     }
 
@@ -44,7 +44,7 @@ public abstract class SpriteInstance implements Drawable {
         canvas.save();
 
         if (mListener != null) {
-            mListener.draw(this, canvas);
+            mListener.draw(this, new SpriteTransformer(canvas));
         }
 
         Bitmap bitmap = mTemplate.getBitmaps().get(getIndex());

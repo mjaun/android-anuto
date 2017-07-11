@@ -1,7 +1,5 @@
 package ch.logixisland.anuto.entity.enemy;
 
-import android.graphics.Canvas;
-
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.GameEngine;
@@ -11,14 +9,15 @@ import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.ReplicatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
-import ch.logixisland.anuto.engine.render.sprite.SpriteListener;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
+import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
+import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.entity.effect.HealEffect;
 import ch.logixisland.anuto.util.data.EnemyConfig;
 import ch.logixisland.anuto.util.math.function.Function;
 import ch.logixisland.anuto.util.math.function.SampledFunction;
 
-public class Healer extends Enemy implements SpriteListener {
+public class Healer extends Enemy implements SpriteTransformation {
 
     private final static float ANIMATION_SPEED = 1.5f;
     private final static float HEAL_SCALE_FACTOR = 2f;
@@ -151,9 +150,9 @@ public class Healer extends Enemy implements SpriteListener {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, Canvas canvas) {
-        canvas.translate(getPosition().x(), getPosition().y());
-        canvas.rotate(mStatic.mAngle);
-        canvas.scale(mStatic.mScale, mStatic.mScale);
+    public void draw(SpriteInstance sprite, SpriteTransformer transformer) {
+        transformer.translate(this);
+        transformer.rotate(mStatic.mAngle);
+        transformer.scale(mStatic.mScale);
     }
 }

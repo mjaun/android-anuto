@@ -1,8 +1,6 @@
 package ch.logixisland.anuto.engine.render.shape;
 
 import ch.logixisland.anuto.engine.theme.ThemeManager;
-import ch.logixisland.anuto.entity.enemy.Enemy;
-import ch.logixisland.anuto.entity.tower.Tower;
 
 public class ShapeFactory {
 
@@ -12,16 +10,16 @@ public class ShapeFactory {
         mThemeManager = themeManager;
     }
 
-    public HealthBar createHealthBar(Enemy enemy) {
-        return new HealthBar(mThemeManager.getTheme(), enemy);
+    public HealthBar createHealthBar(EntityWithHealth entityWithHealth) {
+        return new HealthBar(mThemeManager.getTheme(), entityWithHealth);
     }
 
-    public RangeIndicator createRangeIndicator(Tower tower) {
-        return new RangeIndicator(mThemeManager.getTheme(), tower);
+    public RangeIndicator createRangeIndicator(EntityWithRange entity) {
+        return new RangeIndicator(mThemeManager.getTheme(), entity);
     }
 
-    public LevelIndicator createLevelIndicator(Tower tower) {
-        return new LevelIndicator(mThemeManager.getTheme(), tower);
+    public LevelIndicator createLevelIndicator(EntityWithLevel entity) {
+        return new LevelIndicator(mThemeManager.getTheme(), entity);
     }
 
 }

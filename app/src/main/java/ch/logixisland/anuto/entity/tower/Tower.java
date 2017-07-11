@@ -9,6 +9,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.TickTimer;
+import ch.logixisland.anuto.engine.render.shape.EntityWithLevel;
+import ch.logixisland.anuto.engine.render.shape.EntityWithRange;
 import ch.logixisland.anuto.engine.render.shape.LevelIndicator;
 import ch.logixisland.anuto.engine.render.shape.RangeIndicator;
 import ch.logixisland.anuto.entity.Types;
@@ -22,7 +24,7 @@ import ch.logixisland.anuto.util.math.vector.Intersections;
 import ch.logixisland.anuto.util.math.vector.Line;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
-public abstract class Tower extends Entity {
+public abstract class Tower extends Entity implements EntityWithRange, EntityWithLevel {
 
     private final TowerConfig mConfig;
 
@@ -124,6 +126,7 @@ public abstract class Tower extends Entity {
         return mDamage;
     }
 
+    @Override
     public float getRange() {
         return mRange;
     }
@@ -179,11 +182,12 @@ public abstract class Tower extends Entity {
         return Math.round(mConfig.getEnhanceCost() * (float) Math.pow(mConfig.getEnhanceBase(), mLevel - 1));
     }
 
-    public int getTowerLevel() {
+    @Override
+    public int getLevel() {
         return mLevel;
     }
 
-    public int getTowerLevelMax() {
+    public int getMaxLevel() {
         return mConfig.getMaxLevel();
     }
 

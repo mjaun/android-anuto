@@ -1,6 +1,5 @@
 package ch.logixisland.anuto.entity.effect;
 
-import android.graphics.Canvas;
 import android.graphics.Paint;
 
 import ch.logixisland.anuto.R;
@@ -8,15 +7,16 @@ import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
-import ch.logixisland.anuto.engine.render.sprite.SpriteListener;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
+import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
+import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.entity.enemy.Flyer;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
-public class GlueEffect extends AreaEffect implements SpriteListener {
+public class GlueEffect extends AreaEffect implements SpriteTransformation {
 
     private final static int ALPHA_START = 150;
 
@@ -75,9 +75,9 @@ public class GlueEffect extends AreaEffect implements SpriteListener {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, Canvas canvas) {
-        canvas.translate(getPosition().x(), getPosition().y());
-        canvas.rotate(mAngle);
+    public void draw(SpriteInstance sprite, SpriteTransformer transformer) {
+        transformer.translate(this);
+        transformer.rotate(mAngle);
     }
 
     @Override

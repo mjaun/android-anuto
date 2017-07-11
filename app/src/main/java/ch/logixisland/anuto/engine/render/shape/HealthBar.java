@@ -7,7 +7,6 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.theme.Theme;
-import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.math.MathUtils;
 
 public class HealthBar implements Drawable {
@@ -15,12 +14,12 @@ public class HealthBar implements Drawable {
     private static final float HEALTHBAR_HEIGHT = 0.1f;
     private static final float HEALTHBAR_OFFSET = 0.6f;
 
-    private final Enemy mEnemy;
+    private final EntityWithHealth mEntity;
     private final Paint mHealthBarBg;
     private final Paint mHealthBarFg;
 
-    public HealthBar(Theme theme, Enemy enemy) {
-        mEnemy = enemy;
+    public HealthBar(Theme theme, EntityWithHealth entity) {
+        mEntity = entity;
 
         mHealthBarBg = new Paint();
         mHealthBarBg.setColor(theme.getColor(R.attr.healthBarBackgroundColor));
@@ -35,12 +34,12 @@ public class HealthBar implements Drawable {
 
     @Override
     public void draw(Canvas canvas) {
-        if (!MathUtils.equals(mEnemy.getHealth(), mEnemy.getHealthMax(), 1f)) {
+        if (!MathUtils.equals(mEntity.getHealth(), mEntity.getHealthMax(), 1f)) {
             canvas.save();
-            canvas.translate(mEnemy.getPosition().x() - HEALTHBAR_WIDTH / 2f, mEnemy.getPosition().y() + HEALTHBAR_OFFSET);
+            canvas.translate(mEntity.getPosition().x() - HEALTHBAR_WIDTH / 2f, mEntity.getPosition().y() + HEALTHBAR_OFFSET);
 
             canvas.drawRect(0, 0, HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT, mHealthBarBg);
-            canvas.drawRect(0, 0, mEnemy.getHealth() / mEnemy.getHealthMax() * HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT, mHealthBarFg);
+            canvas.drawRect(0, 0, mEntity.getHealth() / mEntity.getHealthMax() * HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT, mHealthBarFg);
             canvas.restore();
         }
     }

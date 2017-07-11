@@ -1,15 +1,14 @@
 package ch.logixisland.anuto.entity.shot;
 
-import android.graphics.Canvas;
-
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickTimer;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
-import ch.logixisland.anuto.engine.render.sprite.SpriteListener;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
+import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
+import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.effect.Explosion;
@@ -22,7 +21,7 @@ import ch.logixisland.anuto.util.math.function.Function;
 import ch.logixisland.anuto.util.math.function.SampledFunction;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
-public class Mine extends Shot implements SpriteListener {
+public class Mine extends Shot implements SpriteTransformation {
 
     private final static float TRIGGER_RADIUS = 0.7f;
 
@@ -149,10 +148,10 @@ public class Mine extends Shot implements SpriteListener {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, Canvas canvas) {
+    public void draw(SpriteInstance sprite, SpriteTransformer transformer) {
         float s = mHeightScalingFunction.getValue();
-        canvas.translate(getPosition().x(), getPosition().y());
-        canvas.scale(s, s);
-        canvas.rotate(mAngle);
+        transformer.translate(this);
+        transformer.scale(s);
+        transformer.rotate(mAngle);
     }
 }

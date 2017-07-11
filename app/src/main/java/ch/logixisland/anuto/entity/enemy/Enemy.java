@@ -6,6 +6,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.engine.render.shape.EntityWithHealth;
 import ch.logixisland.anuto.engine.render.shape.HealthBar;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.tower.Tower;
@@ -15,7 +16,7 @@ import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
 
-public abstract class Enemy extends Entity {
+public abstract class Enemy extends Entity implements EntityWithHealth {
 
     public static Predicate<Enemy> enabled() {
         return new Predicate<Enemy>() {
@@ -230,10 +231,12 @@ public abstract class Enemy extends Entity {
     }
 
 
+    @Override
     public float getHealth() {
         return mHealth * mHealthModifier;
     }
 
+    @Override
     public float getHealthMax() {
         return mConfig.getHealth() * mHealthModifier;
     }

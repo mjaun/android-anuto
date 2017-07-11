@@ -25,8 +25,8 @@ public class TowerInfo {
 
     public TowerInfo(Tower tower, int credits, boolean gameOver) {
         mValue = tower.getValue();
-        mLevel = tower.getTowerLevel();
-        mLevelMax = tower.getTowerLevelMax();
+        mLevel = tower.getLevel();
+        mLevelMax = tower.getMaxLevel();
         mEnhanceCost = tower.getEnhanceCost();
         mEnhanceable = tower.isEnhanceable() && mEnhanceCost <= credits && !gameOver;
         mUpgradeCost = tower.getUpgradeCost();

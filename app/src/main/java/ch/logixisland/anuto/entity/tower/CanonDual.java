@@ -10,8 +10,9 @@ import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
-import ch.logixisland.anuto.engine.render.sprite.SpriteListener;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
+import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
+import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.engine.sound.Sound;
 import ch.logixisland.anuto.entity.shot.CanonShot;
@@ -22,7 +23,7 @@ import ch.logixisland.anuto.util.math.function.Function;
 import ch.logixisland.anuto.util.math.function.SampledFunction;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
-public class CanonDual extends AimingTower implements SpriteListener {
+public class CanonDual extends AimingTower implements SpriteTransformation {
 
     private final static float SHOT_SPAWN_OFFSET = 0.7f;
     private final static float REBOUND_RANGE = 0.25f;
@@ -121,27 +122,6 @@ public class CanonDual extends AimingTower implements SpriteListener {
         mCanons = null;
     }
 
-    public void draw(SpriteInstance sprite, Canvas canvas) {
-        canvas.translate(getPosition().x(), getPosition().y());
-        canvas.rotate(mAngle);
-
-        if (sprite == mCanons[0].sprite) {
-            canvas.translate(0, 0.3f);
-
-            if (mCanons[0].reboundActive) {
-                canvas.translate(-mCanons[0].reboundFunction.getValue(), 0);
-            }
-        }
-
-        if (sprite == mCanons[1].sprite) {
-            canvas.translate(0, -0.3f);
-
-            if (mCanons[1].reboundActive) {
-                canvas.translate(-mCanons[1].reboundFunction.getValue(), 0);
-            }
-        }
-    }
-
     @Override
     public void tick() {
         super.tick();
@@ -187,6 +167,28 @@ public class CanonDual extends AimingTower implements SpriteListener {
             if (mCanons[1].reboundFunction.getPosition() >= GameEngine.TARGET_FRAME_RATE * REBOUND_DURATION) {
                 mCanons[1].reboundFunction.reset();
                 mCanons[1].reboundActive = false;
+            }
+        }
+    }
+
+    @Override
+    public void draw(SpriteInstance sprite, SpriteTransformer transformer) {
+        transformer.translate(this);
+        transformer.rotate(mAngle);
+
+        if (sprite == mCanons[0].sprite) {
+            transformer.translate(0, 0.3f);
+
+            if (mCanons[0].reboundActive) {
+                transformer.translate(-mCanons[0].reboundFunction.getValue(), 0);
+            }
+        }
+
+        if (sprite == mCanons[1].sprite) {
+            transformer.translate(0, -0.3f);
+
+            if (mCanons[1].reboundActive) {
+                transformer.translate(-mCanons[1].reboundFunction.getValue(), 0);
             }
         }
     }

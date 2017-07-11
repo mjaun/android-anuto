@@ -11,8 +11,9 @@ import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickTimer;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
-import ch.logixisland.anuto.engine.render.sprite.SpriteListener;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
+import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
+import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.entity.shot.GlueShot;
 import ch.logixisland.anuto.util.RandomUtils;
@@ -22,41 +23,41 @@ import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.vector.Line;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
-public class GlueTower extends Tower implements SpriteListener {
+public class GlueTower extends Tower implements SpriteTransformation {
 
     private final static float SHOT_SPAWN_OFFSET = 0.8f;
     private final static float CANON_OFFSET_MAX = 0.5f;
     private final static float CANON_OFFSET_STEP = CANON_OFFSET_MAX / GameEngine.TARGET_FRAME_RATE / 0.8f;
 
     private class StaticData {
+
         SpriteTemplate mSpriteTemplateBase;
         SpriteTemplate mSpriteTemplateTower;
         SpriteTemplate mSpriteTemplateCanon;
     }
 
-    private class SubCanon implements SpriteListener {
+    private class SubCanon implements SpriteTransformation {
+
         float mAngle;
         StaticSprite mSprite;
-
         @Override
-        public void draw(SpriteInstance sprite, Canvas canvas) {
-            GlueTower.this.draw(sprite, canvas);
-
-            canvas.rotate(mAngle);
-            canvas.translate(mCanonOffset, 0);
+        public void draw(SpriteInstance sprite, SpriteTransformer transformer) {
+            transformer.translate(GlueTower.this);
+            transformer.rotate(mAngle);
+            transformer.translate(mCanonOffset, 0);
         }
-    }
 
+    }
     private float mGlueIntensity;
+
     private float mGlueDuration;
     private boolean mShooting;
     private float mCanonOffset;
     private SubCanon[] mCanons = new SubCanon[8];
     private List<Vector2> mTargets = new ArrayList<>();
-
     private StaticSprite mSpriteBase;
-    private StaticSprite mSpriteTower;
 
+    private StaticSprite mSpriteTower;
     private final TickTimer mUpdateTimer = TickTimer.createInterval(0.1f);
 
     public GlueTower(EntityDependencies dependencies, TowerConfig config) {
@@ -164,8 +165,8 @@ public class GlueTower extends Tower implements SpriteListener {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, Canvas canvas) {
-        canvas.translate(getPosition().x(), getPosition().y());
+    public void draw(SpriteInstance sprite, SpriteTransformer transformer) {
+        transformer.translate(this);
     }
 
     @Override

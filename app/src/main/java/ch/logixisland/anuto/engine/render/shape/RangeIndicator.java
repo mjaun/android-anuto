@@ -7,15 +7,14 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.theme.Theme;
-import ch.logixisland.anuto.entity.tower.Tower;
 
 public class RangeIndicator implements Drawable {
 
-    private final Tower mTower;
+    private final EntityWithRange mEntity;
     private final Paint mPen;
 
-    public RangeIndicator(Theme theme, Tower tower) {
-        mTower = tower;
+    public RangeIndicator(Theme theme, EntityWithRange entity) {
+        mEntity = entity;
         mPen = new Paint();
         mPen.setStyle(Paint.Style.STROKE);
         mPen.setStrokeWidth(0.05f);
@@ -29,7 +28,7 @@ public class RangeIndicator implements Drawable {
 
     @Override
     public void draw(Canvas canvas) {
-        canvas.drawCircle(mTower.getPosition().x(), mTower.getPosition().y(), mTower.getRange(), mPen);
+        canvas.drawCircle(mEntity.getPosition().x(), mEntity.getPosition().y(), mEntity.getRange(), mPen);
     }
 
 }

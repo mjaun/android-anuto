@@ -9,16 +9,17 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
-import ch.logixisland.anuto.engine.render.sprite.SpriteListener;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
+import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
+import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.engine.sound.Sound;
-import ch.logixisland.anuto.entity.effect.LaserStraight;
+import ch.logixisland.anuto.entity.effect.StraightLaser;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.data.TowerConfig;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
-public class LaserTower3 extends AimingTower implements SpriteListener {
+public class LaserTower3 extends AimingTower implements SpriteTransformation {
 
     private final static float LASER_SPAWN_OFFSET = 0.8f;
     private final static float LASER_LENGTH = 100f;
@@ -88,7 +89,7 @@ public class LaserTower3 extends AimingTower implements SpriteListener {
             if (isReloaded()) {
                 Vector2 laserFrom = getPosition().add(Vector2.polar(LASER_SPAWN_OFFSET, mAngle));
                 Vector2 laserTo = getPosition().add(Vector2.polar(LASER_LENGTH, mAngle));
-                getGameEngine().add(new LaserStraight(this, laserFrom, laserTo, getDamage()));
+                getGameEngine().add(new StraightLaser(this, laserFrom, laserTo, getDamage()));
                 setReloaded(false);
                 mSound.play();
             }
@@ -96,9 +97,9 @@ public class LaserTower3 extends AimingTower implements SpriteListener {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, Canvas canvas) {
-        canvas.translate(getPosition().x(), getPosition().y());
-        canvas.rotate(mAngle);
+    public void draw(SpriteInstance sprite, SpriteTransformer transformer) {
+        transformer.translate(this);
+        transformer.rotate(mAngle);
     }
 
     @Override
