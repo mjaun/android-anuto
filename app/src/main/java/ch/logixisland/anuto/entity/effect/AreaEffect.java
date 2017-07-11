@@ -4,9 +4,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.engine.logic.Entity;
+import ch.logixisland.anuto.engine.logic.EntityListener;
 import ch.logixisland.anuto.engine.logic.TickTimer;
-import ch.logixisland.anuto.entity.Entity;
-import ch.logixisland.anuto.entity.EntityListener;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 

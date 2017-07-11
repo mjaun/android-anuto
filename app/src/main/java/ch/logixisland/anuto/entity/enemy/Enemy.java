@@ -3,9 +3,9 @@ package ch.logixisland.anuto.entity.enemy;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.shape.HealthBar;
-import ch.logixisland.anuto.entity.Entity;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.util.data.EnemyConfig;

@@ -1,8 +1,8 @@
 package ch.logixisland.anuto.entity.tower;
 
+import ch.logixisland.anuto.engine.logic.Entity;
+import ch.logixisland.anuto.engine.logic.EntityListener;
 import ch.logixisland.anuto.engine.logic.TickTimer;
-import ch.logixisland.anuto.entity.Entity;
-import ch.logixisland.anuto.entity.EntityListener;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.data.TowerConfig;
 

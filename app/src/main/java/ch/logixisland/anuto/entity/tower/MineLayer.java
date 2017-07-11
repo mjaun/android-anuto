@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.engine.logic.Entity;
+import ch.logixisland.anuto.engine.logic.EntityListener;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.sound.Sound;
-import ch.logixisland.anuto.entity.Entity;
-import ch.logixisland.anuto.entity.EntityListener;
 import ch.logixisland.anuto.entity.shot.Mine;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.data.TowerConfig;

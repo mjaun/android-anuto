@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.entity;
+package ch.logixisland.anuto.engine.logic;
 
 public interface EntityListener {
     void entityRemoved(Entity obj);

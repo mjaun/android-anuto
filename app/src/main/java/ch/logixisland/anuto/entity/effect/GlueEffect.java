@@ -4,12 +4,12 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
-import ch.logixisland.anuto.entity.Entity;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.entity.enemy.Flyer;
 import ch.logixisland.anuto.util.RandomUtils;
