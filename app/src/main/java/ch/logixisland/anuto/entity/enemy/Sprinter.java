@@ -3,6 +3,7 @@ package ch.logixisland.anuto.entity.enemy;
 import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickListener;
 import ch.logixisland.anuto.engine.render.Layers;
@@ -34,8 +35,8 @@ public class Sprinter extends Enemy {
     private float mAngle;
     private StaticData mStatic;
 
-    public Sprinter(EnemyConfig config) {
-        super(config);
+    public Sprinter(EntityDependencies dependencies, EnemyConfig config) {
+        super(dependencies, config);
         mStatic = (StaticData) getStaticData();
 
         mSprite = getSpriteFactory().createReplication(mStatic.mReferenceSprite);

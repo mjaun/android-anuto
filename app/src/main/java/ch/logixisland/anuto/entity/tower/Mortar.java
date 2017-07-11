@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
@@ -36,8 +37,8 @@ public class Mortar extends AimingTower {
     private AnimatedSprite mSpriteCanon;
     private Sound mSound;
 
-    public Mortar(TowerConfig config) {
-        super(config);
+    public Mortar(EntityDependencies dependencies, TowerConfig config) {
+        super(dependencies, config);
         StaticData s = (StaticData) getStaticData();
 
         mSpriteBase = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplateBase);
@@ -109,7 +110,7 @@ public class Mortar extends AimingTower {
             mAngle = getAngleTo(targetPos);
             Vector2 shotPos = getPosition().add(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
 
-            getGameEngine().add(new MortarShot(this, shotPos, targetPos, getDamage(), mExplosionRadius));
+            getGameEngine().add(new MortarShot(getDependencies(), this, shotPos, targetPos, getDamage(), mExplosionRadius));
             mSound.play();
 
             setReloaded(false);

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
@@ -36,8 +37,8 @@ public class GlueGun extends AimingTower {
     private AnimatedSprite mSpriteCanon;
     private Sound mSound;
 
-    public GlueGun(TowerConfig config) {
-        super(config);
+    public GlueGun(EntityDependencies dependencies, TowerConfig config) {
+        super(dependencies, config);
         mGlueIntensity = getProperty("glueIntensity");
         mGlueDuration = getProperty("glueDuration");
 
@@ -110,7 +111,7 @@ public class GlueGun extends AimingTower {
             mAngle = getAngleTo(target);
 
             Vector2 position = getPosition().add(Vector2.polar(SHOT_SPAWN_OFFSET, getAngleTo(target)));
-            getGameEngine().add(new GlueShot(this, position, target, mGlueIntensity, mGlueDuration));
+            getGameEngine().add(new GlueShot(getDependencies(), this, position, target, mGlueIntensity, mGlueDuration));
             mSound.play();
 
             setReloaded(false);

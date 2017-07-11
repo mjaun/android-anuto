@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.Entity;
+import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
@@ -33,8 +34,9 @@ public class MortarShot extends Shot {
 
     private StaticSprite mSprite;
 
-    public MortarShot(Entity origin, Vector2 position, Vector2 target, float damage, float radius) {
-        super(origin);
+    public MortarShot(EntityDependencies dependencies, Entity origin, Vector2 position,
+                      Vector2 target, float damage, float radius) {
+        super(dependencies, origin);
         setPosition(position);
         setSpeed(getDistanceTo(target) / TIME_TO_TARGET);
         setDirection(getDirectionTo(target));
@@ -98,7 +100,7 @@ public class MortarShot extends Shot {
 
         mHeightScalingFunction.step();
         if (mHeightScalingFunction.getPosition() >= GameEngine.TARGET_FRAME_RATE * TIME_TO_TARGET) {
-            getGameEngine().add(new Explosion(getOrigin(), getPosition(), mDamage, mRadius));
+            getGameEngine().add(new Explosion(getDependencies(), getOrigin(), getPosition(), mDamage, mRadius));
             this.remove();
         }
     }

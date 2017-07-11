@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.Entity;
+import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
@@ -32,8 +33,9 @@ public class Rocket extends HomingShot {
     private StaticSprite mSprite;
     private AnimatedSprite mSpriteFire;
 
-    public Rocket(Entity origin, Vector2 position, float damage, float radius) {
-        super(origin);
+    public Rocket(EntityDependencies dependencies, Entity origin, Vector2 position,
+                  float damage, float radius) {
+        super(dependencies, origin);
         setPosition(position);
         setSpeed(MOVEMENT_SPEED);
         setEnabled(false);
@@ -138,7 +140,7 @@ public class Rocket extends HomingShot {
 
     @Override
     protected void targetReached() {
-        getGameEngine().add(new Explosion(getOrigin(), getTarget().getPosition(), mDamage, mRadius));
+        getGameEngine().add(new Explosion(getDependencies(), getOrigin(), getTarget().getPosition(), mDamage, mRadius));
         getGameEngine().remove(this);
     }
 }

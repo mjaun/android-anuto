@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
@@ -41,8 +42,8 @@ public class Canon extends AimingTower {
 
     private Sound mSound;
 
-    public Canon(TowerConfig config) {
-        super(config);
+    public Canon(EntityDependencies dependencies, TowerConfig config) {
+        super(dependencies, config);
         StaticData s = (StaticData) getStaticData();
 
         mReboundFunction = Function.sine()
@@ -110,7 +111,7 @@ public class Canon extends AimingTower {
             mAngle = getAngleTo(getTarget());
 
             if (isReloaded()) {
-                Shot shot = new CanonShot(this, getPosition(), getTarget(), getDamage());
+                Shot shot = new CanonShot(getDependencies(), this, getPosition(), getTarget(), getDamage());
                 shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
                 getGameEngine().add(shot);
                 mSound.play();

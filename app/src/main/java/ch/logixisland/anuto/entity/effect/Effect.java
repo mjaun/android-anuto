@@ -1,12 +1,13 @@
 package ch.logixisland.anuto.entity.effect;
 
 import ch.logixisland.anuto.engine.logic.Entity;
+import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.TickTimer;
 import ch.logixisland.anuto.entity.Types;
 
 public abstract class Effect extends Entity {
 
-    public enum State {
+    enum State {
         NotStarted,
         Active,
         Ended
@@ -16,7 +17,9 @@ public abstract class Effect extends Entity {
     private TickTimer mTimer;
     private State mState;
 
-    protected Effect(Entity origin, float duration) {
+    Effect(EntityDependencies dependencies, Entity origin, float duration) {
+        super(dependencies);
+
         mOrigin = origin;
         mTimer = TickTimer.createInterval(duration);
         mState = State.NotStarted;

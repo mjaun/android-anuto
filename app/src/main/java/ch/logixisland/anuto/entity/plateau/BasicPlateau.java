@@ -1,6 +1,7 @@
 package ch.logixisland.anuto.entity.plateau;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
@@ -14,7 +15,8 @@ public class BasicPlateau extends Plateau {
 
     private StaticSprite mSprite;
 
-    public BasicPlateau() {
+    public BasicPlateau(EntityDependencies dependencies) {
+        super(dependencies);
         StaticData s = (StaticData) getStaticData();
 
         mSprite = getSpriteFactory().createStatic(Layers.PLATEAU, s.mSpriteTemplate);

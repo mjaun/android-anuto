@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickTimer;
 import ch.logixisland.anuto.engine.render.Layers;
@@ -58,8 +59,8 @@ public class GlueTower extends Tower {
 
     private final TickTimer mUpdateTimer = TickTimer.createInterval(0.1f);
 
-    public GlueTower(TowerConfig config) {
-        super(config);
+    public GlueTower(EntityDependencies dependencies, TowerConfig config) {
+        super(dependencies, config);
         mGlueIntensity = getProperty("glueIntensity");
         mGlueDuration = getProperty("glueDuration");
 
@@ -153,7 +154,7 @@ public class GlueTower extends Tower {
 
                 for (Vector2 target : mTargets) {
                     Vector2 position = getPosition().add(Vector2.polar(SHOT_SPAWN_OFFSET, getAngleTo(target)));
-                    getGameEngine().add(new GlueShot(this, position, target, mGlueIntensity, mGlueDuration));
+                    getGameEngine().add(new GlueShot(getDependencies(), this, position, target, mGlueIntensity, mGlueDuration));
                 }
             }
         } else if (mCanonOffset > 0f) {

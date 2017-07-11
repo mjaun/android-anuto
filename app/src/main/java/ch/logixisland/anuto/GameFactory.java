@@ -12,6 +12,7 @@ import ch.logixisland.anuto.business.level.WaveManager;
 import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.business.manager.SettingsManager;
 import ch.logixisland.anuto.business.score.ScoreBoard;
+import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Renderer;
 import ch.logixisland.anuto.engine.render.Viewport;
@@ -23,6 +24,8 @@ import ch.logixisland.anuto.engine.theme.ThemeManager;
 import ch.logixisland.anuto.entity.enemy.EnemyFactory;
 import ch.logixisland.anuto.entity.plateau.PlateauFactory;
 import ch.logixisland.anuto.entity.tower.TowerFactory;
+import ch.logixisland.anuto.util.data.GameSettings;
+import ch.logixisland.anuto.util.data.LevelDescriptor;
 import ch.logixisland.anuto.view.game.BackButtonControl;
 
 public class GameFactory {
@@ -70,9 +73,10 @@ public class GameFactory {
         mGameEngine = new GameEngine(mRenderer);
 
         // Entity
-        mPlateauFactory = new PlateauFactory();
-        mTowerFactory = new TowerFactory();
-        mEnemyFactory = new EnemyFactory();
+        EntityDependencies dependencyProvider = createEntityDependencyProvider();
+        mPlateauFactory = new PlateauFactory(dependencyProvider);
+        mTowerFactory = new TowerFactory(dependencyProvider);
+        mEnemyFactory = new EnemyFactory(dependencyProvider);
 
         // Business
         mScoreBoard = new ScoreBoard();
@@ -165,5 +169,39 @@ public class GameFactory {
 
     public BackButtonControl getBackButtonControl() {
         return mBackButtonControl;
+    }
+
+    private EntityDependencies createEntityDependencyProvider() {
+        return new EntityDependencies() {
+            @Override
+            public GameEngine getGameEngine() {
+                return mGameEngine;
+            }
+
+            @Override
+            public ShapeFactory getShapeFactory() {
+                return mShapeFactory;
+            }
+
+            @Override
+            public SpriteFactory getSpriteFactory() {
+                return mSpriteFactory;
+            }
+
+            @Override
+            public SoundFactory getSoundFactory() {
+                return mSoundFactory;
+            }
+
+            @Override
+            public GameSettings getGameSettings() {
+                return mLevelLoader.getGameSettings();
+            }
+
+            @Override
+            public LevelDescriptor getLevelDescriptor() {
+                return mLevelLoader.getLevelDescriptor();
+            }
+        };
     }
 }

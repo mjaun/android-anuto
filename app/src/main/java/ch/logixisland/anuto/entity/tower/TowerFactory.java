@@ -1,17 +1,20 @@
 package ch.logixisland.anuto.entity.tower;
 
+import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.util.GenericFactory;
 import ch.logixisland.anuto.util.data.TowerConfig;
 import ch.logixisland.anuto.util.data.TowerSettings;
 
 public class TowerFactory {
 
+    private final EntityDependencies mDependencies;
     private final GenericFactory<Tower> mFactory;
 
     private TowerSettings mTowerSettings;
 
-    public TowerFactory() {
-        mFactory = new GenericFactory<>(TowerConfig.class);
+    public TowerFactory(EntityDependencies dependencies) {
+        mDependencies = dependencies;
+        mFactory = new GenericFactory<>(EntityDependencies.class, TowerConfig.class);
 
         mFactory.registerClass(Canon.class);
         mFactory.registerClass(CanonDual.class);
@@ -41,13 +44,13 @@ public class TowerFactory {
 
     public Tower createTower(String name) {
         TowerConfig config = mTowerSettings.getTowerConfig(name);
-        return mFactory.createInstance(name, config);
+        return mFactory.createInstance(name, mDependencies, config);
     }
 
     public Tower createTower(int slot) {
         for (TowerConfig config : mTowerSettings.getTowerConfigs()) {
             if (config.getSlot() == slot) {
-                return mFactory.createInstance(config.getName(), config);
+                return mFactory.createInstance(config.getName(), mDependencies, config);
             }
         }
 

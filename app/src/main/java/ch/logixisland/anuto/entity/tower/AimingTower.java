@@ -1,6 +1,7 @@
 package ch.logixisland.anuto.entity.tower;
 
 import ch.logixisland.anuto.engine.logic.Entity;
+import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.EntityListener;
 import ch.logixisland.anuto.engine.logic.TickTimer;
 import ch.logixisland.anuto.entity.enemy.Enemy;
@@ -24,8 +25,8 @@ public abstract class AimingTower extends Tower {
         }
     };
 
-    protected AimingTower(TowerConfig config) {
-        super(config);
+    protected AimingTower(EntityDependencies dependencies, TowerConfig config) {
+        super(dependencies, config);
     }
 
     @Override

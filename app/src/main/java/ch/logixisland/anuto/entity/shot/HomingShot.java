@@ -1,6 +1,7 @@
 package ch.logixisland.anuto.entity.shot;
 
 import ch.logixisland.anuto.engine.logic.Entity;
+import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.EntityListener;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.entity.enemy.Enemy;
@@ -10,8 +11,8 @@ public abstract class HomingShot extends Shot implements EntityListener {
     private Enemy mTarget;
     private boolean mTargetReached;
 
-    protected HomingShot(Entity origin) {
-        super(origin);
+    HomingShot(EntityDependencies dependencies, Entity origin) {
+        super(dependencies, origin);
     }
 
     @Override

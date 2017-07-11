@@ -6,6 +6,7 @@ import android.graphics.Paint;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.Entity;
+import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Layers;
@@ -58,8 +59,9 @@ public class Explosion extends Effect {
     private ExplosionDrawable mDrawObject;
     private Sound mSound;
 
-    public Explosion(Entity origin, Vector2 position, float damage, float radius) {
-        super(origin, EFFECT_DURATION);
+    public Explosion(EntityDependencies dependencies, Entity origin, Vector2 position,
+                     float damage, float radius) {
+        super(dependencies, origin, EFFECT_DURATION);
         setPosition(position);
 
         mDamage = damage;

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
@@ -34,8 +35,8 @@ public class CanonMg extends AimingTower {
     private int mShotCount = 0;
     private Sound mSound;
 
-    public CanonMg(TowerConfig config) {
-        super(config);
+    public CanonMg(EntityDependencies dependencies, TowerConfig config) {
+        super(dependencies, config);
         StaticData s = (StaticData) getStaticData();
 
         mSpriteBase = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplateBase);
@@ -96,7 +97,7 @@ public class CanonMg extends AimingTower {
             mSpriteCanon.tick();
 
             if (isReloaded()) {
-                Shot shot = new CanonShotMg(this, getPosition(), getDirectionTo(getTarget()), getDamage());
+                Shot shot = new CanonShotMg(getDependencies(), this, getPosition(), getDirectionTo(getTarget()), getDamage());
                 shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
                 getGameEngine().add(shot);
                 mShotCount++;

@@ -7,6 +7,7 @@ import java.util.List;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.Entity;
+import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.EntityListener;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
@@ -46,8 +47,8 @@ public class MineLayer extends Tower {
         }
     };
 
-    public MineLayer(TowerConfig config) {
-        super(config);
+    public MineLayer(EntityDependencies dependencies, TowerConfig config) {
+        super(dependencies, config);
         StaticData s = (StaticData) getStaticData();
 
         mSprite = getSpriteFactory().createAnimated(Layers.TOWER_BASE, s.mSpriteTemplate);
@@ -132,7 +133,7 @@ public class MineLayer extends Tower {
             mSprite.tick();
 
             if (mSprite.getSequenceIndex() == 5) {
-                Mine m = new Mine(this, getPosition(), getTarget(), getDamage(), mExplosionRadius);
+                Mine m = new Mine(getDependencies(), this, getPosition(), getTarget(), getDamage(), mExplosionRadius);
                 m.addListener(mMineListener);
                 mMines.add(m);
                 getGameEngine().add(m);

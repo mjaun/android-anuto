@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
@@ -29,8 +30,8 @@ public class TeleportTower extends AimingTower {
     private StaticSprite mSpriteTower;
     private Sound mSound;
 
-    public TeleportTower(TowerConfig config) {
-        super(config);
+    public TeleportTower(EntityDependencies dependencies, TowerConfig config) {
+        super(dependencies, config);
         mTeleportDistance = getProperty("teleportDistance");
 
         StaticData s = (StaticData) getStaticData();
@@ -92,7 +93,7 @@ public class TeleportTower extends AimingTower {
             if (!target.isEnabled() || getDistanceTo(target) > getRange()) {
                 setTarget(null);
             } else {
-                getGameEngine().add(new TeleportEffect(this, getPosition(), target, mTeleportDistance));
+                getGameEngine().add(new TeleportEffect(getDependencies(), this, getPosition(), target, mTeleportDistance));
                 mSound.play();
                 setReloaded(false);
             }

@@ -2,6 +2,7 @@ package ch.logixisland.anuto.entity.shot;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.Entity;
+import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
@@ -26,8 +27,9 @@ public class GlueShot extends Shot {
     private AnimatedSprite mSprite;
     private Sound mSound;
 
-    public GlueShot(Entity origin, Vector2 position, Vector2 target, float intensity, float duration) {
-        super(origin);
+    public GlueShot(EntityDependencies dependencies, Entity origin, Vector2 position,
+                    Vector2 target, float intensity, float duration) {
+        super(dependencies, origin);
         setPosition(position);
         mTarget = target;
 
@@ -78,7 +80,7 @@ public class GlueShot extends Shot {
         mSprite.tick();
 
         if (getDistanceTo(mTarget) < getSpeed() / GameEngine.TARGET_FRAME_RATE) {
-            getGameEngine().add(new GlueEffect(getOrigin(), mTarget, mIntensity, mDuration));
+            getGameEngine().add(new GlueEffect(getDependencies(), getOrigin(), mTarget, mIntensity, mDuration));
             mSound.play();
             this.remove();
         }

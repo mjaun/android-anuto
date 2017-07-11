@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.engine.render.shape.ShapeFactory;
 import ch.logixisland.anuto.engine.render.sprite.SpriteFactory;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
@@ -63,10 +62,19 @@ public abstract class Entity implements SpriteListener, TickListener {
         };
     }
 
-    private Vector2 mPosition = new Vector2();
+    private final EntityDependencies mDependencies;
     private final List<EntityListener> mListeners = new CopyOnWriteArrayList<>();
 
+    private Vector2 mPosition = new Vector2();
+
+
+    protected Entity(EntityDependencies dependencies) {
+        mDependencies = dependencies;
+    }
+
+
     public abstract int getType();
+
 
     public Object initStatic() {
         return null;
@@ -86,6 +94,7 @@ public abstract class Entity implements SpriteListener, TickListener {
         getGameEngine().remove(this);
     }
 
+
     @Override
     public void tick() {
 
@@ -97,32 +106,36 @@ public abstract class Entity implements SpriteListener, TickListener {
     }
 
 
-    protected GameEngine getGameEngine() {
-        return AnutoApplication.getInstance().getGameFactory().getGameEngine();
-    }
-
-    protected LevelDescriptor getLevelDescriptor() {
-        return AnutoApplication.getInstance().getGameFactory().getLevelLoader().getLevelDescriptor();
-    }
-
-    protected GameSettings getGameSettings() {
-        return AnutoApplication.getInstance().getGameFactory().getLevelLoader().getGameSettings();
-    }
-
     protected Object getStaticData() {
         return getGameEngine().getStaticData(this);
     }
 
+    protected EntityDependencies getDependencies() {
+        return mDependencies;
+    }
+
+    protected GameEngine getGameEngine() {
+        return mDependencies.getGameEngine();
+    }
+
+    protected LevelDescriptor getLevelDescriptor() {
+        return mDependencies.getLevelDescriptor();
+    }
+
+    protected GameSettings getGameSettings() {
+        return mDependencies.getGameSettings();
+    }
+
     protected SpriteFactory getSpriteFactory() {
-        return AnutoApplication.getInstance().getGameFactory().getSpriteFactory();
+        return mDependencies.getSpriteFactory();
     }
 
     protected ShapeFactory getShapeFactory() {
-        return AnutoApplication.getInstance().getGameFactory().getShapeFactory();
+        return mDependencies.getShapeFactory();
     }
 
     protected SoundFactory getSoundFactory() {
-        return AnutoApplication.getInstance().getGameFactory().getSoundFactory();
+        return mDependencies.getSoundFactory();
     }
 
 

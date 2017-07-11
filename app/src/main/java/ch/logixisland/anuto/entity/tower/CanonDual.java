@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
@@ -47,8 +48,8 @@ public class CanonDual extends AimingTower {
 
     private Sound mSound;
 
-    public CanonDual(TowerConfig config) {
-        super(config);
+    public CanonDual(EntityDependencies dependencies, TowerConfig config) {
+        super(dependencies, config);
         StaticData s = (StaticData) getStaticData();
 
         Function reboundFunction = Function.sine()
@@ -151,7 +152,7 @@ public class CanonDual extends AimingTower {
 
             if (isReloaded()) {
                 if (!mShoot2) {
-                    Shot shot = new CanonShot(this, getPosition(), getTarget(), getDamage());
+                    Shot shot = new CanonShot(getDependencies(), this, getPosition(), getTarget(), getDamage());
                     shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
                     shot.move(Vector2.polar(0.3f, mAngle + 90f));
                     getGameEngine().add(shot);
@@ -160,7 +161,7 @@ public class CanonDual extends AimingTower {
                     mCanons[0].reboundActive = true;
                     mShoot2 = true;
                 } else {
-                    Shot shot = new CanonShot(this, getPosition(), getTarget(), getDamage());
+                    Shot shot = new CanonShot(getDependencies(), this, getPosition(), getTarget(), getDamage());
                     shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
                     shot.move(Vector2.polar(0.3f, mAngle - 90f));
                     getGameEngine().add(shot);

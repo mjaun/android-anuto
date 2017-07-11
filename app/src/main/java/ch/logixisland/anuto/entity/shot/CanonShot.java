@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.Entity;
+import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
@@ -28,8 +29,9 @@ public class CanonShot extends HomingShot {
 
     private StaticSprite mSprite;
 
-    public CanonShot(Entity origin, Vector2 position, Enemy target, float damage) {
-        super(origin);
+    public CanonShot(EntityDependencies dependencies, Entity origin, Vector2 position,
+                     Enemy target, float damage) {
+        super(dependencies, origin);
         setPosition(position);
         setTarget(target);
         setSpeed(MOVEMENT_SPEED);

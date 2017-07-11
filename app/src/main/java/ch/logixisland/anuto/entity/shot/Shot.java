@@ -1,6 +1,7 @@
 package ch.logixisland.anuto.entity.shot;
 
 import ch.logixisland.anuto.engine.logic.Entity;
+import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.util.math.vector.Vector2;
@@ -12,7 +13,8 @@ public abstract class Shot extends Entity {
     private Vector2 mDirection;
     private boolean mEnabled = true;
 
-    protected Shot(Entity origin) {
+    Shot(EntityDependencies dependencies, Entity origin) {
+        super(dependencies);
         mOrigin = origin;
     }
 

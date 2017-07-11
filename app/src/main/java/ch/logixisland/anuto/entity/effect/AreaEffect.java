@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.engine.logic.Entity;
+import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.EntityListener;
 import ch.logixisland.anuto.engine.logic.TickTimer;
 import ch.logixisland.anuto.entity.Types;
@@ -26,8 +27,8 @@ public abstract class AreaEffect extends Effect {
         }
     };
 
-    protected AreaEffect(Entity origin, float duration, float range) {
-        super(origin, duration);
+    AreaEffect(EntityDependencies dependencies, Entity origin, float duration, float range) {
+        super(dependencies, origin, duration);
         mRange = range;
     }
 

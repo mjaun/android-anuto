@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.Entity;
+import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
@@ -27,8 +28,9 @@ public class CanonShotMg extends Shot {
 
     private StaticSprite mSprite;
 
-    public CanonShotMg(Entity origin, Vector2 position, Vector2 direction, float damage) {
-        super(origin);
+    public CanonShotMg(EntityDependencies dependencies, Entity origin, Vector2 position,
+                       Vector2 direction, float damage) {
+        super(dependencies, origin);
         setPosition(position);
         setSpeed(MOVEMENT_SPEED);
         setDirection(direction);

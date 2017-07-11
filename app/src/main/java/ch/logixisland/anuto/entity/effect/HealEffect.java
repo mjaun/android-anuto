@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import ch.logixisland.anuto.engine.logic.Entity;
+import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Layers;
@@ -45,8 +46,9 @@ public class HealEffect extends Effect {
 
     private Drawable mDrawable;
 
-    public HealEffect(Entity origin, Vector2 position, float amount, float radius) {
-        super(origin, EFFECT_DURATION);
+    public HealEffect(EntityDependencies dependencies, Entity origin, Vector2 position,
+                      float amount, float radius) {
+        super(dependencies, origin, EFFECT_DURATION);
         setPosition(position);
 
         mHealAmount = amount;

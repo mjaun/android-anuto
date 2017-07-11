@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
@@ -31,8 +32,8 @@ public class LaserTower1 extends AimingTower {
     private StaticSprite mSpriteCanon;
     private Sound mSound;
 
-    public LaserTower1(TowerConfig config) {
-        super(config);
+    public LaserTower1(EntityDependencies dependencies, TowerConfig config) {
+        super(dependencies, config);
         StaticData s = (StaticData) getStaticData();
 
         mSpriteBase = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplateBase);
@@ -91,7 +92,7 @@ public class LaserTower1 extends AimingTower {
 
             if (isReloaded()) {
                 Vector2 from = getPosition().add(Vector2.polar(LASER_SPAWN_OFFSET, mAngle));
-                getGameEngine().add(new Laser(this, from, getTarget(), getDamage()));
+                getGameEngine().add(new Laser(getDependencies(), this, from, getTarget(), getDamage()));
                 setReloaded(false);
                 mSound.play();
             }

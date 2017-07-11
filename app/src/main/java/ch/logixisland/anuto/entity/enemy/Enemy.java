@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.engine.logic.Entity;
+import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.shape.HealthBar;
 import ch.logixisland.anuto.entity.Types;
@@ -53,11 +54,14 @@ public abstract class Enemy extends Entity {
     private float mSpeedModifier = 1f;
     private List<Vector2> mWayPoints = null;
     private int mWayPointIndex;
+
     private HealthBar mHealthBar;
 
     private final List<EnemyListener> mListeners = new CopyOnWriteArrayList<>();
 
-    public Enemy(EnemyConfig config) {
+    Enemy(EntityDependencies dependencies, EnemyConfig config) {
+        super(dependencies);
+
         mConfig = config;
         mBaseSpeed = mConfig.getSpeed();
         mHealth = mConfig.getHealth();
