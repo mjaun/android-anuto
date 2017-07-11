@@ -17,7 +17,7 @@ import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.math.MathUtils;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
-public abstract class Entity implements SpriteListener, TickListener {
+public abstract class Entity implements SpriteListener {
 
     public static Predicate<Entity> inRange(final Vector2 center, final float range) {
         return new Predicate<Entity>() {
@@ -94,8 +94,6 @@ public abstract class Entity implements SpriteListener, TickListener {
         getGameEngine().remove(this);
     }
 
-
-    @Override
     public void tick() {
 
     }
