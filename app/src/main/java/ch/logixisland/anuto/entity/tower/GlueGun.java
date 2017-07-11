@@ -111,7 +111,7 @@ public class GlueGun extends AimingTower {
             mAngle = getAngleTo(target);
 
             Vector2 position = getPosition().add(Vector2.polar(SHOT_SPAWN_OFFSET, getAngleTo(target)));
-            getGameEngine().add(new GlueShot(getDependencies(), this, position, target, mGlueIntensity, mGlueDuration));
+            getGameEngine().add(new GlueShot(this, position, target, mGlueIntensity, mGlueDuration));
             mSound.play();
 
             setReloaded(false);

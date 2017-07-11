@@ -110,7 +110,7 @@ public abstract class Entity implements SpriteListener, TickListener {
         return getGameEngine().getStaticData(this);
     }
 
-    protected EntityDependencies getDependencies() {
+    public EntityDependencies getDependencies() {
         return mDependencies;
     }
 

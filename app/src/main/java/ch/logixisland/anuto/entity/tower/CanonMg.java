@@ -97,7 +97,7 @@ public class CanonMg extends AimingTower {
             mSpriteCanon.tick();
 
             if (isReloaded()) {
-                Shot shot = new CanonShotMg(getDependencies(), this, getPosition(), getDirectionTo(getTarget()), getDamage());
+                Shot shot = new CanonShotMg(this, getPosition(), getDirectionTo(getTarget()), getDamage());
                 shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
                 getGameEngine().add(shot);
                 mShotCount++;

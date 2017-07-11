@@ -4,7 +4,6 @@ import android.graphics.Canvas;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.Entity;
-import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickTimer;
 import ch.logixisland.anuto.engine.render.Layers;
@@ -49,9 +48,8 @@ public class Mine extends Shot {
 
     private final TickTimer mUpdateTimer = TickTimer.createInterval(0.1f);
 
-    public Mine(EntityDependencies dependencies, Entity origin, Vector2 position, Vector2 target,
-                float damage, float radius) {
-        super(dependencies, origin);
+    public Mine(Entity origin, Vector2 position, Vector2 target, float damage, float radius) {
+        super(origin);
         setPosition(position);
 
         setSpeed(getDistanceTo(target) / TIME_TO_TARGET);
@@ -152,7 +150,7 @@ public class Mine extends Shot {
                     });
 
             if (!enemiesInRange.isEmpty()) {
-                getGameEngine().add(new Explosion(getDependencies(), getOrigin(), getPosition(), mDamage, mRadius));
+                getGameEngine().add(new Explosion(getOrigin(), getPosition(), mDamage, mRadius));
                 this.remove();
             }
         }

@@ -153,7 +153,7 @@ public class Healer extends Enemy {
         }
 
         if (mStatic.mDropEffect) {
-            getGameEngine().add(new HealEffect(getDependencies(), this, getPosition(), mHealAmount, mHealRange));
+            getGameEngine().add(new HealEffect(this, getPosition(), mHealAmount, mHealRange));
         }
     }
 }

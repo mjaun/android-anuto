@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import ch.logixisland.anuto.engine.logic.Entity;
-import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Layers;
@@ -59,9 +58,8 @@ public class LaserStraight extends Effect {
 
     private LaserDrawable mDrawObject;
 
-    public LaserStraight(EntityDependencies dependencies, Entity origin,
-                         Vector2 position, Vector2 laserTo, float damage) {
-        super(dependencies, origin, EFFECT_DURATION);
+    public LaserStraight(Entity origin, Vector2 position, Vector2 laserTo, float damage) {
+        super(origin, EFFECT_DURATION);
         setPosition(position);
 
         mLaserTo = laserTo;

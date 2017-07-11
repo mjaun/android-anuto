@@ -1,7 +1,6 @@
 package ch.logixisland.anuto.entity.effect;
 
 import ch.logixisland.anuto.engine.logic.Entity;
-import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.TickTimer;
 import ch.logixisland.anuto.entity.Types;
 
@@ -17,8 +16,8 @@ public abstract class Effect extends Entity {
     private TickTimer mTimer;
     private State mState;
 
-    Effect(EntityDependencies dependencies, Entity origin, float duration) {
-        super(dependencies);
+    Effect(Entity origin, float duration) {
+        super(origin.getDependencies());
 
         mOrigin = origin;
         mTimer = TickTimer.createInterval(duration);

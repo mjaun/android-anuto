@@ -93,7 +93,7 @@ public class TeleportTower extends AimingTower {
             if (!target.isEnabled() || getDistanceTo(target) > getRange()) {
                 setTarget(null);
             } else {
-                getGameEngine().add(new TeleportEffect(getDependencies(), this, getPosition(), target, mTeleportDistance));
+                getGameEngine().add(new TeleportEffect(this, getPosition(), target, mTeleportDistance));
                 mSound.play();
                 setReloaded(false);
             }

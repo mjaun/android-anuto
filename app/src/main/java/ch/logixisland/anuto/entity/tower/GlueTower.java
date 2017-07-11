@@ -154,7 +154,7 @@ public class GlueTower extends Tower {
 
                 for (Vector2 target : mTargets) {
                     Vector2 position = getPosition().add(Vector2.polar(SHOT_SPAWN_OFFSET, getAngleTo(target)));
-                    getGameEngine().add(new GlueShot(getDependencies(), this, position, target, mGlueIntensity, mGlueDuration));
+                    getGameEngine().add(new GlueShot(this, position, target, mGlueIntensity, mGlueDuration));
                 }
             }
         } else if (mCanonOffset > 0f) {

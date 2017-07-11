@@ -133,7 +133,7 @@ public class MineLayer extends Tower {
             mSprite.tick();
 
             if (mSprite.getSequenceIndex() == 5) {
-                Mine m = new Mine(getDependencies(), this, getPosition(), getTarget(), getDamage(), mExplosionRadius);
+                Mine m = new Mine(this, getPosition(), getTarget(), getDamage(), mExplosionRadius);
                 m.addListener(mMineListener);
                 mMines.add(m);
                 getGameEngine().add(m);

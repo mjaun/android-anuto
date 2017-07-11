@@ -5,7 +5,6 @@ import android.graphics.Paint;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.Entity;
-import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
@@ -31,9 +30,8 @@ public class GlueEffect extends AreaEffect {
     private Paint mPaint;
     private StaticSprite mSprite;
 
-    public GlueEffect(EntityDependencies dependencies, Entity origin, Vector2 position,
-                      float intensity, float duration) {
-        super(dependencies, origin, duration, 1f);
+    public GlueEffect(Entity origin, Vector2 position, float intensity, float duration) {
+        super(origin, duration, 1f);
         setPosition(position);
 
         mIntensity = intensity;

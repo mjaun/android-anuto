@@ -94,7 +94,7 @@ public class LaserTower3 extends AimingTower {
             if (isReloaded()) {
                 Vector2 laserFrom = getPosition().add(Vector2.polar(LASER_SPAWN_OFFSET, mAngle));
                 Vector2 laserTo = getPosition().add(Vector2.polar(LASER_LENGTH, mAngle));
-                getGameEngine().add(new LaserStraight(getDependencies(), this, laserFrom, laserTo, getDamage()));
+                getGameEngine().add(new LaserStraight(this, laserFrom, laserTo, getDamage()));
                 setReloaded(false);
                 mSound.play();
             }
