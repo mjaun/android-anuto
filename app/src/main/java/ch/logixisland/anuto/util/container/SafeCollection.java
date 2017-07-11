@@ -8,40 +8,12 @@ import ch.logixisland.anuto.util.iterator.LazyIterator;
 import ch.logixisland.anuto.util.iterator.StreamIterable;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
-public class SmartCollection<T> implements Collection<T>, StreamIterable<T> {
+public class SafeCollection<T> implements Collection<T>, StreamIterable<T> {
 
-    /*
-    ------ Members ------
-     */
-
-    private final List<T> mItems;
-    private final Collection<SmartIterator> mIterators = new ArrayList<>();
-
-    /*
-    ------ Constructors ------
-     */
-
-    public SmartCollection() {
-        mItems = new ArrayList<>();
-    }
-
-    public SmartCollection(int capacity) {
-        mItems = new ArrayList<>(capacity);
-    }
-
-    public SmartCollection(Collection<? extends T> collection) {
-        mItems = new ArrayList<>(collection);
-    }
-
-    /*
-    ------ SmartIterator Class ------
-     */
-
-    private class SmartIterator extends LazyIterator<T> {
+    private class SafeIterator extends LazyIterator<T> {
         private int mNextIndex = 0;
 
-        SmartIterator() {
+        private SafeIterator() {
             mIterators.add(this);
         }
 
@@ -65,25 +37,19 @@ public class SmartCollection<T> implements Collection<T>, StreamIterable<T> {
 
         @Override
         public void remove() {
-            SmartCollection.this.remove(mNextIndex - 1);
+            SafeCollection.this.remove(mNextIndex - 1);
         }
     }
 
-    /*
-    ------ Methods ------
-     */
 
-    private T remove(int index) {
-        T ret = mItems.remove(index);
+    private final List<T> mItems;
+    private final Collection<SafeIterator> mIterators = new ArrayList<>();
 
-        for (SmartIterator it : mIterators) {
-            if (it.mNextIndex > index) {
-                it.mNextIndex--;
-            }
-        }
 
-        return ret;
+    public SafeCollection() {
+        mItems = new ArrayList<>();
     }
+
 
     @Override
     public boolean add(T object) {
@@ -99,7 +65,7 @@ public class SmartCollection<T> implements Collection<T>, StreamIterable<T> {
     public void clear() {
         mItems.clear();
 
-        for (SmartIterator it : mIterators) {
+        for (SafeIterator it : mIterators) {
             it.mNextIndex = 0;
         }
     }
@@ -121,7 +87,7 @@ public class SmartCollection<T> implements Collection<T>, StreamIterable<T> {
 
     @Override
     public StreamIterator<T> iterator() {
-        return new SmartIterator();
+        return new SafeIterator();
     }
 
     @Override
@@ -179,4 +145,17 @@ public class SmartCollection<T> implements Collection<T>, StreamIterable<T> {
         //noinspection SuspiciousToArrayCall
         return mItems.toArray(array);
     }
+
+    private T remove(int index) {
+        T ret = mItems.remove(index);
+
+        for (SafeIterator it : mIterators) {
+            if (it.mNextIndex > index) {
+                it.mNextIndex--;
+            }
+        }
+
+        return ret;
+    }
+
 }

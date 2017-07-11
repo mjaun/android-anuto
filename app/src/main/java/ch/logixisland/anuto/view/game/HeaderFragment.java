@@ -222,17 +222,17 @@ public class HeaderFragment extends AnutoFragment implements GameListener, WaveL
             @Override
             public void run() {
                 txt_bonus.setText(getString(R.string.bonus) + ": " + StringUtils.formatSuffix(waveBonus + earlyBonus));
-                txt_wave.setText(getString(R.string.wave) + ": " + mWaveManager.getWaveNumber() + " ("+ mWaveManager.getEnemiesCount()+ ")");
+                txt_wave.setText(getString(R.string.wave) + ": " + mWaveManager.getWaveNumber() + " (" + mWaveManager.getEnemiesCount() + ")");
             }
         });
     }
 
     @Override
-    public void gameSpeedChangedTo(final int newSpeed, final boolean canIncrease, final boolean canDecrease) {
+    public void gameSpeedChanged(final int newSpeed, final boolean canIncrease, final boolean canDecrease) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                txt_game_speed.setText(getString(R.string.game_speed) + ": " + newSpeed +"x");
+                txt_game_speed.setText(getString(R.string.game_speed) + ": " + newSpeed + "x");
                 btn_inc_rate.setEnabled(canIncrease);
                 btn_dec_rate.setEnabled(canDecrease);
             }

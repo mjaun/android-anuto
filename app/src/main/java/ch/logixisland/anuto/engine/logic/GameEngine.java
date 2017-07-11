@@ -8,26 +8,26 @@ import java.util.Map;
 
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Renderer;
-import ch.logixisland.anuto.util.container.MultiMap;
-import ch.logixisland.anuto.util.container.SmartCollection;
+import ch.logixisland.anuto.util.container.LayeredSafeCollection;
+import ch.logixisland.anuto.util.container.SafeCollection;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
 public class GameEngine implements Runnable {
 
     public final static int TARGET_FRAME_RATE = 30;
-    public final static int TICK_TIME = 1000 / TARGET_FRAME_RATE;
+    private final static int TICK_TIME = 1000 / TARGET_FRAME_RATE;
     private final static int MAX_FRAME_SKIPS = 2;
 
     private final static String TAG = GameEngine.class.getSimpleName();
 
     private final Renderer mRenderer;
 
-    private final MultiMap<Entity> mEntities = new MultiMap<>();
+    private final LayeredSafeCollection<Entity> mEntities = new LayeredSafeCollection<>();
     private final Map<Class<? extends Entity>, Object> mStaticData = new HashMap<>();
-    private final Collection<TickListener> mTickListeners = new SmartCollection<>();
+    private final Collection<TickListener> mTickListeners = new SafeCollection<>();
     private final MessageQueue mMessageQueue = new MessageQueue();
 
-    private int gameTicksPerLoop = 1;
+    private int mGameTicksPerLoop = 1;
 
     private Thread mGameThread;
     private volatile boolean mRunning = false;
@@ -36,12 +36,12 @@ public class GameEngine implements Runnable {
         mRenderer = renderer;
     }
 
-    public Object getStaticData(Entity obj) {
-        if (!mStaticData.containsKey(obj.getClass())) {
-            mStaticData.put(obj.getClass(), obj.initStatic());
+    public Object getStaticData(Entity entity) {
+        if (!mStaticData.containsKey(entity.getClass())) {
+            mStaticData.put(entity.getClass(), entity.initStatic());
         }
 
-        return mStaticData.get(obj.getClass());
+        return mStaticData.get(entity.getClass());
     }
 
     public StreamIterator<Entity> get(int typeId) {
@@ -51,10 +51,6 @@ public class GameEngine implements Runnable {
     public void add(Entity entity) {
         mEntities.add(entity.getType(), entity);
         entity.init();
-    }
-
-    public void setTicksPerLoop(int newTicksPerLoopValue){
-        gameTicksPerLoop = newTicksPerLoopValue;
     }
 
     public void add(Drawable drawable) {
@@ -121,6 +117,10 @@ public class GameEngine implements Runnable {
         mMessageQueue.post(runnable, (int) (delay * TARGET_FRAME_RATE));
     }
 
+    public void setTicksPerLoop(int newTicksPerLoopValue) {
+        mGameTicksPerLoop = newTicksPerLoopValue;
+    }
+
     public boolean isThreadChangeNeeded() {
         return Thread.currentThread() != mGameThread;
     }
@@ -136,8 +136,9 @@ public class GameEngine implements Runnable {
                 timeNextTick += TICK_TIME;
 
                 mRenderer.lock();
-                for(int repeat = 0; repeat < gameTicksPerLoop; repeat++)
+                for (int repeat = 0; repeat < mGameTicksPerLoop; repeat++) {
                     executeTick();
+                }
                 mRenderer.unlock();
 
                 timeCurrent = System.currentTimeMillis();
@@ -164,12 +165,12 @@ public class GameEngine implements Runnable {
     }
 
     private void executeTick() {
-        for (TickListener listener : mTickListeners) {
-            listener.tick();
-        }
-
         for (Entity entity : mEntities) {
             entity.tick();
+        }
+
+        for (TickListener listener : mTickListeners) {
+            listener.tick();
         }
 
         mMessageQueue.tick();

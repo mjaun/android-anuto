@@ -6,17 +6,7 @@ import ch.logixisland.anuto.util.iterator.LazyIterator;
 import ch.logixisland.anuto.util.iterator.StreamIterable;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
-public class MultiMap<T> implements StreamIterable<T> {
-
-    /*
-    ------ Members ------
-     */
-
-    private final SparseArray<SmartCollection<T>> mCollections = new SparseArray<>();
-
-    /*
-    ------ SmartIterator Class ------
-     */
+public class LayeredSafeCollection<T> implements StreamIterable<T> {
 
     private class LayerIterator extends LazyIterator<T> {
         int mKeyIndex = 0;
@@ -25,9 +15,9 @@ public class MultiMap<T> implements StreamIterable<T> {
         @Override
         protected T fetchNext() {
             while (mCollectionIterator == null || !mCollectionIterator.hasNext()) {
-                if (mKeyIndex < mCollections.size()) {
-                    int key = mCollections.keyAt(mKeyIndex++);
-                    mCollectionIterator = mCollections.get(key).iterator();
+                if (mKeyIndex < mLayers.size()) {
+                    int key = mLayers.keyAt(mKeyIndex++);
+                    mCollectionIterator = mLayers.get(key).iterator();
                 } else {
                     mCollectionIterator = null;
                 }
@@ -50,24 +40,22 @@ public class MultiMap<T> implements StreamIterable<T> {
         }
     }
 
-    /*
-    ------ Methods ------
-     */
-
-    public SmartCollection<T> get(int key) {
-        SmartCollection<T> collection = mCollections.get(key);
-
-        if (collection == null) {
-            collection = new SmartCollection<T>();
-            mCollections.put(key, collection);
-        }
-
-        return collection;
-    }
+    private final SparseArray<SafeCollection<T>> mLayers = new SparseArray<>();
 
     @Override
     public StreamIterator<T> iterator() {
         return new LayerIterator();
+    }
+
+    public SafeCollection<T> get(int key) {
+        SafeCollection<T> collection = mLayers.get(key);
+
+        if (collection == null) {
+            collection = new SafeCollection<T>();
+            mLayers.put(key, collection);
+        }
+
+        return collection;
     }
 
     public boolean add(int key, T value) {
@@ -79,7 +67,7 @@ public class MultiMap<T> implements StreamIterable<T> {
     }
 
     public void clear() {
-        mCollections.clear();
+        mLayers.clear();
     }
 
 }

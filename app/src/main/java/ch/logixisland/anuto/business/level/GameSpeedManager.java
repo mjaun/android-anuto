@@ -10,10 +10,9 @@ public class GameSpeedManager {
     private static final int MAX_SPEED = 8;
 
     private final GameEngine mGameEngine;
-
     private final List<GameSpeedListener> mListeners = new CopyOnWriteArrayList<>();
 
-    private int gameSpeed = 1;
+    private int mGameSpeed = 1;
 
     public GameSpeedManager(GameEngine gameEngine){
         mGameEngine = gameEngine;
@@ -30,23 +29,47 @@ public class GameSpeedManager {
             return;
         }
 
-        gameSpeed = 1;
-
+        mGameSpeed = 1;
         updateGameSpeed();
     }
 
     public void increaseGameSpeed() {
-        if(!canIncreaseSpeed()) return;
-        gameSpeed *= 2;
+        if (mGameEngine.isThreadChangeNeeded()) {
+            mGameEngine.post(new Runnable() {
+                @Override
+                public void run() {
+                    increaseGameSpeed();
+                }
+            });
+            return;
+        }
+
+        if (!canIncreaseSpeed()) {
+            return;
+        }
+
+        mGameSpeed *= 2;
         updateGameSpeed();
     }
 
     public void decreaseGameSpeed() {
-        if(!canDecreaseSpeed()) return;
-        gameSpeed /= 2;
+        if (mGameEngine.isThreadChangeNeeded()) {
+            mGameEngine.post(new Runnable() {
+                @Override
+                public void run() {
+                    decreaseGameSpeed();
+                }
+            });
+            return;
+        }
+
+        if (!canDecreaseSpeed()) {
+            return;
+        }
+
+        mGameSpeed /= 2;
         updateGameSpeed();
     }
-
 
     public void addListener(GameSpeedListener listener) {
         mListeners.add(listener);
@@ -57,18 +80,18 @@ public class GameSpeedManager {
     }
 
     private void updateGameSpeed() {
-        mGameEngine.setTicksPerLoop(gameSpeed);
+        mGameEngine.setTicksPerLoop(mGameSpeed);
 
         for (GameSpeedListener listener : mListeners) {
-            listener.gameSpeedChangedTo(gameSpeed, canIncreaseSpeed(), canDecreaseSpeed());
+            listener.gameSpeedChanged(mGameSpeed, canIncreaseSpeed(), canDecreaseSpeed());
         }
     }
 
     private boolean canDecreaseSpeed() {
-        return gameSpeed / 2 >= 1;
+        return mGameSpeed / 2 >= 1;
     }
 
     private boolean canIncreaseSpeed() {
-        return gameSpeed * 2 <= MAX_SPEED;
+        return mGameSpeed * 2 <= MAX_SPEED;
     }
 }

@@ -13,7 +13,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.theme.ThemeListener;
 import ch.logixisland.anuto.engine.theme.ThemeManager;
-import ch.logixisland.anuto.util.container.MultiMap;
+import ch.logixisland.anuto.util.container.LayeredSafeCollection;
 
 public class Renderer implements ThemeListener {
 
@@ -23,7 +23,7 @@ public class Renderer implements ThemeListener {
 
     private final Viewport mViewport;
     private final ThemeManager mThemeManager;
-    private final MultiMap<Drawable> mDrawables = new MultiMap<>();
+    private final LayeredSafeCollection<Drawable> mDrawables = new LayeredSafeCollection<>();
     private final Lock mLock = new ReentrantLock(true);
 
     private final Handler mDebugHandler;
