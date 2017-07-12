@@ -1,7 +1,4 @@
-package ch.logixisland.anuto.view.game;
-
-import ch.logixisland.anuto.business.manager.BackButtonMode;
-import ch.logixisland.anuto.business.manager.SettingsManager;
+package ch.logixisland.anuto.business.manager;
 
 public class BackButtonControl {
 
@@ -26,7 +23,7 @@ public class BackButtonControl {
      * @return true if BackButtonMode is ENABLED or if it is TWICE and this is the second press.
      * false if BackButtonMode is DISABLED or if it is TWICE and this is the first press.
      */
-    boolean backButtonPressed() {
+    public boolean backButtonPressed() {
         long timeNow = System.currentTimeMillis();
 
         switch (mSettingsManager.getBackButtonMode()) {

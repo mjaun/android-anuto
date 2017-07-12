@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.view.menu;
+package ch.logixisland.anuto.view.settings;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;

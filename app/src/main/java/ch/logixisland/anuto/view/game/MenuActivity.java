@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.view.menu;
+package ch.logixisland.anuto.view.game;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +16,8 @@ import ch.logixisland.anuto.business.manager.GameListener;
 import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.engine.theme.ActivityType;
 import ch.logixisland.anuto.view.AnutoActivity;
+import ch.logixisland.anuto.view.level.SelectLevelGridActivity;
+import ch.logixisland.anuto.view.settings.SettingsActivity;
 
 public class MenuActivity extends AnutoActivity implements View.OnClickListener, View.OnTouchListener {
 

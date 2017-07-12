@@ -9,6 +9,7 @@ import ch.logixisland.anuto.business.level.GameSpeedManager;
 import ch.logixisland.anuto.business.level.LevelLoader;
 import ch.logixisland.anuto.business.level.TowerAging;
 import ch.logixisland.anuto.business.level.WaveManager;
+import ch.logixisland.anuto.business.manager.BackButtonControl;
 import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.business.manager.SettingsManager;
 import ch.logixisland.anuto.business.score.ScoreBoard;
@@ -26,7 +27,6 @@ import ch.logixisland.anuto.entity.plateau.PlateauFactory;
 import ch.logixisland.anuto.entity.tower.TowerFactory;
 import ch.logixisland.anuto.util.data.GameSettings;
 import ch.logixisland.anuto.util.data.LevelDescriptor;
-import ch.logixisland.anuto.view.game.BackButtonControl;
 
 public class GameFactory {
 
@@ -56,8 +56,6 @@ public class GameFactory {
     private final WaveManager mWaveManager;
     private final GameSpeedManager mSpeedManager;
     private final GameManager mGameManager;
-
-    // View
     private final BackButtonControl mBackButtonControl;
 
     public GameFactory(Context context) {
@@ -88,8 +86,6 @@ public class GameFactory {
         mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector, mTowerFactory);
         mTowerInserter = new TowerInserter(mGameEngine, mGameManager, mTowerFactory, mTowerSelector, mTowerAging, mScoreBoard);
         mSettingsManager = new SettingsManager(context, mThemeManager, mSoundManager);
-
-        // View
         mBackButtonControl = new BackButtonControl(mSettingsManager);
 
         mGameManager.restart();

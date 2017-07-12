@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.view.menu;
+package ch.logixisland.anuto.view.level;
 
 import android.os.Bundle;
 import android.view.View;

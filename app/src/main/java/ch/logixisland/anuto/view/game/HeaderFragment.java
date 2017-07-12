@@ -25,7 +25,6 @@ import ch.logixisland.anuto.business.score.LivesListener;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.util.StringUtils;
 import ch.logixisland.anuto.view.AnutoFragment;
-import ch.logixisland.anuto.view.menu.MenuActivity;
 
 public class HeaderFragment extends AnutoFragment implements GameListener, WaveListener,
         CreditsListener, LivesListener, BonusListener, View.OnClickListener, GameSpeedListener {

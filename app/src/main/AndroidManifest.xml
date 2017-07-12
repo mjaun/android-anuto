@@ -26,19 +26,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.menu.MenuActivity"
+            android:name=".view.game.MenuActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
         </activity>
         <activity
-            android:name=".view.menu.SettingsActivity"
+            android:name=".view.settings.SettingsActivity"
             android:label="@string/settings"
             android:icon="@drawable/settings"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.DeviceDefault">
         </activity>
         <activity
-            android:name=".view.menu.SelectLevelGridActivity"
+            android:name=".view.level.SelectLevelGridActivity"
             android:label="@string/select_level"
             android:icon="@drawable/settings"
             android:screenOrientation="portrait"

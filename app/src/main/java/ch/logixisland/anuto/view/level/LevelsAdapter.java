@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.view.menu;
+package ch.logixisland.anuto.view.level;
 
 import android.app.Activity;
 import android.view.LayoutInflater;

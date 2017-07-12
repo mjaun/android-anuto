@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/shadowColor"
-    tools:context=".view.menu.MenuActivity">
+    tools:context=".view.game.MenuActivity">
 
     <LinearLayout
         android:id="@+id/menu_layout"
