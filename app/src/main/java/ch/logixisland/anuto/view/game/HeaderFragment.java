@@ -13,6 +13,7 @@ import android.widget.TextView;
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.business.control.TowerSelector;
 import ch.logixisland.anuto.business.level.GameSpeedListener;
 import ch.logixisland.anuto.business.level.GameSpeedManager;
 import ch.logixisland.anuto.business.level.WaveListener;
@@ -33,6 +34,7 @@ public class HeaderFragment extends AnutoFragment implements GameListener, WaveL
     private final WaveManager mWaveManager;
     private final GameSpeedManager mSpeedManager;
     private final ScoreBoard mScoreBoard;
+    private final TowerSelector mTowerSelector;
 
     private Handler mHandler;
 
@@ -55,6 +57,7 @@ public class HeaderFragment extends AnutoFragment implements GameListener, WaveL
         mScoreBoard = factory.getScoreBoard();
         mWaveManager = factory.getWaveManager();
         mSpeedManager = factory.getSpeedManager();
+        mTowerSelector = factory.getTowerSelector();
     }
 
     @Override
@@ -139,6 +142,7 @@ public class HeaderFragment extends AnutoFragment implements GameListener, WaveL
         }
 
         if (v == btn_menu) {
+            mTowerSelector.selectTower(null);
             Intent intent = new Intent(getActivity(), MenuActivity.class);
             startActivity(intent);
         }
