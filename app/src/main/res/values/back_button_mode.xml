@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="back_button_mode_disabled" translatable="false">DISABLED</string>
+    <string name="back_button_mode_enabled" translatable="false">ENABLED</string>
+    <string name="back_button_mode_twice" translatable="false">TWICE</string>
+
+    <string-array name="back_button_mode_entries">
+        <item>@string/off</item>
+        <item>@string/on</item>
+        <item>@string/twice</item>
+    </string-array>
+
+    <string-array name="back_button_mode_entry_values">
+        <item>@string/back_button_mode_disabled</item>
+        <item>@string/back_button_mode_enabled</item>
+        <item>@string/back_button_mode_twice</item>
+    </string-array>
+</resources>

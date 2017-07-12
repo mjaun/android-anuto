@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:icon="@drawable/settings"
+    android:title="@string/settings">
+    <ListPreference
+        android:key="theme_index"
+        android:defaultValue="0"
+        android:entries="@array/theme_entries"
+        android:entryValues="@array/theme_entry_values"
+        android:title="@string/theme"/>
+    <CheckBoxPreference
+        android:key="sound_enabled"
+        android:defaultValue="true"
+        android:title="@string/sound"/>
+    <CheckBoxPreference
+        android:key="transparent_tower_info_enabled"
+        android:defaultValue="false"
+        android:title="@string/transparent_tower_info_button"/>
+    <ListPreference
+        android:key="back_button_mode"
+        android:defaultValue="@string/back_button_mode_disabled"
+        android:entries="@array/back_button_mode_entries"
+        android:entryValues="@array/back_button_mode_entry_values"
+        android:title="@string/back_button_behaviour"/>
+</PreferenceScreen>

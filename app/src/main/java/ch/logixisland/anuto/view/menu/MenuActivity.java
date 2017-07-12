@@ -168,6 +168,6 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
     }
 
     private void update() {
-        btn_change_level.setEnabled(mGameManager.isGameOver() || mWaveManager.getWaveNumber() == 0);
+        btn_change_level.setEnabled(!mGameManager.isGameStarted());
     }
 }

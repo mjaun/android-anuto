@@ -40,6 +40,7 @@
         <activity
             android:name=".view.menu.SelectLevelGridActivity"
             android:label="@string/select_level"
+            android:icon="@drawable/settings"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.DeviceDefault">
         </activity>

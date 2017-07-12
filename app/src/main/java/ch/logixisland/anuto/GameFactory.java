@@ -62,8 +62,7 @@ public class GameFactory {
 
     public GameFactory(Context context) {
         // Engine
-        mSettingsManager = new SettingsManager(context);
-        mThemeManager = new ThemeManager(context, mSettingsManager);
+        mThemeManager = new ThemeManager(context);
         mSoundManager = new SoundManager(context);
         mSpriteFactory = new SpriteFactory(context, mThemeManager);
         mShapeFactory = new ShapeFactory(mThemeManager);
@@ -84,10 +83,11 @@ public class GameFactory {
         mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mLevelLoader, mEnemyFactory);
         mSpeedManager = new GameSpeedManager(mGameEngine);
         mTowerAging = new TowerAging(mGameEngine, mWaveManager, mLevelLoader);
-        mGameManager = new GameManager(mGameEngine, mScoreBoard, mLevelLoader, mWaveManager, mSpeedManager);
+        mGameManager = new GameManager(mGameEngine, mScoreBoard, mLevelLoader, mWaveManager, mSpeedManager, mThemeManager);
         mTowerSelector = new TowerSelector(mGameEngine, mGameManager, mScoreBoard);
         mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector, mTowerFactory);
         mTowerInserter = new TowerInserter(mGameEngine, mGameManager, mTowerFactory, mTowerSelector, mTowerAging, mScoreBoard);
+        mSettingsManager = new SettingsManager(context, mThemeManager, mSoundManager);
 
         // View
         mBackButtonControl = new BackButtonControl(mSettingsManager);

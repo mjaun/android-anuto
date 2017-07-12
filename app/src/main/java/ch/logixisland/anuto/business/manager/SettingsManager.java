@@ -2,52 +2,73 @@ package ch.logixisland.anuto.business.manager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
-public class SettingsManager {
+import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.engine.sound.SoundManager;
+import ch.logixisland.anuto.engine.theme.ThemeManager;
 
-    private static final String PREF_FILE = "settings.prefs";
+public class SettingsManager implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private static final String PREF_THEME_INDEX = "themeIndex";
-    private static final String PREF_TRANSPARENT_TOWER_INFO = "transparentTowerInfo";
-    private static final String PREF_BACK_BUTTON_MODE = "backButtonMode";
+    public static final String PREF_THEME_INDEX = "theme_index";
+    public static final String PREF_SOUND_ENABLED = "sound_enabled";
+    public static final String PREF_TRANSPARENT_TOWER_INFO_ENABLED = "transparent_tower_info_enabled";
+    public static final String PREF_BACK_BUTTON_MODE = "back_button_mode";
 
-    private final Context mContext;
     private final SharedPreferences mPreferences;
+    private final ThemeManager mThemeManager;
+    private final SoundManager mSoundManager;
 
-    public SettingsManager(Context context) {
-        mContext = context;
-        mPreferences = mContext.getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE);
-    }
+    public SettingsManager(Context context, ThemeManager themeManager, SoundManager soundManager) {
+        PreferenceManager.setDefaultValues(context, R.xml.settings, false);
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        mPreferences.registerOnSharedPreferenceChangeListener(this);
 
-    public int getThemeIndex() {
-        return mPreferences.getInt(PREF_THEME_INDEX, 0);
-    }
+        mThemeManager = themeManager;
+        mSoundManager = soundManager;
 
-    public void setThemeIndex(int index) {
-        SharedPreferences.Editor editor = mPreferences.edit();
-        editor.putInt(PREF_THEME_INDEX, index);
-        editor.apply();
+        updateThemeIndex();
+        updateSoundEnabled();
     }
 
     public boolean isTransparentTowerInfoEnabled() {
-        return mPreferences.getBoolean(PREF_TRANSPARENT_TOWER_INFO, false);
-    }
-
-    public void setTransparentTowerInfoEnabled(boolean enabled) {
-        SharedPreferences.Editor editor = mPreferences.edit();
-        editor.putBoolean(PREF_TRANSPARENT_TOWER_INFO, enabled);
-        editor.apply();
+        return mPreferences.getBoolean(PREF_TRANSPARENT_TOWER_INFO_ENABLED, false);
     }
 
     public BackButtonMode getBackButtonMode() {
         String backModeString = mPreferences.getString(PREF_BACK_BUTTON_MODE, null);
-        return BackButtonMode.fromString(backModeString);
+
+        try {
+            return BackButtonMode.valueOf(backModeString);
+        } catch (Exception e) {
+            return BackButtonMode.DISABLED;
+        }
     }
 
-    public void setBackButtonMode(BackButtonMode backButtonMode) {
-        SharedPreferences.Editor editor = mPreferences.edit();
-        editor.putString(PREF_BACK_BUTTON_MODE, backButtonMode.toString());
-        editor.apply();
+    private int getThemeIndex() {
+        return Integer.valueOf(mPreferences.getString(PREF_THEME_INDEX, "0"));
     }
 
+    private boolean isSoundEnabled() {
+        return mPreferences.getBoolean(PREF_SOUND_ENABLED, false);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (PREF_THEME_INDEX.equals(key)) {
+            updateThemeIndex();
+        }
+
+        if (PREF_SOUND_ENABLED.equals(key)) {
+            updateSoundEnabled();
+        }
+    }
+
+    private void updateThemeIndex() {
+        mThemeManager.setThemeIndex(getThemeIndex());
+    }
+
+    private void updateSoundEnabled() {
+        mSoundManager.setSoundEnabled(isSoundEnabled());
+    }
 }

@@ -9,24 +9,14 @@ public class BackButtonControl {
 
     private final SettingsManager mSettingsManager;
 
-    private BackButtonMode mBackButtonMode;
     private long mLastBackButtonPress;
 
     public BackButtonControl(SettingsManager settingsManager) {
         mSettingsManager = settingsManager;
-        mBackButtonMode = mSettingsManager.getBackButtonMode();
     }
 
     public BackButtonMode getBackButtonMode() {
-        return mBackButtonMode;
-    }
-
-    public void setBackButtonMode(BackButtonMode mode) {
-        if (mBackButtonMode != mode) {
-            mBackButtonMode = mode;
-
-            mSettingsManager.setBackButtonMode(mBackButtonMode);
-        }
+        return mSettingsManager.getBackButtonMode();
     }
 
     /**
@@ -36,10 +26,10 @@ public class BackButtonControl {
      * @return true if BackButtonMode is ENABLED or if it is TWICE and this is the second press.
      * false if BackButtonMode is DISABLED or if it is TWICE and this is the first press.
      */
-    public boolean backButtonPressed() {
+    boolean backButtonPressed() {
         long timeNow = System.currentTimeMillis();
 
-        switch (mBackButtonMode) {
+        switch (mSettingsManager.getBackButtonMode()) {
             case DISABLED:
                 return false;
 

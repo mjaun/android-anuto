@@ -9,6 +9,8 @@ import ch.logixisland.anuto.business.level.WaveManager;
 import ch.logixisland.anuto.business.score.LivesListener;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.engine.theme.ThemeListener;
+import ch.logixisland.anuto.engine.theme.ThemeManager;
 
 public class GameManager {
 
@@ -19,6 +21,7 @@ public class GameManager {
     private final LevelLoader mLevelLoader;
     private final WaveManager mWaveManager;
     private final GameSpeedManager mSpeedManager;
+    private final ThemeManager mThemeManager;
 
     private volatile boolean mGameOver = false;
 
@@ -37,15 +40,24 @@ public class GameManager {
         }
     };
 
+    private final ThemeListener mThemeListener = new ThemeListener() {
+        @Override
+        public void themeChanged() {
+            restart();
+        }
+    };
+
     public GameManager(GameEngine gameEngine, ScoreBoard scoreBoard, LevelLoader levelLoader,
-                       WaveManager waveManager, GameSpeedManager speedManager) {
+                       WaveManager waveManager, GameSpeedManager speedManager, ThemeManager themeManager) {
         mGameEngine = gameEngine;
         mLevelLoader = levelLoader;
         mScoreBoard = scoreBoard;
         mWaveManager = waveManager;
         mSpeedManager = speedManager;
+        mThemeManager = themeManager;
 
         mScoreBoard.addLivesListener(mLivesListener);
+        mThemeManager.addListener(mThemeListener);
     }
 
     public void restart() {
@@ -73,6 +85,10 @@ public class GameManager {
 
     public boolean isGameOver() {
         return mGameOver;
+    }
+
+    public boolean isGameStarted() {
+        return !mGameOver && mWaveManager.getWaveNumber() > 0;
     }
 
 
