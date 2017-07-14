@@ -3,8 +3,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="@dimen/fragment_tower_info_padding"
-    android:background="?attr/backgroundBorder">
+    android:padding="10dp"
+    android:background="?attr/backgroundTowerInfo">
 
     <TableLayout
         android:layout_width="match_parent"

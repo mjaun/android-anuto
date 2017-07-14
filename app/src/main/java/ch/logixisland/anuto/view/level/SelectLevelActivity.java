@@ -15,7 +15,7 @@ import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.engine.theme.ActivityType;
 import ch.logixisland.anuto.view.AnutoActivity;
 
-public class SelectLevelGridActivity extends AnutoActivity implements AdapterView.OnItemClickListener,
+public class SelectLevelActivity extends AnutoActivity implements AdapterView.OnItemClickListener,
         ViewTreeObserver.OnScrollChangedListener {
 
     private final GameManager mGameManager;
@@ -26,7 +26,7 @@ public class SelectLevelGridActivity extends AnutoActivity implements AdapterVie
     private GridView grid_view;
     private LevelsAdapter mAdapter;
 
-    public SelectLevelGridActivity() {
+    public SelectLevelActivity() {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
         mGameManager = factory.getGameManager();
         mLevelLoader = factory.getLevelLoader();
@@ -40,7 +40,7 @@ public class SelectLevelGridActivity extends AnutoActivity implements AdapterVie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select_level_grid);
+        setContentView(R.layout.activity_select_level);
 
         mAdapter = new LevelsAdapter(this);
         mAdapter.addLevel(R.raw.level_original, R.drawable.level_original_thumb, R.string.level_original_name);
@@ -81,7 +81,7 @@ public class SelectLevelGridActivity extends AnutoActivity implements AdapterVie
 
     private void updateArrowVisibility() {
 //        int scrollY = grid_view.getScrollY(); //grid_view.getScrollY() doesn't work as I'd expect. Instead, it always gives values around 0
-//        Log.d("SelectLevelGridActivity", "getScrollY(): " + scrollY);
+//        Log.d("SelectLevelActivity", "getScrollY(): " + scrollY);
 //        arrow_up.setVisibility(scrollY < 10 ? View.INVISIBLE : View.VISIBLE);
 //        arrow_down.setVisibility(scrollY > grid_view.getChildAt(0).getBottom() - grid_view.getHeight() - 10 ? View.INVISIBLE : View.VISIBLE);
 

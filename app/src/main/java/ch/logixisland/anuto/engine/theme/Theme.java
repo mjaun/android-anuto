@@ -3,33 +3,41 @@ package ch.logixisland.anuto.engine.theme;
 import android.content.Context;
 import android.content.res.TypedArray;
 
+import ch.logixisland.anuto.R;
+
 public class Theme {
 
     private final Context mContext;
     private final int mThemeNameId;
-    private final int mGameThemeId;
-    private final int mMenuThemeId;
-    private final int mLevelsThemeId;
+    private final int mThemeStyleId;
 
-    Theme(Context context, int themeNameId, int gameThemeId, int menuThemeId, int menuLevelsThemeId) {
+    Theme(Context context, int themeNameId, int themeStyleId) {
         mContext = context;
         mThemeNameId = themeNameId;
-        mGameThemeId = gameThemeId;
-        mMenuThemeId = menuThemeId;
-        mLevelsThemeId = menuLevelsThemeId;
+        mThemeStyleId = themeStyleId;
     }
 
     public int getActivityThemeId(ActivityType type) {
+        int attrId;
+
         switch (type) {
             case Game:
-                return mGameThemeId;
-            case Menu:
-                return mMenuThemeId;
+                attrId = R.attr.gameActivityStyle;
+                break;
+
+            case Popup:
+                attrId = R.attr.popupActivityStyle;
+                break;
+
             case Normal:
-                return mLevelsThemeId;
+                attrId = R.attr.normalActivityStyle;
+                break;
+
+            default:
+                throw new RuntimeException("Unknown activity type!");
         }
 
-        throw new RuntimeException("Unknown activity type!");
+        return getResourceId(attrId);
     }
 
     public String getName() {
@@ -37,14 +45,14 @@ public class Theme {
     }
 
     public int getColor(int attrId) {
-        TypedArray values = mContext.obtainStyledAttributes(mGameThemeId, new int[]{attrId});
+        TypedArray values = mContext.obtainStyledAttributes(mThemeStyleId, new int[]{attrId});
         int color = values.getColor(0, 0);
         values.recycle();
         return color;
     }
 
     public int getResourceId(int attrId) {
-        TypedArray values = mContext.obtainStyledAttributes(mGameThemeId, new int[]{attrId});
+        TypedArray values = mContext.obtainStyledAttributes(mThemeStyleId, new int[]{attrId});
         int resId = values.getResourceId(0, 0);
         values.recycle();
         return resId;

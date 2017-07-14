@@ -16,7 +16,7 @@ import ch.logixisland.anuto.business.manager.GameListener;
 import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.engine.theme.ActivityType;
 import ch.logixisland.anuto.view.AnutoActivity;
-import ch.logixisland.anuto.view.level.SelectLevelGridActivity;
+import ch.logixisland.anuto.view.level.SelectLevelActivity;
 import ch.logixisland.anuto.view.settings.SettingsActivity;
 
 public class MenuActivity extends AnutoActivity implements View.OnClickListener, View.OnTouchListener {
@@ -87,7 +87,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
 
     @Override
     protected ActivityType getActivityType() {
-        return ActivityType.Menu;
+        return ActivityType.Popup;
     }
 
     @Override
@@ -136,7 +136,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
         }
 
         if (view == btn_change_level) {
-            Intent intent = new Intent(this, SelectLevelGridActivity.class);
+            Intent intent = new Intent(this, SelectLevelActivity.class);
             startActivityForResult(intent, REQUEST_SELECT_LEVEL);
         }
 

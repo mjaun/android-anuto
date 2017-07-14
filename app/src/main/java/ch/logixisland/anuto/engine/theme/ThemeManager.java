@@ -20,8 +20,8 @@ public class ThemeManager {
     }
 
     private void initThemes(Context context) {
-        mAvailableThemes.add(new Theme(context, R.string.theme_original, R.style.OriginalTheme, R.style.OriginalTheme_Menu, R.style.OriginalThemeNormal));
-        mAvailableThemes.add(new Theme(context, R.string.theme_dark, R.style.DarkTheme, R.style.DarkTheme_Menu, R.style.DarkThemeNormal));
+        mAvailableThemes.add(new Theme(context, R.string.theme_original, R.style.OriginalTheme));
+        mAvailableThemes.add(new Theme(context, R.string.theme_dark, R.style.DarkTheme));
     }
 
     public List<String> getThemeNames() {

@@ -43,11 +43,10 @@ class LevelsAdapter extends BaseAdapter {
 
     static private class ViewHolder {
         ImageView ibThumb;
-        TextView tvIndex, tvName;
+        TextView tvName;
 
         ViewHolder(View view) {
             ibThumb = (ImageView) view.findViewById(R.id.levelThumb);
-            tvIndex = (TextView) view.findViewById(R.id.levelIndex);
             tvName = (TextView) view.findViewById(R.id.levelName);
         }
     }
@@ -89,7 +88,6 @@ class LevelsAdapter extends BaseAdapter {
         }
 
         viewHolder.ibThumb.setImageResource(itemInfo.thumbResId);
-        viewHolder.tvIndex.setText(String.valueOf(position));
         viewHolder.tvName.setText(act.getResources().getString(itemInfo.nameResId));
 
         return convertView;

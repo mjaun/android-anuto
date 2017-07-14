@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-    <style name="OriginalTheme" parent="@android:style/Theme.NoTitleBar.Fullscreen">
-        <item name="android:textAppearance">?android:attr/textAppearanceSmallInverse</item>
-        <item name="android:textColor">?attr/textColor</item>
+
+    <style name="OriginalTheme">
+        <item name="gameActivityStyle">@style/OriginalTheme.Game</item>
+        <item name="popupActivityStyle">@style/OriginalTheme.Popup</item>
+        <item name="normalActivityStyle">@style/OriginalTheme.Normal</item>
 
         <item name="textColor">#000000</item>
         <item name="textDisabledColor">#ff0000</item>
         <item name="backgroundColor">#ffffff</item>
-        <item name="backgroundBorder">@drawable/border</item>
-        <item name="backgroundBorderTransparent">@drawable/border_transparent</item>
-        <item name="backgroundBorderBottom">@drawable/border_bottom</item>
-        <item name="shadowColor">#88333333</item>
-        <item name="healthBarBackgroundColor">#000000</item>
         <item name="healthBarColor">#00ff00</item>
+        <item name="healthBarBackgroundColor">#000000</item>
         <item name="levelIndicatorColor">#ff0000</item>
         <item name="rangeIndicatorColor">#8000ff00</item>
         <item name="explosionColor">#b4ffff00</item>
@@ -20,11 +18,11 @@
         <item name="healEffectColor">#460000ff</item>
         <item name="teleportEffectColor">#46ff00ff</item>
 
-        <item name="base1">@drawable/base1</item>
-        <item name="base2">@drawable/base2</item>
-        <item name="base3">@drawable/base3</item>
-        <item name="base4">@drawable/base4</item>
-        <item name="base5">@drawable/base5</item>
+        <item name="base1">@drawable/tower_base1</item>
+        <item name="base2">@drawable/tower_base2</item>
+        <item name="base3">@drawable/tower_base3</item>
+        <item name="base4">@drawable/tower_base4</item>
+        <item name="base5">@drawable/tower_base5</item>
         <item name="blob">@drawable/blob</item>
         <item name="canon">@drawable/canon</item>
         <item name="canonDual">@drawable/canon_dual</item>
@@ -53,22 +51,30 @@
         <item name="teleportTower">@drawable/teleport_tower</item>
     </style>
 
-    <style name="OriginalTheme.Menu">
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:colorBackgroundCacheHint">@null</item>
-        <item name="android:windowIsTranslucent">true</item>
+    <style name="OriginalTheme.Game" parent="@android:style/Theme.NoTitleBar.Fullscreen">
         <item name="android:windowAnimationStyle">@android:style/Animation</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceSmallInverse</item>
+        <item name="android:textColor">#000000</item>
+
+        <item name="backgroundTowerInfo">@drawable/background_tower_info</item>
+        <item name="backgroundHeader">@drawable/background_header</item>
     </style>
 
-    <style name="OriginalThemeNormal" parent="@android:style/Theme.DeviceDefault.Light">
-        <item name="android:textColor">?attr/textColor</item>
-        <item name="textColor">#000000</item>
-        <item name="backgroundColor">#ffffff</item>
-        <item name="backgroundBorder">@drawable/border</item>
-        <item name="backgroundBorderBottom">@drawable/border_bottom</item>
-        <item name="arrow">@drawable/arrow</item>
-        <item name="backgroundLevelThumb">@drawable/background_level_thumb</item>
-
+    <style name="OriginalTheme.Popup" parent="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
         <item name="android:windowAnimationStyle">@android:style/Animation</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceSmallInverse</item>
+        <item name="android:textColor">#000000</item>
+
+        <item name="shadowColor">#88333333</item>
+        <item name="backgroundMenu">@drawable/background_menu</item>
+    </style>
+
+    <style name="OriginalTheme.Normal" parent="@android:style/Theme.DeviceDefault.Light">
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceSmallInverse</item>
+        <item name="android:textColor">#000000</item>
+
+        <item name="levelThumbBackgroundColor">#dddddd</item>
+        <item name="selectLevelArrow">@drawable/select_level_arrow</item>
     </style>
 </resources>

@@ -10,7 +10,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:textColor="?attr/textColor"
         android:textSize="50sp"
         android:text="@string/game_over"/>
 
@@ -20,7 +19,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:textColor="?attr/textColor"
         android:textSize="30sp"
         android:text="@string/score"/>
 </RelativeLayout>
