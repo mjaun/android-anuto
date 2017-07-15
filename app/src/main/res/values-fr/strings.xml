@@ -4,13 +4,20 @@
 
     <string name="menu">Menu</string>
     <string name="next_wave">Prochaine</string>
+    <string name="select_level">Choisir le niveau</string>
 
     <string name="restart">Redémarrer</string>
     <string name="change_map">Changer la carte</string>
     <string name="theme">Thème</string>
     <string name="sound">Sons</string>
+    <string name="back_button">Bouton Retour</string>
+    <string name="transparent_tower_info_button">Infos transparentes pour la tour</string>
 
-    <string name="game_over">Fin de la partie!</string>
+    <string name="back_button_toast_disabled">Le bouton Retour est désactivé</string>
+    <string name="back_button_toast_enabled">Le bouton Retour est activé</string>
+    <string name="back_button_toast_twice">Appuyez deux fois sur le bouton Retour pour quitter</string>
+
+    <string name="game_over">Fin de la partie !</string>
     <string name="score">Score</string>
 
     <string name="credits">Crédits</string>
@@ -45,5 +52,22 @@
 
     <string name="theme_original">Original</string>
     <string name="theme_dark">Sombre</string>
+    <string name="settings">Réglages</string>
+    <string name="back_button_behaviour">Comportement du bouton Retour</string>
+    <string name="twice">Deux fois</string>
+
+    <string name="level_original_name">L\'original</string>
+    <string name="level_waiting_line_name">Je hais les files d\'attente</string>
+    <string name="level_turn_round_name">Tourner autour</string>
+    <string name="level_hurry_name">Le temps presse !</string>
+    <string name="level_civyshk_2y_name">Civyshk 2Y</string>
+    <string name="level_civyshk_line5_name">Civyshk 5 lignes</string>
+    <string name="level_civyshk_labyrinth_name">Labyrinthe de Civyshk</string>
+    <string name="level_civyshk_yard_name">Le jardin de Civyshk</string>
+    <string name="change_theme">Changer le thème</string>
+    <string name="warning_change_theme">Souhaitez-vous vraiment changer le thème ? La partie va redémarrer</string>
+    <string name="increase_rate">></string>
+    <string name="decrease_rate">&lt;</string>
+    <string name="game_speed">Vitesse</string>
 
 </resources>
