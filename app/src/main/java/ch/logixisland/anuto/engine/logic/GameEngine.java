@@ -14,13 +14,14 @@ import ch.logixisland.anuto.util.iterator.StreamIterator;
 
 public class GameEngine implements Runnable {
 
+    private final static String TAG = GameEngine.class.getSimpleName();
+
     public final static int TARGET_FRAME_RATE = 30;
     private final static int TICK_TIME = 1000 / TARGET_FRAME_RATE;
     private final static int MAX_FRAME_SKIPS = 2;
 
-    private final static String TAG = GameEngine.class.getSimpleName();
-
     private final Renderer mRenderer;
+    private final FrameRateLogger mFrameRateLogger;
 
     private final LayeredSafeCollection<Entity> mEntities = new LayeredSafeCollection<>();
     private final Map<Class<? extends Entity>, Object> mStaticData = new HashMap<>();
@@ -32,8 +33,9 @@ public class GameEngine implements Runnable {
     private Thread mGameThread;
     private volatile boolean mRunning = false;
 
-    public GameEngine(Renderer renderer) {
+    public GameEngine(Renderer renderer, FrameRateLogger frameRateLogger) {
         mRenderer = renderer;
+        mFrameRateLogger = frameRateLogger;
     }
 
     public Object getStaticData(Entity entity) {
@@ -150,6 +152,8 @@ public class GameEngine implements Runnable {
                 } else {
                     skipFrameCount++;
                 }
+
+                mFrameRateLogger.incrementLoopCount();
 
                 if (sleepTime > 0) {
                     Thread.sleep(sleepTime);

@@ -14,6 +14,7 @@ import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.business.manager.SettingsManager;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.EntityDependencies;
+import ch.logixisland.anuto.engine.logic.FrameRateLogger;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Renderer;
 import ch.logixisland.anuto.engine.render.Viewport;
@@ -37,6 +38,7 @@ public class GameFactory {
     private final ShapeFactory mShapeFactory;
     private final SoundFactory mSoundFactory;
     private final Viewport mViewport;
+    private final FrameRateLogger mFrameRateLogger;
     private final Renderer mRenderer;
     private final GameEngine mGameEngine;
     private final SettingsManager mSettingsManager;
@@ -66,8 +68,9 @@ public class GameFactory {
         mShapeFactory = new ShapeFactory(mThemeManager);
         mSoundFactory = new SoundFactory(context, mSoundManager);
         mViewport = new Viewport();
-        mRenderer = new Renderer(mViewport, mThemeManager);
-        mGameEngine = new GameEngine(mRenderer);
+        mFrameRateLogger = new FrameRateLogger();
+        mRenderer = new Renderer(mViewport, mThemeManager, mFrameRateLogger);
+        mGameEngine = new GameEngine(mRenderer, mFrameRateLogger);
 
         // Entity
         EntityDependencies dependencyProvider = createEntityDependencyProvider();
