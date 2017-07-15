@@ -1,25 +1,32 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <string name="app_name">Anuto TD</string>
 
     <string name="menu">Meniu</string>
     <string name="next_wave">Următorul val</string>
+    <string name="select_level">Selectează nivel</string>
 
     <string name="restart">Restart</string>
-    <string name="change_map">Alege nivelul</string>
+    <string name="change_map">Schimbă harta</string>
     <string name="theme">Temă</string>
     <string name="sound">Sunet</string>
+    <string name="back_button">Butonul înapoi</string>
+    <string name="transparent_tower_info_button">Informații transparente pentru turn</string>
+
+    <string name="back_button_toast_disabled">Butonul înapoi este acum dezactivat</string>
+    <string name="back_button_toast_enabled">Butonul înapoi este acum activat</string>
+    <string name="back_button_toast_twice">Apasă înapoi de două ori pentru a ieși</string>
 
     <string name="game_over">Sfârșit!</string>
     <string name="score">Scor</string>
 
-    <string name="credits">Credits</string>
+    <string name="credits">Credite</string>
     <string name="lives">Vieți</string>
     <string name="wave">Val</string>
     <string name="bonus">Bonus</string>
 
     <string name="level">Nivel</string>
-    <string name="damage">Daună</string>
+    <string name="damage">Daune</string>
     <string name="reload">Reîncarcă</string>
     <string name="range">Rază</string>
     <string name="splash">Raza de explozie</string>
@@ -34,8 +41,8 @@
     <string name="upgrade">Upgrade</string>
     <string name="sell">Vinde</string>
 
-    <string name="on">On</string>
-    <string name="off">Off</string>
+    <string name="on">Pornit</string>
+    <string name="off">Oprit</string>
 
     <string name="strategy_closest">Cel mai apropiat</string>
     <string name="strategy_weakest">Cel mai slab</string>
@@ -43,6 +50,24 @@
     <string name="strategy_first">Primul</string>
     <string name="strategy_last">Ultimul</string>
 
+    <string name="theme_original">Obișnuită</string>
     <string name="theme_dark">întunecată</string>
-    <string name="theme_original">obișnuită</string>
+    <string name="settings">Setări</string>
+    <string name="back_button_behaviour">Comportament buton înapoi</string>
+    <string name="twice">De două ori</string>
+
+    <string name="level_original_name">Originalul</string>
+    <string name="level_waiting_line_name">Urăsc cozile de așteptare</string>
+    <string name="level_turn_round_name">Întoarce-te înapoi</string>
+    <string name="level_hurry_name">Suntem în grabă!</string>
+    <string name="level_civyshk_2y_name">Civyshk 2Y</string>
+    <string name="level_civyshk_line5_name">Linia5 Civyshk</string>
+    <string name="level_civyshk_labyrinth_name">Labirint Civyshk</string>
+    <string name="level_civyshk_yard_name">Curtea Civyshk</string>
+    <string name="change_theme">Schimbă tema</string>
+    <string name="warning_change_theme">Ești sigur că dorești să schimbi tema? Jocul va reporni</string>
+    <string name="increase_rate">></string>
+    <string name="decrease_rate">&lt;</string>
+    <string name="game_speed">Viteză</string>
+
 </resources>
