@@ -167,24 +167,24 @@ public abstract class StreamIterator<T> implements Iterator<T> {
         return new FilteringIterator<>(this, filter);
     }
 
-    public <F> StreamIterator<F> transform(Function<? super T, ? extends F> transformation) {
+    public <F> StreamIterator<F> map(Function<? super T, ? extends F> transformation) {
         return new MappingIterator<>(this, transformation);
     }
 
-    public StreamIterator<T> exclude(final T obj) {
+    public StreamIterator<T> filter(final T object) {
         return new FilteringIterator<>(this, new Predicate<T>() {
             @Override
             public boolean apply(T value) {
-                return !value.equals(obj);
+                return !value.equals(object);
             }
         });
     }
 
-    public StreamIterator<T> exclude(final Collection<? extends T> coll) {
+    public StreamIterator<T> filter(final Collection<? extends T> collection) {
         return new FilteringIterator<>(this, new Predicate<T>() {
             @Override
             public boolean apply(T value) {
-                return !coll.contains(value);
+                return !collection.contains(value);
             }
         });
     }

@@ -85,7 +85,7 @@ public class HealEffect extends Effect {
     protected void effectBegin() {
         StreamIterator<Enemy> enemies = getGameEngine().get(Types.ENEMY)
                 .filter(inRange(getPosition(), mRange))
-                .exclude(mHealedEnemies)
+                .filter(mHealedEnemies)
                 .cast(Enemy.class);
 
         while (enemies.hasNext()) {
