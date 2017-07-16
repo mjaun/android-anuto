@@ -3,10 +3,13 @@ package ch.logixisland.anuto.entity.tower;
 import android.graphics.Canvas;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.EntityDependencies;
+import ch.logixisland.anuto.engine.logic.EntityListener;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
@@ -22,17 +25,25 @@ import ch.logixisland.anuto.util.iterator.StreamIterator;
 
 public class TeleportTower extends AimingTower implements SpriteTransformation {
 
-    private class StaticData {
-
+    private class StaticData implements EntityListener {
         SpriteTemplate mSpriteTemplateBase;
         SpriteTemplate mSpriteTemplateTower;
+        Collection<Enemy> mTeleportedEnemies;
+
+        @Override
+        public void entityRemoved(Entity obj) {
+            Enemy enemy = (Enemy) obj;
+            mTeleportedEnemies.remove(enemy);
+        }
     }
+
     private float mTeleportDistance;
 
     private StaticSprite mSpriteBase;
 
     private StaticSprite mSpriteTower;
     private Sound mSound;
+
     public TeleportTower(EntityDependencies dependencies, TowerConfig config) {
         super(dependencies, config);
         mTeleportDistance = getProperty("teleportDistance");
@@ -125,6 +136,10 @@ public class TeleportTower extends AimingTower implements SpriteTransformation {
 
     @Override
     public StreamIterator<Enemy> getPossibleTargets() {
-        return super.getPossibleTargets().filter(Enemy.enabled());
+        StaticData s = (StaticData) getStaticData();
+
+        return super.getPossibleTargets()
+                .filter(s.mTeleportedEnemies)
+                .filter(Enemy.enabled());
     }
 }
