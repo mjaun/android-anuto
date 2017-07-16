@@ -39,15 +39,6 @@
             android:text="@string/lives"/>
 
         <TextView
-            android:id="@+id/txt_game_speed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/txt_lives"
-            android:layout_marginStart="10dp"
-            android:text="@string/game_speed"/>
-
-        <TextView
             android:id="@+id/txt_wave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -102,34 +93,24 @@
             android:text="@string/next_wave" />
 
         <Button
+            android:id="@+id/btn_fast_forward"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/btn_next_wave"
+            android:layout_marginEnd="5dp"
+            android:text="@string/increase_rate" />
+
+        <Button
             android:id="@+id/btn_menu"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_centerVertical="true"
-            android:layout_toStartOf="@id/btn_next_wave"
+            android:layout_toStartOf="@id/btn_fast_forward"
             android:layout_marginEnd="5dp"
-            android:text="@string/menu" />
-
-        <Button
-            android:id="@+id/btn_inc_rate"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@id/btn_menu"
-            android:layout_marginEnd="5dp"
-            android:text="@string/increase_rate" />
-
-        <Button
-            android:id="@+id/btn_dec_rate"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@id/btn_inc_rate"
-            android:layout_marginEnd="5dp"
-            android:text="@string/decrease_rate" />
+            android:text="@string/menu"/>
 
     </RelativeLayout>
 

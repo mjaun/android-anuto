@@ -66,8 +66,7 @@
     <string name="level_civyshk_yard_name">Civyshk Yard</string>
     <string name="change_theme">Change theme</string>
     <string name="warning_change_theme">Are you sure you want to change the theme? The game will restart</string>
-    <string name="increase_rate">&gt;</string>
-    <string name="decrease_rate">&lt;</string>
-    <string name="game_speed">Speed</string>
+    <string name="normal_speed">1x</string>
+    <string name="fast_speed">8x</string>
 
 </resources>

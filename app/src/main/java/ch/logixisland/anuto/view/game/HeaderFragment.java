@@ -42,11 +42,9 @@ public class HeaderFragment extends AnutoFragment implements GameListener, WaveL
     private TextView txt_lives;
     private TextView txt_wave;
     private TextView txt_bonus;
-    private TextView txt_game_speed;
 
     private Button btn_next_wave;
-    private Button btn_dec_rate;
-    private Button btn_inc_rate;
+    private Button btn_fast_forward;
     private Button btn_menu;
 
     private TowerView[] view_tower_x = new TowerView[4];
@@ -71,16 +69,13 @@ public class HeaderFragment extends AnutoFragment implements GameListener, WaveL
         txt_lives = (TextView) v.findViewById(R.id.txt_lives);
         txt_wave = (TextView) v.findViewById(R.id.txt_wave);
         txt_bonus = (TextView) v.findViewById(R.id.txt_bonus);
-        txt_game_speed = (TextView) v.findViewById(R.id.txt_game_speed);
 
         btn_next_wave = (Button) v.findViewById(R.id.btn_next_wave);
-        btn_inc_rate = (Button) v.findViewById(R.id.btn_inc_rate);
-        btn_dec_rate = (Button) v.findViewById(R.id.btn_dec_rate);
+        btn_fast_forward = (Button) v.findViewById(R.id.btn_fast_forward);
         btn_menu = (Button) v.findViewById(R.id.btn_menu);
 
         btn_next_wave.setOnClickListener(this);
-        btn_inc_rate.setOnClickListener(this);
-        btn_dec_rate.setOnClickListener(this);
+        btn_fast_forward.setOnClickListener(this);
         btn_menu.setOnClickListener(this);
 
         view_tower_x[0] = (TowerView) v.findViewById(R.id.view_tower_1);
@@ -133,12 +128,8 @@ public class HeaderFragment extends AnutoFragment implements GameListener, WaveL
             mWaveManager.startNextWave();
         }
 
-        if (v == btn_inc_rate) {
-            mSpeedManager.increaseGameSpeed();
-        }
-
-        if (v == btn_dec_rate) {
-            mSpeedManager.decreaseGameSpeed();
+        if (v == btn_fast_forward) {
+            mSpeedManager.toggleFastForward();
         }
 
         if (v == btn_menu) {
@@ -240,13 +231,11 @@ public class HeaderFragment extends AnutoFragment implements GameListener, WaveL
     }
 
     @Override
-    public void gameSpeedChanged(final int newSpeed, final boolean canIncrease, final boolean canDecrease) {
+    public void gameSpeedChanged(final boolean fastForwardActive) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                txt_game_speed.setText(getString(R.string.game_speed) + ": " + newSpeed + "x");
-                btn_inc_rate.setEnabled(canIncrease);
-                btn_dec_rate.setEnabled(canDecrease);
+                btn_fast_forward.setText(getString(fastForwardActive ? R.string.fast_speed : R.string.normal_speed));
             }
         });
     }
