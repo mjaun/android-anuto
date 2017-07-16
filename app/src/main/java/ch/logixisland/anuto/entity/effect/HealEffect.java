@@ -4,6 +4,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import java.util.Collection;
+
 import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Drawable;
@@ -44,14 +46,16 @@ public class HealEffect extends Effect {
     private float mHealAmount;
 
     private Drawable mDrawable;
+    private Collection<Enemy> mHealedEnemies;
 
-    public HealEffect(Entity origin, Vector2 position, float amount, float radius) {
+    public HealEffect(Entity origin, Vector2 position, float amount, float radius, Collection<Enemy> healedEnemies) {
         super(origin, EFFECT_DURATION);
         setPosition(position);
 
         mHealAmount = amount;
         mRange = radius;
         mDrawRadius = 0f;
+        mHealedEnemies = healedEnemies;
 
         mDrawable = new HealDrawable();
     }
@@ -81,6 +85,7 @@ public class HealEffect extends Effect {
     protected void effectBegin() {
         StreamIterator<Enemy> enemies = getGameEngine().get(Types.ENEMY)
                 .filter(inRange(getPosition(), mRange))
+                .exclude(mHealedEnemies)
                 .cast(Enemy.class);
 
         while (enemies.hasNext()) {

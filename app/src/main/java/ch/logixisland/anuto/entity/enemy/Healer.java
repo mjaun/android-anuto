@@ -1,5 +1,7 @@
 package ch.logixisland.anuto.entity.enemy;
 
+import java.util.Collection;
+
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.GameEngine;
@@ -29,6 +31,7 @@ public class Healer extends Enemy implements SpriteTransformation {
 
         boolean mHealing;
         boolean mDropEffect;
+        Collection<Enemy> mHealedEnemies;
         float mAngle;
         float mScale = 1f;
         TickTimer mHealTimer;
@@ -54,6 +57,7 @@ public class Healer extends Enemy implements SpriteTransformation {
                 mScale = mScaleFunction.getValue();
 
                 if (mScaleFunction.getPosition() >= GameEngine.TARGET_FRAME_RATE * mHealDuration) {
+                    mHealedEnemies.clear();
                     mDropEffect = true;
                     mHealing = false;
                     mAngle = 0;
@@ -145,7 +149,7 @@ public class Healer extends Enemy implements SpriteTransformation {
         }
 
         if (mStatic.mDropEffect) {
-            getGameEngine().add(new HealEffect(this, getPosition(), mHealAmount, mHealRange));
+            getGameEngine().add(new HealEffect(this, getPosition(), mHealAmount, mHealRange, mStatic.mHealedEnemies));
         }
     }
 
