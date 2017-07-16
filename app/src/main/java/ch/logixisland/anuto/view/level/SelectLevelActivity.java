@@ -11,7 +11,9 @@ import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.level.LevelLoader;
+import ch.logixisland.anuto.business.level.LevelRepository;
 import ch.logixisland.anuto.business.manager.GameManager;
+import ch.logixisland.anuto.business.score.HighScoreBoard;
 import ch.logixisland.anuto.engine.theme.ActivityType;
 import ch.logixisland.anuto.view.AnutoActivity;
 
@@ -20,16 +22,21 @@ public class SelectLevelActivity extends AnutoActivity implements AdapterView.On
 
     private final GameManager mGameManager;
     private final LevelLoader mLevelLoader;
+    private final LevelRepository mLevelRepository;
+    private final HighScoreBoard mHighScoreBoard;
 
-    ImageView arrow_up;
-    ImageView arrow_down;
-    private GridView grid_view;
     private LevelsAdapter mAdapter;
+
+    private ImageView arrow_up;
+    private ImageView arrow_down;
+    private GridView grid_levels;
 
     public SelectLevelActivity() {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
         mGameManager = factory.getGameManager();
         mLevelLoader = factory.getLevelLoader();
+        mLevelRepository = factory.getLevelRepository();
+        mHighScoreBoard = factory.getHighScoreBoard();
     }
 
     @Override
@@ -42,34 +49,26 @@ public class SelectLevelActivity extends AnutoActivity implements AdapterView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_level);
 
-        mAdapter = new LevelsAdapter(this);
-        mAdapter.addLevel(R.raw.level_original, R.drawable.level_original_thumb, R.string.level_original_name);
-        mAdapter.addLevel(R.raw.level_waiting_line, R.drawable.level_waiting_line_thumb, R.string.level_waiting_line_name);
-        mAdapter.addLevel(R.raw.level_turn_round, R.drawable.level_turn_round_thumb, R.string.level_turn_round_name);
-        mAdapter.addLevel(R.raw.level_hurry, R.drawable.level_hurry_thumb, R.string.level_hurry_name);
-        mAdapter.addLevel(R.raw.level_civyshk_2y, R.drawable.level_civyshk_2y_thumb, R.string.level_civyshk_2y_name);
-        mAdapter.addLevel(R.raw.level_civyshk_line5, R.drawable.level_civyshk_line5_thumb, R.string.level_civyshk_line5_name);
-        mAdapter.addLevel(R.raw.level_civyshk_labyrinth, R.drawable.level_civyshk_labyrinth_thumb, R.string.level_civyshk_labyrinth_name);
-        mAdapter.addLevel(R.raw.level_civyshk_yard, R.drawable.level_civyshk_yard_thumb, R.string.level_civyshk_yard_name);
+        mAdapter = new LevelsAdapter(this, mLevelRepository, mHighScoreBoard);
 
         arrow_up = (ImageView) findViewById(R.id.arrow_up);
         arrow_down = (ImageView) findViewById(R.id.arrow_down);
 
-        grid_view = (GridView) findViewById(R.id.gvLevels);
-        grid_view.setOnItemClickListener(this);
-        grid_view.getViewTreeObserver().addOnScrollChangedListener(this);
-        grid_view.post(new Runnable() {
+        grid_levels = (GridView) findViewById(R.id.grid_levels);
+        grid_levels.setOnItemClickListener(this);
+        grid_levels.getViewTreeObserver().addOnScrollChangedListener(this);
+        grid_levels.post(new Runnable() {
             @Override
             public void run() {
                 updateArrowVisibility();
             }
         });
-        grid_view.setAdapter(mAdapter);
+        grid_levels.setAdapter(mAdapter);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        mLevelLoader.loadLevel(((LevelsAdapter.LevelItemInfo) mAdapter.getItem(position)).levelResId);
+        mLevelLoader.loadLevel(mLevelRepository.getLevels().get(position));
         mGameManager.restart();
         finish();
     }
@@ -80,29 +79,24 @@ public class SelectLevelActivity extends AnutoActivity implements AdapterView.On
     }
 
     private void updateArrowVisibility() {
-//        int scrollY = grid_view.getScrollY(); //grid_view.getScrollY() doesn't work as I'd expect. Instead, it always gives values around 0
-//        Log.d("SelectLevelActivity", "getScrollY(): " + scrollY);
-//        arrow_up.setVisibility(scrollY < 10 ? View.INVISIBLE : View.VISIBLE);
-//        arrow_down.setVisibility(scrollY > grid_view.getChildAt(0).getBottom() - grid_view.getHeight() - 10 ? View.INVISIBLE : View.VISIBLE);
-
-        final int numberViews = grid_view.getChildCount();
+        final int numberViews = grid_levels.getChildCount();
         if (numberViews <= 0) {
             arrow_up.setVisibility(View.INVISIBLE);
             arrow_down.setVisibility(View.INVISIBLE);
             return;
         }
 
-        final int firstVisibleLevel = grid_view.getFirstVisiblePosition();//starting from zero!
+        final int firstVisibleLevel = grid_levels.getFirstVisiblePosition();
         if (firstVisibleLevel == 0) {
-            arrow_up.setVisibility(grid_view.getChildAt(0).getTop() < -10 ? View.VISIBLE : View.INVISIBLE);
+            arrow_up.setVisibility(grid_levels.getChildAt(0).getTop() < -10 ? View.VISIBLE : View.INVISIBLE);
         } else {
             arrow_up.setVisibility(firstVisibleLevel > 0 ? View.VISIBLE : View.INVISIBLE);
         }
 
         final int numberLevels = mAdapter.getCount();
-        final int lastVisibleLevel = grid_view.getLastVisiblePosition();
+        final int lastVisibleLevel = grid_levels.getLastVisiblePosition();
         if (lastVisibleLevel == numberLevels - 1) {
-            arrow_down.setVisibility(grid_view.getChildAt(numberViews - 1).getBottom() > grid_view.getHeight() + 10 ? View.VISIBLE : View.INVISIBLE);
+            arrow_down.setVisibility(grid_levels.getChildAt(numberViews - 1).getBottom() > grid_levels.getHeight() + 10 ? View.VISIBLE : View.INVISIBLE);
         } else {
             arrow_down.setVisibility(lastVisibleLevel < numberLevels - 1 ? View.VISIBLE : View.INVISIBLE);
         }

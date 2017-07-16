@@ -6,7 +6,7 @@
     tools:context="ch.logixisland.anuto.view.level.SelectLevelActivity">
 
     <GridView
-        android:id="@+id/gvLevels"
+        android:id="@+id/grid_levels"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:columnWidth="@dimen/grid_column_width"
@@ -20,7 +20,7 @@
         android:clipToPadding="false"
         android:stretchMode="columnWidth"
         android:scrollbarStyle="outsideOverlay"
-        android:gravity="center"/>
+        android:gravity="fill"/>
 
     <ImageView
         android:id="@+id/arrow_up"

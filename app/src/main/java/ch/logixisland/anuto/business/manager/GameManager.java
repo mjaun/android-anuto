@@ -6,6 +6,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import ch.logixisland.anuto.business.level.GameSpeedManager;
 import ch.logixisland.anuto.business.level.LevelLoader;
 import ch.logixisland.anuto.business.level.WaveManager;
+import ch.logixisland.anuto.business.score.HighScoreBoard;
 import ch.logixisland.anuto.business.score.LivesListener;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
@@ -18,6 +19,7 @@ public class GameManager {
 
     private final GameEngine mGameEngine;
     private final ScoreBoard mScoreBoard;
+    private final HighScoreBoard mHighScoreBoard;
     private final LevelLoader mLevelLoader;
     private final WaveManager mWaveManager;
     private final GameSpeedManager mSpeedManager;
@@ -36,6 +38,9 @@ public class GameManager {
                 for (GameListener listener : mListeners) {
                     listener.gameOver();
                 }
+
+                String levelId = mLevelLoader.getLevelInfo().getLevelId();
+                mHighScoreBoard.setHighScore(levelId, mScoreBoard.getScore());
             }
         }
     };
@@ -47,11 +52,13 @@ public class GameManager {
         }
     };
 
-    public GameManager(GameEngine gameEngine, ScoreBoard scoreBoard, LevelLoader levelLoader,
-                       WaveManager waveManager, GameSpeedManager speedManager, ThemeManager themeManager) {
+    public GameManager(GameEngine gameEngine, ScoreBoard scoreBoard, HighScoreBoard highScoreBoard,
+                       LevelLoader levelLoader, WaveManager waveManager, GameSpeedManager speedManager,
+                       ThemeManager themeManager) {
         mGameEngine = gameEngine;
         mLevelLoader = levelLoader;
         mScoreBoard = scoreBoard;
+        mHighScoreBoard = highScoreBoard;
         mWaveManager = waveManager;
         mSpeedManager = speedManager;
         mThemeManager = themeManager;

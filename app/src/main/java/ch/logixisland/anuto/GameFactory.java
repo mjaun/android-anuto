@@ -7,11 +7,13 @@ import ch.logixisland.anuto.business.control.TowerInserter;
 import ch.logixisland.anuto.business.control.TowerSelector;
 import ch.logixisland.anuto.business.level.GameSpeedManager;
 import ch.logixisland.anuto.business.level.LevelLoader;
+import ch.logixisland.anuto.business.level.LevelRepository;
 import ch.logixisland.anuto.business.level.TowerAging;
 import ch.logixisland.anuto.business.level.WaveManager;
 import ch.logixisland.anuto.business.manager.BackButtonControl;
 import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.business.manager.SettingsManager;
+import ch.logixisland.anuto.business.score.HighScoreBoard;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.FrameRateLogger;
@@ -50,10 +52,12 @@ public class GameFactory {
 
     // Business
     private final ScoreBoard mScoreBoard;
+    private final HighScoreBoard mHighScoreBoard;
     private final TowerSelector mTowerSelector;
     private final TowerControl mTowerControl;
     private final TowerAging mTowerAging;
     private final TowerInserter mTowerInserter;
+    private final LevelRepository mLevelRepository;
     private final LevelLoader mLevelLoader;
     private final WaveManager mWaveManager;
     private final GameSpeedManager mSpeedManager;
@@ -80,38 +84,25 @@ public class GameFactory {
 
         // Business
         mScoreBoard = new ScoreBoard();
+        mHighScoreBoard = new HighScoreBoard(context);
+        mLevelRepository = new LevelRepository();
         mLevelLoader = new LevelLoader(context, mGameEngine, mViewport, mScoreBoard, mPlateauFactory, mTowerFactory, mEnemyFactory);
         mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mLevelLoader, mEnemyFactory);
         mSpeedManager = new GameSpeedManager(mGameEngine);
         mTowerAging = new TowerAging(mGameEngine, mWaveManager, mLevelLoader);
-        mGameManager = new GameManager(mGameEngine, mScoreBoard, mLevelLoader, mWaveManager, mSpeedManager, mThemeManager);
+        mGameManager = new GameManager(mGameEngine, mScoreBoard, mHighScoreBoard, mLevelLoader, mWaveManager, mSpeedManager, mThemeManager);
         mTowerSelector = new TowerSelector(mGameEngine, mGameManager, mScoreBoard);
         mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector, mTowerFactory);
         mTowerInserter = new TowerInserter(mGameEngine, mGameManager, mTowerFactory, mTowerSelector, mTowerAging, mScoreBoard);
         mSettingsManager = new SettingsManager(context, mThemeManager, mSoundManager);
         mBackButtonControl = new BackButtonControl(mSettingsManager);
 
+        mLevelLoader.loadLevel(mLevelRepository.getLevels().get(0));
         mGameManager.restart();
     }
 
     public ThemeManager getThemeManager() {
         return mThemeManager;
-    }
-
-    public SoundManager getSoundManager() {
-        return mSoundManager;
-    }
-
-    public SpriteFactory getSpriteFactory() {
-        return mSpriteFactory;
-    }
-
-    public ShapeFactory getShapeFactory() {
-        return mShapeFactory;
-    }
-
-    public SoundFactory getSoundFactory() {
-        return mSoundFactory;
     }
 
     public Viewport getViewport() {
@@ -168,6 +159,14 @@ public class GameFactory {
 
     public BackButtonControl getBackButtonControl() {
         return mBackButtonControl;
+    }
+
+    public LevelRepository getLevelRepository() {
+        return mLevelRepository;
+    }
+
+    public HighScoreBoard getHighScoreBoard() {
+        return mHighScoreBoard;
     }
 
     private EntityDependencies createEntityDependencyProvider() {

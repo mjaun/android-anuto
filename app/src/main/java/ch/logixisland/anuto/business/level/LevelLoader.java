@@ -2,6 +2,8 @@ package ch.logixisland.anuto.business.level;
 
 import android.content.Context;
 
+import java.io.InputStream;
+
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
@@ -26,6 +28,7 @@ public class LevelLoader {
     private final TowerFactory mTowerFactory;
     private final EnemyFactory mEnemyFactory;
 
+    private LevelInfo mLevelInfo;
     private GameSettings mGameSettings;
     private TowerSettings mTowerSettings;
     private EnemySettings mEnemySettings;
@@ -52,7 +55,10 @@ public class LevelLoader {
 
         mTowerFactory.setTowerSettings(mTowerSettings);
         mEnemyFactory.setEnemySettings(mEnemySettings);
-        loadLevel(R.raw.level_original);
+    }
+
+    public LevelInfo getLevelInfo() {
+        return mLevelInfo;
     }
 
     public GameSettings getGameSettings() {
@@ -71,19 +77,22 @@ public class LevelLoader {
         return mLevelDescriptor;
     }
 
-    public void loadLevel(final int levelId) {
+    public void loadLevel(final LevelInfo levelInfo) {
         if (mGameEngine.isThreadChangeNeeded()) {
             mGameEngine.post(new Runnable() {
                 @Override
                 public void run() {
-                    loadLevel(levelId);
+                    loadLevel(levelInfo);
                 }
             });
             return;
         }
 
+        mLevelInfo = levelInfo;
+
         try {
-            mLevelDescriptor = LevelDescriptor.fromXml(mContext.getResources().openRawResource(levelId));
+            InputStream inputStream = mContext.getResources().openRawResource(mLevelInfo.getLevelDataId());
+            mLevelDescriptor = LevelDescriptor.fromXml(inputStream);
         } catch (Exception e) {
             throw new RuntimeException("Could not load level!", e);
         }

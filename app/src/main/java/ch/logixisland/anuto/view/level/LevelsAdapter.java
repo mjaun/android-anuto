@@ -1,6 +1,7 @@
 package ch.logixisland.anuto.view.level;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,56 +10,46 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.business.level.LevelInfo;
+import ch.logixisland.anuto.business.level.LevelRepository;
+import ch.logixisland.anuto.business.score.HighScoreBoard;
 
 class LevelsAdapter extends BaseAdapter {
 
-    private WeakReference<Activity> activity;
-    private List<LevelItemInfo> levelItems;
+    private final WeakReference<Activity> mActivityRef;
+    private final HighScoreBoard mHighScoreBoard;
+    private final List<LevelInfo> mLevelInfos;
 
-    LevelsAdapter(Activity activity) {
-        this.activity = new WeakReference<Activity>(activity);
-        this.levelItems = new ArrayList<>();
-    }
-
-    void addLevel(int level, int thumb, int name) {
-        //beware the order of ints
-        levelItems.add(new LevelItemInfo(level, thumb, name));
-    }
-
-    static class LevelItemInfo {
-        int levelResId;
-        int thumbResId;
-        int nameResId;
-
-        public LevelItemInfo(int levelResId, int thumbResId, int nameResId) {
-            this.levelResId = levelResId;
-            this.thumbResId = thumbResId;
-            this.nameResId = nameResId;
-        }
+    LevelsAdapter(Activity activity, LevelRepository levelRepository, HighScoreBoard highScoreBoard) {
+        mActivityRef = new WeakReference<>(activity);
+        mLevelInfos = levelRepository.getLevels();
+        mHighScoreBoard = highScoreBoard;
     }
 
     static private class ViewHolder {
-        ImageView ibThumb;
-        TextView tvName;
+        ImageView img_thumb;
+        TextView txt_name;
+        TextView txt_highscore;
 
         ViewHolder(View view) {
-            ibThumb = (ImageView) view.findViewById(R.id.levelThumb);
-            tvName = (TextView) view.findViewById(R.id.levelName);
+            img_thumb = (ImageView) view.findViewById(R.id.img_thumb);
+            txt_name = (TextView) view.findViewById(R.id.txt_name);
+            txt_highscore = (TextView) view.findViewById(R.id.txt_highscore);
         }
     }
 
     @Override
     public int getCount() {
-        return levelItems.size();
+        return mLevelInfos.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return levelItems.get(position);
+        return mLevelInfos.get(position);
     }
 
     @Override
@@ -68,28 +59,31 @@ class LevelsAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Activity act = activity.get();
-        if (act == null) {
+        Activity activity = mActivityRef.get();
+
+        if (activity == null) {
             return convertView;
         }
 
-        ViewHolder viewHolder;
+        View levelItemView;
+
         if (convertView == null) {
-            convertView = LayoutInflater.from(act).inflate(R.layout.item_level_select, parent, false);
-            viewHolder = new ViewHolder(convertView);
-            convertView.setTag(viewHolder);
+            levelItemView = LayoutInflater.from(activity).inflate(R.layout.item_level_select, parent, false);
         } else {
-            viewHolder = (ViewHolder) convertView.getTag();
+            levelItemView = convertView;
         }
 
-        LevelItemInfo itemInfo = (LevelItemInfo) getItem(position);
-        if (itemInfo == null) {
-            return convertView;
-        }
+        Resources resources = activity.getResources();
+        LevelInfo levelInfo = mLevelInfos.get(position);
+        ViewHolder viewHolder = new ViewHolder(levelItemView);
 
-        viewHolder.ibThumb.setImageResource(itemInfo.thumbResId);
-        viewHolder.tvName.setText(act.getResources().getString(itemInfo.nameResId));
+        DecimalFormat fmt = new DecimalFormat("###,###,###,###");
+        String highScore = fmt.format(mHighScoreBoard.getHighScore(levelInfo.getLevelId()));
 
-        return convertView;
+        viewHolder.img_thumb.setImageResource(levelInfo.getLevelThumbId());
+        viewHolder.txt_name.setText(resources.getString(levelInfo.getLevelNameId()));
+        viewHolder.txt_highscore.setText(resources.getString(R.string.score) + ": " + highScore);
+
+        return levelItemView;
     }
 }
