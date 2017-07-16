@@ -10,16 +10,14 @@ import android.widget.Button;
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.business.level.WaveListener;
 import ch.logixisland.anuto.business.level.WaveManager;
-import ch.logixisland.anuto.business.manager.GameListener;
 import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.engine.theme.ActivityType;
 import ch.logixisland.anuto.view.AnutoActivity;
 import ch.logixisland.anuto.view.level.SelectLevelActivity;
 import ch.logixisland.anuto.view.settings.SettingsActivity;
 
-public class MenuActivity extends AnutoActivity implements View.OnClickListener, View.OnTouchListener, GameListener, WaveListener {
+public class MenuActivity extends AnutoActivity implements View.OnClickListener, View.OnTouchListener {
 
     private static final int REQUEST_SELECT_LEVEL = 1;
 
@@ -66,23 +64,6 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
         menu_layout.setOnTouchListener(this);
 
         mHandler = new Handler();
-
-        mGameManager.addListener(this);
-        mWaveManager.addListener(this);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        update();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        mGameManager.removeListener(this);
-        mWaveManager.removeListener(this);
     }
 
     @Override
@@ -126,52 +107,4 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
         }
     }
 
-    @Override
-    public void gameStarted() {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                update();
-            }
-        });
-    }
-
-    @Override
-    public void gameOver() {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                update();
-            }
-        });
-    }
-
-    @Override
-    public void nextWaveReady() {
-
-    }
-
-    @Override
-    public void waveStarted() {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                update();
-            }
-        });
-    }
-
-    @Override
-    public void waveFinished() {
-
-    }
-
-    @Override
-    public void enemyRemoved() {
-
-    }
-
-    private void update() {
-        btn_change_level.setEnabled(!mGameManager.isGameStarted());
-    }
 }
