@@ -6,33 +6,15 @@ import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.tower.Tower;
 
-public class TowerAging {
+public class TowerAging implements WaveListener {
 
     private final GameEngine mGameEngine;
     private final LevelLoader mLevelLoader;
 
-    private final WaveListener mWaveListener = new WaveListener() {
-        @Override
-        public void nextWaveReady() {
-
-        }
-
-        @Override
-        public void waveStarted() {
-
-        }
-
-        @Override
-        public void waveFinished() {
-            ageTowers();
-        }
-    };
-
     public TowerAging(GameEngine gameEngine, WaveManager waveManager, LevelLoader levelLoader) {
         mGameEngine = gameEngine;
         mLevelLoader = levelLoader;
-
-        waveManager.addListener(mWaveListener);
+        waveManager.addListener(this);
     }
 
     public void ageTower(Tower tower) {
@@ -50,6 +32,26 @@ public class TowerAging {
         int value = tower.getValue();
         value = Math.round(value * mLevelLoader.getGameSettings().getAgeModifier());
         tower.setValue(value);
+    }
+
+    @Override
+    public void nextWaveReady() {
+
+    }
+
+    @Override
+    public void waveStarted() {
+
+    }
+
+    @Override
+    public void waveFinished() {
+        ageTowers();
+    }
+
+    @Override
+    public void enemyRemoved() {
+
     }
 
     private void ageTowers() {

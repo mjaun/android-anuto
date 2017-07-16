@@ -19,7 +19,7 @@ import ch.logixisland.anuto.view.AnutoActivity;
 import ch.logixisland.anuto.view.level.SelectLevelActivity;
 import ch.logixisland.anuto.view.settings.SettingsActivity;
 
-public class MenuActivity extends AnutoActivity implements View.OnClickListener, View.OnTouchListener {
+public class MenuActivity extends AnutoActivity implements View.OnClickListener, View.OnTouchListener, GameListener, WaveListener {
 
     private static final int REQUEST_SELECT_LEVEL = 1;
 
@@ -34,50 +34,6 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
     private Button btn_restart;
     private Button btn_change_level;
     private Button btn_settings;
-
-    private final GameListener mGameListener = new GameListener() {
-        @Override
-        public void gameStarted() {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    update();
-                }
-            });
-        }
-
-        @Override
-        public void gameOver() {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    update();
-                }
-            });
-        }
-    };
-
-    private final WaveListener mWaveListener = new WaveListener() {
-        @Override
-        public void nextWaveReady() {
-
-        }
-
-        @Override
-        public void waveStarted() {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    update();
-                }
-            });
-        }
-
-        @Override
-        public void waveFinished() {
-
-        }
-    };
 
     public MenuActivity() {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
@@ -111,8 +67,8 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
 
         mHandler = new Handler();
 
-        mGameManager.addListener(mGameListener);
-        mWaveManager.addListener(mWaveListener);
+        mGameManager.addListener(this);
+        mWaveManager.addListener(this);
     }
 
     @Override
@@ -124,8 +80,9 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mGameManager.removeListener(mGameListener);
-        mWaveManager.removeListener(mWaveListener);
+
+        mGameManager.removeListener(this);
+        mWaveManager.removeListener(this);
     }
 
     @Override
@@ -167,6 +124,51 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
         if (requestCode == REQUEST_SELECT_LEVEL) {
             finish();
         }
+    }
+
+    @Override
+    public void gameStarted() {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                update();
+            }
+        });
+    }
+
+    @Override
+    public void gameOver() {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                update();
+            }
+        });
+    }
+
+    @Override
+    public void nextWaveReady() {
+
+    }
+
+    @Override
+    public void waveStarted() {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                update();
+            }
+        });
+    }
+
+    @Override
+    public void waveFinished() {
+
+    }
+
+    @Override
+    public void enemyRemoved() {
+
     }
 
     private void update() {

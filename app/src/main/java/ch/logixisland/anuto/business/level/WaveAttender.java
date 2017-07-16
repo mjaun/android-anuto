@@ -1,30 +1,32 @@
 package ch.logixisland.anuto.business.level;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.entity.enemy.EnemyFactory;
+import ch.logixisland.anuto.entity.enemy.EnemyListener;
 import ch.logixisland.anuto.util.data.EnemyDescriptor;
 import ch.logixisland.anuto.util.data.WaveDescriptor;
 import ch.logixisland.anuto.util.math.MathUtils;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
-class WaveAttender {
+class WaveAttender implements EnemyListener {
 
     private final GameEngine mGameEngine;
     private final ScoreBoard mScoreBoard;
     private final EnemyFactory mEnemyFactory;
     private final WaveManager mWaveManager;
     private final WaveDescriptor mWaveDescriptor;
-    private final EnemyAttender mEnemyAttender;
+
+    private final List<Enemy> mRemainingEnemies = new ArrayList<>();
 
     private int mExtend;
     private int mWaveReward;
     private float mEnemyHealthModifier;
     private float mEnemyRewardModifier;
-
     private boolean mNextWaveReady;
 
     WaveAttender(GameEngine gameEngine, ScoreBoard scoreBoard, EnemyFactory enemyFactory,
@@ -34,8 +36,6 @@ class WaveAttender {
         mEnemyFactory = enemyFactory;
         mWaveManager = waveManager;
         mWaveDescriptor = waveDescriptor;
-
-        mEnemyAttender = new EnemyAttender(this, mGameEngine, mScoreBoard);
 
         mExtend = 1;
         mWaveReward = mWaveDescriptor.getWaveReward();
@@ -88,22 +88,44 @@ class WaveAttender {
         }, mWaveDescriptor.getNextWaveDelay());
     }
 
+    @Override
+    public void enemyKilled(Enemy enemy) {
+        mScoreBoard.giveCredits(enemy.getReward(), true);
+    }
+
+    @Override
+    public void enemyFinished(Enemy enemy) {
+        mScoreBoard.takeLives(1);
+    }
+
+    @Override
+    public void enemyRemoved(Enemy enemy) {
+        mRemainingEnemies.remove(enemy);
+        mWaveManager.enemyRemoved();
+
+        if (getRemainingEnemiesCount() == 0) {
+            giveWaveReward();
+            mWaveManager.waveFinished(this);
+        }
+    }
+
     void giveWaveReward() {
         mScoreBoard.giveCredits(mWaveReward, true);
         mWaveReward = 0;
     }
 
     float getRemainingEnemiesReward() {
-        return mEnemyAttender.getRemainingEnemiesReward();
+        float totalReward = 0f;
+
+        for (Enemy enemy : mRemainingEnemies) {
+            totalReward += enemy.getReward();
+        }
+
+        return totalReward;
     }
 
-    void enemyRemoved(Enemy enemy) {
-        mWaveManager.enemyRemoved();
-
-        if (mEnemyAttender.getRemainingEnemiesCount() == 0) {
-            giveWaveReward();
-            mWaveManager.waveFinished(this);
-        }
+    int getRemainingEnemiesCount() {
+        return mRemainingEnemies.size();
     }
 
     boolean isNextWaveReady() {
@@ -130,12 +152,9 @@ class WaveAttender {
                     delay += (int) descriptor.getDelay();
                 }
 
-                mEnemyAttender.addEnemy(enemy, delay);
+                addEnemy(enemy, delay);
             }
         }
-
-        int waveEnemiesCount = (mExtend + 1) * enemyDescriptors.size();
-        mWaveManager.addWaveEnemiesCount(waveEnemiesCount);
     }
 
     private Enemy createAndConfigureEnemy(Vector2 offset, EnemyDescriptor descriptor) {
@@ -145,5 +164,17 @@ class WaveAttender {
         enemy.setPathIndex(descriptor.getPathIndex());
         enemy.move(offset);
         return enemy;
+    }
+
+    private void addEnemy(final Enemy enemy, int delay) {
+        mRemainingEnemies.add(enemy);
+        enemy.addListener(this);
+
+        mGameEngine.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mGameEngine.add(enemy);
+            }
+        }, delay);
     }
 }
