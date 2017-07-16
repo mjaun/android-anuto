@@ -7,8 +7,10 @@ However it features astonishing hand-drawn graphics and a smooth gameplay.
 
 ## Download
 
-- [Google Play Store](https://play.google.com/store/apps/details?id=ch.logixisland.anuto)
-- [F-Droid](https://f-droid.org/repository/browse/?fdid=ch.logixisland.anuto)
+<a href="https://f-droid.org/packages/ch.logixisland.anuto" target="_blank">
+<img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="100"/></a>
+<a href="https://play.google.com/store/apps/details?id=ch.logixisland.anuto" target="_blank">
+<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="100"/></a>
 
 ## Beta Testing
 
