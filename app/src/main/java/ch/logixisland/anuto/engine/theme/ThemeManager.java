@@ -45,7 +45,7 @@ public class ThemeManager {
             mTheme = theme;
 
             for (ThemeListener listener : mListeners) {
-                listener.themeChanged();
+                listener.themeChanged(theme);
             }
         }
     }

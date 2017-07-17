@@ -10,6 +10,7 @@ import ch.logixisland.anuto.business.score.HighScoreBoard;
 import ch.logixisland.anuto.business.score.LivesListener;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.engine.theme.Theme;
 import ch.logixisland.anuto.engine.theme.ThemeListener;
 import ch.logixisland.anuto.engine.theme.ThemeManager;
 
@@ -47,7 +48,7 @@ public class GameManager {
 
     private final ThemeListener mThemeListener = new ThemeListener() {
         @Override
-        public void themeChanged() {
+        public void themeChanged(Theme theme) {
             restart();
         }
     };

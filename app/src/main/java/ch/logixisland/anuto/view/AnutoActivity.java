@@ -6,6 +6,7 @@ import android.os.Bundle;
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.engine.theme.ActivityType;
+import ch.logixisland.anuto.engine.theme.Theme;
 import ch.logixisland.anuto.engine.theme.ThemeListener;
 import ch.logixisland.anuto.engine.theme.ThemeManager;
 
@@ -37,7 +38,7 @@ public abstract class AnutoActivity extends Activity implements ThemeListener {
     }
 
     @Override
-    public void themeChanged() {
+    public void themeChanged(Theme theme) {
         recreate();
     }
 
