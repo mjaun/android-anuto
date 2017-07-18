@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.business.manager.GameListener;
+import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.entity.enemy.EnemyFactory;
@@ -14,7 +16,7 @@ import ch.logixisland.anuto.util.data.GameSettings;
 import ch.logixisland.anuto.util.data.WaveDescriptor;
 import ch.logixisland.anuto.util.math.MathUtils;
 
-public class WaveManager {
+public class WaveManager implements GameListener {
 
     private static final String TAG = WaveManager.class.getSimpleName();
     private static final int MAX_WAVES_IN_GAME = 5;
@@ -30,7 +32,7 @@ public class WaveManager {
     private final List<WaveAttender> mActiveWaves = new ArrayList<>();
     private final List<WaveListener> mListeners = new CopyOnWriteArrayList<>();
 
-    public WaveManager(GameEngine gameEngine, ScoreBoard scoreBoard, LevelLoader levelLoader,
+    public WaveManager(GameEngine gameEngine, ScoreBoard scoreBoard, GameManager gameManager, LevelLoader levelLoader,
                        EnemyFactory enemyFactory) {
         mGameEngine = gameEngine;
         mScoreBoard = scoreBoard;
@@ -39,6 +41,8 @@ public class WaveManager {
 
         mNextWaveIndex = 0;
         mNextWaveReady = true;
+
+        gameManager.addListener(this);
     }
 
     public int getWaveNumber() {
@@ -53,22 +57,6 @@ public class WaveManager {
         }
 
         return totalCount;
-    }
-
-    public void reset() {
-        if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Runnable() {
-                @Override
-                public void run() {
-                    reset();
-                }
-            });
-            return;
-        }
-
-        mActiveWaves.clear();
-        mNextWaveIndex = 0;
-        mNextWaveReady = true;
     }
 
     public void startNextWave() {
@@ -108,6 +96,18 @@ public class WaveManager {
 
     public void removeListener(WaveListener listener) {
         mListeners.remove(listener);
+    }
+
+    @Override
+    public void gameRestart() {
+        mActiveWaves.clear();
+        mNextWaveIndex = 0;
+        mNextWaveReady = true;
+    }
+
+    @Override
+    public void gameOver() {
+
     }
 
     void enemyRemoved() {

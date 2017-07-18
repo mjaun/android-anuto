@@ -67,7 +67,7 @@ public class GameOverFragment extends AnutoFragment implements GameListener {
     }
 
     @Override
-    public void gameStarted() {
+    public void gameRestart() {
         mHandler.post(new Runnable() {
             @Override
             public void run() {

@@ -84,13 +84,13 @@ public class GameFactory {
 
         // Business
         mScoreBoard = new ScoreBoard();
-        mHighScoreBoard = new HighScoreBoard(context);
         mLevelRepository = new LevelRepository();
-        mLevelLoader = new LevelLoader(context, mGameEngine, mViewport, mScoreBoard, mPlateauFactory, mTowerFactory, mEnemyFactory);
-        mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mLevelLoader, mEnemyFactory);
         mSpeedManager = new GameSpeedManager(mGameEngine);
+        mGameManager = new GameManager(mGameEngine, mThemeManager, mScoreBoard);
+        mLevelLoader = new LevelLoader(context, mGameEngine, mScoreBoard, mGameManager, mViewport, mPlateauFactory, mTowerFactory, mEnemyFactory);
+        mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mGameManager, mLevelLoader, mEnemyFactory);
         mTowerAging = new TowerAging(mGameEngine, mWaveManager, mLevelLoader);
-        mGameManager = new GameManager(mGameEngine, mScoreBoard, mHighScoreBoard, mLevelLoader, mWaveManager, mSpeedManager, mThemeManager);
+        mHighScoreBoard = new HighScoreBoard(context, mGameManager, mScoreBoard, mLevelLoader);
         mTowerSelector = new TowerSelector(mGameEngine, mGameManager, mScoreBoard);
         mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector, mTowerFactory);
         mTowerInserter = new TowerInserter(mGameEngine, mGameManager, mTowerFactory, mTowerSelector, mTowerAging, mScoreBoard);

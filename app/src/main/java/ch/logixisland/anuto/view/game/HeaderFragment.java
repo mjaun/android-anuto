@@ -196,7 +196,7 @@ public class HeaderFragment extends AnutoFragment implements GameListener, WaveL
     }
 
     @Override
-    public void gameStarted() {
+    public void gameRestart() {
         mHandler.post(new Runnable() {
             @Override
             public void run() {

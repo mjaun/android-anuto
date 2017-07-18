@@ -54,7 +54,7 @@ public class TowerSelector {
 
     private final GameListener mGameListener = new GameListener() {
         @Override
-        public void gameStarted() {
+        public void gameRestart() {
             if (mTowerInfo != null) {
                 updateTowerInfo();
             }

@@ -5,6 +5,8 @@ import android.content.Context;
 import java.io.InputStream;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.business.manager.GameListener;
+import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Viewport;
@@ -18,32 +20,30 @@ import ch.logixisland.anuto.util.data.LevelDescriptor;
 import ch.logixisland.anuto.util.data.PlateauDescriptor;
 import ch.logixisland.anuto.util.data.TowerSettings;
 
-public class LevelLoader {
+public class LevelLoader implements GameListener {
 
     private final Context mContext;
     private final GameEngine mGameEngine;
     private final Viewport mViewport;
     private final ScoreBoard mScoreBoard;
     private final PlateauFactory mPlateauFactory;
-    private final TowerFactory mTowerFactory;
-    private final EnemyFactory mEnemyFactory;
 
     private LevelInfo mLevelInfo;
     private GameSettings mGameSettings;
     private TowerSettings mTowerSettings;
     private EnemySettings mEnemySettings;
     private LevelDescriptor mLevelDescriptor;
+    private GameManager mGameManager;
 
-    public LevelLoader(Context context, GameEngine gameEngine, Viewport viewport,
-                       ScoreBoard scoreBoard, PlateauFactory plateauFactory,
+    public LevelLoader(Context context, GameEngine gameEngine, ScoreBoard scoreBoard, GameManager gameManager, Viewport viewport,
+                       PlateauFactory plateauFactory,
                        TowerFactory towerFactory, EnemyFactory enemyFactory) {
         mContext = context;
         mGameEngine = gameEngine;
         mViewport = viewport;
         mScoreBoard = scoreBoard;
         mPlateauFactory = plateauFactory;
-        mTowerFactory = towerFactory;
-        mEnemyFactory = enemyFactory;
+        mGameManager = gameManager;
 
         try {
             mGameSettings = GameSettings.fromXml(mContext.getResources().openRawResource(R.raw.game_settings));
@@ -53,8 +53,9 @@ public class LevelLoader {
             throw new RuntimeException("Could not load settings!", e);
         }
 
-        mTowerFactory.setTowerSettings(mTowerSettings);
-        mEnemyFactory.setEnemySettings(mEnemySettings);
+        towerFactory.setTowerSettings(mTowerSettings);
+        enemyFactory.setEnemySettings(mEnemySettings);
+        mGameManager.addListener(this);
     }
 
     public LevelInfo getLevelInfo() {
@@ -88,6 +89,10 @@ public class LevelLoader {
             return;
         }
 
+        if (mLevelInfo == levelInfo) {
+            return;
+        }
+
         mLevelInfo = levelInfo;
 
         try {
@@ -96,19 +101,12 @@ public class LevelLoader {
         } catch (Exception e) {
             throw new RuntimeException("Could not load level!", e);
         }
+
+        mGameManager.restart();
     }
 
-    public void reset() {
-        if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Runnable() {
-                @Override
-                public void run() {
-                    reset();
-                }
-            });
-            return;
-        }
-
+    @Override
+    public void gameRestart() {
         mGameEngine.clear();
 
         for (PlateauDescriptor descriptor : mLevelDescriptor.getPlateaus()) {
@@ -119,6 +117,11 @@ public class LevelLoader {
 
         mViewport.setGameSize(mLevelDescriptor.getWidth(), mLevelDescriptor.getHeight());
         mScoreBoard.reset(mGameSettings.getLives(), mGameSettings.getCredits());
+    }
+
+    @Override
+    public void gameOver() {
+
     }
 
 }
