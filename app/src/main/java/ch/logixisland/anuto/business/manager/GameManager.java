@@ -17,7 +17,8 @@ public class GameManager implements ThemeListener, LivesListener {
     private final GameEngine mGameEngine;
     private final ScoreBoard mScoreBoard;
 
-    private volatile boolean mGameOver = false;
+    private boolean mGameOver = false;
+    private boolean mGameStarted = false;
 
     private List<GameListener> mListeners = new CopyOnWriteArrayList<>();
 
@@ -45,6 +46,7 @@ public class GameManager implements ThemeListener, LivesListener {
         }
 
         mGameOver = false;
+        mGameStarted = false;
     }
 
     public boolean isGameOver() {
@@ -52,7 +54,7 @@ public class GameManager implements ThemeListener, LivesListener {
     }
 
     public boolean isGameStarted() {
-        return !mGameOver && mScoreBoard.getScore() > 0;
+        return !mGameOver && mGameStarted;
     }
 
     public void addListener(GameListener listener) {
@@ -77,6 +79,10 @@ public class GameManager implements ThemeListener, LivesListener {
     @Override
     public void themeChanged(Theme theme) {
         restart();
+    }
+
+    public void setGameStarted() {
+        mGameStarted = true;
     }
 
 }

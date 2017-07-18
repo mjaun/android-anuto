@@ -23,6 +23,7 @@ public class WaveManager implements GameListener {
 
     private final GameEngine mGameEngine;
     private final ScoreBoard mScoreBoard;
+    private final GameManager mGameManager;
     private final LevelLoader mLevelLoader;
     private final EnemyFactory mEnemyFactory;
 
@@ -36,6 +37,7 @@ public class WaveManager implements GameListener {
                        EnemyFactory enemyFactory) {
         mGameEngine = gameEngine;
         mScoreBoard = scoreBoard;
+        mGameManager = gameManager;
         mLevelLoader = levelLoader;
         mEnemyFactory = enemyFactory;
 
@@ -73,6 +75,8 @@ public class WaveManager implements GameListener {
         if (!mNextWaveReady) {
             return;
         }
+
+        mGameManager.setGameStarted();
 
         if (!mActiveWaves.isEmpty()) {
             currentWave().giveWaveReward();
