@@ -61,4 +61,7 @@ public class GameSpeedManager implements GameListener {
         }
     }
 
+    public boolean isFastForwardActive() {
+        return mFastForwardActive;
+    }
 }

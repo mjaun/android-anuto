@@ -88,6 +88,7 @@ public class HeaderFragment extends AnutoFragment implements GameListener, WaveL
         txt_credits.setText(getString(R.string.credits) + ": " + StringUtils.formatSuffix(mScoreBoard.getCredits()));
         txt_lives.setText(getString(R.string.lives) + ": " + mScoreBoard.getLives());
         txt_bonus.setText(getString(R.string.bonus) + ": " + StringUtils.formatSuffix(mScoreBoard.getWaveBonus() + mScoreBoard.getEarlyBonus()));
+        btn_fast_forward.setText(getString(mSpeedManager.isFastForwardActive() ? R.string.fast_speed : R.string.normal_speed));
 
         for (int i = 0; i < view_tower_x.length; i++) {
             view_tower_x[i].setSlot(i);
