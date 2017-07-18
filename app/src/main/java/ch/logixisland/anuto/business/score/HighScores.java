@@ -7,13 +7,13 @@ import ch.logixisland.anuto.business.level.LevelLoader;
 import ch.logixisland.anuto.business.manager.GameListener;
 import ch.logixisland.anuto.business.manager.GameManager;
 
-public class HighScoreBoard implements GameListener {
+public class HighScores implements GameListener {
 
     private final SharedPreferences mHighScores;
     private final ScoreBoard mScoreBoard;
     private final LevelLoader mLevelLoader;
 
-    public HighScoreBoard(Context context, GameManager gameManager, ScoreBoard scoreBoard, LevelLoader levelLoader) {
+    public HighScores(Context context, GameManager gameManager, ScoreBoard scoreBoard, LevelLoader levelLoader) {
         mHighScores = context.getSharedPreferences("high_scores", Context.MODE_PRIVATE);
         mScoreBoard = scoreBoard;
         mLevelLoader = levelLoader;

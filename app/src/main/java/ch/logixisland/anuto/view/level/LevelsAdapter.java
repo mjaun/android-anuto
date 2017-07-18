@@ -16,18 +16,18 @@ import java.util.List;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.level.LevelInfo;
 import ch.logixisland.anuto.business.level.LevelRepository;
-import ch.logixisland.anuto.business.score.HighScoreBoard;
+import ch.logixisland.anuto.business.score.HighScores;
 
 class LevelsAdapter extends BaseAdapter {
 
     private final WeakReference<Activity> mActivityRef;
-    private final HighScoreBoard mHighScoreBoard;
+    private final HighScores mHighScores;
     private final List<LevelInfo> mLevelInfos;
 
-    LevelsAdapter(Activity activity, LevelRepository levelRepository, HighScoreBoard highScoreBoard) {
+    LevelsAdapter(Activity activity, LevelRepository levelRepository, HighScores highScores) {
         mActivityRef = new WeakReference<>(activity);
         mLevelInfos = levelRepository.getLevels();
-        mHighScoreBoard = highScoreBoard;
+        mHighScores = highScores;
     }
 
     static private class ViewHolder {
@@ -78,7 +78,7 @@ class LevelsAdapter extends BaseAdapter {
         ViewHolder viewHolder = new ViewHolder(levelItemView);
 
         DecimalFormat fmt = new DecimalFormat("###,###,###,###");
-        String highScore = fmt.format(mHighScoreBoard.getHighScore(levelInfo.getLevelId()));
+        String highScore = fmt.format(mHighScores.getHighScore(levelInfo.getLevelId()));
 
         viewHolder.img_thumb.setImageResource(levelInfo.getLevelThumbId());
         viewHolder.txt_name.setText(resources.getString(levelInfo.getLevelNameId()));

@@ -13,7 +13,7 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.level.LevelLoader;
 import ch.logixisland.anuto.business.level.LevelRepository;
 import ch.logixisland.anuto.business.manager.GameManager;
-import ch.logixisland.anuto.business.score.HighScoreBoard;
+import ch.logixisland.anuto.business.score.HighScores;
 import ch.logixisland.anuto.engine.theme.ActivityType;
 import ch.logixisland.anuto.view.AnutoActivity;
 
@@ -23,7 +23,7 @@ public class SelectLevelActivity extends AnutoActivity implements AdapterView.On
     private final GameManager mGameManager;
     private final LevelLoader mLevelLoader;
     private final LevelRepository mLevelRepository;
-    private final HighScoreBoard mHighScoreBoard;
+    private final HighScores mHighScores;
 
     private LevelsAdapter mAdapter;
 
@@ -36,7 +36,7 @@ public class SelectLevelActivity extends AnutoActivity implements AdapterView.On
         mGameManager = factory.getGameManager();
         mLevelLoader = factory.getLevelLoader();
         mLevelRepository = factory.getLevelRepository();
-        mHighScoreBoard = factory.getHighScoreBoard();
+        mHighScores = factory.getHighScores();
     }
 
     @Override
@@ -49,7 +49,7 @@ public class SelectLevelActivity extends AnutoActivity implements AdapterView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_level);
 
-        mAdapter = new LevelsAdapter(this, mLevelRepository, mHighScoreBoard);
+        mAdapter = new LevelsAdapter(this, mLevelRepository, mHighScores);
 
         arrow_up = (ImageView) findViewById(R.id.arrow_up);
         arrow_down = (ImageView) findViewById(R.id.arrow_down);

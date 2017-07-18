@@ -13,7 +13,7 @@ import ch.logixisland.anuto.business.level.WaveManager;
 import ch.logixisland.anuto.business.manager.BackButtonControl;
 import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.business.manager.SettingsManager;
-import ch.logixisland.anuto.business.score.HighScoreBoard;
+import ch.logixisland.anuto.business.score.HighScores;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.FrameRateLogger;
@@ -52,7 +52,7 @@ public class GameFactory {
 
     // Business
     private final ScoreBoard mScoreBoard;
-    private final HighScoreBoard mHighScoreBoard;
+    private final HighScores mHighScores;
     private final TowerSelector mTowerSelector;
     private final TowerControl mTowerControl;
     private final TowerAging mTowerAging;
@@ -90,7 +90,7 @@ public class GameFactory {
         mLevelLoader = new LevelLoader(context, mGameEngine, mScoreBoard, mGameManager, mViewport, mPlateauFactory, mTowerFactory, mEnemyFactory);
         mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mGameManager, mLevelLoader, mEnemyFactory);
         mTowerAging = new TowerAging(mGameEngine, mWaveManager, mLevelLoader);
-        mHighScoreBoard = new HighScoreBoard(context, mGameManager, mScoreBoard, mLevelLoader);
+        mHighScores = new HighScores(context, mGameManager, mScoreBoard, mLevelLoader);
         mTowerSelector = new TowerSelector(mGameEngine, mGameManager, mScoreBoard);
         mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector, mTowerFactory);
         mTowerInserter = new TowerInserter(mGameEngine, mGameManager, mTowerFactory, mTowerSelector, mTowerAging, mScoreBoard);
@@ -165,8 +165,8 @@ public class GameFactory {
         return mLevelRepository;
     }
 
-    public HighScoreBoard getHighScoreBoard() {
-        return mHighScoreBoard;
+    public HighScores getHighScores() {
+        return mHighScores;
     }
 
     private EntityDependencies createEntityDependencyProvider() {
