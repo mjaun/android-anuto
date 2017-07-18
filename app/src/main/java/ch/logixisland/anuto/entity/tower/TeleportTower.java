@@ -28,7 +28,7 @@ public class TeleportTower extends AimingTower implements SpriteTransformation {
     private class StaticData implements EntityListener {
         SpriteTemplate mSpriteTemplateBase;
         SpriteTemplate mSpriteTemplateTower;
-        Collection<Enemy> mTeleportedEnemies;
+        Collection<Enemy> mTeleportedEnemies = new ArrayList<>();
 
         @Override
         public void entityRemoved(Entity obj) {
