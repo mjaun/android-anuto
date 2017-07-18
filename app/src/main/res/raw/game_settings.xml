@@ -7,7 +7,8 @@
     <weakAgainstModifier>1.5</weakAgainstModifier>
     <difficultyOffset>-10e3</difficultyOffset>
     <difficultyLinear>30</difficultyLinear>
-    <difficultyQuadratic>6e-4</difficultyQuadratic>
+    <difficultyQuadratic>5e-4</difficultyQuadratic>
+    <minHealthModifier>0.5</minHealthModifier>
     <rewardModifier>1</rewardModifier>
     <rewardRoot>3</rewardRoot>
     <earlyModifier>35</earlyModifier>

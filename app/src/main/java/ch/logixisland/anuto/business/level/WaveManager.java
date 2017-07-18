@@ -202,7 +202,7 @@ public class WaveManager implements GameListener {
         float damagePossible = settings.getDifficultyOffset()
                 + settings.getDifficultyLinear() * mScoreBoard.getCreditsEarned()
                 + settings.getDifficultyQuadratic() * MathUtils.square(mScoreBoard.getCreditsEarned());
-        float healthModifier = damagePossible / waveHealth;
+        float healthModifier = Math.max(damagePossible / waveHealth, settings.getMinHealthModifier());
 
         wave.modifyEnemyHealth(healthModifier);
 

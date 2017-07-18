@@ -36,6 +36,9 @@ public class GameSettings {
     @Element(name = "difficultyQuadratic")
     private float mDifficultyQuadratic;
 
+    @Element(name = "minHealthModifier")
+    private float mMinHealthModifier;
+
     @Element(name = "rewardModifier")
     private float mRewardModifier;
 
@@ -103,5 +106,9 @@ public class GameSettings {
 
     public float getEarlyRoot() {
         return mEarlyRoot;
+    }
+
+    public float getMinHealthModifier() {
+        return mMinHealthModifier;
     }
 }
