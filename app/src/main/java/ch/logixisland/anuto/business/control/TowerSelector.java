@@ -14,7 +14,7 @@ import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.entity.tower.TowerListener;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
-public class TowerSelector {
+public class TowerSelector implements CreditsListener, GameListener, EntityListener, TowerListener {
 
     private final GameEngine mGameEngine;
     private final GameManager mGameManager;
@@ -24,61 +24,21 @@ public class TowerSelector {
     private TowerInfo mTowerInfo;
     private Tower mSelectedTower;
 
-    private final EntityListener mEntityListener = new EntityListener() {
-        @Override
-        public void entityRemoved(Entity obj) {
-            selectTower(null);
-        }
-    };
-
-    private final TowerListener mTowerListener = new TowerListener() {
-        @Override
-        public void damageInflicted(float totalDamage) {
-            updateTowerInfo();
-        }
-
-        @Override
-        public void valueChanged(int value) {
-            updateTowerInfo();
-        }
-    };
-
-    private final CreditsListener mCreditsListener = new CreditsListener() {
-        @Override
-        public void creditsChanged(int credits) {
-            if (mTowerInfo != null) {
-                updateTowerInfo();
-            }
-        }
-    };
-
-    private final GameListener mGameListener = new GameListener() {
-        @Override
-        public void gameRestart() {
-            if (mTowerInfo != null) {
-                updateTowerInfo();
-            }
-        }
-
-        @Override
-        public void gameOver() {
-            if (mTowerInfo != null) {
-                updateTowerInfo();
-            }
-        }
-    };
-
     public TowerSelector(GameEngine gameEngine, GameManager gameManager, ScoreBoard scoreBoard) {
         mGameEngine = gameEngine;
         mGameManager = gameManager;
         mScoreBoard = scoreBoard;
 
-        mScoreBoard.addCreditsListener(mCreditsListener);
-        mGameManager.addListener(mGameListener);
+        mScoreBoard.addCreditsListener(this);
+        mGameManager.addListener(this);
     }
 
     public void setTowerInfoView(TowerInfoView view) {
         mTowerInfoView = new WeakReference<>(view);
+    }
+
+    public boolean isTowerSelected() {
+        return mSelectedTower != null;
     }
 
     public TowerInfo getTowerInfo() {
@@ -164,22 +124,58 @@ public class TowerSelector {
         }
     }
 
+    @Override
+    public void entityRemoved(Entity obj) {
+        selectTower(null);
+    }
+
+    @Override
+    public void damageInflicted(float totalDamage) {
+        updateTowerInfo();
+    }
+
+    @Override
+    public void valueChanged(int value) {
+        updateTowerInfo();
+    }
+
+    @Override
+    public void creditsChanged(int credits) {
+        if (mTowerInfo != null) {
+            updateTowerInfo();
+        }
+    }
+
+    @Override
+    public void gameRestart() {
+        if (mTowerInfo != null) {
+            updateTowerInfo();
+        }
+    }
+
+    @Override
+    public void gameOver() {
+        if (mTowerInfo != null) {
+            updateTowerInfo();
+        }
+    }
+
     Tower getSelectedTower() {
         return mSelectedTower;
     }
 
     private void setSelectedTower(Tower tower) {
         if (mSelectedTower != null) {
-            mSelectedTower.removeListener(mEntityListener);
-            mSelectedTower.removeListener(mTowerListener);
+            mSelectedTower.removeListener((TowerListener) this);
+            mSelectedTower.removeListener((EntityListener) this);
             mSelectedTower.hideRange();
         }
 
         mSelectedTower = tower;
 
         if (mSelectedTower != null) {
-            mSelectedTower.addListener(mEntityListener);
-            mSelectedTower.addListener(mTowerListener);
+            mSelectedTower.addListener((TowerListener) this);
+            mSelectedTower.addListener((EntityListener) this);
             mSelectedTower.showRange();
         }
     }

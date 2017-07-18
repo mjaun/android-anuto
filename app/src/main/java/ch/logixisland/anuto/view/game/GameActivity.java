@@ -48,13 +48,13 @@ public class GameActivity extends AnutoActivity {
 
     @Override
     public void onResume() {
-        super.onStart();
+        super.onResume();
         mGameEngine.start();
     }
 
     @Override
     public void onPause() {
-        super.onStop();
+        super.onPause();
         mGameEngine.stop();
     }
 
@@ -71,16 +71,17 @@ public class GameActivity extends AnutoActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            mTowerSelector.selectTower(null);
-
-            boolean canWeExit = mBackButtonControl.backButtonPressed();
-
-            if (!canWeExit) {
-                if (mBackButtonControl.getBackButtonMode() == BackButtonMode.TWICE) {
-                    mBackButtonToast = showBackButtonToast();
-                }
-
+            if (mTowerSelector.isTowerSelected()) {
+                mTowerSelector.selectTower(null);
                 return true;
+            } else {
+                if (!mBackButtonControl.backButtonPressed()) {
+                    if (mBackButtonControl.getBackButtonMode() == BackButtonMode.TWICE) {
+                        mBackButtonToast = showBackButtonToast();
+                    }
+
+                    return true;
+                }
             }
         }
 
