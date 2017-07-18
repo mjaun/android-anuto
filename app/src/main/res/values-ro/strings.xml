@@ -4,17 +4,13 @@
 
     <string name="menu">Meniu</string>
     <string name="next_wave">Următorul val</string>
-    <string name="select_level">Selectează nivel</string>
 
     <string name="restart">Restart</string>
     <string name="change_map">Schimbă harta</string>
     <string name="theme">Temă</string>
     <string name="sound">Sunet</string>
-    <string name="back_button">Butonul înapoi</string>
     <string name="transparent_tower_info_button">Informații transparente pentru turn</string>
 
-    <string name="back_button_toast_disabled">Butonul înapoi este acum dezactivat</string>
-    <string name="back_button_toast_enabled">Butonul înapoi este acum activat</string>
     <string name="back_button_toast_twice">Apasă înapoi de două ori pentru a ieși</string>
 
     <string name="game_over">Sfârșit!</string>

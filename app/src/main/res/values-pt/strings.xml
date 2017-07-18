@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Anuto TD</string>
-    <string name="back_button">Botão voltar</string>
     <string name="back_button_behaviour">Comportamento do voltar</string>
-    <string name="back_button_toast_disabled">Voltar desabilitado</string>
-    <string name="back_button_toast_enabled">Voltar habilitado</string>
     <string name="back_button_toast_twice">Pressione voltar duas vezes para sair</string>
     <string name="bonus">Bonus</string>
     <string name="change_map">Mudar mapa</string>
@@ -31,7 +28,6 @@
     <string name="reload">Recarregar</string>
     <string name="restart">Reiniciar</string>
     <string name="score">Pontuação</string>
-    <string name="select_level">Selecione nível</string>
     <string name="sell">Vender</string>
     <string name="settings">Configurações</string>
     <string name="sound">Som</string>

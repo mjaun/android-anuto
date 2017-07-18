@@ -46,14 +46,10 @@
     <string name="theme_dark">Dunkel</string>
 
     <string name="warning_change_theme">Achtung: Das Spiel wird neu gestartet! Fortfahren?</string>
-    <string name="select_level">Karte auswählen</string>
     <string name="settings">Einstellungen</string>
     <string name="transparent_tower_info_button">Transparente Turm-Info</string>
     <string name="twice">Doppelt</string>
     <string name="change_theme">Thema ändern</string>
     <string name="back_button_toast_twice">Zweimal drücken zum Schließen</string>
-    <string name="back_button">Taste Zurück</string>
     <string name="back_button_behaviour">Schließen mit Zurück</string>
-    <string name="back_button_toast_disabled">Schließen mit Zurück deaktiviert</string>
-    <string name="back_button_toast_enabled">Schließen mit Zurück aktiviert</string>
 </resources>

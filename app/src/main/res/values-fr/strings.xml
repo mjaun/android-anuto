@@ -4,17 +4,13 @@
 
     <string name="menu">Menu</string>
     <string name="next_wave">Prochaine</string>
-    <string name="select_level">Choisir le niveau</string>
 
     <string name="restart">Redémarrer</string>
     <string name="change_map">Changer la carte</string>
     <string name="theme">Thème</string>
     <string name="sound">Sons</string>
-    <string name="back_button">Bouton Retour</string>
     <string name="transparent_tower_info_button">Infos transparentes pour la tour</string>
 
-    <string name="back_button_toast_disabled">Le bouton Retour est désactivé</string>
-    <string name="back_button_toast_enabled">Le bouton Retour est activé</string>
     <string name="back_button_toast_twice">Appuyez deux fois sur le bouton Retour pour quitter</string>
 
     <string name="game_over">Fin de la partie !</string>

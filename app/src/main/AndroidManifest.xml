@@ -39,7 +39,7 @@
         </activity>
         <activity
             android:name=".view.level.SelectLevelActivity"
-            android:label="@string/select_level"
+            android:label="@string/change_map"
             android:icon="@drawable/settings"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.DeviceDefault">
