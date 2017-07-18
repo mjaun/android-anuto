@@ -1,5 +1,6 @@
 package ch.logixisland.anuto.entity.enemy;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import ch.logixisland.anuto.R;
@@ -31,7 +32,7 @@ public class Healer extends Enemy implements SpriteTransformation {
 
         boolean mHealing;
         boolean mDropEffect;
-        Collection<Enemy> mHealedEnemies;
+        Collection<Enemy> mHealedEnemies = new ArrayList<>();
         float mAngle;
         float mScale = 1f;
         TickTimer mHealTimer;
