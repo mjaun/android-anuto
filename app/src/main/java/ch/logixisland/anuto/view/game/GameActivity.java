@@ -1,6 +1,5 @@
 package ch.logixisland.anuto.view.game;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.WindowManager;
@@ -12,7 +11,6 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.control.TowerSelector;
 import ch.logixisland.anuto.business.manager.BackButtonControl;
 import ch.logixisland.anuto.business.manager.BackButtonMode;
-import ch.logixisland.anuto.business.manager.SettingsManager;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.theme.ActivityType;
 import ch.logixisland.anuto.view.AnutoActivity;
@@ -21,7 +19,6 @@ public class GameActivity extends AnutoActivity {
 
     private final GameEngine mGameEngine;
     private final TowerSelector mTowerSelector;
-    private final SettingsManager mSettingsManager;
     private final BackButtonControl mBackButtonControl;
 
     private Toast mBackButtonToast;
@@ -32,7 +29,6 @@ public class GameActivity extends AnutoActivity {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
         mGameEngine = factory.getGameEngine();
         mTowerSelector = factory.getTowerSelector();
-        mSettingsManager = factory.getSettingsManager();
         mBackButtonControl = factory.getBackButtonControl();
     }
 
@@ -66,10 +62,9 @@ public class GameActivity extends AnutoActivity {
     protected void onDestroy() {
         super.onDestroy();
         view_tower_defense.close();
-        try {
+
+        if (mBackButtonToast != null) {
             mBackButtonToast.cancel();
-        } catch (NullPointerException e) {
-            //noop;
         }
     }
 
@@ -79,32 +74,22 @@ public class GameActivity extends AnutoActivity {
             mTowerSelector.selectTower(null);
 
             boolean canWeExit = mBackButtonControl.backButtonPressed();
-            if (!canWeExit && mBackButtonControl.getBackButtonMode() == BackButtonMode.TWICE) {
-                mBackButtonToast = showBackButtonToast(this, mBackButtonControl.getBackButtonMode());
-            }
 
-            return canWeExit ? super.onKeyDown(keyCode, event) : true;
+            if (!canWeExit) {
+                if (mBackButtonControl.getBackButtonMode() == BackButtonMode.TWICE) {
+                    mBackButtonToast = showBackButtonToast();
+                }
+
+                return true;
+            }
         }
 
         return super.onKeyDown(keyCode, event);
     }
 
-    static public Toast showBackButtonToast(Context context, BackButtonMode mode) {
-        String message;
-        switch (mode) {
-            case DISABLED:
-                message = context.getString(R.string.back_button_toast_disabled);
-                break;
-            case ENABLED:
-                message = context.getString(R.string.back_button_toast_enabled);
-                break;
-            case TWICE:
-                message = context.getString(R.string.back_button_toast_twice);
-                break;
-            default:
-                throw new RuntimeException("Unknown back button mode");
-        }
-        Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+    private Toast showBackButtonToast() {
+        String message = getString(R.string.back_button_toast_twice);
+        Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         toast.show();
         return toast;
     }
