@@ -88,6 +88,7 @@ public class GameFactory {
         mSpeedManager = new GameSpeedManager(mGameEngine);
         mGameManager = new GameManager(mGameEngine, mThemeManager, mScoreBoard);
         mLevelLoader = new LevelLoader(context, mGameEngine, mScoreBoard, mGameManager, mViewport, mPlateauFactory, mTowerFactory, mEnemyFactory);
+        mLevelLoader.loadLevel(mLevelRepository.getLevels().get(0));
         mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mGameManager, mLevelLoader, mEnemyFactory);
         mTowerAging = new TowerAging(mGameEngine, mWaveManager, mLevelLoader);
         mHighScores = new HighScores(context, mGameManager, mScoreBoard, mLevelLoader);
@@ -97,7 +98,6 @@ public class GameFactory {
         mSettingsManager = new SettingsManager(context, mThemeManager, mSoundManager);
         mBackButtonControl = new BackButtonControl(mSettingsManager);
 
-        mLevelLoader.loadLevel(mLevelRepository.getLevels().get(0));
         mGameManager.restart();
     }
 
