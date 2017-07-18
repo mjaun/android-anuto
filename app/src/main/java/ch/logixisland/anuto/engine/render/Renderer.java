@@ -68,6 +68,7 @@ public class Renderer implements ThemeListener {
 
         canvas.drawColor(mBackgroundColor);
         canvas.concat(mViewport.getScreenMatrix());
+        canvas.clipRect(mViewport.getScreenClipRect());
 
         for (Drawable obj : mDrawables) {
             obj.draw(canvas);

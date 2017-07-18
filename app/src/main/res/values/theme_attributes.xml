@@ -53,5 +53,4 @@
     <attr name="backgroundHeader" format="reference"/>
     <attr name="backgroundTowerInfo" format="reference"/>
     <attr name="selectLevelArrow" format="reference"/>
-    <attr name="levelThumbBackgroundColor" format="color"/>
 </resources>

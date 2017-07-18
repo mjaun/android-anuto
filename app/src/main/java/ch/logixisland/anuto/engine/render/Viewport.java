@@ -1,6 +1,7 @@
 package ch.logixisland.anuto.engine.render;
 
 import android.graphics.Matrix;
+import android.graphics.RectF;
 
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
@@ -8,21 +9,29 @@ public class Viewport {
 
     private Matrix mScreenMatrix = new Matrix();
     private Matrix mScreenMatrixInverse = new Matrix();
-    private Vector2 mGameSize = new Vector2((float) 10, (float) 10);
-    private Vector2 mScreenSize = new Vector2((float) 100, (float) 100);
+    private float mGameWidth = 10;
+    private float mGameHeight = 10;
+    private float mScreenWidth = 100;
+    private float mScreenHeight = 100;
 
     public void setGameSize(int width, int height) {
-        mGameSize = new Vector2((float) width, (float) height);
+        mGameWidth = width;
+        mGameHeight = height;
         calcScreenMatrix();
     }
 
     public void setScreenSize(int width, int height) {
-        mScreenSize = new Vector2((float) width, (float) height);
+        mScreenWidth = width;
+        mScreenHeight = height;
         calcScreenMatrix();
     }
 
     public Matrix getScreenMatrix() {
         return mScreenMatrix;
+    }
+
+    public RectF getScreenClipRect() {
+        return new RectF(-0.5f, -0.5f, mGameWidth - 0.5f, mGameHeight - 0.5f);
     }
 
     public Vector2 screenToGame(Vector2 pos) {
@@ -34,16 +43,16 @@ public class Viewport {
     private void calcScreenMatrix() {
         mScreenMatrix.reset();
 
-        float tileSize = Math.min(mScreenSize.x() / mGameSize.x(), mScreenSize.y() / mGameSize.y());
+        float tileSize = Math.min(mScreenWidth / mGameWidth, mScreenHeight / mGameHeight);
         mScreenMatrix.postTranslate(0.5f, 0.5f);
         mScreenMatrix.postScale(tileSize, tileSize);
 
-        float paddingLeft = (mScreenSize.x() - (tileSize * mGameSize.x())) / 2f;
-        float paddingTop = (mScreenSize.y() - (tileSize * mGameSize.y())) / 2f;
+        float paddingLeft = (mScreenWidth - (tileSize * mGameWidth)) / 2f;
+        float paddingTop = (mScreenHeight - (tileSize * mGameHeight)) / 2f;
         mScreenMatrix.postTranslate(paddingLeft, paddingTop);
 
         mScreenMatrix.postScale(1f, -1f);
-        mScreenMatrix.postTranslate(0, mScreenSize.y());
+        mScreenMatrix.postTranslate(0, mScreenHeight);
 
         mScreenMatrix.invert(mScreenMatrixInverse);
     }

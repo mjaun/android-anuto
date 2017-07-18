@@ -74,7 +74,6 @@
         <item name="android:textAppearance">?android:attr/textAppearanceSmallInverse</item>
         <item name="android:textColor">#ffffff</item>
 
-        <item name="levelThumbBackgroundColor">#dddddd</item>
         <item name="selectLevelArrow">@drawable/select_level_arrow</item>
     </style>
 </resources>

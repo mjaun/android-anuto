@@ -9,18 +9,17 @@
         android:id="@+id/grid_levels"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:columnWidth="@dimen/grid_column_width"
+        android:columnWidth="150dp"
         android:numColumns="auto_fit"
-        android:paddingLeft="@dimen/grid_horizontal_spacing"
-        android:paddingRight="@dimen/grid_horizontal_spacing"
-        android:paddingTop="@dimen/grid_vertical_spacing"
-        android:paddingBottom="@dimen/grid_vertical_spacing"
-        android:verticalSpacing="@dimen/grid_vertical_spacing"
-        android:horizontalSpacing="@dimen/grid_horizontal_spacing"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:verticalSpacing="20dp"
+        android:horizontalSpacing="20dp"
         android:clipToPadding="false"
         android:stretchMode="columnWidth"
-        android:scrollbarStyle="outsideOverlay"
-        android:gravity="fill"/>
+        android:scrollbarStyle="outsideOverlay"/>
 
     <ImageView
         android:id="@+id/arrow_up"

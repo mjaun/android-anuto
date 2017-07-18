@@ -3,30 +3,24 @@ package ch.logixisland.anuto.business.level;
 public class LevelInfo {
 
     private String mLevelId;
-    private int mLevelNameId;
-    private int mLevelThumbId;
-    private int mLevelDataId;
+    private int mLevelNameResId;
+    private int mLevelDataResId;
 
-    LevelInfo(String levelId, int levelNameId, int levelThumbId, int levelDataId) {
+    LevelInfo(String levelId, int levelNameResId, int levelDataResId) {
         mLevelId = levelId;
-        mLevelNameId = levelNameId;
-        mLevelThumbId = levelThumbId;
-        mLevelDataId = levelDataId;
+        mLevelNameResId = levelNameResId;
+        mLevelDataResId = levelDataResId;
     }
 
     public String getLevelId() {
         return mLevelId;
     }
 
-    public int getLevelNameId() {
-        return mLevelNameId;
+    public int getLevelNameResId() {
+        return mLevelNameResId;
     }
 
-    public int getLevelThumbId() {
-        return mLevelThumbId;
-    }
-
-    public int getLevelDataId() {
-        return mLevelDataId;
+    public int getLevelDataResId() {
+        return mLevelDataResId;
     }
 }

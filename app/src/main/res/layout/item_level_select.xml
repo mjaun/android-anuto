@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="250dp">
 
     <TextView
         android:id="@+id/txt_name"
@@ -17,14 +17,15 @@
         android:id="@+id/txt_highscore"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:lines="1"
         android:gravity="center"
         android:paddingBottom="5dp"/>
 
     <ImageView
         android:id="@+id/img_thumb"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:background="?attr/levelThumbBackgroundColor"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scaleType="fitCenter"/>
 
 </LinearLayout>

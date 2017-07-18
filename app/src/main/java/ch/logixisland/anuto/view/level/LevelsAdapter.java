@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.text.DecimalFormat;
 import java.util.List;
@@ -17,17 +18,20 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.level.LevelInfo;
 import ch.logixisland.anuto.business.level.LevelRepository;
 import ch.logixisland.anuto.business.score.HighScores;
+import ch.logixisland.anuto.util.data.LevelDescriptor;
 
 class LevelsAdapter extends BaseAdapter {
 
     private final WeakReference<Activity> mActivityRef;
     private final HighScores mHighScores;
+    private final LevelThumbGenerator mLevelThumbGenerator;
     private final List<LevelInfo> mLevelInfos;
 
     LevelsAdapter(Activity activity, LevelRepository levelRepository, HighScores highScores) {
         mActivityRef = new WeakReference<>(activity);
         mLevelInfos = levelRepository.getLevels();
         mHighScores = highScores;
+        mLevelThumbGenerator = new LevelThumbGenerator();
     }
 
     static private class ViewHolder {
@@ -77,12 +81,19 @@ class LevelsAdapter extends BaseAdapter {
         LevelInfo levelInfo = mLevelInfos.get(position);
         ViewHolder viewHolder = new ViewHolder(levelItemView);
 
+        viewHolder.txt_name.setText(resources.getString(levelInfo.getLevelNameResId()));
+
         DecimalFormat fmt = new DecimalFormat("###,###,###,###");
         String highScore = fmt.format(mHighScores.getHighScore(levelInfo.getLevelId()));
-
-        viewHolder.img_thumb.setImageResource(levelInfo.getLevelThumbId());
-        viewHolder.txt_name.setText(resources.getString(levelInfo.getLevelNameId()));
         viewHolder.txt_highscore.setText(resources.getString(R.string.score) + ": " + highScore);
+
+        try {
+            InputStream inputStream = resources.openRawResource(levelInfo.getLevelDataResId());
+            LevelDescriptor levelDescriptor = LevelDescriptor.fromXml(inputStream);
+            viewHolder.img_thumb.setImageBitmap(mLevelThumbGenerator.generateThumb(levelDescriptor));
+        } catch (Exception e) {
+            return null;
+        }
 
         return levelItemView;
     }

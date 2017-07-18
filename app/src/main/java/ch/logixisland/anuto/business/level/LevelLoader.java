@@ -96,7 +96,7 @@ public class LevelLoader implements GameListener {
         mLevelInfo = levelInfo;
 
         try {
-            InputStream inputStream = mContext.getResources().openRawResource(mLevelInfo.getLevelDataId());
+            InputStream inputStream = mContext.getResources().openRawResource(mLevelInfo.getLevelDataResId());
             mLevelDescriptor = LevelDescriptor.fromXml(inputStream);
         } catch (Exception e) {
             throw new RuntimeException("Could not load level!", e);
