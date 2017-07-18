@@ -9,15 +9,19 @@
         android:id="@+id/txt_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:lines="1"
-        android:gravity="center_horizontal|bottom"
+        android:scrollHorizontally="true"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:gravity="center"
         android:textSize="18sp"/>
 
     <TextView
         android:id="@+id/txt_highscore"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:lines="1"
+        android:scrollHorizontally="true"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:gravity="center"
         android:paddingBottom="5dp"/>
 
