@@ -66,8 +66,5 @@
     <string name="level_civyshk_yard_name">Curtea Civyshk</string>
     <string name="change_theme">Schimbă tema</string>
     <string name="warning_change_theme">Ești sigur că dorești să schimbi tema? Jocul va reporni</string>
-    <string name="increase_rate">></string>
-    <string name="decrease_rate">&lt;</string>
-    <string name="game_speed">Viteză</string>
 
 </resources>
