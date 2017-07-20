@@ -2,6 +2,7 @@ package ch.logixisland.anuto.view.level;
 
 import android.app.Activity;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,29 +10,35 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.level.LevelInfo;
 import ch.logixisland.anuto.business.level.LevelRepository;
 import ch.logixisland.anuto.business.score.HighScores;
-import ch.logixisland.anuto.util.data.LevelDescriptor;
 
 class LevelsAdapter extends BaseAdapter {
 
     private final WeakReference<Activity> mActivityRef;
     private final HighScores mHighScores;
-    private final LevelThumbGenerator mLevelThumbGenerator;
     private final List<LevelInfo> mLevelInfos;
+    private final List<Bitmap> mLevelThumbs;
 
     LevelsAdapter(Activity activity, LevelRepository levelRepository, HighScores highScores) {
         mActivityRef = new WeakReference<>(activity);
         mLevelInfos = levelRepository.getLevels();
         mHighScores = highScores;
-        mLevelThumbGenerator = new LevelThumbGenerator();
+
+        mLevelThumbs = new ArrayList<>();
+        LevelThumbGenerator thumbGenerator = new LevelThumbGenerator();
+        for (LevelInfo levelInfo : mLevelInfos) {
+            mLevelThumbs.add(thumbGenerator.generateThumb(
+                    activity.getResources(),
+                    levelInfo.getLevelDataResId()));
+        }
     }
 
     static private class ViewHolder {
@@ -82,18 +89,11 @@ class LevelsAdapter extends BaseAdapter {
         ViewHolder viewHolder = new ViewHolder(levelItemView);
 
         viewHolder.txt_name.setText(resources.getString(levelInfo.getLevelNameResId()));
+        viewHolder.img_thumb.setImageBitmap(mLevelThumbs.get(position));
 
         DecimalFormat fmt = new DecimalFormat("###,###,###,###");
         String highScore = fmt.format(mHighScores.getHighScore(levelInfo.getLevelId()));
         viewHolder.txt_highscore.setText(resources.getString(R.string.score) + ": " + highScore);
-
-        try {
-            InputStream inputStream = resources.openRawResource(levelInfo.getLevelDataResId());
-            LevelDescriptor levelDescriptor = LevelDescriptor.fromXml(inputStream);
-            viewHolder.img_thumb.setImageBitmap(mLevelThumbGenerator.generateThumb(levelDescriptor));
-        } catch (Exception e) {
-            return null;
-        }
 
         return levelItemView;
     }

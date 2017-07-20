@@ -1,9 +1,12 @@
 package ch.logixisland.anuto.view.level;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+
+import java.io.InputStream;
 
 import ch.logixisland.anuto.engine.render.Viewport;
 import ch.logixisland.anuto.util.data.LevelDescriptor;
@@ -17,6 +20,16 @@ class LevelThumbGenerator {
 
     private static final int PLATEAU_COLOR = Color.parseColor("#bbbbbb");
     private static final int PATH_COLOR = Color.parseColor("#000000");
+
+    Bitmap generateThumb(Resources resources, int levelDataResId) {
+        try {
+            InputStream inputStream = resources.openRawResource(levelDataResId);
+            LevelDescriptor levelDescriptor = LevelDescriptor.fromXml(inputStream);
+            return generateThumb(levelDescriptor);
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
     Bitmap generateThumb(LevelDescriptor levelDescriptor) {
         Bitmap bitmap = Bitmap.createBitmap(
