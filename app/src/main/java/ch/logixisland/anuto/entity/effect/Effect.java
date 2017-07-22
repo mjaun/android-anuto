@@ -16,12 +16,15 @@ public abstract class Effect extends Entity {
     private TickTimer mTimer;
     private State mState;
 
-    Effect(Entity origin, float duration) {
+    Effect(Entity origin) {
         super(origin.getDependencies());
-
         mOrigin = origin;
-        mTimer = TickTimer.createInterval(duration);
         mState = State.NotStarted;
+    }
+
+    Effect(Entity origin, float duration) {
+        this(origin);
+        mTimer = TickTimer.createInterval(duration);
     }
 
     public Entity getOrigin() {
@@ -46,14 +49,18 @@ public abstract class Effect extends Entity {
             effectBegin();
         }
 
-        if (mTimer.tick()) {
+        if (mTimer != null && mTimer.tick()) {
             mState = State.Ended;
             effectEnd();
             remove();
         }
     }
 
-    protected abstract void effectBegin();
+    protected void effectBegin() {
 
-    protected abstract void effectEnd();
+    }
+
+    protected void effectEnd() {
+
+    }
 }

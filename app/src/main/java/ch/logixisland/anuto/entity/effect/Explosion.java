@@ -25,13 +25,13 @@ public class Explosion extends Effect {
         private Paint mPaint;
         private int mAlpha = ALPHA_START;
 
-        public ExplosionDrawable() {
+        private ExplosionDrawable() {
             mPaint = new Paint();
             mPaint.setColor(Color.YELLOW);
             mPaint.setAlpha(mAlpha);
         }
 
-        public void decreaseVisibility() {
+        private void decreaseVisibility() {
             mAlpha -= ALPHA_STEP;
 
             if (mAlpha < 0) {

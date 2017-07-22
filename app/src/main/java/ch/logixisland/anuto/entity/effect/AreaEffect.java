@@ -61,12 +61,9 @@ public abstract class AreaEffect extends Effect {
     }
 
     @Override
-    protected void effectBegin() {
-
-    }
-
-    @Override
     protected void effectEnd() {
+        super.effectEnd();
+
         for (Enemy enemy : mAffectedEnemies) {
             enemy.removeListener(mEntityListener);
             enemyExit(enemy);
@@ -76,8 +73,12 @@ public abstract class AreaEffect extends Effect {
     }
 
 
-    protected abstract void enemyEnter(Enemy e);
+    protected void enemyEnter(Enemy e) {
 
-    protected abstract void enemyExit(Enemy e);
+    }
+
+    protected void enemyExit(Enemy e) {
+
+    }
 
 }

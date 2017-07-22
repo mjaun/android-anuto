@@ -25,14 +25,14 @@ public class BouncingLaser extends Effect {
         private Paint mPaint;
         private int mAlpha = ALPHA_START;
 
-        public LaserDrawable() {
+        private LaserDrawable() {
             mPaint = new Paint();
             mPaint.setStyle(Paint.Style.STROKE);
             mPaint.setStrokeWidth(0.1f);
             mPaint.setColor(Color.RED);
         }
 
-        public void decreaseVisibility() {
+        private void decreaseVisibility() {
             mAlpha -= ALPHA_STEP;
 
             if (mAlpha < 0) {
@@ -120,6 +120,8 @@ public class BouncingLaser extends Effect {
 
     @Override
     protected void effectBegin() {
+        super.effectBegin();
+
         if (mBounce > 0) {
             if (mPrevTargets == null) {
                 mPrevTargets = new ArrayList<>();
@@ -138,8 +140,4 @@ public class BouncingLaser extends Effect {
         mTarget.damage(mDamage, getOrigin());
     }
 
-    @Override
-    protected void effectEnd() {
-
-    }
 }

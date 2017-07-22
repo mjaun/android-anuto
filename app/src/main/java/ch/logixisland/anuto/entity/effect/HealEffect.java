@@ -93,9 +93,4 @@ public class HealEffect extends Effect {
             e.heal(mHealAmount * e.getHealthMax());
         }
     }
-
-    @Override
-    protected void effectEnd() {
-
-    }
 }

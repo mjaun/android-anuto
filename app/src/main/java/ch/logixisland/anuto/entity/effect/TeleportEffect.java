@@ -82,11 +82,6 @@ public class TeleportEffect extends Effect {
     }
 
     @Override
-    protected void effectBegin() {
-
-    }
-
-    @Override
     protected void effectEnd() {
         mTarget.sendBack(mDistance);
         mTarget.setEnabled(true);

@@ -100,9 +100,4 @@ public class StraightLaser extends Effect {
             enemy.damage(mDamage, getOrigin());
         }
     }
-
-    @Override
-    protected void effectEnd() {
-
-    }
 }
