@@ -27,7 +27,6 @@ class EnemyInserter implements EnemyListener {
     private int mWaveReward;
     private float mEnemyHealthModifier;
     private float mEnemyRewardModifier;
-    private boolean mNextWaveReady;
 
     EnemyInserter(GameEngine gameEngine, ScoreBoard scoreBoard, EnemyFactory enemyFactory,
                   WaveManager waveManager, WaveDescriptor waveDescriptor) {
@@ -77,15 +76,6 @@ class EnemyInserter implements EnemyListener {
 
     void start() {
         scheduleEnemies();
-        mNextWaveReady = false;
-
-        mGameEngine.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mNextWaveReady = true;
-                mWaveManager.checkNextWaveReady();
-            }
-        }, mWaveDescriptor.getNextWaveDelay());
     }
 
     @Override
@@ -126,10 +116,6 @@ class EnemyInserter implements EnemyListener {
 
     int getRemainingEnemiesCount() {
         return mRemainingEnemies.size();
-    }
-
-    boolean isNextWaveReady() {
-        return mNextWaveReady;
     }
 
     private void scheduleEnemies() {

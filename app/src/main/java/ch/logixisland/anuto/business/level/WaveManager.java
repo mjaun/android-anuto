@@ -133,17 +133,13 @@ public class WaveManager implements GameListener {
         checkNextWaveReady();
     }
 
-    void checkNextWaveReady() {
+    private void checkNextWaveReady() {
         if (mNextWaveReady) {
             return;
         }
 
-        if (!mActiveWaves.isEmpty()) {
-            EnemyInserter lastWave = mActiveWaves.get(mActiveWaves.size() - 1);
-
-            if (!lastWave.isNextWaveReady() || mActiveWaves.size() >= MAX_WAVES_IN_GAME) {
-                return;
-            }
+        if (mActiveWaves.size() >= MAX_WAVES_IN_GAME) {
+            return;
         }
 
         mNextWaveReady = true;

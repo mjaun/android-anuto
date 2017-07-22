@@ -29,9 +29,6 @@ public class WaveDescriptor {
     @Element(name = "maxExtend", required = false)
     private int mMaxExtend = 0;
 
-    @Element(name = "nextWaveDelay", required = false)
-    private float mNextWaveDelay = 10;
-
     public List<EnemyDescriptor> getEnemies() {
         return Collections.unmodifiableList(mEnemies);
     }
@@ -46,10 +43,6 @@ public class WaveDescriptor {
 
     public int getMaxExtend() {
         return mMaxExtend;
-    }
-
-    public float getNextWaveDelay() {
-        return mNextWaveDelay;
     }
 
     public float getRewardModifier() {
