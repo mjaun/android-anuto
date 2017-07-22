@@ -8,7 +8,7 @@ import ch.logixisland.anuto.engine.logic.GameEngine;
 
 public class GameSpeedManager implements GameListener {
 
-    private static final int FAST_FORWARD_SPEED = 8;
+    private static final int FAST_FORWARD_SPEED = 4;
 
     private final GameEngine mGameEngine;
     private final List<GameSpeedListener> mListeners = new CopyOnWriteArrayList<>();

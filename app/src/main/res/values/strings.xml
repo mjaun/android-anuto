@@ -67,6 +67,6 @@
     <string name="warning_change_theme">The game will restart. Are you sure you want to change the theme?</string>
 
     <string name="normal_speed">1x</string>
-    <string name="fast_speed">8x</string>
+    <string name="fast_speed">4x</string>
 
 </resources>
