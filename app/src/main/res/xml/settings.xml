@@ -9,11 +9,11 @@
         android:entries="@array/theme_entries"
         android:entryValues="@array/theme_entry_values"
         android:title="@string/theme"/>
-    <CheckBoxPreference
+    <SwitchPreference
         android:key="sound_enabled"
         android:defaultValue="true"
         android:title="@string/sound"/>
-    <CheckBoxPreference
+    <SwitchPreference
         android:key="transparent_tower_info_enabled"
         android:defaultValue="false"
         android:title="@string/transparent_tower_menu"/>
