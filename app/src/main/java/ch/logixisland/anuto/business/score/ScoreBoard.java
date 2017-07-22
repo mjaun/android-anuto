@@ -17,7 +17,7 @@ public class ScoreBoard {
 
     public synchronized void reset(int lives, int credits) {
         mCredits = credits;
-        mCreditsEarned = credits;
+        mCreditsEarned = 0;
         mLives = lives;
         mEarlyBonus = 0;
         mWaveBonus = 0;
