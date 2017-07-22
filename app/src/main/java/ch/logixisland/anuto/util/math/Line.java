@@ -2,14 +2,14 @@ package ch.logixisland.anuto.util.math;
 
 public class Line {
 
-    private Vector2 mPoint1;
-    private Vector2 mPoint2;
-
-    public Line() {
-
-    }
+    private final Vector2 mPoint1;
+    private final Vector2 mPoint2;
 
     public Line(Vector2 point1, Vector2 point2) {
+        if (point1 == null || point2 == null) {
+            throw new IllegalArgumentException();
+        }
+
         mPoint1 = point1;
         mPoint2 = point2;
     }
@@ -20,14 +20,6 @@ public class Line {
 
     public Vector2 getPoint2() {
         return mPoint2;
-    }
-
-    public void setPoint1(Vector2 point1) {
-        mPoint1 = point1;
-    }
-
-    public void setPoint2(Vector2 point2) {
-        mPoint2 = point2;
     }
 
     public Vector2 lineVector() {

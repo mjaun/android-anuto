@@ -243,11 +243,12 @@ public abstract class Tower extends Entity implements EntityWithRange, EntityWit
 
                 Vector2[] is = Intersections.lineCircle(p1, p2, getRange());
 
-                Line section = new Line();
+                Vector2 sectionP1;
+                Vector2 sectionP2;
 
                 if (p1in && p2in) {
-                    section.setPoint1(p1.add(getPosition()));
-                    section.setPoint2(p2.add(getPosition()));
+                    sectionP1 = p1.add(getPosition());
+                    sectionP2 = p2.add(getPosition());
                 } else if (!p1in && !p2in) {
                     if (is == null) {
                         continue;
@@ -260,31 +261,31 @@ public abstract class Tower extends Entity implements EntityWithRange, EntityWit
                         continue;
                     }
 
-                    section.setPoint1(is[0].add(getPosition()));
-                    section.setPoint2(is[1].add(getPosition()));
+                    sectionP1 = is[0].add(getPosition());
+                    sectionP2 = is[1].add(getPosition());
                 } else {
                     float angle = p1.to(p2).angle();
 
                     if (p1in) {
                         if (MathUtils.equals(angle, p1.to(is[0]).angle(), 10f)) {
-                            section.setPoint2(is[0].add(getPosition()));
+                            sectionP2 = is[0].add(getPosition());
                         } else {
-                            section.setPoint2(is[1].add(getPosition()));
+                            sectionP2 = is[1].add(getPosition());
                         }
 
-                        section.setPoint1(p1.add(getPosition()));
+                        sectionP1 = (p1.add(getPosition()));
                     } else {
                         if (MathUtils.equals(angle, is[0].to(p2).angle(), 10f)) {
-                            section.setPoint1(is[0].add(getPosition()));
+                            sectionP1 = is[0].add(getPosition());
                         } else {
-                            section.setPoint1(is[1].add(getPosition()));
+                            sectionP1 = is[1].add(getPosition());
                         }
 
-                        section.setPoint2(p2.add(getPosition()));
+                        sectionP2 = p2.add(getPosition());
                     }
                 }
 
-                sections.add(section);
+                sections.add(new Line(sectionP1, sectionP2));
             }
         }
 
