@@ -11,7 +11,7 @@ import ch.logixisland.anuto.entity.enemy.EnemyListener;
 import ch.logixisland.anuto.util.data.EnemyDescriptor;
 import ch.logixisland.anuto.util.data.WaveDescriptor;
 import ch.logixisland.anuto.util.math.MathUtils;
-import ch.logixisland.anuto.util.math.vector.Vector2;
+import ch.logixisland.anuto.util.math.Vector2;
 
 class EnemyInserter implements EnemyListener {
 

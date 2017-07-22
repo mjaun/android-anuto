@@ -12,7 +12,7 @@ import ch.logixisland.anuto.engine.render.Viewport;
 import ch.logixisland.anuto.util.data.LevelDescriptor;
 import ch.logixisland.anuto.util.data.PathDescriptor;
 import ch.logixisland.anuto.util.data.PlateauDescriptor;
-import ch.logixisland.anuto.util.math.vector.Vector2;
+import ch.logixisland.anuto.util.math.Vector2;
 
 class LevelThumbGenerator {
 

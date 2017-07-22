@@ -11,7 +11,7 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.RandomUtils;
-import ch.logixisland.anuto.util.math.vector.Vector2;
+import ch.logixisland.anuto.util.math.Vector2;
 
 public class CanonShot extends HomingShot implements SpriteTransformation {
 

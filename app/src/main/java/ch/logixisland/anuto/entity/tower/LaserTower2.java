@@ -17,7 +17,7 @@ import ch.logixisland.anuto.engine.sound.Sound;
 import ch.logixisland.anuto.entity.effect.BouncingLaser;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.data.TowerConfig;
-import ch.logixisland.anuto.util.math.vector.Vector2;
+import ch.logixisland.anuto.util.math.Vector2;
 
 public class LaserTower2 extends AimingTower implements SpriteTransformation {
 

@@ -13,7 +13,7 @@ import ch.logixisland.anuto.engine.sound.Sound;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
-import ch.logixisland.anuto.util.math.vector.Vector2;
+import ch.logixisland.anuto.util.math.Vector2;
 
 public class Explosion extends Effect {
 

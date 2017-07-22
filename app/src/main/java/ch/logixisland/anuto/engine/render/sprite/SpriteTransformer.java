@@ -3,7 +3,7 @@ package ch.logixisland.anuto.engine.render.sprite;
 import android.graphics.Canvas;
 
 import ch.logixisland.anuto.engine.logic.Entity;
-import ch.logixisland.anuto.util.math.vector.Vector2;
+import ch.logixisland.anuto.util.math.Vector2;
 
 public class SpriteTransformer {
     private final Canvas mCanvas;

@@ -3,7 +3,7 @@ package ch.logixisland.anuto.engine.render;
 import android.graphics.Matrix;
 import android.graphics.RectF;
 
-import ch.logixisland.anuto.util.math.vector.Vector2;
+import ch.logixisland.anuto.util.math.Vector2;
 
 public class Viewport {
 

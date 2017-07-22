@@ -20,8 +20,8 @@ import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.data.TowerConfig;
 import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
-import ch.logixisland.anuto.util.math.vector.Line;
-import ch.logixisland.anuto.util.math.vector.Vector2;
+import ch.logixisland.anuto.util.math.Line;
+import ch.logixisland.anuto.util.math.Vector2;
 
 public class GlueTower extends Tower implements SpriteTransformation {
 

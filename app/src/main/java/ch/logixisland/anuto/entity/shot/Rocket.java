@@ -13,7 +13,7 @@ import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.effect.Explosion;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.RandomUtils;
-import ch.logixisland.anuto.util.math.vector.Vector2;
+import ch.logixisland.anuto.util.math.Vector2;
 
 public class Rocket extends HomingShot implements SpriteTransformation {
 

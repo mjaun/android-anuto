@@ -19,9 +19,9 @@ import ch.logixisland.anuto.entity.shot.CanonShot;
 import ch.logixisland.anuto.entity.shot.Shot;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.data.TowerConfig;
-import ch.logixisland.anuto.util.math.function.Function;
-import ch.logixisland.anuto.util.math.function.SampledFunction;
-import ch.logixisland.anuto.util.math.vector.Vector2;
+import ch.logixisland.anuto.util.math.Function;
+import ch.logixisland.anuto.util.math.SampledFunction;
+import ch.logixisland.anuto.util.math.Vector2;
 
 public class CanonDual extends AimingTower implements SpriteTransformation {
 

@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.util.math.function;
+package ch.logixisland.anuto.util.math;
 
 public abstract class SampledFunction extends Function {
 

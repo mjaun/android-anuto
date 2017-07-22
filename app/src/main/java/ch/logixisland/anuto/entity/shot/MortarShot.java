@@ -11,9 +11,9 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.entity.effect.Explosion;
 import ch.logixisland.anuto.util.RandomUtils;
-import ch.logixisland.anuto.util.math.function.Function;
-import ch.logixisland.anuto.util.math.function.SampledFunction;
-import ch.logixisland.anuto.util.math.vector.Vector2;
+import ch.logixisland.anuto.util.math.Function;
+import ch.logixisland.anuto.util.math.SampledFunction;
+import ch.logixisland.anuto.util.math.Vector2;
 
 public class MortarShot extends Shot implements SpriteTransformation {
 

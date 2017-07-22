@@ -17,9 +17,9 @@ import ch.logixisland.anuto.entity.enemy.Flyer;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
-import ch.logixisland.anuto.util.math.function.Function;
-import ch.logixisland.anuto.util.math.function.SampledFunction;
-import ch.logixisland.anuto.util.math.vector.Vector2;
+import ch.logixisland.anuto.util.math.Function;
+import ch.logixisland.anuto.util.math.SampledFunction;
+import ch.logixisland.anuto.util.math.Vector2;
 
 public class Mine extends Shot implements SpriteTransformation {
 

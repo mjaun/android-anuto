@@ -1,6 +1,4 @@
-package ch.logixisland.anuto.util.math.vector;
-
-import ch.logixisland.anuto.util.math.MathUtils;
+package ch.logixisland.anuto.util.math;
 
 public final class Intersections {
     private Intersections() {

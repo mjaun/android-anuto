@@ -7,7 +7,7 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.theme.Theme;
-import ch.logixisland.anuto.util.math.vector.Vector2;
+import ch.logixisland.anuto.util.math.Vector2;
 
 public class LevelIndicator implements Drawable {
 

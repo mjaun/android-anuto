@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.util.math.vector;
+package ch.logixisland.anuto.util.math;
 
 public class Line {
 

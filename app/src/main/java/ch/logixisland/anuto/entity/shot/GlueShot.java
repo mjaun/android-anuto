@@ -11,7 +11,7 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.engine.sound.Sound;
 import ch.logixisland.anuto.entity.effect.GlueEffect;
-import ch.logixisland.anuto.util.math.vector.Vector2;
+import ch.logixisland.anuto.util.math.Vector2;
 
 public class GlueShot extends Shot implements SpriteTransformation {
 

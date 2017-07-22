@@ -13,7 +13,7 @@ import ch.logixisland.anuto.business.control.TowerInserter;
 import ch.logixisland.anuto.business.control.TowerSelector;
 import ch.logixisland.anuto.engine.render.Renderer;
 import ch.logixisland.anuto.engine.render.Viewport;
-import ch.logixisland.anuto.util.math.vector.Vector2;
+import ch.logixisland.anuto.util.math.Vector2;
 
 public class GameView extends View implements View.OnDragListener, View.OnTouchListener {
 

@@ -19,10 +19,10 @@ import ch.logixisland.anuto.util.data.PathDescriptor;
 import ch.logixisland.anuto.util.data.TowerConfig;
 import ch.logixisland.anuto.util.data.WeaponType;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
+import ch.logixisland.anuto.util.math.Intersections;
+import ch.logixisland.anuto.util.math.Line;
 import ch.logixisland.anuto.util.math.MathUtils;
-import ch.logixisland.anuto.util.math.vector.Intersections;
-import ch.logixisland.anuto.util.math.vector.Line;
-import ch.logixisland.anuto.util.math.vector.Vector2;
+import ch.logixisland.anuto.util.math.Vector2;
 
 public abstract class Tower extends Entity implements EntityWithRange, EntityWithLevel {
 

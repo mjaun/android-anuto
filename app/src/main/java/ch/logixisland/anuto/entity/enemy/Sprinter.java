@@ -12,8 +12,8 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.util.data.EnemyConfig;
-import ch.logixisland.anuto.util.math.function.Function;
-import ch.logixisland.anuto.util.math.function.SampledFunction;
+import ch.logixisland.anuto.util.math.Function;
+import ch.logixisland.anuto.util.math.SampledFunction;
 
 public class Sprinter extends Enemy implements SpriteTransformation {
 
