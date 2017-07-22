@@ -16,15 +16,20 @@ import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.business.manager.SettingsManager;
+import ch.logixisland.anuto.business.score.HighScores;
 
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
+    private static final String PREF_RESET_HIGHSCORES = "reset_highscores";
+
     private final GameManager mGameManager;
+    private final HighScores mHighScores;
     private final Collection<String> mListPreferenceKeys = new ArrayList<>();
 
     public SettingsFragment() {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
         mGameManager = factory.getGameManager();
+        mHighScores = factory.getHighScores();
     }
 
     @Override
@@ -37,6 +42,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         registerListPreference(SettingsManager.PREF_BACK_BUTTON_MODE);
         registerListPreference(SettingsManager.PREF_THEME_INDEX);
         setupChangeThemeConfirmationDialog();
+        setupResetHighscores();
     }
 
     @Override
@@ -85,6 +91,28 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                         .setIcon(R.drawable.alert)
                         .show();
                 return false;
+            }
+        });
+    }
+
+    private void setupResetHighscores() {
+        Preference preference = findPreference(PREF_RESET_HIGHSCORES);
+        preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                AlertDialog.Builder builder;
+                builder = new AlertDialog.Builder(preference.getContext());
+                builder.setTitle(R.string.reset_highscores)
+                        .setMessage(R.string.warning_reset_highscores)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                mHighScores.clearHighScores();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null)
+                        .setIcon(R.drawable.alert)
+                        .show();
+                return true;
             }
         });
     }

@@ -23,4 +23,7 @@
         android:entries="@array/back_button_mode_entries"
         android:entryValues="@array/back_button_mode_entry_values"
         android:title="@string/back_button_mode"/>
+    <Preference
+        android:key="reset_highscores"
+        android:title="@string/reset_highscores"/>
 </PreferenceScreen>

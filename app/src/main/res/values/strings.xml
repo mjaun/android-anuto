@@ -15,6 +15,7 @@
     <string name="sound">Sound</string>
     <string name="transparent_tower_menu">Transparent tower menu</string>
     <string name="back_button_mode">Close app with back button</string>
+    <string name="reset_highscores">Reset highscores</string>
 
     <string name="back_button_toast_twice">Press back button again to exit</string>
 
@@ -66,5 +67,6 @@
 
     <string name="change_theme">Change theme</string>
     <string name="warning_change_theme">The game will restart. Are you sure you want to change the theme?</string>
+    <string name="warning_reset_highscores">Are you sure you want to reset all highscores?</string>
 
 </resources>
