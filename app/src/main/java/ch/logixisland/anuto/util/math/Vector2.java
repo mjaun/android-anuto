@@ -68,11 +68,15 @@ public class Vector2 {
 
     public Vector2 proj(Vector2 v) {
         float f = this.dot(v) / v.len2();
-        return this.mul(f);
+        return v.mul(f);
     }
 
     public float angle() {
         return MathUtils.toDegrees((float) Math.atan2(y, x));
     }
 
+    @Override
+    public String toString() {
+        return "x=" + x + ", y=" + y;
+    }
 }

@@ -30,16 +30,15 @@ public abstract class Entity {
             public boolean apply(Entity entity) {
                 Vector2 line = p1.to(p2);
                 Vector2 toObj = p1.to(entity.mPosition);
-
                 Vector2 proj = toObj.proj(line);
 
+                // check whether object is after line end
                 if (proj.len() > line.len()) {
                     return false;
                 }
 
-                float angle = toObj.angle() - line.angle();
-
-                if (Math.abs(MathUtils.normalizeAngle(angle)) > 90f) {
+                // check whether object is before line end
+                if (!MathUtils.equals(proj.angle(), line.angle(), 1f)) {
                     return false;
                 }
 
