@@ -85,5 +85,7 @@ public class TeleportEffect extends Effect {
     protected void effectEnd() {
         mTarget.sendBack(mDistance);
         mTarget.setEnabled(true);
+
+        getGameEngine().add(new TeleportedMarker(getOrigin(), mTarget));
     }
 }

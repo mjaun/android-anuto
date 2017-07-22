@@ -104,12 +104,14 @@ public class TeleportTower extends AimingTower implements SpriteTransformation {
 
         if (isReloaded() && target != null) {
             // double check because two TeleportTowers might shoot simultaneously
-            if (!target.isEnabled() || getDistanceTo(target) > getRange()) {
-                setTarget(null);
-            } else {
+            if (target.isEnabled() && getDistanceTo(target) <= getRange()) {
+                StaticData s = (StaticData) getStaticData();
+                s.mTeleportedEnemies.add(target);
                 getGameEngine().add(new TeleportEffect(this, getPosition(), target, mTeleportDistance));
                 mSound.play();
                 setReloaded(false);
+            } else {
+                setTarget(null);
             }
         }
     }
