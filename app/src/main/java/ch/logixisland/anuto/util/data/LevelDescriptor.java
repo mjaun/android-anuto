@@ -24,9 +24,6 @@ public class LevelDescriptor {
     @ElementList(name = "paths", entry = "path")
     private List<PathDescriptor> mPaths = new ArrayList<>();
 
-    @ElementList(name = "waves", entry = "wave")
-    private List<WaveDescriptor> mWaves = new ArrayList<>();
-
     public static LevelDescriptor fromXml(InputStream inputStream) throws Exception {
         Serializer serializer = new SerializerFactory().createSerializer();
         return serializer.read(LevelDescriptor.class, inputStream);
@@ -48,7 +45,4 @@ public class LevelDescriptor {
         return mPaths;
     }
 
-    public List<WaveDescriptor> getWaves() {
-        return mWaves;
-    }
 }

@@ -19,6 +19,7 @@ import ch.logixisland.anuto.util.data.GameSettings;
 import ch.logixisland.anuto.util.data.LevelDescriptor;
 import ch.logixisland.anuto.util.data.PlateauDescriptor;
 import ch.logixisland.anuto.util.data.TowerSettings;
+import ch.logixisland.anuto.util.data.WavesDescriptor;
 
 public class LevelLoader implements GameListener {
 
@@ -33,6 +34,7 @@ public class LevelLoader implements GameListener {
     private TowerSettings mTowerSettings;
     private EnemySettings mEnemySettings;
     private LevelDescriptor mLevelDescriptor;
+    private WavesDescriptor mWavesDescriptor;
     private GameManager mGameManager;
 
     public LevelLoader(Context context, GameEngine gameEngine, ScoreBoard scoreBoard, GameManager gameManager, Viewport viewport,
@@ -49,6 +51,7 @@ public class LevelLoader implements GameListener {
             mGameSettings = GameSettings.fromXml(mContext.getResources().openRawResource(R.raw.game_settings));
             mTowerSettings = TowerSettings.fromXml(mContext.getResources().openRawResource(R.raw.tower_settings));
             mEnemySettings = EnemySettings.fromXml(mContext.getResources().openRawResource(R.raw.enemy_settings));
+            mWavesDescriptor = WavesDescriptor.fromXml(mContext.getResources().openRawResource(R.raw.waves));
         } catch (Exception e) {
             throw new RuntimeException("Could not load settings!", e);
         }
@@ -76,6 +79,10 @@ public class LevelLoader implements GameListener {
 
     public LevelDescriptor getLevelDescriptor() {
         return mLevelDescriptor;
+    }
+
+    public WavesDescriptor getWavesDescriptor() {
+        return mWavesDescriptor;
     }
 
     public void loadLevel(final LevelInfo levelInfo) {

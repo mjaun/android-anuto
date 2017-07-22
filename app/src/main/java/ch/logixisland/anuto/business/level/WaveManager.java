@@ -83,7 +83,7 @@ public class WaveManager implements GameListener {
             mScoreBoard.giveCredits(mScoreBoard.getEarlyBonus(), false);
         }
 
-        createAndStartWaveAttender();
+        createAndStartEnemyInserter();
         updateBonus();
 
         mNextWaveIndex++;
@@ -173,8 +173,8 @@ public class WaveManager implements GameListener {
         }
     }
 
-    private void createAndStartWaveAttender() {
-        List<WaveDescriptor> waveDescriptors = mLevelLoader.getLevelDescriptor().getWaves();
+    private void createAndStartEnemyInserter() {
+        List<WaveDescriptor> waveDescriptors = mLevelLoader.getWavesDescriptor().getWaves();
         WaveDescriptor nextWaveDescriptor = waveDescriptors.get(mNextWaveIndex % waveDescriptors.size());
 
         int extend = mNextWaveIndex / waveDescriptors.size() * nextWaveDescriptor.getExtend();
@@ -218,7 +218,7 @@ public class WaveManager implements GameListener {
         }
 
         wave.modifyEnemyReward(rewardModifier);
-        wave.modifyWaveReward((getWaveNumber() / mLevelLoader.getLevelDescriptor().getWaves().size()) + 1);
+        wave.modifyWaveReward((getWaveNumber() / mLevelLoader.getWavesDescriptor().getWaves().size()) + 1);
 
         Log.d(TAG, String.format("waveNumber=%d", getWaveNumber()));
         Log.d(TAG, String.format("damagePossible=%f\n", damagePossible));
