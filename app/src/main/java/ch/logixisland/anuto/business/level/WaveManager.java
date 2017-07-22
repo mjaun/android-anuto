@@ -92,6 +92,8 @@ public class WaveManager implements GameListener {
         for (WaveListener listener : mListeners) {
             listener.waveStarted();
         }
+
+        checkNextWaveReady();
     }
 
     public void addListener(WaveListener listener) {
@@ -178,33 +180,24 @@ public class WaveManager implements GameListener {
             extend = nextWaveDescriptor.getMaxExtend();
         }
 
-        EnemyInserter nextWave = new EnemyInserter(mGameEngine, mScoreBoard, mEnemyFactory, this, nextWaveDescriptor);
-        nextWave.setExtend(extend);
+        EnemyInserter nextWave = new EnemyInserter(mGameEngine, mScoreBoard, mEnemyFactory, this, nextWaveDescriptor, extend);
         updateWaveModifiers(nextWave);
         mActiveWaves.add(nextWave);
         nextWave.start();
     }
 
     private void updateWaveModifiers(EnemyInserter wave) {
-        Log.d(TAG, String.format("calculating wave modifiers for wave %d...", getWaveNumber() + 1));
-        Log.d(TAG, String.format("creditsEarned=%d", mScoreBoard.getCreditsEarned()));
-
         float waveHealth = 0f;
         for (EnemyDescriptor d : wave.getWaveDescriptor().getEnemies()) {
             waveHealth += mLevelLoader.getEnemySettings().getEnemyConfig(d.getName()).getHealth();
         }
-
         waveHealth *= wave.getExtend() + 1;
-
-        Log.d(TAG, String.format("waveHealth=%f", waveHealth));
 
         GameSettings settings = mLevelLoader.getGameSettings();
         float damagePossible = settings.getDifficultyOffset()
                 + settings.getDifficultyLinear() * mScoreBoard.getCreditsEarned()
                 + settings.getDifficultyQuadratic() * MathUtils.square(mScoreBoard.getCreditsEarned());
         float healthModifier = Math.max(damagePossible / waveHealth, settings.getMinHealthModifier());
-
-        wave.modifyEnemyHealth(healthModifier);
 
         float rewardModifier = settings.getRewardModifier()
                 * (float) Math.pow(wave.getEnemyHealthModifier(), 1f / settings.getRewardRoot());
@@ -213,11 +206,14 @@ public class WaveManager implements GameListener {
             rewardModifier = 1f;
         }
 
+        wave.modifyEnemyHealth(healthModifier);
         wave.modifyEnemyReward(rewardModifier);
         wave.modifyWaveReward((getWaveNumber() / mLevelLoader.getWavesDescriptor().getWaves().size()) + 1);
 
         Log.d(TAG, String.format("waveNumber=%d", getWaveNumber()));
-        Log.d(TAG, String.format("damagePossible=%f\n", damagePossible));
+        Log.d(TAG, String.format("waveHealth=%f", waveHealth));
+        Log.d(TAG, String.format("creditsEarned=%d", mScoreBoard.getCreditsEarned()));
+        Log.d(TAG, String.format("damagePossible=%f", damagePossible));
         Log.d(TAG, String.format("healthModifier=%f", wave.getEnemyHealthModifier()));
         Log.d(TAG, String.format("rewardModifier=%f", wave.getEnemyRewardModifier()));
     }

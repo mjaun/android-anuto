@@ -17,12 +17,6 @@ public class WaveDescriptor {
     @Element(name = "waveReward", required = false)
     private int mWaveReward = 0;
 
-    @Element(name = "healthModifier", required = false)
-    private float mHealthModifier = 1f;
-
-    @Element(name = "rewardModifier", required = false)
-    private float mRewardModifier = 1f;
-
     @Element(name = "extend", required = false)
     private int mExtend = 0;
 
@@ -37,16 +31,8 @@ public class WaveDescriptor {
         return mExtend;
     }
 
-    public float getHealthModifier() {
-        return mHealthModifier;
-    }
-
     public int getMaxExtend() {
         return mMaxExtend;
-    }
-
-    public float getRewardModifier() {
-        return mRewardModifier;
     }
 
     public int getWaveReward() {

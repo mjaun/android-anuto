@@ -29,17 +29,17 @@ class EnemyInserter implements EnemyListener {
     private float mEnemyRewardModifier;
 
     EnemyInserter(GameEngine gameEngine, ScoreBoard scoreBoard, EnemyFactory enemyFactory,
-                  WaveManager waveManager, WaveDescriptor waveDescriptor) {
+                  WaveManager waveManager, WaveDescriptor waveDescriptor, int extend) {
         mGameEngine = gameEngine;
         mScoreBoard = scoreBoard;
         mEnemyFactory = enemyFactory;
         mWaveManager = waveManager;
         mWaveDescriptor = waveDescriptor;
 
-        mExtend = 1;
+        mExtend = extend;
+        mEnemyHealthModifier = 1;
+        mEnemyRewardModifier = 1;
         mWaveReward = mWaveDescriptor.getWaveReward();
-        mEnemyHealthModifier = mWaveDescriptor.getHealthModifier();
-        mEnemyRewardModifier = mWaveDescriptor.getRewardModifier();
     }
 
     int getExtend() {
@@ -56,10 +56,6 @@ class EnemyInserter implements EnemyListener {
 
     WaveDescriptor getWaveDescriptor() {
         return mWaveDescriptor;
-    }
-
-    void setExtend(int extend) {
-        mExtend = extend;
     }
 
     void modifyEnemyHealth(float modifier) {
