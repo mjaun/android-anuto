@@ -30,7 +30,7 @@ public class WaveManager implements GameListener {
     private int mNextWaveIndex;
     private boolean mNextWaveReady;
 
-    private final List<WaveAttender> mActiveWaves = new ArrayList<>();
+    private final List<EnemyInserter> mActiveWaves = new ArrayList<>();
     private final List<WaveListener> mListeners = new CopyOnWriteArrayList<>();
 
     public WaveManager(GameEngine gameEngine, ScoreBoard scoreBoard, GameManager gameManager, LevelLoader levelLoader,
@@ -54,8 +54,8 @@ public class WaveManager implements GameListener {
     public int getRemainingEnemiesCount() {
         int totalCount = 0;
 
-        for (WaveAttender waveAttender : mActiveWaves) {
-            totalCount += waveAttender.getRemainingEnemiesCount();
+        for (EnemyInserter enemyInserter : mActiveWaves) {
+            totalCount += enemyInserter.getRemainingEnemiesCount();
         }
 
         return totalCount;
@@ -122,8 +122,8 @@ public class WaveManager implements GameListener {
         }
     }
 
-    void waveFinished(WaveAttender waveAttender) {
-        mActiveWaves.remove(waveAttender);
+    void waveFinished(EnemyInserter enemyInserter) {
+        mActiveWaves.remove(enemyInserter);
 
         for (WaveListener listener : mListeners) {
             listener.waveFinished();
@@ -139,7 +139,7 @@ public class WaveManager implements GameListener {
         }
 
         if (!mActiveWaves.isEmpty()) {
-            WaveAttender lastWave = mActiveWaves.get(mActiveWaves.size() - 1);
+            EnemyInserter lastWave = mActiveWaves.get(mActiveWaves.size() - 1);
 
             if (!lastWave.isNextWaveReady() || mActiveWaves.size() >= MAX_WAVES_IN_GAME) {
                 return;
@@ -156,7 +156,7 @@ public class WaveManager implements GameListener {
     private void updateBonus() {
         float remainingReward = 0;
 
-        for (WaveAttender wave : mActiveWaves) {
+        for (EnemyInserter wave : mActiveWaves) {
             remainingReward += wave.getRemainingEnemiesReward();
         }
 
@@ -182,14 +182,14 @@ public class WaveManager implements GameListener {
             extend = nextWaveDescriptor.getMaxExtend();
         }
 
-        WaveAttender nextWave = new WaveAttender(mGameEngine, mScoreBoard, mEnemyFactory, this, nextWaveDescriptor);
+        EnemyInserter nextWave = new EnemyInserter(mGameEngine, mScoreBoard, mEnemyFactory, this, nextWaveDescriptor);
         nextWave.setExtend(extend);
         updateWaveModifiers(nextWave);
         mActiveWaves.add(nextWave);
         nextWave.start();
     }
 
-    private void updateWaveModifiers(WaveAttender wave) {
+    private void updateWaveModifiers(EnemyInserter wave) {
         Log.d(TAG, String.format("calculating wave modifiers for wave %d...", getWaveNumber() + 1));
         Log.d(TAG, String.format("creditsEarned=%d", mScoreBoard.getCreditsEarned()));
 
@@ -226,7 +226,7 @@ public class WaveManager implements GameListener {
         Log.d(TAG, String.format("rewardModifier=%f", wave.getEnemyRewardModifier()));
     }
 
-    private WaveAttender currentWave() {
+    private EnemyInserter currentWave() {
         if (mActiveWaves.isEmpty()) {
             return null;
         }

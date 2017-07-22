@@ -13,7 +13,7 @@ import ch.logixisland.anuto.util.data.WaveDescriptor;
 import ch.logixisland.anuto.util.math.MathUtils;
 import ch.logixisland.anuto.util.math.vector.Vector2;
 
-class WaveAttender implements EnemyListener {
+class EnemyInserter implements EnemyListener {
 
     private final GameEngine mGameEngine;
     private final ScoreBoard mScoreBoard;
@@ -29,8 +29,8 @@ class WaveAttender implements EnemyListener {
     private float mEnemyRewardModifier;
     private boolean mNextWaveReady;
 
-    WaveAttender(GameEngine gameEngine, ScoreBoard scoreBoard, EnemyFactory enemyFactory,
-                 WaveManager waveManager, WaveDescriptor waveDescriptor) {
+    EnemyInserter(GameEngine gameEngine, ScoreBoard scoreBoard, EnemyFactory enemyFactory,
+                  WaveManager waveManager, WaveDescriptor waveDescriptor) {
         mGameEngine = gameEngine;
         mScoreBoard = scoreBoard;
         mEnemyFactory = enemyFactory;
