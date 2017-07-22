@@ -43,7 +43,7 @@ public abstract class Entity {
                     return false;
                 }
 
-                return toObj.sub(proj).len() <= lineWidth / 2f;
+                return proj.to(toObj).len() <= lineWidth / 2f;
 
             }
         };

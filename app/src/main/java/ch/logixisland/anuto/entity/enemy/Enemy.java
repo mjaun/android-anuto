@@ -174,7 +174,7 @@ public abstract class Enemy extends Entity implements EntityWithHealth {
             Vector2 wThis = mWayPoints.get(i);
             Vector2 wLast = mWayPoints.get(i - 1);
 
-            dist += wThis.sub(wLast).len();
+            dist += wLast.to(wThis).len();
         }
 
         return dist;
@@ -190,7 +190,7 @@ public abstract class Enemy extends Entity implements EntityWithHealth {
         Vector2 position = getPosition();
 
         while (index < mWayPoints.size()) {
-            Vector2 toWaypoint = mWayPoints.get(index).sub(position);
+            Vector2 toWaypoint = position.to(mWayPoints.get(index));
             float toWaypointDist = toWaypoint.len();
 
             if (distance < toWaypointDist) {

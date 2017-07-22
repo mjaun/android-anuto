@@ -235,8 +235,8 @@ public abstract class Tower extends Entity implements EntityWithRange, EntityWit
         for (PathDescriptor path : getLevelDescriptor().getPaths()) {
             List<Vector2> wayPoints = path.getWayPoints();
             for (int i = 1; i < wayPoints.size(); i++) {
-                Vector2 p1 = wayPoints.get(i - 1).sub(getPosition());
-                Vector2 p2 = wayPoints.get(i).sub(getPosition());
+                Vector2 p1 = getPosition().to(wayPoints.get(i - 1));
+                Vector2 p2 = getPosition().to(wayPoints.get(i));
 
                 boolean p1in = p1.len2() <= r2;
                 boolean p2in = p2.len2() <= r2;
