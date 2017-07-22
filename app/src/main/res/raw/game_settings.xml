@@ -1,13 +1,13 @@
 <settings>
-    <credits>40000</credits>
+    <credits>500</credits>
     <lives>5</lives>
     <ageModifier>0.97</ageModifier>
     <minSpeedModifier>0.05</minSpeedModifier>
     <strongAgainstModifier>0.5</strongAgainstModifier>
     <weakAgainstModifier>1.5</weakAgainstModifier>
     <difficultyOffset>-10e3</difficultyOffset>
-    <difficultyLinear>30</difficultyLinear>
-    <difficultyQuadratic>5e-4</difficultyQuadratic>
+    <difficultyLinear>25</difficultyLinear>
+    <difficultyQuadratic>4e-4</difficultyQuadratic>
     <minHealthModifier>0.5</minHealthModifier>
     <rewardModifier>1</rewardModifier>
     <rewardRoot>3</rewardRoot>
