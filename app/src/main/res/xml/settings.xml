@@ -16,11 +16,11 @@
     <CheckBoxPreference
         android:key="transparent_tower_info_enabled"
         android:defaultValue="false"
-        android:title="@string/transparent_tower_info_button"/>
+        android:title="@string/transparent_tower_menu"/>
     <ListPreference
         android:key="back_button_mode"
         android:defaultValue="@string/back_button_mode_disabled"
         android:entries="@array/back_button_mode_entries"
         android:entryValues="@array/back_button_mode_entry_values"
-        android:title="@string/back_button_behaviour"/>
+        android:title="@string/back_button_mode"/>
 </PreferenceScreen>

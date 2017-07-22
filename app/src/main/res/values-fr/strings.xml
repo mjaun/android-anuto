@@ -9,7 +9,7 @@
     <string name="change_map">Changer la carte</string>
     <string name="theme">Thème</string>
     <string name="sound">Sons</string>
-    <string name="transparent_tower_info_button">Infos transparentes pour la tour</string>
+    <string name="transparent_tower_menu">Infos transparentes pour la tour</string>
 
     <string name="back_button_toast_twice">Appuyez deux fois sur le bouton Retour pour quitter</string>
 
@@ -49,7 +49,7 @@
     <string name="theme_original">Original</string>
     <string name="theme_dark">Sombre</string>
     <string name="settings">Réglages</string>
-    <string name="back_button_behaviour">Comportement du bouton Retour</string>
+    <string name="back_button_mode">Comportement du bouton Retour</string>
     <string name="twice">Deux fois</string>
 
     <string name="level_original_name">L\'original</string>

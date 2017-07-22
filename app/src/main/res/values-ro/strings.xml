@@ -9,7 +9,7 @@
     <string name="change_map">Schimbă harta</string>
     <string name="theme">Temă</string>
     <string name="sound">Sunet</string>
-    <string name="transparent_tower_info_button">Informații transparente pentru turn</string>
+    <string name="transparent_tower_menu">Informații transparente pentru turn</string>
 
     <string name="back_button_toast_twice">Apasă înapoi de două ori pentru a ieși</string>
 
@@ -49,7 +49,7 @@
     <string name="theme_original">Obișnuită</string>
     <string name="theme_dark">întunecată</string>
     <string name="settings">Setări</string>
-    <string name="back_button_behaviour">Comportament buton înapoi</string>
+    <string name="back_button_mode">Comportament buton înapoi</string>
     <string name="twice">De două ori</string>
 
     <string name="level_original_name">Originalul</string>
