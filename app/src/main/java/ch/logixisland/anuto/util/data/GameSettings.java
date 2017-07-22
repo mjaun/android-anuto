@@ -27,14 +27,14 @@ public class GameSettings {
     @Element(name = "strongAgainstModifier")
     private float mStrongAgainstModifier;
 
-    @Element(name = "difficultyOffset")
-    private float mDifficultyOffset;
+    @Element(name = "difficultyModifier")
+    private float mDifficultyModifier;
+
+    @Element(name = "difficultyExponent")
+    private float mDifficultyExponent;
 
     @Element(name = "difficultyLinear")
     private float mDifficultyLinear;
-
-    @Element(name = "difficultyQuadratic")
-    private float mDifficultyQuadratic;
 
     @Element(name = "minHealthModifier")
     private float mMinHealthModifier;
@@ -42,14 +42,17 @@ public class GameSettings {
     @Element(name = "rewardModifier")
     private float mRewardModifier;
 
-    @Element(name = "rewardRoot")
-    private float mRewardRoot;
+    @Element(name = "rewardExponent")
+    private float mRewardExponent;
+
+    @Element(name = "minRewardModifier")
+    private float mMinRewardModifier;
 
     @Element(name = "earlyModifier")
     private float mEarlyModifier;
 
-    @Element(name = "earlyRoot")
-    private float mEarlyRoot;
+    @Element(name = "earlyExponent")
+    private float mEarlyExponent;
 
     public static GameSettings fromXml(InputStream stream) throws Exception {
         Serializer serializer = new SerializerFactory().createSerializer();
@@ -80,35 +83,39 @@ public class GameSettings {
         return mStrongAgainstModifier;
     }
 
-    public float getDifficultyOffset() {
-        return mDifficultyOffset;
+    public float getDifficultyModifier() {
+        return mDifficultyModifier;
+    }
+
+    public float getDifficultyExponent() {
+        return mDifficultyExponent;
     }
 
     public float getDifficultyLinear() {
         return mDifficultyLinear;
     }
 
-    public float getDifficultyQuadratic() {
-        return mDifficultyQuadratic;
+    public float getMinHealthModifier() {
+        return mMinHealthModifier;
     }
 
     public float getRewardModifier() {
         return mRewardModifier;
     }
 
-    public float getRewardRoot() {
-        return mRewardRoot;
+    public float getRewardExponent() {
+        return mRewardExponent;
+    }
+
+    public float getMinRewardModifier() {
+        return mMinRewardModifier;
     }
 
     public float getEarlyModifier() {
         return mEarlyModifier;
     }
 
-    public float getEarlyRoot() {
-        return mEarlyRoot;
-    }
-
-    public float getMinHealthModifier() {
-        return mMinHealthModifier;
+    public float getEarlyExponent() {
+        return mEarlyExponent;
     }
 }

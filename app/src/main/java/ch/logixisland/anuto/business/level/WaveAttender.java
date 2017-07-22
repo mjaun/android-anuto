@@ -13,7 +13,7 @@ import ch.logixisland.anuto.util.data.WaveDescriptor;
 import ch.logixisland.anuto.util.math.MathUtils;
 import ch.logixisland.anuto.util.math.Vector2;
 
-class EnemyInserter implements EnemyListener {
+class WaveAttender implements EnemyListener {
 
     private final GameEngine mGameEngine;
     private final ScoreBoard mScoreBoard;
@@ -28,15 +28,15 @@ class EnemyInserter implements EnemyListener {
     private float mEnemyHealthModifier;
     private float mEnemyRewardModifier;
 
-    EnemyInserter(GameEngine gameEngine, ScoreBoard scoreBoard, EnemyFactory enemyFactory,
-                  WaveManager waveManager, WaveDescriptor waveDescriptor, int extend) {
+    WaveAttender(GameEngine gameEngine, ScoreBoard scoreBoard, EnemyFactory enemyFactory,
+                 WaveManager waveManager, WaveDescriptor waveDescriptor) {
         mGameEngine = gameEngine;
         mScoreBoard = scoreBoard;
         mEnemyFactory = enemyFactory;
         mWaveManager = waveManager;
         mWaveDescriptor = waveDescriptor;
 
-        mExtend = extend;
+        mExtend = 1;
         mEnemyHealthModifier = 1;
         mEnemyRewardModifier = 1;
         mWaveReward = mWaveDescriptor.getWaveReward();
@@ -44,6 +44,10 @@ class EnemyInserter implements EnemyListener {
 
     int getExtend() {
         return mExtend;
+    }
+
+    void setExtend(int extend) {
+        mExtend = extend;
     }
 
     float getEnemyHealthModifier() {
@@ -98,6 +102,10 @@ class EnemyInserter implements EnemyListener {
     void giveWaveReward() {
         mScoreBoard.giveCredits(mWaveReward, true);
         mWaveReward = 0;
+    }
+
+    int getWaveReward() {
+        return mWaveReward;
     }
 
     float getRemainingEnemiesReward() {

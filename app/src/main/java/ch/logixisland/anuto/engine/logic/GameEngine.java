@@ -18,7 +18,7 @@ public class GameEngine implements Runnable {
 
     public final static int TARGET_FRAME_RATE = 30;
     private final static int TICK_TIME = 1000 / TARGET_FRAME_RATE;
-    private final static int MAX_FRAME_SKIPS = 2;
+    private final static int MAX_FRAME_SKIPS = 1;
 
     private final Renderer mRenderer;
     private final FrameRateLogger mFrameRateLogger;

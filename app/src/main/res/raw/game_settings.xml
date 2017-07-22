@@ -1,16 +1,17 @@
 <settings>
     <credits>500</credits>
-    <lives>5</lives>
+    <lives>20</lives>
     <ageModifier>0.97</ageModifier>
-    <minSpeedModifier>0.05</minSpeedModifier>
+    <minSpeedModifier>0.01</minSpeedModifier>
     <strongAgainstModifier>0.5</strongAgainstModifier>
-    <weakAgainstModifier>1.5</weakAgainstModifier>
-    <difficultyOffset>-10e3</difficultyOffset>
-    <difficultyLinear>25</difficultyLinear>
-    <difficultyQuadratic>4e-4</difficultyQuadratic>
+    <weakAgainstModifier>2.0</weakAgainstModifier>
+    <difficultyModifier>8e-4</difficultyModifier>
+    <difficultyExponent>2</difficultyExponent>
+    <difficultyLinear>20</difficultyLinear>
+    <rewardModifier>0.3</rewardModifier>
+    <rewardExponent>0.5</rewardExponent>
+    <earlyModifier>3</earlyModifier>
+    <earlyExponent>0.6</earlyExponent>
     <minHealthModifier>0.5</minHealthModifier>
-    <rewardModifier>1</rewardModifier>
-    <rewardRoot>3</rewardRoot>
-    <earlyModifier>35</earlyModifier>
-    <earlyRoot>3</earlyRoot>
+    <minRewardModifier>1</minRewardModifier>
 </settings>

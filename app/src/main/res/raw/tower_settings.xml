@@ -186,7 +186,7 @@
         <name>TeleportTower</name>
         <value>3000</value>
         <range>3.5</range>
-        <reload>3.0</reload>
+        <reload>5.0</reload>
         <maxLevel>4</maxLevel>
         <enhanceBase>1.2</enhanceBase>
         <enhanceCost>2000</enhanceCost>
