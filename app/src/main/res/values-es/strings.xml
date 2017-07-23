@@ -46,10 +46,9 @@
     <string name="theme_original">Original</string>
     <string name="theme_dark">Oscuro</string>
     <string name="back_button_mode">Salir al pulsar atrás</string>
-    <string name="back_button_toast_twice">Presiona atrás dos veces para salir</string>
     <string name="settings">Configuración</string>
     <string name="twice">Doble</string>
     <string name="change_theme">Cambiar tema</string>
-    <string name="warning_change_theme">¿Estás seguro de que quieres cambiar el tema? La partida se reiniciará</string>
+    <string name="change_theme_warning">¿Estás seguro de que quieres cambiar el tema? La partida se reiniciará</string>
 
 </resources>

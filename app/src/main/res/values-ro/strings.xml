@@ -10,8 +10,6 @@
     <string name="theme">Temă</string>
     <string name="sound">Sunet</string>
 
-    <string name="back_button_toast_twice">Apasă înapoi de două ori pentru a ieși</string>
-
     <string name="game_over">Sfârșit!</string>
     <string name="score">Scor</string>
 
@@ -60,6 +58,6 @@
     <string name="level_civyshk_labyrinth_name">Labirint Civyshk</string>
     <string name="level_civyshk_yard_name">Curtea Civyshk</string>
     <string name="change_theme">Schimbă tema</string>
-    <string name="warning_change_theme">Ești sigur că dorești să schimbi tema? Jocul va reporni</string>
+    <string name="change_theme_warning">Ești sigur că dorești să schimbi tema? Jocul va reporni</string>
 
 </resources>

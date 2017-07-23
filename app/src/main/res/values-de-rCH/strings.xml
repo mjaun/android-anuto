@@ -2,46 +2,65 @@
     <string name="app_name">Anuto TD</string>
 
     <string name="menu">Menü</string>
-    <string name="next_wave">Nöchschti</string>
+    <string name="next_wave">Nächsti</string>
 
-    <string name="restart">Neu starte</string>
+    <string name="restart">Nöi startä</string>
     <string name="change_map">Karte wächsle</string>
     <string name="theme">Thema</string>
     <string name="sound">Ton</string>
 
-    <string name="game_over">Speel vörbii!</string>
-    <string name="score">Pönkt</string>
+    <string name="game_over">Fertig gspiut!</string>
+    <string name="score">Pünkt</string>
 
     <string name="credits">Guethabe</string>
-    <string name="lives">Läbe</string>
-    <string name="wave">Wälle</string>
+    <string name="lives">Läbä</string>
+    <string name="wave">Wäuä</string>
     <string name="bonus">Bonus</string>
 
-    <string name="level">Stufe</string>
+    <string name="level">Stufä</string>
     <string name="damage">Schade</string>
-    <string name="reload">Nochelade</string>
+    <string name="reload">Nachäladä</string>
     <string name="range">Riichwiti</string>
     <string name="splash">Explosionsradius</string>
-    <string name="distance">Dischtanz</string>
+    <string name="distance">Distanz</string>
     <string name="intensity">Intensität</string>
     <string name="duration">Duur</string>
     <string name="inflicted">Verursacht</string>
 
-    <string name="lock_target">Ziel verfolge</string>
-    <string name="strategy">Schtrategie</string>
-    <string name="enhance">Verbessere</string>
+    <string name="lock_target">Ziu verfougä</string>
+    <string name="strategy">Strategie</string>
+    <string name="enhance">Verbesserä</string>
     <string name="upgrade">Ufwärte</string>
     <string name="sell">Verchoufe</string>
 
-    <string name="on">Iischalte</string>
-    <string name="off">Uusschalte</string>
+    <string name="on">Ischautä</string>
+    <string name="off">Usschautä</string>
 
-    <string name="strategy_closest">Nöchschte</string>
-    <string name="strategy_weakest">Schwächste</string>
-    <string name="strategy_strongest">Stärchschti</string>
-    <string name="strategy_first">Erschti</string>
-    <string name="strategy_last">Letschte</string>
+    <string name="strategy_closest">Nöchst</string>
+    <string name="strategy_weakest">Schwächst</string>
+    <string name="strategy_strongest">Sterchst</string>
+    <string name="strategy_first">Erscht</string>
+    <string name="strategy_last">Letscht</string>
 
-    <string name="theme_original">Original</string>
-    <string name="theme_dark">Donkel</string>
+    <string name="theme_original">Originau</string>
+    <string name="theme_dark">Dunku</string>
+    <string name="back_button_mode">Schliessä mit Zrügg-Tastä</string>
+    <string name="twice">Dopplet</string>
+    <string name="transparent_menus">Transparänti Menüs im Spiu</string>
+    <string name="settings">Istelligä</string>
+    <string name="reset_highscores_warning">Wosch würklech aui Punktzahlä zrüggsetzä?</string>
+    <string name="change_theme">Thema änderä</string>
+    <string name="change_theme_warning">Wosch würklech z\'Thema änderä? Z\'Spiu wird nöi gstartet</string>
+    <string name="fast_speed">4x</string>
+    <string name="level_civyshk_2y_name">Civyshk 2Y</string>
+    <string name="level_civyshk_labyrinth_name">Civyshk Labyrinth</string>
+    <string name="level_civyshk_line5_name">Civyshk 5 Liniä</string>
+    <string name="level_civyshk_yard_name">Civyshk Gartä</string>
+    <string name="level_hurry_name">Gas gä!</string>
+    <string name="level_original_name">Z\'Originau</string>
+    <string name="level_turn_round_name">Ä Rundi dräiä</string>
+    <string name="level_waiting_line_name">Warteschlangä</string>
+    <string name="normal_speed">1x</string>
+    <string name="press_back_button_again_toast">Zum Beändä d Zrügg-Taste nomau drückä</string>
+    <string name="reset_highscores">Punktzahlä zrüggsetzä</string>
 </resources>

@@ -89,7 +89,7 @@ public class GameActivity extends AnutoActivity {
     }
 
     private Toast showBackButtonToast() {
-        String message = getString(R.string.back_button_toast_twice);
+        String message = getString(R.string.press_back_button_again_toast);
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         toast.show();
         return toast;

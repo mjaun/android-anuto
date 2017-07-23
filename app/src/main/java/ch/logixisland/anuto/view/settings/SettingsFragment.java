@@ -81,7 +81,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 AlertDialog.Builder builder;
                 builder = new AlertDialog.Builder(preference.getContext());
                 builder.setTitle(R.string.change_theme)
-                        .setMessage(R.string.warning_change_theme)
+                        .setMessage(R.string.change_theme_warning)
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 themePreference.setValue(newValue.toString());
@@ -103,7 +103,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 AlertDialog.Builder builder;
                 builder = new AlertDialog.Builder(preference.getContext());
                 builder.setTitle(R.string.reset_highscores)
-                        .setMessage(R.string.warning_reset_highscores)
+                        .setMessage(R.string.reset_highscores_warning)
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 mHighScores.clearHighScores();
