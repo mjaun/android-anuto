@@ -32,10 +32,10 @@ public class Healer extends Enemy implements SpriteTransformation {
 
         boolean mHealing;
         boolean mDropEffect;
-        Collection<Enemy> mHealedEnemies = new ArrayList<>();
         float mAngle;
         float mScale = 1f;
         TickTimer mHealTimer;
+        Collection<Enemy> mHealedEnemies;
         SampledFunction mScaleFunction;
         SampledFunction mRotateFunction;
 
@@ -98,6 +98,7 @@ public class Healer extends Enemy implements SpriteTransformation {
         s.mHealDuration = getProperty("healDuration");
 
         s.mHealTimer = TickTimer.createInterval(s.mHealInterval);
+        s.mHealedEnemies = new ArrayList<>();
 
         s.mScaleFunction = Function.sine()
                 .join(Function.zero(), (float) Math.PI)
