@@ -14,9 +14,9 @@
         android:defaultValue="true"
         android:title="@string/sound"/>
     <SwitchPreference
-        android:key="transparent_tower_info_enabled"
+        android:key="transparent_menus_enabled"
         android:defaultValue="false"
-        android:title="@string/transparent_tower_menu"/>
+        android:title="@string/transparent_menus"/>
     <ListPreference
         android:key="back_button_mode"
         android:defaultValue="@string/back_button_mode_disabled"

@@ -12,7 +12,7 @@ public class SettingsManager implements SharedPreferences.OnSharedPreferenceChan
 
     public static final String PREF_THEME_INDEX = "theme_index";
     public static final String PREF_SOUND_ENABLED = "sound_enabled";
-    public static final String PREF_TRANSPARENT_TOWER_INFO_ENABLED = "transparent_tower_info_enabled";
+    public static final String PREF_TRANSPARENT_MENUS_ENABLED = "transparent_menus";
     public static final String PREF_BACK_BUTTON_MODE = "back_button_mode";
 
     private final SharedPreferences mPreferences;
@@ -31,8 +31,8 @@ public class SettingsManager implements SharedPreferences.OnSharedPreferenceChan
         updateSoundEnabled();
     }
 
-    public boolean isTransparentTowerInfoEnabled() {
-        return mPreferences.getBoolean(PREF_TRANSPARENT_TOWER_INFO_ENABLED, false);
+    public boolean isTransparentMenusEnabled() {
+        return mPreferences.getBoolean(PREF_TRANSPARENT_MENUS_ENABLED, false);
     }
 
     public BackButtonMode getBackButtonMode() {

@@ -13,7 +13,7 @@
 
     <string name="theme">Theme</string>
     <string name="sound">Sound</string>
-    <string name="transparent_tower_menu">Transparent tower menu</string>
+    <string name="transparent_menus">Transparent in-game menus</string>
     <string name="back_button_mode">Close app with back button</string>
     <string name="reset_highscores">Reset highscores</string>
 

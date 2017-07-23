@@ -47,7 +47,6 @@
 
     <string name="warning_change_theme">Achtung: Das Spiel wird neu gestartet! Fortfahren?</string>
     <string name="settings">Einstellungen</string>
-    <string name="transparent_tower_menu">Transparente Turm-Info</string>
     <string name="twice">Doppelt</string>
     <string name="change_theme">Thema ändern</string>
     <string name="back_button_toast_twice">Zweimal drücken zum Schließen</string>

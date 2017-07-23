@@ -170,7 +170,7 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnTouchList
 
     private void show() {
         if (!mVisible) {
-            loadThemedBackground();
+            handleTransparency();
 
             getFragmentManager().beginTransaction()
                     .show(this)
@@ -275,10 +275,10 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnTouchList
         throw new RuntimeException("Unknown strategy!");
     }
 
-    public void loadThemedBackground() {
+    public void handleTransparency() {
         View view = getView();
         if (view != null) {
-            if (mSettingsManager.isTransparentTowerInfoEnabled()) {
+            if (mSettingsManager.isTransparentMenusEnabled()) {
                 view.setAlpha(0.73f);
             } else {
                 view.setAlpha(1.0f);
