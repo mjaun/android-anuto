@@ -7,7 +7,7 @@
         <enemies>
             <enemy
                 name="Soldier"
-                delay="6"/>
+                delay="9"/>
             <enemy
                 name="Soldier"
                 offsetY="1.1"/>
@@ -34,7 +34,7 @@
         <enemies>
             <enemy
                 name="Soldier"
-                delay="4"/>
+                delay="9"/>
             <enemy
                 name="Soldier"
                 offsetY="1.1"/>
@@ -53,7 +53,7 @@
 
             <enemy
                 name="Soldier"
-                delay="4"/>
+                delay="9"/>
             <enemy
                 name="Soldier"
                 offsetY="1.1"/>
@@ -80,7 +80,7 @@
         <enemies>
             <enemy
                 name="Soldier"
-                delay="4"/>
+                delay="9"/>
             <enemy
                 name="Soldier"
                 offsetY="1.1"/>
@@ -99,7 +99,7 @@
 
             <enemy
                 name="Blob"
-                delay="4"/>
+                delay="6"/>
             <enemy
                 name="Blob"
                 offsetY="1.1"/>
@@ -126,7 +126,7 @@
         <enemies>
             <enemy
                 name="Soldier"
-                delay="4"/>
+                delay="9"/>
             <enemy
                 name="Soldier"
                 offsetY="1.1"/>
@@ -145,7 +145,7 @@
 
             <enemy
                 name="Blob"
-                delay="4"/>
+                delay="6"/>
             <enemy
                 name="Blob"
                 offsetY="1.1"/>
@@ -164,7 +164,7 @@
 
             <enemy
                 name="Soldier"
-                delay="4"/>
+                delay="9"/>
             <enemy
                 name="Soldier"
                 offsetY="1.1"/>
@@ -191,7 +191,7 @@
         <enemies>
             <enemy
                 name="Sprinter"
-                delay="4"/>
+                delay="10"/>
             <enemy
                 name="Sprinter"
                 offsetY="1.1"/>
@@ -256,7 +256,7 @@
         <enemies>
             <enemy
                 name="Soldier"
-                delay="4"/>
+                delay="9"/>
             <enemy
                 name="Soldier"
                 offsetY="1.1"/>
@@ -275,7 +275,7 @@
 
             <enemy
                 name="Sprinter"
-                delay="1"/>
+                delay="2"/>
             <enemy
                 name="Sprinter"
                 offsetY="1.1"/>
@@ -294,7 +294,7 @@
 
             <enemy
                 name="Blob"
-                delay="1"/>
+                delay="2"/>
             <enemy
                 name="Blob"
                 offsetY="1.1"/>
@@ -321,7 +321,7 @@
         <enemies>
             <enemy
                 name="Flyer"
-                delay="4"/>
+                delay="9"/>
             <enemy
                 name="Flyer"
                 offsetY="1.1"/>
@@ -337,8 +337,7 @@
 
             <enemy
                 name="Soldier"
-                delay="4"
-                offsetY="1.1"/>
+                delay="9"/>
             <enemy
                 name="Soldier"
                 offsetY="1.1"/>
@@ -365,7 +364,7 @@
         <enemies>
             <enemy
                 name="Sprinter"
-                delay="4"/>
+                delay="9"/>
             <enemy
                 name="Sprinter"
                 offsetY="1.1"/>
@@ -403,7 +402,7 @@
 
             <enemy
                 name="Flyer"
-                delay="4"/>
+                delay="9"/>
             <enemy
                 name="Flyer"
                 offsetY="1.1"/>
@@ -430,7 +429,7 @@
         <enemies>
             <enemy
                 name="Sprinter"
-                delay="4"/>
+                delay="9"/>
             <enemy
                 name="Sprinter"
                 offsetY="1.1"/>
@@ -522,7 +521,7 @@
         <enemies>
             <enemy
                 name="Healer"
-                delay="4"/>
+                delay="9"/>
             <enemy
                 name="Healer"
                 offsetY="1.1"/>
@@ -569,7 +568,7 @@
 
             <enemy
                 name="Blob"
-                delay="2"/>
+                delay="9"/>
             <enemy
                 name="Blob"
                 offsetY="1.1"/>
@@ -605,7 +604,7 @@
         <enemies>
             <enemy
                 name="Healer"
-                delay="4"/>
+                delay="9"/>
             <enemy
                 name="Healer"
                 offsetY="1.1"/>
@@ -623,7 +622,7 @@
                 offsetY="1.1"/>
             <enemy
                 name="Healer"
-                delay="4"/>
+                delay="9"/>
             <enemy
                 name="Healer"
                 offsetY="1.1"/>
@@ -650,7 +649,7 @@
         <enemies>
             <enemy
                 name="Healer"
-                delay="4"/>
+                delay="9"/>
             <enemy
                 name="Healer"
                 offsetY="1.1"/>
@@ -669,7 +668,7 @@
 
             <enemy
                 name="Sprinter"
-                delay="4"/>
+                delay="9"/>
             <enemy
                 name="Sprinter"
                 offsetY="1.1"/>
@@ -705,7 +704,7 @@
         <enemies>
             <enemy
                 name="Healer"
-                delay="2"/>
+                delay="9"/>
             <enemy
                 name="Healer"
                 offsetY="1.1"/>
@@ -737,7 +736,7 @@
 
             <enemy
                 name="Healer"
-                delay="2"/>
+                delay="9"/>
             <enemy
                 name="Healer"
                 offsetY="1.1"/>
@@ -777,7 +776,7 @@
         <enemies>
             <enemy
                 name="Healer"
-                delay="2"/>
+                delay="9"/>
             <enemy
                 name="Healer"
                 offsetY="1.1"/>
@@ -836,7 +835,7 @@
         <enemies>
             <enemy
                 name="Blob"
-                delay="4"/>
+                delay="9"/>
             <enemy
                 name="Blob"
                 offsetY="1.1"/>

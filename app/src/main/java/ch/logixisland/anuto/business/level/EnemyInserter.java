@@ -121,25 +121,26 @@ class EnemyInserter implements EnemyListener {
         List<EnemyDescriptor> enemyDescriptors = mWaveDescriptor.getEnemies();
 
         for (int extendIndex = 0; extendIndex < mExtend + 1; extendIndex++) {
-            for (EnemyDescriptor descriptor : enemyDescriptors) {
+            for (int enemyIndex = 0; enemyIndex < enemyDescriptors.size(); enemyIndex++) {
+                EnemyDescriptor descriptor = enemyDescriptors.get(enemyIndex);
+
                 if (MathUtils.equals(descriptor.getDelay(), 0f, 0.1f)) {
                     offset = offset.add(descriptor.getOffset());
                 } else {
-                    descriptor.getOffset();
+                    offset = descriptor.getOffset();
                 }
 
-                Enemy enemy = createAndConfigureEnemy(offset, descriptor);
-
-                if (extendIndex > 0 || enemyDescriptors.indexOf(descriptor) > 0) {
+                if (enemyIndex > 0 || extendIndex > 0) {
                     delay += (int) descriptor.getDelay();
                 }
 
+                Enemy enemy = createAndConfigureEnemy(descriptor, offset);
                 addEnemy(enemy, delay);
             }
         }
     }
 
-    private Enemy createAndConfigureEnemy(Vector2 offset, EnemyDescriptor descriptor) {
+    private Enemy createAndConfigureEnemy(EnemyDescriptor descriptor, Vector2 offset) {
         final Enemy enemy = mEnemyFactory.createEnemy(descriptor.getName());
         enemy.modifyHealth(mEnemyHealthModifier);
         enemy.modifyReward(mEnemyRewardModifier);
