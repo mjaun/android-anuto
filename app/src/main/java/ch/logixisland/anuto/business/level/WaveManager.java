@@ -181,7 +181,7 @@ public class WaveManager implements GameListener {
     private void createAndStartEnemyInserter() {
         List<WaveDescriptor> waveDescriptors = mLevelLoader.getWavesDescriptor().getWaves();
         WaveDescriptor nextWaveDescriptor = waveDescriptors.get(mNextWaveIndex % waveDescriptors.size());
-        WaveAttender nextWave = new WaveAttender(mGameEngine, mScoreBoard, mEnemyFactory, this, nextWaveDescriptor);
+        WaveAttender nextWave = new WaveAttender(mGameEngine, mScoreBoard, mLevelLoader, mEnemyFactory, this, nextWaveDescriptor);
         updateWaveExtend(nextWave, nextWaveDescriptor);
         updateWaveModifiers(nextWave);
         mActiveWaves.add(nextWave);

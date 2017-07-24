@@ -127,6 +127,15 @@ public class Healer extends Enemy implements SpriteTransformation {
     }
 
     @Override
+    public float getSpeed() {
+        if (mStatic.mHealing) {
+            return 0f;
+        } else {
+            return super.getSpeed();
+        }
+    }
+
+    @Override
     public void init() {
         super.init();
 
@@ -143,12 +152,6 @@ public class Healer extends Enemy implements SpriteTransformation {
     @Override
     public void tick() {
         super.tick();
-
-        if (mStatic.mHealing) {
-            setBaseSpeed(0f);
-        } else {
-            setBaseSpeed(getConfigSpeed());
-        }
 
         if (mStatic.mDropEffect) {
             getGameEngine().add(new HealEffect(this, getPosition(), mHealAmount, mHealRange, mStatic.mHealedEnemies));

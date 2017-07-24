@@ -9,6 +9,7 @@ import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.entity.enemy.EnemyFactory;
 import ch.logixisland.anuto.entity.enemy.EnemyListener;
 import ch.logixisland.anuto.util.data.EnemyDescriptor;
+import ch.logixisland.anuto.util.data.PathDescriptor;
 import ch.logixisland.anuto.util.data.WaveDescriptor;
 import ch.logixisland.anuto.util.math.MathUtils;
 import ch.logixisland.anuto.util.math.Vector2;
@@ -17,6 +18,7 @@ class WaveAttender implements EnemyListener {
 
     private final GameEngine mGameEngine;
     private final ScoreBoard mScoreBoard;
+    private final LevelLoader mLevelLoader;
     private final EnemyFactory mEnemyFactory;
     private final WaveManager mWaveManager;
     private final WaveDescriptor mWaveDescriptor;
@@ -28,10 +30,11 @@ class WaveAttender implements EnemyListener {
     private float mEnemyHealthModifier;
     private float mEnemyRewardModifier;
 
-    WaveAttender(GameEngine gameEngine, ScoreBoard scoreBoard, EnemyFactory enemyFactory,
-                 WaveManager waveManager, WaveDescriptor waveDescriptor) {
+    WaveAttender(GameEngine gameEngine, ScoreBoard scoreBoard, LevelLoader levelLoader,
+                 EnemyFactory enemyFactory, WaveManager waveManager, WaveDescriptor waveDescriptor) {
         mGameEngine = gameEngine;
         mScoreBoard = scoreBoard;
+        mLevelLoader = levelLoader;
         mEnemyFactory = enemyFactory;
         mWaveManager = waveManager;
         mWaveDescriptor = waveDescriptor;
@@ -152,7 +155,8 @@ class WaveAttender implements EnemyListener {
         final Enemy enemy = mEnemyFactory.createEnemy(descriptor.getName());
         enemy.modifyHealth(mEnemyHealthModifier);
         enemy.modifyReward(mEnemyRewardModifier);
-        enemy.setPathIndex(descriptor.getPathIndex());
+        PathDescriptor path = mLevelLoader.getLevelDescriptor().getPaths().get(descriptor.getPathIndex());
+        enemy.setWayPoints(path.getWayPoints());
         enemy.move(offset);
         return enemy;
     }

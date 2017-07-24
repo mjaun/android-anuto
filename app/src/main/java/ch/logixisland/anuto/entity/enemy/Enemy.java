@@ -1,5 +1,6 @@
 package ch.logixisland.anuto.entity.enemy;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -11,6 +12,7 @@ import ch.logixisland.anuto.engine.render.shape.HealthBar;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.util.data.EnemyConfig;
+import ch.logixisland.anuto.util.data.WeaponType;
 import ch.logixisland.anuto.util.iterator.Function;
 import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.math.Vector2;
@@ -49,12 +51,14 @@ public abstract class Enemy extends Entity implements EntityWithHealth {
 
     private boolean mEnabled = true;
     private float mHealth;
+    private float mMaxHealth;
+    private int mReward;
     private float mBaseSpeed;
-    private float mHealthModifier = 1f;
-    private float mRewardModifier = 1f;
     private float mSpeedModifier = 1f;
     private List<Vector2> mWayPoints = null;
     private int mWayPointIndex;
+    private Collection<WeaponType> mStrongAgainst;
+    private Collection<WeaponType> mWeakAgainst;
 
     private HealthBar mHealthBar;
 
@@ -64,9 +68,6 @@ public abstract class Enemy extends Entity implements EntityWithHealth {
         super(dependencies);
 
         mConfig = config;
-        mBaseSpeed = mConfig.getSpeed();
-        mHealth = mConfig.getHealth();
-
         mHealthBar = getShapeFactory().createHealthBar(this);
     }
 
@@ -118,7 +119,6 @@ public abstract class Enemy extends Entity implements EntityWithHealth {
         }
     }
 
-
     public boolean isEnabled() {
         return mEnabled;
     }
@@ -127,8 +127,8 @@ public abstract class Enemy extends Entity implements EntityWithHealth {
         mEnabled = enabled;
     }
 
-    public void setPathIndex(int pathIndex) {
-        mWayPoints = getLevelDescriptor().getPaths().get(pathIndex).getWayPoints();
+    public void setWayPoints(List<Vector2> wayPoints) {
+        mWayPoints = wayPoints;
         setPosition(mWayPoints.get(0));
         mWayPointIndex = 1;
     }
@@ -141,18 +141,16 @@ public abstract class Enemy extends Entity implements EntityWithHealth {
         return mWayPoints != null && mWayPointIndex < mWayPoints.size();
     }
 
-    private float getSpeed() {
-        float speed = mBaseSpeed * mSpeedModifier;
-        float minSpeed = getGameSettings().getMinSpeedModifier() * getConfigSpeed();
-        return Math.max(minSpeed, speed);
-    }
-
-    float getConfigSpeed() {
-        return mConfig.getSpeed();
+    public float getSpeed() {
+        return mBaseSpeed * mSpeedModifier;
     }
 
     void setBaseSpeed(float baseSpeed) {
         mBaseSpeed = baseSpeed;
+    }
+
+    public void modifySpeed(float f) {
+        mSpeedModifier = Math.max(getGameSettings().getMinSpeedModifier(), mSpeedModifier * f);
     }
 
     Vector2 getDirection() {
@@ -230,33 +228,41 @@ public abstract class Enemy extends Entity implements EntityWithHealth {
         mWayPointIndex = 1;
     }
 
-
     @Override
     public float getHealth() {
-        return mHealth * mHealthModifier;
+        return mHealth;
     }
 
-    @Override
-    public float getHealthMax() {
-        return mConfig.getHealth() * mHealthModifier;
+    public float getMaxHealth() {
+        return mMaxHealth;
+    }
+
+    void resetHealth(float health) {
+        mHealth = health;
+        mMaxHealth = health;
+    }
+
+    public void modifyHealth(float f) {
+        mHealth *= f;
+        mMaxHealth *= f;
     }
 
     public void damage(float dmg, Entity origin) {
         if (origin != null && origin instanceof Tower) {
             Tower originTower = (Tower) origin;
 
-            if (mConfig.getStrongAgainst().contains(originTower.getWeaponType())) {
+            if (mStrongAgainst.contains(originTower.getWeaponType())) {
                 dmg *= getGameSettings().getStrongAgainstModifier();
             }
 
-            if (mConfig.getWeakAgainst().contains(originTower.getWeaponType())) {
+            if (mWeakAgainst.contains(originTower.getWeaponType())) {
                 dmg *= getGameSettings().getWeakAgainstModifier();
             }
 
             originTower.reportDamageInflicted(dmg);
         }
 
-        mHealth -= dmg / mHealthModifier;
+        mHealth -= dmg;
 
         if (mHealth <= 0) {
             for (EnemyListener listener : mListeners) {
@@ -268,30 +274,32 @@ public abstract class Enemy extends Entity implements EntityWithHealth {
     }
 
     public void heal(float val) {
-        mHealth += val / mHealthModifier;
+        mHealth += val;
 
-        if (mHealth > mConfig.getHealth()) {
-            mHealth = mConfig.getHealth();
+        if (mHealth > mMaxHealth) {
+            mHealth = mMaxHealth;
         }
     }
 
+    void setStrongAgainst(Collection<WeaponType> strongAgainst) {
+        mStrongAgainst = strongAgainst;
+    }
+
+    void setWeakAgainst(Collection<WeaponType> weakAgainst) {
+        mWeakAgainst = weakAgainst;
+    }
+
     public int getReward() {
-        return Math.round(mConfig.getReward() * mRewardModifier);
+        return mReward;
     }
 
-
-    public void modifySpeed(float f) {
-        mSpeedModifier *= f;
-    }
-
-    public void modifyHealth(float f) {
-        mHealthModifier *= f;
+    public void setReward(int reward) {
+        mReward = reward;
     }
 
     public void modifyReward(float f) {
-        mRewardModifier *= f;
+        mReward = Math.round(mReward * f);
     }
-
 
     public void addListener(EnemyListener listener) {
         mListeners.add(listener);
@@ -300,7 +308,6 @@ public abstract class Enemy extends Entity implements EntityWithHealth {
     public void removeListener(EnemyListener listener) {
         mListeners.remove(listener);
     }
-
 
     float getProperty(String name) {
         return mConfig.getProperties().get(name);

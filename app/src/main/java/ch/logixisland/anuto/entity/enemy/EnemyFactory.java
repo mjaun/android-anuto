@@ -29,7 +29,13 @@ public class EnemyFactory {
 
     public Enemy createEnemy(String name) {
         EnemyConfig config = mEnemySettings.getEnemyConfig(name);
-        return mFactory.createInstance(name, mDependencies, config);
+        Enemy enemy = mFactory.createInstance(name, mDependencies, config);
+        enemy.resetHealth(config.getHealth());
+        enemy.setReward(config.getReward());
+        enemy.setBaseSpeed(config.getSpeed());
+        enemy.setStrongAgainst(config.getStrongAgainst());
+        enemy.setWeakAgainst(config.getWeakAgainst());
+        return enemy;
     }
 
 }

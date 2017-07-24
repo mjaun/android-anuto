@@ -50,8 +50,8 @@ public class Sprinter extends Enemy implements SpriteTransformation {
         StaticData s = new StaticData();
 
         s.mSpeedFunction = Function.sine()
-                .multiply(getConfigSpeed() * 0.9f)
-                .offset(getConfigSpeed() * 0.1f)
+                .multiply(0.9f)
+                .offset(0.1f)
                 .repeat((float) Math.PI)
                 .stretch(GameEngine.TARGET_FRAME_RATE / ANIMATION_SPEED / (float) Math.PI)
                 .sample();
@@ -94,7 +94,11 @@ public class Sprinter extends Enemy implements SpriteTransformation {
 
         if (hasWayPoint()) {
             mAngle = getDirection().angle();
-            setBaseSpeed(mStatic.mSpeedFunction.getValue());
         }
+    }
+
+    @Override
+    public float getSpeed() {
+        return super.getSpeed() * mStatic.mSpeedFunction.getValue();
     }
 }
