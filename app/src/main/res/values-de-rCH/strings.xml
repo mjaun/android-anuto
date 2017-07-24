@@ -5,14 +5,14 @@
     <string name="next_wave">Nächsti</string>
 
     <string name="restart">Nöi startä</string>
-    <string name="change_map">Karte wächsle</string>
+    <string name="change_map">Chartä wächslä</string>
     <string name="theme">Thema</string>
     <string name="sound">Ton</string>
 
     <string name="game_over">Fertig gspiut!</string>
     <string name="score">Pünkt</string>
 
-    <string name="credits">Guethabe</string>
+    <string name="credits">Guethabä</string>
     <string name="lives">Läbä</string>
     <string name="wave">Wäuä</string>
     <string name="bonus">Bonus</string>
@@ -36,7 +36,7 @@
     <string name="on">Ischautä</string>
     <string name="off">Usschautä</string>
 
-    <string name="strategy_closest">Nöchst</string>
+    <string name="strategy_closest">Nächst</string>
     <string name="strategy_weakest">Schwächst</string>
     <string name="strategy_strongest">Sterchst</string>
     <string name="strategy_first">Erscht</string>
