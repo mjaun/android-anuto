@@ -12,7 +12,7 @@ public class SettingsManager implements SharedPreferences.OnSharedPreferenceChan
 
     public static final String PREF_THEME_INDEX = "theme_index";
     public static final String PREF_SOUND_ENABLED = "sound_enabled";
-    public static final String PREF_TRANSPARENT_MENUS_ENABLED = "transparent_menus";
+    public static final String PREF_TRANSPARENT_MENUS_ENABLED = "transparent_menus_enabled";
     public static final String PREF_BACK_BUTTON_MODE = "back_button_mode";
 
     private final SharedPreferences mPreferences;
