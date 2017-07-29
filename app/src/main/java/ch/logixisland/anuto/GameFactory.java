@@ -19,6 +19,7 @@ import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.EntityStore;
 import ch.logixisland.anuto.engine.logic.FrameRateLogger;
 import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.engine.logic.GameLoop;
 import ch.logixisland.anuto.engine.logic.MessageQueue;
 import ch.logixisland.anuto.engine.render.Renderer;
 import ch.logixisland.anuto.engine.render.Viewport;
@@ -47,7 +48,7 @@ public class GameFactory {
     private final MessageQueue mMessageQueue;
     private final Renderer mRenderer;
     private final GameEngine mGameEngine;
-    private final SettingsManager mSettingsManager;
+    private final GameLoop mGameLoop;
 
     // Entity
     private final PlateauFactory mPlateauFactory;
@@ -66,6 +67,7 @@ public class GameFactory {
     private final WaveManager mWaveManager;
     private final GameSpeedManager mSpeedManager;
     private final GameManager mGameManager;
+    private final SettingsManager mSettingsManager;
     private final BackButtonControl mBackButtonControl;
 
     public GameFactory(Context context) {
@@ -80,7 +82,8 @@ public class GameFactory {
         mEntityStore = new EntityStore();
         mMessageQueue = new MessageQueue();
         mRenderer = new Renderer(mViewport, mThemeManager, mFrameRateLogger);
-        mGameEngine = new GameEngine(mEntityStore, mMessageQueue, mRenderer, mFrameRateLogger);
+        mGameLoop = new GameLoop(mEntityStore, mMessageQueue, mRenderer, mFrameRateLogger);
+        mGameEngine = new GameEngine(mEntityStore, mMessageQueue, mRenderer, mGameLoop);
 
         // Entity
         EntityDependencies dependencyProvider = createEntityDependencyProvider();

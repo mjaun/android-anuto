@@ -1,40 +1,24 @@
 package ch.logixisland.anuto.engine.logic;
 
-import android.util.Log;
-
-import java.util.Collection;
-
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Renderer;
-import ch.logixisland.anuto.util.container.SafeCollection;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
-public class GameEngine implements Runnable {
+public class GameEngine {
 
-    private final static String TAG = GameEngine.class.getSimpleName();
-
-    public final static int TARGET_FRAME_RATE = 30;
-    private final static int TICK_TIME = 1000 / TARGET_FRAME_RATE;
-    private final static int MAX_FRAME_SKIPS = 1;
+    public final static int TARGET_FRAME_RATE = GameLoop.TARGET_FRAME_RATE;
 
     private final EntityStore mEntityStore;
     private final MessageQueue mMessageQueue;
     private final Renderer mRenderer;
-    private final FrameRateLogger mFrameRateLogger;
-
-    private final Collection<TickListener> mTickListeners = new SafeCollection<>();
-
-    private int mGameTicksPerLoop = 1;
-
-    private Thread mGameThread;
-    private volatile boolean mRunning = false;
+    private final GameLoop mGameLoop;
 
     public GameEngine(EntityStore entityStore, MessageQueue messageQueue, Renderer renderer,
-                      FrameRateLogger frameRateLogger) {
+                      GameLoop gameLoop) {
         mEntityStore = entityStore;
         mMessageQueue = messageQueue;
         mRenderer = renderer;
-        mFrameRateLogger = frameRateLogger;
+        mGameLoop = gameLoop;
     }
 
     public Object getStaticData(Entity entity) {
@@ -54,7 +38,7 @@ public class GameEngine implements Runnable {
     }
 
     public void add(TickListener listener) {
-        mTickListeners.add(listener);
+        mGameLoop.add(listener);
     }
 
     public void remove(Entity entity) {
@@ -66,37 +50,22 @@ public class GameEngine implements Runnable {
     }
 
     public void remove(TickListener listener) {
-        mTickListeners.remove(listener);
+        mGameLoop.remove(listener);
     }
 
     public void clear() {
-        mMessageQueue.clear();
-        mTickListeners.clear();
         mEntityStore.clear();
         mRenderer.clear();
+        mGameLoop.clear();
+        mMessageQueue.clear();
     }
 
     public void start() {
-        if (!mRunning) {
-            Log.i(TAG, "Starting game loop");
-            mRunning = true;
-            mGameThread = new Thread(this);
-            mGameThread.start();
-        }
+        mGameLoop.start();
     }
 
     public void stop() {
-        if (mRunning) {
-            Log.i(TAG, "Stopping game loop");
-            mRunning = false;
-
-            try {
-                mGameThread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
-        }
+        mGameLoop.stop();
     }
 
     public void post(Runnable runnable) {
@@ -107,63 +76,12 @@ public class GameEngine implements Runnable {
         mMessageQueue.postDelayed(runnable, (int) (delay * TARGET_FRAME_RATE));
     }
 
-    public void setTicksPerLoop(int newTicksPerLoopValue) {
-        mGameTicksPerLoop = newTicksPerLoopValue;
+    public void setTicksPerLoop(int ticksPerLoop) {
+        mGameLoop.setTicksPerLoop(ticksPerLoop);
     }
 
     public boolean isThreadChangeNeeded() {
-        return Thread.currentThread() != mGameThread;
-    }
-
-    @Override
-    public void run() {
-        long timeNextTick = System.currentTimeMillis();
-        long timeCurrent;
-        int skipFrameCount = 0;
-
-        try {
-            while (mRunning) {
-                timeNextTick += TICK_TIME;
-
-                mRenderer.lock();
-                for (int repeat = 0; repeat < mGameTicksPerLoop; repeat++) {
-                    executeTick();
-                }
-                mRenderer.unlock();
-
-                timeCurrent = System.currentTimeMillis();
-                int sleepTime = (int) (timeNextTick - timeCurrent);
-
-                if (sleepTime > 0 || skipFrameCount >= MAX_FRAME_SKIPS) {
-                    mRenderer.invalidate();
-                    skipFrameCount = 0;
-                } else {
-                    skipFrameCount++;
-                }
-
-                mFrameRateLogger.incrementLoopCount();
-
-                if (sleepTime > 0) {
-                    Thread.sleep(sleepTime);
-                } else {
-                    timeNextTick = timeCurrent; // resync
-                }
-            }
-        } catch (Exception e) {
-            mRunning = false;
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void executeTick() {
-        mEntityStore.tick();
-
-        for (TickListener listener : mTickListeners) {
-            listener.tick();
-        }
-
-        mMessageQueue.tick();
+        return mGameLoop.isThreadChangeNeeded();
     }
 
 }
