@@ -111,15 +111,15 @@ public abstract class Entity {
     }
 
     protected SpriteFactory getSpriteFactory() {
-        return mDependencies.getSpriteFactory();
+        return getGameEngine().getSpriteFactory();
     }
 
     protected ShapeFactory getShapeFactory() {
-        return mDependencies.getShapeFactory();
+        return getGameEngine().getShapeFactory();
     }
 
     protected SoundFactory getSoundFactory() {
-        return mDependencies.getSoundFactory();
+        return getGameEngine().getSoundFactory();
     }
 
     public Vector2 getPosition() {

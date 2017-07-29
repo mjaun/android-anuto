@@ -83,7 +83,7 @@ public class GameFactory {
         mMessageQueue = new MessageQueue();
         mRenderer = new Renderer(mViewport, mThemeManager, mFrameRateLogger);
         mGameLoop = new GameLoop(mEntityStore, mMessageQueue, mRenderer, mFrameRateLogger);
-        mGameEngine = new GameEngine(mEntityStore, mMessageQueue, mRenderer, mGameLoop);
+        mGameEngine = new GameEngine(mSpriteFactory, mShapeFactory, mSoundFactory, mEntityStore, mMessageQueue, mRenderer, mGameLoop);
 
         // Entity
         EntityDependencies dependencyProvider = createEntityDependencyProvider();
@@ -183,21 +183,6 @@ public class GameFactory {
             @Override
             public GameEngine getGameEngine() {
                 return mGameEngine;
-            }
-
-            @Override
-            public ShapeFactory getShapeFactory() {
-                return mShapeFactory;
-            }
-
-            @Override
-            public SpriteFactory getSpriteFactory() {
-                return mSpriteFactory;
-            }
-
-            @Override
-            public SoundFactory getSoundFactory() {
-                return mSoundFactory;
             }
 
             @Override

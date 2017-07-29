@@ -2,23 +2,47 @@ package ch.logixisland.anuto.engine.logic;
 
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Renderer;
+import ch.logixisland.anuto.engine.render.shape.ShapeFactory;
+import ch.logixisland.anuto.engine.render.sprite.SpriteFactory;
+import ch.logixisland.anuto.engine.sound.SoundFactory;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
 public class GameEngine {
 
     public final static int TARGET_FRAME_RATE = GameLoop.TARGET_FRAME_RATE;
 
+    private final SpriteFactory mSpriteFactory;
+    private final ShapeFactory mShapeFactory;
+    private final SoundFactory mSoundFactory;
+
     private final EntityStore mEntityStore;
     private final MessageQueue mMessageQueue;
     private final Renderer mRenderer;
     private final GameLoop mGameLoop;
 
-    public GameEngine(EntityStore entityStore, MessageQueue messageQueue, Renderer renderer,
+    public GameEngine(SpriteFactory spriteFactory, ShapeFactory shapeFactory,
+                      SoundFactory soundFactory, EntityStore entityStore,
+                      MessageQueue messageQueue, Renderer renderer,
                       GameLoop gameLoop) {
+        mSpriteFactory = spriteFactory;
+        mShapeFactory = shapeFactory;
+        mSoundFactory = soundFactory;
         mEntityStore = entityStore;
         mMessageQueue = messageQueue;
         mRenderer = renderer;
         mGameLoop = gameLoop;
+    }
+
+    public SpriteFactory getSpriteFactory() {
+        return mSpriteFactory;
+    }
+
+    public ShapeFactory getShapeFactory() {
+        return mShapeFactory;
+    }
+
+    public SoundFactory getSoundFactory() {
+        return mSoundFactory;
     }
 
     public Object getStaticData(Entity entity) {
