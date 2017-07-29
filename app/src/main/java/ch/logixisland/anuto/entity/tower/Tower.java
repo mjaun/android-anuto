@@ -9,10 +9,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.TickTimer;
-import ch.logixisland.anuto.engine.render.shape.EntityWithLevel;
-import ch.logixisland.anuto.engine.render.shape.EntityWithRange;
-import ch.logixisland.anuto.engine.render.shape.LevelIndicator;
-import ch.logixisland.anuto.engine.render.shape.RangeIndicator;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.data.PathDescriptor;
@@ -24,7 +20,7 @@ import ch.logixisland.anuto.util.math.Line;
 import ch.logixisland.anuto.util.math.MathUtils;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public abstract class Tower extends Entity implements EntityWithRange, EntityWithLevel {
+public abstract class Tower extends Entity {
 
     private final TowerConfig mConfig;
 
@@ -126,7 +122,6 @@ public abstract class Tower extends Entity implements EntityWithRange, EntityWit
         return mDamage;
     }
 
-    @Override
     public float getRange() {
         return mRange;
     }
@@ -182,7 +177,6 @@ public abstract class Tower extends Entity implements EntityWithRange, EntityWit
         return Math.round(mConfig.getEnhanceCost() * (float) Math.pow(mConfig.getEnhanceBase(), mLevel - 1));
     }
 
-    @Override
     public int getLevel() {
         return mLevel;
     }
@@ -194,7 +188,7 @@ public abstract class Tower extends Entity implements EntityWithRange, EntityWit
 
     public void showRange() {
         if (mRangeIndicator == null) {
-            mRangeIndicator = getShapeFactory().createRangeIndicator(this);
+            mRangeIndicator = new RangeIndicator(getTheme(), this);
             getGameEngine().add(mRangeIndicator);
         }
     }
@@ -208,7 +202,7 @@ public abstract class Tower extends Entity implements EntityWithRange, EntityWit
 
     public void showLevel() {
         if (mLevelIndicator == null) {
-            mLevelIndicator = getShapeFactory().createLevelIndicator(this);
+            mLevelIndicator = new LevelIndicator(getTheme(), this);
             getGameEngine().add(mLevelIndicator);
         }
     }

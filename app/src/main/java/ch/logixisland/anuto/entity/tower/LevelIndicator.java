@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.engine.render.shape;
+package ch.logixisland.anuto.entity.tower;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -11,10 +11,10 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class LevelIndicator implements Drawable {
 
-    private final EntityWithLevel mEntity;
+    private final Tower mEntity;
     private final Paint mText;
 
-    LevelIndicator(Theme theme, EntityWithLevel entity) {
+    LevelIndicator(Theme theme, Tower entity) {
         mEntity = entity;
 
         mText = new Paint();

@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.engine.render.shape;
+package ch.logixisland.anuto.entity.tower;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -10,10 +10,10 @@ import ch.logixisland.anuto.engine.theme.Theme;
 
 public class RangeIndicator implements Drawable {
 
-    private final EntityWithRange mEntity;
+    private final Tower mEntity;
     private final Paint mPen;
 
-    public RangeIndicator(Theme theme, EntityWithRange entity) {
+    public RangeIndicator(Theme theme, Tower entity) {
         mEntity = entity;
         mPen = new Paint();
         mPen.setStyle(Paint.Style.STROKE);

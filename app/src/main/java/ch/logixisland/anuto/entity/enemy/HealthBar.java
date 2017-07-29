@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.engine.render.shape;
+package ch.logixisland.anuto.entity.enemy;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -14,11 +14,11 @@ public class HealthBar implements Drawable {
     private static final float HEALTHBAR_HEIGHT = 0.1f;
     private static final float HEALTHBAR_OFFSET = 0.6f;
 
-    private final EntityWithHealth mEntity;
+    private final Enemy mEntity;
     private final Paint mHealthBarBg;
     private final Paint mHealthBarFg;
 
-    public HealthBar(Theme theme, EntityWithHealth entity) {
+    public HealthBar(Theme theme, Enemy entity) {
         mEntity = entity;
 
         mHealthBarBg = new Paint();

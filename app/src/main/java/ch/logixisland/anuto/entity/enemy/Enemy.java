@@ -7,8 +7,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.GameEngine;
-import ch.logixisland.anuto.engine.render.shape.EntityWithHealth;
-import ch.logixisland.anuto.engine.render.shape.HealthBar;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.util.data.EnemyConfig;
@@ -18,7 +16,7 @@ import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.math.Vector2;
 
 
-public abstract class Enemy extends Entity implements EntityWithHealth {
+public abstract class Enemy extends Entity {
 
     public static Predicate<Enemy> enabled() {
         return new Predicate<Enemy>() {
@@ -68,7 +66,7 @@ public abstract class Enemy extends Entity implements EntityWithHealth {
         super(dependencies);
 
         mConfig = config;
-        mHealthBar = getShapeFactory().createHealthBar(this);
+        mHealthBar = new HealthBar(getTheme(), this);
     }
 
     @Override
@@ -228,7 +226,6 @@ public abstract class Enemy extends Entity implements EntityWithHealth {
         mWayPointIndex = 1;
     }
 
-    @Override
     public float getHealth() {
         return mHealth;
     }

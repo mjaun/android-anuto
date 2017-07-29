@@ -23,7 +23,6 @@ import ch.logixisland.anuto.engine.logic.GameLoop;
 import ch.logixisland.anuto.engine.logic.MessageQueue;
 import ch.logixisland.anuto.engine.render.Renderer;
 import ch.logixisland.anuto.engine.render.Viewport;
-import ch.logixisland.anuto.engine.render.shape.ShapeFactory;
 import ch.logixisland.anuto.engine.render.sprite.SpriteFactory;
 import ch.logixisland.anuto.engine.sound.SoundFactory;
 import ch.logixisland.anuto.engine.sound.SoundManager;
@@ -40,7 +39,6 @@ public class GameFactory {
     private final ThemeManager mThemeManager;
     private final SoundManager mSoundManager;
     private final SpriteFactory mSpriteFactory;
-    private final ShapeFactory mShapeFactory;
     private final SoundFactory mSoundFactory;
     private final Viewport mViewport;
     private final FrameRateLogger mFrameRateLogger;
@@ -75,7 +73,6 @@ public class GameFactory {
         mThemeManager = new ThemeManager(context);
         mSoundManager = new SoundManager(context);
         mSpriteFactory = new SpriteFactory(context, mThemeManager);
-        mShapeFactory = new ShapeFactory(mThemeManager);
         mSoundFactory = new SoundFactory(context, mSoundManager);
         mViewport = new Viewport();
         mFrameRateLogger = new FrameRateLogger();
@@ -83,7 +80,7 @@ public class GameFactory {
         mMessageQueue = new MessageQueue();
         mRenderer = new Renderer(mViewport, mThemeManager, mFrameRateLogger);
         mGameLoop = new GameLoop(mEntityStore, mMessageQueue, mRenderer, mFrameRateLogger);
-        mGameEngine = new GameEngine(mSpriteFactory, mShapeFactory, mSoundFactory, mEntityStore, mMessageQueue, mRenderer, mGameLoop);
+        mGameEngine = new GameEngine(mSpriteFactory, mThemeManager, mSoundFactory, mEntityStore, mMessageQueue, mRenderer, mGameLoop);
 
         // Entity
         EntityDependencies dependencyProvider = createEntityDependencyProvider();
