@@ -3,13 +3,10 @@ package ch.logixisland.anuto.engine.logic;
 import android.util.Log;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Renderer;
 import ch.logixisland.anuto.util.container.SafeCollection;
-import ch.logixisland.anuto.util.container.SafeMultiMap;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
 public class GameEngine implements Runnable {
@@ -20,39 +17,36 @@ public class GameEngine implements Runnable {
     private final static int TICK_TIME = 1000 / TARGET_FRAME_RATE;
     private final static int MAX_FRAME_SKIPS = 1;
 
+    private final EntityStore mEntityStore;
+    private final MessageQueue mMessageQueue;
     private final Renderer mRenderer;
     private final FrameRateLogger mFrameRateLogger;
 
-    private final SafeMultiMap<Entity> mEntities = new SafeMultiMap<>();
-    private final Map<Class<? extends Entity>, Object> mStaticData = new HashMap<>();
     private final Collection<TickListener> mTickListeners = new SafeCollection<>();
-    private final MessageQueue mMessageQueue = new MessageQueue();
 
     private int mGameTicksPerLoop = 1;
 
     private Thread mGameThread;
     private volatile boolean mRunning = false;
 
-    public GameEngine(Renderer renderer, FrameRateLogger frameRateLogger) {
+    public GameEngine(EntityStore entityStore, MessageQueue messageQueue, Renderer renderer,
+                      FrameRateLogger frameRateLogger) {
+        mEntityStore = entityStore;
+        mMessageQueue = messageQueue;
         mRenderer = renderer;
         mFrameRateLogger = frameRateLogger;
     }
 
     public Object getStaticData(Entity entity) {
-        if (!mStaticData.containsKey(entity.getClass())) {
-            mStaticData.put(entity.getClass(), entity.initStatic());
-        }
-
-        return mStaticData.get(entity.getClass());
+        return mEntityStore.getStaticData(entity);
     }
 
     public StreamIterator<Entity> get(int typeId) {
-        return mEntities.get(typeId).iterator();
+        return mEntityStore.get(typeId);
     }
 
     public void add(Entity entity) {
-        mEntities.add(entity.getType(), entity);
-        entity.init();
+        mEntityStore.add(entity);
     }
 
     public void add(Drawable drawable) {
@@ -64,8 +58,7 @@ public class GameEngine implements Runnable {
     }
 
     public void remove(Entity entity) {
-        mEntities.remove(entity.getType(), entity);
-        entity.clean();
+        mEntityStore.remove(entity);
     }
 
     public void remove(Drawable drawable) {
@@ -77,14 +70,9 @@ public class GameEngine implements Runnable {
     }
 
     public void clear() {
-        for (Entity obj : mEntities) {
-            mEntities.remove(obj.getType(), obj);
-            obj.clean();
-        }
-
         mMessageQueue.clear();
         mTickListeners.clear();
-        mStaticData.clear();
+        mEntityStore.clear();
         mRenderer.clear();
     }
 
@@ -112,11 +100,11 @@ public class GameEngine implements Runnable {
     }
 
     public void post(Runnable runnable) {
-        postDelayed(runnable, 0);
+        mMessageQueue.post(runnable);
     }
 
     public void postDelayed(Runnable runnable, float delay) {
-        mMessageQueue.post(runnable, (int) (delay * TARGET_FRAME_RATE));
+        mMessageQueue.postDelayed(runnable, (int) (delay * TARGET_FRAME_RATE));
     }
 
     public void setTicksPerLoop(int newTicksPerLoopValue) {
@@ -169,9 +157,7 @@ public class GameEngine implements Runnable {
     }
 
     private void executeTick() {
-        for (Entity entity : mEntities) {
-            entity.tick();
-        }
+        mEntityStore.tick();
 
         for (TickListener listener : mTickListeners) {
             listener.tick();
@@ -179,4 +165,5 @@ public class GameEngine implements Runnable {
 
         mMessageQueue.tick();
     }
+
 }

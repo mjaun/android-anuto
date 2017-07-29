@@ -2,7 +2,7 @@ package ch.logixisland.anuto.engine.logic;
 
 import java.util.ArrayList;
 
-class MessageQueue {
+public class MessageQueue {
 
     private static class Message {
         final Runnable mRunnable;
@@ -17,7 +17,11 @@ class MessageQueue {
     private final ArrayList<Message> mQueue = new ArrayList<>();
     private int mTickCount = 0;
 
-    synchronized void post(Runnable runnable, int afterTicks) {
+    synchronized void post(Runnable runnable) {
+        postDelayed(runnable, 0);
+    }
+
+    synchronized void postDelayed(Runnable runnable, int afterTicks) {
         long dueTickCount = mTickCount + afterTicks;
 
         for (int i = 0; i < mQueue.size(); i++) {
