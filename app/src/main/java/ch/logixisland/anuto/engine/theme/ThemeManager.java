@@ -24,20 +24,8 @@ public class ThemeManager {
         mAvailableThemes.add(new Theme(context, R.string.theme_dark, R.style.DarkTheme));
     }
 
-    public List<String> getThemeNames() {
-        List<String> names = new ArrayList<>(mAvailableThemes.size());
-        for (Theme theme : mAvailableThemes) {
-            names.add(theme.getName());
-        }
-        return names;
-    }
-
     public Theme getTheme() {
         return mTheme;
-    }
-
-    public int getThemeIndex() {
-        return mAvailableThemes.indexOf(mTheme);
     }
 
     public void setTheme(Theme theme) {
