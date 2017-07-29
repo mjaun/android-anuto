@@ -6,9 +6,9 @@ import ch.logixisland.anuto.util.iterator.LazyIterator;
 import ch.logixisland.anuto.util.iterator.StreamIterable;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
-public class LayeredSafeCollection<T> implements StreamIterable<T> {
+public class SafeMultiMap<T> implements StreamIterable<T> {
 
-    private class LayerIterator extends LazyIterator<T> {
+    private class KeyIterator extends LazyIterator<T> {
         int mKeyIndex = 0;
         StreamIterator<T> mCollectionIterator;
 
@@ -44,7 +44,7 @@ public class LayeredSafeCollection<T> implements StreamIterable<T> {
 
     @Override
     public StreamIterator<T> iterator() {
-        return new LayerIterator();
+        return new KeyIterator();
     }
 
     public SafeCollection<T> get(int key) {

@@ -12,13 +12,13 @@ import ch.logixisland.anuto.engine.logic.FrameRateLogger;
 import ch.logixisland.anuto.engine.theme.Theme;
 import ch.logixisland.anuto.engine.theme.ThemeListener;
 import ch.logixisland.anuto.engine.theme.ThemeManager;
-import ch.logixisland.anuto.util.container.LayeredSafeCollection;
+import ch.logixisland.anuto.util.container.SafeMultiMap;
 
 public class Renderer implements ThemeListener {
 
     private final Viewport mViewport;
     private final FrameRateLogger mFrameRateLogger;
-    private final LayeredSafeCollection<Drawable> mDrawables = new LayeredSafeCollection<>();
+    private final SafeMultiMap<Drawable> mDrawables = new SafeMultiMap<>();
     private final Lock mLock = new ReentrantLock(true);
 
     private int mBackgroundColor;

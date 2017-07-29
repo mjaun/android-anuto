@@ -8,8 +8,8 @@ import java.util.Map;
 
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Renderer;
-import ch.logixisland.anuto.util.container.LayeredSafeCollection;
 import ch.logixisland.anuto.util.container.SafeCollection;
+import ch.logixisland.anuto.util.container.SafeMultiMap;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
 public class GameEngine implements Runnable {
@@ -23,7 +23,7 @@ public class GameEngine implements Runnable {
     private final Renderer mRenderer;
     private final FrameRateLogger mFrameRateLogger;
 
-    private final LayeredSafeCollection<Entity> mEntities = new LayeredSafeCollection<>();
+    private final SafeMultiMap<Entity> mEntities = new SafeMultiMap<>();
     private final Map<Class<? extends Entity>, Object> mStaticData = new HashMap<>();
     private final Collection<TickListener> mTickListeners = new SafeCollection<>();
     private final MessageQueue mMessageQueue = new MessageQueue();
