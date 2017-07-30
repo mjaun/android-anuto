@@ -125,9 +125,11 @@ public abstract class Enemy extends Entity {
         mEnabled = enabled;
     }
 
-    public void setWayPoints(List<Vector2> wayPoints) {
-        mWayPoints = wayPoints;
-        setPosition(mWayPoints.get(0));
+    public void setupPath(int pathIndex, float offset) {
+        mWayPoints = getLevelDescriptor().getPaths().get(pathIndex).getWayPoints();
+        Vector2 startPosition = mWayPoints.get(0);
+        Vector2 startDirection = startPosition.to(mWayPoints.get(1)).norm();
+        setPosition(startPosition.add(startDirection.mul(-offset)));
         mWayPointIndex = 1;
     }
 

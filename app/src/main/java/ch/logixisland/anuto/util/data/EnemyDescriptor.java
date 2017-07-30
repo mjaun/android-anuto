@@ -3,8 +3,6 @@ package ch.logixisland.anuto.util.data;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Root;
 
-import ch.logixisland.anuto.util.math.Vector2;
-
 @Root
 public class EnemyDescriptor {
 
@@ -17,11 +15,8 @@ public class EnemyDescriptor {
     @Attribute(name = "delay", required = false)
     private float mDelay;
 
-    @Attribute(name = "offsetX", required = false)
-    private float mOffsetX;
-
-    @Attribute(name = "offsetY", required = false)
-    private float mOffsetY;
+    @Attribute(name = "offset", required = false)
+    private float mOffset;
 
     public String getName() {
         return mName;
@@ -35,7 +30,7 @@ public class EnemyDescriptor {
         return mDelay;
     }
 
-    public Vector2 getOffset() {
-        return new Vector2(mOffsetX, mOffsetY);
+    public float getOffset() {
+        return mOffset;
     }
 }

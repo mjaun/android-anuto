@@ -12,7 +12,6 @@ import ch.logixisland.anuto.util.data.EnemyDescriptor;
 import ch.logixisland.anuto.util.data.PathDescriptor;
 import ch.logixisland.anuto.util.data.WaveDescriptor;
 import ch.logixisland.anuto.util.math.MathUtils;
-import ch.logixisland.anuto.util.math.Vector2;
 
 class WaveAttender implements EnemyListener {
 
@@ -127,7 +126,7 @@ class WaveAttender implements EnemyListener {
 
     private void scheduleEnemies() {
         int delay = 0;
-        Vector2 offset = new Vector2();
+        float offset = 0;
 
         List<EnemyDescriptor> enemyDescriptors = mWaveDescriptor.getEnemies();
 
@@ -136,7 +135,7 @@ class WaveAttender implements EnemyListener {
                 EnemyDescriptor descriptor = enemyDescriptors.get(enemyIndex);
 
                 if (MathUtils.equals(descriptor.getDelay(), 0f, 0.1f)) {
-                    offset = offset.add(descriptor.getOffset());
+                    offset += descriptor.getOffset();
                 } else {
                     offset = descriptor.getOffset();
                 }
@@ -151,13 +150,11 @@ class WaveAttender implements EnemyListener {
         }
     }
 
-    private Enemy createAndConfigureEnemy(EnemyDescriptor descriptor, Vector2 offset) {
+    private Enemy createAndConfigureEnemy(EnemyDescriptor descriptor, float offset) {
         final Enemy enemy = mEnemyFactory.createEnemy(descriptor.getName());
         enemy.modifyHealth(mEnemyHealthModifier);
         enemy.modifyReward(mEnemyRewardModifier);
-        PathDescriptor path = mLevelLoader.getLevelDescriptor().getPaths().get(descriptor.getPathIndex());
-        enemy.setWayPoints(path.getWayPoints());
-        enemy.move(offset);
+        enemy.setupPath(descriptor.getPathIndex(), offset);
         return enemy;
     }
 
