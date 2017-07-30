@@ -127,9 +127,11 @@ public abstract class Enemy extends Entity implements EntityWithHealth {
         mEnabled = enabled;
     }
 
-    public void setPathIndex(int pathIndex) {
+    public void setupPath(int pathIndex, float offset) {
         mWayPoints = getLevelDescriptor().getPaths().get(pathIndex).getWayPoints();
-        setPosition(mWayPoints.get(0));
+        Vector2 startPosition = mWayPoints.get(0);
+        Vector2 startDirection = startPosition.to(mWayPoints.get(1)).norm();
+        setPosition(startPosition.add(startDirection.mul(-offset)));
         mWayPointIndex = 1;
     }
 
