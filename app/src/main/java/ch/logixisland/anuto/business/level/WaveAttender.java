@@ -151,10 +151,11 @@ class WaveAttender implements EnemyListener {
     }
 
     private Enemy createAndConfigureEnemy(EnemyDescriptor descriptor, float offset) {
+        PathDescriptor path = mLevelLoader.getLevelDescriptor().getPaths().get(descriptor.getPathIndex());
         final Enemy enemy = mEnemyFactory.createEnemy(descriptor.getName());
         enemy.modifyHealth(mEnemyHealthModifier);
         enemy.modifyReward(mEnemyRewardModifier);
-        enemy.setupPath(descriptor.getPathIndex(), offset);
+        enemy.setupPath(path.getWayPoints(), offset);
         return enemy;
     }
 
