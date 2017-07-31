@@ -4,6 +4,7 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementMap;
 import org.simpleframework.xml.Root;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -122,6 +123,6 @@ public class TowerConfig {
     }
 
     public Map<String, Float> getProperties() {
-        return mProperties;
+        return Collections.unmodifiableMap(mProperties);
     }
 }

@@ -7,6 +7,8 @@ import org.simpleframework.xml.Serializer;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Root
@@ -37,12 +39,12 @@ public class LevelDescriptor {
         return mWidth;
     }
 
-    public List<PlateauDescriptor> getPlateaus() {
-        return mPlateaus;
+    public Collection<PlateauDescriptor> getPlateaus() {
+        return Collections.unmodifiableCollection(mPlateaus);
     }
 
     public List<PathDescriptor> getPaths() {
-        return mPaths;
+        return Collections.unmodifiableList(mPaths);
     }
 
 }

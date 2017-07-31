@@ -5,6 +5,7 @@ import org.simpleframework.xml.Serializer;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class WavesDescriptor {
@@ -18,7 +19,7 @@ public class WavesDescriptor {
     }
 
     public List<WaveDescriptor> getWaves() {
-        return mWaves;
+        return Collections.unmodifiableList(mWaves);
     }
 
 }
