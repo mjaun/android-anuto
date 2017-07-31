@@ -18,15 +18,6 @@ public class GameSettings {
     @Element(name = "ageModifier")
     private float mAgeModifier;
 
-    @Element(name = "minSpeedModifier")
-    private float mMinSpeedModifier;
-
-    @Element(name = "weakAgainstModifier")
-    private float mWeakAgainstModifier;
-
-    @Element(name = "strongAgainstModifier")
-    private float mStrongAgainstModifier;
-
     @Element(name = "difficultyModifier")
     private float mDifficultyModifier;
 
@@ -69,18 +60,6 @@ public class GameSettings {
 
     public float getAgeModifier() {
         return mAgeModifier;
-    }
-
-    public float getMinSpeedModifier() {
-        return mMinSpeedModifier;
-    }
-
-    public float getWeakAgainstModifier() {
-        return mWeakAgainstModifier;
-    }
-
-    public float getStrongAgainstModifier() {
-        return mStrongAgainstModifier;
     }
 
     public float getDifficultyModifier() {

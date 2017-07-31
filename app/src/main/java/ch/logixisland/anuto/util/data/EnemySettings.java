@@ -1,22 +1,28 @@
 package ch.logixisland.anuto.util.data;
 
+import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Serializer;
-import org.simpleframework.xml.core.Commit;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Collection;
 
 @Root
 public class EnemySettings {
 
+    @Element(name = "minSpeedModifier")
+    private float mMinSpeedModifier;
+
+    @Element(name = "weakAgainstModifier")
+    private float mWeakAgainstModifier;
+
+    @Element(name = "strongAgainstModifier")
+    private float mStrongAgainstModifier;
+
     @ElementList(entry = "enemy", inline = true)
-    private List<EnemyConfig> mEnemyConfigList = new ArrayList<>();
-    private Map<String, EnemyConfig> mEnemyConfigMap = new HashMap<>();
+    private Collection<EnemyConfig> mEnemyConfigs = new ArrayList<>();
 
     public static EnemySettings fromXml(InputStream stream) throws Exception {
         Serializer serializer = new SerializerFactory().createSerializer();
@@ -24,15 +30,24 @@ public class EnemySettings {
     }
 
     public EnemyConfig getEnemyConfig(String name) {
-        return mEnemyConfigMap.get(name);
-    }
-
-    @Commit
-    private void commit() {
-        mEnemyConfigMap = new HashMap<>();
-        for (EnemyConfig config : mEnemyConfigList) {
-            mEnemyConfigMap.put(config.getName(), config);
+        for (EnemyConfig config : mEnemyConfigs) {
+            if (config.getName().equals(name)) {
+                return config;
+            }
         }
+
+        return null;
     }
 
+    public float getMinSpeedModifier() {
+        return mMinSpeedModifier;
+    }
+
+    public float getWeakAgainstModifier() {
+        return mWeakAgainstModifier;
+    }
+
+    public float getStrongAgainstModifier() {
+        return mStrongAgainstModifier;
+    }
 }

@@ -58,6 +58,10 @@ public abstract class Enemy extends Entity {
     private Collection<WeaponType> mStrongAgainst;
     private Collection<WeaponType> mWeakAgainst;
 
+    private float mMinSpeedModifier;
+    private float mStrongAgainstModifier;
+    private float mWeakAgainstModifier;
+
     private HealthBar mHealthBar;
 
     private final List<EnemyListener> mListeners = new CopyOnWriteArrayList<>();
@@ -149,8 +153,12 @@ public abstract class Enemy extends Entity {
         mBaseSpeed = baseSpeed;
     }
 
+    void setMinSpeedModifier(float minSpeedModifier) {
+        mMinSpeedModifier = minSpeedModifier;
+    }
+
     public void modifySpeed(float f) {
-        mSpeedModifier = Math.max(getGameSettings().getMinSpeedModifier(), mSpeedModifier * f);
+        mSpeedModifier = Math.max(mMinSpeedModifier, mSpeedModifier * f);
     }
 
     Vector2 getDirection() {
@@ -251,11 +259,11 @@ public abstract class Enemy extends Entity {
             Tower originTower = (Tower) origin;
 
             if (mStrongAgainst.contains(originTower.getWeaponType())) {
-                dmg *= getGameSettings().getStrongAgainstModifier();
+                dmg *= mStrongAgainstModifier;
             }
 
             if (mWeakAgainst.contains(originTower.getWeaponType())) {
-                dmg *= getGameSettings().getWeakAgainstModifier();
+                dmg *= mWeakAgainstModifier;
             }
 
             originTower.reportDamageInflicted(dmg);
@@ -286,6 +294,14 @@ public abstract class Enemy extends Entity {
 
     void setWeakAgainst(Collection<WeaponType> weakAgainst) {
         mWeakAgainst = weakAgainst;
+    }
+
+    void setStrongAgainstModifier(float strongAgainstModifier) {
+        mStrongAgainstModifier = strongAgainstModifier;
+    }
+
+    void setWeakAgainstModifier(float weakAgainstModifier) {
+        mWeakAgainstModifier = weakAgainstModifier;
     }
 
     public int getReward() {

@@ -2,9 +2,6 @@
     <credits>500</credits>
     <lives>20</lives>
     <ageModifier>0.97</ageModifier>
-    <minSpeedModifier>0.01</minSpeedModifier>
-    <strongAgainstModifier>0.5</strongAgainstModifier>
-    <weakAgainstModifier>2.0</weakAgainstModifier>
     <difficultyModifier>8e-4</difficultyModifier>
     <difficultyExponent>2</difficultyExponent>
     <difficultyLinear>20</difficultyLinear>

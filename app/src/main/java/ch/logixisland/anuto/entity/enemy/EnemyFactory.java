@@ -33,8 +33,11 @@ public class EnemyFactory {
         enemy.resetHealth(config.getHealth());
         enemy.setReward(config.getReward());
         enemy.setBaseSpeed(config.getSpeed());
+        enemy.setMinSpeedModifier(mEnemySettings.getMinSpeedModifier());
         enemy.setStrongAgainst(config.getStrongAgainst());
         enemy.setWeakAgainst(config.getWeakAgainst());
+        enemy.setStrongAgainstModifier(mEnemySettings.getStrongAgainstModifier());
+        enemy.setWeakAgainstModifier(mEnemySettings.getWeakAgainstModifier());
         return enemy;
     }
 
