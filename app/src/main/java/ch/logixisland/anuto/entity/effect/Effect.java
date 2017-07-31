@@ -17,7 +17,7 @@ public abstract class Effect extends Entity {
     private State mState;
 
     Effect(Entity origin) {
-        super(origin.getDependencies());
+        super(origin.getGameEngine());
         mOrigin = origin;
         mState = State.NotStarted;
     }

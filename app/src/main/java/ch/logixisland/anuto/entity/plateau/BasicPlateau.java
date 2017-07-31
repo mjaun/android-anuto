@@ -1,7 +1,7 @@
 package ch.logixisland.anuto.entity.plateau;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.engine.logic.EntityDependencies;
+import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
@@ -18,8 +18,8 @@ public class BasicPlateau extends Plateau implements SpriteTransformation {
     }
     private StaticSprite mSprite;
 
-    public BasicPlateau(EntityDependencies dependencies) {
-        super(dependencies);
+    public BasicPlateau(GameEngine gameEngine) {
+        super(gameEngine);
         StaticData s = (StaticData) getStaticData();
 
         mSprite = getSpriteFactory().createStatic(Layers.PLATEAU, s.mSpriteTemplate);

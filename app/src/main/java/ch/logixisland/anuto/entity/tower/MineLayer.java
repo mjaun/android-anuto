@@ -7,8 +7,8 @@ import java.util.List;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.Entity;
-import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.EntityListener;
+import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
@@ -49,8 +49,8 @@ public class MineLayer extends Tower implements SpriteTransformation {
         }
     };
 
-    public MineLayer(EntityDependencies dependencies, TowerConfig config) {
-        super(dependencies, config);
+    public MineLayer(GameEngine gameEngine, TowerConfig config) {
+        super(gameEngine, config);
         StaticData s = (StaticData) getStaticData();
 
         mSprite = getSpriteFactory().createAnimated(Layers.TOWER_BASE, s.mSpriteTemplate);

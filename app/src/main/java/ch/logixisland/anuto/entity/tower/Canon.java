@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
@@ -44,8 +43,8 @@ public class Canon extends AimingTower implements SpriteTransformation {
 
     private Sound mSound;
 
-    public Canon(EntityDependencies dependencies, TowerConfig config) {
-        super(dependencies, config);
+    public Canon(GameEngine gameEngine, TowerConfig config) {
+        super(gameEngine, config);
         StaticData s = (StaticData) getStaticData();
 
         mReboundFunction = Function.sine()

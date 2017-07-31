@@ -15,7 +15,6 @@ import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.business.manager.SettingsManager;
 import ch.logixisland.anuto.business.score.HighScores;
 import ch.logixisland.anuto.business.score.ScoreBoard;
-import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.EntityStore;
 import ch.logixisland.anuto.engine.logic.FrameRateLogger;
 import ch.logixisland.anuto.engine.logic.GameEngine;
@@ -81,10 +80,9 @@ public class GameFactory {
         mGameEngine = new GameEngine(mSpriteFactory, mThemeManager, mSoundFactory, mEntityStore, mMessageQueue, mRenderer, mGameLoop);
 
         // Entity
-        EntityDependencies dependencyProvider = createEntityDependencyProvider();
-        mPlateauFactory = new PlateauFactory(dependencyProvider);
-        mTowerFactory = new TowerFactory(dependencyProvider);
-        mEnemyFactory = new EnemyFactory(dependencyProvider);
+        mPlateauFactory = new PlateauFactory(mGameEngine);
+        mTowerFactory = new TowerFactory(mGameEngine);
+        mEnemyFactory = new EnemyFactory(mGameEngine);
 
         // Business
         mScoreBoard = new ScoreBoard();
@@ -173,12 +171,4 @@ public class GameFactory {
         return mHighScores;
     }
 
-    private EntityDependencies createEntityDependencyProvider() {
-        return new EntityDependencies() {
-            @Override
-            public GameEngine getGameEngine() {
-                return mGameEngine;
-            }
-        };
-    }
 }

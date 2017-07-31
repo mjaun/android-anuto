@@ -8,8 +8,8 @@ import java.util.List;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.Entity;
-import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.EntityListener;
+import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
@@ -44,8 +44,8 @@ public class TeleportTower extends AimingTower implements SpriteTransformation {
     private StaticSprite mSpriteTower;
     private Sound mSound;
 
-    public TeleportTower(EntityDependencies dependencies, TowerConfig config) {
-        super(dependencies, config);
+    public TeleportTower(GameEngine gameEngine, TowerConfig config) {
+        super(gameEngine, config);
         mTeleportDistance = getProperty("teleportDistance");
 
         StaticData s = (StaticData) getStaticData();

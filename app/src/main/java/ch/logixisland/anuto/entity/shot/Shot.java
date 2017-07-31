@@ -13,7 +13,7 @@ public abstract class Shot extends Entity {
     private boolean mEnabled = true;
 
     Shot(Entity origin) {
-        super(origin.getDependencies());
+        super(origin.getGameEngine());
         mOrigin = origin;
     }
 

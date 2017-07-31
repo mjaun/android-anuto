@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.engine.logic.EntityDependencies;
+import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
@@ -39,8 +39,8 @@ public class Mortar extends AimingTower implements SpriteTransformation {
     private AnimatedSprite mSpriteCanon;
     private Sound mSound;
 
-    public Mortar(EntityDependencies dependencies, TowerConfig config) {
-        super(dependencies, config);
+    public Mortar(GameEngine gameEngine, TowerConfig config) {
+        super(gameEngine, config);
         StaticData s = (StaticData) getStaticData();
 
         mSpriteBase = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplateBase);

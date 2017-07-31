@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.engine.logic.EntityDependencies;
+import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickTimer;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
@@ -37,8 +37,8 @@ public class RocketLauncher extends AimingTower implements SpriteTransformation 
     private StaticSprite mSpriteRocket; // used for preview only
     private Sound mSound;
 
-    public RocketLauncher(EntityDependencies dependencies, TowerConfig config) {
-        super(dependencies, config);
+    public RocketLauncher(GameEngine gameEngine, TowerConfig config) {
+        super(gameEngine, config);
         StaticData s = (StaticData) getStaticData();
 
         mSprite = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplate);

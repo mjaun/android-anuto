@@ -55,13 +55,13 @@ public abstract class Entity {
         };
     }
 
-    private final EntityDependencies mDependencies;
+    private final GameEngine mGameEngine;
     private final List<EntityListener> mListeners = new CopyOnWriteArrayList<>();
 
     private Vector2 mPosition = new Vector2();
 
-    protected Entity(EntityDependencies dependencies) {
-        mDependencies = dependencies;
+    protected Entity(GameEngine gameEngine) {
+        mGameEngine = gameEngine;
     }
 
     public abstract int getType();
@@ -92,12 +92,8 @@ public abstract class Entity {
         return getGameEngine().getStaticData(this);
     }
 
-    public EntityDependencies getDependencies() {
-        return mDependencies;
-    }
-
-    protected GameEngine getGameEngine() {
-        return mDependencies.getGameEngine();
+    public GameEngine getGameEngine() {
+        return mGameEngine;
     }
 
     protected SpriteFactory getSpriteFactory() {

@@ -1,20 +1,20 @@
 package ch.logixisland.anuto.entity.enemy;
 
-import ch.logixisland.anuto.engine.logic.EntityDependencies;
+import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.util.GenericFactory;
 import ch.logixisland.anuto.util.data.EnemyConfig;
 import ch.logixisland.anuto.util.data.EnemySettings;
 
 public class EnemyFactory {
 
-    private final EntityDependencies mDependencies;
+    private final GameEngine mGameEngine;
     private final GenericFactory<Enemy> mFactory;
 
     private EnemySettings mEnemySettings;
 
-    public EnemyFactory(EntityDependencies dependencies) {
-        mDependencies = dependencies;
-        mFactory = new GenericFactory<>(EntityDependencies.class, EnemyConfig.class);
+    public EnemyFactory(GameEngine gameEngine) {
+        mGameEngine = gameEngine;
+        mFactory = new GenericFactory<>(GameEngine.class, EnemyConfig.class);
 
         mFactory.registerClass(Blob.class);
         mFactory.registerClass(Flyer.class);
@@ -29,7 +29,7 @@ public class EnemyFactory {
 
     public Enemy createEnemy(String name) {
         EnemyConfig config = mEnemySettings.getEnemyConfig(name);
-        Enemy enemy = mFactory.createInstance(name, mDependencies, config);
+        Enemy enemy = mFactory.createInstance(name, mGameEngine, config);
         enemy.resetHealth(config.getHealth());
         enemy.setReward(config.getReward());
         enemy.setBaseSpeed(config.getSpeed());

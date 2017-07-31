@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.engine.logic.Entity;
-import ch.logixisland.anuto.engine.logic.EntityDependencies;
+import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickTimer;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.enemy.Enemy;
@@ -41,8 +41,8 @@ public abstract class Tower extends Entity {
 
     private final List<TowerListener> mListeners = new CopyOnWriteArrayList<>();
 
-    Tower(EntityDependencies dependencies, TowerConfig config) {
-        super(dependencies);
+    Tower(GameEngine gameEngine, TowerConfig config) {
+        super(gameEngine);
 
         mConfig = config;
 

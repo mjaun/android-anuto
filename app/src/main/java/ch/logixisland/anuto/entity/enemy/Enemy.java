@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.engine.logic.Entity;
-import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.tower.Tower;
@@ -66,8 +65,8 @@ public abstract class Enemy extends Entity {
 
     private final List<EnemyListener> mListeners = new CopyOnWriteArrayList<>();
 
-    Enemy(EntityDependencies dependencies, EnemyConfig config) {
-        super(dependencies);
+    Enemy(GameEngine gameEngine, EnemyConfig config) {
+        super(gameEngine);
 
         mConfig = config;
         mHealthBar = new HealthBar(getTheme(), this);

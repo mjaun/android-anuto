@@ -2,7 +2,7 @@ package ch.logixisland.anuto.entity.tower;
 
 import java.util.List;
 
-import ch.logixisland.anuto.engine.logic.EntityDependencies;
+import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.util.GenericFactory;
 import ch.logixisland.anuto.util.data.PathDescriptor;
 import ch.logixisland.anuto.util.data.TowerConfig;
@@ -10,15 +10,15 @@ import ch.logixisland.anuto.util.data.TowerSettings;
 
 public class TowerFactory {
 
-    private final EntityDependencies mDependencies;
+    private final GameEngine mGameEngine;
     private final GenericFactory<Tower> mFactory;
 
     private TowerSettings mTowerSettings;
     private List<PathDescriptor> mPaths;
 
-    public TowerFactory(EntityDependencies dependencies) {
-        mDependencies = dependencies;
-        mFactory = new GenericFactory<>(EntityDependencies.class, TowerConfig.class);
+    public TowerFactory(GameEngine gameEngine) {
+        mGameEngine = gameEngine;
+        mFactory = new GenericFactory<>(GameEngine.class, TowerConfig.class);
 
         mFactory.registerClass(Canon.class);
         mFactory.registerClass(CanonDual.class);
@@ -52,7 +52,7 @@ public class TowerFactory {
 
     public Tower createTower(String name) {
         TowerConfig config = mTowerSettings.getTowerConfig(name);
-        Tower tower = mFactory.createInstance(name, mDependencies, config);
+        Tower tower = mFactory.createInstance(name, mGameEngine, config);
         tower.setPaths(mPaths);
         return tower;
     }

@@ -1,15 +1,15 @@
 package ch.logixisland.anuto.entity.plateau;
 
 import ch.logixisland.anuto.engine.logic.Entity;
-import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.engine.logic.EntityListener;
+import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.util.iterator.Predicate;
 
 public abstract class Plateau extends Entity {
 
-    Plateau(EntityDependencies dependencies) {
-        super(dependencies);
+    Plateau(GameEngine gameEngine) {
+        super(gameEngine);
     }
 
     public static Predicate<Plateau> unoccupied() {
