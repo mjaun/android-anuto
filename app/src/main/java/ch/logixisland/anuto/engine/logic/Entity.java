@@ -6,7 +6,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import ch.logixisland.anuto.engine.render.sprite.SpriteFactory;
 import ch.logixisland.anuto.engine.sound.SoundFactory;
 import ch.logixisland.anuto.engine.theme.Theme;
-import ch.logixisland.anuto.util.data.LevelDescriptor;
 import ch.logixisland.anuto.util.iterator.Function;
 import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.math.MathUtils;
@@ -101,10 +100,6 @@ public abstract class Entity {
         return mDependencies.getGameEngine();
     }
 
-    protected LevelDescriptor getLevelDescriptor() {
-        return mDependencies.getLevelDescriptor();
-    }
-
     protected SpriteFactory getSpriteFactory() {
         return getGameEngine().getSpriteFactory();
     }
@@ -154,9 +149,7 @@ public abstract class Entity {
     }
 
     public boolean isInGame() {
-        return mPosition.x() >= -0.5f && mPosition.y() >= 0.5f &&
-                mPosition.x() <= getLevelDescriptor().getWidth() + 0.5f &&
-                mPosition.y() <= getLevelDescriptor().getHeight() + 0.5f;
+        return getGameEngine().isInGame(mPosition);
     }
 
     public void addListener(EntityListener listener) {

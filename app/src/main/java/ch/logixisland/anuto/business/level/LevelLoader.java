@@ -28,6 +28,8 @@ public class LevelLoader implements GameListener {
     private final Viewport mViewport;
     private final ScoreBoard mScoreBoard;
     private final PlateauFactory mPlateauFactory;
+    private final TowerFactory mTowerFactory;
+    private final EnemyFactory mEnemyFactory;
 
     private LevelInfo mLevelInfo;
     private GameSettings mGameSettings;
@@ -37,15 +39,18 @@ public class LevelLoader implements GameListener {
     private WavesDescriptor mWavesDescriptor;
     private GameManager mGameManager;
 
-    public LevelLoader(Context context, GameEngine gameEngine, ScoreBoard scoreBoard, GameManager gameManager, Viewport viewport,
-                       PlateauFactory plateauFactory,
-                       TowerFactory towerFactory, EnemyFactory enemyFactory) {
+    public LevelLoader(Context context, GameEngine gameEngine, ScoreBoard scoreBoard,
+                       GameManager gameManager, Viewport viewport,
+                       PlateauFactory plateauFactory, TowerFactory towerFactory,
+                       EnemyFactory enemyFactory) {
         mContext = context;
         mGameEngine = gameEngine;
         mViewport = viewport;
         mScoreBoard = scoreBoard;
         mPlateauFactory = plateauFactory;
         mGameManager = gameManager;
+        mTowerFactory = towerFactory;
+        mEnemyFactory = enemyFactory;
 
         try {
             mGameSettings = GameSettings.fromXml(mContext.getResources().openRawResource(R.raw.game_settings));
@@ -56,8 +61,8 @@ public class LevelLoader implements GameListener {
             throw new RuntimeException("Could not load settings!", e);
         }
 
-        towerFactory.setTowerSettings(mTowerSettings);
-        enemyFactory.setEnemySettings(mEnemySettings);
+        mTowerFactory.setTowerSettings(mTowerSettings);
+        mEnemyFactory.setEnemySettings(mEnemySettings);
         mGameManager.addListener(this);
     }
 
@@ -109,6 +114,7 @@ public class LevelLoader implements GameListener {
             throw new RuntimeException("Could not load level!", e);
         }
 
+        mTowerFactory.setPaths(mLevelDescriptor.getPaths());
         mGameManager.restart();
     }
 

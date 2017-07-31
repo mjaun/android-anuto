@@ -13,6 +13,7 @@ import ch.logixisland.anuto.engine.theme.Theme;
 import ch.logixisland.anuto.engine.theme.ThemeListener;
 import ch.logixisland.anuto.engine.theme.ThemeManager;
 import ch.logixisland.anuto.util.container.SafeMultiMap;
+import ch.logixisland.anuto.util.math.Vector2;
 
 public class Renderer implements ThemeListener {
 
@@ -84,4 +85,7 @@ public class Renderer implements ThemeListener {
         mBackgroundColor = theme.getColor(R.attr.backgroundColor);
     }
 
+    public boolean isInGame(Vector2 position) {
+        return mViewport.getScreenClipRect().contains(position.x(), position.y());
+    }
 }

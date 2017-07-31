@@ -7,16 +7,18 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class Viewport {
 
-    private Matrix mScreenMatrix = new Matrix();
-    private Matrix mScreenMatrixInverse = new Matrix();
-    private float mGameWidth = 10;
-    private float mGameHeight = 10;
-    private float mScreenWidth = 100;
-    private float mScreenHeight = 100;
+    private Matrix mScreenMatrix;
+    private Matrix mScreenMatrixInverse;
+    private float mGameWidth;
+    private float mGameHeight;
+    private float mScreenWidth;
+    private float mScreenHeight;
+    private RectF mScreenClipRect;
 
     public void setGameSize(int width, int height) {
         mGameWidth = width;
         mGameHeight = height;
+        mScreenClipRect = new RectF(-0.5f, -0.5f, mGameWidth - 0.5f, mGameHeight - 0.5f);
         calcScreenMatrix();
     }
 
@@ -31,7 +33,7 @@ public class Viewport {
     }
 
     public RectF getScreenClipRect() {
-        return new RectF(-0.5f, -0.5f, mGameWidth - 0.5f, mGameHeight - 0.5f);
+        return mScreenClipRect;
     }
 
     public Vector2 screenToGame(Vector2 pos) {
@@ -41,7 +43,7 @@ public class Viewport {
     }
 
     private void calcScreenMatrix() {
-        mScreenMatrix.reset();
+        mScreenMatrix = new Matrix();
 
         float tileSize = Math.min(mScreenWidth / mGameWidth, mScreenHeight / mGameHeight);
         mScreenMatrix.postTranslate(0.5f, 0.5f);
@@ -54,6 +56,7 @@ public class Viewport {
         mScreenMatrix.postScale(1f, -1f);
         mScreenMatrix.postTranslate(0, mScreenHeight);
 
+        mScreenMatrixInverse = new Matrix();
         mScreenMatrix.invert(mScreenMatrixInverse);
     }
 

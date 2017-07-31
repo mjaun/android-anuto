@@ -6,6 +6,7 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteFactory;
 import ch.logixisland.anuto.engine.sound.SoundFactory;
 import ch.logixisland.anuto.engine.theme.ThemeManager;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
+import ch.logixisland.anuto.util.math.Vector2;
 
 public class GameEngine {
 
@@ -111,6 +112,10 @@ public class GameEngine {
 
     public boolean isThreadChangeNeeded() {
         return mGameLoop.isThreadChangeNeeded();
+    }
+
+    public boolean isInGame(Vector2 position) {
+        return mRenderer.isInGame(position);
     }
 
 }

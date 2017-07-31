@@ -30,7 +30,6 @@ import ch.logixisland.anuto.engine.theme.ThemeManager;
 import ch.logixisland.anuto.entity.enemy.EnemyFactory;
 import ch.logixisland.anuto.entity.plateau.PlateauFactory;
 import ch.logixisland.anuto.entity.tower.TowerFactory;
-import ch.logixisland.anuto.util.data.LevelDescriptor;
 
 public class GameFactory {
 
@@ -179,11 +178,6 @@ public class GameFactory {
             @Override
             public GameEngine getGameEngine() {
                 return mGameEngine;
-            }
-
-            @Override
-            public LevelDescriptor getLevelDescriptor() {
-                return mLevelLoader.getLevelDescriptor();
             }
         };
     }

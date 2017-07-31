@@ -1,7 +1,10 @@
 package ch.logixisland.anuto.entity.tower;
 
+import java.util.List;
+
 import ch.logixisland.anuto.engine.logic.EntityDependencies;
 import ch.logixisland.anuto.util.GenericFactory;
+import ch.logixisland.anuto.util.data.PathDescriptor;
 import ch.logixisland.anuto.util.data.TowerConfig;
 import ch.logixisland.anuto.util.data.TowerSettings;
 
@@ -11,6 +14,7 @@ public class TowerFactory {
     private final GenericFactory<Tower> mFactory;
 
     private TowerSettings mTowerSettings;
+    private List<PathDescriptor> mPaths;
 
     public TowerFactory(EntityDependencies dependencies) {
         mDependencies = dependencies;
@@ -37,6 +41,10 @@ public class TowerFactory {
         mTowerSettings = towerSettings;
     }
 
+    public void setPaths(List<PathDescriptor> paths) {
+        mPaths = paths;
+    }
+
     public int getTowerValue(String name) {
         TowerConfig config = mTowerSettings.getTowerConfig(name);
         return config.getValue();
@@ -44,13 +52,15 @@ public class TowerFactory {
 
     public Tower createTower(String name) {
         TowerConfig config = mTowerSettings.getTowerConfig(name);
-        return mFactory.createInstance(name, mDependencies, config);
+        Tower tower = mFactory.createInstance(name, mDependencies, config);
+        tower.setPaths(mPaths);
+        return tower;
     }
 
     public Tower createTower(int slot) {
         for (TowerConfig config : mTowerSettings.getTowerConfigs()) {
             if (config.getSlot() == slot) {
-                return mFactory.createInstance(config.getName(), mDependencies, config);
+                return createTower(config.getName());
             }
         }
 

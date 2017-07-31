@@ -33,6 +33,8 @@ public abstract class Tower extends Entity {
     private float mDamageInflicted;
     private boolean mReloaded = false;
 
+    private List<PathDescriptor> mPaths;
+
     private TickTimer mReloadTimer;
     private RangeIndicator mRangeIndicator;
     private LevelIndicator mLevelIndicator;
@@ -55,6 +57,9 @@ public abstract class Tower extends Entity {
         setEnabled(false);
     }
 
+    void setPaths(List<PathDescriptor> paths) {
+        mPaths = paths;
+    }
 
     @Override
     public final int getType() {
@@ -226,7 +231,7 @@ public abstract class Tower extends Entity {
 
         float r2 = MathUtils.square(getRange());
 
-        for (PathDescriptor path : getLevelDescriptor().getPaths()) {
+        for (PathDescriptor path : mPaths) {
             List<Vector2> wayPoints = path.getWayPoints();
             for (int i = 1; i < wayPoints.size(); i++) {
                 Vector2 p1 = getPosition().to(wayPoints.get(i - 1));
