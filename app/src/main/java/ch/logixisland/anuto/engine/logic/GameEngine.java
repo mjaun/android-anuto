@@ -30,6 +30,9 @@ public class GameEngine {
         mMessageQueue = messageQueue;
         mRenderer = renderer;
         mGameLoop = gameLoop;
+
+        mGameLoop.add(mMessageQueue);
+        mGameLoop.add(mEntityStore);
     }
 
     public SpriteFactory getSpriteFactory() {
@@ -77,10 +80,13 @@ public class GameEngine {
     }
 
     public void clear() {
+        mMessageQueue.clear();
         mEntityStore.clear();
         mRenderer.clear();
         mGameLoop.clear();
-        mMessageQueue.clear();
+
+        mGameLoop.add(mMessageQueue);
+        mGameLoop.add(mEntityStore);
     }
 
     public void start() {

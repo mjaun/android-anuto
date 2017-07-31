@@ -79,7 +79,7 @@ public class GameFactory {
         mEntityStore = new EntityStore();
         mMessageQueue = new MessageQueue();
         mRenderer = new Renderer(mViewport, mThemeManager, mFrameRateLogger);
-        mGameLoop = new GameLoop(mEntityStore, mMessageQueue, mRenderer, mFrameRateLogger);
+        mGameLoop = new GameLoop(mRenderer, mFrameRateLogger);
         mGameEngine = new GameEngine(mSpriteFactory, mThemeManager, mSoundFactory, mEntityStore, mMessageQueue, mRenderer, mGameLoop);
 
         // Entity

@@ -2,7 +2,7 @@ package ch.logixisland.anuto.engine.logic;
 
 import java.util.ArrayList;
 
-public class MessageQueue {
+public class MessageQueue implements TickListener {
 
     private static class Message {
         final Runnable mRunnable;
@@ -17,11 +17,11 @@ public class MessageQueue {
     private final ArrayList<Message> mQueue = new ArrayList<>();
     private int mTickCount = 0;
 
-    synchronized void post(Runnable runnable) {
+    public synchronized void post(Runnable runnable) {
         postDelayed(runnable, 0);
     }
 
-    synchronized void postDelayed(Runnable runnable, int afterTicks) {
+    public synchronized void postDelayed(Runnable runnable, int afterTicks) {
         long dueTickCount = mTickCount + afterTicks;
 
         for (int i = 0; i < mQueue.size(); i++) {
@@ -34,11 +34,12 @@ public class MessageQueue {
         mQueue.add(new Message(runnable, dueTickCount));
     }
 
-    synchronized void clear() {
+    public synchronized void clear() {
         mQueue.clear();
     }
 
-    synchronized void tick() {
+    @Override
+    public synchronized void tick() {
         mTickCount++;
 
         while (!mQueue.isEmpty() && mTickCount >= mQueue.get(0).mDueTickCount) {

@@ -15,8 +15,6 @@ public class GameLoop implements Runnable {
     private final static int TICK_TIME = 1000 / TARGET_FRAME_RATE;
     private final static int MAX_FRAME_SKIPS = 1;
 
-    private final EntityStore mEntityStore;
-    private final MessageQueue mMessageQueue;
     private final Renderer mRenderer;
     private final FrameRateLogger mFrameRateLogger;
 
@@ -27,10 +25,7 @@ public class GameLoop implements Runnable {
     private Thread mGameThread;
     private volatile boolean mRunning = false;
 
-    public GameLoop(EntityStore entityStore, MessageQueue messageQueue, Renderer renderer,
-                    FrameRateLogger frameRateLogger) {
-        mEntityStore = entityStore;
-        mMessageQueue = messageQueue;
+    public GameLoop(Renderer renderer, FrameRateLogger frameRateLogger) {
         mRenderer = renderer;
         mFrameRateLogger = frameRateLogger;
     }
@@ -44,10 +39,7 @@ public class GameLoop implements Runnable {
     }
 
     public void clear() {
-        mMessageQueue.clear();
         mTickListeners.clear();
-        mEntityStore.clear();
-        mRenderer.clear();
     }
 
     public void start() {
@@ -123,13 +115,9 @@ public class GameLoop implements Runnable {
     }
 
     private void executeTick() {
-        mEntityStore.tick();
-
         for (TickListener listener : mTickListeners) {
             listener.tick();
         }
-
-        mMessageQueue.tick();
     }
 
 }
