@@ -14,7 +14,7 @@ import java.util.Collection;
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.business.manager.GameManager;
+import ch.logixisland.anuto.business.manager.GameState;
 import ch.logixisland.anuto.business.manager.SettingsManager;
 import ch.logixisland.anuto.business.score.HighScores;
 
@@ -22,13 +22,13 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
     private static final String PREF_RESET_HIGHSCORES = "reset_highscores";
 
-    private final GameManager mGameManager;
+    private final GameState mGameState;
     private final HighScores mHighScores;
     private final Collection<String> mListPreferenceKeys = new ArrayList<>();
 
     public SettingsFragment() {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
-        mGameManager = factory.getGameManager();
+        mGameState = factory.getGameState();
         mHighScores = factory.getHighScores();
     }
 
@@ -74,7 +74,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         themePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(final Preference preference, final Object newValue) {
-                if (!mGameManager.isGameStarted()) {
+                if (!mGameState.isGameStarted()) {
                     return true;
                 }
 

@@ -1,7 +1,7 @@
 package ch.logixisland.anuto.business.control;
 
-import ch.logixisland.anuto.business.manager.GameListener;
-import ch.logixisland.anuto.business.manager.GameManager;
+import ch.logixisland.anuto.business.manager.GameState;
+import ch.logixisland.anuto.business.manager.GameStateListener;
 import ch.logixisland.anuto.business.score.CreditsListener;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.Entity;
@@ -12,23 +12,23 @@ import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.entity.tower.TowerListener;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class TowerSelector implements CreditsListener, GameListener, EntityListener, TowerListener {
+public class TowerSelector implements CreditsListener, GameStateListener, EntityListener, TowerListener {
 
     private final GameEngine mGameEngine;
-    private final GameManager mGameManager;
+    private final GameState mGameState;
     private final ScoreBoard mScoreBoard;
 
     private TowerInfoView mTowerInfoView;
     private TowerInfo mTowerInfo;
     private Tower mSelectedTower;
 
-    public TowerSelector(GameEngine gameEngine, GameManager gameManager, ScoreBoard scoreBoard) {
+    public TowerSelector(GameEngine gameEngine, GameState gameState, ScoreBoard scoreBoard) {
         mGameEngine = gameEngine;
-        mGameManager = gameManager;
+        mGameState = gameState;
         mScoreBoard = scoreBoard;
 
         mScoreBoard.addCreditsListener(this);
-        mGameManager.addListener(this);
+        mGameState.addListener(this);
     }
 
     public void setTowerInfoView(TowerInfoView view) {
@@ -182,7 +182,7 @@ public class TowerSelector implements CreditsListener, GameListener, EntityListe
         mTowerInfo = new TowerInfo(
                 mSelectedTower,
                 mScoreBoard.getCredits(),
-                mGameManager.isGameOver()
+                mGameState.isGameOver()
         );
 
         if (mTowerInfoView != null) {

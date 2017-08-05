@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.business.manager.GameListener;
-import ch.logixisland.anuto.business.manager.GameManager;
+import ch.logixisland.anuto.business.manager.GameState;
+import ch.logixisland.anuto.business.manager.GameStateListener;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.entity.enemy.EnemyFactory;
@@ -15,7 +15,7 @@ import ch.logixisland.anuto.util.data.EnemyDescriptor;
 import ch.logixisland.anuto.util.data.GameSettings;
 import ch.logixisland.anuto.util.data.WaveDescriptor;
 
-public class WaveManager implements GameListener {
+public class WaveManager implements GameStateListener {
 
     private static final String TAG = WaveManager.class.getSimpleName();
 
@@ -24,7 +24,7 @@ public class WaveManager implements GameListener {
 
     private final GameEngine mGameEngine;
     private final ScoreBoard mScoreBoard;
-    private final GameManager mGameManager;
+    private final GameState mGameState;
     private final LevelLoader mLevelLoader;
     private final EnemyFactory mEnemyFactory;
     private final TowerAging mTowerAging;
@@ -37,16 +37,16 @@ public class WaveManager implements GameListener {
     private final List<WaveAttender> mActiveWaves = new ArrayList<>();
     private final List<WaveListener> mListeners = new CopyOnWriteArrayList<>();
 
-    public WaveManager(GameEngine gameEngine, ScoreBoard scoreBoard, GameManager gameManager, LevelLoader levelLoader,
+    public WaveManager(GameEngine gameEngine, ScoreBoard scoreBoard, GameState gameState, LevelLoader levelLoader,
                        EnemyFactory enemyFactory, TowerAging towerAging) {
         mGameEngine = gameEngine;
         mScoreBoard = scoreBoard;
-        mGameManager = gameManager;
+        mGameState = gameState;
         mLevelLoader = levelLoader;
         mEnemyFactory = enemyFactory;
         mTowerAging = towerAging;
 
-        gameManager.addListener(this);
+        gameState.addListener(this);
     }
 
     public int getWaveNumber() {
@@ -76,7 +76,7 @@ public class WaveManager implements GameListener {
             return;
         }
 
-        mGameManager.setGameStarted();
+        mGameState.setGameStarted();
 
         giveWaveRewardAndEarlyBonus();
         createAndStartWaveAttender();

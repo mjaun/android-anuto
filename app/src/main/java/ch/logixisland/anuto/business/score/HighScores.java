@@ -4,20 +4,20 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import ch.logixisland.anuto.business.level.LevelLoader;
-import ch.logixisland.anuto.business.manager.GameListener;
-import ch.logixisland.anuto.business.manager.GameManager;
+import ch.logixisland.anuto.business.manager.GameState;
+import ch.logixisland.anuto.business.manager.GameStateListener;
 
-public class HighScores implements GameListener {
+public class HighScores implements GameStateListener {
 
     private final SharedPreferences mHighScores;
     private final ScoreBoard mScoreBoard;
     private final LevelLoader mLevelLoader;
 
-    public HighScores(Context context, GameManager gameManager, ScoreBoard scoreBoard, LevelLoader levelLoader) {
+    public HighScores(Context context, GameState gameState, ScoreBoard scoreBoard, LevelLoader levelLoader) {
         mHighScores = context.getSharedPreferences("high_scores", Context.MODE_PRIVATE);
         mScoreBoard = scoreBoard;
         mLevelLoader = levelLoader;
-        gameManager.addListener(this);
+        gameState.addListener(this);
     }
 
     public int getHighScore(String levelId) {

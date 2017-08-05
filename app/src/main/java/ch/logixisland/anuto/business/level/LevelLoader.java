@@ -5,8 +5,8 @@ import android.content.Context;
 import java.io.InputStream;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.business.manager.GameListener;
-import ch.logixisland.anuto.business.manager.GameManager;
+import ch.logixisland.anuto.business.manager.GameState;
+import ch.logixisland.anuto.business.manager.GameStateListener;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Viewport;
@@ -21,7 +21,7 @@ import ch.logixisland.anuto.util.data.PlateauDescriptor;
 import ch.logixisland.anuto.util.data.TowerSettings;
 import ch.logixisland.anuto.util.data.WavesDescriptor;
 
-public class LevelLoader implements GameListener {
+public class LevelLoader implements GameStateListener {
 
     private final Context mContext;
     private final GameEngine mGameEngine;
@@ -37,10 +37,10 @@ public class LevelLoader implements GameListener {
     private EnemySettings mEnemySettings;
     private LevelDescriptor mLevelDescriptor;
     private WavesDescriptor mWavesDescriptor;
-    private GameManager mGameManager;
+    private GameState mGameState;
 
     public LevelLoader(Context context, GameEngine gameEngine, ScoreBoard scoreBoard,
-                       GameManager gameManager, Viewport viewport,
+                       GameState gameState, Viewport viewport,
                        PlateauFactory plateauFactory, TowerFactory towerFactory,
                        EnemyFactory enemyFactory) {
         mContext = context;
@@ -48,7 +48,7 @@ public class LevelLoader implements GameListener {
         mViewport = viewport;
         mScoreBoard = scoreBoard;
         mPlateauFactory = plateauFactory;
-        mGameManager = gameManager;
+        mGameState = gameState;
         mTowerFactory = towerFactory;
         mEnemyFactory = enemyFactory;
 
@@ -63,7 +63,7 @@ public class LevelLoader implements GameListener {
 
         mTowerFactory.setTowerSettings(mTowerSettings);
         mEnemyFactory.setEnemySettings(mEnemySettings);
-        mGameManager.addListener(this);
+        mGameState.addListener(this);
     }
 
     public LevelInfo getLevelInfo() {
@@ -115,7 +115,7 @@ public class LevelLoader implements GameListener {
         }
 
         mTowerFactory.setPaths(mLevelDescriptor.getPaths());
-        mGameManager.restart();
+        mGameState.restart();
     }
 
     @Override

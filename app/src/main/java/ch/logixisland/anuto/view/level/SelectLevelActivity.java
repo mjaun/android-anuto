@@ -12,7 +12,7 @@ import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.level.LevelLoader;
 import ch.logixisland.anuto.business.level.LevelRepository;
-import ch.logixisland.anuto.business.manager.GameManager;
+import ch.logixisland.anuto.business.manager.GameState;
 import ch.logixisland.anuto.business.score.HighScores;
 import ch.logixisland.anuto.engine.theme.ActivityType;
 import ch.logixisland.anuto.view.AnutoActivity;
@@ -20,7 +20,7 @@ import ch.logixisland.anuto.view.AnutoActivity;
 public class SelectLevelActivity extends AnutoActivity implements AdapterView.OnItemClickListener,
         ViewTreeObserver.OnScrollChangedListener {
 
-    private final GameManager mGameManager;
+    private final GameState mGameState;
     private final LevelLoader mLevelLoader;
     private final LevelRepository mLevelRepository;
     private final HighScores mHighScores;
@@ -33,7 +33,7 @@ public class SelectLevelActivity extends AnutoActivity implements AdapterView.On
 
     public SelectLevelActivity() {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
-        mGameManager = factory.getGameManager();
+        mGameState = factory.getGameState();
         mLevelLoader = factory.getLevelLoader();
         mLevelRepository = factory.getLevelRepository();
         mHighScores = factory.getHighScores();
@@ -69,7 +69,7 @@ public class SelectLevelActivity extends AnutoActivity implements AdapterView.On
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         mLevelLoader.loadLevel(mLevelRepository.getLevels().get(position));
-        mGameManager.restart();
+        mGameState.restart();
         finish();
     }
 

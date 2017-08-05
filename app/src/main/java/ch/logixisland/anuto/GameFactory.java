@@ -5,13 +5,13 @@ import android.content.Context;
 import ch.logixisland.anuto.business.control.TowerControl;
 import ch.logixisland.anuto.business.control.TowerInserter;
 import ch.logixisland.anuto.business.control.TowerSelector;
-import ch.logixisland.anuto.business.level.GameSpeedManager;
+import ch.logixisland.anuto.business.level.GameSpeed;
 import ch.logixisland.anuto.business.level.LevelLoader;
 import ch.logixisland.anuto.business.level.LevelRepository;
 import ch.logixisland.anuto.business.level.TowerAging;
 import ch.logixisland.anuto.business.level.WaveManager;
 import ch.logixisland.anuto.business.manager.BackButtonControl;
-import ch.logixisland.anuto.business.manager.GameManager;
+import ch.logixisland.anuto.business.manager.GameState;
 import ch.logixisland.anuto.business.manager.SettingsManager;
 import ch.logixisland.anuto.business.score.HighScores;
 import ch.logixisland.anuto.business.score.ScoreBoard;
@@ -60,8 +60,8 @@ public class GameFactory {
     private final LevelRepository mLevelRepository;
     private final LevelLoader mLevelLoader;
     private final WaveManager mWaveManager;
-    private final GameSpeedManager mSpeedManager;
-    private final GameManager mGameManager;
+    private final GameSpeed mSpeedManager;
+    private final GameState mGameState;
     private final SettingsManager mSettingsManager;
     private final BackButtonControl mBackButtonControl;
 
@@ -87,20 +87,20 @@ public class GameFactory {
         // Business
         mScoreBoard = new ScoreBoard();
         mLevelRepository = new LevelRepository();
-        mSpeedManager = new GameSpeedManager(mGameEngine);
-        mGameManager = new GameManager(mGameEngine, mThemeManager, mScoreBoard);
-        mLevelLoader = new LevelLoader(context, mGameEngine, mScoreBoard, mGameManager, mViewport, mPlateauFactory, mTowerFactory, mEnemyFactory);
+        mSpeedManager = new GameSpeed(mGameEngine);
+        mGameState = new GameState(mGameEngine, mThemeManager, mScoreBoard);
+        mLevelLoader = new LevelLoader(context, mGameEngine, mScoreBoard, mGameState, mViewport, mPlateauFactory, mTowerFactory, mEnemyFactory);
         mLevelLoader.loadLevel(mLevelRepository.getLevels().get(0));
         mTowerAging = new TowerAging(mGameEngine, mLevelLoader);
-        mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mGameManager, mLevelLoader, mEnemyFactory, mTowerAging);
-        mHighScores = new HighScores(context, mGameManager, mScoreBoard, mLevelLoader);
-        mTowerSelector = new TowerSelector(mGameEngine, mGameManager, mScoreBoard);
+        mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mGameState, mLevelLoader, mEnemyFactory, mTowerAging);
+        mHighScores = new HighScores(context, mGameState, mScoreBoard, mLevelLoader);
+        mTowerSelector = new TowerSelector(mGameEngine, mGameState, mScoreBoard);
         mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector, mTowerFactory);
-        mTowerInserter = new TowerInserter(mGameEngine, mGameManager, mTowerFactory, mTowerSelector, mTowerAging, mScoreBoard);
+        mTowerInserter = new TowerInserter(mGameEngine, mGameState, mTowerFactory, mTowerSelector, mTowerAging, mScoreBoard);
         mSettingsManager = new SettingsManager(context, mThemeManager, mSoundManager);
         mBackButtonControl = new BackButtonControl(mSettingsManager);
 
-        mGameManager.restart();
+        mGameState.restart();
     }
 
     public ThemeManager getThemeManager() {
@@ -147,12 +147,12 @@ public class GameFactory {
         return mWaveManager;
     }
 
-    public GameSpeedManager getSpeedManager() {
+    public GameSpeed getSpeedManager() {
         return mSpeedManager;
     }
 
-    public GameManager getGameManager() {
-        return mGameManager;
+    public GameState getGameState() {
+        return mGameState;
     }
 
     public SettingsManager getSettingsManager() {

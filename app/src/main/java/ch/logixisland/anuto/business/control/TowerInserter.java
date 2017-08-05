@@ -3,7 +3,7 @@ package ch.logixisland.anuto.business.control;
 import java.util.Iterator;
 
 import ch.logixisland.anuto.business.level.TowerAging;
-import ch.logixisland.anuto.business.manager.GameManager;
+import ch.logixisland.anuto.business.manager.GameState;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.GameEngine;
@@ -16,7 +16,7 @@ import ch.logixisland.anuto.util.math.Vector2;
 public class TowerInserter {
 
     private final GameEngine mGameEngine;
-    private final GameManager mGameManager;
+    private final GameState mGameState;
     private final TowerFactory mTowerFactory;
     private final TowerSelector mTowerSelector;
     private final TowerAging mTowerAging;
@@ -25,10 +25,10 @@ public class TowerInserter {
     private Tower mInsertedTower;
     private Plateau mCurrentPlateau;
 
-    public TowerInserter(GameEngine gameEngine, GameManager gameManager, TowerFactory towerFactory,
+    public TowerInserter(GameEngine gameEngine, GameState gameState, TowerFactory towerFactory,
                          TowerSelector towerSelector, TowerAging towerAging, ScoreBoard scoreBoard) {
         mGameEngine = gameEngine;
-        mGameManager = gameManager;
+        mGameState = gameState;
         mTowerFactory = towerFactory;
         mTowerSelector = towerSelector;
         mTowerAging = towerAging;
@@ -46,7 +46,7 @@ public class TowerInserter {
             return;
         }
 
-        if (mInsertedTower == null && !mGameManager.isGameOver() &&
+        if (mInsertedTower == null && !mGameState.isGameOver() &&
                 mScoreBoard.getCredits() >= mTowerFactory.getTowerValue(towerName)) {
             showTowerLevels();
             mInsertedTower = mTowerFactory.createTower(towerName);

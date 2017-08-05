@@ -14,12 +14,12 @@ import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.control.TowerSelector;
+import ch.logixisland.anuto.business.level.GameSpeed;
 import ch.logixisland.anuto.business.level.GameSpeedListener;
-import ch.logixisland.anuto.business.level.GameSpeedManager;
 import ch.logixisland.anuto.business.level.WaveListener;
 import ch.logixisland.anuto.business.level.WaveManager;
-import ch.logixisland.anuto.business.manager.GameListener;
-import ch.logixisland.anuto.business.manager.GameManager;
+import ch.logixisland.anuto.business.manager.GameState;
+import ch.logixisland.anuto.business.manager.GameStateListener;
 import ch.logixisland.anuto.business.score.BonusListener;
 import ch.logixisland.anuto.business.score.CreditsListener;
 import ch.logixisland.anuto.business.score.LivesListener;
@@ -27,12 +27,12 @@ import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.util.StringUtils;
 import ch.logixisland.anuto.view.AnutoFragment;
 
-public class HeaderFragment extends AnutoFragment implements GameListener, WaveListener,
+public class HeaderFragment extends AnutoFragment implements GameStateListener, WaveListener,
         CreditsListener, LivesListener, BonusListener, GameSpeedListener, View.OnClickListener {
 
-    private final GameManager mGameManager;
+    private final GameState mGameState;
     private final WaveManager mWaveManager;
-    private final GameSpeedManager mSpeedManager;
+    private final GameSpeed mSpeedManager;
     private final ScoreBoard mScoreBoard;
     private final TowerSelector mTowerSelector;
 
@@ -51,7 +51,7 @@ public class HeaderFragment extends AnutoFragment implements GameListener, WaveL
 
     public HeaderFragment() {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
-        mGameManager = factory.getGameManager();
+        mGameState = factory.getGameState();
         mScoreBoard = factory.getScoreBoard();
         mWaveManager = factory.getWaveManager();
         mSpeedManager = factory.getSpeedManager();
@@ -83,7 +83,7 @@ public class HeaderFragment extends AnutoFragment implements GameListener, WaveL
         view_tower_x[2] = (TowerView) v.findViewById(R.id.view_tower_3);
         view_tower_x[3] = (TowerView) v.findViewById(R.id.view_tower_4);
 
-        btn_next_wave.setEnabled(!mGameManager.isGameOver());
+        btn_next_wave.setEnabled(!mGameState.isGameOver());
         txt_wave.setText(getString(R.string.wave) + ": " + mWaveManager.getWaveNumber());
         txt_credits.setText(getString(R.string.credits) + ": " + StringUtils.formatSuffix(mScoreBoard.getCredits()));
         txt_lives.setText(getString(R.string.lives) + ": " + mScoreBoard.getLives());
@@ -101,7 +101,7 @@ public class HeaderFragment extends AnutoFragment implements GameListener, WaveL
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        mGameManager.addListener(this);
+        mGameState.addListener(this);
         mWaveManager.addListener(this);
         mSpeedManager.addListener(this);
         mScoreBoard.addBonusListener(this);
@@ -113,7 +113,7 @@ public class HeaderFragment extends AnutoFragment implements GameListener, WaveL
     public void onDetach() {
         super.onDetach();
 
-        mGameManager.removeListener(this);
+        mGameState.removeListener(this);
         mWaveManager.removeListener(this);
         mSpeedManager.removeListener(this);
         mScoreBoard.removeBonusListener(this);

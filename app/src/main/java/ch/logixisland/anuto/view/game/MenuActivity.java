@@ -9,7 +9,7 @@ import android.widget.Button;
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.business.manager.GameManager;
+import ch.logixisland.anuto.business.manager.GameState;
 import ch.logixisland.anuto.engine.theme.ActivityType;
 import ch.logixisland.anuto.view.AnutoActivity;
 import ch.logixisland.anuto.view.level.SelectLevelActivity;
@@ -19,7 +19,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
 
     private static final int REQUEST_SELECT_LEVEL = 1;
 
-    private final GameManager mGameManager;
+    private final GameState mGameState;
 
     private View activity_menu;
     private View menu_layout;
@@ -30,7 +30,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
 
     public MenuActivity() {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
-        mGameManager = factory.getGameManager();
+        mGameState = factory.getGameState();
     }
 
     @Override
@@ -61,7 +61,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
     @Override
     public void onClick(View view) {
         if (view == btn_restart) {
-            mGameManager.restart();
+            mGameState.restart();
             finish();
         }
 

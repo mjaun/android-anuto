@@ -1,6 +1,6 @@
 package ch.logixisland.anuto.business.manager;
 
-public interface GameListener {
+public interface GameStateListener {
     void gameRestart();
     void gameOver();
 }

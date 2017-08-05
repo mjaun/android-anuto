@@ -10,9 +10,9 @@ import ch.logixisland.anuto.engine.theme.Theme;
 import ch.logixisland.anuto.engine.theme.ThemeListener;
 import ch.logixisland.anuto.engine.theme.ThemeManager;
 
-public class GameManager implements ThemeListener, LivesListener {
+public class GameState implements ThemeListener, LivesListener {
 
-    private final static String TAG = GameManager.class.getSimpleName();
+    private final static String TAG = GameState.class.getSimpleName();
 
     private final GameEngine mGameEngine;
     private final ScoreBoard mScoreBoard;
@@ -20,9 +20,9 @@ public class GameManager implements ThemeListener, LivesListener {
     private boolean mGameOver = false;
     private boolean mGameStarted = false;
 
-    private List<GameListener> mListeners = new CopyOnWriteArrayList<>();
+    private List<GameStateListener> mListeners = new CopyOnWriteArrayList<>();
 
-    public GameManager(GameEngine gameEngine, ThemeManager themeManager, ScoreBoard scoreBoard) {
+    public GameState(GameEngine gameEngine, ThemeManager themeManager, ScoreBoard scoreBoard) {
         mGameEngine = gameEngine;
         mScoreBoard = scoreBoard;
 
@@ -41,7 +41,7 @@ public class GameManager implements ThemeListener, LivesListener {
             return;
         }
 
-        for (GameListener listener : mListeners) {
+        for (GameStateListener listener : mListeners) {
             listener.gameRestart();
         }
 
@@ -57,11 +57,11 @@ public class GameManager implements ThemeListener, LivesListener {
         return !mGameOver && mGameStarted;
     }
 
-    public void addListener(GameListener listener) {
+    public void addListener(GameStateListener listener) {
         mListeners.add(listener);
     }
 
-    public void removeListener(GameListener listener) {
+    public void removeListener(GameStateListener listener) {
         mListeners.remove(listener);
     }
 
@@ -70,7 +70,7 @@ public class GameManager implements ThemeListener, LivesListener {
         if (!mGameOver && mScoreBoard.getLives() < 0) {
             mGameOver = true;
 
-            for (GameListener listener : mListeners) {
+            for (GameStateListener listener : mListeners) {
                 listener.gameOver();
             }
         }

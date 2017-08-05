@@ -3,10 +3,10 @@ package ch.logixisland.anuto.business.level;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.business.manager.GameListener;
+import ch.logixisland.anuto.business.manager.GameStateListener;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 
-public class GameSpeedManager implements GameListener {
+public class GameSpeed implements GameStateListener {
 
     private static final int FAST_FORWARD_SPEED = 4;
 
@@ -15,7 +15,7 @@ public class GameSpeedManager implements GameListener {
 
     private boolean mFastForwardActive = false;
 
-    public GameSpeedManager(GameEngine gameEngine){
+    public GameSpeed(GameEngine gameEngine) {
         mGameEngine = gameEngine;
     }
 

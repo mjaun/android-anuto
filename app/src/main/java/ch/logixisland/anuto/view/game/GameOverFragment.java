@@ -13,14 +13,14 @@ import java.text.DecimalFormat;
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.business.manager.GameListener;
-import ch.logixisland.anuto.business.manager.GameManager;
+import ch.logixisland.anuto.business.manager.GameState;
+import ch.logixisland.anuto.business.manager.GameStateListener;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.view.AnutoFragment;
 
-public class GameOverFragment extends AnutoFragment implements GameListener {
+public class GameOverFragment extends AnutoFragment implements GameStateListener {
 
-    private final GameManager mGameManager;
+    private final GameState mGameState;
     private final ScoreBoard mScoreBoard;
 
     private Handler mHandler;
@@ -29,7 +29,7 @@ public class GameOverFragment extends AnutoFragment implements GameListener {
 
     public GameOverFragment() {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
-        mGameManager = factory.getGameManager();
+        mGameState = factory.getGameState();
         mScoreBoard = factory.getScoreBoard();
     }
 
@@ -52,9 +52,9 @@ public class GameOverFragment extends AnutoFragment implements GameListener {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        mGameManager.addListener(this);
+        mGameState.addListener(this);
 
-        if (!mGameManager.isGameOver()) {
+        if (!mGameState.isGameOver()) {
             getFragmentManager().beginTransaction()
                     .hide(this)
                     .commit();
@@ -65,7 +65,7 @@ public class GameOverFragment extends AnutoFragment implements GameListener {
     public void onDetach() {
         super.onDetach();
 
-        mGameManager.removeListener(this);
+        mGameState.removeListener(this);
         mHandler.removeCallbacksAndMessages(null);
     }
 
