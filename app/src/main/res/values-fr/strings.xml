@@ -49,14 +49,14 @@
     <string name="back_button_mode">Comportement du bouton Retour</string>
     <string name="twice">Deux fois</string>
 
-    <string name="level_original_name">L\'original</string>
-    <string name="level_waiting_line_name">Je hais les files d\'attente</string>
-    <string name="level_turn_round_name">Tourner autour</string>
-    <string name="level_hurry_name">Le temps presse !</string>
-    <string name="level_civyshk_2y_name">Civyshk 2Y</string>
-    <string name="level_civyshk_line5_name">Civyshk 5 lignes</string>
-    <string name="level_civyshk_labyrinth_name">Labyrinthe de Civyshk</string>
-    <string name="level_civyshk_yard_name">Le jardin de Civyshk</string>
+    <string name="map_original_name">L\'original</string>
+    <string name="map_waiting_line_name">Je hais les files d\'attente</string>
+    <string name="map_turn_round_name">Tourner autour</string>
+    <string name="map_hurry_name">Le temps presse !</string>
+    <string name="map_civyshk_2y_name">Civyshk 2Y</string>
+    <string name="map_civyshk_line5_name">Civyshk 5 lignes</string>
+    <string name="map_civyshk_labyrinth_name">Labyrinthe de Civyshk</string>
+    <string name="map_civyshk_yard_name">Le jardin de Civyshk</string>
     <string name="change_theme">Changer le thème</string>
     <string name="change_theme_warning">Souhaitez-vous vraiment changer le thème ? La partie va redémarrer</string>
 

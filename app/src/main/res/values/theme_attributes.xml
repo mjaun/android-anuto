@@ -52,5 +52,5 @@
     <attr name="backgroundMenu" format="reference"/>
     <attr name="backgroundHeader" format="reference"/>
     <attr name="backgroundTowerInfo" format="reference"/>
-    <attr name="selectLevelArrow" format="reference"/>
+    <attr name="selectMapArrow" format="reference"/>
 </resources>

@@ -1,14 +1,11 @@
-package ch.logixisland.anuto.business.level;
+package ch.logixisland.anuto.business.game;
 
 import android.content.Context;
 
 import java.io.InputStream;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.business.game.GameState;
-import ch.logixisland.anuto.business.game.GameStateListener;
-import ch.logixisland.anuto.business.game.ScoreBoard;
-import ch.logixisland.anuto.data.descriptor.LevelDescriptor;
+import ch.logixisland.anuto.data.descriptor.MapDescriptor;
 import ch.logixisland.anuto.data.descriptor.PlateauDescriptor;
 import ch.logixisland.anuto.data.descriptor.WavesDescriptor;
 import ch.logixisland.anuto.data.setting.EnemySettings;
@@ -21,7 +18,7 @@ import ch.logixisland.anuto.entity.plateau.Plateau;
 import ch.logixisland.anuto.entity.plateau.PlateauFactory;
 import ch.logixisland.anuto.entity.tower.TowerFactory;
 
-public class LevelLoader implements GameStateListener {
+public class GameLoader implements GameStateListener {
 
     private final Context mContext;
     private final GameEngine mGameEngine;
@@ -31,18 +28,18 @@ public class LevelLoader implements GameStateListener {
     private final TowerFactory mTowerFactory;
     private final EnemyFactory mEnemyFactory;
 
-    private LevelInfo mLevelInfo;
+    private MapInfo mMapInfo;
     private GameSettings mGameSettings;
     private TowerSettings mTowerSettings;
     private EnemySettings mEnemySettings;
-    private LevelDescriptor mLevelDescriptor;
+    private MapDescriptor mMapDescriptor;
     private WavesDescriptor mWavesDescriptor;
     private GameState mGameState;
 
-    public LevelLoader(Context context, GameEngine gameEngine, ScoreBoard scoreBoard,
-                       GameState gameState, Viewport viewport,
-                       PlateauFactory plateauFactory, TowerFactory towerFactory,
-                       EnemyFactory enemyFactory) {
+    public GameLoader(Context context, GameEngine gameEngine, ScoreBoard scoreBoard,
+                      GameState gameState, Viewport viewport,
+                      PlateauFactory plateauFactory, TowerFactory towerFactory,
+                      EnemyFactory enemyFactory) {
         mContext = context;
         mGameEngine = gameEngine;
         mViewport = viewport;
@@ -66,8 +63,8 @@ public class LevelLoader implements GameStateListener {
         mGameState.addListener(this);
     }
 
-    public LevelInfo getLevelInfo() {
-        return mLevelInfo;
+    public MapInfo getMapInfo() {
+        return mMapInfo;
     }
 
     public GameSettings getGameSettings() {
@@ -82,39 +79,39 @@ public class LevelLoader implements GameStateListener {
         return mEnemySettings;
     }
 
-    public LevelDescriptor getLevelDescriptor() {
-        return mLevelDescriptor;
+    public MapDescriptor getMapDescriptor() {
+        return mMapDescriptor;
     }
 
     public WavesDescriptor getWavesDescriptor() {
         return mWavesDescriptor;
     }
 
-    public void loadLevel(final LevelInfo levelInfo) {
+    public void loadMap(final MapInfo mapInfo) {
         if (mGameEngine.isThreadChangeNeeded()) {
             mGameEngine.post(new Runnable() {
                 @Override
                 public void run() {
-                    loadLevel(levelInfo);
+                    loadMap(mapInfo);
                 }
             });
             return;
         }
 
-        if (mLevelInfo == levelInfo) {
+        if (mMapInfo == mapInfo) {
             return;
         }
 
-        mLevelInfo = levelInfo;
+        mMapInfo = mapInfo;
 
         try {
-            InputStream inputStream = mContext.getResources().openRawResource(mLevelInfo.getLevelDataResId());
-            mLevelDescriptor = LevelDescriptor.fromXml(inputStream);
+            InputStream inputStream = mContext.getResources().openRawResource(mMapInfo.getMapDescriptorResId());
+            mMapDescriptor = MapDescriptor.fromXml(inputStream);
         } catch (Exception e) {
-            throw new RuntimeException("Could not load level!", e);
+            throw new RuntimeException("Could not load map!", e);
         }
 
-        mTowerFactory.setPaths(mLevelDescriptor.getPaths());
+        mTowerFactory.setPaths(mMapDescriptor.getPaths());
         mGameState.restart();
     }
 
@@ -122,13 +119,13 @@ public class LevelLoader implements GameStateListener {
     public void gameRestart() {
         mGameEngine.clear();
 
-        for (PlateauDescriptor descriptor : mLevelDescriptor.getPlateaus()) {
+        for (PlateauDescriptor descriptor : mMapDescriptor.getPlateaus()) {
             Plateau p = mPlateauFactory.createPlateau(descriptor.getName());
             p.setPosition(descriptor.getPosition());
             mGameEngine.add(p);
         }
 
-        mViewport.setGameSize(mLevelDescriptor.getWidth(), mLevelDescriptor.getHeight());
+        mViewport.setGameSize(mMapDescriptor.getWidth(), mMapDescriptor.getHeight());
         mScoreBoard.reset(mGameSettings.getLives(), mGameSettings.getCredits());
     }
 

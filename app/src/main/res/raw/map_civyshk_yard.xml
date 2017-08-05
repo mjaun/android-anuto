@@ -1,4 +1,4 @@
-<level>
+<map>
     <!-- General Configuration -->
     <height>14</height>
     <width>12</width>
@@ -123,4 +123,4 @@
             <wayPoint x="12.5" y="8" />
         </path>
     </paths>
-</level>
+</map>

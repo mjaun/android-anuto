@@ -14,7 +14,7 @@ import java.util.List;
 import ch.logixisland.anuto.data.serializer.SerializerFactory;
 
 @Root
-public class LevelDescriptor {
+public class MapDescriptor {
 
     @Element(name = "width")
     private int mWidth;
@@ -28,9 +28,9 @@ public class LevelDescriptor {
     @ElementList(name = "paths", entry = "path")
     private List<PathDescriptor> mPaths = new ArrayList<>();
 
-    public static LevelDescriptor fromXml(InputStream inputStream) throws Exception {
+    public static MapDescriptor fromXml(InputStream inputStream) throws Exception {
         Serializer serializer = new SerializerFactory().createSerializer();
-        return serializer.read(LevelDescriptor.class, inputStream);
+        return serializer.read(MapDescriptor.class, inputStream);
     }
 
     public int getHeight() {

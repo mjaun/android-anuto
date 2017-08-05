@@ -49,14 +49,14 @@
     <string name="back_button_mode">Comportament buton înapoi</string>
     <string name="twice">De două ori</string>
 
-    <string name="level_original_name">Originalul</string>
-    <string name="level_waiting_line_name">Urăsc cozile de așteptare</string>
-    <string name="level_turn_round_name">Întoarce-te înapoi</string>
-    <string name="level_hurry_name">Suntem în grabă!</string>
-    <string name="level_civyshk_2y_name">Civyshk 2Y</string>
-    <string name="level_civyshk_line5_name">Linia5 Civyshk</string>
-    <string name="level_civyshk_labyrinth_name">Labirint Civyshk</string>
-    <string name="level_civyshk_yard_name">Curtea Civyshk</string>
+    <string name="map_original_name">Originalul</string>
+    <string name="map_waiting_line_name">Urăsc cozile de așteptare</string>
+    <string name="map_turn_round_name">Întoarce-te înapoi</string>
+    <string name="map_hurry_name">Suntem în grabă!</string>
+    <string name="map_civyshk_2y_name">Civyshk 2Y</string>
+    <string name="map_civyshk_line5_name">Linia5 Civyshk</string>
+    <string name="map_civyshk_labyrinth_name">Labirint Civyshk</string>
+    <string name="map_civyshk_yard_name">Curtea Civyshk</string>
     <string name="change_theme">Schimbă tema</string>
     <string name="change_theme_warning">Ești sigur că dorești să schimbi tema? Jocul va reporni</string>
 

@@ -1,27 +1,23 @@
-package ch.logixisland.anuto.business.level;
+package ch.logixisland.anuto.business.game;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-
-import ch.logixisland.anuto.business.game.GameState;
-import ch.logixisland.anuto.business.game.GameStateListener;
-import ch.logixisland.anuto.business.game.ScoreBoard;
 
 public class HighScores implements GameStateListener {
 
     private final SharedPreferences mHighScores;
     private final ScoreBoard mScoreBoard;
-    private final LevelLoader mLevelLoader;
+    private final GameLoader mGameLoader;
 
-    public HighScores(Context context, GameState gameState, ScoreBoard scoreBoard, LevelLoader levelLoader) {
+    public HighScores(Context context, GameState gameState, ScoreBoard scoreBoard, GameLoader gameLoader) {
         mHighScores = context.getSharedPreferences("high_scores", Context.MODE_PRIVATE);
         mScoreBoard = scoreBoard;
-        mLevelLoader = levelLoader;
+        mGameLoader = gameLoader;
         gameState.addListener(this);
     }
 
-    public int getHighScore(String levelId) {
-        return mHighScores.getInt(levelId, 0);
+    public int getHighScore(String mapId) {
+        return mHighScores.getInt(mapId, 0);
     }
 
     @Override
@@ -31,17 +27,17 @@ public class HighScores implements GameStateListener {
 
     @Override
     public void gameOver() {
-        String levelId = mLevelLoader.getLevelInfo().getLevelId();
+        String mapId = mGameLoader.getMapInfo().getMapId();
         int score = mScoreBoard.getScore();
-        setHighScore(levelId, score);
+        setHighScore(mapId, score);
     }
 
-    private void setHighScore(String levelId, int highScore) {
-        int currentHighScore = getHighScore(levelId);
+    private void setHighScore(String mapId, int highScore) {
+        int currentHighScore = getHighScore(mapId);
 
         if (highScore > currentHighScore) {
             mHighScores.edit()
-                    .putInt(levelId, highScore)
+                    .putInt(mapId, highScore)
                     .apply();
         }
     }

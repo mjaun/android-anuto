@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.view.level;
+package ch.logixisland.anuto.view.map;
 
 import android.app.Activity;
 import android.content.res.Resources;
@@ -14,19 +14,19 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.business.level.HighScores;
-import ch.logixisland.anuto.business.level.LevelInfo;
-import ch.logixisland.anuto.business.level.LevelRepository;
+import ch.logixisland.anuto.business.game.HighScores;
+import ch.logixisland.anuto.business.game.MapInfo;
+import ch.logixisland.anuto.business.game.MapRepository;
 
-class LevelsAdapter extends BaseAdapter {
+class MapsAdapter extends BaseAdapter {
 
     private final WeakReference<Activity> mActivityRef;
     private final HighScores mHighScores;
-    private final List<LevelInfo> mLevelInfos;
+    private final List<MapInfo> mMapInfos;
 
-    LevelsAdapter(Activity activity, LevelRepository levelRepository, HighScores highScores) {
+    MapsAdapter(Activity activity, MapRepository mapRepository, HighScores highScores) {
         mActivityRef = new WeakReference<>(activity);
-        mLevelInfos = levelRepository.getLevels();
+        mMapInfos = mapRepository.getMaps();
         mHighScores = highScores;
     }
 
@@ -44,12 +44,12 @@ class LevelsAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return mLevelInfos.size();
+        return mMapInfos.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return mLevelInfos.get(position);
+        return mMapInfos.get(position);
     }
 
     @Override
@@ -65,27 +65,27 @@ class LevelsAdapter extends BaseAdapter {
             return convertView;
         }
 
-        View levelItemView;
+        View mapItemView;
 
         if (convertView == null) {
-            levelItemView = LayoutInflater.from(activity).inflate(R.layout.item_level_select, parent, false);
+            mapItemView = LayoutInflater.from(activity).inflate(R.layout.item_map, parent, false);
         } else {
-            levelItemView = convertView;
+            mapItemView = convertView;
         }
 
         Resources resources = activity.getResources();
-        LevelInfo levelInfo = mLevelInfos.get(position);
-        ViewHolder viewHolder = new ViewHolder(levelItemView);
+        MapInfo mapInfo = mMapInfos.get(position);
+        ViewHolder viewHolder = new ViewHolder(mapItemView);
 
-        viewHolder.txt_name.setText(resources.getString(levelInfo.getLevelNameResId()));
+        viewHolder.txt_name.setText(resources.getString(mapInfo.getMapNameResId()));
 
         DecimalFormat fmt = new DecimalFormat("###,###,###,###");
-        String highScore = fmt.format(mHighScores.getHighScore(levelInfo.getLevelId()));
+        String highScore = fmt.format(mHighScores.getHighScore(mapInfo.getMapId()));
         viewHolder.txt_highscore.setText(resources.getString(R.string.score) + ": " + highScore);
 
         viewHolder.img_thumb.setImageBitmap(null);
-        new LoadThumbTask(resources, viewHolder.img_thumb, levelInfo.getLevelDataResId()).execute();
+        new LoadThumbTask(resources, viewHolder.img_thumb, mapInfo.getMapDescriptorResId()).execute();
 
-        return levelItemView;
+        return mapItemView;
     }
 }

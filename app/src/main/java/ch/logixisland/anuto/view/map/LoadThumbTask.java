@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.view.level;
+package ch.logixisland.anuto.view.map;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -9,25 +9,25 @@ import android.widget.ImageView;
 class LoadThumbTask extends AsyncTask<Void, Void, Bitmap> {
 
     private static final SparseArray<Bitmap> sThumbCache = new SparseArray<>();
-    private static final LevelThumbGenerator sLevelThumbGenerator = new LevelThumbGenerator();
+    private static final MapThumbGenerator sMapThumbGenerator = new MapThumbGenerator();
 
     private final Resources mResources;
     private final ImageView mImageView;
-    private final int mLevelDataResId;
+    private final int mMapDescriptorResId;
 
-    LoadThumbTask(Resources resources, ImageView imageView, int levelDataResId) {
+    LoadThumbTask(Resources resources, ImageView imageView, int mapDescriptorResId) {
         mResources = resources;
         mImageView = imageView;
-        mLevelDataResId = levelDataResId;
+        mMapDescriptorResId = mapDescriptorResId;
     }
 
     @Override
     protected Bitmap doInBackground(Void... params) {
-        Bitmap thumb = sThumbCache.get(mLevelDataResId);
+        Bitmap thumb = sThumbCache.get(mMapDescriptorResId);
 
         if (thumb == null) {
-            thumb = sLevelThumbGenerator.generateThumb(mResources, mLevelDataResId);
-            sThumbCache.append(mLevelDataResId, thumb);
+            thumb = sMapThumbGenerator.generateThumb(mResources, mMapDescriptorResId);
+            sThumbCache.append(mMapDescriptorResId, thumb);
         }
 
         return thumb;

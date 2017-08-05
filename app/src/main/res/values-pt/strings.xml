@@ -14,9 +14,9 @@
     <string name="inflicted">Dano causado</string>
     <string name="intensity">Intensidade</string>
     <string name="level">Nível</string>
-    <string name="level_hurry_name">Estamos com pressa!</string>
-    <string name="level_original_name">O Original</string>
-    <string name="level_waiting_line_name">Odeio filas</string>
+    <string name="map_hurry_name">Estamos com pressa!</string>
+    <string name="map_original_name">O Original</string>
+    <string name="map_waiting_line_name">Odeio filas</string>
     <string name="lives">Vidas</string>
     <string name="lock_target">Travar alvo</string>
     <string name="menu">Menu</string>
@@ -44,6 +44,6 @@
     <string name="upgrade">Melhoria</string>
     <string name="change_theme_warning">Você tem certeza que quer mudar o tema? O jogo reiniciará</string>
     <string name="wave">Onda</string>
-    <string name="level_turn_round_name">Dê a volta</string>
-    <string name="level_civyshk_labyrinth_name">Labirinto Civyshk</string>
+    <string name="map_turn_round_name">Dê a volta</string>
+    <string name="map_civyshk_labyrinth_name">Labirinto Civyshk</string>
 </resources>

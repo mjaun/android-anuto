@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.view.settings;
+package ch.logixisland.anuto.view.setting;
 
 import android.os.Bundle;
 

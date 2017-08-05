@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.business.level;
+package ch.logixisland.anuto.business.game;
 
 import android.util.Log;
 
@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.business.game.GameState;
-import ch.logixisland.anuto.business.game.GameStateListener;
-import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.data.descriptor.EnemyDescriptor;
 import ch.logixisland.anuto.data.descriptor.WaveDescriptor;
 import ch.logixisland.anuto.data.setting.GameSettings;
@@ -25,7 +22,7 @@ public class WaveManager implements GameStateListener {
     private final GameEngine mGameEngine;
     private final ScoreBoard mScoreBoard;
     private final GameState mGameState;
-    private final LevelLoader mLevelLoader;
+    private final GameLoader mGameLoader;
     private final EnemyFactory mEnemyFactory;
     private final TowerAging mTowerAging;
 
@@ -37,12 +34,12 @@ public class WaveManager implements GameStateListener {
     private final List<WaveAttender> mActiveWaves = new ArrayList<>();
     private final List<WaveListener> mListeners = new CopyOnWriteArrayList<>();
 
-    public WaveManager(GameEngine gameEngine, ScoreBoard scoreBoard, GameState gameState, LevelLoader levelLoader,
+    public WaveManager(GameEngine gameEngine, ScoreBoard scoreBoard, GameState gameState, GameLoader gameLoader,
                        EnemyFactory enemyFactory, TowerAging towerAging) {
         mGameEngine = gameEngine;
         mScoreBoard = scoreBoard;
         mGameState = gameState;
-        mLevelLoader = levelLoader;
+        mGameLoader = gameLoader;
         mEnemyFactory = enemyFactory;
         mTowerAging = towerAging;
 
@@ -185,9 +182,9 @@ public class WaveManager implements GameStateListener {
     }
 
     private void createAndStartWaveAttender() {
-        List<WaveDescriptor> waveDescriptors = mLevelLoader.getWavesDescriptor().getWaves();
+        List<WaveDescriptor> waveDescriptors = mGameLoader.getWavesDescriptor().getWaves();
         WaveDescriptor nextWaveDescriptor = waveDescriptors.get(mNextWaveIndex % waveDescriptors.size());
-        WaveAttender nextWave = new WaveAttender(mGameEngine, mScoreBoard, mLevelLoader, mEnemyFactory, this, nextWaveDescriptor);
+        WaveAttender nextWave = new WaveAttender(mGameEngine, mScoreBoard, mGameLoader, mEnemyFactory, this, nextWaveDescriptor);
         updateWaveExtend(nextWave, nextWaveDescriptor);
         updateWaveModifiers(nextWave);
         mActiveWaves.add(nextWave);
@@ -200,7 +197,7 @@ public class WaveManager implements GameStateListener {
     }
 
     private void updateWaveModifiers(WaveAttender wave) {
-        GameSettings settings = mLevelLoader.getGameSettings();
+        GameSettings settings = mGameLoader.getGameSettings();
 
         float waveHealth = getWaveHealth(wave);
         float damagePossible = settings.getDifficultyLinear() * mScoreBoard.getCreditsEarned()
@@ -226,14 +223,14 @@ public class WaveManager implements GameStateListener {
     private float getWaveHealth(WaveAttender wave) {
         float waveHealth = 0f;
         for (EnemyDescriptor d : wave.getWaveDescriptor().getEnemies()) {
-            waveHealth += mLevelLoader.getEnemySettings().getEnemyConfig(d.getName()).getHealth();
+            waveHealth += mGameLoader.getEnemySettings().getEnemyConfig(d.getName()).getHealth();
         }
         waveHealth *= wave.getExtend() + 1;
         return waveHealth;
     }
 
     private int getIterationNumber() {
-        return (getWaveNumber() / mLevelLoader.getWavesDescriptor().getWaves().size()) + 1;
+        return (getWaveNumber() / mGameLoader.getWavesDescriptor().getWaves().size()) + 1;
     }
 
     private int getEarlyBonus() {
@@ -243,7 +240,7 @@ public class WaveManager implements GameStateListener {
             remainingReward += wave.getRemainingEnemiesReward();
         }
 
-        GameSettings settings = mLevelLoader.getGameSettings();
+        GameSettings settings = mGameLoader.getGameSettings();
         return Math.round(settings.getEarlyModifier() * (float) Math.pow(remainingReward, settings.getEarlyExponent()));
     }
 

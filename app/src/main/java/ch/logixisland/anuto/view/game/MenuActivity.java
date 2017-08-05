@@ -12,12 +12,12 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.engine.theme.ActivityType;
 import ch.logixisland.anuto.view.AnutoActivity;
-import ch.logixisland.anuto.view.level.SelectLevelActivity;
-import ch.logixisland.anuto.view.settings.SettingsActivity;
+import ch.logixisland.anuto.view.map.ChangeMapActivity;
+import ch.logixisland.anuto.view.setting.SettingsActivity;
 
 public class MenuActivity extends AnutoActivity implements View.OnClickListener, View.OnTouchListener {
 
-    private static final int REQUEST_SELECT_LEVEL = 1;
+    private static final int REQUEST_CHANGE_MAP = 1;
 
     private final GameState mGameState;
 
@@ -25,7 +25,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
     private View menu_layout;
 
     private Button btn_restart;
-    private Button btn_change_level;
+    private Button btn_change_map;
     private Button btn_settings;
 
     public MenuActivity() {
@@ -44,14 +44,14 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
         setContentView(R.layout.activity_menu);
 
         btn_restart = (Button) findViewById(R.id.btn_restart);
-        btn_change_level = (Button) findViewById(R.id.btn_change_level);
+        btn_change_map = (Button) findViewById(R.id.btn_change_map);
         btn_settings = (Button) findViewById(R.id.btn_settings);
 
         activity_menu = findViewById(R.id.activity_menu);
         menu_layout = findViewById(R.id.menu_layout);
 
         btn_restart.setOnClickListener(this);
-        btn_change_level.setOnClickListener(this);
+        btn_change_map.setOnClickListener(this);
         btn_settings.setOnClickListener(this);
 
         activity_menu.setOnTouchListener(this);
@@ -65,9 +65,9 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
             finish();
         }
 
-        if (view == btn_change_level) {
-            Intent intent = new Intent(this, SelectLevelActivity.class);
-            startActivityForResult(intent, REQUEST_SELECT_LEVEL);
+        if (view == btn_change_map) {
+            Intent intent = new Intent(this, ChangeMapActivity.class);
+            startActivityForResult(intent, REQUEST_CHANGE_MAP);
         }
 
         if (view == btn_settings) {
@@ -94,7 +94,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_SELECT_LEVEL) {
+        if (requestCode == REQUEST_CHANGE_MAP) {
             finish();
         }
     }

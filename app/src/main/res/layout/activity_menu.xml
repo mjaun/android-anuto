@@ -34,7 +34,7 @@
             android:text="@string/restart"/>
 
         <Button
-            android:id="@+id/btn_change_level"
+            android:id="@+id/btn_change_map"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"

@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ch.logixisland.anuto.view.level.SelectLevelActivity">
+    tools:context="ch.logixisland.anuto.view.map.ChangeMapActivity">
 
     <GridView
-        android:id="@+id/grid_levels"
+        android:id="@+id/grid_maps"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:columnWidth="150dp"
@@ -29,7 +29,7 @@
         android:background="@android:color/transparent"
         android:layout_alignParentTop="true"
         android:rotation="270"
-        android:src="@drawable/select_level_arrow"/>
+        android:src="@drawable/select_map_arrow"/>
 
     <ImageView
         android:id="@+id/arrow_down"
@@ -39,6 +39,6 @@
         android:background="@android:color/transparent"
         android:layout_alignParentBottom="true"
         android:rotation="90"
-        android:src="@drawable/select_level_arrow"/>
+        android:src="@drawable/select_map_arrow"/>
 
 </RelativeLayout>

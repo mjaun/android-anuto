@@ -57,14 +57,14 @@
     <string name="theme_original">Original</string>
     <string name="theme_dark">Dark</string>
 
-    <string name="level_original_name">The Original</string>
-    <string name="level_waiting_line_name">I hate waiting lines</string>
-    <string name="level_turn_round_name">Turn a round</string>
-    <string name="level_hurry_name">We\'re in a hurry!</string>
-    <string name="level_civyshk_2y_name">Civyshk 2Y</string>
-    <string name="level_civyshk_line5_name">Civyshk Line5</string>
-    <string name="level_civyshk_labyrinth_name">Civyshk Labyrinth</string>
-    <string name="level_civyshk_yard_name">Civyshk Yard</string>
+    <string name="map_original_name">The Original</string>
+    <string name="map_waiting_line_name">I hate waiting lines</string>
+    <string name="map_turn_round_name">Turn a round</string>
+    <string name="map_hurry_name">We\'re in a hurry!</string>
+    <string name="map_civyshk_2y_name">Civyshk 2Y</string>
+    <string name="map_civyshk_line5_name">Civyshk Line5</string>
+    <string name="map_civyshk_labyrinth_name">Civyshk Labyrinth</string>
+    <string name="map_civyshk_yard_name">Civyshk Yard</string>
     <string name="press_back_button_again_toast">Press back button again to exit</string>
 
 </resources>

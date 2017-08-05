@@ -22,8 +22,8 @@ import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.game.GameStateListener;
 import ch.logixisland.anuto.business.game.LivesListener;
 import ch.logixisland.anuto.business.game.ScoreBoard;
-import ch.logixisland.anuto.business.level.WaveListener;
-import ch.logixisland.anuto.business.level.WaveManager;
+import ch.logixisland.anuto.business.game.WaveListener;
+import ch.logixisland.anuto.business.game.WaveManager;
 import ch.logixisland.anuto.util.StringUtils;
 import ch.logixisland.anuto.view.AnutoFragment;
 
