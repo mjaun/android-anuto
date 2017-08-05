@@ -1,7 +1,5 @@
 package ch.logixisland.anuto.business.control;
 
-import java.lang.ref.WeakReference;
-
 import ch.logixisland.anuto.business.manager.GameListener;
 import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.business.score.CreditsListener;
@@ -20,7 +18,7 @@ public class TowerSelector implements CreditsListener, GameListener, EntityListe
     private final GameManager mGameManager;
     private final ScoreBoard mScoreBoard;
 
-    private WeakReference<TowerInfoView> mTowerInfoView;
+    private TowerInfoView mTowerInfoView;
     private TowerInfo mTowerInfo;
     private Tower mSelectedTower;
 
@@ -34,7 +32,7 @@ public class TowerSelector implements CreditsListener, GameListener, EntityListe
     }
 
     public void setTowerInfoView(TowerInfoView view) {
-        mTowerInfoView = new WeakReference<>(view);
+        mTowerInfoView = view;
     }
 
     public boolean isTowerSelected() {
@@ -187,20 +185,16 @@ public class TowerSelector implements CreditsListener, GameListener, EntityListe
                 mGameManager.isGameOver()
         );
 
-        TowerInfoView view = mTowerInfoView.get();
-
-        if (view != null) {
-            view.showTowerInfo(mTowerInfo);
+        if (mTowerInfoView != null) {
+            mTowerInfoView.showTowerInfo(mTowerInfo);
         }
     }
 
     private void hideTowerInfo() {
         mTowerInfo = null;
 
-        TowerInfoView view = mTowerInfoView.get();
-
-        if (view != null) {
-            view.hideTowerInfo();
+        if (mTowerInfoView != null) {
+            mTowerInfoView.hideTowerInfo();
         }
     }
 
