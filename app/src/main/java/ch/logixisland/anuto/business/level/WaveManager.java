@@ -29,6 +29,7 @@ public class WaveManager implements GameListener {
     private final EnemyFactory mEnemyFactory;
 
     private int mNextWaveIndex;
+    private int mRemainingEnemiesCount;
     private boolean mNextWaveReady;
     private boolean mMinWaveDelayTimeout;
 
@@ -54,13 +55,7 @@ public class WaveManager implements GameListener {
     }
 
     public int getRemainingEnemiesCount() {
-        int totalCount = 0;
-
-        for (WaveAttender waveAttender : mActiveWaves) {
-            totalCount += waveAttender.getRemainingEnemiesCount();
-        }
-
-        return totalCount;
+        return mRemainingEnemiesCount;
     }
 
     public void startNextWave() {
@@ -83,6 +78,7 @@ public class WaveManager implements GameListener {
         giveWaveRewardAndEarlyBonus();
         createAndStartWaveAttender();
         updateBonusOnScoreBoard();
+        updateRemainingEnemiesCount();
 
         mNextWaveIndex++;
         mNextWaveReady = false;
@@ -124,6 +120,7 @@ public class WaveManager implements GameListener {
 
     void enemyRemoved() {
         updateBonusOnScoreBoard();
+        updateRemainingEnemiesCount();
 
         for (WaveListener listener : mListeners) {
             listener.enemyRemoved();
@@ -176,6 +173,16 @@ public class WaveManager implements GameListener {
         } else {
             mScoreBoard.setWaveBonus(0);
         }
+    }
+
+    private void updateRemainingEnemiesCount() {
+        int totalCount = 0;
+
+        for (WaveAttender waveAttender : mActiveWaves) {
+            totalCount += waveAttender.getRemainingEnemiesCount();
+        }
+
+        mRemainingEnemiesCount = totalCount;
     }
 
     private void createAndStartWaveAttender() {
