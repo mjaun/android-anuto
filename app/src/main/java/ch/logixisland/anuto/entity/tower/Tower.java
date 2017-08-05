@@ -6,14 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.data.descriptor.PathDescriptor;
+import ch.logixisland.anuto.data.setting.TowerConfig;
+import ch.logixisland.anuto.data.setting.WeaponType;
 import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickTimer;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.enemy.Enemy;
-import ch.logixisland.anuto.util.data.PathDescriptor;
-import ch.logixisland.anuto.util.data.TowerConfig;
-import ch.logixisland.anuto.util.data.WeaponType;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.Intersections;
 import ch.logixisland.anuto.util.math.Line;

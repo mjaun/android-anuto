@@ -1,10 +1,12 @@
-package ch.logixisland.anuto.util.data;
+package ch.logixisland.anuto.data.setting;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Serializer;
 
 import java.io.InputStream;
+
+import ch.logixisland.anuto.data.serializer.SerializerFactory;
 
 @Root
 public class GameSettings {

@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.util.data;
+package ch.logixisland.anuto.data.setting;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
@@ -8,6 +8,8 @@ import org.simpleframework.xml.Serializer;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+
+import ch.logixisland.anuto.data.serializer.SerializerFactory;
 
 @Root
 public class EnemySettings {

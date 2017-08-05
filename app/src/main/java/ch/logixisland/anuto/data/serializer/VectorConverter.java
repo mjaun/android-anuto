@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.util.data;
+package ch.logixisland.anuto.data.serializer;
 
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.convert.Converter;

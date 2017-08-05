@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.util.data;
+package ch.logixisland.anuto.data.setting;
 
 public enum WeaponType {
     None,

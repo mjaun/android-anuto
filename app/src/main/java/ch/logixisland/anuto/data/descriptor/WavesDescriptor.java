@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.util.data;
+package ch.logixisland.anuto.data.descriptor;
 
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Serializer;
@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import ch.logixisland.anuto.data.serializer.SerializerFactory;
 
 public class WavesDescriptor {
 

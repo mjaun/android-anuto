@@ -1,6 +1,7 @@
 package ch.logixisland.anuto.entity.enemy;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.data.setting.EnemyConfig;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickListener;
 import ch.logixisland.anuto.engine.render.Layers;
@@ -10,7 +11,6 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
-import ch.logixisland.anuto.util.data.EnemyConfig;
 
 public class Flyer extends Enemy implements SpriteTransformation {
 

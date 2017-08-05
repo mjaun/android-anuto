@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.util.data;
+package ch.logixisland.anuto.data.descriptor;
 
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Root;

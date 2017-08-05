@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.business.game.ScoreBoard;
+import ch.logixisland.anuto.data.descriptor.EnemyDescriptor;
+import ch.logixisland.anuto.data.descriptor.PathDescriptor;
+import ch.logixisland.anuto.data.descriptor.WaveDescriptor;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.entity.enemy.EnemyFactory;
 import ch.logixisland.anuto.entity.enemy.EnemyListener;
-import ch.logixisland.anuto.util.data.EnemyDescriptor;
-import ch.logixisland.anuto.util.data.PathDescriptor;
-import ch.logixisland.anuto.util.data.WaveDescriptor;
 import ch.logixisland.anuto.util.math.MathUtils;
 
 class WaveAttender implements EnemyListener {

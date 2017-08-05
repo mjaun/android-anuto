@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.data.setting.TowerConfig;
 import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.EntityListener;
 import ch.logixisland.anuto.engine.logic.GameEngine;
@@ -18,7 +19,6 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.engine.sound.Sound;
 import ch.logixisland.anuto.entity.shot.Mine;
 import ch.logixisland.anuto.util.RandomUtils;
-import ch.logixisland.anuto.util.data.TowerConfig;
 import ch.logixisland.anuto.util.math.Line;
 import ch.logixisland.anuto.util.math.Vector2;
 

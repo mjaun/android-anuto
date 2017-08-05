@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.data.setting.TowerConfig;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickTimer;
 import ch.logixisland.anuto.engine.render.Layers;
@@ -16,7 +17,6 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.entity.shot.GlueShot;
 import ch.logixisland.anuto.util.RandomUtils;
-import ch.logixisland.anuto.util.data.TowerConfig;
 import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.Line;

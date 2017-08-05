@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.util.data;
+package ch.logixisland.anuto.data.descriptor;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+
+import ch.logixisland.anuto.data.serializer.SerializerFactory;
 
 @Root
 public class LevelDescriptor {

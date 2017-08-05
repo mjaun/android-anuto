@@ -2,11 +2,11 @@ package ch.logixisland.anuto.entity.tower;
 
 import java.util.List;
 
+import ch.logixisland.anuto.data.descriptor.PathDescriptor;
+import ch.logixisland.anuto.data.setting.TowerConfig;
+import ch.logixisland.anuto.data.setting.TowerSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.util.GenericFactory;
-import ch.logixisland.anuto.util.data.PathDescriptor;
-import ch.logixisland.anuto.util.data.TowerConfig;
-import ch.logixisland.anuto.util.data.TowerSettings;
 
 public class TowerFactory {
 

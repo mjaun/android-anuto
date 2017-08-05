@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.data.setting.EnemyConfig;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickListener;
 import ch.logixisland.anuto.engine.logic.TickTimer;
@@ -15,7 +16,6 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.entity.effect.HealEffect;
-import ch.logixisland.anuto.util.data.EnemyConfig;
 import ch.logixisland.anuto.util.math.Function;
 import ch.logixisland.anuto.util.math.SampledFunction;
 

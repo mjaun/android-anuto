@@ -4,12 +4,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.data.setting.EnemyConfig;
+import ch.logixisland.anuto.data.setting.WeaponType;
 import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.tower.Tower;
-import ch.logixisland.anuto.util.data.EnemyConfig;
-import ch.logixisland.anuto.util.data.WeaponType;
 import ch.logixisland.anuto.util.iterator.Function;
 import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.math.Vector2;

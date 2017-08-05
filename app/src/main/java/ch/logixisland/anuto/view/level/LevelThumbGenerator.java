@@ -8,10 +8,10 @@ import android.graphics.Paint;
 
 import java.io.InputStream;
 
+import ch.logixisland.anuto.data.descriptor.LevelDescriptor;
+import ch.logixisland.anuto.data.descriptor.PathDescriptor;
+import ch.logixisland.anuto.data.descriptor.PlateauDescriptor;
 import ch.logixisland.anuto.engine.render.Viewport;
-import ch.logixisland.anuto.util.data.LevelDescriptor;
-import ch.logixisland.anuto.util.data.PathDescriptor;
-import ch.logixisland.anuto.util.data.PlateauDescriptor;
 import ch.logixisland.anuto.util.math.Vector2;
 
 class LevelThumbGenerator {

@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.util.data;
+package ch.logixisland.anuto.data.serializer;
 
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.convert.Registry;
@@ -8,9 +8,9 @@ import org.simpleframework.xml.strategy.Strategy;
 
 import ch.logixisland.anuto.util.math.Vector2;
 
-class SerializerFactory {
+public class SerializerFactory {
 
-    Serializer createSerializer() {
+    public Serializer createSerializer() {
         Registry registry = new Registry();
 
         try {

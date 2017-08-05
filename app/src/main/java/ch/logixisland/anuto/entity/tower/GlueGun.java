@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.data.setting.TowerConfig;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
@@ -17,7 +18,6 @@ import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.engine.sound.Sound;
 import ch.logixisland.anuto.entity.shot.GlueShot;
 import ch.logixisland.anuto.util.RandomUtils;
-import ch.logixisland.anuto.util.data.TowerConfig;
 import ch.logixisland.anuto.util.math.Vector2;
 
 public class GlueGun extends AimingTower implements SpriteTransformation {

@@ -9,11 +9,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.game.GameStateListener;
 import ch.logixisland.anuto.business.game.ScoreBoard;
+import ch.logixisland.anuto.data.descriptor.EnemyDescriptor;
+import ch.logixisland.anuto.data.descriptor.WaveDescriptor;
+import ch.logixisland.anuto.data.setting.GameSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.entity.enemy.EnemyFactory;
-import ch.logixisland.anuto.util.data.EnemyDescriptor;
-import ch.logixisland.anuto.util.data.GameSettings;
-import ch.logixisland.anuto.util.data.WaveDescriptor;
 
 public class WaveManager implements GameStateListener {
 

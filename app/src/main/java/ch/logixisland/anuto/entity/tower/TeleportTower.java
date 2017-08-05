@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.data.setting.TowerConfig;
 import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.EntityListener;
 import ch.logixisland.anuto.engine.logic.GameEngine;
@@ -20,7 +21,6 @@ import ch.logixisland.anuto.engine.sound.Sound;
 import ch.logixisland.anuto.entity.effect.TeleportEffect;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.RandomUtils;
-import ch.logixisland.anuto.util.data.TowerConfig;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
 public class TeleportTower extends AimingTower implements SpriteTransformation {
