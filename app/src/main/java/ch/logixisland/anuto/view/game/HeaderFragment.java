@@ -220,11 +220,11 @@ public class HeaderFragment extends AnutoFragment implements GameListener, WaveL
     }
 
     @Override
-    public void gameSpeedChanged(final boolean fastForwardActive) {
+    public void gameSpeedChanged() {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                btn_fast_forward.setText(getString(fastForwardActive ? R.string.fast_speed : R.string.normal_speed));
+                btn_fast_forward.setText(getString(mSpeedManager.isFastForwardActive() ? R.string.fast_speed : R.string.normal_speed));
             }
         });
     }

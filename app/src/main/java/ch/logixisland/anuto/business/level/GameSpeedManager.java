@@ -19,6 +19,10 @@ public class GameSpeedManager implements GameListener {
         mGameEngine = gameEngine;
     }
 
+    public boolean isFastForwardActive() {
+        return mFastForwardActive;
+    }
+
     public void toggleFastForward() {
         if (mGameEngine.isThreadChangeNeeded()) {
             mGameEngine.post(new Runnable() {
@@ -30,8 +34,7 @@ public class GameSpeedManager implements GameListener {
             return;
         }
 
-        mFastForwardActive = !mFastForwardActive;
-        updateGameSpeed();
+        setFastForwardActive(!mFastForwardActive);
     }
 
     public void addListener(GameSpeedListener listener) {
@@ -44,8 +47,7 @@ public class GameSpeedManager implements GameListener {
 
     @Override
     public void gameRestart() {
-        mFastForwardActive = false;
-        updateGameSpeed();
+        setFastForwardActive(false);
     }
 
     @Override
@@ -53,15 +55,14 @@ public class GameSpeedManager implements GameListener {
 
     }
 
-    private void updateGameSpeed() {
-        mGameEngine.setTicksPerLoop(mFastForwardActive ? FAST_FORWARD_SPEED : 1);
+    private void setFastForwardActive(boolean fastForwardActive) {
+        if (mFastForwardActive != fastForwardActive) {
+            mFastForwardActive = fastForwardActive;
+            mGameEngine.setTicksPerLoop(mFastForwardActive ? FAST_FORWARD_SPEED : 1);
 
-        for (GameSpeedListener listener : mListeners) {
-            listener.gameSpeedChanged(mFastForwardActive);
+            for (GameSpeedListener listener : mListeners) {
+                listener.gameSpeedChanged();
+            }
         }
-    }
-
-    public boolean isFastForwardActive() {
-        return mFastForwardActive;
     }
 }
