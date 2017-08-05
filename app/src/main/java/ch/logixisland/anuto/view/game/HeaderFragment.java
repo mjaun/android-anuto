@@ -123,6 +123,8 @@ public class HeaderFragment extends AnutoFragment implements GameListener, WaveL
         for (TowerView towerView : view_tower_x) {
             towerView.close();
         }
+
+        mHandler.removeCallbacksAndMessages(null);
     }
 
     @Override

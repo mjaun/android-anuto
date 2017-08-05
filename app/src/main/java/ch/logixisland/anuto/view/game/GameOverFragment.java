@@ -51,6 +51,7 @@ public class GameOverFragment extends AnutoFragment implements GameListener {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+
         mGameManager.addListener(this);
 
         if (!mGameManager.isGameOver()) {
@@ -63,7 +64,9 @@ public class GameOverFragment extends AnutoFragment implements GameListener {
     @Override
     public void onDetach() {
         super.onDetach();
+
         mGameManager.removeListener(this);
+        mHandler.removeCallbacksAndMessages(null);
     }
 
     @Override

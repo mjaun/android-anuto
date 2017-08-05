@@ -20,7 +20,6 @@ import ch.logixisland.anuto.business.control.TowerInfo;
 import ch.logixisland.anuto.business.control.TowerInfoView;
 import ch.logixisland.anuto.business.control.TowerSelector;
 import ch.logixisland.anuto.business.manager.SettingsManager;
-import ch.logixisland.anuto.engine.theme.Theme;
 import ch.logixisland.anuto.entity.tower.TowerProperty;
 import ch.logixisland.anuto.entity.tower.TowerStrategy;
 import ch.logixisland.anuto.util.StringUtils;
@@ -32,12 +31,10 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnTouchList
     private final TowerSelector mTowerSelector;
     private final TowerControl mTowerControl;
     private final SettingsManager mSettingsManager;
-    private final Theme mTheme;
 
     private Handler mHandler;
 
     private TextView txt_level;
-    private TextView txt_level_text;
     private TextView[] txt_property = new TextView[5];
     private TextView[] txt_property_text = new TextView[5];
 
@@ -54,7 +51,6 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnTouchList
         mTowerSelector = factory.getTowerSelector();
         mTowerControl = factory.getTowerControl();
         mSettingsManager = factory.getSettingsManager();
-        mTheme = factory.getThemeManager().getTheme();
     }
 
     @Override
@@ -68,7 +64,9 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnTouchList
         txt_property[3] = (TextView) v.findViewById(R.id.txt_property4);
         txt_property[4] = (TextView) v.findViewById(R.id.txt_property5);
 
-        txt_level_text = (TextView) v.findViewById(R.id.txt_level_text);
+        TextView txt_level_text = (TextView) v.findViewById(R.id.txt_level_text);
+        txt_level_text.setText(getResources().getString(R.string.level) + ":");
+
         txt_property_text[0] = (TextView) v.findViewById(R.id.txt_property_text1);
         txt_property_text[1] = (TextView) v.findViewById(R.id.txt_property_text2);
         txt_property_text[2] = (TextView) v.findViewById(R.id.txt_property_text3);
@@ -86,8 +84,6 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnTouchList
         btn_enhance.setOnClickListener(this);
         btn_upgrade.setOnClickListener(this);
         btn_sell.setOnClickListener(this);
-
-        txt_level_text.setText(getResources().getString(R.string.level) + ":");
 
         mHandler = new Handler();
 
@@ -109,6 +105,7 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnTouchList
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+
         mTowerSelector.setTowerInfoView(this);
         hide();
     }
@@ -116,7 +113,9 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnTouchList
     @Override
     public void onDetach() {
         super.onDetach();
+
         mTowerSelector.setTowerInfoView(null);
+        mHandler.removeCallbacksAndMessages(null);
     }
 
     @Override
@@ -275,7 +274,7 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnTouchList
         throw new RuntimeException("Unknown strategy!");
     }
 
-    public void handleTransparency() {
+    private void handleTransparency() {
         View view = getView();
         if (view != null) {
             if (mSettingsManager.isTransparentMenusEnabled()) {
