@@ -2,7 +2,6 @@ package ch.logixisland.anuto.view.game;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -10,7 +9,6 @@ import android.widget.Button;
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.business.level.WaveManager;
 import ch.logixisland.anuto.business.manager.GameManager;
 import ch.logixisland.anuto.engine.theme.ActivityType;
 import ch.logixisland.anuto.view.AnutoActivity;
@@ -22,9 +20,6 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
     private static final int REQUEST_SELECT_LEVEL = 1;
 
     private final GameManager mGameManager;
-    private final WaveManager mWaveManager;
-
-    private Handler mHandler;
 
     private View activity_menu;
     private View menu_layout;
@@ -36,7 +31,6 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
     public MenuActivity() {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
         mGameManager = factory.getGameManager();
-        mWaveManager = factory.getWaveManager();
     }
 
     @Override
@@ -62,8 +56,6 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
 
         activity_menu.setOnTouchListener(this);
         menu_layout.setOnTouchListener(this);
-
-        mHandler = new Handler();
     }
 
     @Override
