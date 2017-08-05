@@ -28,7 +28,7 @@ import ch.logixisland.anuto.util.StringUtils;
 import ch.logixisland.anuto.view.AnutoFragment;
 
 public class HeaderFragment extends AnutoFragment implements GameListener, WaveListener,
-        CreditsListener, LivesListener, BonusListener, View.OnClickListener, GameSpeedListener {
+        CreditsListener, LivesListener, BonusListener, GameSpeedListener, View.OnClickListener {
 
     private final GameManager mGameManager;
     private final WaveManager mWaveManager;
@@ -100,6 +100,7 @@ public class HeaderFragment extends AnutoFragment implements GameListener, WaveL
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+
         mGameManager.addListener(this);
         mWaveManager.addListener(this);
         mSpeedManager.addListener(this);
@@ -111,6 +112,7 @@ public class HeaderFragment extends AnutoFragment implements GameListener, WaveL
     @Override
     public void onDetach() {
         super.onDetach();
+
         mGameManager.removeListener(this);
         mWaveManager.removeListener(this);
         mSpeedManager.removeListener(this);
@@ -141,33 +143,44 @@ public class HeaderFragment extends AnutoFragment implements GameListener, WaveL
     }
 
     @Override
-    public void waveStarted() {
+    public void gameRestart() {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < view_tower_x.length; i++) {
+                    view_tower_x[i].setSlot(i);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void gameOver() {
+
+    }
+
+    @Override
+    public void waveNumberChanged() {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
                 txt_wave.setText(getString(R.string.wave) + ": " + mWaveManager.getWaveNumber() + " (" + mWaveManager.getRemainingEnemiesCount() + ")");
-                btn_next_wave.setEnabled(false);
             }
         });
     }
 
     @Override
-    public void nextWaveReady() {
+    public void nextWaveReadyChanged() {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                btn_next_wave.setEnabled(!mGameManager.isGameOver());
+                btn_next_wave.setEnabled(mWaveManager.isNextWaveReady());
             }
         });
     }
 
     @Override
-    public void waveFinished() {
-
-    }
-
-    @Override
-    public void enemyRemoved() {
+    public void remainingEnemiesCountChanged() {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -192,31 +205,6 @@ public class HeaderFragment extends AnutoFragment implements GameListener, WaveL
             @Override
             public void run() {
                 txt_lives.setText(getString(R.string.lives) + ": " + lives);
-            }
-        });
-    }
-
-    @Override
-    public void gameRestart() {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                txt_wave.setText(getString(R.string.wave) + ": " + mWaveManager.getWaveNumber() + " (" + mWaveManager.getRemainingEnemiesCount() + ")");
-                btn_next_wave.setEnabled(true);
-
-                for (int i = 0; i < view_tower_x.length; i++) {
-                    view_tower_x[i].setSlot(i);
-                }
-            }
-        });
-    }
-
-    @Override
-    public void gameOver() {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                btn_next_wave.setEnabled(false);
             }
         });
     }

@@ -91,8 +91,8 @@ public class GameFactory {
         mGameManager = new GameManager(mGameEngine, mThemeManager, mScoreBoard);
         mLevelLoader = new LevelLoader(context, mGameEngine, mScoreBoard, mGameManager, mViewport, mPlateauFactory, mTowerFactory, mEnemyFactory);
         mLevelLoader.loadLevel(mLevelRepository.getLevels().get(0));
-        mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mGameManager, mLevelLoader, mEnemyFactory);
-        mTowerAging = new TowerAging(mGameEngine, mWaveManager, mLevelLoader);
+        mTowerAging = new TowerAging(mGameEngine, mLevelLoader);
+        mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mGameManager, mLevelLoader, mEnemyFactory, mTowerAging);
         mHighScores = new HighScores(context, mGameManager, mScoreBoard, mLevelLoader);
         mTowerSelector = new TowerSelector(mGameEngine, mGameManager, mScoreBoard);
         mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector, mTowerFactory);

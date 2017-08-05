@@ -27,6 +27,7 @@ public class WaveManager implements GameListener {
     private final GameManager mGameManager;
     private final LevelLoader mLevelLoader;
     private final EnemyFactory mEnemyFactory;
+    private final TowerAging mTowerAging;
 
     private int mNextWaveIndex;
     private int mRemainingEnemiesCount;
@@ -37,21 +38,23 @@ public class WaveManager implements GameListener {
     private final List<WaveListener> mListeners = new CopyOnWriteArrayList<>();
 
     public WaveManager(GameEngine gameEngine, ScoreBoard scoreBoard, GameManager gameManager, LevelLoader levelLoader,
-                       EnemyFactory enemyFactory) {
+                       EnemyFactory enemyFactory, TowerAging towerAging) {
         mGameEngine = gameEngine;
         mScoreBoard = scoreBoard;
         mGameManager = gameManager;
         mLevelLoader = levelLoader;
         mEnemyFactory = enemyFactory;
-
-        mNextWaveIndex = 0;
-        mNextWaveReady = true;
+        mTowerAging = towerAging;
 
         gameManager.addListener(this);
     }
 
     public int getWaveNumber() {
         return mNextWaveIndex;
+    }
+
+    public boolean isNextWaveReady() {
+        return mNextWaveReady;
     }
 
     public int getRemainingEnemiesCount() {
@@ -80,21 +83,9 @@ public class WaveManager implements GameListener {
         updateBonusOnScoreBoard();
         updateRemainingEnemiesCount();
 
-        mNextWaveIndex++;
-        mNextWaveReady = false;
-        mMinWaveDelayTimeout = false;
-
-        for (WaveListener listener : mListeners) {
-            listener.waveStarted();
-        }
-
-        mGameEngine.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mMinWaveDelayTimeout = true;
-                checkNextWaveReady();
-            }
-        }, MIN_WAVE_DELAY);
+        incrementNextWaveIndex();
+        setNextWaveReady(false);
+        triggerMinWaveDelay();
     }
 
     public void addListener(WaveListener listener) {
@@ -108,9 +99,10 @@ public class WaveManager implements GameListener {
     @Override
     public void gameRestart() {
         mActiveWaves.clear();
-        mNextWaveIndex = 0;
-        mNextWaveReady = true;
-        mMinWaveDelayTimeout = true;
+
+        resetNextWaveIndex();
+        setNextWaveReady(true);
+        updateRemainingEnemiesCount();
     }
 
     @Override
@@ -121,21 +113,14 @@ public class WaveManager implements GameListener {
     void enemyRemoved() {
         updateBonusOnScoreBoard();
         updateRemainingEnemiesCount();
-
-        for (WaveListener listener : mListeners) {
-            listener.enemyRemoved();
-        }
     }
 
     void waveFinished(WaveAttender waveAttender) {
         mActiveWaves.remove(waveAttender);
 
-        for (WaveListener listener : mListeners) {
-            listener.waveFinished();
-        }
-
+        mTowerAging.ageTowers();
         updateBonusOnScoreBoard();
-        checkNextWaveReady();
+        updateNextWaveReady();
     }
 
     private void giveWaveRewardAndEarlyBonus() {
@@ -145,7 +130,19 @@ public class WaveManager implements GameListener {
         }
     }
 
-    private void checkNextWaveReady() {
+    private void triggerMinWaveDelay() {
+        mMinWaveDelayTimeout = false;
+
+        mGameEngine.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mMinWaveDelayTimeout = true;
+                updateNextWaveReady();
+            }
+        }, MIN_WAVE_DELAY);
+    }
+
+    private void updateNextWaveReady() {
         if (mNextWaveReady) {
             return;
         }
@@ -158,11 +155,7 @@ public class WaveManager implements GameListener {
             return;
         }
 
-        mNextWaveReady = true;
-
-        for (WaveListener listener : mListeners) {
-            listener.nextWaveReady();
-        }
+        setNextWaveReady(mNextWaveReady);
     }
 
     private void updateBonusOnScoreBoard() {
@@ -182,7 +175,13 @@ public class WaveManager implements GameListener {
             totalCount += waveAttender.getRemainingEnemiesCount();
         }
 
-        mRemainingEnemiesCount = totalCount;
+        if (mRemainingEnemiesCount != totalCount) {
+            mRemainingEnemiesCount = totalCount;
+
+            for (WaveListener listener : mListeners) {
+                listener.remainingEnemiesCountChanged();
+            }
+        }
     }
 
     private void createAndStartWaveAttender() {
@@ -254,5 +253,33 @@ public class WaveManager implements GameListener {
         }
 
         return mActiveWaves.get(mActiveWaves.size() - 1);
+    }
+
+    private void resetNextWaveIndex() {
+        if (mNextWaveIndex != 0) {
+            mNextWaveIndex = 0;
+
+            for (WaveListener listener : mListeners) {
+                listener.waveNumberChanged();
+            }
+        }
+    }
+
+    private void incrementNextWaveIndex() {
+        mNextWaveIndex++;
+
+        for (WaveListener listener : mListeners) {
+            listener.waveNumberChanged();
+        }
+    }
+
+    private void setNextWaveReady(boolean ready) {
+        if (mNextWaveReady != ready) {
+            mNextWaveReady = ready;
+
+            for (WaveListener listener : mListeners) {
+                listener.nextWaveReadyChanged();
+            }
+        }
     }
 }
