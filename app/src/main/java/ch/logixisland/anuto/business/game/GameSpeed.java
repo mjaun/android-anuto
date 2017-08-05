@@ -1,9 +1,8 @@
-package ch.logixisland.anuto.business.level;
+package ch.logixisland.anuto.business.game;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.business.manager.GameStateListener;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 
 public class GameSpeed implements GameStateListener {

@@ -1,9 +1,9 @@
 package ch.logixisland.anuto.business.control;
 
-import ch.logixisland.anuto.business.manager.GameState;
-import ch.logixisland.anuto.business.manager.GameStateListener;
-import ch.logixisland.anuto.business.score.CreditsListener;
-import ch.logixisland.anuto.business.score.ScoreBoard;
+import ch.logixisland.anuto.business.game.CreditsListener;
+import ch.logixisland.anuto.business.game.GameState;
+import ch.logixisland.anuto.business.game.GameStateListener;
+import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.EntityListener;
 import ch.logixisland.anuto.engine.logic.GameEngine;

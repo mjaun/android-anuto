@@ -3,7 +3,7 @@ package ch.logixisland.anuto.business.control;
 import java.util.Arrays;
 import java.util.List;
 
-import ch.logixisland.anuto.business.score.ScoreBoard;
+import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.plateau.Plateau;

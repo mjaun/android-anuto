@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.business.manager.GameState;
-import ch.logixisland.anuto.business.manager.GameStateListener;
-import ch.logixisland.anuto.business.score.ScoreBoard;
+import ch.logixisland.anuto.business.game.GameState;
+import ch.logixisland.anuto.business.game.GameStateListener;
+import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.entity.enemy.EnemyFactory;
 import ch.logixisland.anuto.util.data.EnemyDescriptor;

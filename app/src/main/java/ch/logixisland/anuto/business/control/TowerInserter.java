@@ -2,9 +2,9 @@ package ch.logixisland.anuto.business.control;
 
 import java.util.Iterator;
 
+import ch.logixisland.anuto.business.game.GameState;
+import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.business.level.TowerAging;
-import ch.logixisland.anuto.business.manager.GameState;
-import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.entity.Types;

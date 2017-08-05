@@ -2,19 +2,19 @@ package ch.logixisland.anuto;
 
 import android.content.Context;
 
+import ch.logixisland.anuto.business.control.BackButtonControl;
 import ch.logixisland.anuto.business.control.TowerControl;
 import ch.logixisland.anuto.business.control.TowerInserter;
 import ch.logixisland.anuto.business.control.TowerSelector;
-import ch.logixisland.anuto.business.level.GameSpeed;
+import ch.logixisland.anuto.business.game.GameSpeed;
+import ch.logixisland.anuto.business.game.GameState;
+import ch.logixisland.anuto.business.game.ScoreBoard;
+import ch.logixisland.anuto.business.game.SettingsManager;
+import ch.logixisland.anuto.business.level.HighScores;
 import ch.logixisland.anuto.business.level.LevelLoader;
 import ch.logixisland.anuto.business.level.LevelRepository;
 import ch.logixisland.anuto.business.level.TowerAging;
 import ch.logixisland.anuto.business.level.WaveManager;
-import ch.logixisland.anuto.business.manager.BackButtonControl;
-import ch.logixisland.anuto.business.manager.GameState;
-import ch.logixisland.anuto.business.manager.SettingsManager;
-import ch.logixisland.anuto.business.score.HighScores;
-import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.EntityStore;
 import ch.logixisland.anuto.engine.logic.FrameRateLogger;
 import ch.logixisland.anuto.engine.logic.GameEngine;

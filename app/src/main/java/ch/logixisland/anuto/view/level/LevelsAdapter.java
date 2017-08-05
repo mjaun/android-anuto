@@ -14,9 +14,9 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.business.level.HighScores;
 import ch.logixisland.anuto.business.level.LevelInfo;
 import ch.logixisland.anuto.business.level.LevelRepository;
-import ch.logixisland.anuto.business.score.HighScores;
 
 class LevelsAdapter extends BaseAdapter {
 

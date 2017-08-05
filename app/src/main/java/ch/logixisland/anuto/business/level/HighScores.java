@@ -1,11 +1,11 @@
-package ch.logixisland.anuto.business.score;
+package ch.logixisland.anuto.business.level;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import ch.logixisland.anuto.business.level.LevelLoader;
-import ch.logixisland.anuto.business.manager.GameState;
-import ch.logixisland.anuto.business.manager.GameStateListener;
+import ch.logixisland.anuto.business.game.GameState;
+import ch.logixisland.anuto.business.game.GameStateListener;
+import ch.logixisland.anuto.business.game.ScoreBoard;
 
 public class HighScores implements GameStateListener {
 

@@ -1,4 +1,7 @@
-package ch.logixisland.anuto.business.manager;
+package ch.logixisland.anuto.business.control;
+
+import ch.logixisland.anuto.business.game.BackButtonMode;
+import ch.logixisland.anuto.business.game.SettingsManager;
 
 public class BackButtonControl {
 

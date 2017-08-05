@@ -19,7 +19,7 @@ import ch.logixisland.anuto.business.control.TowerControl;
 import ch.logixisland.anuto.business.control.TowerInfo;
 import ch.logixisland.anuto.business.control.TowerInfoView;
 import ch.logixisland.anuto.business.control.TowerSelector;
-import ch.logixisland.anuto.business.manager.SettingsManager;
+import ch.logixisland.anuto.business.game.SettingsManager;
 import ch.logixisland.anuto.entity.tower.TowerProperty;
 import ch.logixisland.anuto.entity.tower.TowerStrategy;
 import ch.logixisland.anuto.util.StringUtils;

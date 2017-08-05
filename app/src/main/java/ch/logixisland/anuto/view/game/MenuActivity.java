@@ -9,7 +9,7 @@ import android.widget.Button;
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.business.manager.GameState;
+import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.engine.theme.ActivityType;
 import ch.logixisland.anuto.view.AnutoActivity;
 import ch.logixisland.anuto.view.level.SelectLevelActivity;

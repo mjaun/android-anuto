@@ -10,10 +10,10 @@ import android.widget.ImageView;
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.business.game.GameState;
+import ch.logixisland.anuto.business.level.HighScores;
 import ch.logixisland.anuto.business.level.LevelLoader;
 import ch.logixisland.anuto.business.level.LevelRepository;
-import ch.logixisland.anuto.business.manager.GameState;
-import ch.logixisland.anuto.business.score.HighScores;
 import ch.logixisland.anuto.engine.theme.ActivityType;
 import ch.logixisland.anuto.view.AnutoActivity;
 
