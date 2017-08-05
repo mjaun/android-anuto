@@ -10,7 +10,7 @@ import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.control.BackButtonControl;
 import ch.logixisland.anuto.business.control.TowerSelector;
-import ch.logixisland.anuto.business.game.BackButtonMode;
+import ch.logixisland.anuto.business.setting.BackButtonMode;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.theme.ActivityType;
 import ch.logixisland.anuto.view.AnutoActivity;

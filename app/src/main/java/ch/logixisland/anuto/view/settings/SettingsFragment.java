@@ -15,8 +15,8 @@ import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.game.GameState;
-import ch.logixisland.anuto.business.game.SettingsManager;
 import ch.logixisland.anuto.business.level.HighScores;
+import ch.logixisland.anuto.business.setting.SettingsManager;
 
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
