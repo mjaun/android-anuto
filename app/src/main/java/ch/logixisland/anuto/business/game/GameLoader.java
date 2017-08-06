@@ -53,7 +53,7 @@ public class GameLoader implements GameStateListener {
             mGameSettings = GameSettings.fromXml(mContext.getResources().openRawResource(R.raw.game_settings));
             mTowerSettings = TowerSettings.fromXml(mContext.getResources().openRawResource(R.raw.tower_settings));
             mEnemySettings = EnemySettings.fromXml(mContext.getResources().openRawResource(R.raw.enemy_settings));
-            mWavesDescriptor = WavesDescriptor.fromXml(mContext.getResources().openRawResource(R.raw.waves));
+            mWavesDescriptor = WavesDescriptor.fromXml(mContext.getResources().openRawResource(R.raw.wave_descriptors));
         } catch (Exception e) {
             throw new RuntimeException("Could not load settings!", e);
         }
