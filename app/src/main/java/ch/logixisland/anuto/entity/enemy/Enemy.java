@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.data.setting.EnemyConfig;
+import ch.logixisland.anuto.data.setting.EnemyProperties;
 import ch.logixisland.anuto.data.setting.WeaponType;
 import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.GameEngine;
@@ -44,7 +44,7 @@ public abstract class Enemy extends Entity {
         };
     }
 
-    private final EnemyConfig mConfig;
+    private final EnemyProperties mConfig;
 
     private boolean mEnabled = true;
     private float mHealth;
@@ -65,7 +65,7 @@ public abstract class Enemy extends Entity {
 
     private final List<EnemyListener> mListeners = new CopyOnWriteArrayList<>();
 
-    Enemy(GameEngine gameEngine, EnemyConfig config) {
+    Enemy(GameEngine gameEngine, EnemyProperties config) {
         super(gameEngine);
 
         mConfig = config;

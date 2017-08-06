@@ -6,22 +6,22 @@
         <maxExtend>8</maxExtend>
         <enemies>
             <enemy
-                name="Soldier"
+                name="soldier"
                 delay="9"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
         </enemies>
     </wave>
@@ -33,41 +33,41 @@
         <maxExtend>4</maxExtend>
         <enemies>
             <enemy
-                name="Soldier"
+                name="soldier"
                 delay="9"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
 
             <enemy
-                name="Soldier"
+                name="soldier"
                 delay="9"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
         </enemies>
     </wave>
@@ -79,41 +79,41 @@
         <maxExtend>4</maxExtend>
         <enemies>
             <enemy
-                name="Soldier"
+                name="soldier"
                 delay="9"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
 
             <enemy
-                name="Blob"
+                name="blob"
                 delay="6"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
         </enemies>
     </wave>
@@ -125,60 +125,60 @@
         <maxExtend>3</maxExtend>
         <enemies>
             <enemy
-                name="Soldier"
+                name="soldier"
                 delay="9"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
 
             <enemy
-                name="Blob"
+                name="blob"
                 delay="6"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
 
             <enemy
-                name="Soldier"
+                name="soldier"
                 delay="9"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
         </enemies>
     </wave>
@@ -190,60 +190,60 @@
         <maxExtend>3</maxExtend>
         <enemies>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 delay="10"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
-                offset="1.1"/>
-
-            <enemy
-                name="Soldier"
-                delay="2"/>
-            <enemy
-                name="Soldier"
-                offset="1.1"/>
-            <enemy
-                name="Soldier"
-                offset="1.1"/>
-            <enemy
-                name="Soldier"
-                offset="1.1"/>
-            <enemy
-                name="Soldier"
-                offset="1.1"/>
-            <enemy
-                name="Soldier"
+                name="sprinter"
                 offset="1.1"/>
 
             <enemy
-                name="Blob"
+                name="soldier"
                 delay="2"/>
             <enemy
-                name="Blob"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="soldier"
+                offset="1.1"/>
+
+            <enemy
+                name="blob"
+                delay="2"/>
+            <enemy
+                name="blob"
+                offset="1.1"/>
+            <enemy
+                name="blob"
+                offset="1.1"/>
+            <enemy
+                name="blob"
+                offset="1.1"/>
+            <enemy
+                name="blob"
+                offset="1.1"/>
+            <enemy
+                name="blob"
                 offset="1.1"/>
         </enemies>
     </wave>
@@ -255,60 +255,60 @@
         <maxExtend>3</maxExtend>
         <enemies>
             <enemy
-                name="Soldier"
+                name="soldier"
                 delay="9"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
-                offset="1.1"/>
-
-            <enemy
-                name="Sprinter"
-                delay="2"/>
-            <enemy
-                name="Sprinter"
-                offset="1.1"/>
-            <enemy
-                name="Sprinter"
-                offset="1.1"/>
-            <enemy
-                name="Sprinter"
-                offset="1.1"/>
-            <enemy
-                name="Sprinter"
-                offset="1.1"/>
-            <enemy
-                name="Sprinter"
+                name="soldier"
                 offset="1.1"/>
 
             <enemy
-                name="Blob"
+                name="sprinter"
                 delay="2"/>
             <enemy
-                name="Blob"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="sprinter"
+                offset="1.1"/>
+
+            <enemy
+                name="blob"
+                delay="2"/>
+            <enemy
+                name="blob"
+                offset="1.1"/>
+            <enemy
+                name="blob"
+                offset="1.1"/>
+            <enemy
+                name="blob"
+                offset="1.1"/>
+            <enemy
+                name="blob"
+                offset="1.1"/>
+            <enemy
+                name="blob"
                 offset="1.1"/>
         </enemies>
     </wave>
@@ -320,38 +320,38 @@
         <maxExtend>4</maxExtend>
         <enemies>
             <enemy
-                name="Flyer"
+                name="flyer"
                 delay="9"/>
             <enemy
-                name="Flyer"
+                name="flyer"
                 offset="1.1"/>
             <enemy
-                name="Flyer"
+                name="flyer"
                 offset="1.1"/>
             <enemy
-                name="Flyer"
+                name="flyer"
                 offset="1.1"/>
             <enemy
-                name="Flyer"
+                name="flyer"
                 offset="1.1"/>
 
             <enemy
-                name="Soldier"
+                name="soldier"
                 delay="9"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
         </enemies>
     </wave>
@@ -363,60 +363,60 @@
         <maxExtend>3</maxExtend>
         <enemies>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 delay="9"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
 
             <enemy
-                name="Blob"
+                name="blob"
                 delay="4"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
 
             <enemy
-                name="Flyer"
+                name="flyer"
                 delay="9"/>
             <enemy
-                name="Flyer"
+                name="flyer"
                 offset="1.1"/>
             <enemy
-                name="Flyer"
+                name="flyer"
                 offset="1.1"/>
             <enemy
-                name="Flyer"
+                name="flyer"
                 offset="1.1"/>
             <enemy
-                name="Flyer"
+                name="flyer"
                 offset="1.1"/>
             <enemy
-                name="Flyer"
+                name="flyer"
                 offset="1.1"/>
         </enemies>
     </wave>
@@ -428,87 +428,87 @@
         <maxExtend>2</maxExtend>
         <enemies>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 delay="9"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
 
             <enemy
-                name="Blob"
+                name="blob"
                 delay="2"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
 
             <enemy
-                name="Flyer"
+                name="flyer"
                 delay="4"/>
             <enemy
-                name="Flyer"
+                name="flyer"
                 offset="1.1"/>
             <enemy
-                name="Flyer"
+                name="flyer"
                 offset="1.1"/>
             <enemy
-                name="Flyer"
+                name="flyer"
                 offset="1.1"/>
             <enemy
-                name="Flyer"
+                name="flyer"
                 offset="1.1"/>
             <enemy
-                name="Flyer"
+                name="flyer"
                 offset="1.1"/>
             <enemy
-                name="Flyer"
+                name="flyer"
                 offset="1.1"/>
             <enemy
-                name="Flyer"
+                name="flyer"
                 offset="1.1"/>
             <enemy
-                name="Flyer"
+                name="flyer"
                 offset="1.1"/>
         </enemies>
     </wave>
@@ -520,78 +520,78 @@
         <maxExtend>2</maxExtend>
         <enemies>
             <enemy
-                name="Healer"
+                name="healer"
                 delay="9"/>
             <enemy
-                name="Healer"
+                name="healer"
                 offset="1.1"/>
             <enemy
-                name="Healer"
+                name="healer"
                 offset="1.1"/>
             <enemy
-                name="Healer"
+                name="healer"
                 offset="1.1"/>
             <enemy
-                name="Healer"
+                name="healer"
                 offset="1.1"/>
             <enemy
-                name="Healer"
+                name="healer"
                 offset="1.1"/>
 
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 delay="4"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
 
             <enemy
-                name="Blob"
+                name="blob"
                 delay="9"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
         </enemies>
     </wave>
@@ -603,40 +603,40 @@
         <maxExtend>4</maxExtend>
         <enemies>
             <enemy
-                name="Healer"
+                name="healer"
                 delay="9"/>
             <enemy
-                name="Healer"
+                name="healer"
                 offset="1.1"/>
             <enemy
-                name="Healer"
+                name="healer"
                 offset="1.1"/>
             <enemy
-                name="Healer"
+                name="healer"
                 offset="1.1"/>
             <enemy
-                name="Healer"
+                name="healer"
                 offset="1.1"/>
             <enemy
-                name="Healer"
+                name="healer"
                 offset="1.1"/>
             <enemy
-                name="Healer"
+                name="healer"
                 delay="9"/>
             <enemy
-                name="Healer"
+                name="healer"
                 offset="1.1"/>
             <enemy
-                name="Healer"
+                name="healer"
                 offset="1.1"/>
             <enemy
-                name="Healer"
+                name="healer"
                 offset="1.1"/>
             <enemy
-                name="Healer"
+                name="healer"
                 offset="1.1"/>
             <enemy
-                name="Healer"
+                name="healer"
                 offset="1.1"/>
         </enemies>
     </wave>
@@ -648,50 +648,50 @@
         <maxExtend>4</maxExtend>
         <enemies>
             <enemy
-                name="Healer"
+                name="healer"
                 delay="9"/>
             <enemy
-                name="Healer"
+                name="healer"
                 offset="1.1"/>
             <enemy
-                name="Healer"
+                name="healer"
                 offset="1.1"/>
             <enemy
-                name="Healer"
+                name="healer"
                 offset="1.1"/>
             <enemy
-                name="Healer"
+                name="healer"
                 offset="1.1"/>
             <enemy
-                name="Healer"
+                name="healer"
                 offset="1.1"/>
 
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 delay="9"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="sprinter"
                 offset="1.1"/>
         </enemies>
     </wave>
@@ -703,67 +703,67 @@
         <maxExtend>3</maxExtend>
         <enemies>
             <enemy
-                name="Healer"
+                name="healer"
                 delay="9"/>
             <enemy
-                name="Healer"
+                name="healer"
                 offset="1.1"/>
             <enemy
-                name="Healer"
+                name="healer"
                 offset="1.1"/>
             <enemy
-                name="Healer"
+                name="healer"
                 offset="1.1"/>
 
             <enemy
-                name="Soldier"
+                name="soldier"
                 delay="2"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
 
             <enemy
-                name="Healer"
+                name="healer"
                 delay="9"/>
             <enemy
-                name="Healer"
+                name="healer"
                 offset="1.1"/>
             <enemy
-                name="Healer"
+                name="healer"
                 offset="1.1"/>
             <enemy
-                name="Healer"
+                name="healer"
                 offset="1.1"/>
 
             <enemy
-                name="Soldier"
+                name="soldier"
                 delay="2"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="soldier"
                 offset="1.1"/>
         </enemies>
     </wave>
@@ -775,54 +775,54 @@
         <maxExtend>3</maxExtend>
         <enemies>
             <enemy
-                name="Healer"
+                name="healer"
                 delay="9"/>
             <enemy
-                name="Healer"
+                name="healer"
                 offset="1.1"/>
             <enemy
-                name="Healer"
+                name="healer"
                 offset="1.1"/>
             <enemy
-                name="Healer"
-                offset="1.1"/>
-
-            <enemy
-                name="Blob"
-                delay="2"/>
-            <enemy
-                name="Blob"
-                offset="1.1"/>
-            <enemy
-                name="Blob"
-                offset="1.1"/>
-            <enemy
-                name="Blob"
-                offset="1.1"/>
-            <enemy
-                name="Blob"
-                offset="1.1"/>
-            <enemy
-                name="Blob"
+                name="healer"
                 offset="1.1"/>
 
             <enemy
-                name="Flyer"
+                name="blob"
                 delay="2"/>
             <enemy
-                name="Flyer"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Flyer"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Flyer"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Flyer"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Flyer"
+                name="blob"
+                offset="1.1"/>
+
+            <enemy
+                name="flyer"
+                delay="2"/>
+            <enemy
+                name="flyer"
+                offset="1.1"/>
+            <enemy
+                name="flyer"
+                offset="1.1"/>
+            <enemy
+                name="flyer"
+                offset="1.1"/>
+            <enemy
+                name="flyer"
+                offset="1.1"/>
+            <enemy
+                name="flyer"
                 offset="1.1"/>
         </enemies>
     </wave>
@@ -834,132 +834,132 @@
         <maxExtend>2</maxExtend>
         <enemies>
             <enemy
-                name="Blob"
+                name="blob"
                 delay="9"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Blob"
+                name="blob"
                 offset="1.1"/>
             <enemy
-                name="Blob"
-                offset="1.1"/>
-
-            <enemy
-                name="Healer"
-                delay="2"/>
-            <enemy
-                name="Healer"
-                offset="1.1"/>
-            <enemy
-                name="Healer"
-                offset="1.1"/>
-            <enemy
-                name="Healer"
+                name="blob"
                 offset="1.1"/>
 
             <enemy
-                name="Soldier"
+                name="healer"
                 delay="2"/>
             <enemy
-                name="Soldier"
+                name="healer"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
+                name="healer"
                 offset="1.1"/>
             <enemy
-                name="Soldier"
-                offset="1.1"/>
-            <enemy
-                name="Soldier"
-                offset="1.1"/>
-            <enemy
-                name="Soldier"
-                offset="1.1"/>
-            <enemy
-                name="Soldier"
-                offset="1.1"/>
-            <enemy
-                name="Soldier"
-                offset="1.1"/>
-            <enemy
-                name="Soldier"
+                name="healer"
                 offset="1.1"/>
 
             <enemy
-                name="Flyer"
+                name="soldier"
                 delay="2"/>
             <enemy
-                name="Flyer"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Flyer"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Flyer"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Flyer"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Flyer"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Flyer"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Flyer"
+                name="soldier"
                 offset="1.1"/>
             <enemy
-                name="Flyer"
+                name="soldier"
                 offset="1.1"/>
 
             <enemy
-                name="Sprinter"
+                name="flyer"
                 delay="2"/>
             <enemy
-                name="Sprinter"
+                name="flyer"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="flyer"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="flyer"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="flyer"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="flyer"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="flyer"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="flyer"
                 offset="1.1"/>
             <enemy
-                name="Sprinter"
+                name="flyer"
                 offset="1.1"/>
 
             <enemy
-                name="Healer"
+                name="sprinter"
                 delay="2"/>
             <enemy
-                name="Healer"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Healer"
+                name="sprinter"
                 offset="1.1"/>
             <enemy
-                name="Healer"
+                name="sprinter"
+                offset="1.1"/>
+            <enemy
+                name="sprinter"
+                offset="1.1"/>
+            <enemy
+                name="sprinter"
+                offset="1.1"/>
+            <enemy
+                name="sprinter"
+                offset="1.1"/>
+            <enemy
+                name="sprinter"
+                offset="1.1"/>
+            <enemy
+                name="sprinter"
+                offset="1.1"/>
+
+            <enemy
+                name="healer"
+                delay="2"/>
+            <enemy
+                name="healer"
+                offset="1.1"/>
+            <enemy
+                name="healer"
+                offset="1.1"/>
+            <enemy
+                name="healer"
                 offset="1.1"/>
         </enemies>
     </wave>

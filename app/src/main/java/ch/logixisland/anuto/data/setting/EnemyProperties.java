@@ -12,10 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Root
-public class EnemyConfig {
-
-    @Element(name = "name")
-    private String mName;
+public class EnemyProperties {
 
     @Element(name = "health")
     private float mHealth;
@@ -34,10 +31,6 @@ public class EnemyConfig {
 
     @ElementMap(entry = "property", key = "name", inline = true, required = false, attribute = true)
     private Map<String, Float> mProperties = new HashMap<>();
-
-    public String getName() {
-        return mName;
-    }
 
     public float getHealth() {
         return mHealth;

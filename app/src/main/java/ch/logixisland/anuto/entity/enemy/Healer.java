@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.setting.EnemyConfig;
+import ch.logixisland.anuto.data.setting.EnemyProperties;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickListener;
 import ch.logixisland.anuto.engine.logic.TickTimer;
@@ -78,7 +78,7 @@ public class Healer extends Enemy implements SpriteTransformation {
 
     private ReplicatedSprite mSprite;
 
-    public Healer(GameEngine gameEngine, EnemyConfig config) {
+    public Healer(GameEngine gameEngine, EnemyProperties config) {
         super(gameEngine, config);
         mStatic = (StaticData) getStaticData();
 
