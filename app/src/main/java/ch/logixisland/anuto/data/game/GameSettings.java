@@ -17,9 +17,6 @@ public class GameSettings {
     @Element(name = "lives")
     private int mLives;
 
-    @Element(name = "ageModifier")
-    private float mAgeModifier;
-
     @Element(name = "difficultyModifier")
     private float mDifficultyModifier;
 
@@ -47,14 +44,8 @@ public class GameSettings {
     @Element(name = "earlyExponent")
     private float mEarlyExponent;
 
-    @Element(name = "minSpeedModifier")
-    private float mMinSpeedModifier;
-
-    @Element(name = "weakAgainstModifier")
-    private float mWeakAgainstModifier;
-
-    @Element(name = "strongAgainstModifier")
-    private float mStrongAgainstModifier;
+    @Element(name = "ageModifier")
+    private float mAgeModifier;
 
     public static GameSettings fromXml(InputStream stream) throws Exception {
         Serializer serializer = new SerializerFactory().createSerializer();
@@ -67,10 +58,6 @@ public class GameSettings {
 
     public int getLives() {
         return mLives;
-    }
-
-    public float getAgeModifier() {
-        return mAgeModifier;
     }
 
     public float getDifficultyModifier() {
@@ -109,15 +96,7 @@ public class GameSettings {
         return mEarlyExponent;
     }
 
-    public float getMinSpeedModifier() {
-        return mMinSpeedModifier;
-    }
-
-    public float getWeakAgainstModifier() {
-        return mWeakAgainstModifier;
-    }
-
-    public float getStrongAgainstModifier() {
-        return mStrongAgainstModifier;
+    public float getAgeModifier() {
+        return mAgeModifier;
     }
 }

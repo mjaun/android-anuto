@@ -11,43 +11,50 @@ import ch.logixisland.anuto.data.serializer.SerializerFactory;
 @Root
 public class EnemySettingsRoot {
 
+    @Element(name = "global")
+    private EnemyGlobalSettings mGlobalSettings;
+
     @Element(name = "soldier")
-    private EnemySettings mSoldierProperties;
+    private EnemySettings mSoldierSettings;
 
     @Element(name = "blob")
-    private EnemySettings mBlobProperties;
+    private EnemySettings mBlobSettings;
 
     @Element(name = "sprinter")
-    private EnemySettings mSprinterProperties;
+    private EnemySettings mSprinterSettings;
 
     @Element(name = "healer")
-    private HealerSettings mHealerProperties;
+    private HealerSettings mHealerSettings;
 
     @Element(name = "flyer")
-    private EnemySettings mFlyerProperties;
+    private EnemySettings mFlyerSettings;
 
     public static EnemySettingsRoot fromXml(InputStream stream) throws Exception {
         Serializer serializer = new SerializerFactory().createSerializer();
         return serializer.read(EnemySettingsRoot.class, stream);
     }
 
-    public EnemySettings getSoldierProperties() {
-        return mSoldierProperties;
+    public EnemyGlobalSettings getGlobalSettings() {
+        return mGlobalSettings;
     }
 
-    public EnemySettings getBlobProperties() {
-        return mBlobProperties;
+    public EnemySettings getSoldierSettings() {
+        return mSoldierSettings;
     }
 
-    public EnemySettings getSprinterProperties() {
-        return mSprinterProperties;
+    public EnemySettings getBlobSettings() {
+        return mBlobSettings;
     }
 
-    public HealerSettings getHealerProperties() {
-        return mHealerProperties;
+    public EnemySettings getSprinterSettings() {
+        return mSprinterSettings;
     }
 
-    public EnemySettings getFlyerProperties() {
-        return mFlyerProperties;
+    public HealerSettings getHealerSettings() {
+        return mHealerSettings;
+    }
+
+    public EnemySettings getFlyerSettings() {
+        return mFlyerSettings;
     }
 }

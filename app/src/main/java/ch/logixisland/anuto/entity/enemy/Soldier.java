@@ -1,7 +1,7 @@
 package ch.logixisland.anuto.entity.enemy;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.enemy.EnemySettings;
+import ch.logixisland.anuto.data.enemy.SoldierProperties;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickListener;
 import ch.logixisland.anuto.engine.render.Layers;
@@ -20,6 +20,7 @@ public class Soldier extends Enemy implements SpriteTransformation {
 
         SpriteTemplate mSpriteTemplate;
         AnimatedSprite mReferenceSprite;
+
         @Override
         public void tick() {
             mReferenceSprite.tick();
@@ -28,8 +29,8 @@ public class Soldier extends Enemy implements SpriteTransformation {
     }
     private ReplicatedSprite mSprite;
 
-    public Soldier(GameEngine gameEngine, EnemySettings config) {
-        super(gameEngine, config);
+    public Soldier(GameEngine gameEngine, SoldierProperties properties) {
+        super(gameEngine, properties);
         StaticData s = (StaticData) getStaticData();
 
         mSprite = getSpriteFactory().createReplication(s.mReferenceSprite);

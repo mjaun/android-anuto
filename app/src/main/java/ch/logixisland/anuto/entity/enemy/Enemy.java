@@ -1,11 +1,9 @@
 package ch.logixisland.anuto.entity.enemy;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.data.enemy.EnemySettings;
-import ch.logixisland.anuto.data.enemy.WeaponType;
+import ch.logixisland.anuto.data.enemy.EnemyProperties;
 import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.entity.Types;
@@ -44,31 +42,23 @@ public abstract class Enemy extends Entity {
         };
     }
 
-    private final EnemySettings mConfig;
+    private final EnemyProperties mProperties;
 
     private boolean mEnabled = true;
     private float mHealth;
-    private float mMaxHealth;
-    private int mReward;
-    private float mBaseSpeed;
     private float mSpeedModifier = 1f;
     private List<Vector2> mWayPoints = null;
     private int mWayPointIndex;
-    private Collection<WeaponType> mStrongAgainst;
-    private Collection<WeaponType> mWeakAgainst;
-
-    private float mMinSpeedModifier;
-    private float mStrongAgainstModifier;
-    private float mWeakAgainstModifier;
 
     private HealthBar mHealthBar;
 
     private final List<EnemyListener> mListeners = new CopyOnWriteArrayList<>();
 
-    Enemy(GameEngine gameEngine, EnemySettings config) {
+    Enemy(GameEngine gameEngine, EnemyProperties properties) {
         super(gameEngine);
 
-        mConfig = config;
+        mHealth = properties.getHealth();
+        mProperties = properties;
         mHealthBar = new HealthBar(getTheme(), this);
     }
 
@@ -145,19 +135,11 @@ public abstract class Enemy extends Entity {
     }
 
     public float getSpeed() {
-        return mBaseSpeed * mSpeedModifier;
-    }
-
-    void setBaseSpeed(float baseSpeed) {
-        mBaseSpeed = baseSpeed;
-    }
-
-    void setMinSpeedModifier(float minSpeedModifier) {
-        mMinSpeedModifier = minSpeedModifier;
+        return mProperties.getSpeed() * mSpeedModifier;
     }
 
     public void modifySpeed(float f) {
-        mSpeedModifier = Math.max(mMinSpeedModifier, mSpeedModifier * f);
+        mSpeedModifier = Math.max(mProperties.getMinSpeedModifier(), mSpeedModifier * f);
     }
 
     Vector2 getDirection() {
@@ -240,29 +222,19 @@ public abstract class Enemy extends Entity {
     }
 
     public float getMaxHealth() {
-        return mMaxHealth;
-    }
-
-    void resetHealth(float health) {
-        mHealth = health;
-        mMaxHealth = health;
-    }
-
-    public void modifyHealth(float f) {
-        mHealth *= f;
-        mMaxHealth *= f;
+        return mProperties.getHealth();
     }
 
     public void damage(float dmg, Entity origin) {
         if (origin != null && origin instanceof Tower) {
             Tower originTower = (Tower) origin;
 
-            if (mStrongAgainst.contains(originTower.getWeaponType())) {
-                dmg *= mStrongAgainstModifier;
+            if (mProperties.getWeakAgainst().contains(originTower.getWeaponType())) {
+                dmg *= mProperties.getWeakAgainstModifier();
             }
 
-            if (mWeakAgainst.contains(originTower.getWeaponType())) {
-                dmg *= mWeakAgainstModifier;
+            if (mProperties.getStrongAgainst().contains(originTower.getWeaponType())) {
+                dmg *= mProperties.getStrongAgainstModifier();
             }
 
             originTower.reportDamageInflicted(dmg);
@@ -282,37 +254,13 @@ public abstract class Enemy extends Entity {
     public void heal(float val) {
         mHealth += val;
 
-        if (mHealth > mMaxHealth) {
-            mHealth = mMaxHealth;
+        if (mHealth > mProperties.getHealth()) {
+            mHealth = mProperties.getHealth();
         }
     }
 
-    void setStrongAgainst(Collection<WeaponType> strongAgainst) {
-        mStrongAgainst = strongAgainst;
-    }
-
-    void setWeakAgainst(Collection<WeaponType> weakAgainst) {
-        mWeakAgainst = weakAgainst;
-    }
-
-    void setStrongAgainstModifier(float strongAgainstModifier) {
-        mStrongAgainstModifier = strongAgainstModifier;
-    }
-
-    void setWeakAgainstModifier(float weakAgainstModifier) {
-        mWeakAgainstModifier = weakAgainstModifier;
-    }
-
     public int getReward() {
-        return mReward;
-    }
-
-    public void setReward(int reward) {
-        mReward = reward;
-    }
-
-    public void modifyReward(float f) {
-        mReward = Math.round(mReward * f);
+        return mProperties.getReward();
     }
 
     public void addListener(EnemyListener listener) {

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.enemy.HealerSettings;
+import ch.logixisland.anuto.data.enemy.HealerProperties;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickListener;
 import ch.logixisland.anuto.engine.logic.TickTimer;
@@ -72,31 +72,27 @@ public class Healer extends Enemy implements SpriteTransformation {
         }
     }
 
-    private HealerSettings mConfig;
-    private float mHealAmount;
-    private float mHealRange;
-    private StaticData mStatic;
+    private HealerProperties mProperties;
+    private StaticData mStaticData;
 
     private ReplicatedSprite mSprite;
 
-    public Healer(GameEngine gameEngine, HealerSettings config) {
-        super(gameEngine, config);
-        mConfig = config;
-        mStatic = (StaticData) getStaticData();
+    public Healer(GameEngine gameEngine, HealerProperties properties) {
+        super(gameEngine, properties);
 
-        mSprite = getSpriteFactory().createReplication(mStatic.mReferenceSprite);
+        mProperties = properties;
+        mStaticData = (StaticData) getStaticData();
+
+        mSprite = getSpriteFactory().createReplication(mStaticData.mReferenceSprite);
         mSprite.setListener(this);
-
-        mHealAmount = config.getHealAmount();
-        mHealRange = config.getHealRadius();
     }
 
     @Override
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.mHealInterval = mConfig.getHealInterval();
-        s.mHealDuration = mConfig.getHealDuration();
+        s.mHealInterval = mProperties.getHealInterval();
+        s.mHealDuration = mProperties.getHealDuration();
 
         s.mHealTimer = TickTimer.createInterval(s.mHealInterval);
         s.mHealedEnemies = new ArrayList<>();
@@ -129,7 +125,7 @@ public class Healer extends Enemy implements SpriteTransformation {
 
     @Override
     public float getSpeed() {
-        if (mStatic.mHealing) {
+        if (mStaticData.mHealing) {
             return 0f;
         } else {
             return super.getSpeed();
@@ -154,15 +150,18 @@ public class Healer extends Enemy implements SpriteTransformation {
     public void tick() {
         super.tick();
 
-        if (mStatic.mDropEffect) {
-            getGameEngine().add(new HealEffect(this, getPosition(), mHealAmount, mHealRange, mStatic.mHealedEnemies));
+        if (mStaticData.mDropEffect) {
+            getGameEngine().add(new HealEffect(this, getPosition(),
+                    mProperties.getHealAmount(),
+                    mProperties.getHealRadius(),
+                    mStaticData.mHealedEnemies));
         }
     }
 
     @Override
     public void draw(SpriteInstance sprite, SpriteTransformer transformer) {
         transformer.translate(getPosition());
-        transformer.rotate(mStatic.mAngle);
-        transformer.scale(mStatic.mScale);
+        transformer.rotate(mStaticData.mAngle);
+        transformer.scale(mStaticData.mScale);
     }
 }

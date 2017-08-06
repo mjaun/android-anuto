@@ -1,7 +1,7 @@
 package ch.logixisland.anuto.entity.enemy;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.enemy.EnemySettings;
+import ch.logixisland.anuto.data.enemy.SprinterProperties;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickListener;
 import ch.logixisland.anuto.engine.render.Layers;
@@ -34,8 +34,8 @@ public class Sprinter extends Enemy implements SpriteTransformation {
     private float mAngle;
     private StaticData mStatic;
 
-    public Sprinter(GameEngine gameEngine, EnemySettings config) {
-        super(gameEngine, config);
+    public Sprinter(GameEngine gameEngine, SprinterProperties properties) {
+        super(gameEngine, properties);
         mStatic = (StaticData) getStaticData();
 
         mSprite = getSpriteFactory().createReplication(mStatic.mReferenceSprite);

@@ -228,7 +228,7 @@ public class WaveManager implements GameStateListener {
     private float getWaveHealth(WaveAttender wave) {
         float waveHealth = 0f;
         for (EnemyDescriptor d : wave.getWaveDescriptor().getEnemies()) {
-            waveHealth += mEnemyFactory.getEnemyProperties(d.getName()).getHealth();
+            waveHealth += mEnemyFactory.getEnemySettings(d.getName()).getHealth();
         }
         waveHealth *= wave.getExtend() + 1;
         return waveHealth;
