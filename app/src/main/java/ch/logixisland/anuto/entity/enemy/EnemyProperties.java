@@ -1,10 +1,8 @@
 package ch.logixisland.anuto.entity.enemy;
 
-import java.util.Collection;
-
 import ch.logixisland.anuto.data.enemy.EnemyGlobalSettings;
 import ch.logixisland.anuto.data.enemy.EnemySettings;
-import ch.logixisland.anuto.data.enemy.WeaponType;
+import ch.logixisland.anuto.entity.tower.Tower;
 
 public class EnemyProperties {
 
@@ -30,31 +28,27 @@ public class EnemyProperties {
         return mHealth;
     }
 
-    public float getSpeed() {
-        return mEnemySettings.getSpeed();
-    }
-
     public int getReward() {
         return mReward;
     }
 
-    public Collection<WeaponType> getWeakAgainst() {
-        return mEnemySettings.getWeakAgainst();
-    }
-
-    public Collection<WeaponType> getStrongAgainst() {
-        return mEnemySettings.getStrongAgainst();
+    public float getSpeed() {
+        return mEnemySettings.getSpeed();
     }
 
     public float getMinSpeedModifier() {
         return mGlobalSettings.getMinSpeedModifier();
     }
 
-    public float getWeakAgainstModifier() {
-        return mGlobalSettings.getWeakAgainstModifier();
-    }
+    public float applyDamageModifiers(float amount, Tower originTower) {
+        if (mEnemySettings.getWeakAgainst().contains(originTower.getWeaponType())) {
+            amount *= mGlobalSettings.getWeakAgainstModifier();
+        }
 
-    public float getStrongAgainstModifier() {
-        return mGlobalSettings.getStrongAgainstModifier();
+        if (mEnemySettings.getStrongAgainst().contains(originTower.getWeaponType())) {
+            amount *= mGlobalSettings.getStrongAgainstModifier();
+        }
+
+        return amount;
     }
 }

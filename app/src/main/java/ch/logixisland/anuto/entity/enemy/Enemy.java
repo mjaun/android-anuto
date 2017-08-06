@@ -224,22 +224,14 @@ public abstract class Enemy extends Entity {
         return mProperties.getHealth();
     }
 
-    public void damage(float dmg, Entity origin) {
+    public void damage(float amount, Entity origin) {
         if (origin != null && origin instanceof Tower) {
             Tower originTower = (Tower) origin;
-
-            if (mProperties.getWeakAgainst().contains(originTower.getWeaponType())) {
-                dmg *= mProperties.getWeakAgainstModifier();
-            }
-
-            if (mProperties.getStrongAgainst().contains(originTower.getWeaponType())) {
-                dmg *= mProperties.getStrongAgainstModifier();
-            }
-
-            originTower.reportDamageInflicted(dmg);
+            amount = mProperties.applyDamageModifiers(amount, originTower);
+            originTower.reportDamageInflicted(amount);
         }
 
-        mHealth -= dmg;
+        mHealth -= amount;
 
         if (mHealth <= 0) {
             for (EnemyListener listener : mListeners) {
