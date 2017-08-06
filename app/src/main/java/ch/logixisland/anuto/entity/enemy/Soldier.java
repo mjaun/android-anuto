@@ -1,7 +1,6 @@
 package ch.logixisland.anuto.entity.enemy;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.enemy.SoldierProperties;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickListener;
 import ch.logixisland.anuto.engine.render.Layers;
@@ -29,7 +28,7 @@ public class Soldier extends Enemy implements SpriteTransformation {
     }
     private ReplicatedSprite mSprite;
 
-    public Soldier(GameEngine gameEngine, SoldierProperties properties) {
+    public Soldier(GameEngine gameEngine, EnemyProperties properties) {
         super(gameEngine, properties);
         StaticData s = (StaticData) getStaticData();
 

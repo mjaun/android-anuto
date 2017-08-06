@@ -1,12 +1,19 @@
-package ch.logixisland.anuto.data.enemy;
+package ch.logixisland.anuto.entity.enemy;
+
+import ch.logixisland.anuto.data.enemy.EnemyGlobalSettings;
+import ch.logixisland.anuto.data.enemy.HealerSettings;
 
 public class HealerProperties extends EnemyProperties {
 
     private final HealerSettings mHealerSettings;
 
-    public HealerProperties(EnemySettingsRoot enemySettingsRoot, float healthModifier, float rewardModifier) {
-        super(enemySettingsRoot.getHealerSettings(), enemySettingsRoot.getGlobalSettings(), healthModifier, rewardModifier);
-        mHealerSettings = enemySettingsRoot.getHealerSettings();
+    public HealerProperties(
+            HealerSettings healerSettings,
+            EnemyGlobalSettings globalSettings,
+            float healthModifier,
+            float rewardModifier) {
+        super(healerSettings, globalSettings, healthModifier, rewardModifier);
+        mHealerSettings = healerSettings;
     }
 
     public float getHealAmount() {

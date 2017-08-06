@@ -1,7 +1,6 @@
 package ch.logixisland.anuto.entity.enemy;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.enemy.FlyerProperties;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickListener;
 import ch.logixisland.anuto.engine.render.Layers;
@@ -30,7 +29,7 @@ public class Flyer extends Enemy implements SpriteTransformation {
 
     private ReplicatedSprite mSprite;
 
-    public Flyer(GameEngine gameEngine, FlyerProperties properties) {
+    public Flyer(GameEngine gameEngine, EnemyProperties properties) {
         super(gameEngine, properties);
         StaticData s = (StaticData) getStaticData();
 

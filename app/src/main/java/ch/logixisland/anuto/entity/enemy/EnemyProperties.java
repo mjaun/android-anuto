@@ -1,8 +1,12 @@
-package ch.logixisland.anuto.data.enemy;
+package ch.logixisland.anuto.entity.enemy;
 
 import java.util.Collection;
 
-public abstract class EnemyProperties {
+import ch.logixisland.anuto.data.enemy.EnemyGlobalSettings;
+import ch.logixisland.anuto.data.enemy.EnemySettings;
+import ch.logixisland.anuto.data.enemy.WeaponType;
+
+public class EnemyProperties {
 
     private final EnemySettings mEnemySettings;
     private final EnemyGlobalSettings mGlobalSettings;
@@ -10,7 +14,7 @@ public abstract class EnemyProperties {
     private final float mHealth;
     private final int mReward;
 
-    protected EnemyProperties(
+    public EnemyProperties(
             EnemySettings enemySettings,
             EnemyGlobalSettings globalSettings,
             float healthModifier,

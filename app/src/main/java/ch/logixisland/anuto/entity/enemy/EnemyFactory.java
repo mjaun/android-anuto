@@ -1,12 +1,7 @@
 package ch.logixisland.anuto.entity.enemy;
 
-import ch.logixisland.anuto.data.enemy.BlobProperties;
 import ch.logixisland.anuto.data.enemy.EnemySettings;
 import ch.logixisland.anuto.data.enemy.EnemySettingsRoot;
-import ch.logixisland.anuto.data.enemy.FlyerProperties;
-import ch.logixisland.anuto.data.enemy.HealerProperties;
-import ch.logixisland.anuto.data.enemy.SoldierProperties;
-import ch.logixisland.anuto.data.enemy.SprinterProperties;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 
 public class EnemyFactory {
@@ -27,14 +22,19 @@ public class EnemyFactory {
         switch (name) {
             case "soldier":
                 return mEnemySettingsRoot.getSoldierSettings();
+
             case "blob":
                 return mEnemySettingsRoot.getBlobSettings();
+
             case "sprinter":
                 return mEnemySettingsRoot.getSprinterSettings();
+
             case "healer":
                 return mEnemySettingsRoot.getHealerSettings();
+
             case "flyer":
                 return mEnemySettingsRoot.getFlyerSettings();
+
             default:
                 throw new IllegalArgumentException("Enemy name not known!");
         }
@@ -43,15 +43,35 @@ public class EnemyFactory {
     public Enemy createEnemy(String name, float healthModifier, float rewardModifier) {
         switch (name) {
             case "soldier":
-                return new Soldier(mGameEngine, new SoldierProperties(mEnemySettingsRoot, healthModifier, rewardModifier));
+                return new Soldier(mGameEngine, new EnemyProperties(
+                        mEnemySettingsRoot.getSoldierSettings(),
+                        mEnemySettingsRoot.getGlobalSettings(),
+                        healthModifier, rewardModifier));
+
             case "blob":
-                return new Blob(mGameEngine, new BlobProperties(mEnemySettingsRoot, healthModifier, rewardModifier));
+                return new Blob(mGameEngine, new EnemyProperties(
+                        mEnemySettingsRoot.getBlobSettings(),
+                        mEnemySettingsRoot.getGlobalSettings(),
+                        healthModifier, rewardModifier));
+
             case "sprinter":
-                return new Sprinter(mGameEngine, new SprinterProperties(mEnemySettingsRoot, healthModifier, rewardModifier));
+                return new Sprinter(mGameEngine, new EnemyProperties(
+                        mEnemySettingsRoot.getSprinterSettings(),
+                        mEnemySettingsRoot.getGlobalSettings(),
+                        healthModifier, rewardModifier));
+
             case "healer":
-                return new Healer(mGameEngine, new HealerProperties(mEnemySettingsRoot, healthModifier, rewardModifier));
+                return new Healer(mGameEngine, new HealerProperties(
+                        mEnemySettingsRoot.getHealerSettings(),
+                        mEnemySettingsRoot.getGlobalSettings(),
+                        healthModifier, rewardModifier));
+
             case "flyer":
-                return new Flyer(mGameEngine, new FlyerProperties(mEnemySettingsRoot, healthModifier, rewardModifier));
+                return new Flyer(mGameEngine, new EnemyProperties(
+                        mEnemySettingsRoot.getFlyerSettings(),
+                        mEnemySettingsRoot.getGlobalSettings(),
+                        healthModifier, rewardModifier));
+
             default:
                 throw new IllegalArgumentException("Enemy name not known!");
         }
