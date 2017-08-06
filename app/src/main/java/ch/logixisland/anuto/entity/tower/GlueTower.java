@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.setting.TowerConfig;
+import ch.logixisland.anuto.data.setting.TowerSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickTimer;
 import ch.logixisland.anuto.engine.render.Layers;
@@ -59,7 +59,7 @@ public class GlueTower extends Tower implements SpriteTransformation {
     private StaticSprite mSpriteTower;
     private final TickTimer mUpdateTimer = TickTimer.createInterval(0.1f);
 
-    public GlueTower(GameEngine gameEngine, TowerConfig config) {
+    public GlueTower(GameEngine gameEngine, TowerSettings config) {
         super(gameEngine, config);
         mGlueIntensity = getProperty("glueIntensity");
         mGlueDuration = getProperty("glueDuration");

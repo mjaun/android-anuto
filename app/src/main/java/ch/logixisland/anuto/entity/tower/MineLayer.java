@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.setting.TowerConfig;
+import ch.logixisland.anuto.data.setting.TowerSettings;
 import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.EntityListener;
 import ch.logixisland.anuto.engine.logic.GameEngine;
@@ -49,7 +49,7 @@ public class MineLayer extends Tower implements SpriteTransformation {
         }
     };
 
-    public MineLayer(GameEngine gameEngine, TowerConfig config) {
+    public MineLayer(GameEngine gameEngine, TowerSettings config) {
         super(gameEngine, config);
         StaticData s = (StaticData) getStaticData();
 

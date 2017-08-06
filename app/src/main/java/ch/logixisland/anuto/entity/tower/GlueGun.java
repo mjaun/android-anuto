@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.setting.TowerConfig;
+import ch.logixisland.anuto.data.setting.TowerSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
@@ -39,7 +39,7 @@ public class GlueGun extends AimingTower implements SpriteTransformation {
     private AnimatedSprite mSpriteCanon;
     private Sound mSound;
 
-    public GlueGun(GameEngine gameEngine, TowerConfig config) {
+    public GlueGun(GameEngine gameEngine, TowerSettings config) {
         super(gameEngine, config);
         mGlueIntensity = getProperty("glueIntensity");
         mGlueDuration = getProperty("glueDuration");

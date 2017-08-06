@@ -10,14 +10,14 @@ import java.util.List;
 
 import ch.logixisland.anuto.data.serializer.SerializerFactory;
 
-public class WavesDescriptor {
+public class WaveDescriptorRoot {
 
     @ElementList(inline = true, entry = "wave")
     private List<WaveDescriptor> mWaves = new ArrayList<>();
 
-    public static WavesDescriptor fromXml(InputStream inputStream) throws Exception {
+    public static WaveDescriptorRoot fromXml(InputStream inputStream) throws Exception {
         Serializer serializer = new SerializerFactory().createSerializer();
-        return serializer.read(WavesDescriptor.class, inputStream);
+        return serializer.read(WaveDescriptorRoot.class, inputStream);
     }
 
     public List<WaveDescriptor> getWaves() {

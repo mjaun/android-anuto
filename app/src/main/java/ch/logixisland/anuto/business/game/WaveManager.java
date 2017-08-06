@@ -182,7 +182,7 @@ public class WaveManager implements GameStateListener {
     }
 
     private void createAndStartWaveAttender() {
-        List<WaveDescriptor> waveDescriptors = mGameLoader.getWavesDescriptor().getWaves();
+        List<WaveDescriptor> waveDescriptors = mGameLoader.getWaveDescriptorRoot().getWaves();
         WaveDescriptor nextWaveDescriptor = waveDescriptors.get(mNextWaveIndex % waveDescriptors.size());
         WaveAttender nextWave = new WaveAttender(mGameEngine, mScoreBoard, mGameLoader, mEnemyFactory, this, nextWaveDescriptor);
         updateWaveExtend(nextWave, nextWaveDescriptor);
@@ -230,7 +230,7 @@ public class WaveManager implements GameStateListener {
     }
 
     private int getIterationNumber() {
-        return (getWaveNumber() / mGameLoader.getWavesDescriptor().getWaves().size()) + 1;
+        return (getWaveNumber() / mGameLoader.getWaveDescriptorRoot().getWaves().size()) + 1;
     }
 
     private int getEarlyBonus() {

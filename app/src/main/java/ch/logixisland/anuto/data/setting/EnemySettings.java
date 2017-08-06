@@ -1,53 +1,49 @@
 package ch.logixisland.anuto.data.setting;
 
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
-import org.simpleframework.xml.Serializer;
 
-import java.io.InputStream;
-
-import ch.logixisland.anuto.data.serializer.SerializerFactory;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 @Root
 public class EnemySettings {
 
-    @Element(name = "soldier")
-    private EnemyProperties mSoldierProperties;
+    @Element(name = "health")
+    private float mHealth;
 
-    @Element(name = "blob")
-    private EnemyProperties mBlobProperties;
+    @Element(name = "speed")
+    private float mSpeed;
 
-    @Element(name = "sprinter")
-    private EnemyProperties mSprinterProperties;
+    @Element(name = "reward")
+    private int mReward;
 
-    @Element(name = "healer")
-    private HealerProperties mHealerProperties;
+    @ElementList(entry = "weakAgainst", inline = true, required = false)
+    private Collection<WeaponType> mWeakAgainst = new ArrayList<>();
 
-    @Element(name = "flyer")
-    private EnemyProperties mFlyerProperties;
+    @ElementList(entry = "strongAgainst", inline = true, required = false)
+    private Collection<WeaponType> mStrongAgainst = new ArrayList<>();
 
-    public static EnemySettings fromXml(InputStream stream) throws Exception {
-        Serializer serializer = new SerializerFactory().createSerializer();
-        return serializer.read(EnemySettings.class, stream);
+    public float getHealth() {
+        return mHealth;
     }
 
-    public EnemyProperties getSoldierProperties() {
-        return mSoldierProperties;
+    public float getSpeed() {
+        return mSpeed;
     }
 
-    public EnemyProperties getBlobProperties() {
-        return mBlobProperties;
+    public int getReward() {
+        return mReward;
     }
 
-    public EnemyProperties getSprinterProperties() {
-        return mSprinterProperties;
+    public Collection<WeaponType> getWeakAgainst() {
+        return Collections.unmodifiableCollection(mWeakAgainst);
     }
 
-    public HealerProperties getHealerProperties() {
-        return mHealerProperties;
+    public Collection<WeaponType> getStrongAgainst() {
+        return Collections.unmodifiableCollection(mStrongAgainst);
     }
 
-    public EnemyProperties getFlyerProperties() {
-        return mFlyerProperties;
-    }
 }

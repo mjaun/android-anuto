@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.data.descriptor.PathDescriptor;
-import ch.logixisland.anuto.data.setting.TowerConfig;
+import ch.logixisland.anuto.data.setting.TowerSettings;
 import ch.logixisland.anuto.data.setting.WeaponType;
 import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.GameEngine;
@@ -22,7 +22,7 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public abstract class Tower extends Entity {
 
-    private final TowerConfig mConfig;
+    private final TowerSettings mConfig;
 
     private boolean mEnabled;
     private int mValue;
@@ -41,7 +41,7 @@ public abstract class Tower extends Entity {
 
     private final List<TowerListener> mListeners = new CopyOnWriteArrayList<>();
 
-    Tower(GameEngine gameEngine, TowerConfig config) {
+    Tower(GameEngine gameEngine, TowerSettings config) {
         super(gameEngine);
 
         mConfig = config;

@@ -2,7 +2,7 @@ package ch.logixisland.anuto.data.setting;
 
 import org.simpleframework.xml.Element;
 
-public class HealerProperties extends EnemyProperties {
+public class HealerSettings extends EnemySettings {
 
     @Element(name = "healAmount")
     private float mHealAmount;

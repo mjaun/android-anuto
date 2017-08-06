@@ -7,10 +7,10 @@ import java.io.InputStream;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.data.descriptor.MapDescriptor;
 import ch.logixisland.anuto.data.descriptor.PlateauDescriptor;
-import ch.logixisland.anuto.data.descriptor.WavesDescriptor;
-import ch.logixisland.anuto.data.setting.EnemySettings;
+import ch.logixisland.anuto.data.descriptor.WaveDescriptorRoot;
+import ch.logixisland.anuto.data.setting.EnemySettingsRoot;
 import ch.logixisland.anuto.data.setting.GameSettings;
-import ch.logixisland.anuto.data.setting.TowerSettings;
+import ch.logixisland.anuto.data.setting.TowerSettingsRoot;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Viewport;
 import ch.logixisland.anuto.entity.enemy.EnemyFactory;
@@ -30,10 +30,10 @@ public class GameLoader implements GameStateListener {
 
     private MapInfo mMapInfo;
     private GameSettings mGameSettings;
-    private TowerSettings mTowerSettings;
-    private EnemySettings mEnemySettings;
+    private TowerSettingsRoot mTowerSettingsRoot;
+    private EnemySettingsRoot mEnemySettingsRoot;
     private MapDescriptor mMapDescriptor;
-    private WavesDescriptor mWavesDescriptor;
+    private WaveDescriptorRoot mWaveDescriptorRoot;
     private GameState mGameState;
 
     public GameLoader(Context context, GameEngine gameEngine, ScoreBoard scoreBoard,
@@ -51,15 +51,15 @@ public class GameLoader implements GameStateListener {
 
         try {
             mGameSettings = GameSettings.fromXml(mContext.getResources().openRawResource(R.raw.game_settings));
-            mTowerSettings = TowerSettings.fromXml(mContext.getResources().openRawResource(R.raw.tower_settings));
-            mEnemySettings = EnemySettings.fromXml(mContext.getResources().openRawResource(R.raw.enemy_settings));
-            mWavesDescriptor = WavesDescriptor.fromXml(mContext.getResources().openRawResource(R.raw.wave_descriptors));
+            mTowerSettingsRoot = TowerSettingsRoot.fromXml(mContext.getResources().openRawResource(R.raw.tower_settings));
+            mEnemySettingsRoot = EnemySettingsRoot.fromXml(mContext.getResources().openRawResource(R.raw.enemy_settings));
+            mWaveDescriptorRoot = WaveDescriptorRoot.fromXml(mContext.getResources().openRawResource(R.raw.wave_descriptors));
         } catch (Exception e) {
             throw new RuntimeException("Could not load settings!", e);
         }
 
-        mTowerFactory.setTowerSettings(mTowerSettings);
-        mEnemyFactory.configureFactory(mEnemySettings, mGameSettings);
+        mTowerFactory.setTowerSettingsRoot(mTowerSettingsRoot);
+        mEnemyFactory.configureFactory(mEnemySettingsRoot, mGameSettings);
         mGameState.addListener(this);
     }
 
@@ -71,20 +71,20 @@ public class GameLoader implements GameStateListener {
         return mGameSettings;
     }
 
-    public TowerSettings getTowerSettings() {
-        return mTowerSettings;
+    public TowerSettingsRoot getTowerSettingsRoot() {
+        return mTowerSettingsRoot;
     }
 
-    public EnemySettings getEnemySettings() {
-        return mEnemySettings;
+    public EnemySettingsRoot getEnemySettingsRoot() {
+        return mEnemySettingsRoot;
     }
 
     public MapDescriptor getMapDescriptor() {
         return mMapDescriptor;
     }
 
-    public WavesDescriptor getWavesDescriptor() {
-        return mWavesDescriptor;
+    public WaveDescriptorRoot getWaveDescriptorRoot() {
+        return mWaveDescriptorRoot;
     }
 
     public void loadMap(final MapInfo mapInfo) {

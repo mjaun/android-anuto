@@ -1,39 +1,128 @@
 package ch.logixisland.anuto.data.setting;
 
-import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementMap;
 import org.simpleframework.xml.Root;
-import org.simpleframework.xml.Serializer;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-
-import ch.logixisland.anuto.data.serializer.SerializerFactory;
+import java.util.HashMap;
+import java.util.Map;
 
 @Root
 public class TowerSettings {
 
-    @ElementList(entry = "tower", inline = true)
-    private Collection<TowerConfig> mTowerConfigs = new ArrayList<>();
+    @Element(name = "slot", required = false)
+    private int mSlot = -1;
 
-    public static TowerSettings fromXml(InputStream stream) throws Exception {
-        Serializer serializer = new SerializerFactory().createSerializer();
-        return serializer.read(TowerSettings.class, stream);
+    @Element(name = "name")
+    private String mName;
+
+    @Element(name = "upgrade", required = false)
+    private String mUpgrade;
+
+    private int mUpgradeCost;
+
+    @Element(name = "value")
+    private int mValue;
+
+    @Element(name = "damage", required = false)
+    private float mDamage;
+
+    @Element(name = "range")
+    private float mRange;
+
+    @Element(name = "reload")
+    private float mReload;
+
+    @Element(name = "maxLevel")
+    private int mMaxLevel;
+
+    @Element(name = "weaponType", required = false)
+    private WeaponType mWeaponType;
+
+    @Element(name = "enhanceBase")
+    private float mEnhanceBase;
+
+    @Element(name = "enhanceCost")
+    private int mEnhanceCost;
+
+    @Element(name = "enhanceDamage", required = false)
+    private float mEnhanceDamage;
+
+    @Element(name = "enhanceRange", required = false)
+    private float mEnhanceRange;
+
+    @Element(name = "enhanceReload", required = false)
+    private float mEnhanceReload;
+
+    @ElementMap(entry = "property", key = "name", inline = true, required = false, attribute = true)
+    private Map<String, Float> mProperties = new HashMap<>();
+
+    public int getSlot() {
+        return mSlot;
     }
 
-    public TowerConfig getTowerConfig(String name) {
-        for (TowerConfig config : mTowerConfigs) {
-            if (config.getName().equals(name)) {
-                return config;
-            }
-        }
-
-        return null;
+    public String getName() {
+        return mName;
     }
 
-    public Collection<TowerConfig> getTowerConfigs() {
-        return Collections.unmodifiableCollection(mTowerConfigs);
+    public String getUpgrade() {
+        return mUpgrade;
     }
 
+    public int getUpgradeCost() {
+        return mUpgradeCost;
+    }
+
+    public void setUpgradeCost(int upgradeCost) {
+        mUpgradeCost = upgradeCost;
+    }
+
+    public int getValue() {
+        return mValue;
+    }
+
+    public float getDamage() {
+        return mDamage;
+    }
+
+    public float getRange() {
+        return mRange;
+    }
+
+    public float getReload() {
+        return mReload;
+    }
+
+    public int getMaxLevel() {
+        return mMaxLevel;
+    }
+
+    public WeaponType getWeaponType() {
+        return mWeaponType;
+    }
+
+    public float getEnhanceBase() {
+        return mEnhanceBase;
+    }
+
+    public int getEnhanceCost() {
+        return mEnhanceCost;
+    }
+
+    public float getEnhanceDamage() {
+        return mEnhanceDamage;
+    }
+
+    public float getEnhanceRange() {
+        return mEnhanceRange;
+    }
+
+    public float getEnhanceReload() {
+        return mEnhanceReload;
+    }
+
+    public Map<String, Float> getProperties() {
+        return Collections.unmodifiableMap(mProperties);
+    }
 }

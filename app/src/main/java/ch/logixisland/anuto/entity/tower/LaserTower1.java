@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.setting.TowerConfig;
+import ch.logixisland.anuto.data.setting.TowerSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
@@ -34,7 +34,7 @@ public class LaserTower1 extends AimingTower implements SpriteTransformation {
     private StaticSprite mSpriteCanon;
     private Sound mSound;
 
-    public LaserTower1(GameEngine gameEngine, TowerConfig config) {
+    public LaserTower1(GameEngine gameEngine, TowerSettings config) {
         super(gameEngine, config);
         StaticData s = (StaticData) getStaticData();
 
