@@ -5,29 +5,98 @@
 
     <!-- Map Configuration -->
     <plateaus>
-        <plateau name="BasicPlateau" x="0" y="5" />
-        <plateau name="BasicPlateau" x="1" y="5" />
-        <plateau name="BasicPlateau" x="1" y="11" />
-        <plateau name="BasicPlateau" x="2" y="13" />
-        <plateau name="BasicPlateau" x="2" y="7" />
-        <plateau name="BasicPlateau" x="2" y="5" />
-        <plateau name="BasicPlateau" x="3" y="2" />
-        <plateau name="BasicPlateau" x="4" y="2" />
-        <plateau name="BasicPlateau" x="4" y="4" />
-        <plateau name="BasicPlateau" x="4" y="9" />
-        <plateau name="BasicPlateau" x="5" y="9" />
-        <plateau name="BasicPlateau" x="4" y="14" />
-        <plateau name="BasicPlateau" x="4" y="13" />
-        <plateau name="BasicPlateau" x="5" y="7" />
-        <plateau name="BasicPlateau" x="6" y="11" />
-        <plateau name="BasicPlateau" x="6" y="5" />
-        <plateau name="BasicPlateau" x="6" y="2" />
-        <plateau name="BasicPlateau" x="7" y="8" />
-        <plateau name="BasicPlateau" x="7" y="0" />
-        <plateau name="BasicPlateau" x="7" y="5" />
-        <plateau name="BasicPlateau" x="8" y="12" />
-        <plateau name="BasicPlateau" x="8" y="5" />
-        <plateau name="BasicPlateau" x="9" y="5" />
+        <plateau
+            name="basic"
+            x="0"
+            y="5"/>
+        <plateau
+            name="basic"
+            x="1"
+            y="5"/>
+        <plateau
+            name="basic"
+            x="1"
+            y="11"/>
+        <plateau
+            name="basic"
+            x="2"
+            y="13"/>
+        <plateau
+            name="basic"
+            x="2"
+            y="7"/>
+        <plateau
+            name="basic"
+            x="2"
+            y="5"/>
+        <plateau
+            name="basic"
+            x="3"
+            y="2"/>
+        <plateau
+            name="basic"
+            x="4"
+            y="2"/>
+        <plateau
+            name="basic"
+            x="4"
+            y="4"/>
+        <plateau
+            name="basic"
+            x="4"
+            y="9"/>
+        <plateau
+            name="basic"
+            x="5"
+            y="9"/>
+        <plateau
+            name="basic"
+            x="4"
+            y="14"/>
+        <plateau
+            name="basic"
+            x="4"
+            y="13"/>
+        <plateau
+            name="basic"
+            x="5"
+            y="7"/>
+        <plateau
+            name="basic"
+            x="6"
+            y="11"/>
+        <plateau
+            name="basic"
+            x="6"
+            y="5"/>
+        <plateau
+            name="basic"
+            x="6"
+            y="2"/>
+        <plateau
+            name="basic"
+            x="7"
+            y="8"/>
+        <plateau
+            name="basic"
+            x="7"
+            y="0"/>
+        <plateau
+            name="basic"
+            x="7"
+            y="5"/>
+        <plateau
+            name="basic"
+            x="8"
+            y="12"/>
+        <plateau
+            name="basic"
+            x="8"
+            y="5"/>
+        <plateau
+            name="basic"
+            x="9"
+            y="5"/>
     </plateaus>
     <paths>
         <path>
