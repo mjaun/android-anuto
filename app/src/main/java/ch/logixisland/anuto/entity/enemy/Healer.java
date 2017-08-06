@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.setting.EnemyProperties;
+import ch.logixisland.anuto.data.setting.HealerProperties;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickListener;
 import ch.logixisland.anuto.engine.logic.TickTimer;
@@ -72,29 +72,31 @@ public class Healer extends Enemy implements SpriteTransformation {
         }
     }
 
+    private HealerProperties mConfig;
     private float mHealAmount;
     private float mHealRange;
     private StaticData mStatic;
 
     private ReplicatedSprite mSprite;
 
-    public Healer(GameEngine gameEngine, EnemyProperties config) {
+    public Healer(GameEngine gameEngine, HealerProperties config) {
         super(gameEngine, config);
+        mConfig = config;
         mStatic = (StaticData) getStaticData();
 
         mSprite = getSpriteFactory().createReplication(mStatic.mReferenceSprite);
         mSprite.setListener(this);
 
-        mHealAmount = getProperty("healAmount");
-        mHealRange = getProperty("healRadius");
+        mHealAmount = config.getHealAmount();
+        mHealRange = config.getHealRadius();
     }
 
     @Override
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.mHealInterval = getProperty("healInterval");
-        s.mHealDuration = getProperty("healDuration");
+        s.mHealInterval = mConfig.getHealInterval();
+        s.mHealDuration = mConfig.getHealDuration();
 
         s.mHealTimer = TickTimer.createInterval(s.mHealInterval);
         s.mHealedEnemies = new ArrayList<>();

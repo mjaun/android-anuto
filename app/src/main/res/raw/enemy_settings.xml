@@ -22,10 +22,10 @@
         <health>400</health>
         <speed>1.2</speed>
         <reward>30</reward>
-        <property name="healAmount">0.1</property>
-        <property name="healInterval">5</property>
-        <property name="healDuration">1.5</property>
-        <property name="healRadius">0.7</property>
+        <healAmount>0.1</healAmount>
+        <healInterval>5</healInterval>
+        <healDuration>1.5</healDuration>
+        <healRadius>0.7</healRadius>
         <weakAgainst>Laser</weakAgainst>
         <weakAgainst>Bullet</weakAgainst>
     </healer>

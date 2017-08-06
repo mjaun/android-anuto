@@ -323,8 +323,4 @@ public abstract class Enemy extends Entity {
         mListeners.remove(listener);
     }
 
-    float getProperty(String name) {
-        return mConfig.getProperties().get(name);
-    }
-
 }

@@ -2,14 +2,11 @@ package ch.logixisland.anuto.data.setting;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
-import org.simpleframework.xml.ElementMap;
 import org.simpleframework.xml.Root;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 @Root
 public class EnemyProperties {
@@ -29,9 +26,6 @@ public class EnemyProperties {
     @ElementList(entry = "strongAgainst", inline = true, required = false)
     private Collection<WeaponType> mStrongAgainst = new ArrayList<>();
 
-    @ElementMap(entry = "property", key = "name", inline = true, required = false, attribute = true)
-    private Map<String, Float> mProperties = new HashMap<>();
-
     public float getHealth() {
         return mHealth;
     }
@@ -50,10 +44,6 @@ public class EnemyProperties {
 
     public Collection<WeaponType> getStrongAgainst() {
         return Collections.unmodifiableCollection(mStrongAgainst);
-    }
-
-    public Map<String, Float> getProperties() {
-        return Collections.unmodifiableMap(mProperties);
     }
 
 }

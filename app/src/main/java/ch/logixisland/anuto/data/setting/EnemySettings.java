@@ -21,7 +21,7 @@ public class EnemySettings {
     private EnemyProperties mSprinterProperties;
 
     @Element(name = "healer")
-    private EnemyProperties mHealerProperties;
+    private HealerProperties mHealerProperties;
 
     @Element(name = "flyer")
     private EnemyProperties mFlyerProperties;
@@ -43,7 +43,7 @@ public class EnemySettings {
         return mSprinterProperties;
     }
 
-    public EnemyProperties getHealerProperties() {
+    public HealerProperties getHealerProperties() {
         return mHealerProperties;
     }
 
