@@ -152,7 +152,7 @@ public class WaveManager implements GameStateListener {
             return;
         }
 
-        setNextWaveReady(mNextWaveReady);
+        setNextWaveReady(true);
     }
 
     private void updateBonusOnScoreBoard() {
