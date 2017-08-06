@@ -8,9 +8,9 @@ import android.graphics.Paint;
 
 import java.io.InputStream;
 
-import ch.logixisland.anuto.data.descriptor.MapDescriptor;
-import ch.logixisland.anuto.data.descriptor.PathDescriptor;
-import ch.logixisland.anuto.data.descriptor.PlateauDescriptor;
+import ch.logixisland.anuto.data.map.MapDescriptor;
+import ch.logixisland.anuto.data.map.PathDescriptor;
+import ch.logixisland.anuto.data.map.PlateauDescriptor;
 import ch.logixisland.anuto.engine.render.Viewport;
 import ch.logixisland.anuto.util.math.Vector2;
 

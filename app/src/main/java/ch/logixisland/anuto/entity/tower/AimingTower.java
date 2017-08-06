@@ -1,6 +1,6 @@
 package ch.logixisland.anuto.entity.tower;
 
-import ch.logixisland.anuto.data.setting.TowerSettings;
+import ch.logixisland.anuto.data.tower.TowerSettings;
 import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.EntityListener;
 import ch.logixisland.anuto.engine.logic.GameEngine;

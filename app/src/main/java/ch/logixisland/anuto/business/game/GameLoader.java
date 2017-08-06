@@ -5,12 +5,14 @@ import android.content.Context;
 import java.io.InputStream;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.descriptor.MapDescriptor;
-import ch.logixisland.anuto.data.descriptor.PlateauDescriptor;
-import ch.logixisland.anuto.data.descriptor.WaveDescriptorRoot;
-import ch.logixisland.anuto.data.setting.EnemySettingsRoot;
-import ch.logixisland.anuto.data.setting.GameSettings;
-import ch.logixisland.anuto.data.setting.TowerSettingsRoot;
+import ch.logixisland.anuto.business.score.ScoreBoard;
+import ch.logixisland.anuto.data.enemy.EnemySettingsRoot;
+import ch.logixisland.anuto.data.game.GameSettings;
+import ch.logixisland.anuto.data.map.MapDescriptor;
+import ch.logixisland.anuto.data.map.MapInfo;
+import ch.logixisland.anuto.data.map.PlateauDescriptor;
+import ch.logixisland.anuto.data.tower.TowerSettingsRoot;
+import ch.logixisland.anuto.data.wave.WaveDescriptorRoot;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Viewport;
 import ch.logixisland.anuto.entity.enemy.EnemyFactory;
@@ -69,14 +71,6 @@ public class GameLoader implements GameStateListener {
 
     public GameSettings getGameSettings() {
         return mGameSettings;
-    }
-
-    public TowerSettingsRoot getTowerSettingsRoot() {
-        return mTowerSettingsRoot;
-    }
-
-    public EnemySettingsRoot getEnemySettingsRoot() {
-        return mEnemySettingsRoot;
     }
 
     public MapDescriptor getMapDescriptor() {

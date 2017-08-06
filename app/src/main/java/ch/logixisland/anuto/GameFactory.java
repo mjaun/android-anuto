@@ -2,19 +2,18 @@ package ch.logixisland.anuto;
 
 import android.content.Context;
 
-import ch.logixisland.anuto.business.control.BackButtonControl;
-import ch.logixisland.anuto.business.control.TowerControl;
-import ch.logixisland.anuto.business.control.TowerInserter;
-import ch.logixisland.anuto.business.control.TowerSelector;
 import ch.logixisland.anuto.business.game.GameLoader;
 import ch.logixisland.anuto.business.game.GameSpeed;
 import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.game.HighScores;
-import ch.logixisland.anuto.business.game.MapRepository;
-import ch.logixisland.anuto.business.game.ScoreBoard;
-import ch.logixisland.anuto.business.game.TowerAging;
-import ch.logixisland.anuto.business.game.WaveManager;
+import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.business.setting.SettingsManager;
+import ch.logixisland.anuto.business.tower.TowerAging;
+import ch.logixisland.anuto.business.tower.TowerControl;
+import ch.logixisland.anuto.business.tower.TowerInserter;
+import ch.logixisland.anuto.business.tower.TowerSelector;
+import ch.logixisland.anuto.business.wave.WaveManager;
+import ch.logixisland.anuto.data.map.MapRepository;
 import ch.logixisland.anuto.engine.logic.EntityStore;
 import ch.logixisland.anuto.engine.logic.FrameRateLogger;
 import ch.logixisland.anuto.engine.logic.GameEngine;
@@ -63,7 +62,6 @@ public class GameFactory {
     private final GameSpeed mSpeedManager;
     private final GameState mGameState;
     private final SettingsManager mSettingsManager;
-    private final BackButtonControl mBackButtonControl;
 
     public GameFactory(Context context) {
         // Engine
@@ -98,7 +96,6 @@ public class GameFactory {
         mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector, mTowerFactory);
         mTowerInserter = new TowerInserter(mGameEngine, mGameState, mTowerFactory, mTowerSelector, mTowerAging, mScoreBoard);
         mSettingsManager = new SettingsManager(context, mThemeManager, mSoundManager);
-        mBackButtonControl = new BackButtonControl(mSettingsManager);
 
         mGameState.restart();
     }
@@ -157,10 +154,6 @@ public class GameFactory {
 
     public SettingsManager getSettingsManager() {
         return mSettingsManager;
-    }
-
-    public BackButtonControl getBackButtonControl() {
-        return mBackButtonControl;
     }
 
     public MapRepository getMapRepository() {

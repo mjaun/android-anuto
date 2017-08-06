@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.setting.TowerSettings;
+import ch.logixisland.anuto.data.tower.TowerSettings;
 import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.EntityListener;
 import ch.logixisland.anuto.engine.logic.GameEngine;

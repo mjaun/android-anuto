@@ -15,8 +15,8 @@ import java.util.List;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.game.HighScores;
-import ch.logixisland.anuto.business.game.MapInfo;
-import ch.logixisland.anuto.business.game.MapRepository;
+import ch.logixisland.anuto.data.map.MapInfo;
+import ch.logixisland.anuto.data.map.MapRepository;
 
 class MapsAdapter extends BaseAdapter {
 

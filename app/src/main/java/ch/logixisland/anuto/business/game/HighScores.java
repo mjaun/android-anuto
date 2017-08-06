@@ -3,6 +3,8 @@ package ch.logixisland.anuto.business.game;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import ch.logixisland.anuto.business.score.ScoreBoard;
+
 public class HighScores implements GameStateListener {
 
     private final SharedPreferences mHighScores;

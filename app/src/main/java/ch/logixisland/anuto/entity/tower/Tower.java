@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.data.descriptor.PathDescriptor;
-import ch.logixisland.anuto.data.setting.TowerSettings;
-import ch.logixisland.anuto.data.setting.WeaponType;
+import ch.logixisland.anuto.data.enemy.WeaponType;
+import ch.logixisland.anuto.data.map.PathDescriptor;
+import ch.logixisland.anuto.data.tower.TowerSettings;
 import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickTimer;

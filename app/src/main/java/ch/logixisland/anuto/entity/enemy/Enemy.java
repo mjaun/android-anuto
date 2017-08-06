@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.data.setting.EnemySettings;
-import ch.logixisland.anuto.data.setting.WeaponType;
+import ch.logixisland.anuto.data.enemy.EnemySettings;
+import ch.logixisland.anuto.data.enemy.WeaponType;
 import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.entity.Types;

@@ -3,6 +3,8 @@ package ch.logixisland.anuto.business.game;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.business.score.LivesListener;
+import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.theme.Theme;
 import ch.logixisland.anuto.engine.theme.ThemeListener;

@@ -1,7 +1,7 @@
 package ch.logixisland.anuto.entity.enemy;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.setting.EnemySettings;
+import ch.logixisland.anuto.data.enemy.EnemySettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickListener;
 import ch.logixisland.anuto.engine.render.Layers;

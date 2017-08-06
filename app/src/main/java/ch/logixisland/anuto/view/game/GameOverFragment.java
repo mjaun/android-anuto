@@ -15,7 +15,7 @@ import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.game.GameStateListener;
-import ch.logixisland.anuto.business.game.ScoreBoard;
+import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.view.AnutoFragment;
 
 public class GameOverFragment extends AnutoFragment implements GameStateListener {

@@ -8,9 +8,8 @@ import android.widget.Toast;
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.business.control.BackButtonControl;
-import ch.logixisland.anuto.business.control.TowerSelector;
 import ch.logixisland.anuto.business.setting.BackButtonMode;
+import ch.logixisland.anuto.business.tower.TowerSelector;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.theme.ActivityType;
 import ch.logixisland.anuto.view.AnutoActivity;
@@ -29,7 +28,7 @@ public class GameActivity extends AnutoActivity {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
         mGameEngine = factory.getGameEngine();
         mTowerSelector = factory.getTowerSelector();
-        mBackButtonControl = factory.getBackButtonControl();
+        mBackButtonControl = new BackButtonControl(factory.getSettingsManager());
     }
 
     @Override
