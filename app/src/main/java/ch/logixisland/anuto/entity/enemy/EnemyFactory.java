@@ -2,6 +2,7 @@ package ch.logixisland.anuto.entity.enemy;
 
 import ch.logixisland.anuto.data.setting.EnemyConfig;
 import ch.logixisland.anuto.data.setting.EnemySettings;
+import ch.logixisland.anuto.data.setting.GameSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.util.GenericFactory;
 
@@ -11,6 +12,7 @@ public class EnemyFactory {
     private final GenericFactory<Enemy> mFactory;
 
     private EnemySettings mEnemySettings;
+    private GameSettings mGameSettings;
 
     public EnemyFactory(GameEngine gameEngine) {
         mGameEngine = gameEngine;
@@ -23,8 +25,9 @@ public class EnemyFactory {
         mFactory.registerClass(Sprinter.class);
     }
 
-    public void setEnemySettings(EnemySettings enemySettings) {
+    public void configureFactory(EnemySettings enemySettings, GameSettings gameSettings) {
         mEnemySettings = enemySettings;
+        mGameSettings = gameSettings;
     }
 
     public Enemy createEnemy(String name) {
@@ -33,11 +36,11 @@ public class EnemyFactory {
         enemy.resetHealth(config.getHealth());
         enemy.setReward(config.getReward());
         enemy.setBaseSpeed(config.getSpeed());
-        enemy.setMinSpeedModifier(mEnemySettings.getMinSpeedModifier());
+        enemy.setMinSpeedModifier(mGameSettings.getMinSpeedModifier());
         enemy.setStrongAgainst(config.getStrongAgainst());
         enemy.setWeakAgainst(config.getWeakAgainst());
-        enemy.setStrongAgainstModifier(mEnemySettings.getStrongAgainstModifier());
-        enemy.setWeakAgainstModifier(mEnemySettings.getWeakAgainstModifier());
+        enemy.setStrongAgainstModifier(mGameSettings.getStrongAgainstModifier());
+        enemy.setWeakAgainstModifier(mGameSettings.getWeakAgainstModifier());
         return enemy;
     }
 

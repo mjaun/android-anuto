@@ -1,6 +1,5 @@
 package ch.logixisland.anuto.data.setting;
 
-import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Serializer;
@@ -13,15 +12,6 @@ import ch.logixisland.anuto.data.serializer.SerializerFactory;
 
 @Root
 public class EnemySettings {
-
-    @Element(name = "minSpeedModifier")
-    private float mMinSpeedModifier;
-
-    @Element(name = "weakAgainstModifier")
-    private float mWeakAgainstModifier;
-
-    @Element(name = "strongAgainstModifier")
-    private float mStrongAgainstModifier;
 
     @ElementList(entry = "enemy", inline = true)
     private Collection<EnemyConfig> mEnemyConfigs = new ArrayList<>();
@@ -41,15 +31,4 @@ public class EnemySettings {
         return null;
     }
 
-    public float getMinSpeedModifier() {
-        return mMinSpeedModifier;
-    }
-
-    public float getWeakAgainstModifier() {
-        return mWeakAgainstModifier;
-    }
-
-    public float getStrongAgainstModifier() {
-        return mStrongAgainstModifier;
-    }
 }

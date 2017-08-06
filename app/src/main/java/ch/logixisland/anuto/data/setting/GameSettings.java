@@ -47,6 +47,15 @@ public class GameSettings {
     @Element(name = "earlyExponent")
     private float mEarlyExponent;
 
+    @Element(name = "minSpeedModifier")
+    private float mMinSpeedModifier;
+
+    @Element(name = "weakAgainstModifier")
+    private float mWeakAgainstModifier;
+
+    @Element(name = "strongAgainstModifier")
+    private float mStrongAgainstModifier;
+
     public static GameSettings fromXml(InputStream stream) throws Exception {
         Serializer serializer = new SerializerFactory().createSerializer();
         return serializer.read(GameSettings.class, stream);
@@ -98,5 +107,17 @@ public class GameSettings {
 
     public float getEarlyExponent() {
         return mEarlyExponent;
+    }
+
+    public float getMinSpeedModifier() {
+        return mMinSpeedModifier;
+    }
+
+    public float getWeakAgainstModifier() {
+        return mWeakAgainstModifier;
+    }
+
+    public float getStrongAgainstModifier() {
+        return mStrongAgainstModifier;
     }
 }

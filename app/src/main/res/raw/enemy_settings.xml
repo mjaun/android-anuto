@@ -1,7 +1,4 @@
 <enemies>
-    <minSpeedModifier>0.01</minSpeedModifier>
-    <strongAgainstModifier>0.5</strongAgainstModifier>
-    <weakAgainstModifier>2.0</weakAgainstModifier>
     <enemy>
         <name>Soldier</name>
         <health>300</health>

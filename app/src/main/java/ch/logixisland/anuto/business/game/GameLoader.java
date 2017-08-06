@@ -59,7 +59,7 @@ public class GameLoader implements GameStateListener {
         }
 
         mTowerFactory.setTowerSettings(mTowerSettings);
-        mEnemyFactory.setEnemySettings(mEnemySettings);
+        mEnemyFactory.configureFactory(mEnemySettings, mGameSettings);
         mGameState.addListener(this);
     }
 
