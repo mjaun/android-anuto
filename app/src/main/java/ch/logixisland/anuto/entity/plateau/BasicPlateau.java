@@ -53,6 +53,6 @@ public class BasicPlateau extends Plateau implements SpriteTransformation {
 
     @Override
     public void draw(SpriteInstance sprite, SpriteTransformer transformer) {
-        transformer.translate(this);
+        transformer.translate(getPosition());
     }
 }

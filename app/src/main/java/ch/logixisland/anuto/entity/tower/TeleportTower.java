@@ -118,7 +118,7 @@ public class TeleportTower extends AimingTower implements SpriteTransformation {
 
     @Override
     public void draw(SpriteInstance sprite, SpriteTransformer transformer) {
-        transformer.translate(this);
+        transformer.translate(getPosition());
     }
 
     @Override

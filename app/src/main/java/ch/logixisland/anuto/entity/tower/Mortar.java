@@ -117,7 +117,7 @@ public class Mortar extends AimingTower implements SpriteTransformation {
 
     @Override
     public void draw(SpriteInstance sprite, SpriteTransformer transformer) {
-        transformer.translate(this);
+        transformer.translate(getPosition());
 
         if (sprite == mSpriteCanon) {
             transformer.rotate(mAngle);

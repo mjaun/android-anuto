@@ -86,7 +86,7 @@ public class MortarShot extends Shot implements SpriteTransformation {
     @Override
     public void draw(SpriteInstance sprite, SpriteTransformer transformer) {
         float s = mHeightScalingFunction.getValue();
-        transformer.translate(this);
+        transformer.translate(getPosition());
         transformer.scale(s);
         transformer.rotate(mAngle);
     }

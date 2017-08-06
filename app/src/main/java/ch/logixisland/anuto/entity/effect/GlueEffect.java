@@ -76,7 +76,7 @@ public class GlueEffect extends AreaEffect implements SpriteTransformation {
 
     @Override
     public void draw(SpriteInstance sprite, SpriteTransformer transformer) {
-        transformer.translate(this);
+        transformer.translate(getPosition());
         transformer.rotate(mAngle);
     }
 

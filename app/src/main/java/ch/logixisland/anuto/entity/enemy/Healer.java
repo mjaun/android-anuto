@@ -159,7 +159,7 @@ public class Healer extends Enemy implements SpriteTransformation {
 
     @Override
     public void draw(SpriteInstance sprite, SpriteTransformer transformer) {
-        transformer.translate(this);
+        transformer.translate(getPosition());
         transformer.rotate(mStatic.mAngle);
         transformer.scale(mStatic.mScale);
     }
