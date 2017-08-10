@@ -9,22 +9,19 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.data.tower.TowerSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Layers;
-import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.engine.sound.Sound;
-import ch.logixisland.anuto.entity.shot.CanonShotMg;
-import ch.logixisland.anuto.entity.shot.Shot;
+import ch.logixisland.anuto.entity.effect.BouncingLaser;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class CanonMg extends AimingTower implements SpriteTransformation {
+public class SimpleLaser extends AimingTower implements SpriteTransformation {
 
-    private final static float SHOT_SPAWN_OFFSET = 0.7f;
-    private final static float MG_ROTATION_SPEED = 2f;
+    private final static float LASER_SPAWN_OFFSET = 0.7f;
 
     private class StaticData {
         SpriteTemplate mSpriteTemplateBase;
@@ -32,37 +29,35 @@ public class CanonMg extends AimingTower implements SpriteTransformation {
     }
 
     private float mAngle = 90f;
+
     private StaticSprite mSpriteBase;
-    private AnimatedSprite mSpriteCanon;
-    private int mShotCount = 0;
+    private StaticSprite mSpriteCanon;
     private Sound mSound;
 
-    public CanonMg(GameEngine gameEngine, TowerSettings config) {
-        super(gameEngine, config);
+    public SimpleLaser(GameEngine gameEngine, TowerSettings settings) {
+        super(gameEngine, settings);
         StaticData s = (StaticData) getStaticData();
 
         mSpriteBase = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplateBase);
-        mSpriteBase.setListener(this);
         mSpriteBase.setIndex(RandomUtils.next(4));
+        mSpriteBase.setListener(this);
 
-        mSpriteCanon = getSpriteFactory().createAnimated(Layers.TOWER, s.mSpriteTemplateCanon);
+        mSpriteCanon = getSpriteFactory().createStatic(Layers.TOWER, s.mSpriteTemplateCanon);
+        mSpriteCanon.setIndex(RandomUtils.next(4));
         mSpriteCanon.setListener(this);
-        mSpriteCanon.setSequenceForward();
-        mSpriteCanon.setFrequency(MG_ROTATION_SPEED);
 
-        mSound = getSoundFactory().createSound(R.raw.gun3_dit);
-        mSound.setVolume(0.5f);
+        mSound = getSoundFactory().createSound(R.raw.laser1_zz);
     }
 
     @Override
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.mSpriteTemplateBase = getSpriteFactory().createTemplate(R.attr.base1, 4);
-        s.mSpriteTemplateBase.setMatrix(1f, 1f, null, null);
+        s.mSpriteTemplateBase = getSpriteFactory().createTemplate(R.attr.base5, 4);
+        s.mSpriteTemplateBase.setMatrix(1f, 1f, null, -90f);
 
-        s.mSpriteTemplateCanon = getSpriteFactory().createTemplate(R.attr.canonMg, 5);
-        s.mSpriteTemplateCanon.setMatrix(0.8f, 1.0f, new Vector2(0.4f, 0.4f), -90f);
+        s.mSpriteTemplateCanon = getSpriteFactory().createTemplate(R.attr.laserTower1, 4);
+        s.mSpriteTemplateCanon.setMatrix(0.4f, 0.9f, new Vector2(0.2f, 0.2f), -90f);
 
         return s;
     }
@@ -89,19 +84,12 @@ public class CanonMg extends AimingTower implements SpriteTransformation {
 
         if (getTarget() != null) {
             mAngle = getAngleTo(getTarget());
-            mSpriteCanon.tick();
 
             if (isReloaded()) {
-                Shot shot = new CanonShotMg(this, getPosition(), getDirectionTo(getTarget()), getDamage());
-                shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
-                getGameEngine().add(shot);
-                mShotCount++;
-
-                if (mShotCount % 2 == 0) {
-                    mSound.play();
-                }
-
+                Vector2 from = getPosition().add(Vector2.polar(LASER_SPAWN_OFFSET, mAngle));
+                getGameEngine().add(new BouncingLaser(this, from, getTarget(), getDamage()));
                 setReloaded(false);
+                mSound.play();
             }
         }
     }
@@ -119,12 +107,12 @@ public class CanonMg extends AimingTower implements SpriteTransformation {
     }
 
     @Override
-    public List<TowerProperty> getProperties() {
-        List<TowerProperty> properties = new ArrayList<>();
-        properties.add(new TowerProperty(R.string.damage, getDamage()));
-        properties.add(new TowerProperty(R.string.reload, getReloadTime()));
-        properties.add(new TowerProperty(R.string.range, getRange()));
-        properties.add(new TowerProperty(R.string.inflicted, getDamageInflicted()));
+    public List<TowerInfoValue> getTowerInfoValues() {
+        List<TowerInfoValue> properties = new ArrayList<>();
+        properties.add(new TowerInfoValue(R.string.damage, getDamage()));
+        properties.add(new TowerInfoValue(R.string.reload, getReloadTime()));
+        properties.add(new TowerInfoValue(R.string.range, getRange()));
+        properties.add(new TowerInfoValue(R.string.inflicted, getDamageInflicted()));
         return properties;
     }
 }

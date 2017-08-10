@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.tower.TowerSettings;
+import ch.logixisland.anuto.data.tower.TeleporterSettings;
 import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.EntityListener;
 import ch.logixisland.anuto.engine.logic.GameEngine;
@@ -23,7 +23,7 @@ import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
-public class TeleportTower extends AimingTower implements SpriteTransformation {
+public class Teleporter extends AimingTower implements SpriteTransformation {
 
     private class StaticData implements EntityListener {
         SpriteTemplate mSpriteTemplateBase;
@@ -37,18 +37,20 @@ public class TeleportTower extends AimingTower implements SpriteTransformation {
         }
     }
 
+    private TeleporterSettings mSettings;
+
     private float mTeleportDistance;
 
     private StaticSprite mSpriteBase;
-
     private StaticSprite mSpriteTower;
     private Sound mSound;
 
-    public TeleportTower(GameEngine gameEngine, TowerSettings config) {
-        super(gameEngine, config);
-        mTeleportDistance = getProperty("teleportDistance");
-
+    public Teleporter(GameEngine gameEngine, TeleporterSettings settings) {
+        super(gameEngine, settings);
         StaticData s = (StaticData) getStaticData();
+
+        mSettings = settings;
+        mTeleportDistance = settings.getTeleportDistance();
 
         mSpriteBase = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplateBase);
         mSpriteBase.setListener(this);
@@ -93,7 +95,7 @@ public class TeleportTower extends AimingTower implements SpriteTransformation {
     @Override
     public void enhance() {
         super.enhance();
-        mTeleportDistance += getProperty("enhanceTeleportDistance");
+        mTeleportDistance += mSettings.getEnhanceTeleportDistance();
     }
 
     @Override
@@ -128,11 +130,11 @@ public class TeleportTower extends AimingTower implements SpriteTransformation {
     }
 
     @Override
-    public List<TowerProperty> getProperties() {
-        List<TowerProperty> properties = new ArrayList<>();
-        properties.add(new TowerProperty(R.string.distance, mTeleportDistance));
-        properties.add(new TowerProperty(R.string.reload, getReloadTime()));
-        properties.add(new TowerProperty(R.string.range, getRange()));
+    public List<TowerInfoValue> getTowerInfoValues() {
+        List<TowerInfoValue> properties = new ArrayList<>();
+        properties.add(new TowerInfoValue(R.string.distance, mTeleportDistance));
+        properties.add(new TowerInfoValue(R.string.reload, getReloadTime()));
+        properties.add(new TowerInfoValue(R.string.range, getRange()));
         return properties;
     }
 

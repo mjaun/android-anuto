@@ -43,8 +43,8 @@ public class Canon extends AimingTower implements SpriteTransformation {
 
     private Sound mSound;
 
-    public Canon(GameEngine gameEngine, TowerSettings config) {
-        super(gameEngine, config);
+    public Canon(GameEngine gameEngine, TowerSettings settings) {
+        super(gameEngine, settings);
         StaticData s = (StaticData) getStaticData();
 
         mReboundFunction = Function.sine()
@@ -137,12 +137,12 @@ public class Canon extends AimingTower implements SpriteTransformation {
     }
 
     @Override
-    public List<TowerProperty> getProperties() {
-        List<TowerProperty> properties = new ArrayList<>();
-        properties.add(new TowerProperty(R.string.damage, getDamage()));
-        properties.add(new TowerProperty(R.string.reload, getReloadTime()));
-        properties.add(new TowerProperty(R.string.range, getRange()));
-        properties.add(new TowerProperty(R.string.inflicted, getDamageInflicted()));
+    public List<TowerInfoValue> getTowerInfoValues() {
+        List<TowerInfoValue> properties = new ArrayList<>();
+        properties.add(new TowerInfoValue(R.string.damage, getDamage()));
+        properties.add(new TowerInfoValue(R.string.reload, getReloadTime()));
+        properties.add(new TowerInfoValue(R.string.range, getRange()));
+        properties.add(new TowerInfoValue(R.string.inflicted, getDamageInflicted()));
         return properties;
     }
 }

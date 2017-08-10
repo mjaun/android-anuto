@@ -3,10 +3,12 @@ package ch.logixisland.anuto.entity.tower;
 import android.graphics.Canvas;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.tower.TowerSettings;
+import ch.logixisland.anuto.data.map.PathDescriptor;
+import ch.logixisland.anuto.data.tower.MineLayerSettings;
 import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.EntityListener;
 import ch.logixisland.anuto.engine.logic.GameEngine;
@@ -30,12 +32,15 @@ public class MineLayer extends Tower implements SpriteTransformation {
         public SpriteTemplate mSpriteTemplate;
     }
 
+    private MineLayerSettings mSettings;
+    private Collection<PathDescriptor> mPaths;
+
     private float mAngle;
     private int mMaxMineCount;
     private float mExplosionRadius;
     private boolean mShooting;
-    private List<Line> mSections;
-    private List<Mine> mMines = new ArrayList<>();
+    private Collection<Line> mSections;
+    private Collection<Mine> mMines = new ArrayList<>();
 
     private AnimatedSprite mSprite;
     private Sound mSound;
@@ -49,9 +54,12 @@ public class MineLayer extends Tower implements SpriteTransformation {
         }
     };
 
-    public MineLayer(GameEngine gameEngine, TowerSettings config) {
-        super(gameEngine, config);
+    public MineLayer(GameEngine gameEngine, MineLayerSettings settings, Collection<PathDescriptor> paths) {
+        super(gameEngine, settings);
         StaticData s = (StaticData) getStaticData();
+
+        mPaths = paths;
+        mSettings = settings;
 
         mSprite = getSpriteFactory().createAnimated(Layers.TOWER_BASE, s.mSpriteTemplate);
         mSprite.setListener(this);
@@ -59,8 +67,8 @@ public class MineLayer extends Tower implements SpriteTransformation {
         mSprite.setInterval(ANIMATION_DURATION);
 
         mAngle = RandomUtils.next(360f);
-        mMaxMineCount = (int) getProperty("maxMineCount");
-        mExplosionRadius = getProperty("explosionRadius");
+        mMaxMineCount = mSettings.getMaxMineCount();
+        mExplosionRadius = mSettings.getExplosionRadius();
 
         mSound = getSoundFactory().createSound(R.raw.gun2_donk);
     }
@@ -99,20 +107,20 @@ public class MineLayer extends Tower implements SpriteTransformation {
     @Override
     public void setPosition(Vector2 position) {
         super.setPosition(position);
-        mSections = getPathSectionsInRange();
+        mSections = getPathSectionsInRange(mPaths);
     }
 
     @Override
     public void move(Vector2 offset) {
         super.move(offset);
-        mSections = getPathSectionsInRange();
+        mSections = getPathSectionsInRange(mPaths);
     }
 
     @Override
     public void enhance() {
         super.enhance();
-        mMaxMineCount += getProperty("enhanceMaxMineCount");
-        mExplosionRadius += getProperty("enhanceExplosionRadius");
+        mMaxMineCount += mSettings.getEnhanceMaxMineCount();
+        mExplosionRadius += mSettings.getEnhanceExplosionRadius();
     }
 
     @Override
@@ -155,13 +163,13 @@ public class MineLayer extends Tower implements SpriteTransformation {
     }
 
     @Override
-    public List<TowerProperty> getProperties() {
-        List<TowerProperty> properties = new ArrayList<>();
-        properties.add(new TowerProperty(R.string.damage, getDamage()));
-        properties.add(new TowerProperty(R.string.splash, mExplosionRadius));
-        properties.add(new TowerProperty(R.string.reload, getReloadTime()));
-        properties.add(new TowerProperty(R.string.range, getRange()));
-        properties.add(new TowerProperty(R.string.inflicted, getDamageInflicted()));
+    public List<TowerInfoValue> getTowerInfoValues() {
+        List<TowerInfoValue> properties = new ArrayList<>();
+        properties.add(new TowerInfoValue(R.string.damage, getDamage()));
+        properties.add(new TowerInfoValue(R.string.splash, mExplosionRadius));
+        properties.add(new TowerInfoValue(R.string.reload, getReloadTime()));
+        properties.add(new TowerInfoValue(R.string.range, getRange()));
+        properties.add(new TowerInfoValue(R.string.inflicted, getDamageInflicted()));
         return properties;
     }
 

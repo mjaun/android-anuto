@@ -1,9 +1,14 @@
 <towers>
+    <slots>
+        <slot1>canon</slot1>
+        <slot2>simpleLaser</slot2>
+        <slot3>mortar</slot3>
+        <slot4>glueTower</slot4>
+    </slots>
+
     <!--- Canon Towers -->
-    <tower>
-        <slot>0</slot>
-        <name>Canon</name>
-        <upgrade>CanonDual</upgrade>
+    <canon>
+        <upgrade>dualCanon</upgrade>
         <value>100</value>
         <damage>100</damage>
         <range>2.5</range>
@@ -15,10 +20,9 @@
         <enhanceDamage>50</enhanceDamage>
         <enhanceRange>0.1</enhanceRange>
         <enhanceReload>0.05</enhanceReload>
-    </tower>
-    <tower>
-        <name>CanonDual</name>
-        <upgrade>CanonMg</upgrade>
+    </canon>
+    <dualCanon>
+        <upgrade>machineGun</upgrade>
         <value>1400</value>
         <damage>425</damage>
         <range>3.0</range>
@@ -30,9 +34,8 @@
         <enhanceDamage>75</enhanceDamage>
         <enhanceRange>0.1</enhanceRange>
         <enhanceReload>0.03</enhanceReload>
-    </tower>
-    <tower>
-        <name>CanonMg</name>
+    </dualCanon>
+    <machineGun>
         <value>15000</value>
         <damage>550</damage>
         <range>3.5</range>
@@ -44,13 +47,11 @@
         <enhanceDamage>135</enhanceDamage>
         <enhanceRange>0.1</enhanceRange>
         <enhanceReload>0.01</enhanceReload>
-    </tower>
+    </machineGun>
 
     <!-- Laser Towers -->
-    <tower>
-        <slot>1</slot>
-        <name>LaserTower1</name>
-        <upgrade>LaserTower2</upgrade>
+    <simpleLaser>
+        <upgrade>bouncingLaser</upgrade>
         <value>150</value>
         <damage>450</damage>
         <range>2.8</range>
@@ -62,10 +63,9 @@
         <enhanceDamage>170</enhanceDamage>
         <enhanceRange>0.1</enhanceRange>
         <enhanceReload>0.1</enhanceReload>
-    </tower>
-    <tower>
-        <name>LaserTower2</name>
-        <upgrade>LaserTower3</upgrade>
+    </simpleLaser>
+    <bouncingLaser>
+        <upgrade>straightLaser</upgrade>
         <value>1600</value>
         <damage>1000</damage>
         <range>3.0</range>
@@ -77,11 +77,10 @@
         <enhanceDamage>150</enhanceDamage>
         <enhanceRange>0.1</enhanceRange>
         <enhanceReload>0.1</enhanceReload>
-        <property name="bounce">2</property>
-        <property name="bounceDistance">2.0</property>
-    </tower>
-    <tower>
-        <name>LaserTower3</name>
+        <bounceCount>2</bounceCount>
+        <bounceDistance>2.0</bounceDistance>
+    </bouncingLaser>
+    <straightLaser>
         <value>15000</value>
         <damage>3700</damage>
         <range>3.2</range>
@@ -93,13 +92,11 @@
         <enhanceDamage>900</enhanceDamage>
         <enhanceRange>0.2</enhanceRange>
         <enhanceReload>0.1</enhanceReload>
-    </tower>
+    </straightLaser>
 
     <!-- Explosive Towers -->
-    <tower>
-        <slot>2</slot>
-        <name>Mortar</name>
-        <upgrade>MineLayer</upgrade>
+    <mortar>
+        <upgrade>mineLayer</upgrade>
         <value>250</value>
         <damage>160</damage>
         <range>2.5</range>
@@ -111,13 +108,12 @@
         <enhanceDamage>85</enhanceDamage>
         <enhanceRange>0.1</enhanceRange>
         <enhanceReload>0.05</enhanceReload>
-        <property name="inaccuracy">1.0</property>
-        <property name="explosionRadius">1.5</property>
-        <property name="enhanceExplosionRadius">0.05</property>
-    </tower>
-    <tower>
-        <name>MineLayer</name>
-        <upgrade>RocketLauncher</upgrade>
+        <inaccuracy>1.0</inaccuracy>
+        <explosionRadius>1.5</explosionRadius>
+        <enhanceExplosionRadius>0.05</enhanceExplosionRadius>
+    </mortar>
+    <mineLayer>
+        <upgrade>rocketLauncher</upgrade>
         <value>3500</value>
         <damage>1000</damage>
         <range>2.5</range>
@@ -128,13 +124,12 @@
         <enhanceCost>250</enhanceCost>
         <enhanceDamage>240</enhanceDamage>
         <enhanceReload>0.05</enhanceReload>
-        <property name="maxMineCount">3</property>
-        <property name="enhanceMaxMineCount">1</property>
-        <property name="explosionRadius">2.0</property>
-        <property name="enhanceExplosionRadius">0.05</property>
-    </tower>
-    <tower>
-        <name>RocketLauncher</name>
+        <maxMineCount>3</maxMineCount>
+        <enhanceMaxMineCount>1</enhanceMaxMineCount>
+        <explosionRadius>2.0</explosionRadius>
+        <enhanceExplosionRadius>0.05</enhanceExplosionRadius>
+    </mineLayer>
+    <rocketLauncher>
         <value>35000</value>
         <damage>5000</damage>
         <range>3.0</range>
@@ -146,15 +141,13 @@
         <enhanceDamage>2100</enhanceDamage>
         <enhanceRange>0.2</enhanceRange>
         <enhanceReload>0.1</enhanceReload>
-        <property name="explosionRadius">1.7</property>
-        <property name="enhanceExplosionRadius">0.05</property>
-    </tower>
+        <explosionRadius>1.7</explosionRadius>
+        <enhanceExplosionRadius>0.05</enhanceExplosionRadius>
+    </rocketLauncher>
 
     <!-- Glue / Teleport Towers -->
-    <tower>
-        <slot>3</slot>
-        <name>GlueTower</name>
-        <upgrade>GlueGun</upgrade>
+    <glueTower>
+        <upgrade>glueGun</upgrade>
         <value>500</value>
         <range>1.5</range>
         <reload>2.0</reload>
@@ -163,13 +156,12 @@
         <enhanceCost>100</enhanceCost>
         <enhanceRange>0.1</enhanceRange>
         <enhanceReload>0</enhanceReload>
-        <property name="glueIntensity">1.2</property>
-        <property name="enhanceGlueIntensity">0.2</property>
-        <property name="glueDuration">1.5</property>
-    </tower>
-    <tower>
-        <name>GlueGun</name>
-        <upgrade>TeleportTower</upgrade>
+        <glueIntensity>1.2</glueIntensity>
+        <enhanceGlueIntensity>0.2</enhanceGlueIntensity>
+        <glueDuration>1.5</glueDuration>
+    </glueTower>
+    <glueGun>
+        <upgrade>teleportTower</upgrade>
         <value>1300</value>
         <range>2.5</range>
         <reload>3.0</reload>
@@ -178,12 +170,11 @@
         <enhanceCost>200</enhanceCost>
         <enhanceRange>0.2</enhanceRange>
         <enhanceReload>0</enhanceReload>
-        <property name="glueIntensity">1.2</property>
-        <property name="enhanceGlueIntensity">0.3</property>
-        <property name="glueDuration">2.5</property>
-    </tower>
-    <tower>
-        <name>TeleportTower</name>
+        <glueIntensity>1.2</glueIntensity>
+        <enhanceGlueIntensity>0.3</enhanceGlueIntensity>
+        <glueDuration>2.5</glueDuration>
+    </glueGun>
+    <teleporter>
         <value>3000</value>
         <range>3.5</range>
         <reload>5.0</reload>
@@ -191,7 +182,7 @@
         <enhanceBase>1.2</enhanceBase>
         <enhanceCost>2000</enhanceCost>
         <enhanceReload>0.5</enhanceReload>
-        <property name="teleportDistance">15</property>
-        <property name="enhanceTeleportDistance">6</property>
-    </tower>
+        <teleportDistance>15</teleportDistance>
+        <enhanceTeleportDistance>6</enhanceTeleportDistance>
+    </teleporter>
 </towers>

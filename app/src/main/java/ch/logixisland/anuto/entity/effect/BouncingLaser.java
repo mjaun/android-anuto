@@ -54,7 +54,7 @@ public class BouncingLaser extends Effect {
     }
 
     private float mDamage;
-    private int mBounce;
+    private int mBounceCount;
     public float mMaxBounceDist;
     private Enemy mOrigin;
     private Enemy mTarget;
@@ -68,7 +68,7 @@ public class BouncingLaser extends Effect {
     }
 
     public BouncingLaser(Entity origin, Vector2 position, Enemy target,
-                         float damage, int bounce, float maxBounceDist) {
+                         float damage, int bounceCount, float maxBounceDist) {
         super(origin, EFFECT_DURATION);
         setPosition(position);
 
@@ -76,14 +76,14 @@ public class BouncingLaser extends Effect {
         mTargetPos = target.getPosition();
 
         mDamage = damage;
-        mBounce = bounce;
+        mBounceCount = bounceCount;
         mMaxBounceDist = maxBounceDist;
 
         mDrawObject = new LaserDrawable();
     }
 
     private BouncingLaser(BouncingLaser origin, Enemy target) {
-        this(origin.getOrigin(), origin.mTarget.getPosition(), target, origin.mDamage, origin.mBounce - 1, origin.mMaxBounceDist);
+        this(origin.getOrigin(), origin.mTarget.getPosition(), target, origin.mDamage, origin.mBounceCount - 1, origin.mMaxBounceDist);
 
         mOrigin = origin.mTarget;
 
@@ -122,7 +122,7 @@ public class BouncingLaser extends Effect {
     protected void effectBegin() {
         super.effectBegin();
 
-        if (mBounce > 0) {
+        if (mBounceCount > 0) {
             if (mPrevTargets == null) {
                 mPrevTargets = new ArrayList<>();
                 mPrevTargets.add(mTarget);

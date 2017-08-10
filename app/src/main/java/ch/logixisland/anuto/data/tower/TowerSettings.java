@@ -1,23 +1,12 @@
 package ch.logixisland.anuto.data.tower;
 
 import org.simpleframework.xml.Element;
-import org.simpleframework.xml.ElementMap;
 import org.simpleframework.xml.Root;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 import ch.logixisland.anuto.data.enemy.WeaponType;
 
 @Root
 public class TowerSettings {
-
-    @Element(name = "slot", required = false)
-    private int mSlot = -1;
-
-    @Element(name = "name")
-    private String mName;
 
     @Element(name = "upgrade", required = false)
     private String mUpgrade;
@@ -57,27 +46,12 @@ public class TowerSettings {
     @Element(name = "enhanceReload", required = false)
     private float mEnhanceReload;
 
-    @ElementMap(entry = "property", key = "name", inline = true, required = false, attribute = true)
-    private Map<String, Float> mProperties = new HashMap<>();
-
-    public int getSlot() {
-        return mSlot;
-    }
-
-    public String getName() {
-        return mName;
-    }
-
     public String getUpgrade() {
         return mUpgrade;
     }
 
     public int getUpgradeCost() {
         return mUpgradeCost;
-    }
-
-    public void setUpgradeCost(int upgradeCost) {
-        mUpgradeCost = upgradeCost;
     }
 
     public int getValue() {
@@ -124,7 +98,4 @@ public class TowerSettings {
         return mEnhanceReload;
     }
 
-    public Map<String, Float> getProperties() {
-        return Collections.unmodifiableMap(mProperties);
-    }
 }

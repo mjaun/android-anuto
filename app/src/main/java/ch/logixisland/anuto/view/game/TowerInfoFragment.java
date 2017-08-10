@@ -20,7 +20,7 @@ import ch.logixisland.anuto.business.tower.TowerControl;
 import ch.logixisland.anuto.business.tower.TowerInfo;
 import ch.logixisland.anuto.business.tower.TowerInfoView;
 import ch.logixisland.anuto.business.tower.TowerSelector;
-import ch.logixisland.anuto.entity.tower.TowerProperty;
+import ch.logixisland.anuto.entity.tower.TowerInfoValue;
 import ch.logixisland.anuto.entity.tower.TowerStrategy;
 import ch.logixisland.anuto.util.StringUtils;
 import ch.logixisland.anuto.view.AnutoFragment;
@@ -192,9 +192,9 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnTouchList
     private void refresh(TowerInfo towerInfo) {
         txt_level.setText(towerInfo.getLevel() + " / " + towerInfo.getLevelMax());
 
-        List<TowerProperty> properties = towerInfo.getProperties();
+        List<TowerInfoValue> properties = towerInfo.getProperties();
         for (int i = 0; i < properties.size(); i++) {
-            TowerProperty property = properties.get(i);
+            TowerInfoValue property = properties.get(i);
             txt_property_text[i].setText(getString(property.getTextId()) + ":");
             txt_property[i].setText(StringUtils.formatSuffix(property.getValue()));
         }

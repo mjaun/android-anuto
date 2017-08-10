@@ -52,4 +52,8 @@ public final class StringUtils {
         return String.format("%1$s (%2$s)", name, value);
     }
 
+    public static boolean isNullOrEmpty(String string) {
+        return string == null || "".equals(string);
+    }
+
 }

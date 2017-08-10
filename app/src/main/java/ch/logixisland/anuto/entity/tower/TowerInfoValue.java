@@ -1,11 +1,11 @@
 package ch.logixisland.anuto.entity.tower;
 
-public class TowerProperty {
+public class TowerInfoValue {
 
     private final int mTextId;
     private final float mValue;
 
-    public TowerProperty(int textId, float value) {
+    public TowerInfoValue(int textId, float value) {
         mTextId = textId;
         mValue = value;
     }

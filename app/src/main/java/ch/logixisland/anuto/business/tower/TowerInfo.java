@@ -4,7 +4,7 @@ import java.util.List;
 
 import ch.logixisland.anuto.entity.tower.AimingTower;
 import ch.logixisland.anuto.entity.tower.Tower;
-import ch.logixisland.anuto.entity.tower.TowerProperty;
+import ch.logixisland.anuto.entity.tower.TowerInfoValue;
 import ch.logixisland.anuto.entity.tower.TowerStrategy;
 
 public class TowerInfo {
@@ -21,7 +21,7 @@ public class TowerInfo {
     private boolean mDoesLockTarget;
     private boolean mHasStrategy;
     private TowerStrategy mStrategy;
-    private List<TowerProperty> mProperties;
+    private List<TowerInfoValue> mProperties;
 
     public TowerInfo(Tower tower, int credits, boolean gameOver) {
         mValue = tower.getValue();
@@ -44,7 +44,7 @@ public class TowerInfo {
             mHasStrategy = false;
         }
 
-        mProperties = tower.getProperties();
+        mProperties = tower.getTowerInfoValues();
     }
 
     public int getValue() {
@@ -95,7 +95,7 @@ public class TowerInfo {
         return mStrategy;
     }
 
-    public List<TowerProperty> getProperties() {
+    public List<TowerInfoValue> getProperties() {
         return mProperties;
     }
 

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.tower.TowerSettings;
+import ch.logixisland.anuto.data.tower.RocketLauncherSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickTimer;
 import ch.logixisland.anuto.engine.render.Layers;
@@ -28,6 +28,8 @@ public class RocketLauncher extends AimingTower implements SpriteTransformation 
         SpriteTemplate mSpriteTemplateRocket; // used for preview only
     }
 
+    private RocketLauncherSettings mSettings;
+
     private float mExplosionRadius;
     private float mAngle = 90f;
     private Rocket mRocket;
@@ -37,9 +39,11 @@ public class RocketLauncher extends AimingTower implements SpriteTransformation 
     private StaticSprite mSpriteRocket; // used for preview only
     private Sound mSound;
 
-    public RocketLauncher(GameEngine gameEngine, TowerSettings config) {
-        super(gameEngine, config);
+    public RocketLauncher(GameEngine gameEngine, RocketLauncherSettings settings) {
+        super(gameEngine, settings);
         StaticData s = (StaticData) getStaticData();
+
+        mSettings = settings;
 
         mSprite = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplate);
         mSprite.setListener(this);
@@ -49,7 +53,7 @@ public class RocketLauncher extends AimingTower implements SpriteTransformation 
         mSpriteRocket.setListener(this);
         mSpriteRocket.setIndex(RandomUtils.next(4));
 
-        mExplosionRadius = getProperty("explosionRadius");
+        mExplosionRadius = settings.getExplosionRadius();
         mRocketLoadTimer = TickTimer.createInterval(ROCKET_LOAD_TIME);
 
         mSound = getSoundFactory().createSound(R.raw.explosive2_tsh);
@@ -89,7 +93,7 @@ public class RocketLauncher extends AimingTower implements SpriteTransformation 
     @Override
     public void enhance() {
         super.enhance();
-        mExplosionRadius += getProperty("enhanceExplosionRadius");
+        mExplosionRadius += mSettings.getEnhanceExplosionRadius();
     }
 
     @Override
@@ -133,13 +137,13 @@ public class RocketLauncher extends AimingTower implements SpriteTransformation 
     }
 
     @Override
-    public List<TowerProperty> getProperties() {
-        List<TowerProperty> properties = new ArrayList<>();
-        properties.add(new TowerProperty(R.string.damage, getDamage()));
-        properties.add(new TowerProperty(R.string.splash, mExplosionRadius));
-        properties.add(new TowerProperty(R.string.reload, getReloadTime()));
-        properties.add(new TowerProperty(R.string.range, getRange()));
-        properties.add(new TowerProperty(R.string.inflicted, getDamageInflicted()));
+    public List<TowerInfoValue> getTowerInfoValues() {
+        List<TowerInfoValue> properties = new ArrayList<>();
+        properties.add(new TowerInfoValue(R.string.damage, getDamage()));
+        properties.add(new TowerInfoValue(R.string.splash, mExplosionRadius));
+        properties.add(new TowerInfoValue(R.string.reload, getReloadTime()));
+        properties.add(new TowerInfoValue(R.string.range, getRange()));
+        properties.add(new TowerInfoValue(R.string.inflicted, getDamageInflicted()));
         return properties;
     }
 }

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.tower.TowerSettings;
+import ch.logixisland.anuto.data.tower.MortarSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
@@ -30,7 +30,8 @@ public class Mortar extends AimingTower implements SpriteTransformation {
         SpriteTemplate mSpriteTemplateCanon;
     }
 
-    private float mInaccuracy;
+    private MortarSettings mSettings;
+
     private float mExplosionRadius;
     private float mAngle = 90f;
     private boolean mRebounding = false;
@@ -39,9 +40,12 @@ public class Mortar extends AimingTower implements SpriteTransformation {
     private AnimatedSprite mSpriteCanon;
     private Sound mSound;
 
-    public Mortar(GameEngine gameEngine, TowerSettings config) {
-        super(gameEngine, config);
+    public Mortar(GameEngine gameEngine, MortarSettings settings) {
+        super(gameEngine, settings);
         StaticData s = (StaticData) getStaticData();
+
+        mSettings = settings;
+        mExplosionRadius = mSettings.getExplosionRadius();
 
         mSpriteBase = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplateBase);
         mSpriteBase.setIndex(RandomUtils.next(4));
@@ -51,9 +55,6 @@ public class Mortar extends AimingTower implements SpriteTransformation {
         mSpriteCanon.setListener(this);
         mSpriteCanon.setSequenceForwardBackward();
         mSpriteCanon.setInterval(REBOUND_DURATION);
-
-        mInaccuracy = getProperty("inaccuracy");
-        mExplosionRadius = getProperty("explosionRadius");
 
         mSound = getSoundFactory().createSound(R.raw.gas2_thomp);
     }
@@ -90,7 +91,7 @@ public class Mortar extends AimingTower implements SpriteTransformation {
     @Override
     public void enhance() {
         super.enhance();
-        mExplosionRadius += getProperty("enhanceExplosionRadius");
+        mExplosionRadius += mSettings.getEnhanceExplosionRadius();
     }
 
     @Override
@@ -99,7 +100,7 @@ public class Mortar extends AimingTower implements SpriteTransformation {
 
         if (getTarget() != null && isReloaded()) {
             Vector2 targetPos = getTarget().getPositionAfter(MortarShot.TIME_TO_TARGET);
-            targetPos = targetPos.add(Vector2.polar(RandomUtils.next(mInaccuracy), RandomUtils.next(360f)));
+            targetPos = targetPos.add(Vector2.polar(RandomUtils.next(mSettings.getInaccuracy()), RandomUtils.next(360f)));
             mAngle = getAngleTo(targetPos);
             Vector2 shotPos = getPosition().add(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
 
@@ -131,13 +132,13 @@ public class Mortar extends AimingTower implements SpriteTransformation {
     }
 
     @Override
-    public List<TowerProperty> getProperties() {
-        List<TowerProperty> properties = new ArrayList<>();
-        properties.add(new TowerProperty(R.string.damage, getDamage()));
-        properties.add(new TowerProperty(R.string.splash, mExplosionRadius));
-        properties.add(new TowerProperty(R.string.reload, getReloadTime()));
-        properties.add(new TowerProperty(R.string.range, getRange()));
-        properties.add(new TowerProperty(R.string.inflicted, getDamageInflicted()));
+    public List<TowerInfoValue> getTowerInfoValues() {
+        List<TowerInfoValue> properties = new ArrayList<>();
+        properties.add(new TowerInfoValue(R.string.damage, getDamage()));
+        properties.add(new TowerInfoValue(R.string.splash, mExplosionRadius));
+        properties.add(new TowerInfoValue(R.string.reload, getReloadTime()));
+        properties.add(new TowerInfoValue(R.string.range, getRange()));
+        properties.add(new TowerInfoValue(R.string.inflicted, getDamageInflicted()));
         return properties;
     }
 }

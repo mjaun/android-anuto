@@ -1,6 +1,5 @@
 package ch.logixisland.anuto.entity.enemy;
 
-import ch.logixisland.anuto.data.enemy.EnemySettings;
 import ch.logixisland.anuto.data.enemy.EnemySettingsRoot;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 
@@ -18,22 +17,22 @@ public class EnemyFactory {
         mEnemySettingsRoot = enemySettingsRoot;
     }
 
-    public EnemySettings getEnemySettings(String name) {
+    public float getEnemyHealth(String name) {
         switch (name) {
             case "soldier":
-                return mEnemySettingsRoot.getSoldierSettings();
+                return mEnemySettingsRoot.getSoldierSettings().getHealth();
 
             case "blob":
-                return mEnemySettingsRoot.getBlobSettings();
+                return mEnemySettingsRoot.getBlobSettings().getHealth();
 
             case "sprinter":
-                return mEnemySettingsRoot.getSprinterSettings();
+                return mEnemySettingsRoot.getSprinterSettings().getHealth();
 
             case "healer":
-                return mEnemySettingsRoot.getHealerSettings();
+                return mEnemySettingsRoot.getHealerSettings().getHealth();
 
             case "flyer":
-                return mEnemySettingsRoot.getFlyerSettings();
+                return mEnemySettingsRoot.getFlyerSettings().getHealth();
 
             default:
                 throw new IllegalArgumentException("Enemy name not known!");

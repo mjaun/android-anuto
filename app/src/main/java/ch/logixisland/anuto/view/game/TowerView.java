@@ -20,8 +20,9 @@ import ch.logixisland.anuto.business.tower.TowerInserter;
 import ch.logixisland.anuto.engine.theme.Theme;
 import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.entity.tower.TowerFactory;
+import ch.logixisland.anuto.util.StringUtils;
 
-public class TowerView extends View implements View.OnTouchListener, View.OnDragListener {
+public class TowerView extends View implements View.OnTouchListener, View.OnDragListener, CreditsListener {
 
     private final static float TEXT_SIZE = 20f;
     private final static float DRAW_SIZE = 1.3f;
@@ -31,27 +32,13 @@ public class TowerView extends View implements View.OnTouchListener, View.OnDrag
     private final ScoreBoard mScoreBoard;
     private final TowerFactory mTowerFactory;
 
+    private String mTowerName;
     private Tower mPreviewTower;
     private int mTextColor;
     private int mTextColorDisabled;
 
     private final Paint mPaintText;
     private final Matrix mScreenMatrix;
-
-    private CreditsListener mCreditsListener = new CreditsListener() {
-        @Override
-        public void creditsChanged(int credits) {
-            if (mPreviewTower != null) {
-                if (credits >= mPreviewTower.getValue()) {
-                    mPaintText.setColor(mTextColor);
-                } else {
-                    mPaintText.setColor(mTextColorDisabled);
-                }
-
-                TowerView.this.postInvalidate();
-            }
-        }
-    };
 
     public TowerView(Context context, AttributeSet attrs) throws ClassNotFoundException {
         super(context, attrs);
@@ -63,7 +50,7 @@ public class TowerView extends View implements View.OnTouchListener, View.OnDrag
             mTowerInserter = factory.getTowerInserter();
             mTowerFactory = factory.getTowerFactory();
 
-            mScoreBoard.addCreditsListener(mCreditsListener);
+            mScoreBoard.addCreditsListener(this);
             mTextColor = mTheme.getColor(R.attr.textColor);
             mTextColorDisabled = mTheme.getColor(R.attr.textDisabledColor);
         } else {
@@ -122,21 +109,23 @@ public class TowerView extends View implements View.OnTouchListener, View.OnDrag
     @Override
     public boolean onTouch(View view, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if (mScoreBoard.getCredits() >= mTowerFactory.getTowerValue(mPreviewTower.getName())) {
-                mTowerInserter.insertTower(mPreviewTower.getName());
+            if (!StringUtils.isNullOrEmpty(mTowerName)) {
+                if (mScoreBoard.getCredits() >= mTowerFactory.getTowerValue(mTowerName)) {
+                    mTowerInserter.insertTower(mTowerName);
 
-                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder() {
-                    @Override
-                    public void onProvideShadowMetrics(Point shadowSize, Point shadowTouchPoint) {
-                    }
+                    View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder() {
+                        @Override
+                        public void onProvideShadowMetrics(Point shadowSize, Point shadowTouchPoint) {
+                        }
 
-                    @Override
-                    public void onDrawShadow(Canvas canvas) {
-                    }
-                };
+                        @Override
+                        public void onDrawShadow(Canvas canvas) {
+                        }
+                    };
 
-                ClipData data = ClipData.newPlainText("", "");
-                startDrag(data, shadowBuilder, this, 0);
+                    ClipData data = ClipData.newPlainText("", "");
+                    startDrag(data, shadowBuilder, this, 0);
+                }
             }
         }
 
@@ -158,14 +147,32 @@ public class TowerView extends View implements View.OnTouchListener, View.OnDrag
         return false;
     }
 
+    @Override
+    public void creditsChanged(int credits) {
+        if (mPreviewTower != null) {
+            if (credits >= mPreviewTower.getValue()) {
+                mPaintText.setColor(mTextColor);
+            } else {
+                mPaintText.setColor(mTextColorDisabled);
+            }
+
+            TowerView.this.postInvalidate();
+        }
+    }
+
     public void setSlot(int slot) {
-        mPreviewTower = mTowerFactory.createTower(slot);
-        mCreditsListener.creditsChanged(mScoreBoard.getCredits());
+        mTowerName = mTowerFactory.getSlotTowerName(slot);
+
+        if (!StringUtils.isNullOrEmpty(mTowerName)) {
+            mPreviewTower = mTowerFactory.createTower(mTowerName);
+        }
+
+        creditsChanged(mScoreBoard.getCredits());
         postInvalidate();
     }
 
     public void close() {
-        mScoreBoard.removeCreditsListener(mCreditsListener);
+        mScoreBoard.removeCreditsListener(this);
     }
 
 }

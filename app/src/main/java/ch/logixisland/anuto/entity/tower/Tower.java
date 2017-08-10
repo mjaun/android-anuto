@@ -3,6 +3,7 @@ package ch.logixisland.anuto.entity.tower;
 import android.graphics.Canvas;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -33,8 +34,6 @@ public abstract class Tower extends Entity {
     private float mDamageInflicted;
     private boolean mReloaded = false;
 
-    private List<PathDescriptor> mPaths;
-
     private TickTimer mReloadTimer;
     private RangeIndicator mRangeIndicator;
     private LevelIndicator mLevelIndicator;
@@ -55,10 +54,6 @@ public abstract class Tower extends Entity {
         mReloadTimer = TickTimer.createInterval(mReloadTime);
 
         setEnabled(false);
-    }
-
-    void setPaths(List<PathDescriptor> paths) {
-        mPaths = paths;
     }
 
     @Override
@@ -89,15 +84,9 @@ public abstract class Tower extends Entity {
         }
     }
 
-
     public abstract void preview(Canvas canvas);
 
-    public abstract List<TowerProperty> getProperties();
-
-
-    public String getName() {
-        return mConfig.getName();
-    }
+    public abstract List<TowerInfoValue> getTowerInfoValues();
 
     public WeaponType getWeaponType() {
         return mConfig.getWeaponType();
@@ -190,7 +179,6 @@ public abstract class Tower extends Entity {
         return mConfig.getMaxLevel();
     }
 
-
     public void showRange() {
         if (mRangeIndicator == null) {
             mRangeIndicator = new RangeIndicator(getTheme(), this);
@@ -219,83 +207,83 @@ public abstract class Tower extends Entity {
         }
     }
 
-
     public StreamIterator<Enemy> getPossibleTargets() {
         return getGameEngine().get(Types.ENEMY)
                 .filter(inRange(getPosition(), getRange()))
                 .cast(Enemy.class);
     }
 
-    List<Line> getPathSectionsInRange() {
-        List<Line> sections = new ArrayList<>();
+    Collection<Line> getPathSectionsInRange(Collection<PathDescriptor> paths) {
+        Collection<Line> sections = new ArrayList<>();
 
-        float r2 = MathUtils.square(getRange());
-
-        for (PathDescriptor path : mPaths) {
-            List<Vector2> wayPoints = path.getWayPoints();
-            for (int i = 1; i < wayPoints.size(); i++) {
-                Vector2 p1 = getPosition().to(wayPoints.get(i - 1));
-                Vector2 p2 = getPosition().to(wayPoints.get(i));
-
-                boolean p1in = p1.len2() <= r2;
-                boolean p2in = p2.len2() <= r2;
-
-                Vector2[] is = Intersections.lineCircle(p1, p2, getRange());
-
-                Vector2 sectionP1;
-                Vector2 sectionP2;
-
-                if (p1in && p2in) {
-                    sectionP1 = p1.add(getPosition());
-                    sectionP2 = p2.add(getPosition());
-                } else if (!p1in && !p2in) {
-                    if (is == null) {
-                        continue;
-                    }
-
-                    float a1 = is[0].to(p1).angle();
-                    float a2 = is[0].to(p2).angle();
-
-                    if (MathUtils.equals(a1, a2, 10f)) {
-                        continue;
-                    }
-
-                    sectionP1 = is[0].add(getPosition());
-                    sectionP2 = is[1].add(getPosition());
-                } else {
-                    float angle = p1.to(p2).angle();
-
-                    if (p1in) {
-                        if (MathUtils.equals(angle, p1.to(is[0]).angle(), 10f)) {
-                            sectionP2 = is[0].add(getPosition());
-                        } else {
-                            sectionP2 = is[1].add(getPosition());
-                        }
-
-                        sectionP1 = (p1.add(getPosition()));
-                    } else {
-                        if (MathUtils.equals(angle, is[0].to(p2).angle(), 10f)) {
-                            sectionP1 = is[0].add(getPosition());
-                        } else {
-                            sectionP1 = is[1].add(getPosition());
-                        }
-
-                        sectionP2 = p2.add(getPosition());
-                    }
-                }
-
-                sections.add(new Line(sectionP1, sectionP2));
-            }
+        for (PathDescriptor path : paths) {
+            sections.addAll(getPathSectionsInRange(path));
         }
 
         return sections;
     }
 
+    Collection<Line> getPathSectionsInRange(PathDescriptor path) {
+        float r2 = MathUtils.square(getRange());
+        Collection<Line> sections = new ArrayList<>();
+        List<Vector2> wayPoints = path.getWayPoints();
 
-    float getProperty(String name) {
-        return mConfig.getProperties().get(name);
+        for (int i = 1; i < wayPoints.size(); i++) {
+            Vector2 p1 = getPosition().to(wayPoints.get(i - 1));
+            Vector2 p2 = getPosition().to(wayPoints.get(i));
+
+            boolean p1in = p1.len2() <= r2;
+            boolean p2in = p2.len2() <= r2;
+
+            Vector2[] is = Intersections.lineCircle(p1, p2, getRange());
+
+            Vector2 sectionP1;
+            Vector2 sectionP2;
+
+            if (p1in && p2in) {
+                sectionP1 = p1.add(getPosition());
+                sectionP2 = p2.add(getPosition());
+            } else if (!p1in && !p2in) {
+                if (is == null) {
+                    continue;
+                }
+
+                float a1 = is[0].to(p1).angle();
+                float a2 = is[0].to(p2).angle();
+
+                if (MathUtils.equals(a1, a2, 10f)) {
+                    continue;
+                }
+
+                sectionP1 = is[0].add(getPosition());
+                sectionP2 = is[1].add(getPosition());
+            } else {
+                float angle = p1.to(p2).angle();
+
+                if (p1in) {
+                    if (MathUtils.equals(angle, p1.to(is[0]).angle(), 10f)) {
+                        sectionP2 = is[0].add(getPosition());
+                    } else {
+                        sectionP2 = is[1].add(getPosition());
+                    }
+
+                    sectionP1 = (p1.add(getPosition()));
+                } else {
+                    if (MathUtils.equals(angle, is[0].to(p2).angle(), 10f)) {
+                        sectionP1 = is[0].add(getPosition());
+                    } else {
+                        sectionP1 = is[1].add(getPosition());
+                    }
+
+                    sectionP2 = p2.add(getPosition());
+                }
+            }
+
+            sections.add(new Line(sectionP1, sectionP2));
+        }
+
+        return sections;
     }
-
 
     public void addListener(TowerListener listener) {
         mListeners.add(listener);
