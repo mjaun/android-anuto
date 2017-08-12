@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.data.setting.game;
+package ch.logixisland.anuto.data.setting;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;

@@ -11,7 +11,7 @@ import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.game.GameStateListener;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.business.tower.TowerAging;
-import ch.logixisland.anuto.data.setting.game.GameSettingsRoot;
+import ch.logixisland.anuto.data.setting.GameSettingsRoot;
 import ch.logixisland.anuto.data.wave.EnemyDescriptor;
 import ch.logixisland.anuto.data.wave.WaveDescriptor;
 import ch.logixisland.anuto.engine.logic.GameEngine;
