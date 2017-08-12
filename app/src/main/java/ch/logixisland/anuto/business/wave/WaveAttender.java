@@ -9,6 +9,7 @@ import ch.logixisland.anuto.data.map.PathDescriptor;
 import ch.logixisland.anuto.data.wave.EnemyDescriptor;
 import ch.logixisland.anuto.data.wave.WaveDescriptor;
 import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.engine.logic.Message;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.entity.enemy.EnemyFactory;
 import ch.logixisland.anuto.entity.enemy.EnemyListener;
@@ -162,9 +163,9 @@ class WaveAttender implements EnemyListener {
         mRemainingEnemies.add(enemy);
         enemy.addListener(this);
 
-        mGameEngine.postDelayed(new Runnable() {
+        mGameEngine.postDelayed(new Message() {
             @Override
-            public void run() {
+            public void execute() {
                 mGameEngine.add(enemy);
             }
         }, delay);

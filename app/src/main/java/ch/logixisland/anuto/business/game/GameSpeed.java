@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.engine.logic.Message;
 
 public class GameSpeed implements GameStateListener {
 
@@ -24,9 +25,9 @@ public class GameSpeed implements GameStateListener {
 
     public void toggleFastForward() {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Runnable() {
+            mGameEngine.post(new Message() {
                 @Override
-                public void run() {
+                public void execute() {
                     toggleFastForward();
                 }
             });

@@ -5,6 +5,7 @@ import java.util.List;
 
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.engine.logic.Message;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.plateau.Plateau;
 import ch.logixisland.anuto.entity.tower.AimingTower;
@@ -29,9 +30,9 @@ public class TowerControl {
 
     public void upgradeTower() {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Runnable() {
+            mGameEngine.post(new Message() {
                 @Override
-                public void run() {
+                public void execute() {
                     upgradeTower();
                 }
             });
@@ -74,9 +75,9 @@ public class TowerControl {
 
     public void enhanceTower() {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Runnable() {
+            mGameEngine.post(new Message() {
                 @Override
-                public void run() {
+                public void execute() {
                     enhanceTower();
                 }
             });
@@ -95,9 +96,9 @@ public class TowerControl {
 
     public void cycleTowerStrategy() {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Runnable() {
+            mGameEngine.post(new Message() {
                 @Override
-                public void run() {
+                public void execute() {
                     cycleTowerStrategy();
                 }
             });
@@ -120,9 +121,9 @@ public class TowerControl {
 
     public void toggleLockTarget() {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Runnable() {
+            mGameEngine.post(new Message() {
                 @Override
-                public void run() {
+                public void execute() {
                     toggleLockTarget();
                 }
             });
@@ -139,9 +140,9 @@ public class TowerControl {
 
     public void sellTower() {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Runnable() {
+            mGameEngine.post(new Message() {
                 @Override
-                public void run() {
+                public void execute() {
                     sellTower();
                 }
             });

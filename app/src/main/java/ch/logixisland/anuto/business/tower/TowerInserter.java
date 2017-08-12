@@ -6,6 +6,7 @@ import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.engine.logic.Message;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.plateau.Plateau;
 import ch.logixisland.anuto.entity.tower.Tower;
@@ -36,9 +37,9 @@ public class TowerInserter {
 
     public void insertTower(final String towerName) {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Runnable() {
+            mGameEngine.post(new Message() {
                 @Override
-                public void run() {
+                public void execute() {
                     insertTower(towerName);
                 }
             });
@@ -54,9 +55,9 @@ public class TowerInserter {
 
     public void setPosition(final Vector2 position) {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Runnable() {
+            mGameEngine.post(new Message() {
                 @Override
-                public void run() {
+                public void execute() {
                     setPosition(position);
                 }
             });
@@ -85,9 +86,9 @@ public class TowerInserter {
 
     public void buyTower() {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Runnable() {
+            mGameEngine.post(new Message() {
                 @Override
-                public void run() {
+                public void execute() {
                     buyTower();
                 }
             });
@@ -111,9 +112,9 @@ public class TowerInserter {
 
     public void cancel() {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Runnable() {
+            mGameEngine.post(new Message() {
                 @Override
-                public void run() {
+                public void execute() {
                     cancel();
                 }
             });

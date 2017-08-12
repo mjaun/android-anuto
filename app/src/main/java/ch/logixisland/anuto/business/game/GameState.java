@@ -6,6 +6,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import ch.logixisland.anuto.business.score.LivesListener;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.engine.logic.Message;
 import ch.logixisland.anuto.engine.theme.Theme;
 import ch.logixisland.anuto.engine.theme.ThemeListener;
 import ch.logixisland.anuto.engine.theme.ThemeManager;
@@ -32,9 +33,9 @@ public class GameState implements ThemeListener, LivesListener {
 
     public void restart() {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Runnable() {
+            mGameEngine.post(new Message() {
                 @Override
-                public void run() {
+                public void execute() {
                     restart();
                 }
             });

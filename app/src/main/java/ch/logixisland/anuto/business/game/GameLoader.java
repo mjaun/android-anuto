@@ -14,6 +14,7 @@ import ch.logixisland.anuto.data.setting.game.GameSettingsRoot;
 import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
 import ch.logixisland.anuto.data.wave.WaveDescriptorRoot;
 import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.engine.logic.Message;
 import ch.logixisland.anuto.engine.render.Viewport;
 import ch.logixisland.anuto.entity.enemy.EnemyFactory;
 import ch.logixisland.anuto.entity.plateau.Plateau;
@@ -83,9 +84,9 @@ public class GameLoader implements GameStateListener {
 
     public void loadMap(final MapInfo mapInfo) {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Runnable() {
+            mGameEngine.post(new Message() {
                 @Override
-                public void run() {
+                public void execute() {
                     loadMap(mapInfo);
                 }
             });

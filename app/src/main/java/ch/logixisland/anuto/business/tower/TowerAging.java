@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import ch.logixisland.anuto.business.game.GameLoader;
 import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.engine.logic.Message;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.tower.Tower;
 
@@ -19,9 +20,9 @@ public class TowerAging {
 
     public void ageTowers() {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Runnable() {
+            mGameEngine.post(new Message() {
                 @Override
-                public void run() {
+                public void execute() {
                     ageTowers();
                 }
             });
@@ -40,9 +41,9 @@ public class TowerAging {
 
     public void ageTower(final Tower tower) {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Runnable() {
+            mGameEngine.post(new Message() {
                 @Override
-                public void run() {
+                public void execute() {
                     ageTower(tower);
                 }
             });

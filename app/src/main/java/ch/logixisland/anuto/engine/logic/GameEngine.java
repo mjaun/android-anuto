@@ -98,12 +98,12 @@ public class GameEngine {
         mGameLoop.stop();
     }
 
-    public void post(Runnable runnable) {
-        mMessageQueue.post(runnable);
+    public void post(Message message) {
+        mMessageQueue.post(message);
     }
 
-    public void postDelayed(Runnable runnable, float delay) {
-        mMessageQueue.postDelayed(runnable, (int) (delay * TARGET_FRAME_RATE));
+    public void postDelayed(Message message, float delay) {
+        mMessageQueue.postDelayed(message, (int) (delay * TARGET_FRAME_RATE));
     }
 
     public void setTicksPerLoop(int ticksPerLoop) {

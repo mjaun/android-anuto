@@ -7,6 +7,7 @@ import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.EntityListener;
 import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.engine.logic.Message;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.entity.tower.TowerListener;
@@ -46,9 +47,9 @@ public class TowerSelector implements CreditsListener, GameStateListener, Entity
     public void selectTowerAt(Vector2 position) {
         if (mGameEngine.isThreadChangeNeeded()) {
             final Vector2 finalPosition = position;
-            mGameEngine.post(new Runnable() {
+            mGameEngine.post(new Message() {
                 @Override
-                public void run() {
+                public void execute() {
                     selectTowerAt(finalPosition);
                 }
             });
@@ -69,9 +70,9 @@ public class TowerSelector implements CreditsListener, GameStateListener, Entity
     public void selectTower(Tower tower) {
         if (mGameEngine.isThreadChangeNeeded()) {
             final Tower finalTower = tower;
-            mGameEngine.post(new Runnable() {
+            mGameEngine.post(new Message() {
                 @Override
-                public void run() {
+                public void execute() {
                     selectTower(finalTower);
                 }
             });
@@ -93,9 +94,9 @@ public class TowerSelector implements CreditsListener, GameStateListener, Entity
 
     public void showTowerInfo(Tower tower) {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Runnable() {
+            mGameEngine.post(new Message() {
                 @Override
-                public void run() {
+                public void execute() {
                     showTowerInfo();
                 }
             });
@@ -108,9 +109,9 @@ public class TowerSelector implements CreditsListener, GameStateListener, Entity
 
     public void updateTowerInfo() {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Runnable() {
+            mGameEngine.post(new Message() {
                 @Override
-                public void run() {
+                public void execute() {
                     updateTowerInfo();
                 }
             });

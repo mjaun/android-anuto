@@ -4,34 +4,34 @@ import java.util.ArrayList;
 
 public class MessageQueue implements TickListener {
 
-    private static class Message {
-        final Runnable mRunnable;
-        final long mDueTickCount;
+    private static class MessageEntry {
+        private final Message mMessage;
+        private final long mDueTickCount;
 
-        Message(Runnable runnable, long dueTickCount) {
-            mRunnable = runnable;
+        MessageEntry(Message message, long dueTickCount) {
+            mMessage = message;
             mDueTickCount = dueTickCount;
         }
     }
 
-    private final ArrayList<Message> mQueue = new ArrayList<>();
+    private final ArrayList<MessageEntry> mQueue = new ArrayList<>();
     private int mTickCount = 0;
 
-    public synchronized void post(Runnable runnable) {
-        postDelayed(runnable, 0);
+    public synchronized void post(Message message) {
+        postDelayed(message, 0);
     }
 
-    public synchronized void postDelayed(Runnable runnable, int afterTicks) {
+    public synchronized void postDelayed(Message message, int afterTicks) {
         long dueTickCount = mTickCount + afterTicks;
 
         for (int i = 0; i < mQueue.size(); i++) {
             if (dueTickCount < mQueue.get(i).mDueTickCount) {
-                mQueue.add(i, new Message(runnable, dueTickCount));
+                mQueue.add(i, new MessageEntry(message, dueTickCount));
                 return;
             }
         }
 
-        mQueue.add(new Message(runnable, dueTickCount));
+        mQueue.add(new MessageEntry(message, dueTickCount));
     }
 
     public synchronized void clear() {
@@ -43,8 +43,8 @@ public class MessageQueue implements TickListener {
         mTickCount++;
 
         while (!mQueue.isEmpty() && mTickCount >= mQueue.get(0).mDueTickCount) {
-            Message message = mQueue.remove(0);
-            message.mRunnable.run();
+            MessageEntry messageEntry = mQueue.remove(0);
+            messageEntry.mMessage.execute();
         }
     }
 

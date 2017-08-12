@@ -15,6 +15,7 @@ import ch.logixisland.anuto.data.setting.game.GameSettingsRoot;
 import ch.logixisland.anuto.data.wave.EnemyDescriptor;
 import ch.logixisland.anuto.data.wave.WaveDescriptor;
 import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.engine.logic.Message;
 import ch.logixisland.anuto.entity.enemy.EnemyFactory;
 
 public class WaveManager implements GameStateListener {
@@ -65,9 +66,9 @@ public class WaveManager implements GameStateListener {
 
     public void startNextWave() {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Runnable() {
+            mGameEngine.post(new Message() {
                 @Override
-                public void run() {
+                public void execute() {
                     startNextWave();
                 }
             });
@@ -135,9 +136,9 @@ public class WaveManager implements GameStateListener {
     private void triggerMinWaveDelay() {
         mMinWaveDelayTimeout = false;
 
-        mGameEngine.postDelayed(new Runnable() {
+        mGameEngine.postDelayed(new Message() {
             @Override
-            public void run() {
+            public void execute() {
                 mMinWaveDelayTimeout = true;
                 updateNextWaveReady();
             }
