@@ -44,9 +44,6 @@ public class GameSettingsRoot {
     @Element(name = "earlyExponent")
     private float mEarlyExponent;
 
-    @Element(name = "ageModifier")
-    private float mAgeModifier;
-
     public static GameSettingsRoot fromXml(InputStream stream) throws Exception {
         Serializer serializer = new SerializerFactory().createSerializer();
         return serializer.read(GameSettingsRoot.class, stream);
@@ -96,7 +93,4 @@ public class GameSettingsRoot {
         return mEarlyExponent;
     }
 
-    public float getAgeModifier() {
-        return mAgeModifier;
-    }
 }

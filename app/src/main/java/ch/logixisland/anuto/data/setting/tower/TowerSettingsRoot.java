@@ -11,6 +11,9 @@ import ch.logixisland.anuto.data.SerializerFactory;
 @Root
 public class TowerSettingsRoot {
 
+    @Element(name = "ageModifier")
+    private float mAgeModifier;
+
     @Element(name = "slots")
     private TowerSlots mTowerSlots;
 
@@ -54,6 +57,10 @@ public class TowerSettingsRoot {
     public static TowerSettingsRoot fromXml(InputStream stream) throws Exception {
         Serializer serializer = new SerializerFactory().createSerializer();
         return serializer.read(TowerSettingsRoot.class, stream);
+    }
+
+    public float getAgeModifier() {
+        return mAgeModifier;
     }
 
     public TowerSlots getTowerSlots() {

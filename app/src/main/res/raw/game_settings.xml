@@ -1,7 +1,6 @@
 <settings>
     <credits>500</credits>
     <lives>20</lives>
-    <ageModifier>0.97</ageModifier>
     <difficultyModifier>8e-4</difficultyModifier>
     <difficultyExponent>2</difficultyExponent>
     <difficultyLinear>20</difficultyLinear>

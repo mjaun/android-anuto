@@ -1,4 +1,6 @@
 <towers>
+    <ageModifier>0.97</ageModifier>
+
     <slots>
         <slot1>canon</slot1>
         <slot2>simpleLaser</slot2>

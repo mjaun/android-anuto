@@ -74,6 +74,10 @@ public class GameLoader implements GameStateListener {
         return mGameSettingsRoot;
     }
 
+    public TowerSettingsRoot getTowerSettingsRoot() {
+        return mTowerSettingsRoot;
+    }
+
     public MapDescriptorRoot getMapDescriptorRoot() {
         return mMapDescriptorRoot;
     }
@@ -128,5 +132,4 @@ public class GameLoader implements GameStateListener {
     public void gameOver() {
 
     }
-
 }
