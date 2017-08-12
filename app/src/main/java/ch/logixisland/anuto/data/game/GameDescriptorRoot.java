@@ -2,6 +2,7 @@ package ch.logixisland.anuto.data.game;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.ElementListUnion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +21,10 @@ public class GameDescriptorRoot {
     @Element(name = "credits")
     private int mCredits;
 
-    @ElementList(inline = true, entry = "tower")
-    private List<TowerDescriptor> mTowerDescriptors = new ArrayList<>();
-
-    @ElementList(inline = true, entry = "enemy")
-    private List<EnemyDescriptor> mEnemyDescriptors = new ArrayList<>();
+    @ElementListUnion({
+            @ElementList(name = "entity", entry = "enemy", type = EnemyDescriptor.class),
+            @ElementList(name = "entity", entry = "tower", type = TowerDescriptor.class),
+    })
+    private List<EntityDescriptor> mEntityDescriptors = new ArrayList<>();
 
 }
