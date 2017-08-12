@@ -6,7 +6,7 @@ import org.simpleframework.xml.Serializer;
 
 import java.io.InputStream;
 
-import ch.logixisland.anuto.data.serializer.SerializerFactory;
+import ch.logixisland.anuto.data.SerializerFactory;
 
 @Root
 public class TowerSettingsRoot {

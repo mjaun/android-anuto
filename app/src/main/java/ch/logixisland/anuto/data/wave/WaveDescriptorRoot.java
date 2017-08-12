@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import ch.logixisland.anuto.data.serializer.SerializerFactory;
+import ch.logixisland.anuto.data.SerializerFactory;
 
 @Root
 public class WaveDescriptorRoot {

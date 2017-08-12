@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.data.serializer;
+package ch.logixisland.anuto.data;
 
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.convert.Registry;
