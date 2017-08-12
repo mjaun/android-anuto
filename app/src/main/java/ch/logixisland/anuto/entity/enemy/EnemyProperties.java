@@ -1,20 +1,20 @@
 package ch.logixisland.anuto.entity.enemy;
 
-import ch.logixisland.anuto.data.enemy.EnemyGlobalSettings;
-import ch.logixisland.anuto.data.enemy.EnemySettings;
+import ch.logixisland.anuto.data.setting.enemy.EnemySettings;
+import ch.logixisland.anuto.data.setting.enemy.GlobalSettings;
 import ch.logixisland.anuto.entity.tower.Tower;
 
 public class EnemyProperties {
 
     private final EnemySettings mEnemySettings;
-    private final EnemyGlobalSettings mGlobalSettings;
+    private final GlobalSettings mGlobalSettings;
 
     private final float mHealth;
     private final int mReward;
 
     public EnemyProperties(
             EnemySettings enemySettings,
-            EnemyGlobalSettings globalSettings,
+            GlobalSettings globalSettings,
             float healthModifier,
             float rewardModifier) {
         mEnemySettings = enemySettings;

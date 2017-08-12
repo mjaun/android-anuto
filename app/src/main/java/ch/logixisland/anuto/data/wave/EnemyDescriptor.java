@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.data.enemy;
+package ch.logixisland.anuto.data.wave;
 
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Root;

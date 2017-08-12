@@ -1,7 +1,9 @@
-package ch.logixisland.anuto.data.enemy;
+package ch.logixisland.anuto.data.setting.enemy;
 
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
 
+@Root
 public class HealerSettings extends EnemySettings {
 
     @Element(name = "healAmount")

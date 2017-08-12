@@ -3,8 +3,8 @@ package ch.logixisland.anuto.entity.tower;
 import java.util.List;
 
 import ch.logixisland.anuto.data.map.PathDescriptor;
-import ch.logixisland.anuto.data.tower.TowerSettingsRoot;
-import ch.logixisland.anuto.data.tower.TowerSlots;
+import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
+import ch.logixisland.anuto.data.setting.tower.TowerSlots;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 
 public class TowerFactory {

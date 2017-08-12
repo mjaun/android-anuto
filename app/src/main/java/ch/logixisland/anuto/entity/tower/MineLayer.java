@@ -8,7 +8,7 @@ import java.util.List;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.data.map.PathDescriptor;
-import ch.logixisland.anuto.data.tower.MineLayerSettings;
+import ch.logixisland.anuto.data.setting.tower.MineLayerSettings;
 import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.EntityListener;
 import ch.logixisland.anuto.engine.logic.GameEngine;

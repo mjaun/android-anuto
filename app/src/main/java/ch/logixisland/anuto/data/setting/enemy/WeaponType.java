@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.data.enemy;
+package ch.logixisland.anuto.data.setting.enemy;
 
 public enum WeaponType {
     None,

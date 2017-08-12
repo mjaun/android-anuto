@@ -11,8 +11,8 @@ import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.game.GameStateListener;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.business.tower.TowerAging;
-import ch.logixisland.anuto.data.enemy.EnemyDescriptor;
-import ch.logixisland.anuto.data.game.GameSettings;
+import ch.logixisland.anuto.data.setting.game.GameSettingsRoot;
+import ch.logixisland.anuto.data.wave.EnemyDescriptor;
 import ch.logixisland.anuto.data.wave.WaveDescriptor;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.entity.enemy.EnemyFactory;
@@ -202,7 +202,7 @@ public class WaveManager implements GameStateListener {
     }
 
     private void updateWaveModifiers(WaveAttender wave) {
-        GameSettings settings = mGameLoader.getGameSettings();
+        GameSettingsRoot settings = mGameLoader.getGameSettingsRoot();
 
         float waveHealth = getWaveHealth(wave);
         float damagePossible = settings.getDifficultyLinear() * mScoreBoard.getCreditsEarned()
@@ -245,7 +245,7 @@ public class WaveManager implements GameStateListener {
             remainingReward += wave.getRemainingEnemiesReward();
         }
 
-        GameSettings settings = mGameLoader.getGameSettings();
+        GameSettingsRoot settings = mGameLoader.getGameSettingsRoot();
         return Math.round(settings.getEarlyModifier() * (float) Math.pow(remainingReward, settings.getEarlyExponent()));
     }
 

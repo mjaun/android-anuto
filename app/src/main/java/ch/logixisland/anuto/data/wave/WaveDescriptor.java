@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import ch.logixisland.anuto.data.enemy.EnemyDescriptor;
-
 @Root
 public class WaveDescriptor {
 

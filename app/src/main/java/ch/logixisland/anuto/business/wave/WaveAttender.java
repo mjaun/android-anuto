@@ -5,8 +5,8 @@ import java.util.List;
 
 import ch.logixisland.anuto.business.game.GameLoader;
 import ch.logixisland.anuto.business.score.ScoreBoard;
-import ch.logixisland.anuto.data.enemy.EnemyDescriptor;
 import ch.logixisland.anuto.data.map.PathDescriptor;
+import ch.logixisland.anuto.data.wave.EnemyDescriptor;
 import ch.logixisland.anuto.data.wave.WaveDescriptor;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.entity.enemy.Enemy;
@@ -152,7 +152,7 @@ class WaveAttender implements EnemyListener {
     }
 
     private Enemy createAndConfigureEnemy(EnemyDescriptor descriptor, float offset) {
-        PathDescriptor path = mGameLoader.getMapDescriptor().getPaths().get(descriptor.getPathIndex());
+        PathDescriptor path = mGameLoader.getMapDescriptorRoot().getPaths().get(descriptor.getPathIndex());
         Enemy enemy = mEnemyFactory.createEnemy(descriptor.getName(), mEnemyHealthModifier, mEnemyRewardModifier);
         enemy.setupPath(path.getWayPoints(), offset);
         return enemy;

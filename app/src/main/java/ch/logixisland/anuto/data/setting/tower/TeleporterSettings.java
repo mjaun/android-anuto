@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.data.tower;
+package ch.logixisland.anuto.data.setting.tower;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;

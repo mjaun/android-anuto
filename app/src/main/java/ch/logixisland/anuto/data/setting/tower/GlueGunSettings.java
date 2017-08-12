@@ -1,10 +1,10 @@
-package ch.logixisland.anuto.data.tower;
+package ch.logixisland.anuto.data.setting.tower;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 @Root
-public class GlueTowerSettings extends TowerSettings {
+public class GlueGunSettings extends TowerSettings {
 
     @Element(name = "glueIntensity")
     private float mGlueIntensity;

@@ -1,6 +1,7 @@
 package ch.logixisland.anuto.data.wave;
 
 import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Serializer;
 
 import java.io.InputStream;
@@ -10,6 +11,7 @@ import java.util.List;
 
 import ch.logixisland.anuto.data.serializer.SerializerFactory;
 
+@Root
 public class WaveDescriptorRoot {
 
     @ElementList(inline = true, entry = "wave")

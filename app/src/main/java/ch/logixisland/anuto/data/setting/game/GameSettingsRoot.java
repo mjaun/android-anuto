@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.data.game;
+package ch.logixisland.anuto.data.setting.game;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
@@ -9,7 +9,7 @@ import java.io.InputStream;
 import ch.logixisland.anuto.data.serializer.SerializerFactory;
 
 @Root
-public class GameSettings {
+public class GameSettingsRoot {
 
     @Element(name = "credits")
     private int mCredits;
@@ -47,9 +47,9 @@ public class GameSettings {
     @Element(name = "ageModifier")
     private float mAgeModifier;
 
-    public static GameSettings fromXml(InputStream stream) throws Exception {
+    public static GameSettingsRoot fromXml(InputStream stream) throws Exception {
         Serializer serializer = new SerializerFactory().createSerializer();
-        return serializer.read(GameSettings.class, stream);
+        return serializer.read(GameSettingsRoot.class, stream);
     }
 
     public int getCredits() {

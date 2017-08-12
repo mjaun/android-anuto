@@ -6,12 +6,12 @@ import java.io.InputStream;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.score.ScoreBoard;
-import ch.logixisland.anuto.data.enemy.EnemySettingsRoot;
-import ch.logixisland.anuto.data.game.GameSettings;
-import ch.logixisland.anuto.data.map.MapDescriptor;
+import ch.logixisland.anuto.data.map.MapDescriptorRoot;
 import ch.logixisland.anuto.data.map.MapInfo;
 import ch.logixisland.anuto.data.map.PlateauDescriptor;
-import ch.logixisland.anuto.data.tower.TowerSettingsRoot;
+import ch.logixisland.anuto.data.setting.enemy.EnemySettingsRoot;
+import ch.logixisland.anuto.data.setting.game.GameSettingsRoot;
+import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
 import ch.logixisland.anuto.data.wave.WaveDescriptorRoot;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Viewport;
@@ -31,10 +31,10 @@ public class GameLoader implements GameStateListener {
     private final EnemyFactory mEnemyFactory;
 
     private MapInfo mMapInfo;
-    private GameSettings mGameSettings;
+    private GameSettingsRoot mGameSettingsRoot;
     private TowerSettingsRoot mTowerSettingsRoot;
     private EnemySettingsRoot mEnemySettingsRoot;
-    private MapDescriptor mMapDescriptor;
+    private MapDescriptorRoot mMapDescriptorRoot;
     private WaveDescriptorRoot mWaveDescriptorRoot;
     private GameState mGameState;
 
@@ -52,7 +52,7 @@ public class GameLoader implements GameStateListener {
         mEnemyFactory = enemyFactory;
 
         try {
-            mGameSettings = GameSettings.fromXml(mContext.getResources().openRawResource(R.raw.game_settings));
+            mGameSettingsRoot = GameSettingsRoot.fromXml(mContext.getResources().openRawResource(R.raw.game_settings));
             mTowerSettingsRoot = TowerSettingsRoot.fromXml(mContext.getResources().openRawResource(R.raw.tower_settings));
             mEnemySettingsRoot = EnemySettingsRoot.fromXml(mContext.getResources().openRawResource(R.raw.enemy_settings));
             mWaveDescriptorRoot = WaveDescriptorRoot.fromXml(mContext.getResources().openRawResource(R.raw.wave_descriptors));
@@ -69,12 +69,12 @@ public class GameLoader implements GameStateListener {
         return mMapInfo;
     }
 
-    public GameSettings getGameSettings() {
-        return mGameSettings;
+    public GameSettingsRoot getGameSettingsRoot() {
+        return mGameSettingsRoot;
     }
 
-    public MapDescriptor getMapDescriptor() {
-        return mMapDescriptor;
+    public MapDescriptorRoot getMapDescriptorRoot() {
+        return mMapDescriptorRoot;
     }
 
     public WaveDescriptorRoot getWaveDescriptorRoot() {
@@ -100,12 +100,12 @@ public class GameLoader implements GameStateListener {
 
         try {
             InputStream inputStream = mContext.getResources().openRawResource(mMapInfo.getMapDescriptorResId());
-            mMapDescriptor = MapDescriptor.fromXml(inputStream);
+            mMapDescriptorRoot = MapDescriptorRoot.fromXml(inputStream);
         } catch (Exception e) {
             throw new RuntimeException("Could not load map!", e);
         }
 
-        mTowerFactory.setPaths(mMapDescriptor.getPaths());
+        mTowerFactory.setPaths(mMapDescriptorRoot.getPaths());
         mGameState.restart();
     }
 
@@ -113,14 +113,14 @@ public class GameLoader implements GameStateListener {
     public void gameRestart() {
         mGameEngine.clear();
 
-        for (PlateauDescriptor descriptor : mMapDescriptor.getPlateaus()) {
+        for (PlateauDescriptor descriptor : mMapDescriptorRoot.getPlateaus()) {
             Plateau p = mPlateauFactory.createPlateau(descriptor.getName());
             p.setPosition(descriptor.getPosition());
             mGameEngine.add(p);
         }
 
-        mViewport.setGameSize(mMapDescriptor.getWidth(), mMapDescriptor.getHeight());
-        mScoreBoard.reset(mGameSettings.getLives(), mGameSettings.getCredits());
+        mViewport.setGameSize(mMapDescriptorRoot.getWidth(), mMapDescriptorRoot.getHeight());
+        mScoreBoard.reset(mGameSettingsRoot.getLives(), mGameSettingsRoot.getCredits());
     }
 
     @Override

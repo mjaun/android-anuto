@@ -1,10 +1,10 @@
-package ch.logixisland.anuto.data.enemy;
+package ch.logixisland.anuto.data.setting.enemy;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 @Root
-public class EnemyGlobalSettings {
+public class GlobalSettings {
 
     @Element(name = "minSpeedModifier")
     private float mMinSpeedModifier;

@@ -1,7 +1,7 @@
 package ch.logixisland.anuto.entity.enemy;
 
-import ch.logixisland.anuto.data.enemy.EnemyGlobalSettings;
-import ch.logixisland.anuto.data.enemy.HealerSettings;
+import ch.logixisland.anuto.data.setting.enemy.GlobalSettings;
+import ch.logixisland.anuto.data.setting.enemy.HealerSettings;
 
 public class HealerProperties extends EnemyProperties {
 
@@ -9,7 +9,7 @@ public class HealerProperties extends EnemyProperties {
 
     public HealerProperties(
             HealerSettings healerSettings,
-            EnemyGlobalSettings globalSettings,
+            GlobalSettings globalSettings,
             float healthModifier,
             float rewardModifier) {
         super(healerSettings, globalSettings, healthModifier, rewardModifier);

@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.data.enemy;
+package ch.logixisland.anuto.data.setting.enemy;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
@@ -12,7 +12,7 @@ import ch.logixisland.anuto.data.serializer.SerializerFactory;
 public class EnemySettingsRoot {
 
     @Element(name = "global")
-    private EnemyGlobalSettings mGlobalSettings;
+    private GlobalSettings mGlobalSettings;
 
     @Element(name = "soldier")
     private EnemySettings mSoldierSettings;
@@ -34,7 +34,7 @@ public class EnemySettingsRoot {
         return serializer.read(EnemySettingsRoot.class, stream);
     }
 
-    public EnemyGlobalSettings getGlobalSettings() {
+    public GlobalSettings getGlobalSettings() {
         return mGlobalSettings;
     }
 

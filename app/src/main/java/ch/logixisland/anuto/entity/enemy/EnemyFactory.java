@@ -1,6 +1,6 @@
 package ch.logixisland.anuto.entity.enemy;
 
-import ch.logixisland.anuto.data.enemy.EnemySettingsRoot;
+import ch.logixisland.anuto.data.setting.enemy.EnemySettingsRoot;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 
 public class EnemyFactory {

@@ -8,7 +8,7 @@ import java.util.List;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.data.map.PathDescriptor;
-import ch.logixisland.anuto.data.tower.GlueTowerSettings;
+import ch.logixisland.anuto.data.setting.tower.GlueTowerSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickTimer;
 import ch.logixisland.anuto.engine.render.Layers;
