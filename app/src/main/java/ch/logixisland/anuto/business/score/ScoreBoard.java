@@ -3,7 +3,12 @@ package ch.logixisland.anuto.business.score;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.engine.logic.Message;
+
 public class ScoreBoard {
+
+    private final GameEngine mGameEngine;
 
     private int mCredits;
     private int mCreditsEarned;
@@ -15,7 +20,21 @@ public class ScoreBoard {
     private final List<LivesListener> mLivesListeners = new CopyOnWriteArrayList<>();
     private final List<BonusListener> mBonusListeners = new CopyOnWriteArrayList<>();
 
-    public synchronized void reset(int lives, int credits) {
+    public ScoreBoard(GameEngine gameEngine) {
+        mGameEngine = gameEngine;
+    }
+
+    public void reset(final int lives, final int credits) {
+        if (mGameEngine.isThreadChangeNeeded()) {
+            mGameEngine.post(new Message() {
+                @Override
+                public void execute() {
+                    reset(lives, credits);
+                }
+            });
+            return;
+        }
+
         mCredits = credits;
         mCreditsEarned = 0;
         mLives = lives;
@@ -27,12 +46,32 @@ public class ScoreBoard {
         bonusChanged();
     }
 
-    public synchronized void takeLives(int lives) {
+    public void takeLives(final int lives) {
+        if (mGameEngine.isThreadChangeNeeded()) {
+            mGameEngine.post(new Message() {
+                @Override
+                public void execute() {
+                    takeLives(lives);
+                }
+            });
+            return;
+        }
+
         mLives -= lives;
         livesChanged();
     }
 
-    public synchronized void giveCredits(int credits, boolean earned) {
+    public void giveCredits(final int credits, final boolean earned) {
+        if (mGameEngine.isThreadChangeNeeded()) {
+            mGameEngine.post(new Message() {
+                @Override
+                public void execute() {
+                    giveCredits(credits, earned);
+                }
+            });
+            return;
+        }
+
         mCredits += credits;
 
         if (earned) {
@@ -42,17 +81,47 @@ public class ScoreBoard {
         creditsChanged();
     }
 
-    public synchronized void takeCredits(int credits) {
+    public void takeCredits(final int credits) {
+        if (mGameEngine.isThreadChangeNeeded()) {
+            mGameEngine.post(new Message() {
+                @Override
+                public void execute() {
+                    takeCredits(credits);
+                }
+            });
+            return;
+        }
+
         mCredits -= credits;
         creditsChanged();
     }
 
-    public synchronized void setEarlyBonus(int earlyBonus) {
+    public void setEarlyBonus(final int earlyBonus) {
+        if (mGameEngine.isThreadChangeNeeded()) {
+            mGameEngine.post(new Message() {
+                @Override
+                public void execute() {
+                    setEarlyBonus(earlyBonus);
+                }
+            });
+            return;
+        }
+
         mEarlyBonus = earlyBonus;
         bonusChanged();
     }
 
-    public synchronized void setWaveBonus(int waveBonus) {
+    public void setWaveBonus(final int waveBonus) {
+        if (mGameEngine.isThreadChangeNeeded()) {
+            mGameEngine.post(new Message() {
+                @Override
+                public void execute() {
+                    setWaveBonus(waveBonus);
+                }
+            });
+            return;
+        }
+
         mWaveBonus = waveBonus;
         bonusChanged();
     }

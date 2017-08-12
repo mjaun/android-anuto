@@ -83,8 +83,8 @@ public class GameFactory {
         mEnemyFactory = new EnemyFactory(mGameEngine);
 
         // Business
-        mScoreBoard = new ScoreBoard();
         mMapRepository = new MapRepository();
+        mScoreBoard = new ScoreBoard(mGameEngine);
         mSpeedManager = new GameSpeed(mGameEngine);
         mGameState = new GameState(mGameEngine, mThemeManager, mScoreBoard);
         mGameLoader = new GameLoader(context, mGameEngine, mScoreBoard, mGameState, mViewport, mPlateauFactory, mTowerFactory, mEnemyFactory);
