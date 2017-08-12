@@ -1,23 +1,15 @@
 package ch.logixisland.anuto.util.math;
 
-public abstract class SampledFunction extends Function {
+public class SampledFunction {
 
-    /*
-    ------ Members ------
-     */
+    private final Function mFunction;
 
     private int mPosition;
     private float mValue;
 
-    /*
-    ------ Abstracts ------
-     */
-
-    public abstract float calculate(float input);
-
-    /*
-    ------ Methods -----
-     */
+    SampledFunction(Function function) {
+        mFunction = function;
+    }
 
     public int getPosition() {
         return mPosition;
@@ -29,13 +21,13 @@ public abstract class SampledFunction extends Function {
 
     public SampledFunction setPosition(int position) {
         mPosition = position;
-        mValue = calculate(mPosition);
+        mValue = mFunction.calculate(mPosition);
         return this;
     }
 
     public SampledFunction step() {
         mPosition++;
-        mValue = calculate(mPosition);
+        mValue = mFunction.calculate(mPosition);
         return this;
     }
 

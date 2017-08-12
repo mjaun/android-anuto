@@ -2,10 +2,6 @@ package ch.logixisland.anuto.util.math;
 
 public abstract class Function {
 
-    /*
-    ------ Static ------
-     */
-
     public static Function zero() {
         return new Function() {
             @Override
@@ -38,25 +34,6 @@ public abstract class Function {
             @Override
             public float calculate(float input) {
                 return (float) Math.sin(input);
-            }
-        };
-    }
-
-    /*
-    ------ Abstract ------
-     */
-
-    public abstract float calculate(float input);
-
-    /*
-    ------ Methods ------
-     */
-
-    public SampledFunction sample() {
-        return new SampledFunction() {
-            @Override
-            public float calculate(float input) {
-                return Function.this.calculate(input);
             }
         };
     }
@@ -115,7 +92,6 @@ public abstract class Function {
         };
     }
 
-
     public Function join(final Function f, final float at) {
         return new Function() {
             @Override
@@ -137,4 +113,11 @@ public abstract class Function {
             }
         };
     }
+
+    public abstract float calculate(float input);
+
+    public SampledFunction sample() {
+        return new SampledFunction(this);
+    }
+
 }
