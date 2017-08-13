@@ -2,7 +2,6 @@ package ch.logixisland.anuto.business.tower;
 
 import java.util.Iterator;
 
-import ch.logixisland.anuto.business.game.GameLoader;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.Message;
 import ch.logixisland.anuto.entity.Types;
@@ -11,11 +10,9 @@ import ch.logixisland.anuto.entity.tower.Tower;
 public class TowerAging {
 
     private final GameEngine mGameEngine;
-    private final GameLoader mGameLoader;
 
-    public TowerAging(GameEngine gameEngine, GameLoader gameLoader) {
+    public TowerAging(GameEngine gameEngine) {
         mGameEngine = gameEngine;
-        mGameLoader = gameLoader;
     }
 
     public void ageTowers() {
@@ -51,7 +48,7 @@ public class TowerAging {
         }
 
         int value = tower.getValue();
-        value = Math.round(value * mGameLoader.getTowerSettingsRoot().getAgeModifier());
+        value = Math.round(value * mGameEngine.getGameConfiguration().getTowerSettings().getAgeModifier());
         tower.setValue(value);
     }
 }

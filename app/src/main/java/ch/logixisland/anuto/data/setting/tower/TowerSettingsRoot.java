@@ -1,5 +1,7 @@
 package ch.logixisland.anuto.data.setting.tower;
 
+import android.content.Context;
+
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Serializer;
@@ -53,6 +55,15 @@ public class TowerSettingsRoot {
     @Element(name = "teleporter")
     private TeleporterSettings mTeleporterSettings;
 
+    public static TowerSettingsRoot fromXml(Context context, int resId) throws Exception {
+        InputStream stream = context.getResources().openRawResource(resId);
+
+        try {
+            return fromXml(stream);
+        } finally {
+            stream.close();
+        }
+    }
 
     public static TowerSettingsRoot fromXml(InputStream stream) throws Exception {
         Serializer serializer = new SerializerFactory().createSerializer();

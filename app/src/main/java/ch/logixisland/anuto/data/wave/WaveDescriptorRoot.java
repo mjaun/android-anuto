@@ -1,5 +1,7 @@
 package ch.logixisland.anuto.data.wave;
 
+import android.content.Context;
+
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Serializer;
@@ -16,6 +18,16 @@ public class WaveDescriptorRoot {
 
     @ElementList(inline = true, entry = "wave")
     private List<WaveDescriptor> mWaves = new ArrayList<>();
+
+    public static WaveDescriptorRoot fromXml(Context context, int resId) throws Exception {
+        InputStream stream = context.getResources().openRawResource(resId);
+
+        try {
+            return fromXml(stream);
+        } finally {
+            stream.close();
+        }
+    }
 
     public static WaveDescriptorRoot fromXml(InputStream inputStream) throws Exception {
         Serializer serializer = new SerializerFactory().createSerializer();

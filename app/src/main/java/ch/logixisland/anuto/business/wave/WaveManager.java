@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.business.game.GameLoader;
 import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.game.GameStateListener;
 import ch.logixisland.anuto.business.score.ScoreBoard;
@@ -28,7 +27,6 @@ public class WaveManager implements GameStateListener {
     private final GameEngine mGameEngine;
     private final ScoreBoard mScoreBoard;
     private final GameState mGameState;
-    private final GameLoader mGameLoader;
     private final EnemyFactory mEnemyFactory;
     private final TowerAging mTowerAging;
 
@@ -40,12 +38,11 @@ public class WaveManager implements GameStateListener {
     private final List<WaveAttender> mActiveWaves = new ArrayList<>();
     private final List<WaveListener> mListeners = new CopyOnWriteArrayList<>();
 
-    public WaveManager(GameEngine gameEngine, ScoreBoard scoreBoard, GameState gameState, GameLoader gameLoader,
+    public WaveManager(GameEngine gameEngine, ScoreBoard scoreBoard, GameState gameState,
                        EnemyFactory enemyFactory, TowerAging towerAging) {
         mGameEngine = gameEngine;
         mScoreBoard = scoreBoard;
         mGameState = gameState;
-        mGameLoader = gameLoader;
         mEnemyFactory = enemyFactory;
         mTowerAging = towerAging;
 
@@ -188,9 +185,9 @@ public class WaveManager implements GameStateListener {
     }
 
     private void createAndStartWaveAttender() {
-        List<WaveDescriptor> waveDescriptors = mGameLoader.getWaveDescriptorRoot().getWaves();
+        List<WaveDescriptor> waveDescriptors = mGameEngine.getGameConfiguration().getWaveDescriptor().getWaves();
         WaveDescriptor nextWaveDescriptor = waveDescriptors.get(mNextWaveIndex % waveDescriptors.size());
-        WaveAttender nextWave = new WaveAttender(mGameEngine, mScoreBoard, mGameLoader, mEnemyFactory, this, nextWaveDescriptor);
+        WaveAttender nextWave = new WaveAttender(mGameEngine, mScoreBoard, mEnemyFactory, this, nextWaveDescriptor);
         updateWaveExtend(nextWave, nextWaveDescriptor);
         updateWaveModifiers(nextWave);
         mActiveWaves.add(nextWave);
@@ -203,7 +200,7 @@ public class WaveManager implements GameStateListener {
     }
 
     private void updateWaveModifiers(WaveAttender wave) {
-        GameSettingsRoot settings = mGameLoader.getGameSettingsRoot();
+        GameSettingsRoot settings = mGameEngine.getGameConfiguration().getGameSettings();
 
         float waveHealth = getWaveHealth(wave);
         float damagePossible = settings.getDifficultyLinear() * mScoreBoard.getCreditsEarned()
@@ -236,7 +233,7 @@ public class WaveManager implements GameStateListener {
     }
 
     private int getIterationNumber() {
-        return (getWaveNumber() / mGameLoader.getWaveDescriptorRoot().getWaves().size()) + 1;
+        return (getWaveNumber() / mGameEngine.getGameConfiguration().getWaveDescriptor().getWaves().size()) + 1;
     }
 
     private int getEarlyBonus() {
@@ -246,7 +243,7 @@ public class WaveManager implements GameStateListener {
             remainingReward += wave.getRemainingEnemiesReward();
         }
 
-        GameSettingsRoot settings = mGameLoader.getGameSettingsRoot();
+        GameSettingsRoot settings = mGameEngine.getGameConfiguration().getGameSettings();
         return Math.round(settings.getEarlyModifier() * (float) Math.pow(remainingReward, settings.getEarlyExponent()));
     }
 

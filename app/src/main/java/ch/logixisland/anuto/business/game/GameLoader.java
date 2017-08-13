@@ -2,8 +2,6 @@ package ch.logixisland.anuto.business.game;
 
 import android.content.Context;
 
-import java.io.InputStream;
-
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.data.map.MapDescriptorRoot;
@@ -13,6 +11,7 @@ import ch.logixisland.anuto.data.setting.GameSettingsRoot;
 import ch.logixisland.anuto.data.setting.enemy.EnemySettingsRoot;
 import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
 import ch.logixisland.anuto.data.wave.WaveDescriptorRoot;
+import ch.logixisland.anuto.engine.logic.GameConfiguration;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.Message;
 import ch.logixisland.anuto.engine.render.Viewport;
@@ -30,14 +29,9 @@ public class GameLoader implements GameStateListener {
     private final PlateauFactory mPlateauFactory;
     private final TowerFactory mTowerFactory;
     private final EnemyFactory mEnemyFactory;
+    private final GameState mGameState;
 
     private MapInfo mMapInfo;
-    private GameSettingsRoot mGameSettingsRoot;
-    private TowerSettingsRoot mTowerSettingsRoot;
-    private EnemySettingsRoot mEnemySettingsRoot;
-    private MapDescriptorRoot mMapDescriptorRoot;
-    private WaveDescriptorRoot mWaveDescriptorRoot;
-    private GameState mGameState;
 
     public GameLoader(Context context, GameEngine gameEngine, ScoreBoard scoreBoard,
                       GameState gameState, Viewport viewport,
@@ -52,38 +46,11 @@ public class GameLoader implements GameStateListener {
         mTowerFactory = towerFactory;
         mEnemyFactory = enemyFactory;
 
-        try {
-            mGameSettingsRoot = GameSettingsRoot.fromXml(mContext.getResources().openRawResource(R.raw.game_settings));
-            mTowerSettingsRoot = TowerSettingsRoot.fromXml(mContext.getResources().openRawResource(R.raw.tower_settings));
-            mEnemySettingsRoot = EnemySettingsRoot.fromXml(mContext.getResources().openRawResource(R.raw.enemy_settings));
-            mWaveDescriptorRoot = WaveDescriptorRoot.fromXml(mContext.getResources().openRawResource(R.raw.wave_descriptors));
-        } catch (Exception e) {
-            throw new RuntimeException("Could not load settings!", e);
-        }
-
-        mTowerFactory.setTowerSettingsRoot(mTowerSettingsRoot);
-        mEnemyFactory.setEnemySettingsRoot(mEnemySettingsRoot);
         mGameState.addListener(this);
     }
 
     public MapInfo getMapInfo() {
         return mMapInfo;
-    }
-
-    public GameSettingsRoot getGameSettingsRoot() {
-        return mGameSettingsRoot;
-    }
-
-    public TowerSettingsRoot getTowerSettingsRoot() {
-        return mTowerSettingsRoot;
-    }
-
-    public MapDescriptorRoot getMapDescriptorRoot() {
-        return mMapDescriptorRoot;
-    }
-
-    public WaveDescriptorRoot getWaveDescriptorRoot() {
-        return mWaveDescriptorRoot;
     }
 
     public void loadMap(final MapInfo mapInfo) {
@@ -104,13 +71,17 @@ public class GameLoader implements GameStateListener {
         mMapInfo = mapInfo;
 
         try {
-            InputStream inputStream = mContext.getResources().openRawResource(mMapInfo.getMapDescriptorResId());
-            mMapDescriptorRoot = MapDescriptorRoot.fromXml(inputStream);
+            mGameEngine.setGameConfiguration(new GameConfiguration(
+                    GameSettingsRoot.fromXml(mContext, R.raw.game_settings),
+                    EnemySettingsRoot.fromXml(mContext, R.raw.enemy_settings),
+                    TowerSettingsRoot.fromXml(mContext, R.raw.tower_settings),
+                    MapDescriptorRoot.fromXml(mContext, mapInfo.getMapDescriptorResId()),
+                    WaveDescriptorRoot.fromXml(mContext, R.raw.wave_descriptors)
+            ));
         } catch (Exception e) {
             throw new RuntimeException("Could not load map!", e);
         }
 
-        mTowerFactory.setPaths(mMapDescriptorRoot.getPaths());
         mGameState.restart();
     }
 
@@ -118,14 +89,16 @@ public class GameLoader implements GameStateListener {
     public void gameRestart() {
         mGameEngine.clear();
 
-        for (PlateauDescriptor descriptor : mMapDescriptorRoot.getPlateaus()) {
+        GameConfiguration configuration = mGameEngine.getGameConfiguration();
+
+        for (PlateauDescriptor descriptor : configuration.getMapDescriptor().getPlateaus()) {
             Plateau p = mPlateauFactory.createPlateau(descriptor.getName());
             p.setPosition(descriptor.getPosition());
             mGameEngine.add(p);
         }
 
-        mViewport.setGameSize(mMapDescriptorRoot.getWidth(), mMapDescriptorRoot.getHeight());
-        mScoreBoard.reset(mGameSettingsRoot.getLives(), mGameSettingsRoot.getCredits());
+        mViewport.setGameSize(configuration.getMapDescriptor().getWidth(), configuration.getMapDescriptor().getHeight());
+        mScoreBoard.reset(configuration.getGameSettings().getLives(), configuration.getGameSettings().getCredits());
     }
 
     @Override

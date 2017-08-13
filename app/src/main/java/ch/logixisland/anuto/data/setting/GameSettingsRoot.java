@@ -1,5 +1,7 @@
 package ch.logixisland.anuto.data.setting;
 
+import android.content.Context;
+
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Serializer;
@@ -43,6 +45,16 @@ public class GameSettingsRoot {
 
     @Element(name = "earlyExponent")
     private float mEarlyExponent;
+
+    public static GameSettingsRoot fromXml(Context context, int resId) throws Exception {
+        InputStream stream = context.getResources().openRawResource(resId);
+
+        try {
+            return fromXml(stream);
+        } finally {
+            stream.close();
+        }
+    }
 
     public static GameSettingsRoot fromXml(InputStream stream) throws Exception {
         Serializer serializer = new SerializerFactory().createSerializer();

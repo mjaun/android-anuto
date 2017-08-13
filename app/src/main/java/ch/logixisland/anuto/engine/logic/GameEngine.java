@@ -21,9 +21,11 @@ public class GameEngine {
     private final Renderer mRenderer;
     private final GameLoop mGameLoop;
 
+    private GameConfiguration mGameConfiguration;
+
     public GameEngine(SpriteFactory spriteFactory, ThemeManager themeManager,
-                      SoundFactory soundFactory, EntityStore entityStore,
-                      MessageQueue messageQueue, Renderer renderer, GameLoop gameLoop) {
+                      SoundFactory soundFactory, EntityStore entityStore, MessageQueue messageQueue,
+                      Renderer renderer, GameLoop gameLoop) {
         mSpriteFactory = spriteFactory;
         mThemeManager = themeManager;
         mSoundFactory = soundFactory;
@@ -118,4 +120,11 @@ public class GameEngine {
         return mRenderer.isInGame(position);
     }
 
+    public GameConfiguration getGameConfiguration() {
+        return mGameConfiguration;
+    }
+
+    public void setGameConfiguration(GameConfiguration gameConfiguration) {
+        mGameConfiguration = gameConfiguration;
+    }
 }
