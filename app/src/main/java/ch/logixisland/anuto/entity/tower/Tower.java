@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.data.game.TowerDescriptor;
 import ch.logixisland.anuto.data.map.PathDescriptor;
 import ch.logixisland.anuto.data.setting.enemy.WeaponType;
 import ch.logixisland.anuto.data.setting.tower.TowerSettings;
@@ -23,7 +24,7 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public abstract class Tower extends Entity {
 
-    private final TowerSettings mConfig;
+    private final TowerSettings mSettings;
 
     private boolean mEnabled;
     private int mValue;
@@ -40,15 +41,15 @@ public abstract class Tower extends Entity {
 
     private final List<TowerListener> mListeners = new CopyOnWriteArrayList<>();
 
-    Tower(GameEngine gameEngine, TowerSettings config) {
+    Tower(GameEngine gameEngine, TowerSettings settings) {
         super(gameEngine);
 
-        mConfig = config;
+        mSettings = settings;
 
-        mValue = mConfig.getValue();
-        mDamage = mConfig.getDamage();
-        mRange = mConfig.getRange();
-        mReloadTime = mConfig.getReload();
+        mValue = mSettings.getValue();
+        mDamage = mSettings.getDamage();
+        mRange = mSettings.getRange();
+        mReloadTime = mSettings.getReload();
         mLevel = 1;
 
         mReloadTimer = TickTimer.createInterval(mReloadTime);
@@ -76,6 +77,22 @@ public abstract class Tower extends Entity {
         }
     }
 
+    public abstract void preview(Canvas canvas);
+
+    public abstract List<TowerInfoValue> getTowerInfoValues();
+
+    public TowerDescriptor getTowerDescriptor() {
+        TowerDescriptor towerDescriptor = createTowerDescriptor();
+        towerDescriptor.setValue(mValue);
+        towerDescriptor.setLevel(mLevel);
+        towerDescriptor.setDamageInflicted(mDamageInflicted);
+        return towerDescriptor;
+    }
+
+    TowerDescriptor createTowerDescriptor() {
+        return new TowerDescriptor();
+    }
+
     public void setEnabled(boolean enabled) {
         mEnabled = enabled;
 
@@ -84,12 +101,8 @@ public abstract class Tower extends Entity {
         }
     }
 
-    public abstract void preview(Canvas canvas);
-
-    public abstract List<TowerInfoValue> getTowerInfoValues();
-
     public WeaponType getWeaponType() {
-        return mConfig.getWeaponType();
+        return mSettings.getWeaponType();
     }
 
     public boolean isReloaded() {
@@ -137,22 +150,22 @@ public abstract class Tower extends Entity {
     }
 
     public boolean isUpgradeable() {
-        return mConfig.getUpgrade() != null;
+        return mSettings.getUpgrade() != null;
     }
 
     public String getUpgradeName() {
-        return mConfig.getUpgrade();
+        return mSettings.getUpgrade();
     }
 
     public int getUpgradeCost() {
-        return mConfig.getUpgradeCost();
+        return mSettings.getUpgradeCost();
     }
 
     public void enhance() {
         mValue += getEnhanceCost();
-        mDamage += mConfig.getEnhanceDamage() * (float) Math.pow(mConfig.getEnhanceBase(), mLevel - 1);
-        mRange += mConfig.getEnhanceRange();
-        mReloadTime -= mConfig.getEnhanceReload();
+        mDamage += mSettings.getEnhanceDamage() * (float) Math.pow(mSettings.getEnhanceBase(), mLevel - 1);
+        mRange += mSettings.getEnhanceRange();
+        mReloadTime -= mSettings.getEnhanceReload();
 
         mLevel++;
 
@@ -160,7 +173,7 @@ public abstract class Tower extends Entity {
     }
 
     public boolean isEnhanceable() {
-        return mLevel < mConfig.getMaxLevel();
+        return mLevel < mSettings.getMaxLevel();
     }
 
     public int getEnhanceCost() {
@@ -168,7 +181,7 @@ public abstract class Tower extends Entity {
             return -1;
         }
 
-        return Math.round(mConfig.getEnhanceCost() * (float) Math.pow(mConfig.getEnhanceBase(), mLevel - 1));
+        return Math.round(mSettings.getEnhanceCost() * (float) Math.pow(mSettings.getEnhanceBase(), mLevel - 1));
     }
 
     public int getLevel() {
@@ -176,7 +189,7 @@ public abstract class Tower extends Entity {
     }
 
     public int getMaxLevel() {
-        return mConfig.getMaxLevel();
+        return mSettings.getMaxLevel();
     }
 
     public void showRange() {

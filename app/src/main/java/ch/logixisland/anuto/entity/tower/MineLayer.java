@@ -7,6 +7,8 @@ import java.util.Collection;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.data.game.MineLayerDescriptor;
+import ch.logixisland.anuto.data.game.TowerDescriptor;
 import ch.logixisland.anuto.data.map.MapDescriptorRoot;
 import ch.logixisland.anuto.data.map.PathDescriptor;
 import ch.logixisland.anuto.data.setting.tower.MineLayerSettings;
@@ -183,6 +185,13 @@ public class MineLayer extends Tower implements SpriteTransformation {
         properties.add(new TowerInfoValue(R.string.range, getRange()));
         properties.add(new TowerInfoValue(R.string.inflicted, getDamageInflicted()));
         return properties;
+    }
+
+    @Override
+    TowerDescriptor createTowerDescriptor() {
+        MineLayerDescriptor mineLayerDescriptor = new MineLayerDescriptor();
+        // TODO: Remember mines
+        return mineLayerDescriptor;
     }
 
     private Vector2 getTarget() {

@@ -7,6 +7,7 @@ import ch.logixisland.anuto.util.container.SafeMultiMap;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
 public class EntityStore implements TickListener {
+
     private final SafeMultiMap<Entity> mEntities = new SafeMultiMap<>();
     private final Map<Class<? extends Entity>, Object> mStaticData = new HashMap<>();
 

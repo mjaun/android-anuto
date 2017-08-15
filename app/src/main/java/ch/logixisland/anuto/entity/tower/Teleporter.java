@@ -7,6 +7,8 @@ import java.util.Collection;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.data.game.TeleporterDescriptor;
+import ch.logixisland.anuto.data.game.TowerDescriptor;
 import ch.logixisland.anuto.data.setting.tower.TeleporterSettings;
 import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
 import ch.logixisland.anuto.engine.logic.Entity;
@@ -137,6 +139,13 @@ public class Teleporter extends AimingTower implements SpriteTransformation {
     public void preview(Canvas canvas) {
         mSpriteBase.draw(canvas);
         mSpriteTower.draw(canvas);
+    }
+
+    @Override
+    TowerDescriptor createTowerDescriptor() {
+        TeleporterDescriptor teleporterDescriptor = new TeleporterDescriptor();
+        // TODO: Remember teleported enemies
+        return teleporterDescriptor;
     }
 
     @Override
