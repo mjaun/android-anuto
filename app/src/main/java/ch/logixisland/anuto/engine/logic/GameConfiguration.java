@@ -24,23 +24,23 @@ public class GameConfiguration {
         mWaveDescriptor = waveDescriptor;
     }
 
-    public GameSettingsRoot getGameSettings() {
+    public GameSettingsRoot getGameSettingsRoot() {
         return mGameSettings;
     }
 
-    public EnemySettingsRoot getEnemySettings() {
+    public EnemySettingsRoot getEnemySettingsRoot() {
         return mEnemySettings;
     }
 
-    public TowerSettingsRoot getTowerSettings() {
+    public TowerSettingsRoot getTowerSettingsRoot() {
         return mTowerSettings;
     }
 
-    public MapDescriptorRoot getMapDescriptor() {
+    public MapDescriptorRoot getMapDescriptorRoot() {
         return mMapDescriptor;
     }
 
-    public WaveDescriptorRoot getWaveDescriptor() {
+    public WaveDescriptorRoot getWaveDescriptorRoot() {
         return mWaveDescriptor;
     }
 }

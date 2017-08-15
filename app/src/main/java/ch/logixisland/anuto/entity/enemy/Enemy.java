@@ -3,6 +3,8 @@ package ch.logixisland.anuto.entity.enemy;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.data.setting.enemy.EnemySettings;
+import ch.logixisland.anuto.data.setting.enemy.GlobalSettings;
 import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.entity.Types;
@@ -41,23 +43,33 @@ public abstract class Enemy extends Entity {
         };
     }
 
-    private final EnemyProperties mProperties;
+    private final GlobalSettings mGlobalSettings;
+    private final EnemySettings mEnemySettings;
 
-    private boolean mEnabled = true;
+    private boolean mEnabled;
+    private int mReward;
     private float mHealth;
-    private float mSpeedModifier = 1f;
-    private List<Vector2> mWayPoints = null;
+    private float mMaxHealth;
+    private float mSpeedModifier;
+    private List<Vector2> mWayPoints;
     private int mWayPointIndex;
 
     private HealthBar mHealthBar;
 
     private final List<EnemyListener> mListeners = new CopyOnWriteArrayList<>();
 
-    Enemy(GameEngine gameEngine, EnemyProperties properties) {
+    Enemy(GameEngine gameEngine, GlobalSettings globalSettings, EnemySettings enemySettings) {
         super(gameEngine);
 
-        mHealth = properties.getHealth();
-        mProperties = properties;
+        mGlobalSettings = globalSettings;
+        mEnemySettings = enemySettings;
+
+        mEnabled = true;
+        mSpeedModifier = 1f;
+
+        mReward = enemySettings.getReward();
+        mHealth = enemySettings.getHealth();
+        mMaxHealth = enemySettings.getHealth();
         mHealthBar = new HealthBar(getTheme(), this);
     }
 
@@ -133,20 +145,20 @@ public abstract class Enemy extends Entity {
         return mWayPoints != null && mWayPointIndex < mWayPoints.size();
     }
 
-    public float getSpeed() {
-        return mProperties.getSpeed() * mSpeedModifier;
-    }
-
-    public void modifySpeed(float f) {
-        mSpeedModifier = Math.max(mProperties.getMinSpeedModifier(), mSpeedModifier * f);
-    }
-
     Vector2 getDirection() {
         if (!hasWayPoint()) {
             return null;
         }
 
         return getDirectionTo(getWayPoint());
+    }
+
+    public float getSpeed() {
+        return mEnemySettings.getSpeed() * mSpeedModifier;
+    }
+
+    public void modifySpeed(float f) {
+        mSpeedModifier = Math.max(mGlobalSettings.getMinSpeedModifier(), mSpeedModifier * f);
     }
 
     private float getDistanceRemaining() {
@@ -216,18 +228,26 @@ public abstract class Enemy extends Entity {
         mWayPointIndex = 1;
     }
 
-    public float getHealth() {
+    float getHealth() {
         return mHealth;
     }
 
     public float getMaxHealth() {
-        return mProperties.getHealth();
+        return mMaxHealth;
     }
 
     public void damage(float amount, Entity origin) {
         if (origin != null && origin instanceof Tower) {
             Tower originTower = (Tower) origin;
-            amount = mProperties.applyDamageModifiers(amount, originTower);
+
+            if (mEnemySettings.getWeakAgainst().contains(originTower.getWeaponType())) {
+                amount *= mGlobalSettings.getWeakAgainstModifier();
+            }
+
+            if (mEnemySettings.getStrongAgainst().contains(originTower.getWeaponType())) {
+                amount *= mGlobalSettings.getStrongAgainstModifier();
+            }
+
             originTower.reportDamageInflicted(amount);
         }
 
@@ -242,16 +262,25 @@ public abstract class Enemy extends Entity {
         }
     }
 
+    public void modifyHealth(float f) {
+        mHealth *= f;
+        mMaxHealth *= f;
+    }
+
     public void heal(float val) {
         mHealth += val;
 
-        if (mHealth > mProperties.getHealth()) {
-            mHealth = mProperties.getHealth();
+        if (mHealth > mMaxHealth) {
+            mHealth = mMaxHealth;
         }
     }
 
     public int getReward() {
-        return mProperties.getReward();
+        return mReward;
+    }
+
+    public void modifyReward(float f) {
+        mReward = Math.round(mReward * f);
     }
 
     public void addListener(EnemyListener listener) {

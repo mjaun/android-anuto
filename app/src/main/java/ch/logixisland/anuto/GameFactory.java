@@ -14,6 +14,7 @@ import ch.logixisland.anuto.business.tower.TowerInserter;
 import ch.logixisland.anuto.business.tower.TowerSelector;
 import ch.logixisland.anuto.business.wave.WaveManager;
 import ch.logixisland.anuto.data.map.MapRepository;
+import ch.logixisland.anuto.engine.logic.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.EntityStore;
 import ch.logixisland.anuto.engine.logic.FrameRateLogger;
 import ch.logixisland.anuto.engine.logic.GameEngine;
@@ -25,7 +26,11 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteFactory;
 import ch.logixisland.anuto.engine.sound.SoundFactory;
 import ch.logixisland.anuto.engine.sound.SoundManager;
 import ch.logixisland.anuto.engine.theme.ThemeManager;
-import ch.logixisland.anuto.entity.enemy.EnemyFactory;
+import ch.logixisland.anuto.entity.enemy.Blob;
+import ch.logixisland.anuto.entity.enemy.Flyer;
+import ch.logixisland.anuto.entity.enemy.Healer;
+import ch.logixisland.anuto.entity.enemy.Soldier;
+import ch.logixisland.anuto.entity.enemy.Sprinter;
 import ch.logixisland.anuto.entity.plateau.PlateauFactory;
 import ch.logixisland.anuto.entity.tower.TowerFactory;
 
@@ -43,11 +48,11 @@ public class GameFactory {
     private final Renderer mRenderer;
     private final GameEngine mGameEngine;
     private final GameLoop mGameLoop;
+    private final EntityRegistry mEntityRegistry;
 
     // Entity
     private final PlateauFactory mPlateauFactory;
     private final TowerFactory mTowerFactory;
-    private final EnemyFactory mEnemyFactory;
 
     // Business
     private final ScoreBoard mScoreBoard;
@@ -76,21 +81,23 @@ public class GameFactory {
         mRenderer = new Renderer(mViewport, mThemeManager, mFrameRateLogger);
         mGameLoop = new GameLoop(mRenderer, mFrameRateLogger);
         mGameEngine = new GameEngine(mSpriteFactory, mThemeManager, mSoundFactory, mEntityStore, mMessageQueue, mRenderer, mGameLoop);
+        mEntityRegistry = new EntityRegistry(mGameEngine);
 
         // Entity
         mPlateauFactory = new PlateauFactory(mGameEngine);
         mTowerFactory = new TowerFactory(mGameEngine);
-        mEnemyFactory = new EnemyFactory(mGameEngine);
+
+        registerEntities();
 
         // Business
         mMapRepository = new MapRepository();
         mScoreBoard = new ScoreBoard(mGameEngine);
-        mSpeedManager = new GameSpeed(mGameEngine);
         mGameState = new GameState(mGameEngine, mThemeManager, mScoreBoard);
-        mGameLoader = new GameLoader(context, mGameEngine, mScoreBoard, mGameState, mViewport, mPlateauFactory, mTowerFactory, mEnemyFactory);
+        mGameLoader = new GameLoader(context, mGameEngine, mScoreBoard, mGameState, mViewport, mPlateauFactory);
         mGameLoader.loadMap(mMapRepository.getMaps().get(0));
         mTowerAging = new TowerAging(mGameEngine);
-        mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mGameState, mEnemyFactory, mTowerAging);
+        mSpeedManager = new GameSpeed(mGameEngine);
+        mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mGameState, mEntityRegistry, mTowerAging);
         mHighScores = new HighScores(context, mGameState, mScoreBoard, mGameLoader);
         mTowerSelector = new TowerSelector(mGameEngine, mGameState, mScoreBoard);
         mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector, mTowerFactory);
@@ -98,6 +105,14 @@ public class GameFactory {
         mSettingsManager = new SettingsManager(context, mThemeManager, mSoundManager);
 
         mGameState.restart();
+    }
+
+    private void registerEntities() {
+        mEntityRegistry.registerEntity("blob", new Blob.Factory());
+        mEntityRegistry.registerEntity("flyer", new Flyer.Factory());
+        mEntityRegistry.registerEntity("healer", new Healer.Factory());
+        mEntityRegistry.registerEntity("soldier", new Soldier.Factory());
+        mEntityRegistry.registerEntity("sprinter", new Sprinter.Factory());
     }
 
     public ThemeManager getThemeManager() {

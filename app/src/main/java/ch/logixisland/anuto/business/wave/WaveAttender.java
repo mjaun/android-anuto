@@ -7,10 +7,10 @@ import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.data.map.PathDescriptor;
 import ch.logixisland.anuto.data.wave.EnemyDescriptor;
 import ch.logixisland.anuto.data.wave.WaveDescriptor;
+import ch.logixisland.anuto.engine.logic.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.Message;
 import ch.logixisland.anuto.entity.enemy.Enemy;
-import ch.logixisland.anuto.entity.enemy.EnemyFactory;
 import ch.logixisland.anuto.entity.enemy.EnemyListener;
 import ch.logixisland.anuto.util.math.MathUtils;
 
@@ -18,7 +18,7 @@ class WaveAttender implements EnemyListener {
 
     private final GameEngine mGameEngine;
     private final ScoreBoard mScoreBoard;
-    private final EnemyFactory mEnemyFactory;
+    private final EntityRegistry mEntityRegistry;
     private final WaveManager mWaveManager;
     private final WaveDescriptor mWaveDescriptor;
 
@@ -29,11 +29,11 @@ class WaveAttender implements EnemyListener {
     private float mEnemyHealthModifier;
     private float mEnemyRewardModifier;
 
-    WaveAttender(GameEngine gameEngine, ScoreBoard scoreBoard, EnemyFactory enemyFactory,
+    WaveAttender(GameEngine gameEngine, ScoreBoard scoreBoard, EntityRegistry entityRegistry,
                  WaveManager waveManager, WaveDescriptor waveDescriptor) {
         mGameEngine = gameEngine;
         mScoreBoard = scoreBoard;
-        mEnemyFactory = enemyFactory;
+        mEntityRegistry = entityRegistry;
         mWaveManager = waveManager;
         mWaveDescriptor = waveDescriptor;
 
@@ -150,8 +150,10 @@ class WaveAttender implements EnemyListener {
     }
 
     private Enemy createAndConfigureEnemy(EnemyDescriptor descriptor, float offset) {
-        PathDescriptor path = mGameEngine.getGameConfiguration().getMapDescriptor().getPaths().get(descriptor.getPathIndex());
-        Enemy enemy = mEnemyFactory.createEnemy(descriptor.getName(), mEnemyHealthModifier, mEnemyRewardModifier);
+        PathDescriptor path = mGameEngine.getGameConfiguration().getMapDescriptorRoot().getPaths().get(descriptor.getPathIndex());
+        Enemy enemy = (Enemy) mEntityRegistry.createEntity(descriptor.getName());
+        enemy.modifyHealth(mEnemyHealthModifier);
+        enemy.modifyReward(mEnemyRewardModifier);
         enemy.setupPath(path.getWayPoints(), offset);
         return enemy;
     }

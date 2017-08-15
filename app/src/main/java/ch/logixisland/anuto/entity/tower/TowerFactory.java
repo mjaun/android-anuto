@@ -11,23 +11,13 @@ public class TowerFactory {
 
     private final GameEngine mGameEngine;
 
-    private TowerSettingsRoot mTowerSettingsRoot;
-    private List<PathDescriptor> mPaths;
-
     public TowerFactory(GameEngine gameEngine) {
         mGameEngine = gameEngine;
     }
 
-    public void setTowerSettingsRoot(TowerSettingsRoot towerSettingsRoot) {
-        mTowerSettingsRoot = towerSettingsRoot;
-    }
-
-    public void setPaths(List<PathDescriptor> paths) {
-        mPaths = paths;
-    }
-
     public String getSlotTowerName(int slot) {
-        TowerSlots towerSlots = mTowerSettingsRoot.getTowerSlots();
+        TowerSettingsRoot towerSettingsRoot = mGameEngine.getGameConfiguration().getTowerSettingsRoot();
+        TowerSlots towerSlots = towerSettingsRoot.getTowerSlots();
 
         switch (slot) {
             case 0:
@@ -48,42 +38,44 @@ public class TowerFactory {
     }
 
     public int getTowerValue(String name) {
+        TowerSettingsRoot towerSettingsRoot = mGameEngine.getGameConfiguration().getTowerSettingsRoot();
+
         switch (name) {
             case "canon":
-                return mTowerSettingsRoot.getCanonSettings().getValue();
+                return towerSettingsRoot.getCanonSettings().getValue();
 
             case "dualCanon":
-                return mTowerSettingsRoot.getDualCanonSettings().getValue();
+                return towerSettingsRoot.getDualCanonSettings().getValue();
 
             case "machineGun":
-                return mTowerSettingsRoot.getMachineGunSettings().getValue();
+                return towerSettingsRoot.getMachineGunSettings().getValue();
 
             case "simpleLaser":
-                return mTowerSettingsRoot.getSimpleLaserSettings().getValue();
+                return towerSettingsRoot.getSimpleLaserSettings().getValue();
 
             case "bouncingLaser":
-                return mTowerSettingsRoot.getBouncingLaserSettings().getValue();
+                return towerSettingsRoot.getBouncingLaserSettings().getValue();
 
             case "straightLaser":
-                return mTowerSettingsRoot.getStraightLaserSettings().getValue();
+                return towerSettingsRoot.getStraightLaserSettings().getValue();
 
             case "mortar":
-                return mTowerSettingsRoot.getMortarSettings().getValue();
+                return towerSettingsRoot.getMortarSettings().getValue();
 
             case "mineLayer":
-                return mTowerSettingsRoot.getMineLayerSettings().getValue();
+                return towerSettingsRoot.getMineLayerSettings().getValue();
 
             case "rocketLauncher":
-                return mTowerSettingsRoot.getRocketLauncherSettings().getValue();
+                return towerSettingsRoot.getRocketLauncherSettings().getValue();
 
             case "glueTower":
-                return mTowerSettingsRoot.getGlueTowerSettings().getValue();
+                return towerSettingsRoot.getGlueTowerSettings().getValue();
 
             case "glueGun":
-                return mTowerSettingsRoot.getGlueGunSettings().getValue();
+                return towerSettingsRoot.getGlueGunSettings().getValue();
 
             case "teleporter":
-                return mTowerSettingsRoot.getTeleporterSettings().getValue();
+                return towerSettingsRoot.getTeleporterSettings().getValue();
 
             default:
                 throw new IllegalArgumentException("Tower name not known!");
@@ -91,42 +83,45 @@ public class TowerFactory {
     }
 
     public Tower createTower(String name) {
+        TowerSettingsRoot towerSettingsRoot = mGameEngine.getGameConfiguration().getTowerSettingsRoot();
+        List<PathDescriptor> paths = mGameEngine.getGameConfiguration().getMapDescriptorRoot().getPaths();
+
         switch (name) {
             case "canon":
-                return new Canon(mGameEngine, mTowerSettingsRoot.getCanonSettings());
+                return new Canon(mGameEngine, towerSettingsRoot.getCanonSettings());
 
             case "dualCanon":
-                return new DualCanon(mGameEngine, mTowerSettingsRoot.getDualCanonSettings());
+                return new DualCanon(mGameEngine, towerSettingsRoot.getDualCanonSettings());
 
             case "machineGun":
-                return new MachineGun(mGameEngine, mTowerSettingsRoot.getMachineGunSettings());
+                return new MachineGun(mGameEngine, towerSettingsRoot.getMachineGunSettings());
 
             case "simpleLaser":
-                return new SimpleLaser(mGameEngine, mTowerSettingsRoot.getSimpleLaserSettings());
+                return new SimpleLaser(mGameEngine, towerSettingsRoot.getSimpleLaserSettings());
 
             case "bouncingLaser":
-                return new BouncingLaser(mGameEngine, mTowerSettingsRoot.getBouncingLaserSettings());
+                return new BouncingLaser(mGameEngine, towerSettingsRoot.getBouncingLaserSettings());
 
             case "straightLaser":
-                return new StraightLaser(mGameEngine, mTowerSettingsRoot.getStraightLaserSettings());
+                return new StraightLaser(mGameEngine, towerSettingsRoot.getStraightLaserSettings());
 
             case "mortar":
-                return new Mortar(mGameEngine, mTowerSettingsRoot.getMortarSettings());
+                return new Mortar(mGameEngine, towerSettingsRoot.getMortarSettings());
 
             case "mineLayer":
-                return new MineLayer(mGameEngine, mTowerSettingsRoot.getMineLayerSettings(), mPaths);
+                return new MineLayer(mGameEngine, towerSettingsRoot.getMineLayerSettings(), paths);
 
             case "rocketLauncher":
-                return new RocketLauncher(mGameEngine, mTowerSettingsRoot.getRocketLauncherSettings());
+                return new RocketLauncher(mGameEngine, towerSettingsRoot.getRocketLauncherSettings());
 
             case "glueTower":
-                return new GlueTower(mGameEngine, mTowerSettingsRoot.getGlueTowerSettings(), mPaths);
+                return new GlueTower(mGameEngine, towerSettingsRoot.getGlueTowerSettings(), paths);
 
             case "glueGun":
-                return new GlueGun(mGameEngine, mTowerSettingsRoot.getGlueGunSettings());
+                return new GlueGun(mGameEngine, towerSettingsRoot.getGlueGunSettings());
 
             case "teleporter":
-                return new Teleporter(mGameEngine, mTowerSettingsRoot.getTeleporterSettings());
+                return new Teleporter(mGameEngine, towerSettingsRoot.getTeleporterSettings());
 
             default:
                 throw new IllegalArgumentException("Tower name not known!");

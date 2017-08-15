@@ -14,6 +14,8 @@ import android.view.View;
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.business.game.GameState;
+import ch.logixisland.anuto.business.game.GameStateListener;
 import ch.logixisland.anuto.business.score.CreditsListener;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.business.tower.TowerInserter;
@@ -22,16 +24,17 @@ import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.entity.tower.TowerFactory;
 import ch.logixisland.anuto.util.StringUtils;
 
-public class TowerView extends View implements View.OnTouchListener, View.OnDragListener, CreditsListener {
+public class TowerView extends View implements View.OnTouchListener, View.OnDragListener, GameStateListener, CreditsListener {
 
     private final static float TEXT_SIZE = 20f;
     private final static float DRAW_SIZE = 1.3f;
 
-    private final Theme mTheme;
     private final TowerInserter mTowerInserter;
     private final ScoreBoard mScoreBoard;
+    private final GameState mGameState;
     private final TowerFactory mTowerFactory;
 
+    private int mTowerSlot;
     private String mTowerName;
     private Tower mPreviewTower;
     private int mTextColor;
@@ -45,17 +48,20 @@ public class TowerView extends View implements View.OnTouchListener, View.OnDrag
 
         if (!isInEditMode()) {
             GameFactory factory = AnutoApplication.getInstance().getGameFactory();
-            mTheme = factory.getThemeManager().getTheme();
             mScoreBoard = factory.getScoreBoard();
+            mGameState = factory.getGameState();
             mTowerInserter = factory.getTowerInserter();
             mTowerFactory = factory.getTowerFactory();
 
             mScoreBoard.addCreditsListener(this);
-            mTextColor = mTheme.getColor(R.attr.textColor);
-            mTextColorDisabled = mTheme.getColor(R.attr.textDisabledColor);
+            mGameState.addListener(this);
+
+            Theme theme = factory.getThemeManager().getTheme();
+            mTextColor = theme.getColor(R.attr.textColor);
+            mTextColorDisabled = theme.getColor(R.attr.textDisabledColor);
         } else {
-            mTheme = null;
             mScoreBoard = null;
+            mGameState = null;
             mTowerInserter = null;
             mTowerFactory = null;
         }
@@ -148,24 +154,28 @@ public class TowerView extends View implements View.OnTouchListener, View.OnDrag
     }
 
     @Override
-    public void creditsChanged(int credits) {
-        if (mPreviewTower != null) {
-            if (credits >= mPreviewTower.getValue()) {
-                mPaintText.setColor(mTextColor);
-            } else {
-                mPaintText.setColor(mTextColorDisabled);
-            }
-
-            TowerView.this.postInvalidate();
-        }
-    }
-
-    public void setSlot(int slot) {
-        mTowerName = mTowerFactory.getSlotTowerName(slot);
+    public void gameRestart() {
+        mTowerName = mTowerFactory.getSlotTowerName(mTowerSlot);
 
         if (!StringUtils.isNullOrEmpty(mTowerName)) {
             mPreviewTower = mTowerFactory.createTower(mTowerName);
         }
+
+        update();
+    }
+
+    @Override
+    public void gameOver() {
+
+    }
+
+    @Override
+    public void creditsChanged(int credits) {
+        update();
+    }
+
+    public void setTowerSlot(int towerSlot) {
+        mTowerSlot = towerSlot;
 
         creditsChanged(mScoreBoard.getCredits());
         postInvalidate();
@@ -173,6 +183,19 @@ public class TowerView extends View implements View.OnTouchListener, View.OnDrag
 
     public void close() {
         mScoreBoard.removeCreditsListener(this);
+        mGameState.removeListener(this);
+    }
+
+    private void update() {
+        if (mPreviewTower != null) {
+            if (mScoreBoard.getCredits() >= mPreviewTower.getValue()) {
+                mPaintText.setColor(mTextColor);
+            } else {
+                mPaintText.setColor(mTextColorDisabled);
+            }
+        }
+
+        postInvalidate();
     }
 
 }

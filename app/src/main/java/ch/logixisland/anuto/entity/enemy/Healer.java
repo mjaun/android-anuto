@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.data.setting.enemy.EnemySettingsRoot;
+import ch.logixisland.anuto.data.setting.enemy.GlobalSettings;
+import ch.logixisland.anuto.data.setting.enemy.HealerSettings;
+import ch.logixisland.anuto.engine.logic.Entity;
+import ch.logixisland.anuto.engine.logic.EntityFactory;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickListener;
 import ch.logixisland.anuto.engine.logic.TickTimer;
@@ -24,7 +29,15 @@ public class Healer extends Enemy implements SpriteTransformation {
     private final static float HEAL_SCALE_FACTOR = 2f;
     private final static float HEAL_ROTATION = 2.5f;
 
-    private class StaticData implements TickListener {
+    public static class Factory implements EntityFactory {
+        @Override
+        public Entity create(GameEngine gameEngine) {
+            EnemySettingsRoot enemySettingsRoot = gameEngine.getGameConfiguration().getEnemySettingsRoot();
+            return new Healer(gameEngine, enemySettingsRoot.getGlobalSettings(), enemySettingsRoot.getHealerSettings());
+        }
+    }
+
+    private static class StaticData implements TickListener {
         float mHealDuration;
         float mHealInterval;
 
@@ -71,15 +84,15 @@ public class Healer extends Enemy implements SpriteTransformation {
         }
     }
 
-    private HealerProperties mProperties;
+    private HealerSettings mHealerSettings;
     private StaticData mStaticData;
 
     private ReplicatedSprite mSprite;
 
-    public Healer(GameEngine gameEngine, HealerProperties properties) {
-        super(gameEngine, properties);
+    private Healer(GameEngine gameEngine, GlobalSettings globalSettings, HealerSettings healerSettings) {
+        super(gameEngine, globalSettings, healerSettings);
 
-        mProperties = properties;
+        mHealerSettings = healerSettings;
         mStaticData = (StaticData) getStaticData();
 
         mSprite = getSpriteFactory().createReplication(mStaticData.mReferenceSprite);
@@ -90,8 +103,8 @@ public class Healer extends Enemy implements SpriteTransformation {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.mHealInterval = mProperties.getHealInterval();
-        s.mHealDuration = mProperties.getHealDuration();
+        s.mHealInterval = mHealerSettings.getHealInterval();
+        s.mHealDuration = mHealerSettings.getHealDuration();
 
         s.mHealTimer = TickTimer.createInterval(s.mHealInterval);
         s.mHealedEnemies = new ArrayList<>();
@@ -151,8 +164,8 @@ public class Healer extends Enemy implements SpriteTransformation {
 
         if (mStaticData.mDropEffect) {
             getGameEngine().add(new HealEffect(this, getPosition(),
-                    mProperties.getHealAmount(),
-                    mProperties.getHealRadius(),
+                    mHealerSettings.getHealAmount(),
+                    mHealerSettings.getHealRadius(),
                     mStaticData.mHealedEnemies));
         }
     }

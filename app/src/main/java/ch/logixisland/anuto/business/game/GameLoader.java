@@ -15,10 +15,8 @@ import ch.logixisland.anuto.engine.logic.GameConfiguration;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.Message;
 import ch.logixisland.anuto.engine.render.Viewport;
-import ch.logixisland.anuto.entity.enemy.EnemyFactory;
 import ch.logixisland.anuto.entity.plateau.Plateau;
 import ch.logixisland.anuto.entity.plateau.PlateauFactory;
-import ch.logixisland.anuto.entity.tower.TowerFactory;
 
 public class GameLoader implements GameStateListener {
 
@@ -27,24 +25,19 @@ public class GameLoader implements GameStateListener {
     private final Viewport mViewport;
     private final ScoreBoard mScoreBoard;
     private final PlateauFactory mPlateauFactory;
-    private final TowerFactory mTowerFactory;
-    private final EnemyFactory mEnemyFactory;
     private final GameState mGameState;
 
     private MapInfo mMapInfo;
 
     public GameLoader(Context context, GameEngine gameEngine, ScoreBoard scoreBoard,
                       GameState gameState, Viewport viewport,
-                      PlateauFactory plateauFactory, TowerFactory towerFactory,
-                      EnemyFactory enemyFactory) {
+                      PlateauFactory plateauFactory) {
         mContext = context;
         mGameEngine = gameEngine;
         mViewport = viewport;
         mScoreBoard = scoreBoard;
         mPlateauFactory = plateauFactory;
         mGameState = gameState;
-        mTowerFactory = towerFactory;
-        mEnemyFactory = enemyFactory;
 
         mGameState.addListener(this);
     }
@@ -91,14 +84,14 @@ public class GameLoader implements GameStateListener {
 
         GameConfiguration configuration = mGameEngine.getGameConfiguration();
 
-        for (PlateauDescriptor descriptor : configuration.getMapDescriptor().getPlateaus()) {
+        for (PlateauDescriptor descriptor : configuration.getMapDescriptorRoot().getPlateaus()) {
             Plateau p = mPlateauFactory.createPlateau(descriptor.getName());
             p.setPosition(descriptor.getPosition());
             mGameEngine.add(p);
         }
 
-        mViewport.setGameSize(configuration.getMapDescriptor().getWidth(), configuration.getMapDescriptor().getHeight());
-        mScoreBoard.reset(configuration.getGameSettings().getLives(), configuration.getGameSettings().getCredits());
+        mViewport.setGameSize(configuration.getMapDescriptorRoot().getWidth(), configuration.getMapDescriptorRoot().getHeight());
+        mScoreBoard.reset(configuration.getGameSettingsRoot().getLives(), configuration.getGameSettingsRoot().getCredits());
     }
 
     @Override

@@ -1,6 +1,11 @@
 package ch.logixisland.anuto.entity.enemy;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.data.setting.enemy.EnemySettings;
+import ch.logixisland.anuto.data.setting.enemy.EnemySettingsRoot;
+import ch.logixisland.anuto.data.setting.enemy.GlobalSettings;
+import ch.logixisland.anuto.engine.logic.Entity;
+import ch.logixisland.anuto.engine.logic.EntityFactory;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickListener;
 import ch.logixisland.anuto.engine.render.Layers;
@@ -15,20 +20,28 @@ public class Blob extends Enemy implements SpriteTransformation {
 
     private final static float ANIMATION_SPEED = 1.5f;
 
-    private class StaticData implements TickListener {
+    public static class Factory implements EntityFactory {
+        @Override
+        public Entity create(GameEngine gameEngine) {
+            EnemySettingsRoot enemySettingsRoot = gameEngine.getGameConfiguration().getEnemySettingsRoot();
+            return new Blob(gameEngine, enemySettingsRoot.getGlobalSettings(), enemySettingsRoot.getBlobSettings());
+        }
+    }
 
+    private static class StaticData implements TickListener {
         SpriteTemplate mSpriteTemplate;
         AnimatedSprite mReferenceSprite;
+
         @Override
         public void tick() {
             mReferenceSprite.tick();
         }
-
     }
+
     private ReplicatedSprite mSprite;
 
-    public Blob(GameEngine gameEngine, EnemyProperties properties) {
-        super(gameEngine, properties);
+    private Blob(GameEngine gameEngine, GlobalSettings globalSettings, EnemySettings enemySettings) {
+        super(gameEngine, globalSettings, enemySettings);
         StaticData s = (StaticData) getStaticData();
 
         mSprite = getSpriteFactory().createReplication(s.mReferenceSprite);

@@ -91,7 +91,7 @@ public class HeaderFragment extends AnutoFragment implements GameStateListener, 
         btn_fast_forward.setText(getString(mSpeedManager.isFastForwardActive() ? R.string.fast_speed : R.string.normal_speed));
 
         for (int i = 0; i < view_tower_x.length; i++) {
-            view_tower_x[i].setSlot(i);
+            view_tower_x[i].setTowerSlot(i);
         }
 
         return v;
@@ -150,7 +150,7 @@ public class HeaderFragment extends AnutoFragment implements GameStateListener, 
             @Override
             public void run() {
                 for (int i = 0; i < view_tower_x.length; i++) {
-                    view_tower_x[i].setSlot(i);
+                    view_tower_x[i].setTowerSlot(i);
                 }
             }
         });

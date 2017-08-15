@@ -1,6 +1,11 @@
 package ch.logixisland.anuto.entity.enemy;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.data.setting.enemy.EnemySettings;
+import ch.logixisland.anuto.data.setting.enemy.EnemySettingsRoot;
+import ch.logixisland.anuto.data.setting.enemy.GlobalSettings;
+import ch.logixisland.anuto.engine.logic.Entity;
+import ch.logixisland.anuto.engine.logic.EntityFactory;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickListener;
 import ch.logixisland.anuto.engine.render.Layers;
@@ -17,7 +22,15 @@ public class Sprinter extends Enemy implements SpriteTransformation {
 
     private final static float ANIMATION_SPEED = 0.7f;
 
-    private class StaticData implements TickListener {
+    public static class Factory implements EntityFactory {
+        @Override
+        public Entity create(GameEngine gameEngine) {
+            EnemySettingsRoot enemySettingsRoot = gameEngine.getGameConfiguration().getEnemySettingsRoot();
+            return new Sprinter(gameEngine, enemySettingsRoot.getGlobalSettings(), enemySettingsRoot.getSprinterSettings());
+        }
+    }
+
+    private static class StaticData implements TickListener {
         SampledFunction mSpeedFunction;
 
         SpriteTemplate mSpriteTemplate;
@@ -33,8 +46,8 @@ public class Sprinter extends Enemy implements SpriteTransformation {
     private float mAngle;
     private StaticData mStatic;
 
-    public Sprinter(GameEngine gameEngine, EnemyProperties properties) {
-        super(gameEngine, properties);
+    private Sprinter(GameEngine gameEngine, GlobalSettings globalSettings, EnemySettings enemySettings) {
+        super(gameEngine, globalSettings, enemySettings);
         mStatic = (StaticData) getStaticData();
 
         mSprite = getSpriteFactory().createReplication(mStatic.mReferenceSprite);
