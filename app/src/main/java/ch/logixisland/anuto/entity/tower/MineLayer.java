@@ -7,9 +7,12 @@ import java.util.Collection;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.data.map.MapDescriptorRoot;
 import ch.logixisland.anuto.data.map.PathDescriptor;
 import ch.logixisland.anuto.data.setting.tower.MineLayerSettings;
+import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
 import ch.logixisland.anuto.engine.logic.Entity;
+import ch.logixisland.anuto.engine.logic.EntityFactory;
 import ch.logixisland.anuto.engine.logic.EntityListener;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Layers;
@@ -28,7 +31,16 @@ public class MineLayer extends Tower implements SpriteTransformation {
 
     private final static float ANIMATION_DURATION = 1f;
 
-    private class StaticData {
+    public static class Factory implements EntityFactory {
+        @Override
+        public Entity create(GameEngine gameEngine) {
+            TowerSettingsRoot towerSettingsRoot = gameEngine.getGameConfiguration().getTowerSettingsRoot();
+            MapDescriptorRoot mapDescriptorRoot = gameEngine.getGameConfiguration().getMapDescriptorRoot();
+            return new MineLayer(gameEngine, towerSettingsRoot.getMineLayerSettings(), mapDescriptorRoot.getPaths());
+        }
+    }
+
+    private static class StaticData {
         public SpriteTemplate mSpriteTemplate;
     }
 
@@ -54,7 +66,7 @@ public class MineLayer extends Tower implements SpriteTransformation {
         }
     };
 
-    public MineLayer(GameEngine gameEngine, MineLayerSettings settings, Collection<PathDescriptor> paths) {
+    private MineLayer(GameEngine gameEngine, MineLayerSettings settings, Collection<PathDescriptor> paths) {
         super(gameEngine, settings);
         StaticData s = (StaticData) getStaticData();
 

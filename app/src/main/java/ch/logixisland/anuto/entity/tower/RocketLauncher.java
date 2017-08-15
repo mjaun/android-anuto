@@ -7,6 +7,9 @@ import java.util.List;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.data.setting.tower.RocketLauncherSettings;
+import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
+import ch.logixisland.anuto.engine.logic.Entity;
+import ch.logixisland.anuto.engine.logic.EntityFactory;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickTimer;
 import ch.logixisland.anuto.engine.render.Layers;
@@ -23,7 +26,15 @@ public class RocketLauncher extends AimingTower implements SpriteTransformation 
 
     private final static float ROCKET_LOAD_TIME = 1.0f;
 
-    private class StaticData {
+    public static class Factory implements EntityFactory {
+        @Override
+        public Entity create(GameEngine gameEngine) {
+            TowerSettingsRoot towerSettingsRoot = gameEngine.getGameConfiguration().getTowerSettingsRoot();
+            return new RocketLauncher(gameEngine, towerSettingsRoot.getRocketLauncherSettings());
+        }
+    }
+
+    private static class StaticData {
         SpriteTemplate mSpriteTemplate;
         SpriteTemplate mSpriteTemplateRocket; // used for preview only
     }
@@ -39,7 +50,7 @@ public class RocketLauncher extends AimingTower implements SpriteTransformation 
     private StaticSprite mSpriteRocket; // used for preview only
     private Sound mSound;
 
-    public RocketLauncher(GameEngine gameEngine, RocketLauncherSettings settings) {
+    private RocketLauncher(GameEngine gameEngine, RocketLauncherSettings settings) {
         super(gameEngine, settings);
         StaticData s = (StaticData) getStaticData();
 

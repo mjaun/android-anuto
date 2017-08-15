@@ -8,7 +8,9 @@ import java.util.List;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.data.setting.tower.TeleporterSettings;
+import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
 import ch.logixisland.anuto.engine.logic.Entity;
+import ch.logixisland.anuto.engine.logic.EntityFactory;
 import ch.logixisland.anuto.engine.logic.EntityListener;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Layers;
@@ -25,7 +27,15 @@ import ch.logixisland.anuto.util.iterator.StreamIterator;
 
 public class Teleporter extends AimingTower implements SpriteTransformation {
 
-    private class StaticData implements EntityListener {
+    public static class Factory implements EntityFactory {
+        @Override
+        public Entity create(GameEngine gameEngine) {
+            TowerSettingsRoot towerSettingsRoot = gameEngine.getGameConfiguration().getTowerSettingsRoot();
+            return new Teleporter(gameEngine, towerSettingsRoot.getTeleporterSettings());
+        }
+    }
+
+    private static class StaticData implements EntityListener {
         SpriteTemplate mSpriteTemplateBase;
         SpriteTemplate mSpriteTemplateTower;
         Collection<Enemy> mTeleportedEnemies = new ArrayList<>();
@@ -45,7 +55,7 @@ public class Teleporter extends AimingTower implements SpriteTransformation {
     private StaticSprite mSpriteTower;
     private Sound mSound;
 
-    public Teleporter(GameEngine gameEngine, TeleporterSettings settings) {
+    private Teleporter(GameEngine gameEngine, TeleporterSettings settings) {
         super(gameEngine, settings);
         StaticData s = (StaticData) getStaticData();
 

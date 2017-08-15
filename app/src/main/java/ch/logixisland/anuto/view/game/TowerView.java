@@ -21,8 +21,6 @@ import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.business.tower.TowerInserter;
 import ch.logixisland.anuto.engine.theme.Theme;
 import ch.logixisland.anuto.entity.tower.Tower;
-import ch.logixisland.anuto.entity.tower.TowerFactory;
-import ch.logixisland.anuto.util.StringUtils;
 
 public class TowerView extends View implements View.OnTouchListener, View.OnDragListener, GameStateListener, CreditsListener {
 
@@ -32,16 +30,15 @@ public class TowerView extends View implements View.OnTouchListener, View.OnDrag
     private final TowerInserter mTowerInserter;
     private final ScoreBoard mScoreBoard;
     private final GameState mGameState;
-    private final TowerFactory mTowerFactory;
 
     private int mTowerSlot;
-    private String mTowerName;
     private Tower mPreviewTower;
+
     private int mTextColor;
     private int mTextColorDisabled;
 
-    private final Paint mPaintText;
-    private final Matrix mScreenMatrix;
+    private Paint mPaintText;
+    private Matrix mScreenMatrix;
 
     public TowerView(Context context, AttributeSet attrs) throws ClassNotFoundException {
         super(context, attrs);
@@ -51,7 +48,6 @@ public class TowerView extends View implements View.OnTouchListener, View.OnDrag
             mScoreBoard = factory.getScoreBoard();
             mGameState = factory.getGameState();
             mTowerInserter = factory.getTowerInserter();
-            mTowerFactory = factory.getTowerFactory();
 
             mScoreBoard.addCreditsListener(this);
             mGameState.addListener(this);
@@ -63,7 +59,6 @@ public class TowerView extends View implements View.OnTouchListener, View.OnDrag
             mScoreBoard = null;
             mGameState = null;
             mTowerInserter = null;
-            mTowerFactory = null;
         }
 
         float density = context.getResources().getDisplayMetrics().density;
@@ -115,9 +110,9 @@ public class TowerView extends View implements View.OnTouchListener, View.OnDrag
     @Override
     public boolean onTouch(View view, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if (!StringUtils.isNullOrEmpty(mTowerName)) {
-                if (mScoreBoard.getCredits() >= mTowerFactory.getTowerValue(mTowerName)) {
-                    mTowerInserter.insertTower(mTowerName);
+            if (mPreviewTower != null) {
+                if (mScoreBoard.getCredits() >= mPreviewTower.getValue()) {
+                    mTowerInserter.insertTower(mTowerSlot);
 
                     View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder() {
                         @Override
@@ -155,12 +150,7 @@ public class TowerView extends View implements View.OnTouchListener, View.OnDrag
 
     @Override
     public void gameRestart() {
-        mTowerName = mTowerFactory.getSlotTowerName(mTowerSlot);
-
-        if (!StringUtils.isNullOrEmpty(mTowerName)) {
-            mPreviewTower = mTowerFactory.createTower(mTowerName);
-        }
-
+        mPreviewTower = mTowerInserter.createPreviewTower(mTowerSlot);
         update();
     }
 

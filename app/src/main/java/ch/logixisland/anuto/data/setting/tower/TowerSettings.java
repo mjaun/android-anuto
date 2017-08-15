@@ -8,11 +8,6 @@ import ch.logixisland.anuto.data.setting.enemy.WeaponType;
 @Root
 public class TowerSettings {
 
-    @Element(name = "upgrade", required = false)
-    private String mUpgrade;
-
-    private int mUpgradeCost;
-
     @Element(name = "value")
     private int mValue;
 
@@ -46,13 +41,11 @@ public class TowerSettings {
     @Element(name = "enhanceReload", required = false)
     private float mEnhanceReload;
 
-    public String getUpgrade() {
-        return mUpgrade;
-    }
+    @Element(name = "upgrade", required = false)
+    private String mUpgrade;
 
-    public int getUpgradeCost() {
-        return mUpgradeCost;
-    }
+    @Element(name = "upgradeCost", required = false)
+    private int mUpgradeCost;
 
     public int getValue() {
         return mValue;
@@ -98,4 +91,11 @@ public class TowerSettings {
         return mEnhanceReload;
     }
 
+    public String getUpgrade() {
+        return mUpgrade;
+    }
+
+    public int getUpgradeCost() {
+        return mUpgradeCost;
+    }
 }

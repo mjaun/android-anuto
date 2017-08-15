@@ -7,6 +7,9 @@ import java.util.List;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.data.setting.tower.TowerSettings;
+import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
+import ch.logixisland.anuto.engine.logic.Entity;
+import ch.logixisland.anuto.engine.logic.EntityFactory;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
@@ -28,13 +31,21 @@ public class DualCanon extends AimingTower implements SpriteTransformation {
     private final static float REBOUND_RANGE = 0.25f;
     private final static float REBOUND_DURATION = 0.2f;
 
-    private class StaticData {
+    public static class Factory implements EntityFactory {
+        @Override
+        public Entity create(GameEngine gameEngine) {
+            TowerSettingsRoot towerSettingsRoot = gameEngine.getGameConfiguration().getTowerSettingsRoot();
+            return new DualCanon(gameEngine, towerSettingsRoot.getDualCanonSettings());
+        }
+    }
+
+    private static class StaticData {
         SpriteTemplate mSpriteTemplateBase;
         SpriteTemplate mSpriteTemplateTower;
         SpriteTemplate mSpriteTemplateCanon;
     }
 
-    private class SubCanon {
+    private static class SubCanon {
         boolean reboundActive;
         SampledFunction reboundFunction;
         StaticSprite sprite;
@@ -49,7 +60,7 @@ public class DualCanon extends AimingTower implements SpriteTransformation {
 
     private Sound mSound;
 
-    public DualCanon(GameEngine gameEngine, TowerSettings settings) {
+    private DualCanon(GameEngine gameEngine, TowerSettings settings) {
         super(gameEngine, settings);
         StaticData s = (StaticData) getStaticData();
 

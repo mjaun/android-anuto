@@ -2,15 +2,14 @@
     <ageModifier>0.97</ageModifier>
 
     <slots>
-        <slot1>canon</slot1>
-        <slot2>simpleLaser</slot2>
-        <slot3>mortar</slot3>
-        <slot4>glueTower</slot4>
+        <slot index="0">canon</slot>
+        <slot index="1">simpleLaser</slot>
+        <slot index="2">mortar</slot>
+        <slot index="3">glueTower</slot>
     </slots>
 
     <!--- Canon Towers -->
     <canon>
-        <upgrade>dualCanon</upgrade>
         <value>100</value>
         <damage>100</damage>
         <range>2.5</range>
@@ -22,9 +21,10 @@
         <enhanceDamage>50</enhanceDamage>
         <enhanceRange>0.1</enhanceRange>
         <enhanceReload>0.05</enhanceReload>
+        <upgrade>dualCanon</upgrade>
+        <upgradeCost>1300</upgradeCost>
     </canon>
     <dualCanon>
-        <upgrade>machineGun</upgrade>
         <value>1400</value>
         <damage>425</damage>
         <range>3.0</range>
@@ -36,6 +36,8 @@
         <enhanceDamage>75</enhanceDamage>
         <enhanceRange>0.1</enhanceRange>
         <enhanceReload>0.03</enhanceReload>
+        <upgrade>machineGun</upgrade>
+        <upgradeCost>13600</upgradeCost>
     </dualCanon>
     <machineGun>
         <value>15000</value>
@@ -53,7 +55,6 @@
 
     <!-- Laser Towers -->
     <simpleLaser>
-        <upgrade>bouncingLaser</upgrade>
         <value>150</value>
         <damage>450</damage>
         <range>2.8</range>
@@ -65,9 +66,10 @@
         <enhanceDamage>170</enhanceDamage>
         <enhanceRange>0.1</enhanceRange>
         <enhanceReload>0.1</enhanceReload>
+        <upgrade>bouncingLaser</upgrade>
+        <upgradeCost>1450</upgradeCost>
     </simpleLaser>
     <bouncingLaser>
-        <upgrade>straightLaser</upgrade>
         <value>1600</value>
         <damage>1000</damage>
         <range>3.0</range>
@@ -81,6 +83,8 @@
         <enhanceReload>0.1</enhanceReload>
         <bounceCount>2</bounceCount>
         <bounceDistance>2.0</bounceDistance>
+        <upgrade>straightLaser</upgrade>
+        <upgradeCost>13400</upgradeCost>
     </bouncingLaser>
     <straightLaser>
         <value>15000</value>
@@ -98,7 +102,6 @@
 
     <!-- Explosive Towers -->
     <mortar>
-        <upgrade>mineLayer</upgrade>
         <value>250</value>
         <damage>160</damage>
         <range>2.5</range>
@@ -113,9 +116,10 @@
         <inaccuracy>1.0</inaccuracy>
         <explosionRadius>1.5</explosionRadius>
         <enhanceExplosionRadius>0.05</enhanceExplosionRadius>
+        <upgrade>mineLayer</upgrade>
+        <upgradeCost>3250</upgradeCost>
     </mortar>
     <mineLayer>
-        <upgrade>rocketLauncher</upgrade>
         <value>3500</value>
         <damage>1000</damage>
         <range>2.5</range>
@@ -130,6 +134,8 @@
         <enhanceMaxMineCount>1</enhanceMaxMineCount>
         <explosionRadius>2.0</explosionRadius>
         <enhanceExplosionRadius>0.05</enhanceExplosionRadius>
+        <upgrade>rocketLauncher</upgrade>
+        <upgradeCost>21500</upgradeCost>
     </mineLayer>
     <rocketLauncher>
         <value>35000</value>
@@ -149,7 +155,6 @@
 
     <!-- Glue / Teleport Towers -->
     <glueTower>
-        <upgrade>glueGun</upgrade>
         <value>500</value>
         <range>1.5</range>
         <reload>2.0</reload>
@@ -161,9 +166,10 @@
         <glueIntensity>1.2</glueIntensity>
         <enhanceGlueIntensity>0.2</enhanceGlueIntensity>
         <glueDuration>1.5</glueDuration>
+        <upgrade>glueGun</upgrade>
+        <upgradeCost>800</upgradeCost>
     </glueTower>
     <glueGun>
-        <upgrade>teleportTower</upgrade>
         <value>1300</value>
         <range>2.5</range>
         <reload>3.0</reload>
@@ -175,6 +181,8 @@
         <glueIntensity>1.2</glueIntensity>
         <enhanceGlueIntensity>0.3</enhanceGlueIntensity>
         <glueDuration>2.5</glueDuration>
+        <upgrade>teleportTower</upgrade>
+        <upgradeCost>1700</upgradeCost>
     </glueGun>
     <teleporter>
         <value>3000</value>

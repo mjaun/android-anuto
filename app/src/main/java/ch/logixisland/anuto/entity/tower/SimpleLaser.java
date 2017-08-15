@@ -7,6 +7,9 @@ import java.util.List;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.data.setting.tower.TowerSettings;
+import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
+import ch.logixisland.anuto.engine.logic.Entity;
+import ch.logixisland.anuto.engine.logic.EntityFactory;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
@@ -23,7 +26,15 @@ public class SimpleLaser extends AimingTower implements SpriteTransformation {
 
     private final static float LASER_SPAWN_OFFSET = 0.7f;
 
-    private class StaticData {
+    public static class Factory implements EntityFactory {
+        @Override
+        public Entity create(GameEngine gameEngine) {
+            TowerSettingsRoot towerSettingsRoot = gameEngine.getGameConfiguration().getTowerSettingsRoot();
+            return new SimpleLaser(gameEngine, towerSettingsRoot.getSimpleLaserSettings());
+        }
+    }
+
+    private static class StaticData {
         SpriteTemplate mSpriteTemplateBase;
         SpriteTemplate mSpriteTemplateCanon;
     }
@@ -34,7 +45,7 @@ public class SimpleLaser extends AimingTower implements SpriteTransformation {
     private StaticSprite mSpriteCanon;
     private Sound mSound;
 
-    public SimpleLaser(GameEngine gameEngine, TowerSettings settings) {
+    private SimpleLaser(GameEngine gameEngine, TowerSettings settings) {
         super(gameEngine, settings);
         StaticData s = (StaticData) getStaticData();
 

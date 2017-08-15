@@ -7,8 +7,12 @@ import java.util.Collection;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.data.map.MapDescriptorRoot;
 import ch.logixisland.anuto.data.map.PathDescriptor;
 import ch.logixisland.anuto.data.setting.tower.GlueTowerSettings;
+import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
+import ch.logixisland.anuto.engine.logic.Entity;
+import ch.logixisland.anuto.engine.logic.EntityFactory;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.TickTimer;
 import ch.logixisland.anuto.engine.render.Layers;
@@ -30,24 +34,31 @@ public class GlueTower extends Tower implements SpriteTransformation {
     private final static float CANON_OFFSET_MAX = 0.5f;
     private final static float CANON_OFFSET_STEP = CANON_OFFSET_MAX / GameEngine.TARGET_FRAME_RATE / 0.8f;
 
-    private class StaticData {
+    public static class Factory implements EntityFactory {
+        @Override
+        public Entity create(GameEngine gameEngine) {
+            TowerSettingsRoot towerSettingsRoot = gameEngine.getGameConfiguration().getTowerSettingsRoot();
+            MapDescriptorRoot mapDescriptorRoot = gameEngine.getGameConfiguration().getMapDescriptorRoot();
+            return new GlueTower(gameEngine, towerSettingsRoot.getGlueTowerSettings(), mapDescriptorRoot.getPaths());
+        }
+    }
 
+    private static class StaticData {
         SpriteTemplate mSpriteTemplateBase;
         SpriteTemplate mSpriteTemplateTower;
         SpriteTemplate mSpriteTemplateCanon;
     }
 
     private class SubCanon implements SpriteTransformation {
-
         float mAngle;
         StaticSprite mSprite;
+
         @Override
         public void draw(SpriteInstance sprite, SpriteTransformer transformer) {
             transformer.translate(getPosition());
             transformer.rotate(mAngle);
             transformer.translate(mCanonOffset, 0);
         }
-
     }
 
     private GlueTowerSettings mSettings;
@@ -63,7 +74,7 @@ public class GlueTower extends Tower implements SpriteTransformation {
     private StaticSprite mSpriteTower;
     private final TickTimer mUpdateTimer = TickTimer.createInterval(0.1f);
 
-    public GlueTower(GameEngine gameEngine, GlueTowerSettings settings, Collection<PathDescriptor> paths) {
+    private GlueTower(GameEngine gameEngine, GlueTowerSettings settings, Collection<PathDescriptor> paths) {
         super(gameEngine, settings);
         StaticData s = (StaticData) getStaticData();
 

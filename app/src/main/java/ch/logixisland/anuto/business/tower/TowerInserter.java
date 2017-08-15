@@ -4,35 +4,40 @@ import java.util.Iterator;
 
 import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.score.ScoreBoard;
+import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
 import ch.logixisland.anuto.engine.logic.Entity;
+import ch.logixisland.anuto.engine.logic.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.Message;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.plateau.Plateau;
 import ch.logixisland.anuto.entity.tower.Tower;
-import ch.logixisland.anuto.entity.tower.TowerFactory;
 import ch.logixisland.anuto.util.math.Vector2;
 
 public class TowerInserter {
 
     private final GameEngine mGameEngine;
     private final GameState mGameState;
-    private final TowerFactory mTowerFactory;
+    private final EntityRegistry mEntityRegistry;
     private final TowerSelector mTowerSelector;
     private final TowerAging mTowerAging;
     private final ScoreBoard mScoreBoard;
 
+    private final TowerDefaultValue mTowerDefaultValue;
+
     private Tower mInsertedTower;
     private Plateau mCurrentPlateau;
 
-    public TowerInserter(GameEngine gameEngine, GameState gameState, TowerFactory towerFactory,
+    public TowerInserter(GameEngine gameEngine, GameState gameState, EntityRegistry entityRegistry,
                          TowerSelector towerSelector, TowerAging towerAging, ScoreBoard scoreBoard) {
         mGameEngine = gameEngine;
         mGameState = gameState;
-        mTowerFactory = towerFactory;
+        mEntityRegistry = entityRegistry;
         mTowerSelector = towerSelector;
         mTowerAging = towerAging;
         mScoreBoard = scoreBoard;
+
+        mTowerDefaultValue = new TowerDefaultValue(entityRegistry);
     }
 
     public void insertTower(final String towerName) {
@@ -47,10 +52,30 @@ public class TowerInserter {
         }
 
         if (mInsertedTower == null && !mGameState.isGameOver() &&
-                mScoreBoard.getCredits() >= mTowerFactory.getTowerValue(towerName)) {
+                mScoreBoard.getCredits() >= mTowerDefaultValue.getDefaultValue(towerName)) {
             showTowerLevels();
-            mInsertedTower = mTowerFactory.createTower(towerName);
+            mInsertedTower = (Tower) mEntityRegistry.createEntity(towerName);
         }
+    }
+
+    public void insertTower(final int slot) {
+        if (mGameEngine.isThreadChangeNeeded()) {
+            mGameEngine.post(new Message() {
+                @Override
+                public void execute() {
+                    insertTower(slot);
+                }
+            });
+            return;
+        }
+
+        TowerSettingsRoot towerSettingsRoot = mGameEngine.getGameConfiguration().getTowerSettingsRoot();
+        insertTower(towerSettingsRoot.getTowerSlots().getTowerOfSlot(slot));
+    }
+
+    public Tower createPreviewTower(int slot) {
+        TowerSettingsRoot towerSettingsRoot = mGameEngine.getGameConfiguration().getTowerSettingsRoot();
+        return (Tower) mEntityRegistry.createEntity(towerSettingsRoot.getTowerSlots().getTowerOfSlot(slot));
     }
 
     public void setPosition(final Vector2 position) {

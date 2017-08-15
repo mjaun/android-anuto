@@ -27,7 +27,7 @@ public class BasicPlateau extends Plateau implements SpriteTransformation {
 
     private StaticSprite mSprite;
 
-    public BasicPlateau(GameEngine gameEngine) {
+    private BasicPlateau(GameEngine gameEngine) {
         super(gameEngine);
         StaticData s = (StaticData) getStaticData();
 

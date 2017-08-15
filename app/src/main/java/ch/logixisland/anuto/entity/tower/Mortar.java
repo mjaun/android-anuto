@@ -7,6 +7,9 @@ import java.util.List;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.data.setting.tower.MortarSettings;
+import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
+import ch.logixisland.anuto.engine.logic.Entity;
+import ch.logixisland.anuto.engine.logic.EntityFactory;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
@@ -25,7 +28,15 @@ public class Mortar extends AimingTower implements SpriteTransformation {
     private final static float SHOT_SPAWN_OFFSET = 0.6f;
     private final static float REBOUND_DURATION = 0.5f;
 
-    private class StaticData {
+    public static class Factory implements EntityFactory {
+        @Override
+        public Entity create(GameEngine gameEngine) {
+            TowerSettingsRoot towerSettingsRoot = gameEngine.getGameConfiguration().getTowerSettingsRoot();
+            return new Mortar(gameEngine, towerSettingsRoot.getMortarSettings());
+        }
+    }
+
+    private static class StaticData {
         SpriteTemplate mSpriteTemplateBase;
         SpriteTemplate mSpriteTemplateCanon;
     }
@@ -40,7 +51,7 @@ public class Mortar extends AimingTower implements SpriteTransformation {
     private AnimatedSprite mSpriteCanon;
     private Sound mSound;
 
-    public Mortar(GameEngine gameEngine, MortarSettings settings) {
+    private Mortar(GameEngine gameEngine, MortarSettings settings) {
         super(gameEngine, settings);
         StaticData s = (StaticData) getStaticData();
 

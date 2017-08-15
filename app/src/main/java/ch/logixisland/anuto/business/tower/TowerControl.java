@@ -4,13 +4,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import ch.logixisland.anuto.business.score.ScoreBoard;
+import ch.logixisland.anuto.engine.logic.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.Message;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.plateau.Plateau;
 import ch.logixisland.anuto.entity.tower.AimingTower;
 import ch.logixisland.anuto.entity.tower.Tower;
-import ch.logixisland.anuto.entity.tower.TowerFactory;
 import ch.logixisland.anuto.entity.tower.TowerStrategy;
 
 public class TowerControl {
@@ -18,14 +18,14 @@ public class TowerControl {
     private final GameEngine mGameEngine;
     private final ScoreBoard mScoreBoard;
     private final TowerSelector mTowerSelector;
-    private final TowerFactory mTowerFactory;
+    private final EntityRegistry mEntityRegistry;
 
     public TowerControl(GameEngine gameEngine, ScoreBoard scoreBoard, TowerSelector towerSelector,
-                        TowerFactory towerFactory) {
+                        EntityRegistry entityRegistry) {
         mGameEngine = gameEngine;
         mScoreBoard = scoreBoard;
         mTowerSelector = towerSelector;
-        mTowerFactory = towerFactory;
+        mEntityRegistry = entityRegistry;
     }
 
     public void upgradeTower() {
@@ -44,13 +44,14 @@ public class TowerControl {
             return;
         }
 
-        int upgradeCost = selectedTower.getUpgradeCost();
+        Tower upgradedTower = (Tower) mEntityRegistry.createEntity(selectedTower.getUpgradeName());
+
+        int upgradeCost = upgradedTower.getValue();
         if (upgradeCost > mScoreBoard.getCredits()) {
             return;
         }
 
         mScoreBoard.takeCredits(upgradeCost);
-        Tower upgradedTower = mTowerFactory.createTower(selectedTower.getUpgradeName());
 
         if (upgradedTower instanceof AimingTower && selectedTower instanceof AimingTower) {
             AimingTower aimingTower = (AimingTower) selectedTower;

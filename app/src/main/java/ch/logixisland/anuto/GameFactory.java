@@ -32,7 +32,18 @@ import ch.logixisland.anuto.entity.enemy.Healer;
 import ch.logixisland.anuto.entity.enemy.Soldier;
 import ch.logixisland.anuto.entity.enemy.Sprinter;
 import ch.logixisland.anuto.entity.plateau.BasicPlateau;
-import ch.logixisland.anuto.entity.tower.TowerFactory;
+import ch.logixisland.anuto.entity.tower.BouncingLaser;
+import ch.logixisland.anuto.entity.tower.Canon;
+import ch.logixisland.anuto.entity.tower.DualCanon;
+import ch.logixisland.anuto.entity.tower.GlueGun;
+import ch.logixisland.anuto.entity.tower.GlueTower;
+import ch.logixisland.anuto.entity.tower.MachineGun;
+import ch.logixisland.anuto.entity.tower.MineLayer;
+import ch.logixisland.anuto.entity.tower.Mortar;
+import ch.logixisland.anuto.entity.tower.RocketLauncher;
+import ch.logixisland.anuto.entity.tower.SimpleLaser;
+import ch.logixisland.anuto.entity.tower.StraightLaser;
+import ch.logixisland.anuto.entity.tower.Teleporter;
 
 public class GameFactory {
 
@@ -49,9 +60,6 @@ public class GameFactory {
     private final GameEngine mGameEngine;
     private final GameLoop mGameLoop;
     private final EntityRegistry mEntityRegistry;
-
-    // Entity
-    private final TowerFactory mTowerFactory;
 
     // Business
     private final ScoreBoard mScoreBoard;
@@ -82,9 +90,6 @@ public class GameFactory {
         mGameEngine = new GameEngine(mSpriteFactory, mThemeManager, mSoundFactory, mEntityStore, mMessageQueue, mRenderer, mGameLoop);
         mEntityRegistry = new EntityRegistry(mGameEngine);
 
-        // Entity
-        mTowerFactory = new TowerFactory(mGameEngine);
-
         registerEntities();
 
         // Business
@@ -98,8 +103,8 @@ public class GameFactory {
         mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mGameState, mEntityRegistry, mTowerAging);
         mHighScores = new HighScores(context, mGameState, mScoreBoard, mGameLoader);
         mTowerSelector = new TowerSelector(mGameEngine, mGameState, mScoreBoard);
-        mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector, mTowerFactory);
-        mTowerInserter = new TowerInserter(mGameEngine, mGameState, mTowerFactory, mTowerSelector, mTowerAging, mScoreBoard);
+        mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector, mEntityRegistry);
+        mTowerInserter = new TowerInserter(mGameEngine, mGameState, mEntityRegistry, mTowerSelector, mTowerAging, mScoreBoard);
         mSettingsManager = new SettingsManager(context, mThemeManager, mSoundManager);
 
         mGameState.restart();
@@ -113,6 +118,20 @@ public class GameFactory {
         mEntityRegistry.registerEntity("healer", new Healer.Factory());
         mEntityRegistry.registerEntity("soldier", new Soldier.Factory());
         mEntityRegistry.registerEntity("sprinter", new Sprinter.Factory());
+
+        mEntityRegistry.registerEntity("canon", new Canon.Factory());
+        mEntityRegistry.registerEntity("dualCanon", new DualCanon.Factory());
+        mEntityRegistry.registerEntity("machineGun", new MachineGun.Factory());
+        mEntityRegistry.registerEntity("simpleLaser", new SimpleLaser.Factory());
+        mEntityRegistry.registerEntity("bouncingLaser", new BouncingLaser.Factory());
+        mEntityRegistry.registerEntity("straightLaser", new StraightLaser.Factory());
+        mEntityRegistry.registerEntity("mortar", new Mortar.Factory());
+        mEntityRegistry.registerEntity("mineLayer", new MineLayer.Factory());
+        mEntityRegistry.registerEntity("rocketLauncher", new RocketLauncher.Factory());
+        mEntityRegistry.registerEntity("glueTower", new GlueTower.Factory());
+        mEntityRegistry.registerEntity("glueGun", new GlueGun.Factory());
+        mEntityRegistry.registerEntity("teleporter", new Teleporter.Factory());
+
     }
 
     public ThemeManager getThemeManager() {
@@ -129,10 +148,6 @@ public class GameFactory {
 
     public GameEngine getGameEngine() {
         return mGameEngine;
-    }
-
-    public TowerFactory getTowerFactory() {
-        return mTowerFactory;
     }
 
     public ScoreBoard getScoreBoard() {
