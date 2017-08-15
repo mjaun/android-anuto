@@ -16,8 +16,7 @@ public class SafeMultiMap<T> implements StreamIterable<T> {
         protected T fetchNext() {
             while (mCollectionIterator == null || !mCollectionIterator.hasNext()) {
                 if (mKeyIndex < mLayers.size()) {
-                    int key = mLayers.keyAt(mKeyIndex++);
-                    mCollectionIterator = mLayers.get(key).iterator();
+                    mCollectionIterator = mLayers.valueAt(mKeyIndex++).iterator();
                 } else {
                     mCollectionIterator = null;
                 }

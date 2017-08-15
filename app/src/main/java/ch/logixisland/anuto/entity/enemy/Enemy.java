@@ -74,7 +74,7 @@ public abstract class Enemy extends Entity {
     }
 
     @Override
-    public final int getType() {
+    public final int getEntityType() {
         return Types.ENEMY;
     }
 

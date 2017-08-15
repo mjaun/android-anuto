@@ -127,4 +127,8 @@ public class GameEngine {
     public void setGameConfiguration(GameConfiguration gameConfiguration) {
         mGameConfiguration = gameConfiguration;
     }
+
+    int nextEntityId() {
+        return mEntityStore.nextEntityId();
+    }
 }

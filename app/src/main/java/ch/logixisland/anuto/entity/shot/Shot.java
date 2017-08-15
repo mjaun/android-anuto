@@ -18,7 +18,7 @@ public abstract class Shot extends Entity {
     }
 
     @Override
-    public final int getType() {
+    public final int getEntityType() {
         return Types.SHOT;
     }
 

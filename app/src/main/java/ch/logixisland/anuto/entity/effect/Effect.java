@@ -36,7 +36,7 @@ public abstract class Effect extends Entity {
     }
 
     @Override
-    public final int getType() {
+    public final int getEntityType() {
         return Types.EFFECT;
     }
 

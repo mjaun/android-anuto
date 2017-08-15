@@ -58,7 +58,7 @@ public abstract class Tower extends Entity {
     }
 
     @Override
-    public final int getType() {
+    public final int getEntityType() {
         return Types.TOWER;
     }
 

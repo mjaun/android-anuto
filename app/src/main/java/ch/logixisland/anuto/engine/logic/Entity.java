@@ -58,13 +58,23 @@ public abstract class Entity {
     private final GameEngine mGameEngine;
     private final List<EntityListener> mListeners = new CopyOnWriteArrayList<>();
 
+    private int mEntityId;
+
     private Vector2 mPosition = new Vector2();
 
     protected Entity(GameEngine gameEngine) {
         mGameEngine = gameEngine;
     }
 
-    public abstract int getType();
+    void setEntityId(int entityId) {
+        mEntityId = entityId;
+    }
+
+    public int getEntityId() {
+        return mEntityId;
+    }
+
+    public abstract int getEntityType();
 
     public Object initStatic() {
         return null;
