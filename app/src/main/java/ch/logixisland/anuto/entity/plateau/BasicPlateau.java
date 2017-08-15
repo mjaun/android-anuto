@@ -1,6 +1,8 @@
 package ch.logixisland.anuto.entity.plateau;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.engine.logic.Entity;
+import ch.logixisland.anuto.engine.logic.EntityFactory;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
@@ -12,10 +14,17 @@ import ch.logixisland.anuto.util.RandomUtils;
 
 public class BasicPlateau extends Plateau implements SpriteTransformation {
 
-    private class StaticData {
+    public static class Factory implements EntityFactory {
+        @Override
+        public Entity create(GameEngine gameEngine) {
+            return new BasicPlateau(gameEngine);
+        }
+    }
 
+    private static class StaticData {
         SpriteTemplate mSpriteTemplate;
     }
+
     private StaticSprite mSprite;
 
     public BasicPlateau(GameEngine gameEngine) {

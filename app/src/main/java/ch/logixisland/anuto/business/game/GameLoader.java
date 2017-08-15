@@ -11,12 +11,12 @@ import ch.logixisland.anuto.data.setting.GameSettingsRoot;
 import ch.logixisland.anuto.data.setting.enemy.EnemySettingsRoot;
 import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
 import ch.logixisland.anuto.data.wave.WaveDescriptorRoot;
+import ch.logixisland.anuto.engine.logic.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.GameConfiguration;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.Message;
 import ch.logixisland.anuto.engine.render.Viewport;
 import ch.logixisland.anuto.entity.plateau.Plateau;
-import ch.logixisland.anuto.entity.plateau.PlateauFactory;
 
 public class GameLoader implements GameStateListener {
 
@@ -24,19 +24,19 @@ public class GameLoader implements GameStateListener {
     private final GameEngine mGameEngine;
     private final Viewport mViewport;
     private final ScoreBoard mScoreBoard;
-    private final PlateauFactory mPlateauFactory;
+    private final EntityRegistry mEntityRegistry;
     private final GameState mGameState;
 
     private MapInfo mMapInfo;
 
     public GameLoader(Context context, GameEngine gameEngine, ScoreBoard scoreBoard,
                       GameState gameState, Viewport viewport,
-                      PlateauFactory plateauFactory) {
+                      EntityRegistry entityRegistry) {
         mContext = context;
         mGameEngine = gameEngine;
         mViewport = viewport;
         mScoreBoard = scoreBoard;
-        mPlateauFactory = plateauFactory;
+        mEntityRegistry = entityRegistry;
         mGameState = gameState;
 
         mGameState.addListener(this);
@@ -85,9 +85,9 @@ public class GameLoader implements GameStateListener {
         GameConfiguration configuration = mGameEngine.getGameConfiguration();
 
         for (PlateauDescriptor descriptor : configuration.getMapDescriptorRoot().getPlateaus()) {
-            Plateau p = mPlateauFactory.createPlateau(descriptor.getName());
-            p.setPosition(descriptor.getPosition());
-            mGameEngine.add(p);
+            Plateau plateau = (Plateau) mEntityRegistry.createEntity(descriptor.getName());
+            plateau.setPosition(descriptor.getPosition());
+            mGameEngine.add(plateau);
         }
 
         mViewport.setGameSize(configuration.getMapDescriptorRoot().getWidth(), configuration.getMapDescriptorRoot().getHeight());

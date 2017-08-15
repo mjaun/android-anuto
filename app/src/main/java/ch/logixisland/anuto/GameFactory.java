@@ -31,7 +31,7 @@ import ch.logixisland.anuto.entity.enemy.Flyer;
 import ch.logixisland.anuto.entity.enemy.Healer;
 import ch.logixisland.anuto.entity.enemy.Soldier;
 import ch.logixisland.anuto.entity.enemy.Sprinter;
-import ch.logixisland.anuto.entity.plateau.PlateauFactory;
+import ch.logixisland.anuto.entity.plateau.BasicPlateau;
 import ch.logixisland.anuto.entity.tower.TowerFactory;
 
 public class GameFactory {
@@ -51,7 +51,6 @@ public class GameFactory {
     private final EntityRegistry mEntityRegistry;
 
     // Entity
-    private final PlateauFactory mPlateauFactory;
     private final TowerFactory mTowerFactory;
 
     // Business
@@ -84,7 +83,6 @@ public class GameFactory {
         mEntityRegistry = new EntityRegistry(mGameEngine);
 
         // Entity
-        mPlateauFactory = new PlateauFactory(mGameEngine);
         mTowerFactory = new TowerFactory(mGameEngine);
 
         registerEntities();
@@ -93,7 +91,7 @@ public class GameFactory {
         mMapRepository = new MapRepository();
         mScoreBoard = new ScoreBoard(mGameEngine);
         mGameState = new GameState(mGameEngine, mThemeManager, mScoreBoard);
-        mGameLoader = new GameLoader(context, mGameEngine, mScoreBoard, mGameState, mViewport, mPlateauFactory);
+        mGameLoader = new GameLoader(context, mGameEngine, mScoreBoard, mGameState, mViewport, mEntityRegistry);
         mGameLoader.loadMap(mMapRepository.getMaps().get(0));
         mTowerAging = new TowerAging(mGameEngine);
         mSpeedManager = new GameSpeed(mGameEngine);
@@ -108,6 +106,8 @@ public class GameFactory {
     }
 
     private void registerEntities() {
+        mEntityRegistry.registerEntity("basic", new BasicPlateau.Factory());
+
         mEntityRegistry.registerEntity("blob", new Blob.Factory());
         mEntityRegistry.registerEntity("flyer", new Flyer.Factory());
         mEntityRegistry.registerEntity("healer", new Healer.Factory());
