@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.engine.logic.GameEngine;
-import ch.logixisland.anuto.engine.logic.Message;
+import ch.logixisland.anuto.engine.logic.loop.Message;
 
 public class ScoreBoard {
 

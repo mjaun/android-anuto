@@ -3,7 +3,7 @@ package ch.logixisland.anuto.business.tower;
 import java.util.Iterator;
 
 import ch.logixisland.anuto.engine.logic.GameEngine;
-import ch.logixisland.anuto.engine.logic.Message;
+import ch.logixisland.anuto.engine.logic.loop.Message;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.tower.Tower;
 

@@ -1,8 +1,9 @@
-package ch.logixisland.anuto.engine.logic;
+package ch.logixisland.anuto.engine.logic.entity;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.render.sprite.SpriteFactory;
 import ch.logixisland.anuto.engine.sound.SoundFactory;
 import ch.logixisland.anuto.engine.theme.Theme;

@@ -1,8 +1,8 @@
 package ch.logixisland.anuto.entity.plateau;
 
-import ch.logixisland.anuto.engine.logic.Entity;
-import ch.logixisland.anuto.engine.logic.EntityListener;
 import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.engine.logic.entity.Entity;
+import ch.logixisland.anuto.engine.logic.entity.EntityListener;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.util.iterator.Predicate;
 

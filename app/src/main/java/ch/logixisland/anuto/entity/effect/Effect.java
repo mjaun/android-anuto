@@ -1,7 +1,7 @@
 package ch.logixisland.anuto.entity.effect;
 
-import ch.logixisland.anuto.engine.logic.Entity;
-import ch.logixisland.anuto.engine.logic.TickTimer;
+import ch.logixisland.anuto.engine.logic.entity.Entity;
+import ch.logixisland.anuto.engine.logic.loop.TickTimer;
 import ch.logixisland.anuto.entity.Types;
 
 public abstract class Effect extends Entity {

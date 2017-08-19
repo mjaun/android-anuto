@@ -1,4 +1,6 @@
-package ch.logixisland.anuto.engine.logic;
+package ch.logixisland.anuto.engine.logic.loop;
+
+import ch.logixisland.anuto.engine.logic.GameEngine;
 
 public class TickTimer {
 

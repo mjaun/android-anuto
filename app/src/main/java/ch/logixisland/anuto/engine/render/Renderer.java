@@ -8,7 +8,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.engine.logic.FrameRateLogger;
+import ch.logixisland.anuto.engine.logic.loop.FrameRateLogger;
 import ch.logixisland.anuto.engine.theme.Theme;
 import ch.logixisland.anuto.engine.theme.ThemeListener;
 import ch.logixisland.anuto.engine.theme.ThemeManager;

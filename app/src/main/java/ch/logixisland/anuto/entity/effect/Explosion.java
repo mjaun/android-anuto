@@ -5,8 +5,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.sound.Sound;

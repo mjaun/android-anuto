@@ -1,10 +1,10 @@
 package ch.logixisland.anuto.entity.tower;
 
 import ch.logixisland.anuto.data.setting.tower.TowerSettings;
-import ch.logixisland.anuto.engine.logic.Entity;
-import ch.logixisland.anuto.engine.logic.EntityListener;
 import ch.logixisland.anuto.engine.logic.GameEngine;
-import ch.logixisland.anuto.engine.logic.TickTimer;
+import ch.logixisland.anuto.engine.logic.entity.Entity;
+import ch.logixisland.anuto.engine.logic.entity.EntityListener;
+import ch.logixisland.anuto.engine.logic.loop.TickTimer;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 
 public abstract class AimingTower extends Tower {

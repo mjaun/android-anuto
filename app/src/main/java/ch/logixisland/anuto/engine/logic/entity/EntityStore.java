@@ -1,10 +1,11 @@
-package ch.logixisland.anuto.engine.logic;
+package ch.logixisland.anuto.engine.logic.entity;
 
 import android.util.SparseArray;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import ch.logixisland.anuto.engine.logic.loop.TickListener;
 import ch.logixisland.anuto.util.container.SafeMultiMap;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
@@ -16,7 +17,7 @@ public class EntityStore implements TickListener {
 
     private int mNextEntityId = 1;
 
-    Object getStaticData(Entity entity) {
+    public Object getStaticData(Entity entity) {
         if (!mStaticData.containsKey(entity.getClass())) {
             mStaticData.put(entity.getClass(), entity.initStatic());
         }
@@ -24,15 +25,11 @@ public class EntityStore implements TickListener {
         return mStaticData.get(entity.getClass());
     }
 
-    int nextEntityId() {
-        return mNextEntityId++;
-    }
-
-    StreamIterator<Entity> get(int typeId) {
+    public StreamIterator<Entity> get(int typeId) {
         return mEntities.get(typeId).iterator();
     }
 
-    void add(Entity entity) {
+    public void add(Entity entity) {
         int entityId = mNextEntityId++;
         entity.setEntityId(entityId);
         mEntities.add(entity.getEntityType(), entity);
@@ -40,25 +37,13 @@ public class EntityStore implements TickListener {
         entity.init();
     }
 
-    void add(Entity entity, int entityId) {
-        if (mEntityIdMap.get(entityId) != null) {
-            throw new RuntimeException("Entity ID already exists!");
-        }
-
-        if (entityId >= mNextEntityId) {
-            mNextEntityId = entityId + 1;
-        }
-
-        entity.setEntityId(entityId);
-    }
-
-    void remove(Entity entity) {
+    public void remove(Entity entity) {
         mEntities.remove(entity.getEntityType(), entity);
         mEntityIdMap.remove(entity.getEntityId());
         entity.clean();
     }
 
-    void clear() {
+    public void clear() {
         for (Entity obj : mEntities) {
             mEntities.remove(obj.getEntityType(), obj);
             obj.clean();

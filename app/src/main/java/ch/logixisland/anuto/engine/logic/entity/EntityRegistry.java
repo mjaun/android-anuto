@@ -1,7 +1,9 @@
-package ch.logixisland.anuto.engine.logic;
+package ch.logixisland.anuto.engine.logic.entity;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import ch.logixisland.anuto.engine.logic.GameEngine;
 
 public class EntityRegistry {
 

@@ -1,8 +1,8 @@
 package ch.logixisland.anuto.entity.shot;
 
-import ch.logixisland.anuto.engine.logic.Entity;
-import ch.logixisland.anuto.engine.logic.EntityListener;
 import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.engine.logic.entity.Entity;
+import ch.logixisland.anuto.engine.logic.entity.EntityListener;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 
 public abstract class HomingShot extends Shot implements EntityListener {

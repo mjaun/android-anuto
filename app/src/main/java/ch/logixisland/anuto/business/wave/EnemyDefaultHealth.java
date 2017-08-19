@@ -3,7 +3,7 @@ package ch.logixisland.anuto.business.wave;
 import java.util.HashMap;
 import java.util.Map;
 
-import ch.logixisland.anuto.engine.logic.EntityRegistry;
+import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 
 public class EnemyDefaultHealth {

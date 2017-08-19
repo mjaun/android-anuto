@@ -1,6 +1,6 @@
 package ch.logixisland.anuto.engine.render.sprite;
 
-import ch.logixisland.anuto.engine.logic.TickTimer;
+import ch.logixisland.anuto.engine.logic.loop.TickTimer;
 
 public class AnimatedSprite extends SpriteInstance {
 

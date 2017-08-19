@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.engine.logic;
+package ch.logixisland.anuto.engine.logic.loop;
 
 import android.util.Log;
 

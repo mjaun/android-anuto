@@ -3,7 +3,7 @@ package ch.logixisland.anuto.business.tower;
 import java.util.HashMap;
 import java.util.Map;
 
-import ch.logixisland.anuto.engine.logic.EntityRegistry;
+import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.entity.tower.Tower;
 
 public class TowerDefaultValue {

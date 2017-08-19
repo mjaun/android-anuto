@@ -1,7 +1,7 @@
 package ch.logixisland.anuto.entity.shot;
 
-import ch.logixisland.anuto.engine.logic.Entity;
 import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.util.math.Vector2;
 

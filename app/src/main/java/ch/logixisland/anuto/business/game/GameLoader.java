@@ -11,10 +11,10 @@ import ch.logixisland.anuto.data.setting.GameSettingsRoot;
 import ch.logixisland.anuto.data.setting.enemy.EnemySettingsRoot;
 import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
 import ch.logixisland.anuto.data.wave.WaveDescriptorRoot;
-import ch.logixisland.anuto.engine.logic.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.GameConfiguration;
 import ch.logixisland.anuto.engine.logic.GameEngine;
-import ch.logixisland.anuto.engine.logic.Message;
+import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
+import ch.logixisland.anuto.engine.logic.loop.Message;
 import ch.logixisland.anuto.engine.render.Viewport;
 import ch.logixisland.anuto.entity.plateau.Plateau;
 
