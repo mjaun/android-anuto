@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.data.game.TowerDescriptor;
 import ch.logixisland.anuto.data.map.PathDescriptor;
 import ch.logixisland.anuto.data.setting.enemy.WeaponType;
 import ch.logixisland.anuto.data.setting.tower.TowerSettings;
@@ -80,18 +79,6 @@ public abstract class Tower extends Entity {
     public abstract void preview(Canvas canvas);
 
     public abstract List<TowerInfoValue> getTowerInfoValues();
-
-    public TowerDescriptor getTowerDescriptor() {
-        TowerDescriptor towerDescriptor = createTowerDescriptor();
-        towerDescriptor.setValue(mValue);
-        towerDescriptor.setLevel(mLevel);
-        towerDescriptor.setDamageInflicted(mDamageInflicted);
-        return towerDescriptor;
-    }
-
-    TowerDescriptor createTowerDescriptor() {
-        return new TowerDescriptor();
-    }
 
     public void setEnabled(boolean enabled) {
         mEnabled = enabled;

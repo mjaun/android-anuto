@@ -154,8 +154,8 @@ public abstract class Entity {
         return mPosition.to(target).angle();
     }
 
-    public boolean isInGame() {
-        return getGameEngine().isInGame(mPosition);
+    public boolean isPositionVisible() {
+        return getGameEngine().isPositionVisible(mPosition);
     }
 
     public void addListener(EntityListener listener) {

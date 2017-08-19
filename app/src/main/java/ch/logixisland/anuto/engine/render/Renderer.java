@@ -85,7 +85,7 @@ public class Renderer implements ThemeListener {
         mBackgroundColor = theme.getColor(R.attr.backgroundColor);
     }
 
-    public boolean isInGame(Vector2 position) {
+    public boolean isPositionVisible(Vector2 position) {
         return mViewport.getScreenClipRect().contains(position.x(), position.y());
     }
 }

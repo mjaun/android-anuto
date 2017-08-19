@@ -14,4 +14,20 @@ public class EntityDescriptor {
     @Element(name = "position")
     private Vector2 mPosition;
 
+    public String getName() {
+        return mName;
+    }
+
+    public void setName(String name) {
+        mName = name;
+    }
+
+    public Vector2 getPosition() {
+        return mPosition;
+    }
+
+    public void setPosition(Vector2 position) {
+        mPosition = position;
+    }
+
 }

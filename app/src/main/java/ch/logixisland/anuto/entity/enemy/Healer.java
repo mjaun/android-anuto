@@ -110,14 +110,14 @@ public class Healer extends Enemy implements SpriteTransformation {
         s.mHealedEnemies = new ArrayList<>();
 
         s.mScaleFunction = Function.sine()
-                .join(Function.zero(), (float) Math.PI)
+                .join(Function.constant(0), (float) Math.PI)
                 .multiply(HEAL_SCALE_FACTOR - 1f)
                 .offset(1f)
                 .stretch(GameEngine.TARGET_FRAME_RATE * s.mHealDuration * 0.66f / (float) Math.PI)
                 .invert()
                 .sample();
 
-        s.mRotateFunction = Function.zero()
+        s.mRotateFunction = Function.constant(0)
                 .join(Function.sine(), (float) Math.PI / 2f)
                 .multiply(HEAL_ROTATION / GameEngine.TARGET_FRAME_RATE * 360f)
                 .stretch(GameEngine.TARGET_FRAME_RATE * s.mHealDuration * 0.66f / (float) Math.PI)

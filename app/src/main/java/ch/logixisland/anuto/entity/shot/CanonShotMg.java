@@ -80,7 +80,7 @@ public class CanonShotMg extends Shot implements SpriteTransformation {
             this.remove();
         }
 
-        if (!isInGame()) {
+        if (!isPositionVisible()) {
             this.remove();
         }
     }

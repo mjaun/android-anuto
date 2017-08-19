@@ -116,8 +116,8 @@ public class GameEngine {
         return mGameLoop.isThreadChangeNeeded();
     }
 
-    public boolean isInGame(Vector2 position) {
-        return mRenderer.isInGame(position);
+    public boolean isPositionVisible(Vector2 position) {
+        return mRenderer.isPositionVisible(position);
     }
 
     public GameConfiguration getGameConfiguration() {

@@ -2,7 +2,7 @@ package ch.logixisland.anuto.util.math;
 
 public abstract class Function {
 
-    public static Function zero() {
+    public static Function constant(float value) {
         return new Function() {
             @Override
             public float calculate(float input) {

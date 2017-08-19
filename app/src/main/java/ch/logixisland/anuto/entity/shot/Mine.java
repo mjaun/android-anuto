@@ -39,7 +39,7 @@ public class Mine extends Shot implements SpriteTransformation {
     private float mDamage;
     private float mRadius;
     private float mAngle;
-    private boolean mFlying = true;
+    private boolean mFlying;
     private float mRotationStep;
     private SampledFunction mHeightScalingFunction;
 
@@ -50,17 +50,16 @@ public class Mine extends Shot implements SpriteTransformation {
 
     public Mine(Entity origin, Vector2 position, Vector2 target, float damage, float radius) {
         super(origin);
-        setPosition(position);
 
+        setPosition(position);
         setSpeed(getDistanceTo(target) / TIME_TO_TARGET);
         setDirection(getDirectionTo(target));
 
+        mFlying = true;
         mDamage = damage;
         mRadius = radius;
 
         mRotationStep = RandomUtils.next(ROTATION_RATE_MIN, ROTATION_RATE_MAX) * 360f / GameEngine.TARGET_FRAME_RATE;
-
-        StaticData s = (StaticData) getStaticData();
 
         float x1 = (float) Math.sqrt(HEIGHT_SCALING_PEAK - HEIGHT_SCALING_START);
         float x2 = (float) Math.sqrt(HEIGHT_SCALING_PEAK - HEIGHT_SCALING_STOP);
@@ -70,6 +69,26 @@ public class Mine extends Shot implements SpriteTransformation {
                 .shift(-x1)
                 .stretch(GameEngine.TARGET_FRAME_RATE * TIME_TO_TARGET / (x1 + x2))
                 .sample();
+
+        createAssets();
+    }
+
+    public Mine(Entity origin, Vector2 position, float damage, float radius) {
+        super(origin);
+
+        setPosition(position);
+
+        mFlying = false;
+        mDamage = damage;
+        mRadius = radius;
+
+        mHeightScalingFunction = Function.constant(HEIGHT_SCALING_STOP).sample();
+
+        createAssets();
+    }
+
+    private void createAssets() {
+        StaticData s = (StaticData) getStaticData();
 
         int index = RandomUtils.next(4);
 
