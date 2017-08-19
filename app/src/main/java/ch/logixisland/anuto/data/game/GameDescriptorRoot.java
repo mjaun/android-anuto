@@ -20,11 +20,17 @@ public class GameDescriptorRoot {
     @Element(name = "wave")
     private int mWave;
 
+    @Element(name = "ticksSinceStartWave")
+    private int mTicksSinceStartWave;
+
     @Element(name = "lives")
     private int mLives;
 
     @Element(name = "credits")
     private int mCredits;
+
+    @Element(name = "creditsEarned")
+    private int mCreditsEarned;
 
     @ElementListUnion({
             @ElementList(name = "entity", entry = "enemy", type = EnemyDescriptor.class),
@@ -42,4 +48,59 @@ public class GameDescriptorRoot {
         serializer.write(this, stream);
     }
 
+    public String getMap() {
+        return mMap;
+    }
+
+    public void setMap(String map) {
+        mMap = map;
+    }
+
+    public int getWave() {
+        return mWave;
+    }
+
+    public void setWave(int wave) {
+        mWave = wave;
+    }
+
+    public int getTicksSinceStartWave() {
+        return mTicksSinceStartWave;
+    }
+
+    public void setTicksSinceStartWave(int ticksSinceStartWave) {
+        mTicksSinceStartWave = ticksSinceStartWave;
+    }
+
+    public int getLives() {
+        return mLives;
+    }
+
+    public void setLives(int lives) {
+        mLives = lives;
+    }
+
+    public int getCredits() {
+        return mCredits;
+    }
+
+    public void setCredits(int credits) {
+        mCredits = credits;
+    }
+
+    public int getCreditsEarned() {
+        return mCreditsEarned;
+    }
+
+    public void setCreditsEarned(int creditsEarned) {
+        mCreditsEarned = creditsEarned;
+    }
+
+    public List<EntityDescriptor> getEntityDescriptors() {
+        return mEntityDescriptors;
+    }
+
+    public void setEntityDescriptors(List<EntityDescriptor> entityDescriptors) {
+        mEntityDescriptors = entityDescriptors;
+    }
 }

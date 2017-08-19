@@ -3,10 +3,12 @@ package ch.logixisland.anuto.business.score;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.data.game.GameDescriptorRoot;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.loop.Message;
+import ch.logixisland.anuto.engine.logic.persistence.Persistable;
 
-public class ScoreBoard {
+public class ScoreBoard implements Persistable {
 
     private final GameEngine mGameEngine;
 
@@ -191,4 +193,22 @@ public class ScoreBoard {
             listener.livesChanged(mLives);
         }
     }
+
+    @Override
+    public void writeDescriptor(GameDescriptorRoot gameDescriptor) {
+        gameDescriptor.setCredits(mCredits);
+        gameDescriptor.setCreditsEarned(mCreditsEarned);
+        gameDescriptor.setLives(mLives);
+    }
+
+    @Override
+    public void readDescriptor(GameDescriptorRoot gameDescriptorRoot) {
+        mCredits = gameDescriptorRoot.getCredits();
+        mCreditsEarned = gameDescriptorRoot.getCreditsEarned();
+        mLives = gameDescriptorRoot.getLives();
+
+        creditsChanged();
+        livesChanged();
+    }
+
 }

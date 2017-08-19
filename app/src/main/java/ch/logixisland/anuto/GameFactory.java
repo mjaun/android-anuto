@@ -20,6 +20,7 @@ import ch.logixisland.anuto.engine.logic.entity.EntityStore;
 import ch.logixisland.anuto.engine.logic.loop.FrameRateLogger;
 import ch.logixisland.anuto.engine.logic.loop.GameLoop;
 import ch.logixisland.anuto.engine.logic.loop.MessageQueue;
+import ch.logixisland.anuto.engine.logic.persistence.GamePersister;
 import ch.logixisland.anuto.engine.render.Renderer;
 import ch.logixisland.anuto.engine.render.Viewport;
 import ch.logixisland.anuto.engine.render.sprite.SpriteFactory;
@@ -59,6 +60,7 @@ public class GameFactory {
     private final Renderer mRenderer;
     private final GameEngine mGameEngine;
     private final GameLoop mGameLoop;
+    private final GamePersister mGamePersister;
     private final EntityRegistry mEntityRegistry;
 
     // Business
@@ -88,6 +90,7 @@ public class GameFactory {
         mRenderer = new Renderer(mViewport, mThemeManager, mFrameRateLogger);
         mGameLoop = new GameLoop(mRenderer, mFrameRateLogger);
         mGameEngine = new GameEngine(mSpriteFactory, mThemeManager, mSoundFactory, mEntityStore, mMessageQueue, mRenderer, mGameLoop);
+        mGamePersister = new GamePersister();
         mEntityRegistry = new EntityRegistry(mGameEngine);
 
         registerEntities();
@@ -107,6 +110,8 @@ public class GameFactory {
         mTowerInserter = new TowerInserter(mGameEngine, mGameState, mEntityRegistry, mTowerSelector, mTowerAging, mScoreBoard);
         mSettingsManager = new SettingsManager(context, mThemeManager, mSoundManager);
 
+        registerPersistables();
+        
         mGameState.restart();
     }
 
@@ -132,6 +137,10 @@ public class GameFactory {
         mEntityRegistry.registerEntity("glueGun", new GlueGun.Factory());
         mEntityRegistry.registerEntity("teleporter", new Teleporter.Factory());
 
+    }
+
+    private void registerPersistables() {
+        mGamePersister.registerPersistable(mScoreBoard);
     }
 
     public ThemeManager getThemeManager() {
