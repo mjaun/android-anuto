@@ -10,14 +10,16 @@ import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.game.GameStateListener;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.business.tower.TowerAging;
+import ch.logixisland.anuto.data.game.ActiveWaveDescriptor;
+import ch.logixisland.anuto.data.game.GameDescriptorRoot;
 import ch.logixisland.anuto.data.setting.GameSettingsRoot;
-import ch.logixisland.anuto.data.wave.EnemyDescriptor;
 import ch.logixisland.anuto.data.wave.WaveDescriptor;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.loop.Message;
+import ch.logixisland.anuto.engine.logic.persistence.Persistable;
 
-public class WaveManager implements GameStateListener {
+public class WaveManager implements GameStateListener, Persistable {
 
     private static final String TAG = WaveManager.class.getSimpleName();
 
@@ -32,7 +34,7 @@ public class WaveManager implements GameStateListener {
 
     private final EnemyDefaultHealth mEnemyDefaultHealth;
 
-    private int mNextWaveIndex;
+    private int mWaveNumber;
     private int mRemainingEnemiesCount;
     private boolean mNextWaveReady;
     private boolean mMinWaveDelayTimeout;
@@ -54,7 +56,7 @@ public class WaveManager implements GameStateListener {
     }
 
     public int getWaveNumber() {
-        return mNextWaveIndex;
+        return mWaveNumber;
     }
 
     public boolean isNextWaveReady() {
@@ -112,6 +114,57 @@ public class WaveManager implements GameStateListener {
     @Override
     public void gameOver() {
 
+    }
+
+    @Override
+    public void writeDescriptor(GameDescriptorRoot gameDescriptor) {
+        gameDescriptor.setWaveNumber(mWaveNumber);
+
+        for (WaveAttender waveAttender : mActiveWaves) {
+            ActiveWaveDescriptor activeWaveDescriptor = new ActiveWaveDescriptor();
+            activeWaveDescriptor.setWaveNumber(waveAttender.getWaveNumber());
+            activeWaveDescriptor.setWaveStartTickCount(waveAttender.getWaveStartTickCount());
+            activeWaveDescriptor.setExtend(waveAttender.getExtend());
+            activeWaveDescriptor.setWaveReward(waveAttender.getWaveReward());
+            activeWaveDescriptor.setEnemyHealthModifier(waveAttender.getEnemyHealthModifier());
+            activeWaveDescriptor.setEnemyRewardModifier(waveAttender.getEnemyRewardModifier());
+            gameDescriptor.addActiveWaveDescriptor(activeWaveDescriptor);
+        }
+    }
+
+    @Override
+    public void readDescriptor(GameDescriptorRoot gameDescriptor) {
+        int lastStartedWaveTickCount = 0;
+        List<WaveDescriptor> waveDescriptors = mGameEngine.getGameConfiguration().getWaveDescriptorRoot().getWaves();
+        mWaveNumber = gameDescriptor.getWaveNumber();
+
+        for (ActiveWaveDescriptor activeWaveDescriptor : gameDescriptor.getActiveWaveDescriptors()) {
+            WaveDescriptor waveDescriptor = waveDescriptors.get(activeWaveDescriptor.getWaveNumber() % waveDescriptors.size());
+            WaveAttender waveAttender = new WaveAttender(mGameEngine, mScoreBoard, mEntityRegistry, this, waveDescriptor, activeWaveDescriptor.getWaveNumber());
+            waveAttender.setExtend(activeWaveDescriptor.getExtend());
+            waveAttender.setWaveReward(activeWaveDescriptor.getWaveReward());
+            waveAttender.modifyEnemyHealth(waveAttender.getEnemyHealthModifier());
+            waveAttender.modifyEnemyReward(waveAttender.getEnemyRewardModifier());
+            waveAttender.start(activeWaveDescriptor.getWaveStartTickCount());
+            mActiveWaves.add(waveAttender);
+
+            lastStartedWaveTickCount = Math.max(lastStartedWaveTickCount, activeWaveDescriptor.getWaveStartTickCount());
+        }
+
+        int nextWaveReadyTicks = Math.round(MIN_WAVE_DELAY * GameEngine.TARGET_FRAME_RATE) - (mGameEngine.getTickCount() - lastStartedWaveTickCount);
+
+        if (nextWaveReadyTicks > 0) {
+            setNextWaveReady(false);
+            mMinWaveDelayTimeout = false;
+
+            mGameEngine.postAfterTicks(new Message() {
+                @Override
+                public void execute() {
+                    mMinWaveDelayTimeout = true;
+                    updateNextWaveReady();
+                }
+            }, nextWaveReadyTicks);
+        }
     }
 
     void enemyRemoved() {
@@ -190,12 +243,12 @@ public class WaveManager implements GameStateListener {
 
     private void createAndStartWaveAttender() {
         List<WaveDescriptor> waveDescriptors = mGameEngine.getGameConfiguration().getWaveDescriptorRoot().getWaves();
-        WaveDescriptor nextWaveDescriptor = waveDescriptors.get(mNextWaveIndex % waveDescriptors.size());
-        WaveAttender nextWave = new WaveAttender(mGameEngine, mScoreBoard, mEntityRegistry, this, nextWaveDescriptor);
+        WaveDescriptor nextWaveDescriptor = waveDescriptors.get(mWaveNumber % waveDescriptors.size());
+        WaveAttender nextWave = new WaveAttender(mGameEngine, mScoreBoard, mEntityRegistry, this, nextWaveDescriptor, mWaveNumber);
         updateWaveExtend(nextWave, nextWaveDescriptor);
         updateWaveModifiers(nextWave);
-        mActiveWaves.add(nextWave);
         nextWave.start();
+        mActiveWaves.add(nextWave);
     }
 
     private void updateWaveExtend(WaveAttender wave, WaveDescriptor waveDescriptor) {
@@ -206,7 +259,7 @@ public class WaveManager implements GameStateListener {
     private void updateWaveModifiers(WaveAttender wave) {
         GameSettingsRoot settings = mGameEngine.getGameConfiguration().getGameSettingsRoot();
 
-        float waveHealth = getWaveHealth(wave);
+        float waveHealth = wave.getWaveDefaultHealth(this.mEnemyDefaultHealth);
         float damagePossible = settings.getDifficultyLinear() * mScoreBoard.getCreditsEarned()
                 + settings.getDifficultyModifier() * (float) Math.pow(mScoreBoard.getCreditsEarned(), settings.getDifficultyExponent());
         float healthModifier = damagePossible / waveHealth;
@@ -223,17 +276,8 @@ public class WaveManager implements GameStateListener {
         Log.i(TAG, String.format("waveHealth=%f", waveHealth));
         Log.i(TAG, String.format("creditsEarned=%d", mScoreBoard.getCreditsEarned()));
         Log.i(TAG, String.format("damagePossible=%f", damagePossible));
-        Log.i(TAG, String.format("healthModifier=%f", wave.getEnemyHealthModifier()));
-        Log.i(TAG, String.format("rewardModifier=%f", wave.getEnemyRewardModifier()));
-    }
-
-    private float getWaveHealth(WaveAttender wave) {
-        float waveHealth = 0f;
-        for (EnemyDescriptor d : wave.getWaveDescriptor().getEnemies()) {
-            waveHealth += mEnemyDefaultHealth.getDefaultHealth(d.getName());
-        }
-        waveHealth *= wave.getExtend() + 1;
-        return waveHealth;
+        Log.i(TAG, String.format("healthModifier=%f", healthModifier));
+        Log.i(TAG, String.format("rewardModifier=%f", rewardModifier));
     }
 
     private int getIterationNumber() {
@@ -260,8 +304,8 @@ public class WaveManager implements GameStateListener {
     }
 
     private void resetNextWaveIndex() {
-        if (mNextWaveIndex != 0) {
-            mNextWaveIndex = 0;
+        if (mWaveNumber != 0) {
+            mWaveNumber = 0;
 
             for (WaveListener listener : mListeners) {
                 listener.waveNumberChanged();
@@ -270,7 +314,7 @@ public class WaveManager implements GameStateListener {
     }
 
     private void incrementNextWaveIndex() {
-        mNextWaveIndex++;
+        mWaveNumber++;
 
         for (WaveListener listener : mListeners) {
             listener.waveNumberChanged();

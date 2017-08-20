@@ -17,11 +17,8 @@ public class GameDescriptorRoot {
     @Element(name = "map")
     private String mMap;
 
-    @Element(name = "wave")
-    private int mWave;
-
-    @Element(name = "ticksSinceStartWave")
-    private int mTicksSinceStartWave;
+    @Element(name = "tickCount")
+    private int mTickCount;
 
     @Element(name = "lives")
     private int mLives;
@@ -31,6 +28,12 @@ public class GameDescriptorRoot {
 
     @Element(name = "creditsEarned")
     private int mCreditsEarned;
+
+    @Element(name = "waveNumber")
+    private int mWaveNumber;
+
+    @ElementList(name = "activeWaves", entry = "wave")
+    private List<ActiveWaveDescriptor> mActiveWaveDescriptors;
 
     @ElementListUnion({
             @ElementList(name = "entity", entry = "enemy", type = EnemyDescriptor.class),
@@ -56,20 +59,12 @@ public class GameDescriptorRoot {
         mMap = map;
     }
 
-    public int getWave() {
-        return mWave;
+    public int getTickCount() {
+        return mTickCount;
     }
 
-    public void setWave(int wave) {
-        mWave = wave;
-    }
-
-    public int getTicksSinceStartWave() {
-        return mTicksSinceStartWave;
-    }
-
-    public void setTicksSinceStartWave(int ticksSinceStartWave) {
-        mTicksSinceStartWave = ticksSinceStartWave;
+    public void setTickCount(int tickCount) {
+        mTickCount = tickCount;
     }
 
     public int getLives() {
@@ -96,11 +91,28 @@ public class GameDescriptorRoot {
         mCreditsEarned = creditsEarned;
     }
 
+    public int getWaveNumber() {
+        return mWaveNumber;
+    }
+
+    public void setWaveNumber(int waveNumber) {
+        mWaveNumber = waveNumber;
+    }
+
+    public List<ActiveWaveDescriptor> getActiveWaveDescriptors() {
+        return mActiveWaveDescriptors;
+    }
+
+    public void addActiveWaveDescriptor(ActiveWaveDescriptor activeWaveDescriptor) {
+        mActiveWaveDescriptors.add(activeWaveDescriptor);
+    }
+
     public List<EntityDescriptor> getEntityDescriptors() {
         return mEntityDescriptors;
     }
 
-    public void setEntityDescriptors(List<EntityDescriptor> entityDescriptors) {
-        mEntityDescriptors = entityDescriptors;
+    public void addEntityDescriptor(EntityDescriptor entityDescriptor) {
+        mEntityDescriptors.add(entityDescriptor);
     }
+
 }

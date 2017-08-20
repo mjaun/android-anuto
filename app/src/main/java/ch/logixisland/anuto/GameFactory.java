@@ -140,7 +140,9 @@ public class GameFactory {
     }
 
     private void registerPersistables() {
+        mGamePersister.registerPersistable(mMessageQueue);
         mGamePersister.registerPersistable(mScoreBoard);
+        mGamePersister.registerPersistable(mWaveManager);
     }
 
     public ThemeManager getThemeManager() {

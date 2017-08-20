@@ -2,7 +2,10 @@ package ch.logixisland.anuto.engine.logic.loop;
 
 import java.util.ArrayList;
 
-public class MessageQueue implements TickListener {
+import ch.logixisland.anuto.data.game.GameDescriptorRoot;
+import ch.logixisland.anuto.engine.logic.persistence.Persistable;
+
+public class MessageQueue implements TickListener, Persistable {
 
     private static class MessageEntry {
         private final Message mMessage;
@@ -17,12 +20,16 @@ public class MessageQueue implements TickListener {
     private final ArrayList<MessageEntry> mQueue = new ArrayList<>();
     private int mTickCount = 0;
 
-    public synchronized void post(Message message) {
-        postDelayed(message, 0);
+    public int getTickCount() {
+        return mTickCount;
     }
 
-    public synchronized void postDelayed(Message message, int afterTicks) {
-        long dueTickCount = mTickCount + afterTicks;
+    public synchronized void post(Message message) {
+        postAfterTicks(message, 0);
+    }
+
+    public synchronized void postAfterTicks(Message message, int ticks) {
+        long dueTickCount = mTickCount + ticks;
 
         for (int i = 0; i < mQueue.size(); i++) {
             if (dueTickCount < mQueue.get(i).mDueTickCount) {
@@ -48,4 +55,13 @@ public class MessageQueue implements TickListener {
         }
     }
 
+    @Override
+    public void writeDescriptor(GameDescriptorRoot gameDescriptor) {
+        gameDescriptor.setTickCount(mTickCount);
+    }
+
+    @Override
+    public void readDescriptor(GameDescriptorRoot gameDescriptorRoot) {
+        mTickCount = gameDescriptorRoot.getTickCount();
+    }
 }

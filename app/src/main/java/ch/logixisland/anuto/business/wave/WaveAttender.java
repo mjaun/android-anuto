@@ -24,18 +24,23 @@ class WaveAttender implements EnemyListener {
 
     private final List<Enemy> mRemainingEnemies = new ArrayList<>();
 
+    private int mWaveNumber;
+    private int mWaveStartTickCount;
+
     private int mExtend;
     private int mWaveReward;
     private float mEnemyHealthModifier;
     private float mEnemyRewardModifier;
 
     WaveAttender(GameEngine gameEngine, ScoreBoard scoreBoard, EntityRegistry entityRegistry,
-                 WaveManager waveManager, WaveDescriptor waveDescriptor) {
+                 WaveManager waveManager, WaveDescriptor waveDescriptor, int waveNumber) {
         mGameEngine = gameEngine;
         mScoreBoard = scoreBoard;
         mEntityRegistry = entityRegistry;
         mWaveManager = waveManager;
         mWaveDescriptor = waveDescriptor;
+
+        mWaveNumber = waveNumber;
 
         mExtend = 1;
         mEnemyHealthModifier = 1;
@@ -43,12 +48,21 @@ class WaveAttender implements EnemyListener {
         mWaveReward = mWaveDescriptor.getWaveReward();
     }
 
-    int getExtend() {
-        return mExtend;
+    int getWaveNumber() {
+        return mWaveNumber;
     }
 
-    void setExtend(int extend) {
-        mExtend = extend;
+    int getWaveStartTickCount() {
+        return mWaveStartTickCount;
+    }
+
+    float getWaveDefaultHealth(EnemyDefaultHealth enemyDefaultHealth) {
+        float waveHealth = 0f;
+        for (EnemyDescriptor d : mWaveDescriptor.getEnemies()) {
+            waveHealth += enemyDefaultHealth.getDefaultHealth(d.getName());
+        }
+        waveHealth *= mExtend + 1;
+        return waveHealth;
     }
 
     float getEnemyHealthModifier() {
@@ -59,8 +73,20 @@ class WaveAttender implements EnemyListener {
         return mEnemyRewardModifier;
     }
 
-    WaveDescriptor getWaveDescriptor() {
-        return mWaveDescriptor;
+    int getWaveReward() {
+        return mWaveReward;
+    }
+
+    void setWaveReward(int waveReward) {
+        mWaveReward = waveReward;
+    }
+
+    int getExtend() {
+        return mExtend;
+    }
+
+    void setExtend(int extend) {
+        mExtend = extend;
     }
 
     void modifyEnemyHealth(float modifier) {
@@ -75,7 +101,23 @@ class WaveAttender implements EnemyListener {
         mWaveReward *= modifier;
     }
 
+    float getRemainingEnemiesReward() {
+        float totalReward = 0f;
+
+        for (Enemy enemy : mRemainingEnemies) {
+            totalReward += enemy.getReward();
+        }
+
+        return totalReward;
+    }
+
+    void start(int waveStartTickCount) {
+        mWaveStartTickCount = waveStartTickCount;
+        scheduleEnemies();
+    }
+
     void start() {
+        mWaveStartTickCount = mGameEngine.getTickCount();
         scheduleEnemies();
     }
 
@@ -105,26 +147,12 @@ class WaveAttender implements EnemyListener {
         mWaveReward = 0;
     }
 
-    int getWaveReward() {
-        return mWaveReward;
-    }
-
-    float getRemainingEnemiesReward() {
-        float totalReward = 0f;
-
-        for (Enemy enemy : mRemainingEnemies) {
-            totalReward += enemy.getReward();
-        }
-
-        return totalReward;
-    }
-
     int getRemainingEnemiesCount() {
         return mRemainingEnemies.size();
     }
 
     private void scheduleEnemies() {
-        int delay = 0;
+        int delayTicks = mWaveStartTickCount - mGameEngine.getTickCount();
         float offset = 0;
 
         List<EnemyDescriptor> enemyDescriptors = mWaveDescriptor.getEnemies();
@@ -140,11 +168,13 @@ class WaveAttender implements EnemyListener {
                 }
 
                 if (enemyIndex > 0 || extendIndex > 0) {
-                    delay += (int) descriptor.getDelay();
+                    delayTicks += Math.round(descriptor.getDelay() * GameEngine.TARGET_FRAME_RATE);
                 }
 
-                Enemy enemy = createAndConfigureEnemy(descriptor, offset);
-                addEnemy(enemy, delay);
+                if (delayTicks >= 0) {
+                    Enemy enemy = createAndConfigureEnemy(descriptor, offset);
+                    addEnemy(enemy, delayTicks);
+                }
             }
         }
     }
@@ -158,15 +188,15 @@ class WaveAttender implements EnemyListener {
         return enemy;
     }
 
-    private void addEnemy(final Enemy enemy, int delay) {
+    private void addEnemy(final Enemy enemy, int delayTicks) {
         mRemainingEnemies.add(enemy);
         enemy.addListener(this);
 
-        mGameEngine.postDelayed(new Message() {
+        mGameEngine.postAfterTicks(new Message() {
             @Override
             public void execute() {
                 mGameEngine.add(enemy);
             }
-        }, delay);
+        }, delayTicks);
     }
 }

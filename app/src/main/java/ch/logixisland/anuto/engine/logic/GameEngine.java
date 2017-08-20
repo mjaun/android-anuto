@@ -106,12 +106,20 @@ public class GameEngine {
         mGameLoop.stop();
     }
 
+    public int getTickCount() {
+        return mMessageQueue.getTickCount();
+    }
+
     public void post(Message message) {
         mMessageQueue.post(message);
     }
 
     public void postDelayed(Message message, float delay) {
-        mMessageQueue.postDelayed(message, (int) (delay * TARGET_FRAME_RATE));
+        mMessageQueue.postAfterTicks(message, Math.round(delay * TARGET_FRAME_RATE));
+    }
+
+    public void postAfterTicks(Message message, int ticks) {
+        mMessageQueue.postAfterTicks(message, ticks);
     }
 
     public void setTicksPerLoop(int ticksPerLoop) {
