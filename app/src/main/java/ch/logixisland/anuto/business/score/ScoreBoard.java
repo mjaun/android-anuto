@@ -202,10 +202,10 @@ public class ScoreBoard implements Persistable {
     }
 
     @Override
-    public void readDescriptor(GameDescriptorRoot gameDescriptorRoot) {
-        mCredits = gameDescriptorRoot.getCredits();
-        mCreditsEarned = gameDescriptorRoot.getCreditsEarned();
-        mLives = gameDescriptorRoot.getLives();
+    public void readDescriptor(GameDescriptorRoot gameDescriptor) {
+        mCredits = gameDescriptor.getCredits();
+        mCreditsEarned = gameDescriptor.getCreditsEarned();
+        mLives = gameDescriptor.getLives();
 
         creditsChanged();
         livesChanged();

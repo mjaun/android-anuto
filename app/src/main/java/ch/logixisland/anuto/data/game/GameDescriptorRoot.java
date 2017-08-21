@@ -8,6 +8,7 @@ import org.simpleframework.xml.Serializer;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import ch.logixisland.anuto.data.SerializerFactory;
@@ -111,8 +112,8 @@ public class GameDescriptorRoot {
         return mEntityDescriptors;
     }
 
-    public void addEntityDescriptor(EntityDescriptor entityDescriptor) {
-        mEntityDescriptors.add(entityDescriptor);
+    public void addEntityDescriptors(Collection<EntityDescriptor> entityDescriptors) {
+        mEntityDescriptors.addAll(entityDescriptors);
     }
 
 }
