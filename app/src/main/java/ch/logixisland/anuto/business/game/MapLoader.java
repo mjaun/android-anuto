@@ -18,7 +18,7 @@ import ch.logixisland.anuto.engine.logic.loop.Message;
 import ch.logixisland.anuto.engine.render.Viewport;
 import ch.logixisland.anuto.entity.plateau.Plateau;
 
-public class GameLoader implements GameStateListener {
+public class MapLoader implements GameStateListener {
 
     private final Context mContext;
     private final GameEngine mGameEngine;
@@ -29,9 +29,9 @@ public class GameLoader implements GameStateListener {
 
     private MapInfo mMapInfo;
 
-    public GameLoader(Context context, GameEngine gameEngine, ScoreBoard scoreBoard,
-                      GameState gameState, Viewport viewport,
-                      EntityRegistry entityRegistry) {
+    public MapLoader(Context context, GameEngine gameEngine, ScoreBoard scoreBoard,
+                     GameState gameState, Viewport viewport,
+                     EntityRegistry entityRegistry, MapInfo initialMap) {
         mContext = context;
         mGameEngine = gameEngine;
         mViewport = viewport;
@@ -40,6 +40,8 @@ public class GameLoader implements GameStateListener {
         mGameState = gameState;
 
         mGameState.addListener(this);
+
+        setGameConfiguration(initialMap);
     }
 
     public MapInfo getMapInfo() {
@@ -61,6 +63,11 @@ public class GameLoader implements GameStateListener {
             return;
         }
 
+        setGameConfiguration(mapInfo);
+        mGameState.restart();
+    }
+
+    private void setGameConfiguration(MapInfo mapInfo) {
         mMapInfo = mapInfo;
 
         try {
@@ -74,8 +81,6 @@ public class GameLoader implements GameStateListener {
         } catch (Exception e) {
             throw new RuntimeException("Could not load map!", e);
         }
-
-        mGameState.restart();
     }
 
     @Override

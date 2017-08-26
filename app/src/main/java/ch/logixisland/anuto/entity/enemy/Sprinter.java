@@ -36,6 +36,12 @@ public class Sprinter extends Enemy implements SpriteTransformation {
         }
     }
 
+    public static class Persister extends EnemyPersister {
+        public Persister() {
+            super(ENTITY_NAME);
+        }
+    }
+
     private static class StaticData implements TickListener {
         SampledFunction mSpeedFunction;
 

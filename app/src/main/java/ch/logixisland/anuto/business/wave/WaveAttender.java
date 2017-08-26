@@ -13,6 +13,7 @@ import ch.logixisland.anuto.engine.logic.loop.Message;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.entity.enemy.EnemyListener;
 import ch.logixisland.anuto.util.math.MathUtils;
+import ch.logixisland.anuto.util.math.Vector2;
 
 class WaveAttender implements EnemyListener {
 
@@ -182,9 +183,15 @@ class WaveAttender implements EnemyListener {
     private Enemy createAndConfigureEnemy(EnemyDescriptor descriptor, float offset) {
         PathDescriptor path = mGameEngine.getGameConfiguration().getMapDescriptorRoot().getPaths().get(descriptor.getPathIndex());
         Enemy enemy = (Enemy) mEntityRegistry.createEntity(descriptor.getName());
+        enemy.setWaveNumber(mWaveNumber);
         enemy.modifyHealth(mEnemyHealthModifier);
         enemy.modifyReward(mEnemyRewardModifier);
-        enemy.setupPath(path.getWayPoints(), offset);
+        enemy.setupPath(path.getWayPoints());
+
+        Vector2 startPosition = path.getWayPoints().get(0);
+        Vector2 startDirection = startPosition.to(path.getWayPoints().get(1)).norm();
+        enemy.setPosition(startPosition.add(startDirection.mul(-offset)));
+
         return enemy;
     }
 

@@ -18,10 +18,6 @@ public class EntityRegistry {
         mEntityFactories.put(factory.getEntityName(), factory);
     }
 
-    public boolean entityExists(String name) {
-        return mEntityFactories.containsKey(name);
-    }
-
     public Entity createEntity(String name) {
         return mEntityFactories.get(name).create(mGameEngine);
     }

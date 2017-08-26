@@ -9,12 +9,12 @@ public class HighScores implements GameStateListener {
 
     private final SharedPreferences mHighScores;
     private final ScoreBoard mScoreBoard;
-    private final GameLoader mGameLoader;
+    private final MapLoader mMapLoader;
 
-    public HighScores(Context context, GameState gameState, ScoreBoard scoreBoard, GameLoader gameLoader) {
+    public HighScores(Context context, GameState gameState, ScoreBoard scoreBoard, MapLoader mapLoader) {
         mHighScores = context.getSharedPreferences("high_scores", Context.MODE_PRIVATE);
         mScoreBoard = scoreBoard;
-        mGameLoader = gameLoader;
+        mMapLoader = mapLoader;
         gameState.addListener(this);
     }
 
@@ -29,7 +29,7 @@ public class HighScores implements GameStateListener {
 
     @Override
     public void gameOver() {
-        String mapId = mGameLoader.getMapInfo().getMapId();
+        String mapId = mMapLoader.getMapInfo().getMapId();
         int score = mScoreBoard.getScore();
         setHighScore(mapId, score);
     }

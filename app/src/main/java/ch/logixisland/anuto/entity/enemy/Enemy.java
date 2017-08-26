@@ -16,6 +16,8 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public abstract class Enemy extends Entity {
 
+    private int mWaveNumber;
+
     public static Predicate<Enemy> enabled() {
         return new Predicate<Enemy>() {
             @Override
@@ -113,10 +115,10 @@ public abstract class Enemy extends Entity {
         }
 
         float stepSize = getSpeed() / GameEngine.TARGET_FRAME_RATE;
-        if (getDistanceTo(getWayPoint()) >= stepSize) {
+        if (getDistanceTo(getCurrentWayPoint()) >= stepSize) {
             move(getDirection().mul(stepSize));
         } else {
-            setPosition(getWayPoint());
+            setPosition(getCurrentWayPoint());
             mWayPointIndex++;
         }
     }
@@ -129,16 +131,33 @@ public abstract class Enemy extends Entity {
         mEnabled = enabled;
     }
 
-    public void setupPath(List<Vector2> wayPoints, float offset) {
-        mWayPoints = wayPoints;
-        Vector2 startPosition = mWayPoints.get(0);
-        Vector2 startDirection = startPosition.to(mWayPoints.get(1)).norm();
-        setPosition(startPosition.add(startDirection.mul(-offset)));
-        mWayPointIndex = 1;
+    public int getWaveNumber() {
+        return mWaveNumber;
     }
 
-    private Vector2 getWayPoint() {
+    public void setWaveNumber(int waveNumber) {
+        mWaveNumber = waveNumber;
+    }
+
+    public void setupPath(List<Vector2> wayPoints) {
+        setupPath(wayPoints, 0);
+    }
+
+    void setupPath(List<Vector2> wayPoints, int wayPointIndex) {
+        mWayPoints = wayPoints;
+        mWayPointIndex = wayPointIndex;
+    }
+
+    private Vector2 getCurrentWayPoint() {
         return mWayPoints.get(mWayPointIndex);
+    }
+
+    List<Vector2> getWayPoints() {
+        return mWayPoints;
+    }
+
+    int getWayPointIndex() {
+        return mWayPointIndex;
     }
 
     boolean hasWayPoint() {
@@ -150,7 +169,7 @@ public abstract class Enemy extends Entity {
             return null;
         }
 
-        return getDirectionTo(getWayPoint());
+        return getDirectionTo(getCurrentWayPoint());
     }
 
     public float getSpeed() {
@@ -166,7 +185,7 @@ public abstract class Enemy extends Entity {
             return 0;
         }
 
-        float dist = getDistanceTo(getWayPoint());
+        float dist = getDistanceTo(getCurrentWayPoint());
 
         for (int i = mWayPointIndex + 1; i < mWayPoints.size(); i++) {
             Vector2 wThis = mWayPoints.get(i);
@@ -267,8 +286,13 @@ public abstract class Enemy extends Entity {
         mMaxHealth *= f;
     }
 
-    public void heal(float val) {
-        mHealth += val;
+    void setHealth(float health, float maxHealth) {
+        mHealth = health;
+        mMaxHealth = maxHealth;
+    }
+
+    public void heal(float amount) {
+        mHealth += amount;
 
         if (mHealth > mMaxHealth) {
             mHealth = mMaxHealth;
@@ -281,6 +305,10 @@ public abstract class Enemy extends Entity {
 
     public void modifyReward(float f) {
         mReward = Math.round(mReward * f);
+    }
+
+    void setReward(int reward) {
+        mReward = reward;
     }
 
     public void addListener(EnemyListener listener) {

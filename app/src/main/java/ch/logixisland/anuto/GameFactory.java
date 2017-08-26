@@ -2,10 +2,10 @@ package ch.logixisland.anuto;
 
 import android.content.Context;
 
-import ch.logixisland.anuto.business.game.GameLoader;
 import ch.logixisland.anuto.business.game.GameSpeed;
 import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.game.HighScores;
+import ch.logixisland.anuto.business.game.MapLoader;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.business.setting.SettingsManager;
 import ch.logixisland.anuto.business.tower.TowerAging;
@@ -71,7 +71,7 @@ public class GameFactory {
     private final TowerAging mTowerAging;
     private final TowerInserter mTowerInserter;
     private final MapRepository mMapRepository;
-    private final GameLoader mGameLoader;
+    private final MapLoader mMapLoader;
     private final WaveManager mWaveManager;
     private final GameSpeed mSpeedManager;
     private final GameState mGameState;
@@ -90,8 +90,8 @@ public class GameFactory {
         mRenderer = new Renderer(mViewport, mThemeManager, mFrameRateLogger);
         mGameLoop = new GameLoop(mRenderer, mFrameRateLogger);
         mGameEngine = new GameEngine(mSpriteFactory, mThemeManager, mSoundFactory, mEntityStore, mMessageQueue, mRenderer, mGameLoop);
-        mGamePersister = new GamePersister(mGameEngine);
         mEntityRegistry = new EntityRegistry(mGameEngine);
+        mGamePersister = new GamePersister(mGameEngine, mEntityRegistry);
 
         registerEntities();
 
@@ -99,18 +99,17 @@ public class GameFactory {
         mMapRepository = new MapRepository();
         mScoreBoard = new ScoreBoard(mGameEngine);
         mGameState = new GameState(mGameEngine, mThemeManager, mScoreBoard);
-        mGameLoader = new GameLoader(context, mGameEngine, mScoreBoard, mGameState, mViewport, mEntityRegistry);
-        mGameLoader.loadMap(mMapRepository.getMaps().get(0));
+        mMapLoader = new MapLoader(context, mGameEngine, mScoreBoard, mGameState, mViewport, mEntityRegistry, mMapRepository.getMaps().get(0));
         mTowerAging = new TowerAging(mGameEngine);
         mSpeedManager = new GameSpeed(mGameEngine);
         mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mGameState, mEntityRegistry, mTowerAging);
-        mHighScores = new HighScores(context, mGameState, mScoreBoard, mGameLoader);
+        mHighScores = new HighScores(context, mGameState, mScoreBoard, mMapLoader);
         mTowerSelector = new TowerSelector(mGameEngine, mGameState, mScoreBoard);
         mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector, mEntityRegistry);
         mTowerInserter = new TowerInserter(mGameEngine, mGameState, mEntityRegistry, mTowerSelector, mTowerAging, mScoreBoard);
         mSettingsManager = new SettingsManager(context, mThemeManager, mSoundManager);
 
-        registerPersistables();
+        registerPersisters();
         
         mGameState.restart();
     }
@@ -139,10 +138,16 @@ public class GameFactory {
 
     }
 
-    private void registerPersistables() {
+    private void registerPersisters() {
         mGamePersister.registerPersister(mMessageQueue);
         mGamePersister.registerPersister(mScoreBoard);
         mGamePersister.registerPersister(mWaveManager);
+
+        mGamePersister.registerEntityPersister(new Blob.Persister());
+        mGamePersister.registerEntityPersister(new Flyer.Persister());
+        mGamePersister.registerEntityPersister(new Healer.Persister());
+        mGamePersister.registerEntityPersister(new Soldier.Persister());
+        mGamePersister.registerEntityPersister(new Sprinter.Persister());
     }
 
     public ThemeManager getThemeManager() {
@@ -177,8 +182,8 @@ public class GameFactory {
         return mTowerInserter;
     }
 
-    public GameLoader getGameLoader() {
-        return mGameLoader;
+    public MapLoader getMapLoader() {
+        return mMapLoader;
     }
 
     public WaveManager getWaveManager() {

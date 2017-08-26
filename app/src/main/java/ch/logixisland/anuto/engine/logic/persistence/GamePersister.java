@@ -11,25 +11,28 @@ import ch.logixisland.anuto.data.game.EntityDescriptor;
 import ch.logixisland.anuto.data.game.GameDescriptorRoot;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
+import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
 public class GamePersister {
 
     private final GameEngine mGameEngine;
+    private final EntityRegistry mEntityRegistry;
 
     private List<Persister> mPersisterList = new ArrayList<>();
     private Map<String, EntityPersister> mEntityPersisterMap = new HashMap<>();
 
-    public GamePersister(GameEngine gameEngine) {
+    public GamePersister(GameEngine gameEngine, EntityRegistry entityRegistry) {
         mGameEngine = gameEngine;
+        mEntityRegistry = entityRegistry;
     }
 
     public void registerPersister(Persister persister) {
         mPersisterList.add(persister);
     }
 
-    public void registerEntityPersister(String name, EntityPersister persister) {
-        mEntityPersisterMap.put(persister.getEntityName(), persister);
+    public void registerEntityPersister(EntityPersister entityPersister) {
+        mEntityPersisterMap.put(entityPersister.getEntityName(), entityPersister);
     }
 
     public void loadGame(InputStream inputStream) {
@@ -41,22 +44,18 @@ public class GamePersister {
             throw new RuntimeException("loadGame() failed!", e);
         }
 
-        for (Persister persister : mPersisterList) {
-            persister.readDescriptor(gameDescriptor);
-        }
-
         for (EntityDescriptor descriptor : gameDescriptor.getEntityDescriptors()) {
             EntityPersister persister = mEntityPersisterMap.get(descriptor.getName());
-            mGameEngine.add(persister.readDescriptor(descriptor));
+            mGameEngine.add(persister.readDescriptor(mEntityRegistry, descriptor));
+        }
+
+        for (Persister persister : mPersisterList) {
+            persister.readDescriptor(gameDescriptor);
         }
     }
 
     public void saveGame(OutputStream outputStream) {
         GameDescriptorRoot gameDescriptor = new GameDescriptorRoot();
-
-        for (Persister persister : mPersisterList) {
-            persister.writeDescriptor(gameDescriptor);
-        }
 
         StreamIterator<Entity> iterator = mGameEngine.get();
         while (iterator.hasNext()) {
@@ -67,6 +66,10 @@ public class GamePersister {
                 EntityPersister persister = mEntityPersisterMap.get(name);
                 gameDescriptor.addEntityDescriptor(persister.writeDescriptor(entity));
             }
+        }
+
+        for (Persister persister : mPersisterList) {
+            persister.writeDescriptor(gameDescriptor);
         }
 
         try {
