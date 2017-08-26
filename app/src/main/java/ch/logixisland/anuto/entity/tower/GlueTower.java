@@ -30,11 +30,17 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class GlueTower extends Tower implements SpriteTransformation {
 
+    private final static String ENTITY_NAME = "glueTower";
     private final static float SHOT_SPAWN_OFFSET = 0.8f;
     private final static float CANON_OFFSET_MAX = 0.5f;
     private final static float CANON_OFFSET_STEP = CANON_OFFSET_MAX / GameEngine.TARGET_FRAME_RATE / 0.8f;
 
     public static class Factory implements EntityFactory {
+        @Override
+        public String getEntityName() {
+            return ENTITY_NAME;
+        }
+
         @Override
         public Entity create(GameEngine gameEngine) {
             TowerSettingsRoot towerSettingsRoot = gameEngine.getGameConfiguration().getTowerSettingsRoot();
@@ -97,6 +103,11 @@ public class GlueTower extends Tower implements SpriteTransformation {
             c.mSprite.setListener(c);
             mCanons[i] = c;
         }
+    }
+
+    @Override
+    public String getEntityName() {
+        return ENTITY_NAME;
     }
 
     @Override

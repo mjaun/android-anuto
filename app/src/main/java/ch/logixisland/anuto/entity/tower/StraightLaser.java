@@ -23,10 +23,16 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class StraightLaser extends AimingTower implements SpriteTransformation {
 
+    private final static String ENTITY_NAME = "straightLaser";
     private final static float LASER_SPAWN_OFFSET = 0.8f;
     private final static float LASER_LENGTH = 100f;
 
     public static class Factory implements EntityFactory {
+        @Override
+        public String getEntityName() {
+            return ENTITY_NAME;
+        }
+
         @Override
         public Entity create(GameEngine gameEngine) {
             TowerSettingsRoot towerSettingsRoot = gameEngine.getGameConfiguration().getTowerSettingsRoot();
@@ -58,6 +64,11 @@ public class StraightLaser extends AimingTower implements SpriteTransformation {
         mSpriteCanon.setListener(this);
 
         mSound = getSoundFactory().createSound(R.raw.laser3_szh);
+    }
+
+    @Override
+    public String getEntityName() {
+        return ENTITY_NAME;
     }
 
     @Override

@@ -3,9 +3,9 @@ package ch.logixisland.anuto.engine.logic.loop;
 import java.util.ArrayList;
 
 import ch.logixisland.anuto.data.game.GameDescriptorRoot;
-import ch.logixisland.anuto.engine.logic.persistence.Persistable;
+import ch.logixisland.anuto.engine.logic.persistence.Persister;
 
-public class MessageQueue implements TickListener, Persistable {
+public class MessageQueue implements TickListener, Persister {
 
     private static class MessageEntry {
         private final Message mMessage;

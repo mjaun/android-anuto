@@ -116,33 +116,33 @@ public class GameFactory {
     }
 
     private void registerEntities() {
-        mEntityRegistry.registerEntity("basic", new BasicPlateau.Factory());
+        mEntityRegistry.registerEntity(new BasicPlateau.Factory());
 
-        mEntityRegistry.registerEntity("blob", new Blob.Factory());
-        mEntityRegistry.registerEntity("flyer", new Flyer.Factory());
-        mEntityRegistry.registerEntity("healer", new Healer.Factory());
-        mEntityRegistry.registerEntity("soldier", new Soldier.Factory());
-        mEntityRegistry.registerEntity("sprinter", new Sprinter.Factory());
+        mEntityRegistry.registerEntity(new Blob.Factory());
+        mEntityRegistry.registerEntity(new Flyer.Factory());
+        mEntityRegistry.registerEntity(new Healer.Factory());
+        mEntityRegistry.registerEntity(new Soldier.Factory());
+        mEntityRegistry.registerEntity(new Sprinter.Factory());
 
-        mEntityRegistry.registerEntity("canon", new Canon.Factory());
-        mEntityRegistry.registerEntity("dualCanon", new DualCanon.Factory());
-        mEntityRegistry.registerEntity("machineGun", new MachineGun.Factory());
-        mEntityRegistry.registerEntity("simpleLaser", new SimpleLaser.Factory());
-        mEntityRegistry.registerEntity("bouncingLaser", new BouncingLaser.Factory());
-        mEntityRegistry.registerEntity("straightLaser", new StraightLaser.Factory());
-        mEntityRegistry.registerEntity("mortar", new Mortar.Factory());
-        mEntityRegistry.registerEntity("mineLayer", new MineLayer.Factory());
-        mEntityRegistry.registerEntity("rocketLauncher", new RocketLauncher.Factory());
-        mEntityRegistry.registerEntity("glueTower", new GlueTower.Factory());
-        mEntityRegistry.registerEntity("glueGun", new GlueGun.Factory());
-        mEntityRegistry.registerEntity("teleporter", new Teleporter.Factory());
+        mEntityRegistry.registerEntity(new Canon.Factory());
+        mEntityRegistry.registerEntity(new DualCanon.Factory());
+        mEntityRegistry.registerEntity(new MachineGun.Factory());
+        mEntityRegistry.registerEntity(new SimpleLaser.Factory());
+        mEntityRegistry.registerEntity(new BouncingLaser.Factory());
+        mEntityRegistry.registerEntity(new StraightLaser.Factory());
+        mEntityRegistry.registerEntity(new Mortar.Factory());
+        mEntityRegistry.registerEntity(new MineLayer.Factory());
+        mEntityRegistry.registerEntity(new RocketLauncher.Factory());
+        mEntityRegistry.registerEntity(new GlueTower.Factory());
+        mEntityRegistry.registerEntity(new GlueGun.Factory());
+        mEntityRegistry.registerEntity(new Teleporter.Factory());
 
     }
 
     private void registerPersistables() {
-        mGamePersister.registerPersistable(mMessageQueue);
-        mGamePersister.registerPersistable(mScoreBoard);
-        mGamePersister.registerPersistable(mWaveManager);
+        mGamePersister.registerPersister(mMessageQueue);
+        mGamePersister.registerPersister(mScoreBoard);
+        mGamePersister.registerPersister(mWaveManager);
     }
 
     public ThemeManager getThemeManager() {

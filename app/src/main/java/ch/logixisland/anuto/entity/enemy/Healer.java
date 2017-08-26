@@ -25,11 +25,17 @@ import ch.logixisland.anuto.util.math.SampledFunction;
 
 public class Healer extends Enemy implements SpriteTransformation {
 
+    private final static String ENTITY_NAME = "healer";
     private final static float ANIMATION_SPEED = 1.5f;
     private final static float HEAL_SCALE_FACTOR = 2f;
     private final static float HEAL_ROTATION = 2.5f;
 
     public static class Factory implements EntityFactory {
+        @Override
+        public String getEntityName() {
+            return ENTITY_NAME;
+        }
+
         @Override
         public Entity create(GameEngine gameEngine) {
             EnemySettingsRoot enemySettingsRoot = gameEngine.getGameConfiguration().getEnemySettingsRoot();
@@ -97,6 +103,11 @@ public class Healer extends Enemy implements SpriteTransformation {
 
         mSprite = getSpriteFactory().createReplication(mStaticData.mReferenceSprite);
         mSprite.setListener(this);
+    }
+
+    @Override
+    public String getEntityName() {
+        return ENTITY_NAME;
     }
 
     @Override

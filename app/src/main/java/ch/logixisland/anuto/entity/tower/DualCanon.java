@@ -27,11 +27,17 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class DualCanon extends AimingTower implements SpriteTransformation {
 
+    private final static String ENTITY_NAME = "dualCanon";
     private final static float SHOT_SPAWN_OFFSET = 0.7f;
     private final static float REBOUND_RANGE = 0.25f;
     private final static float REBOUND_DURATION = 0.2f;
 
     public static class Factory implements EntityFactory {
+        @Override
+        public String getEntityName() {
+            return ENTITY_NAME;
+        }
+
         @Override
         public Entity create(GameEngine gameEngine) {
             TowerSettingsRoot towerSettingsRoot = gameEngine.getGameConfiguration().getTowerSettingsRoot();
@@ -88,6 +94,11 @@ public class DualCanon extends AimingTower implements SpriteTransformation {
 
         mSound = getSoundFactory().createSound(R.raw.gun3_dit);
         mSound.setVolume(0.5f);
+    }
+
+    @Override
+    public String getEntityName() {
+        return ENTITY_NAME;
     }
 
     @Override

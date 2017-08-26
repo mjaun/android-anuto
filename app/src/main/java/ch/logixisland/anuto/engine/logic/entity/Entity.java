@@ -77,6 +77,10 @@ public abstract class Entity {
 
     public abstract int getEntityType();
 
+    public String getEntityName() {
+        return null;
+    }
+
     public Object initStatic() {
         return null;
     }

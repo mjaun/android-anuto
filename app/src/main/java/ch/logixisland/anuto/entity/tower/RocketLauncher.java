@@ -24,9 +24,15 @@ import ch.logixisland.anuto.util.RandomUtils;
 
 public class RocketLauncher extends AimingTower implements SpriteTransformation {
 
+    private final static String ENTITY_NAME = "rocketLauncher";
     private final static float ROCKET_LOAD_TIME = 1.0f;
 
     public static class Factory implements EntityFactory {
+        @Override
+        public String getEntityName() {
+            return ENTITY_NAME;
+        }
+
         @Override
         public Entity create(GameEngine gameEngine) {
             TowerSettingsRoot towerSettingsRoot = gameEngine.getGameConfiguration().getTowerSettingsRoot();
@@ -68,6 +74,11 @@ public class RocketLauncher extends AimingTower implements SpriteTransformation 
         mRocketLoadTimer = TickTimer.createInterval(ROCKET_LOAD_TIME);
 
         mSound = getSoundFactory().createSound(R.raw.explosive2_tsh);
+    }
+
+    @Override
+    public String getEntityName() {
+        return ENTITY_NAME;
     }
 
     @Override

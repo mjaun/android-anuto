@@ -27,7 +27,14 @@ import ch.logixisland.anuto.util.iterator.StreamIterator;
 
 public class Teleporter extends AimingTower implements SpriteTransformation {
 
+    private final static String ENTITY_NAME = "teleporter";
+
     public static class Factory implements EntityFactory {
+        @Override
+        public String getEntityName() {
+            return ENTITY_NAME;
+        }
+
         @Override
         public Entity create(GameEngine gameEngine) {
             TowerSettingsRoot towerSettingsRoot = gameEngine.getGameConfiguration().getTowerSettingsRoot();
@@ -71,6 +78,11 @@ public class Teleporter extends AimingTower implements SpriteTransformation {
         mSpriteTower.setIndex(RandomUtils.next(4));
 
         mSound = getSoundFactory().createSound(R.raw.gas3_hht);
+    }
+
+    @Override
+    public String getEntityName() {
+        return ENTITY_NAME;
     }
 
     @Override

@@ -1,11 +1,10 @@
 package ch.logixisland.anuto.engine.logic.persistence;
 
-import java.util.List;
-
 import ch.logixisland.anuto.data.game.EntityDescriptor;
-import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.engine.logic.entity.Entity;
 
 public interface EntityPersister {
-    List<EntityDescriptor> writeDescriptors(GameEngine gameEngine);
-    void readDescriptor(GameEngine gameEngine, EntityDescriptor entityDescriptor);
+    String getEntityName();
+    EntityDescriptor writeDescriptor(Entity entity);
+    Entity readDescriptor(EntityDescriptor descriptor);
 }

@@ -25,10 +25,16 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class Mortar extends AimingTower implements SpriteTransformation {
 
+    private final static String ENTITY_NAME = "mortar";
     private final static float SHOT_SPAWN_OFFSET = 0.6f;
     private final static float REBOUND_DURATION = 0.5f;
 
     public static class Factory implements EntityFactory {
+        @Override
+        public String getEntityName() {
+            return ENTITY_NAME;
+        }
+
         @Override
         public Entity create(GameEngine gameEngine) {
             TowerSettingsRoot towerSettingsRoot = gameEngine.getGameConfiguration().getTowerSettingsRoot();
@@ -68,6 +74,11 @@ public class Mortar extends AimingTower implements SpriteTransformation {
         mSpriteCanon.setInterval(REBOUND_DURATION);
 
         mSound = getSoundFactory().createSound(R.raw.gas2_thomp);
+    }
+
+    @Override
+    public String getEntityName() {
+        return ENTITY_NAME;
     }
 
     @Override

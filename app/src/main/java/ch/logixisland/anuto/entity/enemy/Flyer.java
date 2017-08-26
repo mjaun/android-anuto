@@ -18,9 +18,15 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 
 public class Flyer extends Enemy implements SpriteTransformation {
 
+    private final static String ENTITY_NAME = "flyer";
     private final static float ANIMATION_SPEED = 1.0f;
 
     public static class Factory implements EntityFactory {
+        @Override
+        public String getEntityName() {
+            return ENTITY_NAME;
+        }
+
         @Override
         public Entity create(GameEngine gameEngine) {
             EnemySettingsRoot enemySettingsRoot = gameEngine.getGameConfiguration().getEnemySettingsRoot();
@@ -48,6 +54,11 @@ public class Flyer extends Enemy implements SpriteTransformation {
 
         mSprite = getSpriteFactory().createReplication(s.mReferenceSprite);
         mSprite.setListener(this);
+    }
+
+    @Override
+    public String getEntityName() {
+        return ENTITY_NAME;
     }
 
     @Override

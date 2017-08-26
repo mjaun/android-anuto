@@ -163,12 +163,12 @@ public abstract class StreamIterator<T> implements Iterator<T> {
     }
 
 
-    public StreamIterator<T> filter(Predicate<? super T> filter) {
-        return new FilteringIterator<>(this, filter);
-    }
-
     public <F> StreamIterator<F> map(Function<? super T, ? extends F> transformation) {
         return new MappingIterator<>(this, transformation);
+    }
+
+    public StreamIterator<T> filter(Predicate<? super T> filter) {
+        return new FilteringIterator<>(this, filter);
     }
 
     public StreamIterator<T> filter(final T object) {
@@ -187,6 +187,15 @@ public abstract class StreamIterator<T> implements Iterator<T> {
                 return !collection.contains(value);
             }
         });
+    }
+
+    public <F> StreamIterator<F> filter(final Class<F> klass) {
+        return new FilteringIterator<>(this, new Predicate<T>() {
+            @Override
+            public boolean apply(T value) {
+                return klass.isInstance(value);
+            }
+        }).cast(klass);
     }
 
     public <F> StreamIterator<F> cast(final Class<F> castTo) {

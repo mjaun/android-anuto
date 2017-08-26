@@ -14,10 +14,17 @@ import ch.logixisland.anuto.util.RandomUtils;
 
 public class BasicPlateau extends Plateau implements SpriteTransformation {
 
+    private final static String ENTITY_NAME = "basic";
+
     public static class Factory implements EntityFactory {
         @Override
         public Entity create(GameEngine gameEngine) {
             return new BasicPlateau(gameEngine);
+        }
+
+        @Override
+        public String getEntityName() {
+            return ENTITY_NAME;
         }
     }
 
@@ -34,6 +41,11 @@ public class BasicPlateau extends Plateau implements SpriteTransformation {
         mSprite = getSpriteFactory().createStatic(Layers.PLATEAU, s.mSpriteTemplate);
         mSprite.setIndex(RandomUtils.next(4));
         mSprite.setListener(this);
+    }
+
+    @Override
+    public String getEntityName() {
+        return ENTITY_NAME;
     }
 
     @Override

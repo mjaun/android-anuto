@@ -60,6 +60,10 @@ public class GameEngine {
         return mEntityStore.getStaticData(entity);
     }
 
+    public StreamIterator<Entity> get() {
+        return mEntityStore.get();
+    }
+
     public StreamIterator<Entity> get(int typeId) {
         return mEntityStore.get(typeId);
     }
@@ -141,4 +145,5 @@ public class GameEngine {
     public void setGameConfiguration(GameConfiguration gameConfiguration) {
         mGameConfiguration = gameConfiguration;
     }
+
 }

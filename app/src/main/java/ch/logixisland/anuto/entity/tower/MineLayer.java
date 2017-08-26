@@ -29,9 +29,15 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class MineLayer extends Tower implements SpriteTransformation {
 
+    private final static String ENTITY_NAME = "mineLayer";
     private final static float ANIMATION_DURATION = 1f;
 
     public static class Factory implements EntityFactory {
+        @Override
+        public String getEntityName() {
+            return ENTITY_NAME;
+        }
+
         @Override
         public Entity create(GameEngine gameEngine) {
             TowerSettingsRoot towerSettingsRoot = gameEngine.getGameConfiguration().getTowerSettingsRoot();
@@ -83,6 +89,11 @@ public class MineLayer extends Tower implements SpriteTransformation {
         mExplosionRadius = mSettings.getExplosionRadius();
 
         mSound = getSoundFactory().createSound(R.raw.gun2_donk);
+    }
+
+    @Override
+    public String getEntityName() {
+        return ENTITY_NAME;
     }
 
     @Override

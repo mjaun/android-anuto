@@ -25,10 +25,16 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class GlueGun extends AimingTower implements SpriteTransformation {
 
+    private final static String ENTITY_NAME = "glueGun";
     private final static float SHOT_SPAWN_OFFSET = 0.7f;
     private final static float REBOUND_DURATION = 0.5f;
 
     public static class Factory implements EntityFactory {
+        @Override
+        public String getEntityName() {
+            return ENTITY_NAME;
+        }
+
         @Override
         public Entity create(GameEngine gameEngine) {
             TowerSettingsRoot towerSettingsRoot = gameEngine.getGameConfiguration().getTowerSettingsRoot();
@@ -68,6 +74,11 @@ public class GlueGun extends AimingTower implements SpriteTransformation {
         mSpriteCanon.setInterval(REBOUND_DURATION);
 
         mSound = getSoundFactory().createSound(R.raw.explosive1_chk);
+    }
+
+    @Override
+    public String getEntityName() {
+        return ENTITY_NAME;
     }
 
     @Override

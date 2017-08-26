@@ -17,9 +17,9 @@ import ch.logixisland.anuto.data.wave.WaveDescriptor;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.loop.Message;
-import ch.logixisland.anuto.engine.logic.persistence.Persistable;
+import ch.logixisland.anuto.engine.logic.persistence.Persister;
 
-public class WaveManager implements GameStateListener, Persistable {
+public class WaveManager implements GameStateListener, Persister {
 
     private static final String TAG = WaveManager.class.getSimpleName();
 

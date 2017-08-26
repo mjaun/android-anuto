@@ -6,9 +6,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import ch.logixisland.anuto.data.game.GameDescriptorRoot;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.loop.Message;
-import ch.logixisland.anuto.engine.logic.persistence.Persistable;
+import ch.logixisland.anuto.engine.logic.persistence.Persister;
 
-public class ScoreBoard implements Persistable {
+public class ScoreBoard implements Persister {
 
     private final GameEngine mGameEngine;
 

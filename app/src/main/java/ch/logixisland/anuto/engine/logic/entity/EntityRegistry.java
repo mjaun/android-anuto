@@ -14,8 +14,8 @@ public class EntityRegistry {
         mGameEngine = gameEngine;
     }
 
-    public void registerEntity(String name, EntityFactory factory) {
-        mEntityFactories.put(name, factory);
+    public void registerEntity(EntityFactory factory) {
+        mEntityFactories.put(factory.getEntityName(), factory);
     }
 
     public boolean entityExists(String name) {

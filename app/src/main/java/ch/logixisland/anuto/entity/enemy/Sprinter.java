@@ -20,9 +20,15 @@ import ch.logixisland.anuto.util.math.SampledFunction;
 
 public class Sprinter extends Enemy implements SpriteTransformation {
 
+    private final static String ENTITY_NAME = "sprinter";
     private final static float ANIMATION_SPEED = 0.7f;
 
     public static class Factory implements EntityFactory {
+        @Override
+        public String getEntityName() {
+            return ENTITY_NAME;
+        }
+
         @Override
         public Entity create(GameEngine gameEngine) {
             EnemySettingsRoot enemySettingsRoot = gameEngine.getGameConfiguration().getEnemySettingsRoot();
@@ -45,6 +51,7 @@ public class Sprinter extends Enemy implements SpriteTransformation {
 
     private float mAngle;
     private StaticData mStatic;
+    private ReplicatedSprite mSprite;
 
     private Sprinter(GameEngine gameEngine, GlobalSettings globalSettings, EnemySettings enemySettings) {
         super(gameEngine, globalSettings, enemySettings);
@@ -54,7 +61,10 @@ public class Sprinter extends Enemy implements SpriteTransformation {
         mSprite.setListener(this);
     }
 
-    private ReplicatedSprite mSprite;
+    @Override
+    public String getEntityName() {
+        return ENTITY_NAME;
+    }
 
     @Override
     public Object initStatic() {
