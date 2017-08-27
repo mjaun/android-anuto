@@ -144,6 +144,8 @@ public class GameFactory {
         mGamePersister.registerPersister(mScoreBoard);
         mGamePersister.registerPersister(mWaveManager);
 
+        mGamePersister.registerPersister(new BasicPlateau.Persister(mGameEngine, mEntityRegistry));
+
         mGamePersister.registerPersister(new Blob.Persister(mGameEngine, mEntityRegistry));
         mGamePersister.registerPersister(new Flyer.Persister(mGameEngine, mEntityRegistry));
         mGamePersister.registerPersister(new Healer.Persister(mGameEngine, mEntityRegistry));
