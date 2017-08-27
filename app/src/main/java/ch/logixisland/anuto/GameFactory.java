@@ -91,7 +91,7 @@ public class GameFactory {
         mGameLoop = new GameLoop(mRenderer, mFrameRateLogger);
         mGameEngine = new GameEngine(mSpriteFactory, mThemeManager, mSoundFactory, mEntityStore, mMessageQueue, mRenderer, mGameLoop);
         mEntityRegistry = new EntityRegistry(mGameEngine);
-        mGamePersister = new GamePersister(mGameEngine, mEntityRegistry);
+        mGamePersister = new GamePersister();
 
         registerEntities();
 
@@ -143,24 +143,24 @@ public class GameFactory {
         mGamePersister.registerPersister(mScoreBoard);
         mGamePersister.registerPersister(mWaveManager);
 
-        mGamePersister.registerEntityPersister(new Blob.Persister());
-        mGamePersister.registerEntityPersister(new Flyer.Persister());
-        mGamePersister.registerEntityPersister(new Healer.Persister());
-        mGamePersister.registerEntityPersister(new Soldier.Persister());
-        mGamePersister.registerEntityPersister(new Sprinter.Persister());
+        mGamePersister.registerPersister(new Blob.Persister(mGameEngine, mEntityRegistry));
+        mGamePersister.registerPersister(new Flyer.Persister(mGameEngine, mEntityRegistry));
+        mGamePersister.registerPersister(new Healer.Persister(mGameEngine, mEntityRegistry));
+        mGamePersister.registerPersister(new Soldier.Persister(mGameEngine, mEntityRegistry));
+        mGamePersister.registerPersister(new Sprinter.Persister(mGameEngine, mEntityRegistry));
 
-        mGamePersister.registerEntityPersister(new Canon.Persister());
-        mGamePersister.registerEntityPersister(new DualCanon.Persister());
-        mGamePersister.registerEntityPersister(new MachineGun.Persister());
-        mGamePersister.registerEntityPersister(new SimpleLaser.Persister());
-        mGamePersister.registerEntityPersister(new BouncingLaser.Persister());
-        mGamePersister.registerEntityPersister(new StraightLaser.Persister());
-        mGamePersister.registerEntityPersister(new Mortar.Persister());
-        mGamePersister.registerEntityPersister(new MineLayer.Persister());
-        mGamePersister.registerEntityPersister(new RocketLauncher.Persister());
-        mGamePersister.registerEntityPersister(new GlueTower.Persister());
-        mGamePersister.registerEntityPersister(new GlueGun.Persister());
-        mGamePersister.registerEntityPersister(new Teleporter.Persister());
+        mGamePersister.registerPersister(new Canon.Persister(mGameEngine, mEntityRegistry));
+        mGamePersister.registerPersister(new DualCanon.Persister(mGameEngine, mEntityRegistry));
+        mGamePersister.registerPersister(new MachineGun.Persister(mGameEngine, mEntityRegistry));
+        mGamePersister.registerPersister(new SimpleLaser.Persister(mGameEngine, mEntityRegistry));
+        mGamePersister.registerPersister(new BouncingLaser.Persister(mGameEngine, mEntityRegistry));
+        mGamePersister.registerPersister(new StraightLaser.Persister(mGameEngine, mEntityRegistry));
+        mGamePersister.registerPersister(new Mortar.Persister(mGameEngine, mEntityRegistry));
+        mGamePersister.registerPersister(new MineLayer.Persister(mGameEngine, mEntityRegistry));
+        mGamePersister.registerPersister(new RocketLauncher.Persister(mGameEngine, mEntityRegistry));
+        mGamePersister.registerPersister(new GlueTower.Persister(mGameEngine, mEntityRegistry));
+        mGamePersister.registerPersister(new GlueGun.Persister(mGameEngine, mEntityRegistry));
+        mGamePersister.registerPersister(new Teleporter.Persister(mGameEngine, mEntityRegistry));
     }
 
     public ThemeManager getThemeManager() {

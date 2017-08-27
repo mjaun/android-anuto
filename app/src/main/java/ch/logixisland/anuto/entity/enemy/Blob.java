@@ -7,6 +7,7 @@ import ch.logixisland.anuto.data.setting.enemy.GlobalSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
+import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.loop.TickListener;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
@@ -35,8 +36,8 @@ public class Blob extends Enemy implements SpriteTransformation {
     }
 
     public static class Persister extends EnemyPersister {
-        public Persister() {
-            super(ENTITY_NAME);
+        public Persister(GameEngine gameEngine, EntityRegistry entityRegistry) {
+            super(gameEngine, entityRegistry, ENTITY_NAME);
         }
     }
 

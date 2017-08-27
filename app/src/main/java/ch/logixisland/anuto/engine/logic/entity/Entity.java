@@ -47,11 +47,11 @@ public abstract class Entity {
         };
     }
 
-    public static Predicate<Entity> byId(final int id) {
+    public static Predicate<Entity> nameEquals(final String name) {
         return new Predicate<Entity>() {
             @Override
             public boolean apply(Entity value) {
-                return value.getEntityId() == id;
+                return name.equals(value.getEntityName());
             }
         };
     }

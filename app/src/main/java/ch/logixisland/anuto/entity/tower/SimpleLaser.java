@@ -11,6 +11,7 @@ import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
+import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
@@ -41,8 +42,8 @@ public class SimpleLaser extends AimingTower implements SpriteTransformation {
     }
 
     public static class Persister extends TowerPersister {
-        public Persister() {
-            super(ENTITY_NAME);
+        public Persister(GameEngine gameEngine, EntityRegistry entityRegistry) {
+            super(gameEngine, entityRegistry, ENTITY_NAME);
         }
     }
 

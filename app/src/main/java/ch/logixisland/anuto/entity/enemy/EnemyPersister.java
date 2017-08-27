@@ -2,28 +2,56 @@ package ch.logixisland.anuto.entity.enemy;
 
 import ch.logixisland.anuto.data.game.EnemyDescriptor;
 import ch.logixisland.anuto.data.game.EntityDescriptor;
+import ch.logixisland.anuto.data.game.GameDescriptorRoot;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
-import ch.logixisland.anuto.engine.logic.persistence.EntityPersister;
+import ch.logixisland.anuto.engine.logic.persistence.Persister;
+import ch.logixisland.anuto.entity.Types;
+import ch.logixisland.anuto.util.iterator.StreamIterator;
 
-public class EnemyPersister implements EntityPersister {
+public class EnemyPersister implements Persister {
 
+    private final GameEngine mGameEngine;
+    private final EntityRegistry mEntityRegistry;
     private final String mEntityName;
 
-    public EnemyPersister(String entityName) {
+    public EnemyPersister(GameEngine gameEngine, EntityRegistry entityRegistry, String entityName) {
+        mGameEngine = gameEngine;
+        mEntityRegistry = entityRegistry;
         mEntityName = entityName;
     }
 
     @Override
-    public String getEntityName() {
-        return mEntityName;
+    public void writeDescriptor(GameDescriptorRoot gameDescriptor) {
+        StreamIterator<Enemy> iterator = mGameEngine.getEntitiesByType(Types.ENEMY)
+                .filter(Entity.nameEquals(mEntityName))
+                .cast(Enemy.class);
+
+        while (iterator.hasNext()) {
+            Enemy enemy = iterator.next();
+            EnemyDescriptor enemyDescriptor = writeEnemyDescriptor(enemy);
+            gameDescriptor.addEntityDescriptor(enemyDescriptor);
+        }
     }
 
     @Override
-    public EntityDescriptor writeEntityDescriptor(Entity entity, GameEngine gameEngine) {
-        Enemy enemy = (Enemy) entity;
-        EnemyDescriptor enemyDescriptor = new EnemyDescriptor();
+    public void readDescriptor(GameDescriptorRoot gameDescriptor) {
+        for (EntityDescriptor entityDescriptor : gameDescriptor.getEntityDescriptors()) {
+            if (mEntityName.equals(entityDescriptor.getName())) {
+                EnemyDescriptor enemyDescriptor = (EnemyDescriptor) entityDescriptor;
+                Enemy enemy = readEnemyDescriptor(enemyDescriptor);
+                mGameEngine.add(enemy);
+            }
+        }
+    }
+
+    protected EnemyDescriptor createEnemyDescriptor() {
+        return new EnemyDescriptor();
+    }
+
+    protected EnemyDescriptor writeEnemyDescriptor(Enemy enemy) {
+        EnemyDescriptor enemyDescriptor = createEnemyDescriptor();
 
         enemyDescriptor.setName(enemy.getEntityName());
         enemyDescriptor.setPosition(enemy.getPosition());
@@ -37,10 +65,8 @@ public class EnemyPersister implements EntityPersister {
         return enemyDescriptor;
     }
 
-    @Override
-    public Entity readEntityDescriptor(EntityRegistry entityRegistry, EntityDescriptor entityDescriptor, GameEngine gameEngine) {
-        EnemyDescriptor enemyDescriptor = (EnemyDescriptor) entityDescriptor;
-        Enemy enemy = (Enemy) entityRegistry.createEntity(entityDescriptor.getName());
+    protected Enemy readEnemyDescriptor(EnemyDescriptor enemyDescriptor) {
+        Enemy enemy = (Enemy) mEntityRegistry.createEntity(enemyDescriptor.getName());
 
         enemy.setHealth(enemyDescriptor.getHealth(), enemyDescriptor.getMaxHealth());
         enemy.setReward(enemyDescriptor.getReward());
@@ -49,6 +75,14 @@ public class EnemyPersister implements EntityPersister {
         enemy.setupPath(enemyDescriptor.getWayPoints(), enemyDescriptor.getWayPointIndex());
 
         return enemy;
+    }
+
+    protected GameEngine getGameEngine() {
+        return mGameEngine;
+    }
+
+    protected EntityRegistry getEntityRegistry() {
+        return mEntityRegistry;
     }
 
 }

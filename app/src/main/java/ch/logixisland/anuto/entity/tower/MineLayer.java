@@ -17,6 +17,7 @@ import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
 import ch.logixisland.anuto.engine.logic.entity.EntityListener;
+import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
@@ -49,14 +50,19 @@ public class MineLayer extends Tower implements SpriteTransformation {
     }
 
     public static class Persister extends TowerPersister {
-        public Persister() {
-            super(ENTITY_NAME);
+        public Persister(GameEngine gameEngine, EntityRegistry entityRegistry) {
+            super(gameEngine, entityRegistry, ENTITY_NAME);
         }
 
         @Override
-        protected TowerDescriptor writeTowerDescriptor(Tower tower, GameEngine gameEngine) {
+        protected TowerDescriptor createTowerDescriptor() {
+            return new MineLayerDescriptor();
+        }
+
+        @Override
+        protected TowerDescriptor writeTowerDescriptor(Tower tower) {
             MineLayer mineLayer = (MineLayer) tower;
-            MineLayerDescriptor mineLayerDescriptor = new MineLayerDescriptor();
+            MineLayerDescriptor mineLayerDescriptor = (MineLayerDescriptor) super.writeTowerDescriptor(tower);
 
             Collection<Vector2> minePositions = new ArrayList<>();
             for (Mine mine : mineLayer.mMines) {
@@ -68,16 +74,18 @@ public class MineLayer extends Tower implements SpriteTransformation {
         }
 
         @Override
-        protected void readTowerDescriptor(Tower tower, TowerDescriptor towerDescriptor, GameEngine gameEngine) {
-            MineLayer mineLayer = (MineLayer) tower;
+        protected Tower readTowerDescriptor(TowerDescriptor towerDescriptor) {
+            MineLayer mineLayer = (MineLayer) super.readTowerDescriptor(towerDescriptor);
             MineLayerDescriptor mineLayerDescriptor = (MineLayerDescriptor) towerDescriptor;
 
             for (Vector2 minePosition : mineLayerDescriptor.getMinePositions()) {
                 Mine mine = new Mine(mineLayer, minePosition, mineLayer.getDamage(), mineLayer.mExplosionRadius);
                 mineLayer.mMines.add(mine);
                 mine.addListener(mineLayer.mMineListener);
-                gameEngine.add(mine);
+                getGameEngine().add(mine);
             }
+
+            return mineLayer;
         }
     }
 

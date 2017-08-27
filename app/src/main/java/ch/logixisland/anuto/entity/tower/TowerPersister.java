@@ -1,30 +1,58 @@
 package ch.logixisland.anuto.entity.tower;
 
 import ch.logixisland.anuto.data.game.EntityDescriptor;
+import ch.logixisland.anuto.data.game.GameDescriptorRoot;
 import ch.logixisland.anuto.data.game.TowerDescriptor;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
-import ch.logixisland.anuto.engine.logic.persistence.EntityPersister;
+import ch.logixisland.anuto.engine.logic.persistence.Persister;
+import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.plateau.Plateau;
+import ch.logixisland.anuto.util.iterator.StreamIterator;
 
-public class TowerPersister implements EntityPersister {
+public class TowerPersister implements Persister {
 
+    private final GameEngine mGameEngine;
+    private final EntityRegistry mEntityRegistry;
     private final String mEntityName;
 
-    public TowerPersister(String entityName) {
+    public TowerPersister(GameEngine gameEngine, EntityRegistry entityRegistry, String entityName) {
+        mGameEngine = gameEngine;
+        mEntityRegistry = entityRegistry;
         mEntityName = entityName;
     }
 
     @Override
-    public String getEntityName() {
-        return mEntityName;
+    public void writeDescriptor(GameDescriptorRoot gameDescriptor) {
+        StreamIterator<Tower> iterator = mGameEngine.getEntitiesByType(Types.TOWER)
+                .filter(Entity.nameEquals(mEntityName))
+                .cast(Tower.class);
+
+        while (iterator.hasNext()) {
+            Tower tower = iterator.next();
+            TowerDescriptor towerDescriptor = writeTowerDescriptor(tower);
+            gameDescriptor.addEntityDescriptor(towerDescriptor);
+        }
     }
 
     @Override
-    public EntityDescriptor writeEntityDescriptor(Entity entity, GameEngine gameEngine) {
-        Tower tower = (Tower) entity;
-        TowerDescriptor towerDescriptor = writeTowerDescriptor(tower, gameEngine);
+    public void readDescriptor(GameDescriptorRoot gameDescriptor) {
+        for (EntityDescriptor entityDescriptor : gameDescriptor.getEntityDescriptors()) {
+            if (mEntityName.equals(entityDescriptor.getName())) {
+                TowerDescriptor towerDescriptor = (TowerDescriptor) entityDescriptor;
+                Tower tower = readTowerDescriptor(towerDescriptor);
+                mGameEngine.add(tower);
+            }
+        }
+    }
+
+    protected TowerDescriptor createTowerDescriptor() {
+        return new TowerDescriptor();
+    }
+
+    protected TowerDescriptor writeTowerDescriptor(Tower tower) {
+        TowerDescriptor towerDescriptor = createTowerDescriptor();
 
         towerDescriptor.setName(tower.getEntityName());
         towerDescriptor.setPosition(tower.getPosition());
@@ -35,30 +63,27 @@ public class TowerPersister implements EntityPersister {
         return towerDescriptor;
     }
 
-    protected TowerDescriptor writeTowerDescriptor(Tower tower, GameEngine gameEngine) {
-        return new TowerDescriptor();
-    }
-
-    @Override
-    public Entity readEntityDescriptor(EntityRegistry entityRegistry, EntityDescriptor entityDescriptor, GameEngine gameEngine) {
-        TowerDescriptor towerDescriptor = (TowerDescriptor) entityDescriptor;
-        Tower tower = (Tower) entityRegistry.createEntity(towerDescriptor.getName());
+    protected Tower readTowerDescriptor(TowerDescriptor towerDescriptor) {
+        Tower tower = (Tower) mEntityRegistry.createEntity(towerDescriptor.getName());
 
         while (tower.getLevel() < towerDescriptor.getLevel()) {
             tower.enhance();
         }
 
-        tower.setPlateau((Plateau) gameEngine.getEntityById(towerDescriptor.getPlateauId()));
+        tower.setPlateau((Plateau) mGameEngine.getEntityById(towerDescriptor.getPlateauId()));
         tower.setValue(towerDescriptor.getValue());
         tower.setDamageInflicted(towerDescriptor.getDamageInflicted());
         tower.setEnabled(true);
 
-        readTowerDescriptor(tower, towerDescriptor, gameEngine);
-
         return tower;
     }
 
-    protected void readTowerDescriptor(Tower tower, TowerDescriptor towerDescriptor, GameEngine gameEngine) {
-
+    protected GameEngine getGameEngine() {
+        return mGameEngine;
     }
+
+    protected EntityRegistry getEntityRegistry() {
+        return mEntityRegistry;
+    }
+
 }
