@@ -53,6 +53,7 @@ public class EnemyPersister implements Persister {
     protected EnemyDescriptor writeEnemyDescriptor(Enemy enemy) {
         EnemyDescriptor enemyDescriptor = createEnemyDescriptor();
 
+        enemyDescriptor.setId(enemy.getEntityId());
         enemyDescriptor.setName(enemy.getEntityName());
         enemyDescriptor.setPosition(enemy.getPosition());
         enemyDescriptor.setHealth(enemy.getHealth());
@@ -66,7 +67,7 @@ public class EnemyPersister implements Persister {
     }
 
     protected Enemy readEnemyDescriptor(EnemyDescriptor enemyDescriptor) {
-        Enemy enemy = (Enemy) mEntityRegistry.createEntity(enemyDescriptor.getName());
+        Enemy enemy = (Enemy) mEntityRegistry.createEntity(enemyDescriptor.getName(), enemyDescriptor.getId());
 
         enemy.setHealth(enemyDescriptor.getHealth(), enemyDescriptor.getMaxHealth());
         enemy.setReward(enemyDescriptor.getReward());

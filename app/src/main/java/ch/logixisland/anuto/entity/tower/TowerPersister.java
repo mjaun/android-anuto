@@ -54,6 +54,7 @@ public class TowerPersister implements Persister {
     protected TowerDescriptor writeTowerDescriptor(Tower tower) {
         TowerDescriptor towerDescriptor = createTowerDescriptor();
 
+        towerDescriptor.setId(tower.getEntityId());
         towerDescriptor.setName(tower.getEntityName());
         towerDescriptor.setPosition(tower.getPosition());
         towerDescriptor.setValue(tower.getValue());
@@ -64,7 +65,7 @@ public class TowerPersister implements Persister {
     }
 
     protected Tower readTowerDescriptor(TowerDescriptor towerDescriptor) {
-        Tower tower = (Tower) mEntityRegistry.createEntity(towerDescriptor.getName());
+        Tower tower = (Tower) mEntityRegistry.createEntity(towerDescriptor.getName(), towerDescriptor.getId());
 
         while (tower.getLevel() < towerDescriptor.getLevel()) {
             tower.enhance();

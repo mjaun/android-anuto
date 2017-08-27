@@ -69,7 +69,6 @@ public abstract class Entity {
     private final List<EntityListener> mListeners = new CopyOnWriteArrayList<>();
 
     private int mEntityId;
-
     private Vector2 mPosition = new Vector2();
 
     protected Entity(GameEngine gameEngine) {

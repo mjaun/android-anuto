@@ -15,8 +15,6 @@ public class EntityStore implements TickListener {
     private final SparseArray<Entity> mEntityIdMap = new SparseArray<>();
     private final Map<Class<? extends Entity>, Object> mStaticData = new HashMap<>();
 
-    private int mNextEntityId = 1;
-
     public Object getStaticData(Entity entity) {
         if (!mStaticData.containsKey(entity.getClass())) {
             mStaticData.put(entity.getClass(), entity.initStatic());
@@ -38,10 +36,8 @@ public class EntityStore implements TickListener {
     }
 
     public void add(Entity entity) {
-        int entityId = mNextEntityId++;
-        entity.setEntityId(entityId);
         mEntities.add(entity.getEntityType(), entity);
-        mEntityIdMap.put(entityId, entity);
+        mEntityIdMap.put(entity.getEntityId(), entity);
         entity.init();
     }
 
@@ -52,9 +48,9 @@ public class EntityStore implements TickListener {
     }
 
     public void clear() {
-        for (Entity obj : mEntities) {
-            mEntities.remove(obj.getEntityType(), obj);
-            obj.clean();
+        for (Entity entity : mEntities) {
+            mEntities.remove(entity.getEntityType(), entity);
+            entity.clean();
         }
 
         mStaticData.clear();

@@ -139,6 +139,7 @@ public class GameFactory {
     }
 
     private void registerPersisters() {
+        mGamePersister.registerPersister(mEntityRegistry);
         mGamePersister.registerPersister(mMessageQueue);
         mGamePersister.registerPersister(mScoreBoard);
         mGamePersister.registerPersister(mWaveManager);

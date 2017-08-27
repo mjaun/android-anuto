@@ -8,11 +8,22 @@ import ch.logixisland.anuto.util.math.Vector2;
 @Root
 public class EntityDescriptor {
 
-    @Element(name = "name")
+    @Element(name = "id")
+    private int mId;
+
+    @Element(name = "entityName")
     private String mName;
 
     @Element(name = "position")
     private Vector2 mPosition;
+
+    public int getId() {
+        return mId;
+    }
+
+    public void setId(int id) {
+        mId = id;
+    }
 
     public String getName() {
         return mName;

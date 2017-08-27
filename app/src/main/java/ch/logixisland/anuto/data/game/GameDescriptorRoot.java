@@ -35,6 +35,9 @@ public class GameDescriptorRoot {
     @ElementList(name = "activeWaves", entry = "wave")
     private List<ActiveWaveDescriptor> mActiveWaveDescriptors;
 
+    @Element(name = "nextEntityId")
+    private int mNextEntityId;
+
     @ElementListUnion({
             @ElementList(name = "entity", entry = "enemy", type = EnemyDescriptor.class),
             @ElementList(name = "entity", entry = "tower", type = TowerDescriptor.class),
@@ -115,4 +118,11 @@ public class GameDescriptorRoot {
         mEntityDescriptors.add(entityDescriptor);
     }
 
+    public int getNextEntityId() {
+        return mNextEntityId;
+    }
+
+    public void setNextEntityId(int nextEntityId) {
+        mNextEntityId = nextEntityId;
+    }
 }
