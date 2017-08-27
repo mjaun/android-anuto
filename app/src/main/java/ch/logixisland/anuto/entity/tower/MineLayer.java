@@ -7,8 +7,8 @@ import java.util.Collection;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.data.game.EntityDescriptor;
 import ch.logixisland.anuto.data.game.MineLayerDescriptor;
-import ch.logixisland.anuto.data.game.TowerDescriptor;
 import ch.logixisland.anuto.data.map.MapDescriptorRoot;
 import ch.logixisland.anuto.data.map.PathDescriptor;
 import ch.logixisland.anuto.data.setting.tower.MineLayerSettings;
@@ -55,14 +55,14 @@ public class MineLayer extends Tower implements SpriteTransformation {
         }
 
         @Override
-        protected TowerDescriptor createTowerDescriptor() {
+        protected MineLayerDescriptor createEntityDescriptor() {
             return new MineLayerDescriptor();
         }
 
         @Override
-        protected TowerDescriptor writeTowerDescriptor(Tower tower) {
-            MineLayer mineLayer = (MineLayer) tower;
-            MineLayerDescriptor mineLayerDescriptor = (MineLayerDescriptor) super.writeTowerDescriptor(tower);
+        protected MineLayerDescriptor writeEntityDescriptor(Entity entity) {
+            MineLayer mineLayer = (MineLayer) entity;
+            MineLayerDescriptor mineLayerDescriptor = (MineLayerDescriptor) super.writeEntityDescriptor(entity);
 
             Collection<Vector2> minePositions = new ArrayList<>();
             for (Mine mine : mineLayer.mMines) {
@@ -74,9 +74,9 @@ public class MineLayer extends Tower implements SpriteTransformation {
         }
 
         @Override
-        protected Tower readTowerDescriptor(TowerDescriptor towerDescriptor) {
-            MineLayer mineLayer = (MineLayer) super.readTowerDescriptor(towerDescriptor);
-            MineLayerDescriptor mineLayerDescriptor = (MineLayerDescriptor) towerDescriptor;
+        protected MineLayer readEntityDescriptor(EntityDescriptor entityDescriptor) {
+            MineLayer mineLayer = (MineLayer) super.readEntityDescriptor(entityDescriptor);
+            MineLayerDescriptor mineLayerDescriptor = (MineLayerDescriptor) entityDescriptor;
 
             for (Vector2 minePosition : mineLayerDescriptor.getMinePositions()) {
                 Mine mine = new Mine(mineLayer, minePosition, mineLayer.getDamage(), mineLayer.mExplosionRadius);
