@@ -128,7 +128,7 @@ public class BouncingLaser extends Effect {
                 mPrevTargets.add(mTarget);
             }
 
-            Enemy enemy = (Enemy) getGameEngine().get(Types.ENEMY)
+            Enemy enemy = (Enemy) getGameEngine().getEntitiesByType(Types.ENEMY)
                     .filter(mPrevTargets)
                     .min(distanceTo(mTarget.getPosition()));
 

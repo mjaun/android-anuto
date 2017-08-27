@@ -71,7 +71,7 @@ public class CanonShotMg extends Shot implements SpriteTransformation {
     public void tick() {
         super.tick();
 
-        Enemy enemy = (Enemy) getGameEngine().get(Types.ENEMY)
+        Enemy enemy = (Enemy) getGameEngine().getEntitiesByType(Types.ENEMY)
                 .filter(inRange(getPosition(), HIT_RANGE))
                 .first();
 

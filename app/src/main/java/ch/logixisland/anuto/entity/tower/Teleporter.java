@@ -42,14 +42,20 @@ public class Teleporter extends AimingTower implements SpriteTransformation {
         }
     }
 
+    public static class Persister extends TowerPersister {
+        public Persister() {
+            super(ENTITY_NAME);
+        }
+    }
+
     private static class StaticData implements EntityListener {
         SpriteTemplate mSpriteTemplateBase;
         SpriteTemplate mSpriteTemplateTower;
         Collection<Enemy> mTeleportedEnemies = new ArrayList<>();
 
         @Override
-        public void entityRemoved(Entity obj) {
-            Enemy enemy = (Enemy) obj;
+        public void entityRemoved(Entity entity) {
+            Enemy enemy = (Enemy) entity;
             mTeleportedEnemies.remove(enemy);
         }
     }

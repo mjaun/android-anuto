@@ -40,24 +40,6 @@ public class TowerInserter {
         mTowerDefaultValue = new TowerDefaultValue(entityRegistry);
     }
 
-    public void insertTower(final String towerName) {
-        if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    insertTower(towerName);
-                }
-            });
-            return;
-        }
-
-        if (mInsertedTower == null && !mGameState.isGameOver() &&
-                mScoreBoard.getCredits() >= mTowerDefaultValue.getDefaultValue(towerName)) {
-            showTowerLevels();
-            mInsertedTower = (Tower) mEntityRegistry.createEntity(towerName);
-        }
-    }
-
     public void insertTower(final int slot) {
         if (mGameEngine.isThreadChangeNeeded()) {
             mGameEngine.post(new Message() {
@@ -70,7 +52,13 @@ public class TowerInserter {
         }
 
         TowerSettingsRoot towerSettingsRoot = mGameEngine.getGameConfiguration().getTowerSettingsRoot();
-        insertTower(towerSettingsRoot.getTowerSlots().getTowerOfSlot(slot));
+        final String towerName = towerSettingsRoot.getTowerSlots().getTowerOfSlot(slot);
+
+        if (mInsertedTower == null && !mGameState.isGameOver() &&
+                mScoreBoard.getCredits() >= mTowerDefaultValue.getDefaultValue(towerName)) {
+            showTowerLevels();
+            mInsertedTower = (Tower) mEntityRegistry.createEntity(towerName);
+        }
     }
 
     public Tower createPreviewTower(int slot) {
@@ -90,7 +78,7 @@ public class TowerInserter {
         }
 
         if (mInsertedTower != null) {
-            Plateau closestPlateau = mGameEngine.get(Types.PLATEAU)
+            Plateau closestPlateau = mGameEngine.getEntitiesByType(Types.PLATEAU)
                     .cast(Plateau.class)
                     .filter(Plateau.unoccupied())
                     .min(Entity.distanceTo(position));
@@ -121,8 +109,8 @@ public class TowerInserter {
         }
 
         if (mInsertedTower != null && mCurrentPlateau != null) {
+            mInsertedTower.setPlateau(mCurrentPlateau);
             mInsertedTower.setEnabled(true);
-            mCurrentPlateau.setOccupant(mInsertedTower);
 
             mScoreBoard.takeCredits(mInsertedTower.getValue());
             mTowerAging.ageTower(mInsertedTower);
@@ -156,7 +144,7 @@ public class TowerInserter {
     }
 
     private void showTowerLevels() {
-        Iterator<Tower> towers = mGameEngine.get(Types.TOWER).cast(Tower.class);
+        Iterator<Tower> towers = mGameEngine.getEntitiesByType(Types.TOWER).cast(Tower.class);
 
         while (towers.hasNext()) {
             Tower tower = towers.next();
@@ -165,7 +153,7 @@ public class TowerInserter {
     }
 
     private void hideTowerLevels() {
-        Iterator<Tower> towers = mGameEngine.get(Types.TOWER).cast(Tower.class);
+        Iterator<Tower> towers = mGameEngine.getEntitiesByType(Types.TOWER).cast(Tower.class);
 
         while (towers.hasNext()) {
             Tower tower = towers.next();

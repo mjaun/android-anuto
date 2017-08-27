@@ -2,21 +2,22 @@ package ch.logixisland.anuto.data.game;
 
 import org.simpleframework.xml.ElementList;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 import ch.logixisland.anuto.util.math.Vector2;
 
 public class MineLayerDescriptor extends TowerDescriptor {
 
     @ElementList(name = "minePositions", entry = "position")
-    List<Vector2> mMinePositions;
+    Collection<Vector2> mMinePositions = new ArrayList<>();
 
-    public List<Vector2> getMinePositions() {
-        return Collections.unmodifiableList(mMinePositions);
+    public Collection<Vector2> getMinePositions() {
+        return Collections.unmodifiableCollection(mMinePositions);
     }
 
-    public void setMinePositions(List<Vector2> minePositions) {
+    public void setMinePositions(Collection<Vector2> minePositions) {
         mMinePositions = minePositions;
     }
 }

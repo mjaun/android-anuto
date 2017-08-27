@@ -7,6 +7,8 @@ import java.util.Collection;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.data.game.MineLayerDescriptor;
+import ch.logixisland.anuto.data.game.TowerDescriptor;
 import ch.logixisland.anuto.data.map.MapDescriptorRoot;
 import ch.logixisland.anuto.data.map.PathDescriptor;
 import ch.logixisland.anuto.data.setting.tower.MineLayerSettings;
@@ -46,6 +48,39 @@ public class MineLayer extends Tower implements SpriteTransformation {
         }
     }
 
+    public static class Persister extends TowerPersister {
+        public Persister() {
+            super(ENTITY_NAME);
+        }
+
+        @Override
+        protected TowerDescriptor writeTowerDescriptor(Tower tower, GameEngine gameEngine) {
+            MineLayer mineLayer = (MineLayer) tower;
+            MineLayerDescriptor mineLayerDescriptor = new MineLayerDescriptor();
+
+            Collection<Vector2> minePositions = new ArrayList<>();
+            for (Mine mine : mineLayer.mMines) {
+                minePositions.add(mine.getTarget());
+            }
+            mineLayerDescriptor.setMinePositions(minePositions);
+
+            return mineLayerDescriptor;
+        }
+
+        @Override
+        protected void readTowerDescriptor(Tower tower, TowerDescriptor towerDescriptor, GameEngine gameEngine) {
+            MineLayer mineLayer = (MineLayer) tower;
+            MineLayerDescriptor mineLayerDescriptor = (MineLayerDescriptor) towerDescriptor;
+
+            for (Vector2 minePosition : mineLayerDescriptor.getMinePositions()) {
+                Mine mine = new Mine(mineLayer, minePosition, mineLayer.getDamage(), mineLayer.mExplosionRadius);
+                mineLayer.mMines.add(mine);
+                mine.addListener(mineLayer.mMineListener);
+                gameEngine.add(mine);
+            }
+        }
+    }
+
     private static class StaticData {
         public SpriteTemplate mSpriteTemplate;
     }
@@ -64,11 +99,11 @@ public class MineLayer extends Tower implements SpriteTransformation {
     private Sound mSound;
 
     private final EntityListener mMineListener = new EntityListener() {
-
         @Override
-        public void entityRemoved(Entity obj) {
-            mMines.remove(obj);
-            obj.removeListener(this);
+        public void entityRemoved(Entity entity) {
+            Mine mine = (Mine) entity;
+            mine.removeListener(this);
+            mMines.remove(mine);
         }
     };
 

@@ -42,6 +42,7 @@ public class Mine extends Shot implements SpriteTransformation {
     private boolean mFlying;
     private float mRotationStep;
     private SampledFunction mHeightScalingFunction;
+    private Vector2 mTarget;
 
     private StaticSprite mSpriteFlying;
     private StaticSprite mSpriteMine;
@@ -58,6 +59,7 @@ public class Mine extends Shot implements SpriteTransformation {
         mFlying = true;
         mDamage = damage;
         mRadius = radius;
+        mTarget = target;
 
         mRotationStep = RandomUtils.next(ROTATION_RATE_MIN, ROTATION_RATE_MAX) * 360f / GameEngine.TARGET_FRAME_RATE;
 
@@ -99,6 +101,10 @@ public class Mine extends Shot implements SpriteTransformation {
         mSpriteMine = getSpriteFactory().createStatic(Layers.BOTTOM, s.mSpriteTemplate);
         mSpriteMine.setListener(this);
         mSpriteMine.setIndex(index);
+    }
+
+    public Vector2 getTarget() {
+        return mTarget;
     }
 
     @Override
@@ -149,7 +155,7 @@ public class Mine extends Shot implements SpriteTransformation {
                 setSpeed(0f);
             }
         } else if (mUpdateTimer.tick()) {
-            StreamIterator<Enemy> enemiesInRange = getGameEngine().get(Types.ENEMY)
+            StreamIterator<Enemy> enemiesInRange = getGameEngine().getEntitiesByType(Types.ENEMY)
                     .filter(inRange(getPosition(), TRIGGER_RADIUS))
                     .cast(Enemy.class)
                     .filter(new Predicate<Enemy>() {

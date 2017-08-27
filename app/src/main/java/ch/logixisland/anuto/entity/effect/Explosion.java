@@ -94,7 +94,7 @@ public class Explosion extends Effect {
     protected void effectBegin() {
         mSound.play();
 
-        StreamIterator<Enemy> enemies = getGameEngine().get(Types.ENEMY)
+        StreamIterator<Enemy> enemies = getGameEngine().getEntitiesByType(Types.ENEMY)
                 .filter(inRange(getPosition(), mRadius))
                 .cast(Enemy.class);
 

@@ -25,12 +25,16 @@ public class EntityStore implements TickListener {
         return mStaticData.get(entity.getClass());
     }
 
-    public StreamIterator<Entity> get() {
+    public StreamIterator<Entity> getAll() {
         return mEntities.iterator();
     }
 
-    public StreamIterator<Entity> get(int typeId) {
+    public StreamIterator<Entity> getByType(int typeId) {
         return mEntities.get(typeId).iterator();
+    }
+
+    public Entity getById(int entityId) {
+        return mEntityIdMap.get(entityId);
     }
 
     public void add(Entity entity) {

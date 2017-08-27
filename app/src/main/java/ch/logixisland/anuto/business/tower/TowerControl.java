@@ -7,7 +7,6 @@ import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.loop.Message;
-import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.plateau.Plateau;
 import ch.logixisland.anuto.entity.tower.AimingTower;
 import ch.logixisland.anuto.entity.tower.Tower;
@@ -44,6 +43,9 @@ public class TowerControl {
             return;
         }
 
+        Plateau plateau = selectedTower.getPlateau();
+        selectedTower.remove();
+
         Tower upgradedTower = (Tower) mEntityRegistry.createEntity(selectedTower.getUpgradeName());
 
         int upgradeCost = upgradedTower.getValue();
@@ -60,18 +62,11 @@ public class TowerControl {
             aimingUpgraded.setStrategy(aimingTower.getStrategy());
         }
 
-        Plateau plateau = mGameEngine.get(Types.PLATEAU)
-                .cast(Plateau.class)
-                .filter(Plateau.occupiedBy(selectedTower))
-                .first();
-
+        upgradedTower.setPlateau(plateau);
         upgradedTower.setValue(selectedTower.getValue() + upgradeCost);
         upgradedTower.setEnabled(true);
-        plateau.setOccupant(upgradedTower);
         mGameEngine.add(upgradedTower);
         mTowerSelector.showTowerInfo(upgradedTower);
-
-        selectedTower.remove();
     }
 
     public void enhanceTower() {

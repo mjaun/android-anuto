@@ -47,6 +47,15 @@ public abstract class Entity {
         };
     }
 
+    public static Predicate<Entity> byId(final int id) {
+        return new Predicate<Entity>() {
+            @Override
+            public boolean apply(Entity value) {
+                return value.getEntityId() == id;
+            }
+        };
+    }
+
     public static Function<Entity, Float> distanceTo(final Vector2 toPoint) {
         return new Function<Entity, Float>() {
             @Override

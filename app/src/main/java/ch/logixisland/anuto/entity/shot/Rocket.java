@@ -124,7 +124,7 @@ public class Rocket extends HomingShot implements SpriteTransformation {
 
     @Override
     protected void targetLost() {
-        Enemy closest = (Enemy) getGameEngine().get(Types.ENEMY)
+        Enemy closest = (Enemy) getGameEngine().getEntitiesByType(Types.ENEMY)
                 .min(distanceTo(getPosition()));
 
         if (closest == null) {

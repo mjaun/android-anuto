@@ -20,7 +20,7 @@ public abstract class AimingTower extends Tower {
 
     private final EntityListener mEntityListener = new EntityListener() {
         @Override
-        public void entityRemoved(Entity obj) {
+        public void entityRemoved(Entity entity) {
             targetLost();
         }
     };

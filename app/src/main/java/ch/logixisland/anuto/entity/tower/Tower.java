@@ -15,6 +15,7 @@ import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.loop.TickTimer;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.enemy.Enemy;
+import ch.logixisland.anuto.entity.plateau.Plateau;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.Intersections;
 import ch.logixisland.anuto.util.math.Line;
@@ -33,6 +34,8 @@ public abstract class Tower extends Entity {
     private float mReloadTime;
     private float mDamageInflicted;
     private boolean mReloaded = false;
+
+    private Plateau mPlateau;
 
     private TickTimer mReloadTimer;
     private RangeIndicator mRangeIndicator;
@@ -65,6 +68,11 @@ public abstract class Tower extends Entity {
     public void clean() {
         super.clean();
         hideRange();
+
+        if (mPlateau != null) {
+            mPlateau.setOccupied(false);
+            mPlateau = null;
+        }
     }
 
     @Override
@@ -79,6 +87,20 @@ public abstract class Tower extends Entity {
     public abstract void preview(Canvas canvas);
 
     public abstract List<TowerInfoValue> getTowerInfoValues();
+
+    public Plateau getPlateau() {
+        return mPlateau;
+    }
+
+    public void setPlateau(Plateau plateau) {
+        if (plateau.isOccupied()) {
+            throw new RuntimeException("Plateau already occupied!");
+        }
+
+        mPlateau = plateau;
+        mPlateau.setOccupied(true);
+        setPosition(mPlateau.getPosition());
+    }
 
     public void setEnabled(boolean enabled) {
         mEnabled = enabled;
@@ -128,12 +150,16 @@ public abstract class Tower extends Entity {
         return mDamageInflicted;
     }
 
-    public void reportDamageInflicted(float damage) {
-        mDamageInflicted += damage;
+    public void reportDamageInflicted(float amount) {
+        mDamageInflicted += amount;
 
         for (TowerListener listener : mListeners) {
             listener.damageInflicted(mDamageInflicted);
         }
+    }
+
+    void setDamageInflicted(float damageInflicted) {
+        mDamageInflicted = damageInflicted;
     }
 
     public boolean isUpgradeable() {
@@ -208,7 +234,7 @@ public abstract class Tower extends Entity {
     }
 
     public StreamIterator<Enemy> getPossibleTargets() {
-        return getGameEngine().get(Types.ENEMY)
+        return getGameEngine().getEntitiesByType(Types.ENEMY)
                 .filter(inRange(getPosition(), getRange()))
                 .cast(Enemy.class);
     }
@@ -223,7 +249,7 @@ public abstract class Tower extends Entity {
         return sections;
     }
 
-    Collection<Line> getPathSectionsInRange(PathDescriptor path) {
+    private Collection<Line> getPathSectionsInRange(PathDescriptor path) {
         float r2 = MathUtils.square(getRange());
         Collection<Line> sections = new ArrayList<>();
         List<Vector2> wayPoints = path.getWayPoints();

@@ -148,6 +148,19 @@ public class GameFactory {
         mGamePersister.registerEntityPersister(new Healer.Persister());
         mGamePersister.registerEntityPersister(new Soldier.Persister());
         mGamePersister.registerEntityPersister(new Sprinter.Persister());
+
+        mGamePersister.registerEntityPersister(new Canon.Persister());
+        mGamePersister.registerEntityPersister(new DualCanon.Persister());
+        mGamePersister.registerEntityPersister(new MachineGun.Persister());
+        mGamePersister.registerEntityPersister(new SimpleLaser.Persister());
+        mGamePersister.registerEntityPersister(new BouncingLaser.Persister());
+        mGamePersister.registerEntityPersister(new StraightLaser.Persister());
+        mGamePersister.registerEntityPersister(new Mortar.Persister());
+        mGamePersister.registerEntityPersister(new MineLayer.Persister());
+        mGamePersister.registerEntityPersister(new RocketLauncher.Persister());
+        mGamePersister.registerEntityPersister(new GlueTower.Persister());
+        mGamePersister.registerEntityPersister(new GlueGun.Persister());
+        mGamePersister.registerEntityPersister(new Teleporter.Persister());
     }
 
     public ThemeManager getThemeManager() {

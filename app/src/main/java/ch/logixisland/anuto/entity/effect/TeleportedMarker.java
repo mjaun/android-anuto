@@ -102,7 +102,7 @@ public class TeleportedMarker extends Effect implements EntityListener {
     }
 
     @Override
-    public void entityRemoved(Entity obj) {
+    public void entityRemoved(Entity entity) {
         remove();
     }
 }

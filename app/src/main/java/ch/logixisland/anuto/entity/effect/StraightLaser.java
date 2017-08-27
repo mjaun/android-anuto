@@ -91,7 +91,7 @@ public class StraightLaser extends Effect {
 
     @Override
     protected void effectBegin() {
-        StreamIterator<Enemy> enemies = getGameEngine().get(Types.ENEMY)
+        StreamIterator<Enemy> enemies = getGameEngine().getEntitiesByType(Types.ENEMY)
                 .filter(onLine(getPosition(), mLaserTo, LASER_WIDTH))
                 .cast(Enemy.class);
 

@@ -57,7 +57,7 @@ public class TowerSelector implements CreditsListener, GameStateListener, Entity
         }
 
         Tower closest = (Tower) mGameEngine
-                .get(Types.TOWER)
+                .getEntitiesByType(Types.TOWER)
                 .min(Entity.distanceTo(position));
 
         if (closest != null && closest.getDistanceTo(position) < 0.6f) {
@@ -124,7 +124,7 @@ public class TowerSelector implements CreditsListener, GameStateListener, Entity
     }
 
     @Override
-    public void entityRemoved(Entity obj) {
+    public void entityRemoved(Entity entity) {
         selectTower(null);
     }
 

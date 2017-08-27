@@ -2,7 +2,6 @@ package ch.logixisland.anuto.entity.plateau;
 
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
-import ch.logixisland.anuto.engine.logic.entity.EntityListener;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.util.iterator.Predicate;
 
@@ -21,23 +20,7 @@ public abstract class Plateau extends Entity {
         };
     }
 
-    public static Predicate<Plateau> occupiedBy(final Entity occupant) {
-        return new Predicate<Plateau>() {
-            @Override
-            public boolean apply(Plateau value) {
-                return value.mOccupant == occupant;
-            }
-        };
-    }
-
-    private Entity mOccupant;
-
-    private final EntityListener mEntityListener = new EntityListener() {
-        @Override
-        public void entityRemoved(Entity obj) {
-            mOccupant = null;
-        }
-    };
+    private boolean mOccupied;
 
     @Override
     public final int getEntityType() {
@@ -45,20 +28,11 @@ public abstract class Plateau extends Entity {
     }
 
     public boolean isOccupied() {
-        return mOccupant != null;
+        return mOccupied;
     }
 
-    public void setOccupant(Entity occupant) {
-        if (mOccupant != null) {
-            mOccupant.removeListener(mEntityListener);
-        }
-
-        mOccupant = occupant;
-        mOccupant.setPosition(getPosition());
-
-        if (mOccupant != null) {
-            mOccupant.addListener(mEntityListener);
-        }
+    public void setOccupied(boolean occupied) {
+        mOccupied = occupied;
     }
 
 }

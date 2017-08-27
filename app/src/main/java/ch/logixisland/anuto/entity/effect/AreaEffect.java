@@ -19,10 +19,10 @@ public abstract class AreaEffect extends Effect {
 
     private final EntityListener mEntityListener = new EntityListener() {
         @Override
-        public void entityRemoved(Entity obj) {
-            obj.removeListener(this);
-            mAffectedEnemies.remove(obj);
-            enemyExit((Enemy) obj);
+        public void entityRemoved(Entity entity) {
+            entity.removeListener(this);
+            mAffectedEnemies.remove(entity);
+            enemyExit((Enemy) entity);
         }
     };
 
@@ -44,7 +44,7 @@ public abstract class AreaEffect extends Effect {
                 }
             }
 
-            Iterator<Enemy> enemies = getGameEngine().get(Types.ENEMY)
+            Iterator<Enemy> enemies = getGameEngine().getEntitiesByType(Types.ENEMY)
                     .filter(inRange(getPosition(), mRange))
                     .cast(Enemy.class);
 

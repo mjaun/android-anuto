@@ -44,27 +44,28 @@ public class GamePersister {
             throw new RuntimeException("loadGame() failed!", e);
         }
 
-        for (EntityDescriptor descriptor : gameDescriptor.getEntityDescriptors()) {
-            EntityPersister persister = mEntityPersisterMap.get(descriptor.getName());
-            mGameEngine.add(persister.readDescriptor(mEntityRegistry, descriptor));
-        }
-
         for (Persister persister : mPersisterList) {
             persister.readDescriptor(gameDescriptor);
         }
+
+        for (EntityDescriptor descriptor : gameDescriptor.getEntityDescriptors()) {
+            EntityPersister persister = mEntityPersisterMap.get(descriptor.getName());
+            mGameEngine.add(persister.readEntityDescriptor(mEntityRegistry, descriptor, mGameEngine));
+        }
+
     }
 
     public void saveGame(OutputStream outputStream) {
         GameDescriptorRoot gameDescriptor = new GameDescriptorRoot();
 
-        StreamIterator<Entity> iterator = mGameEngine.get();
+        StreamIterator<Entity> iterator = mGameEngine.getAllEntities();
         while (iterator.hasNext()) {
             Entity entity = iterator.next();
             String name = entity.getEntityName();
 
             if (name != null) {
                 EntityPersister persister = mEntityPersisterMap.get(name);
-                gameDescriptor.addEntityDescriptor(persister.writeDescriptor(entity));
+                gameDescriptor.addEntityDescriptor(persister.writeEntityDescriptor(entity, mGameEngine));
             }
         }
 

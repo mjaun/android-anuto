@@ -39,6 +39,12 @@ public class BouncingLaser extends AimingTower implements SpriteTransformation {
         }
     }
 
+    public static class Persister extends TowerPersister {
+        public Persister() {
+            super(ENTITY_NAME);
+        }
+    }
+
     private static class StaticData {
         SpriteTemplate mSpriteTemplateBase;
         SpriteTemplate mSpriteTemplateCanon;

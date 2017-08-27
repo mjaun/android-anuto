@@ -4,6 +4,9 @@ import org.simpleframework.xml.Element;
 
 public class TowerDescriptor extends EntityDescriptor {
 
+    @Element(name = "plateauId")
+    private int mPlateauId;
+
     @Element(name = "value")
     private int mValue;
 
@@ -12,6 +15,14 @@ public class TowerDescriptor extends EntityDescriptor {
 
     @Element(name = "damageInflicted")
     private float mDamageInflicted;
+
+    public int getPlateauId() {
+        return mPlateauId;
+    }
+
+    public void setPlateauId(int plateauId) {
+        mPlateauId = plateauId;
+    }
 
     public int getValue() {
         return mValue;

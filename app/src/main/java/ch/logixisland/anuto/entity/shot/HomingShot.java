@@ -52,7 +52,7 @@ public abstract class HomingShot extends Shot implements EntityListener {
     protected abstract void targetLost();
 
     @Override
-    public void entityRemoved(Entity obj) {
+    public void entityRemoved(Entity entity) {
         if (!mTargetReached) {
             setTarget(null);
             targetLost();

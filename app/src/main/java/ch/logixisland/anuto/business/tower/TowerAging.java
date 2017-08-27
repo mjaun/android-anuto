@@ -27,7 +27,7 @@ public class TowerAging {
         }
 
         Iterator<Tower> towers = mGameEngine
-                .get(Types.TOWER)
+                .getEntitiesByType(Types.TOWER)
                 .cast(Tower.class);
 
         while (towers.hasNext()) {

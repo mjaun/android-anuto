@@ -2,6 +2,7 @@ package ch.logixisland.anuto.entity.enemy;
 
 import ch.logixisland.anuto.data.game.EnemyDescriptor;
 import ch.logixisland.anuto.data.game.EntityDescriptor;
+import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.persistence.EntityPersister;
@@ -20,7 +21,7 @@ public class EnemyPersister implements EntityPersister {
     }
 
     @Override
-    public EntityDescriptor writeDescriptor(Entity entity) {
+    public EntityDescriptor writeEntityDescriptor(Entity entity, GameEngine gameEngine) {
         Enemy enemy = (Enemy) entity;
         EnemyDescriptor enemyDescriptor = new EnemyDescriptor();
 
@@ -37,7 +38,7 @@ public class EnemyPersister implements EntityPersister {
     }
 
     @Override
-    public Entity readDescriptor(EntityRegistry entityRegistry, EntityDescriptor entityDescriptor) {
+    public Entity readEntityDescriptor(EntityRegistry entityRegistry, EntityDescriptor entityDescriptor, GameEngine gameEngine) {
         EnemyDescriptor enemyDescriptor = (EnemyDescriptor) entityDescriptor;
         Enemy enemy = (Enemy) entityRegistry.createEntity(entityDescriptor.getName());
 
@@ -49,4 +50,5 @@ public class EnemyPersister implements EntityPersister {
 
         return enemy;
     }
+
 }

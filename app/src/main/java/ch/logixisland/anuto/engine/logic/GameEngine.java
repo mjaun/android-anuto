@@ -60,12 +60,16 @@ public class GameEngine {
         return mEntityStore.getStaticData(entity);
     }
 
-    public StreamIterator<Entity> get() {
-        return mEntityStore.get();
+    public StreamIterator<Entity> getAllEntities() {
+        return mEntityStore.getAll();
     }
 
-    public StreamIterator<Entity> get(int typeId) {
-        return mEntityStore.get(typeId);
+    public StreamIterator<Entity> getEntitiesByType(int typeId) {
+        return mEntityStore.getByType(typeId);
+    }
+
+    public Entity getEntityById(int entityId) {
+        return mEntityStore.getById(entityId);
     }
 
     public void add(Entity entity) {
