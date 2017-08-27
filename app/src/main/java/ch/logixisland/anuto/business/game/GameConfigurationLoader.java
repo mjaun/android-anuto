@@ -4,8 +4,10 @@ import android.content.Context;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.score.ScoreBoard;
+import ch.logixisland.anuto.data.game.GameDescriptorRoot;
 import ch.logixisland.anuto.data.map.MapDescriptorRoot;
 import ch.logixisland.anuto.data.map.MapInfo;
+import ch.logixisland.anuto.data.map.MapRepository;
 import ch.logixisland.anuto.data.map.PlateauDescriptor;
 import ch.logixisland.anuto.data.setting.GameSettingsRoot;
 import ch.logixisland.anuto.data.setting.enemy.EnemySettingsRoot;
@@ -15,10 +17,11 @@ import ch.logixisland.anuto.engine.logic.GameConfiguration;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.loop.Message;
+import ch.logixisland.anuto.engine.logic.persistence.Persister;
 import ch.logixisland.anuto.engine.render.Viewport;
 import ch.logixisland.anuto.entity.plateau.Plateau;
 
-public class MapLoader implements GameStateListener {
+public class GameConfigurationLoader implements Persister, GameStateListener {
 
     private final Context mContext;
     private final GameEngine mGameEngine;
@@ -26,22 +29,24 @@ public class MapLoader implements GameStateListener {
     private final ScoreBoard mScoreBoard;
     private final EntityRegistry mEntityRegistry;
     private final GameState mGameState;
+    private final MapRepository mMapRepository;
 
     private MapInfo mMapInfo;
 
-    public MapLoader(Context context, GameEngine gameEngine, ScoreBoard scoreBoard,
-                     GameState gameState, Viewport viewport,
-                     EntityRegistry entityRegistry, MapInfo initialMap) {
+    public GameConfigurationLoader(Context context, GameEngine gameEngine, ScoreBoard scoreBoard,
+                                   GameState gameState, Viewport viewport,
+                                   EntityRegistry entityRegistry, MapRepository mapRepository) {
         mContext = context;
         mGameEngine = gameEngine;
         mViewport = viewport;
         mScoreBoard = scoreBoard;
         mEntityRegistry = entityRegistry;
         mGameState = gameState;
+        mMapRepository = mapRepository;
 
         mGameState.addListener(this);
 
-        setGameConfiguration(initialMap);
+        setGameConfiguration(mMapRepository.getMapInfos().get(0));
     }
 
     public MapInfo getMapInfo() {
@@ -102,5 +107,17 @@ public class MapLoader implements GameStateListener {
     @Override
     public void gameOver() {
 
+    }
+
+    @Override
+    public void writeDescriptor(GameDescriptorRoot gameDescriptor) {
+        gameDescriptor.setMapId(mMapInfo.getMapId());
+    }
+
+    @Override
+    public void readDescriptor(GameDescriptorRoot gameDescriptor) {
+        setGameConfiguration(mMapRepository.getMapById(gameDescriptor.getMapId()));
+        GameConfiguration configuration = mGameEngine.getGameConfiguration();
+        mViewport.setGameSize(configuration.getMapDescriptorRoot().getWidth(), configuration.getMapDescriptorRoot().getHeight());
     }
 }

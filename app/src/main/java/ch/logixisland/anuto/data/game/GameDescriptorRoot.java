@@ -14,8 +14,8 @@ import ch.logixisland.anuto.data.SerializerFactory;
 
 public class GameDescriptorRoot {
 
-    @Element(name = "map")
-    private String mMap;
+    @Element(name = "mapId")
+    private String mMapId;
 
     @Element(name = "tickCount")
     private int mTickCount;
@@ -54,12 +54,12 @@ public class GameDescriptorRoot {
         serializer.write(this, stream);
     }
 
-    public String getMap() {
-        return mMap;
+    public String getMapId() {
+        return mMapId;
     }
 
-    public void setMap(String map) {
-        mMap = map;
+    public void setMapId(String mapId) {
+        mMapId = mapId;
     }
 
     public int getTickCount() {

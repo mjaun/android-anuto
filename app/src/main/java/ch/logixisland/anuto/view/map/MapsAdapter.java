@@ -26,7 +26,7 @@ class MapsAdapter extends BaseAdapter {
 
     MapsAdapter(Activity activity, MapRepository mapRepository, HighScores highScores) {
         mActivityRef = new WeakReference<>(activity);
-        mMapInfos = mapRepository.getMaps();
+        mMapInfos = mapRepository.getMapInfos();
         mHighScores = highScores;
     }
 
