@@ -4,11 +4,21 @@
 
     <string name="menu">Menú</string>
     <string name="next_wave">Siguiente</string>
+    <string name="normal_speed">1x</string>
+    <string name="fast_speed">4x</string>
 
     <string name="restart">Reiniciar</string>
     <string name="change_map">Cambiar Mapa</string>
-    <string name="theme">Estilo</string>
+    <string name="settings">Configuración</string>
+
     <string name="sound">Sonido</string>
+    <string name="theme">Estilo</string>
+    <string name="change_theme">Cambiar tema</string>
+    <string name="change_theme_warning">¿Estás seguro de que quieres cambiar el tema? La partida se reiniciará.</string>
+    <string name="back_button_mode">Salir al pulsar atrás</string>
+    <string name="reset_highscores">Restablecer máximas puntuaciones</string>
+    <string name="reset_highscores_warning">¿Seguro que deseas restablecer todas las máximas puntuaciones?</string>
+    <string name="transparent_menus">Menús transparentes en el juego</string>
 
     <string name="game_over">¡Se acabó!</string>
     <string name="score">Puntuación</string>
@@ -36,6 +46,7 @@
 
     <string name="on">Encendido</string>
     <string name="off">Apagado</string>
+    <string name="twice">Doble</string>
 
     <string name="strategy_closest">Más cercano</string>
     <string name="strategy_weakest">Más débil</string>
@@ -45,10 +56,14 @@
 
     <string name="theme_original">Original</string>
     <string name="theme_dark">Oscuro</string>
-    <string name="back_button_mode">Salir al pulsar atrás</string>
-    <string name="settings">Configuración</string>
-    <string name="twice">Doble</string>
-    <string name="change_theme">Cambiar tema</string>
-    <string name="change_theme_warning">¿Estás seguro de que quieres cambiar el tema? La partida se reiniciará</string>
 
+    <string name="level_original_name">El original</string>
+    <string name="level_waiting_line_name">Odio las colas</string>
+    <string name="level_turn_round_name">Una ronda</string>
+    <string name="level_hurry_name">¡Tenemos prisa!</string>
+    <string name="level_civyshk_2y_name">Civyshk 2Y</string>
+    <string name="level_civyshk_line5_name">Civyshk Line5</string>
+    <string name="level_civyshk_labyrinth_name">Laberinto Civyshk</string>
+    <string name="level_civyshk_yard_name">Patio Civyshk</string>
+    <string name="press_back_button_again_toast">Pulsa el botón «atrás» de nuevo para salir</string>
 </resources>
