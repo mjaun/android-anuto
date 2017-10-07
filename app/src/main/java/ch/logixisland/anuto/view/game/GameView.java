@@ -82,6 +82,8 @@ public class GameView extends View implements View.OnDragListener, View.OnTouchL
     public boolean onDrag(View view, DragEvent event) {
         if (event.getAction() == DragEvent.ACTION_DRAG_STARTED) {
             if (event.getLocalState() instanceof TowerView) {
+                Vector2 pos = mViewport.screenToGame(new Vector2(event.getX(), event.getY()));
+                mTowerInserter.setPosition(pos);
                 return true;
             }
         }

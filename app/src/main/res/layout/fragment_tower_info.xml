@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="10dp"
-    android:background="?attr/backgroundTowerInfo">
+    android:background="?attr/backgroundPopup">
 
     <TableLayout
         android:layout_width="match_parent"

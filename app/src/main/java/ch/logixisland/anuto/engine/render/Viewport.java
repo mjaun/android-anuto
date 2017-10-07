@@ -1,7 +1,6 @@
 package ch.logixisland.anuto.engine.render;
 
 import android.graphics.Matrix;
-import android.graphics.RectF;
 
 import ch.logixisland.anuto.util.math.Vector2;
 
@@ -28,10 +27,6 @@ public class Viewport {
 
     public Matrix getScreenMatrix() {
         return mScreenMatrix;
-    }
-
-    public RectF getScreenClipRect() {
-        return new RectF(-0.5f, -0.5f, mGameWidth - 0.5f, mGameHeight - 0.5f);
     }
 
     public Vector2 screenToGame(Vector2 pos) {

@@ -21,6 +21,8 @@ public class TowerSelector implements CreditsListener, GameListener, EntityListe
     private final ScoreBoard mScoreBoard;
 
     private WeakReference<TowerInfoView> mTowerInfoView;
+    private WeakReference<TowerBuildView> mTowerBuildView;
+
     private TowerInfo mTowerInfo;
     private Tower mSelectedTower;
 
@@ -37,12 +39,31 @@ public class TowerSelector implements CreditsListener, GameListener, EntityListe
         mTowerInfoView = new WeakReference<>(view);
     }
 
+    public void setTowerBuildView(TowerBuildView view) {
+        mTowerBuildView = new WeakReference<>(view);
+    }
+
     public boolean isTowerSelected() {
         return mSelectedTower != null;
     }
 
     public TowerInfo getTowerInfo() {
         return mTowerInfo;
+    }
+
+    public void requestBuildTower() {
+        if (mGameEngine.isThreadChangeNeeded()) {
+            mGameEngine.post(new Runnable() {
+                @Override
+                public void run() {
+                    requestBuildTower();
+                }
+            });
+            return;
+        }
+
+        selectTower(null);
+        showTowerBuildView();
     }
 
     public void selectTowerAt(Vector2 position) {
@@ -80,11 +101,12 @@ public class TowerSelector implements CreditsListener, GameListener, EntityListe
             return;
         }
 
-        hideTowerInfo();
+        hideTowerInfoView();
+        hideTowerBuildView();
 
         if (tower != null) {
             if (mSelectedTower == tower) {
-                showTowerInfo();
+                showTowerInfoView();
             } else {
                 setSelectedTower(tower);
             }
@@ -93,22 +115,22 @@ public class TowerSelector implements CreditsListener, GameListener, EntityListe
         }
     }
 
-    public void showTowerInfo(Tower tower) {
+    void showTowerInfo(Tower tower) {
         if (mGameEngine.isThreadChangeNeeded()) {
             mGameEngine.post(new Runnable() {
                 @Override
                 public void run() {
-                    showTowerInfo();
+                    showTowerInfoView();
                 }
             });
             return;
         }
 
         setSelectedTower(tower);
-        showTowerInfo();
+        showTowerInfoView();
     }
 
-    public void updateTowerInfo() {
+    void updateTowerInfo() {
         if (mGameEngine.isThreadChangeNeeded()) {
             mGameEngine.post(new Runnable() {
                 @Override
@@ -120,7 +142,7 @@ public class TowerSelector implements CreditsListener, GameListener, EntityListe
         }
 
         if (mTowerInfo != null) {
-            showTowerInfo();
+            showTowerInfoView();
         }
     }
 
@@ -180,7 +202,7 @@ public class TowerSelector implements CreditsListener, GameListener, EntityListe
         }
     }
 
-    private void showTowerInfo() {
+    private void showTowerInfoView() {
         mTowerInfo = new TowerInfo(
                 mSelectedTower,
                 mScoreBoard.getCredits(),
@@ -194,13 +216,29 @@ public class TowerSelector implements CreditsListener, GameListener, EntityListe
         }
     }
 
-    private void hideTowerInfo() {
+    private void hideTowerInfoView() {
         mTowerInfo = null;
 
         TowerInfoView view = mTowerInfoView.get();
 
         if (view != null) {
             view.hideTowerInfo();
+        }
+    }
+
+    private void showTowerBuildView() {
+        TowerBuildView view = mTowerBuildView.get();
+
+        if (view != null) {
+            view.showTowerBuildView();
+        }
+    }
+
+    private void hideTowerBuildView() {
+        TowerBuildView view = mTowerBuildView.get();
+
+        if (view != null) {
+            view.hideTowerBuildView();
         }
     }
 

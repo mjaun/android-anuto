@@ -56,8 +56,8 @@
         <item name="android:textAppearance">?android:attr/textAppearanceSmallInverse</item>
         <item name="android:textColor">#000000</item>
 
-        <item name="backgroundTowerInfo">@drawable/background_tower_info</item>
         <item name="backgroundHeader">@drawable/background_header</item>
+        <item name="backgroundPopup">@drawable/background_popup</item>
     </style>
 
     <style name="OriginalTheme.Popup" parent="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
@@ -66,7 +66,7 @@
         <item name="android:textColor">#000000</item>
 
         <item name="shadowColor">#88333333</item>
-        <item name="backgroundMenu">@drawable/background_menu</item>
+        <item name="backgroundPopup">@drawable/background_popup</item>
     </style>
 
     <style name="OriginalTheme.Normal" parent="@android:style/Theme.DeviceDefault.Light">
