@@ -40,19 +40,16 @@ public class TowerInserter {
         mTowerDefaultValue = new TowerDefaultValue(entityRegistry);
     }
 
-    public void insertTower(final int slot) {
+    public void insertTower(final String towerName) {
         if (mGameEngine.isThreadChangeNeeded()) {
             mGameEngine.post(new Message() {
                 @Override
                 public void execute() {
-                    insertTower(slot);
+                    insertTower(towerName);
                 }
             });
             return;
         }
-
-        TowerSettingsRoot towerSettingsRoot = mGameEngine.getGameConfiguration().getTowerSettingsRoot();
-        final String towerName = towerSettingsRoot.getTowerSlots().getTowerOfSlot(slot);
 
         if (mInsertedTower == null && !mGameState.isGameOver() &&
                 mScoreBoard.getCredits() >= mTowerDefaultValue.getDefaultValue(towerName)) {

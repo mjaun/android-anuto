@@ -18,6 +18,7 @@ import ch.logixisland.anuto.view.setting.SettingsActivity;
 public class MenuActivity extends AnutoActivity implements View.OnClickListener, View.OnTouchListener {
 
     private static final int REQUEST_CHANGE_MAP = 1;
+    private static final int REQUEST_SETTINGS = 2;
 
     private final GameState mGameState;
 
@@ -72,7 +73,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
 
         if (view == btn_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_SETTINGS);
         }
     }
 
@@ -95,6 +96,10 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_CHANGE_MAP) {
+            finish();
+        }
+
+        if (requestCode == REQUEST_SETTINGS) {
             finish();
         }
     }

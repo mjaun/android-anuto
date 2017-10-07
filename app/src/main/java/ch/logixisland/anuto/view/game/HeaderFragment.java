@@ -15,8 +15,6 @@ import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.game.GameSpeed;
 import ch.logixisland.anuto.business.game.GameSpeedListener;
-import ch.logixisland.anuto.business.game.GameState;
-import ch.logixisland.anuto.business.game.GameStateListener;
 import ch.logixisland.anuto.business.score.BonusListener;
 import ch.logixisland.anuto.business.score.CreditsListener;
 import ch.logixisland.anuto.business.score.LivesListener;
@@ -27,16 +25,17 @@ import ch.logixisland.anuto.business.wave.WaveManager;
 import ch.logixisland.anuto.util.StringUtils;
 import ch.logixisland.anuto.view.AnutoFragment;
 
-public class HeaderFragment extends AnutoFragment implements GameStateListener, WaveListener,
-        CreditsListener, LivesListener, BonusListener, GameSpeedListener, View.OnClickListener {
+public class HeaderFragment extends AnutoFragment implements WaveListener, CreditsListener,
+        LivesListener, BonusListener, GameSpeedListener, View.OnClickListener {
 
-    private final GameState mGameState;
     private final WaveManager mWaveManager;
     private final GameSpeed mSpeedManager;
     private final ScoreBoard mScoreBoard;
     private final TowerSelector mTowerSelector;
 
     private Handler mHandler;
+
+    private View fragment_header;
 
     private TextView txt_credits;
     private TextView txt_lives;
@@ -46,12 +45,10 @@ public class HeaderFragment extends AnutoFragment implements GameStateListener, 
     private Button btn_next_wave;
     private Button btn_fast_forward;
     private Button btn_menu;
-
-    private TowerView[] view_tower_x = new TowerView[4];
+    private Button btn_build_tower;
 
     public HeaderFragment() {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
-        mGameState = factory.getGameState();
         mScoreBoard = factory.getScoreBoard();
         mWaveManager = factory.getWaveManager();
         mSpeedManager = factory.getSpeedManager();
@@ -65,6 +62,7 @@ public class HeaderFragment extends AnutoFragment implements GameStateListener, 
 
         View v = inflater.inflate(R.layout.fragment_header, container, false);
 
+        fragment_header = v;
         txt_credits = (TextView) v.findViewById(R.id.txt_credits);
         txt_lives = (TextView) v.findViewById(R.id.txt_lives);
         txt_wave = (TextView) v.findViewById(R.id.txt_wave);
@@ -73,26 +71,20 @@ public class HeaderFragment extends AnutoFragment implements GameStateListener, 
         btn_next_wave = (Button) v.findViewById(R.id.btn_next_wave);
         btn_fast_forward = (Button) v.findViewById(R.id.btn_fast_forward);
         btn_menu = (Button) v.findViewById(R.id.btn_menu);
+        btn_build_tower = (Button) v.findViewById(R.id.btn_build_tower);
 
         btn_next_wave.setOnClickListener(this);
         btn_fast_forward.setOnClickListener(this);
         btn_menu.setOnClickListener(this);
+        btn_build_tower.setOnClickListener(this);
+        fragment_header.setOnClickListener(this);
 
-        view_tower_x[0] = (TowerView) v.findViewById(R.id.view_tower_1);
-        view_tower_x[1] = (TowerView) v.findViewById(R.id.view_tower_2);
-        view_tower_x[2] = (TowerView) v.findViewById(R.id.view_tower_3);
-        view_tower_x[3] = (TowerView) v.findViewById(R.id.view_tower_4);
-
-        btn_next_wave.setEnabled(!mGameState.isGameOver());
+        btn_next_wave.setEnabled(mWaveManager.isNextWaveReady());
         txt_wave.setText(getString(R.string.wave) + ": " + mWaveManager.getWaveNumber());
         txt_credits.setText(getString(R.string.credits) + ": " + StringUtils.formatSuffix(mScoreBoard.getCredits()));
         txt_lives.setText(getString(R.string.lives) + ": " + mScoreBoard.getLives());
         txt_bonus.setText(getString(R.string.bonus) + ": " + StringUtils.formatSuffix(mScoreBoard.getWaveBonus() + mScoreBoard.getEarlyBonus()));
         btn_fast_forward.setText(getString(mSpeedManager.isFastForwardActive() ? R.string.fast_speed : R.string.normal_speed));
-
-        for (int i = 0; i < view_tower_x.length; i++) {
-            view_tower_x[i].setTowerSlot(i);
-        }
 
         return v;
     }
@@ -101,7 +93,6 @@ public class HeaderFragment extends AnutoFragment implements GameStateListener, 
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        mGameState.addListener(this);
         mWaveManager.addListener(this);
         mSpeedManager.addListener(this);
         mScoreBoard.addBonusListener(this);
@@ -113,22 +104,21 @@ public class HeaderFragment extends AnutoFragment implements GameStateListener, 
     public void onDetach() {
         super.onDetach();
 
-        mGameState.removeListener(this);
         mWaveManager.removeListener(this);
         mSpeedManager.removeListener(this);
         mScoreBoard.removeBonusListener(this);
         mScoreBoard.removeCreditsListener(this);
         mScoreBoard.removeLivesListener(this);
 
-        for (TowerView towerView : view_tower_x) {
-            towerView.close();
-        }
-
         mHandler.removeCallbacksAndMessages(null);
     }
 
     @Override
     public void onClick(View v) {
+        if (v == fragment_header) {
+            mTowerSelector.selectTower(null);
+        }
+
         if (v == btn_next_wave) {
             mWaveManager.startNextWave();
         }
@@ -142,23 +132,10 @@ public class HeaderFragment extends AnutoFragment implements GameStateListener, 
             Intent intent = new Intent(getActivity(), MenuActivity.class);
             startActivity(intent);
         }
-    }
 
-    @Override
-    public void gameRestart() {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 0; i < view_tower_x.length; i++) {
-                    view_tower_x[i].setTowerSlot(i);
-                }
-            }
-        });
-    }
-
-    @Override
-    public void gameOver() {
-
+        if (v == btn_build_tower) {
+            mTowerSelector.requestBuildTower();
+        }
     }
 
     @Override

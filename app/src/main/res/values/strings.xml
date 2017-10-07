@@ -3,6 +3,7 @@
     <string name="app_name">Anuto TD</string>
 
     <string name="menu">Menu</string>
+    <string name="build_tower">Build</string>
     <string name="next_wave">Next Wave</string>
     <string name="normal_speed">1x</string>
     <string name="fast_speed">4x</string>
@@ -66,5 +67,8 @@
     <string name="map_civyshk_labyrinth_name">Civyshk Labyrinth</string>
     <string name="map_civyshk_yard_name">Civyshk Yard</string>
     <string name="press_back_button_again_toast">Press back button again to exit</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

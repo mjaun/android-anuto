@@ -30,7 +30,6 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnTouchList
 
     private final TowerSelector mTowerSelector;
     private final TowerControl mTowerControl;
-    private final SettingsManager mSettingsManager;
 
     private Handler mHandler;
 
@@ -50,7 +49,6 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnTouchList
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
         mTowerSelector = factory.getTowerSelector();
         mTowerControl = factory.getTowerControl();
-        mSettingsManager = factory.getSettingsManager();
     }
 
     @Override
@@ -169,7 +167,7 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnTouchList
 
     private void show() {
         if (!mVisible) {
-            handleTransparency();
+            updateMenuTransparency();
 
             getFragmentManager().beginTransaction()
                     .show(this)
@@ -272,16 +270,5 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnTouchList
         }
 
         throw new RuntimeException("Unknown strategy!");
-    }
-
-    private void handleTransparency() {
-        View view = getView();
-        if (view != null) {
-            if (mSettingsManager.isTransparentMenusEnabled()) {
-                view.setAlpha(0.73f);
-            } else {
-                view.setAlpha(1.0f);
-            }
-        }
     }
 }
