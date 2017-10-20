@@ -3,7 +3,8 @@
     <string name="app_name">Anuto TD</string>
 
     <string name="menu">Menú</string>
-    <string name="next_wave">Siguiente</string>
+    <string name="build_tower">Construir</string>
+    <string name="next_wave">Nueva oleada</string>
     <string name="normal_speed">1x</string>
     <string name="fast_speed">4x</string>
 
