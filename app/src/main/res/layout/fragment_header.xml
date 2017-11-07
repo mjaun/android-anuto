@@ -72,17 +72,20 @@
             <ch.logixisland.anuto.view.game.TowerView
                 android:id="@+id/view_tower_1"
                 android:layout_width="40dp"
-                android:layout_height="40dp"/>
+                android:layout_height="40dp"
+                android:layout_marginEnd="5dp"/>
 
             <ch.logixisland.anuto.view.game.TowerView
                 android:id="@+id/view_tower_2"
                 android:layout_width="40dp"
-                android:layout_height="40dp"/>
+                android:layout_height="40dp"
+                android:layout_marginEnd="5dp"/>
 
             <ch.logixisland.anuto.view.game.TowerView
                 android:id="@+id/view_tower_3"
                 android:layout_width="40dp"
-                android:layout_height="40dp"/>
+                android:layout_height="40dp"
+                android:layout_marginEnd="5dp"/>
 
             <ch.logixisland.anuto.view.game.TowerView
                 android:id="@+id/view_tower_4"
