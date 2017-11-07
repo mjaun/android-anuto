@@ -53,23 +53,12 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/btn_menu"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentStart="true"
-            android:minWidth="60dp"
-            android:text="@string/menu"/>
-
-        <Button
             android:id="@+id/btn_build_tower"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/btn_menu"
-            android:layout_marginStart="5dp"
+            android:layout_alignParentStart="true"
             android:minWidth="60dp"
             android:text="@string/build_tower"/>
 
@@ -80,7 +69,7 @@
             android:layout_height="35dp"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
-            android:minWidth="60dp"
+            android:minWidth="40dp"
             android:text="@string/next_wave" />
 
         <Button
@@ -91,8 +80,19 @@
             android:layout_centerVertical="true"
             android:layout_toStartOf="@id/btn_next_wave"
             android:layout_marginEnd="5dp"
-            android:minWidth="60dp"
+            android:minWidth="40dp"
             android:text="@string/normal_speed"/>
+
+        <Button
+            android:id="@+id/btn_menu"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/btn_fast_forward"
+            android:layout_marginEnd="5dp"
+            android:minWidth="40dp"
+            android:text="@string/menu"/>
 
     </RelativeLayout>
 

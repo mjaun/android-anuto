@@ -1,51 +1,34 @@
 package ch.logixisland.anuto.view.game;
 
 import android.app.Activity;
-import android.content.ClipData;
-import android.graphics.Canvas;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.control.TowerBuildView;
-import ch.logixisland.anuto.business.control.TowerInserter;
 import ch.logixisland.anuto.business.control.TowerSelector;
-import ch.logixisland.anuto.business.manager.GameListener;
-import ch.logixisland.anuto.business.manager.GameManager;
-import ch.logixisland.anuto.business.score.CreditsListener;
-import ch.logixisland.anuto.business.score.ScoreBoard;
-import ch.logixisland.anuto.entity.tower.TowerFactory;
 import ch.logixisland.anuto.view.AnutoFragment;
 
-public class TowerBuildFragment extends AnutoFragment implements TowerBuildView, GameListener,
-        CreditsListener, View.OnTouchListener {
+public class TowerBuildFragment extends AnutoFragment implements TowerBuildView {
 
-    private final GameManager mGameState;
     private final TowerSelector mTowerSelector;
-    private final TowerInserter mTowerInserter;
-    private final ScoreBoard mScoreBoard;
-    private final TowerFactory mTowerFactory;
 
     private Handler mHandler;
 
     private boolean mVisible = true;
-
-    private TowerView[] view_tower_x = new TowerView[4];
+    private TowerViewControl mTowerViewControl;
 
     public TowerBuildFragment() {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
-        mGameState = factory.getGameManager();
-        mScoreBoard = factory.getScoreBoard();
         mTowerSelector = factory.getTowerSelector();
-        mTowerInserter = factory.getTowerInserter();
-        mTowerFactory = factory.getTowerFactory();
     }
 
     @Override
@@ -68,6 +51,41 @@ public class TowerBuildFragment extends AnutoFragment implements TowerBuildView,
         });
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        mHandler = new Handler();
+
+        View v = inflater.inflate(R.layout.fragment_tower_build, container, false);
+
+        List<TowerView> towerViews = new ArrayList<>();
+        towerViews.add((TowerView) v.findViewById(R.id.view_tower_1));
+        towerViews.add((TowerView) v.findViewById(R.id.view_tower_2));
+        towerViews.add((TowerView) v.findViewById(R.id.view_tower_3));
+        towerViews.add((TowerView) v.findViewById(R.id.view_tower_4));
+        mTowerViewControl = new TowerViewControl(towerViews);
+
+        return v;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        mTowerSelector.setTowerBuildView(this);
+        hide();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        mTowerViewControl.close();
+
+        mTowerSelector.setTowerBuildView(null);
+        mHandler.removeCallbacksAndMessages(null);
+    }
+
     private void show() {
         if (!mVisible) {
             updateMenuTransparency();
@@ -87,113 +105,6 @@ public class TowerBuildFragment extends AnutoFragment implements TowerBuildView,
                     .commitAllowingStateLoss();
 
             mVisible = false;
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        mHandler = new Handler();
-
-        View v = inflater.inflate(R.layout.fragment_tower_build, container, false);
-
-        view_tower_x[0] = (TowerView) v.findViewById(R.id.view_tower_1);
-        view_tower_x[1] = (TowerView) v.findViewById(R.id.view_tower_2);
-        view_tower_x[2] = (TowerView) v.findViewById(R.id.view_tower_3);
-        view_tower_x[3] = (TowerView) v.findViewById(R.id.view_tower_4);
-
-        for (TowerView towerView : view_tower_x) {
-            towerView.setOnTouchListener(this);
-        }
-
-        updateTowerSlots();
-
-        return v;
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-
-        mGameState.addListener(this);
-        mScoreBoard.addCreditsListener(this);
-        mTowerSelector.setTowerBuildView(this);
-        hide();
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-
-        mGameState.removeListener(this);
-        mScoreBoard.removeCreditsListener(this);
-        mTowerSelector.setTowerBuildView(null);
-        mHandler.removeCallbacksAndMessages(null);
-    }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            TowerView towerView = (TowerView) v;
-
-            if (mScoreBoard.getCredits() >= towerView.getTowerValue()) {
-                mTowerInserter.insertTower(towerView.getTowerName());
-
-                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder() {
-                    @Override
-                    public void onProvideShadowMetrics(Point shadowSize, Point shadowTouchPoint) {
-                    }
-
-                    @Override
-                    public void onDrawShadow(Canvas canvas) {
-                    }
-                };
-                ClipData data = ClipData.newPlainText("", "");
-                towerView.startDrag(data, shadowBuilder, towerView, 0);
-
-                hide();
-            }
-        }
-
-        return false;
-    }
-
-    @Override
-    public void gameRestart() {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                updateTowerSlots();
-            }
-        });
-    }
-
-    @Override
-    public void gameOver() {
-
-    }
-
-    @Override
-    public void creditsChanged(int credits) {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                updateTowerEnabled();
-            }
-        });
-    }
-
-    private void updateTowerSlots() {
-        for (int i = 0; i < view_tower_x.length; i++) {
-            view_tower_x[i].setPreviewTower(mTowerFactory.createTower(i));
-        }
-
-        updateTowerEnabled();
-    }
-
-    private void updateTowerEnabled() {
-        for (TowerView towerView : view_tower_x) {
-            towerView.setEnabled(mScoreBoard.getCredits() >= towerView.getTowerValue());
         }
     }
 }
