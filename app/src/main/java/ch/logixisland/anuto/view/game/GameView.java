@@ -82,8 +82,11 @@ public class GameView extends View implements View.OnDragListener, View.OnTouchL
     public boolean onDrag(View view, DragEvent event) {
         if (event.getAction() == DragEvent.ACTION_DRAG_STARTED) {
             if (event.getLocalState() instanceof TowerView) {
-                Vector2 pos = mViewport.screenToGame(new Vector2(event.getX(), event.getY()));
-                mTowerInserter.setPosition(pos);
+                if (event.getX() > 0 && event.getX() < getWidth() && event.getY() > 0 && event.getY() < getHeight()) {
+                    Vector2 pos = mViewport.screenToGame(new Vector2(event.getX(), event.getY()));
+                    mTowerInserter.setPosition(pos);
+                }
+
                 return true;
             }
         }
@@ -97,7 +100,7 @@ public class GameView extends View implements View.OnDragListener, View.OnTouchL
             mTowerInserter.buyTower();
         }
 
-        if (event.getAction() == DragEvent.ACTION_DRAG_EXITED) {
+        if (event.getAction() == DragEvent.ACTION_DRAG_EXITED || event.getAction() == DragEvent.ACTION_DRAG_ENDED) {
             mTowerInserter.cancel();
         }
 

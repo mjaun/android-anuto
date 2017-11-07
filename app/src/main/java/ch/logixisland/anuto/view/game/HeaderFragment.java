@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
@@ -46,6 +49,8 @@ public class HeaderFragment extends AnutoFragment implements WaveListener, Credi
     private Button btn_fast_forward;
     private Button btn_menu;
     private Button btn_build_tower;
+
+    private TowerViewControl mTowerViewControl;
 
     public HeaderFragment() {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
@@ -86,6 +91,26 @@ public class HeaderFragment extends AnutoFragment implements WaveListener, Credi
         txt_bonus.setText(getString(R.string.bonus) + ": " + StringUtils.formatSuffix(mScoreBoard.getWaveBonus() + mScoreBoard.getEarlyBonus()));
         btn_fast_forward.setText(getString(mSpeedManager.isFastForwardActive() ? R.string.fast_speed : R.string.normal_speed));
 
+        final List<TowerView> towerViews = new ArrayList<>();
+        towerViews.add((TowerView) v.findViewById(R.id.view_tower_1));
+        towerViews.add((TowerView) v.findViewById(R.id.view_tower_2));
+        towerViews.add((TowerView) v.findViewById(R.id.view_tower_3));
+        towerViews.add((TowerView) v.findViewById(R.id.view_tower_4));
+        mTowerViewControl = new TowerViewControl(towerViews);
+
+        fragment_header.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                View lastTowerView = towerViews.get(towerViews.size() - 1);
+                boolean enoughSpace = lastTowerView.getX() + lastTowerView.getWidth() < btn_menu.getX();
+
+                btn_build_tower.setVisibility(enoughSpace ? View.INVISIBLE : View.VISIBLE);
+                for (TowerView towerView : towerViews) {
+                    towerView.setVisibility(enoughSpace ? View.VISIBLE : View.INVISIBLE);
+                }
+            }
+        });
+
         return v;
     }
 
@@ -103,6 +128,8 @@ public class HeaderFragment extends AnutoFragment implements WaveListener, Credi
     @Override
     public void onDetach() {
         super.onDetach();
+
+        mTowerViewControl.close();
 
         mWaveManager.removeListener(this);
         mSpeedManager.removeListener(this);
