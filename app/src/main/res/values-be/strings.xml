@@ -47,12 +47,12 @@
     <string name="twice">Двойчы</string>
     <string name="upgrade">Мадэрнізаваць</string>
     <string name="wave">Хваля</string>
-    <string name="level_waiting_line_name">Я ненавіджу чэргі</string>
-    <string name="level_turn_round_name">Разварот</string>
-    <string name="level_original_name">Арыгінальная</string>
-    <string name="level_hurry_name">Мы ў спешцы!</string>
-    <string name="level_civyshk_yard_name">Двор Civyshk</string>
-    <string name="level_civyshk_line5_name">Лінія5 Civyshk</string>
-    <string name="level_civyshk_labyrinth_name">Лабірынт Civyshk</string>
-    <string name="level_civyshk_2y_name">2Y Civyshk</string>
+    <string name="map_waiting_line_name">Я ненавіджу чэргі</string>
+    <string name="map_turn_round_name">Разварот</string>
+    <string name="map_original_name">Арыгінальная</string>
+    <string name="map_hurry_name">Мы ў спешцы!</string>
+    <string name="map_civyshk_yard_name">Двор Civyshk</string>
+    <string name="map_civyshk_line5_name">Лінія5 Civyshk</string>
+    <string name="map_civyshk_labyrinth_name">Лабірынт Civyshk</string>
+    <string name="map_civyshk_2y_name">2Y Civyshk</string>
 </resources>
