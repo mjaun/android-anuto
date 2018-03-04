@@ -49,36 +49,59 @@ import ch.logixisland.anuto.entity.tower.Teleporter;
 public class GameFactory {
 
     // Engine
-    private final ThemeManager mThemeManager;
-    private final SoundManager mSoundManager;
-    private final SpriteFactory mSpriteFactory;
-    private final SoundFactory mSoundFactory;
-    private final Viewport mViewport;
-    private final FrameRateLogger mFrameRateLogger;
-    private final EntityStore mEntityStore;
-    private final MessageQueue mMessageQueue;
-    private final Renderer mRenderer;
-    private final GameEngine mGameEngine;
-    private final GameLoop mGameLoop;
-    private final GamePersister mGamePersister;
-    private final EntityRegistry mEntityRegistry;
+    private ThemeManager mThemeManager;
+    private SoundManager mSoundManager;
+    private SpriteFactory mSpriteFactory;
+    private SoundFactory mSoundFactory;
+    private Viewport mViewport;
+    private FrameRateLogger mFrameRateLogger;
+    private EntityStore mEntityStore;
+    private MessageQueue mMessageQueue;
+    private Renderer mRenderer;
+    private GameEngine mGameEngine;
+    private GameLoop mGameLoop;
+    private GamePersister mGamePersister;
+    private EntityRegistry mEntityRegistry;
 
     // Business
-    private final ScoreBoard mScoreBoard;
-    private final HighScores mHighScores;
-    private final TowerSelector mTowerSelector;
-    private final TowerControl mTowerControl;
-    private final TowerAging mTowerAging;
-    private final TowerInserter mTowerInserter;
-    private final MapRepository mMapRepository;
-    private final GameConfigurationLoader mGameConfigurationLoader;
-    private final WaveManager mWaveManager;
-    private final GameSpeed mSpeedManager;
-    private final GameState mGameState;
-    private final SettingsManager mSettingsManager;
+    private ScoreBoard mScoreBoard;
+    private HighScores mHighScores;
+    private TowerSelector mTowerSelector;
+    private TowerControl mTowerControl;
+    private TowerAging mTowerAging;
+    private TowerInserter mTowerInserter;
+    private MapRepository mMapRepository;
+    private GameConfigurationLoader mGameConfigurationLoader;
+    private WaveManager mWaveManager;
+    private GameSpeed mSpeedManager;
+    private GameState mGameState;
+    private SettingsManager mSettingsManager;
 
     public GameFactory(Context context) {
-        // Engine
+        initializeEngine(context);
+        registerEntities();
+        initializeBusiness(context);
+        registerPersisters();
+
+        mGameState.restart();
+    }
+
+    private void initializeBusiness(Context context) {
+        mMapRepository = new MapRepository();
+        mScoreBoard = new ScoreBoard(mGameEngine);
+        mGameState = new GameState(mGameEngine, mThemeManager, mScoreBoard);
+        mGameConfigurationLoader = new GameConfigurationLoader(context, mGameEngine, mScoreBoard, mGameState, mViewport, mEntityRegistry, mMapRepository);
+        mTowerAging = new TowerAging(mGameEngine);
+        mSpeedManager = new GameSpeed(mGameEngine);
+        mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mGameState, mEntityRegistry, mTowerAging);
+        mHighScores = new HighScores(context, mGameState, mScoreBoard, mGameConfigurationLoader);
+        mTowerSelector = new TowerSelector(mGameEngine, mGameState, mScoreBoard);
+        mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector, mEntityRegistry);
+        mTowerInserter = new TowerInserter(mGameEngine, mGameState, mEntityRegistry, mTowerSelector, mTowerAging, mScoreBoard);
+        mSettingsManager = new SettingsManager(context, mThemeManager, mSoundManager);
+    }
+
+    private void initializeEngine(Context context) {
         mThemeManager = new ThemeManager(context);
         mSoundManager = new SoundManager(context);
         mSpriteFactory = new SpriteFactory(context, mThemeManager);
@@ -92,26 +115,6 @@ public class GameFactory {
         mGameEngine = new GameEngine(mSpriteFactory, mThemeManager, mSoundFactory, mEntityStore, mMessageQueue, mRenderer, mGameLoop);
         mEntityRegistry = new EntityRegistry(mGameEngine);
         mGamePersister = new GamePersister();
-
-        registerEntities();
-
-        // Business
-        mMapRepository = new MapRepository();
-        mScoreBoard = new ScoreBoard(mGameEngine);
-        mGameState = new GameState(mGameEngine, mThemeManager, mScoreBoard);
-        mGameConfigurationLoader = new GameConfigurationLoader(context, mGameEngine, mScoreBoard, mGameState, mViewport, mEntityRegistry, mMapRepository);
-        mTowerAging = new TowerAging(mGameEngine);
-        mSpeedManager = new GameSpeed(mGameEngine);
-        mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mGameState, mEntityRegistry, mTowerAging);
-        mHighScores = new HighScores(context, mGameState, mScoreBoard, mGameConfigurationLoader);
-        mTowerSelector = new TowerSelector(mGameEngine, mGameState, mScoreBoard);
-        mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector, mEntityRegistry);
-        mTowerInserter = new TowerInserter(mGameEngine, mGameState, mEntityRegistry, mTowerSelector, mTowerAging, mScoreBoard);
-        mSettingsManager = new SettingsManager(context, mThemeManager, mSoundManager);
-
-        registerPersisters();
-        
-        mGameState.restart();
     }
 
     private void registerEntities() {
