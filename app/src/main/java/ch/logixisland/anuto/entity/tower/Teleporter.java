@@ -38,7 +38,7 @@ public class Teleporter extends AimingTower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            TowerSettings towerSettings = gameEngine.getGameConfiguration().getTowerSettingsRoot();
+            TowerSettings towerSettings = gameEngine.getGameConfiguration().getGameSettings().getTowerSettings();
             return new Teleporter(gameEngine, towerSettings.getTeleporterSettings());
         }
     }

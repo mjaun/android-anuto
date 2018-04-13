@@ -13,9 +13,6 @@ import ch.logixisland.anuto.data.SerializerFactory;
 @Root
 public class EnemySettings {
 
-    @Element(name = "global")
-    private GlobalSettings mGlobalSettings;
-
     @Element(name = "soldier")
     private BasicEnemySettings mSoldierSettings;
 
@@ -44,10 +41,6 @@ public class EnemySettings {
     private static EnemySettings fromXml(InputStream stream) throws Exception {
         Serializer serializer = new SerializerFactory().createSerializer();
         return serializer.read(EnemySettings.class, stream);
-    }
-
-    public GlobalSettings getGlobalSettings() {
-        return mGlobalSettings;
     }
 
     public BasicEnemySettings getSoldierSettings() {

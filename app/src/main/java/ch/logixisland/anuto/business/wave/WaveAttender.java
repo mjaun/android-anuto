@@ -181,7 +181,7 @@ class WaveAttender implements EnemyListener {
     }
 
     private Enemy createAndConfigureEnemy(EnemyDescriptor descriptor, float offset) {
-        PathDescriptor path = mGameEngine.getGameConfiguration().getMapDescriptorRoot().getPaths().get(descriptor.getPathIndex());
+        PathDescriptor path = mGameEngine.getGameConfiguration().getMapDescriptor().getPaths().get(descriptor.getPathIndex());
         Enemy enemy = (Enemy) mEntityRegistry.createEntity(descriptor.getName());
         enemy.setWaveNumber(mWaveNumber);
         enemy.modifyHealth(mEnemyHealthModifier);

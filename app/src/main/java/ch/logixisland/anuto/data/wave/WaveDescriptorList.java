@@ -8,7 +8,6 @@ import org.simpleframework.xml.Serializer;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import ch.logixisland.anuto.data.SerializerFactory;
@@ -35,28 +34,6 @@ public class WaveDescriptorList {
     private static List<WaveDescriptor> fromXml(InputStream inputStream) throws Exception {
         Serializer serializer = new SerializerFactory().createSerializer();
         return serializer.read(WaveDescriptorList.class, inputStream).mWaves;
-    }
-
-    // TODO remove
-    public static WaveDescriptorList fromXmlOld(Context context, int resId) throws Exception {
-        InputStream stream = context.getResources().openRawResource(resId);
-
-        try {
-            return fromXmlOld(stream);
-        } finally {
-            stream.close();
-        }
-    }
-
-    // TODO remove
-    private static WaveDescriptorList fromXmlOld(InputStream inputStream) throws Exception {
-        Serializer serializer = new SerializerFactory().createSerializer();
-        return serializer.read(WaveDescriptorList.class, inputStream);
-    }
-
-    // TODO remove
-    public List<WaveDescriptor> getWaves() {
-        return Collections.unmodifiableList(mWaves);
     }
 
 }

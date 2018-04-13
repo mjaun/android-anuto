@@ -60,22 +60,20 @@ public class GameSettings {
     @Element(name = "earlyExponent")
     private float mEarlyExponent;
 
+    @Element(name = "minSpeedModifier")
+    private float mMinSpeedModifier;
+
+    @Element(name = "weakAgainstModifier")
+    private float mWeakAgainstModifier;
+
+    @Element(name = "strongAgainstModifier")
+    private float mStrongAgainstModifier;
+
     @Element(name = "enemySettings", required = false)
     private EnemySettings mEnemySettings;
 
     @Element(name = "towerSettings", required = false)
     private TowerSettings mTowerSettings;
-
-    // TODO remove
-    public static GameSettings fromXmlOld(Context context, int resId) throws Exception {
-        InputStream stream = context.getResources().openRawResource(resId);
-
-        try {
-            return fromXml(stream);
-        } finally {
-            stream.close();
-        }
-    }
 
     public static GameSettings fromXml(Context context, int gameSettingsResId, int enemySettingsResId,
                                        int towerSettingsResId) throws Exception {
@@ -104,6 +102,22 @@ public class GameSettings {
 
     public int getLives() {
         return mLives;
+    }
+
+    public int getTickCount() {
+        return mTickCount;
+    }
+
+    public int getNextEntityId() {
+        return mNextEntityId;
+    }
+
+    public int getWaveNumber() {
+        return mWaveNumber;
+    }
+
+    public int getCreditsEarned() {
+        return mCreditsEarned;
     }
 
     public float getDifficultyModifier() {
@@ -142,4 +156,23 @@ public class GameSettings {
         return mEarlyExponent;
     }
 
+    public float getMinSpeedModifier() {
+        return mMinSpeedModifier;
+    }
+
+    public float getWeakAgainstModifier() {
+        return mWeakAgainstModifier;
+    }
+
+    public float getStrongAgainstModifier() {
+        return mStrongAgainstModifier;
+    }
+
+    public EnemySettings getEnemySettings() {
+        return mEnemySettings;
+    }
+
+    public TowerSettings getTowerSettings() {
+        return mTowerSettings;
+    }
 }

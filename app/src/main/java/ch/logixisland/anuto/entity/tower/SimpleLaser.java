@@ -36,7 +36,7 @@ public class SimpleLaser extends AimingTower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            TowerSettings towerSettings = gameEngine.getGameConfiguration().getTowerSettingsRoot();
+            TowerSettings towerSettings = gameEngine.getGameConfiguration().getGameSettings().getTowerSettings();
             return new SimpleLaser(gameEngine, towerSettings.getSimpleLaserSettings());
         }
     }

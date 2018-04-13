@@ -8,8 +8,6 @@ import ch.logixisland.anuto.data.GameDescriptor;
 import ch.logixisland.anuto.data.map.MapDescriptor;
 import ch.logixisland.anuto.data.map.PlateauDescriptor;
 import ch.logixisland.anuto.data.setting.GameSettings;
-import ch.logixisland.anuto.data.setting.enemy.EnemySettings;
-import ch.logixisland.anuto.data.setting.tower.TowerSettings;
 import ch.logixisland.anuto.data.wave.WaveDescriptorList;
 import ch.logixisland.anuto.engine.logic.GameConfiguration;
 import ch.logixisland.anuto.engine.logic.GameEngine;
@@ -75,11 +73,9 @@ public class GameConfigurationLoader implements Persister, GameStateListener {
 
         try {
             mGameEngine.setGameConfiguration(new GameConfiguration(
-                    GameSettings.fromXmlOld(mContext, R.raw.game_settings),
-                    EnemySettings.fromXml(mContext, R.raw.enemy_settings),
-                    TowerSettings.fromXml(mContext, R.raw.tower_settings),
+                    GameSettings.fromXml(mContext, R.raw.game_settings, R.raw.enemy_settings, R.raw.tower_settings),
                     MapDescriptor.fromXml(mContext, mapInfo.getMapDescriptorResId()),
-                    WaveDescriptorList.fromXmlOld(mContext, R.raw.wave_descriptors)
+                    WaveDescriptorList.fromXml(mContext, R.raw.wave_descriptors)
             ));
         } catch (Exception e) {
             throw new RuntimeException("Could not load map!", e);
@@ -92,14 +88,14 @@ public class GameConfigurationLoader implements Persister, GameStateListener {
 
         GameConfiguration configuration = mGameEngine.getGameConfiguration();
 
-        for (PlateauDescriptor descriptor : configuration.getMapDescriptorRoot().getPlateaus()) {
+        for (PlateauDescriptor descriptor : configuration.getMapDescriptor().getPlateaus()) {
             Plateau plateau = (Plateau) mEntityRegistry.createEntity(descriptor.getName());
             plateau.setPosition(descriptor.getPosition());
             mGameEngine.add(plateau);
         }
 
-        mViewport.setGameSize(configuration.getMapDescriptorRoot().getWidth(), configuration.getMapDescriptorRoot().getHeight());
-        mScoreBoard.reset(configuration.getGameSettingsRoot().getLives(), configuration.getGameSettingsRoot().getCredits());
+        mViewport.setGameSize(configuration.getMapDescriptor().getWidth(), configuration.getMapDescriptor().getHeight());
+        mScoreBoard.reset(configuration.getGameSettings().getLives(), configuration.getGameSettings().getCredits());
     }
 
     @Override
@@ -116,6 +112,6 @@ public class GameConfigurationLoader implements Persister, GameStateListener {
     public void readDescriptor(GameDescriptor gameDescriptor) {
         setGameConfiguration(mMapRepository.getMapById(gameDescriptor.getMapId()));
         GameConfiguration configuration = mGameEngine.getGameConfiguration();
-        mViewport.setGameSize(configuration.getMapDescriptorRoot().getWidth(), configuration.getMapDescriptorRoot().getHeight());
+        mViewport.setGameSize(configuration.getMapDescriptor().getWidth(), configuration.getMapDescriptor().getHeight());
     }
 }

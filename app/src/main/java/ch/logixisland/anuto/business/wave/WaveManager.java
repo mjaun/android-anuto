@@ -135,7 +135,7 @@ public class WaveManager implements GameStateListener, Persister {
     @Override
     public void readDescriptor(GameDescriptor gameDescriptor) {
         int lastStartedWaveTickCount = 0;
-        List<WaveDescriptor> waveDescriptors = mGameEngine.getGameConfiguration().getWaveDescriptorRoot().getWaves();
+        List<WaveDescriptor> waveDescriptors = mGameEngine.getGameConfiguration().getWaveDescriptors();
         mWaveNumber = gameDescriptor.getWaveNumber();
 
         for (ActiveWaveDescriptor activeWaveDescriptor : gameDescriptor.getActiveWaves()) {
@@ -242,7 +242,7 @@ public class WaveManager implements GameStateListener, Persister {
     }
 
     private void createAndStartWaveAttender() {
-        List<WaveDescriptor> waveDescriptors = mGameEngine.getGameConfiguration().getWaveDescriptorRoot().getWaves();
+        List<WaveDescriptor> waveDescriptors = mGameEngine.getGameConfiguration().getWaveDescriptors();
         WaveDescriptor nextWaveDescriptor = waveDescriptors.get(mWaveNumber % waveDescriptors.size());
         WaveAttender nextWave = new WaveAttender(mGameEngine, mScoreBoard, mEntityRegistry, this, nextWaveDescriptor, mWaveNumber);
         updateWaveExtend(nextWave, nextWaveDescriptor);
@@ -257,7 +257,7 @@ public class WaveManager implements GameStateListener, Persister {
     }
 
     private void updateWaveModifiers(WaveAttender wave) {
-        GameSettings settings = mGameEngine.getGameConfiguration().getGameSettingsRoot();
+        GameSettings settings = mGameEngine.getGameConfiguration().getGameSettings();
 
         float waveHealth = wave.getWaveDefaultHealth(this.mEnemyDefaultHealth);
         float damagePossible = settings.getDifficultyLinear() * mScoreBoard.getCreditsEarned()
@@ -281,7 +281,7 @@ public class WaveManager implements GameStateListener, Persister {
     }
 
     private int getIterationNumber() {
-        return (getWaveNumber() / mGameEngine.getGameConfiguration().getWaveDescriptorRoot().getWaves().size()) + 1;
+        return (getWaveNumber() / mGameEngine.getGameConfiguration().getWaveDescriptors().size()) + 1;
     }
 
     private int getEarlyBonus() {
@@ -291,7 +291,7 @@ public class WaveManager implements GameStateListener, Persister {
             remainingReward += wave.getRemainingEnemiesReward();
         }
 
-        GameSettings settings = mGameEngine.getGameConfiguration().getGameSettingsRoot();
+        GameSettings settings = mGameEngine.getGameConfiguration().getGameSettings();
         return Math.round(settings.getEarlyModifier() * (float) Math.pow(remainingReward, settings.getEarlyExponent()));
     }
 

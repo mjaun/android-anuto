@@ -59,7 +59,7 @@ public class TowerInserter {
     }
 
     public Tower createPreviewTower(int slot) {
-        TowerSettings towerSettings = mGameEngine.getGameConfiguration().getTowerSettingsRoot();
+        TowerSettings towerSettings = mGameEngine.getGameConfiguration().getGameSettings().getTowerSettings();
         return (Tower) mEntityRegistry.createEntity(towerSettings.getTowerSlots().getTowerOfSlot(slot));
     }
 

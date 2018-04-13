@@ -3,7 +3,6 @@ package ch.logixisland.anuto.entity.enemy;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.data.setting.enemy.BasicEnemySettings;
 import ch.logixisland.anuto.data.setting.enemy.EnemySettings;
-import ch.logixisland.anuto.data.setting.enemy.GlobalSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
@@ -30,8 +29,8 @@ public class Blob extends Enemy implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            EnemySettings enemySettings = gameEngine.getGameConfiguration().getEnemySettingsRoot();
-            return new Blob(gameEngine, enemySettings.getGlobalSettings(), enemySettings.getBlobSettings());
+            EnemySettings enemySettings = gameEngine.getGameConfiguration().getGameSettings().getEnemySettings();
+            return new Blob(gameEngine, enemySettings.getBlobSettings());
         }
     }
 
@@ -53,8 +52,8 @@ public class Blob extends Enemy implements SpriteTransformation {
 
     private ReplicatedSprite mSprite;
 
-    private Blob(GameEngine gameEngine, GlobalSettings globalSettings, BasicEnemySettings enemySettings) {
-        super(gameEngine, globalSettings, enemySettings);
+    private Blob(GameEngine gameEngine, BasicEnemySettings blobSettings) {
+        super(gameEngine, blobSettings);
         StaticData s = (StaticData) getStaticData();
 
         mSprite = getSpriteFactory().createReplication(s.mReferenceSprite);

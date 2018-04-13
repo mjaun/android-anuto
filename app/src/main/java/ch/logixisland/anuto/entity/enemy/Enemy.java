@@ -3,8 +3,8 @@ package ch.logixisland.anuto.entity.enemy;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.data.setting.GameSettings;
 import ch.logixisland.anuto.data.setting.enemy.BasicEnemySettings;
-import ch.logixisland.anuto.data.setting.enemy.GlobalSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.entity.Types;
@@ -45,7 +45,7 @@ public abstract class Enemy extends Entity {
         };
     }
 
-    private final GlobalSettings mGlobalSettings;
+    private final GameSettings mGameSettings;
     private final BasicEnemySettings mEnemySettings;
 
     private boolean mEnabled;
@@ -60,10 +60,10 @@ public abstract class Enemy extends Entity {
 
     private final List<EnemyListener> mListeners = new CopyOnWriteArrayList<>();
 
-    Enemy(GameEngine gameEngine, GlobalSettings globalSettings, BasicEnemySettings enemySettings) {
+    Enemy(GameEngine gameEngine, BasicEnemySettings enemySettings) {
         super(gameEngine);
 
-        mGlobalSettings = globalSettings;
+        mGameSettings = gameEngine.getGameConfiguration().getGameSettings();
         mEnemySettings = enemySettings;
 
         mEnabled = true;
@@ -177,7 +177,7 @@ public abstract class Enemy extends Entity {
     }
 
     public void modifySpeed(float f) {
-        mSpeedModifier = Math.max(mGlobalSettings.getMinSpeedModifier(), mSpeedModifier * f);
+        mSpeedModifier = Math.max(mGameSettings.getMinSpeedModifier(), mSpeedModifier * f);
     }
 
     private float getDistanceRemaining() {
@@ -260,11 +260,11 @@ public abstract class Enemy extends Entity {
             Tower originTower = (Tower) origin;
 
             if (mEnemySettings.getWeakAgainst().contains(originTower.getWeaponType())) {
-                amount *= mGlobalSettings.getWeakAgainstModifier();
+                amount *= mGameSettings.getWeakAgainstModifier();
             }
 
             if (mEnemySettings.getStrongAgainst().contains(originTower.getWeaponType())) {
-                amount *= mGlobalSettings.getStrongAgainstModifier();
+                amount *= mGameSettings.getStrongAgainstModifier();
             }
 
             originTower.reportDamageInflicted(amount);

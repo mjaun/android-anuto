@@ -36,7 +36,7 @@ public class StraightLaser extends AimingTower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            TowerSettings towerSettings = gameEngine.getGameConfiguration().getTowerSettingsRoot();
+            TowerSettings towerSettings = gameEngine.getGameConfiguration().getGameSettings().getTowerSettings();
             return new StraightLaser(gameEngine, towerSettings.getStraightLaserSettings());
         }
     }

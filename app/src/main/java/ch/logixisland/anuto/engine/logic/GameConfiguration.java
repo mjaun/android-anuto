@@ -1,46 +1,33 @@
 package ch.logixisland.anuto.engine.logic;
 
+import java.util.List;
+
 import ch.logixisland.anuto.data.map.MapDescriptor;
 import ch.logixisland.anuto.data.setting.GameSettings;
-import ch.logixisland.anuto.data.setting.enemy.EnemySettings;
-import ch.logixisland.anuto.data.setting.tower.TowerSettings;
-import ch.logixisland.anuto.data.wave.WaveDescriptorList;
+import ch.logixisland.anuto.data.wave.WaveDescriptor;
 
 public class GameConfiguration {
 
     private final GameSettings mGameSettings;
-    private final EnemySettings mEnemySettings;
-    private final TowerSettings mTowerSettings;
     private final MapDescriptor mMapDescriptor;
-    private final WaveDescriptorList mWaveDescriptor;
+    private final List<WaveDescriptor> mWaveDescriptors;
 
-    public GameConfiguration(GameSettings gameSettings, EnemySettings enemySettings,
-                             TowerSettings towerSettings, MapDescriptor mapDescriptor,
-                             WaveDescriptorList waveDescriptor) {
+    public GameConfiguration(GameSettings gameSettings, MapDescriptor mapDescriptor, List<WaveDescriptor> waveDescriptors) {
         mGameSettings = gameSettings;
-        mEnemySettings = enemySettings;
-        mTowerSettings = towerSettings;
         mMapDescriptor = mapDescriptor;
-        mWaveDescriptor = waveDescriptor;
+        mWaveDescriptors = waveDescriptors;
     }
 
-    public GameSettings getGameSettingsRoot() {
+    public GameSettings getGameSettings() {
         return mGameSettings;
     }
 
-    public EnemySettings getEnemySettingsRoot() {
-        return mEnemySettings;
-    }
-
-    public TowerSettings getTowerSettingsRoot() {
-        return mTowerSettings;
-    }
-
-    public MapDescriptor getMapDescriptorRoot() {
+    public MapDescriptor getMapDescriptor() {
         return mMapDescriptor;
     }
 
-    public WaveDescriptorList getWaveDescriptorRoot() {
-        return mWaveDescriptor;
+    public List<WaveDescriptor> getWaveDescriptors() {
+        return mWaveDescriptors;
     }
+
 }
