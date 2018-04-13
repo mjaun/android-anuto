@@ -1,8 +1,8 @@
 package ch.logixisland.anuto.entity.enemy;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.data.setting.enemy.BasicEnemySettings;
 import ch.logixisland.anuto.data.setting.enemy.EnemySettings;
-import ch.logixisland.anuto.data.setting.enemy.EnemySettingsRoot;
 import ch.logixisland.anuto.data.setting.enemy.GlobalSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
@@ -30,8 +30,8 @@ public class Soldier extends Enemy implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            EnemySettingsRoot enemySettingsRoot = gameEngine.getGameConfiguration().getEnemySettingsRoot();
-            return new Soldier(gameEngine, enemySettingsRoot.getGlobalSettings(), enemySettingsRoot.getSoldierSettings());
+            EnemySettings enemySettings = gameEngine.getGameConfiguration().getEnemySettingsRoot();
+            return new Soldier(gameEngine, enemySettings.getGlobalSettings(), enemySettings.getSoldierSettings());
         }
     }
 
@@ -53,7 +53,7 @@ public class Soldier extends Enemy implements SpriteTransformation {
 
     private ReplicatedSprite mSprite;
 
-    private Soldier(GameEngine gameEngine, GlobalSettings globalSettings, EnemySettings enemySettings) {
+    private Soldier(GameEngine gameEngine, GlobalSettings globalSettings, BasicEnemySettings enemySettings) {
         super(gameEngine, globalSettings, enemySettings);
         StaticData s = (StaticData) getStaticData();
 

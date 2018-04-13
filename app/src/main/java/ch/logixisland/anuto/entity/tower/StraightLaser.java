@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.data.setting.tower.BasicTowerSettings;
 import ch.logixisland.anuto.data.setting.tower.TowerSettings;
-import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
@@ -36,8 +36,8 @@ public class StraightLaser extends AimingTower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            TowerSettingsRoot towerSettingsRoot = gameEngine.getGameConfiguration().getTowerSettingsRoot();
-            return new StraightLaser(gameEngine, towerSettingsRoot.getStraightLaserSettings());
+            TowerSettings towerSettings = gameEngine.getGameConfiguration().getTowerSettingsRoot();
+            return new StraightLaser(gameEngine, towerSettings.getStraightLaserSettings());
         }
     }
 
@@ -58,7 +58,7 @@ public class StraightLaser extends AimingTower implements SpriteTransformation {
     private StaticSprite mSpriteCanon;
     private Sound mSound;
 
-    private StraightLaser(GameEngine gameEngine, TowerSettings settings) {
+    private StraightLaser(GameEngine gameEngine, BasicTowerSettings settings) {
         super(gameEngine, settings);
         StaticData s = (StaticData) getStaticData();
 

@@ -4,15 +4,13 @@ import android.content.Context;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.score.ScoreBoard;
-import ch.logixisland.anuto.data.game.GameDescriptorRoot;
-import ch.logixisland.anuto.data.map.MapDescriptorRoot;
-import ch.logixisland.anuto.data.map.MapInfo;
-import ch.logixisland.anuto.data.map.MapRepository;
+import ch.logixisland.anuto.data.GameDescriptor;
+import ch.logixisland.anuto.data.map.MapDescriptor;
 import ch.logixisland.anuto.data.map.PlateauDescriptor;
-import ch.logixisland.anuto.data.setting.GameSettingsRoot;
-import ch.logixisland.anuto.data.setting.enemy.EnemySettingsRoot;
-import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
-import ch.logixisland.anuto.data.wave.WaveDescriptorRoot;
+import ch.logixisland.anuto.data.setting.GameSettings;
+import ch.logixisland.anuto.data.setting.enemy.EnemySettings;
+import ch.logixisland.anuto.data.setting.tower.TowerSettings;
+import ch.logixisland.anuto.data.wave.WaveDescriptorList;
 import ch.logixisland.anuto.engine.logic.GameConfiguration;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
@@ -77,11 +75,11 @@ public class GameConfigurationLoader implements Persister, GameStateListener {
 
         try {
             mGameEngine.setGameConfiguration(new GameConfiguration(
-                    GameSettingsRoot.fromXml(mContext, R.raw.game_settings),
-                    EnemySettingsRoot.fromXml(mContext, R.raw.enemy_settings),
-                    TowerSettingsRoot.fromXml(mContext, R.raw.tower_settings),
-                    MapDescriptorRoot.fromXml(mContext, mapInfo.getMapDescriptorResId()),
-                    WaveDescriptorRoot.fromXml(mContext, R.raw.wave_descriptors)
+                    GameSettings.fromXmlOld(mContext, R.raw.game_settings),
+                    EnemySettings.fromXml(mContext, R.raw.enemy_settings),
+                    TowerSettings.fromXml(mContext, R.raw.tower_settings),
+                    MapDescriptor.fromXml(mContext, mapInfo.getMapDescriptorResId()),
+                    WaveDescriptorList.fromXmlOld(mContext, R.raw.wave_descriptors)
             ));
         } catch (Exception e) {
             throw new RuntimeException("Could not load map!", e);
@@ -110,12 +108,12 @@ public class GameConfigurationLoader implements Persister, GameStateListener {
     }
 
     @Override
-    public void writeDescriptor(GameDescriptorRoot gameDescriptor) {
+    public void writeDescriptor(GameDescriptor gameDescriptor) {
         gameDescriptor.setMapId(mMapInfo.getMapId());
     }
 
     @Override
-    public void readDescriptor(GameDescriptorRoot gameDescriptor) {
+    public void readDescriptor(GameDescriptor gameDescriptor) {
         setGameConfiguration(mMapRepository.getMapById(gameDescriptor.getMapId()));
         GameConfiguration configuration = mGameEngine.getGameConfiguration();
         mViewport.setGameSize(configuration.getMapDescriptorRoot().getWidth(), configuration.getMapDescriptorRoot().getHeight());

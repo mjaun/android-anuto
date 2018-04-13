@@ -1,7 +1,7 @@
 package ch.logixisland.anuto.entity.enemy;
 
-import ch.logixisland.anuto.data.game.EnemyDescriptor;
-import ch.logixisland.anuto.data.game.EntityDescriptor;
+import ch.logixisland.anuto.data.entity.EnemyDescriptor;
+import ch.logixisland.anuto.data.entity.EntityDescriptor;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;

@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.data.setting.tower.BasicTowerSettings;
 import ch.logixisland.anuto.data.setting.tower.TowerSettings;
-import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
@@ -41,8 +41,8 @@ public class DualCanon extends AimingTower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            TowerSettingsRoot towerSettingsRoot = gameEngine.getGameConfiguration().getTowerSettingsRoot();
-            return new DualCanon(gameEngine, towerSettingsRoot.getDualCanonSettings());
+            TowerSettings towerSettings = gameEngine.getGameConfiguration().getTowerSettingsRoot();
+            return new DualCanon(gameEngine, towerSettings.getDualCanonSettings());
         }
     }
 
@@ -73,7 +73,7 @@ public class DualCanon extends AimingTower implements SpriteTransformation {
 
     private Sound mSound;
 
-    private DualCanon(GameEngine gameEngine, TowerSettings settings) {
+    private DualCanon(GameEngine gameEngine, BasicTowerSettings settings) {
         super(gameEngine, settings);
         StaticData s = (StaticData) getStaticData();
 

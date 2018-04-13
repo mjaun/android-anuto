@@ -16,7 +16,7 @@ import java.util.List;
 import ch.logixisland.anuto.data.SerializerFactory;
 
 @Root
-public class MapDescriptorRoot {
+public class MapDescriptor {
 
     @Element(name = "width")
     private int mWidth;
@@ -30,7 +30,7 @@ public class MapDescriptorRoot {
     @ElementList(name = "paths", entry = "path")
     private List<PathDescriptor> mPaths = new ArrayList<>();
 
-    public static MapDescriptorRoot fromXml(Context context, int resId) throws Exception {
+    public static MapDescriptor fromXml(Context context, int resId) throws Exception {
         InputStream stream = context.getResources().openRawResource(resId);
 
         try {
@@ -40,9 +40,9 @@ public class MapDescriptorRoot {
         }
     }
 
-    public static MapDescriptorRoot fromXml(InputStream inputStream) throws Exception {
+    public static MapDescriptor fromXml(InputStream inputStream) throws Exception {
         Serializer serializer = new SerializerFactory().createSerializer();
-        return serializer.read(MapDescriptorRoot.class, inputStream);
+        return serializer.read(MapDescriptor.class, inputStream);
     }
 
     public int getHeight() {

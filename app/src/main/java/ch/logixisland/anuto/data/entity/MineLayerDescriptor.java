@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.data.game;
+package ch.logixisland.anuto.data.entity;
 
 import org.simpleframework.xml.ElementList;
 

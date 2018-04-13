@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.data.map;
+package ch.logixisland.anuto.business.game;
 
 import java.util.ArrayList;
 import java.util.Collections;

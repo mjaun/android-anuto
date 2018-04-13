@@ -7,10 +7,10 @@ import java.util.Collection;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.map.MapDescriptorRoot;
+import ch.logixisland.anuto.data.map.MapDescriptor;
 import ch.logixisland.anuto.data.map.PathDescriptor;
 import ch.logixisland.anuto.data.setting.tower.GlueTowerSettings;
-import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
+import ch.logixisland.anuto.data.setting.tower.TowerSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
@@ -44,9 +44,9 @@ public class GlueTower extends Tower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            TowerSettingsRoot towerSettingsRoot = gameEngine.getGameConfiguration().getTowerSettingsRoot();
-            MapDescriptorRoot mapDescriptorRoot = gameEngine.getGameConfiguration().getMapDescriptorRoot();
-            return new GlueTower(gameEngine, towerSettingsRoot.getGlueTowerSettings(), mapDescriptorRoot.getPaths());
+            TowerSettings towerSettings = gameEngine.getGameConfiguration().getTowerSettingsRoot();
+            MapDescriptor mapDescriptor = gameEngine.getGameConfiguration().getMapDescriptorRoot();
+            return new GlueTower(gameEngine, towerSettings.getGlueTowerSettings(), mapDescriptor.getPaths());
         }
     }
 

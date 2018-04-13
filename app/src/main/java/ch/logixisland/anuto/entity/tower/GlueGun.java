@@ -7,7 +7,7 @@ import java.util.List;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.data.setting.tower.GlueGunSettings;
-import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
+import ch.logixisland.anuto.data.setting.tower.TowerSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
@@ -38,8 +38,8 @@ public class GlueGun extends AimingTower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            TowerSettingsRoot towerSettingsRoot = gameEngine.getGameConfiguration().getTowerSettingsRoot();
-            return new GlueGun(gameEngine, towerSettingsRoot.getGlueGunSettings());
+            TowerSettings towerSettings = gameEngine.getGameConfiguration().getTowerSettingsRoot();
+            return new GlueGun(gameEngine, towerSettings.getGlueGunSettings());
         }
     }
 

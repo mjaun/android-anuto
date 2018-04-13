@@ -4,7 +4,7 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 @Root
-public class BouncingLaserSettings extends TowerSettings {
+public class BouncingLaserSettings extends BasicTowerSettings {
 
     @Element(name = "bounceCount")
     private int mBounceCount;

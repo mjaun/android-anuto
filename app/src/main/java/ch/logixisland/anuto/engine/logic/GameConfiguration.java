@@ -1,22 +1,22 @@
 package ch.logixisland.anuto.engine.logic;
 
-import ch.logixisland.anuto.data.map.MapDescriptorRoot;
-import ch.logixisland.anuto.data.setting.GameSettingsRoot;
-import ch.logixisland.anuto.data.setting.enemy.EnemySettingsRoot;
-import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
-import ch.logixisland.anuto.data.wave.WaveDescriptorRoot;
+import ch.logixisland.anuto.data.map.MapDescriptor;
+import ch.logixisland.anuto.data.setting.GameSettings;
+import ch.logixisland.anuto.data.setting.enemy.EnemySettings;
+import ch.logixisland.anuto.data.setting.tower.TowerSettings;
+import ch.logixisland.anuto.data.wave.WaveDescriptorList;
 
 public class GameConfiguration {
 
-    private final GameSettingsRoot mGameSettings;
-    private final EnemySettingsRoot mEnemySettings;
-    private final TowerSettingsRoot mTowerSettings;
-    private final MapDescriptorRoot mMapDescriptor;
-    private final WaveDescriptorRoot mWaveDescriptor;
+    private final GameSettings mGameSettings;
+    private final EnemySettings mEnemySettings;
+    private final TowerSettings mTowerSettings;
+    private final MapDescriptor mMapDescriptor;
+    private final WaveDescriptorList mWaveDescriptor;
 
-    public GameConfiguration(GameSettingsRoot gameSettings, EnemySettingsRoot enemySettings,
-                             TowerSettingsRoot towerSettings, MapDescriptorRoot mapDescriptor,
-                             WaveDescriptorRoot waveDescriptor) {
+    public GameConfiguration(GameSettings gameSettings, EnemySettings enemySettings,
+                             TowerSettings towerSettings, MapDescriptor mapDescriptor,
+                             WaveDescriptorList waveDescriptor) {
         mGameSettings = gameSettings;
         mEnemySettings = enemySettings;
         mTowerSettings = towerSettings;
@@ -24,23 +24,23 @@ public class GameConfiguration {
         mWaveDescriptor = waveDescriptor;
     }
 
-    public GameSettingsRoot getGameSettingsRoot() {
+    public GameSettings getGameSettingsRoot() {
         return mGameSettings;
     }
 
-    public EnemySettingsRoot getEnemySettingsRoot() {
+    public EnemySettings getEnemySettingsRoot() {
         return mEnemySettings;
     }
 
-    public TowerSettingsRoot getTowerSettingsRoot() {
+    public TowerSettings getTowerSettingsRoot() {
         return mTowerSettings;
     }
 
-    public MapDescriptorRoot getMapDescriptorRoot() {
+    public MapDescriptor getMapDescriptorRoot() {
         return mMapDescriptor;
     }
 
-    public WaveDescriptorRoot getWaveDescriptorRoot() {
+    public WaveDescriptorList getWaveDescriptorRoot() {
         return mWaveDescriptor;
     }
 }

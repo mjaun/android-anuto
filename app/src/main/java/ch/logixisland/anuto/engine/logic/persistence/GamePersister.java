@@ -5,7 +5,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.logixisland.anuto.data.game.GameDescriptorRoot;
+import ch.logixisland.anuto.data.GameDescriptor;
 
 public class GamePersister {
 
@@ -16,10 +16,10 @@ public class GamePersister {
     }
 
     public void loadGame(InputStream inputStream) {
-        GameDescriptorRoot gameDescriptor;
+        GameDescriptor gameDescriptor;
 
         try {
-            gameDescriptor = GameDescriptorRoot.fromXml(inputStream);
+            gameDescriptor = GameDescriptor.fromXml(inputStream);
         } catch (Exception e) {
             throw new RuntimeException("loadGame() failed!", e);
         }
@@ -31,7 +31,7 @@ public class GamePersister {
     }
 
     public void saveGame(OutputStream outputStream) {
-        GameDescriptorRoot gameDescriptor = new GameDescriptorRoot();
+        GameDescriptor gameDescriptor = new GameDescriptor();
 
         for (Persister persister : mPersisterList) {
             persister.writeDescriptor(gameDescriptor);

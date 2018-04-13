@@ -4,7 +4,7 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 @Root
-public class GlueTowerSettings extends TowerSettings {
+public class GlueTowerSettings extends BasicTowerSettings {
 
     @Element(name = "glueIntensity")
     private float mGlueIntensity;

@@ -1,8 +1,8 @@
 package ch.logixisland.anuto.entity.enemy;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.data.setting.enemy.BasicEnemySettings;
 import ch.logixisland.anuto.data.setting.enemy.EnemySettings;
-import ch.logixisland.anuto.data.setting.enemy.EnemySettingsRoot;
 import ch.logixisland.anuto.data.setting.enemy.GlobalSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
@@ -30,8 +30,8 @@ public class Flyer extends Enemy implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            EnemySettingsRoot enemySettingsRoot = gameEngine.getGameConfiguration().getEnemySettingsRoot();
-            return new Flyer(gameEngine, enemySettingsRoot.getGlobalSettings(), enemySettingsRoot.getFlyerSettings());
+            EnemySettings enemySettings = gameEngine.getGameConfiguration().getEnemySettingsRoot();
+            return new Flyer(gameEngine, enemySettings.getGlobalSettings(), enemySettings.getFlyerSettings());
         }
     }
 
@@ -55,7 +55,7 @@ public class Flyer extends Enemy implements SpriteTransformation {
 
     private ReplicatedSprite mSprite;
 
-    private Flyer(GameEngine gameEngine, GlobalSettings globalSettings, EnemySettings enemySettings) {
+    private Flyer(GameEngine gameEngine, GlobalSettings globalSettings, BasicEnemySettings enemySettings) {
         super(gameEngine, globalSettings, enemySettings);
         StaticData s = (StaticData) getStaticData();
 

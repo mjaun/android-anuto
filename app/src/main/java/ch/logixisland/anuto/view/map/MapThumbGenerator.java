@@ -8,7 +8,7 @@ import android.graphics.Paint;
 
 import java.io.InputStream;
 
-import ch.logixisland.anuto.data.map.MapDescriptorRoot;
+import ch.logixisland.anuto.data.map.MapDescriptor;
 import ch.logixisland.anuto.data.map.PathDescriptor;
 import ch.logixisland.anuto.data.map.PlateauDescriptor;
 import ch.logixisland.anuto.engine.render.Viewport;
@@ -24,36 +24,36 @@ class MapThumbGenerator {
     Bitmap generateThumb(Resources resources, int mapDescriptorResId) {
         try {
             InputStream inputStream = resources.openRawResource(mapDescriptorResId);
-            MapDescriptorRoot mapDescriptorRoot = MapDescriptorRoot.fromXml(inputStream);
-            return generateThumb(mapDescriptorRoot);
+            MapDescriptor mapDescriptor = MapDescriptor.fromXml(inputStream);
+            return generateThumb(mapDescriptor);
         } catch (Exception e) {
             return null;
         }
     }
 
-    Bitmap generateThumb(MapDescriptorRoot mapDescriptorRoot) {
+    Bitmap generateThumb(MapDescriptor mapDescriptor) {
         Bitmap bitmap = Bitmap.createBitmap(
-                mapDescriptorRoot.getWidth() * PIXELS_PER_SQUARE,
-                mapDescriptorRoot.getHeight() * PIXELS_PER_SQUARE, Bitmap.Config.ARGB_8888);
+                mapDescriptor.getWidth() * PIXELS_PER_SQUARE,
+                mapDescriptor.getHeight() * PIXELS_PER_SQUARE, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
 
         Viewport viewport = new Viewport();
-        viewport.setGameSize(mapDescriptorRoot.getWidth(), mapDescriptorRoot.getHeight());
+        viewport.setGameSize(mapDescriptor.getWidth(), mapDescriptor.getHeight());
         viewport.setScreenSize(bitmap.getWidth(), bitmap.getHeight());
         canvas.concat(viewport.getScreenMatrix());
 
-        drawPaths(canvas, mapDescriptorRoot);
-        drawPlateaus(canvas, mapDescriptorRoot);
+        drawPaths(canvas, mapDescriptor);
+        drawPlateaus(canvas, mapDescriptor);
 
         return bitmap;
     }
 
-    private void drawPaths(Canvas canvas, MapDescriptorRoot mapDescriptorRoot) {
+    private void drawPaths(Canvas canvas, MapDescriptor mapDescriptor) {
         Paint pathPaint = new Paint();
         pathPaint.setStyle(Paint.Style.FILL);
         pathPaint.setColor(PATH_COLOR);
 
-        for (PathDescriptor path : mapDescriptorRoot.getPaths()) {
+        for (PathDescriptor path : mapDescriptor.getPaths()) {
             Vector2 lastWayPoint = null;
             for (Vector2 wayPoint : path.getWayPoints()) {
                 if (lastWayPoint != null) {
@@ -69,13 +69,13 @@ class MapThumbGenerator {
         }
     }
 
-    private void drawPlateaus(Canvas canvas, MapDescriptorRoot mapDescriptorRoot) {
+    private void drawPlateaus(Canvas canvas, MapDescriptor mapDescriptor) {
         Paint plateauPaint = new Paint();
         plateauPaint.setStyle(Paint.Style.STROKE);
         plateauPaint.setStrokeWidth(1);
         plateauPaint.setColor(PLATEAU_COLOR);
 
-        for (PlateauDescriptor plateau : mapDescriptorRoot.getPlateaus()) {
+        for (PlateauDescriptor plateau : mapDescriptor.getPlateaus()) {
             Vector2 position = plateau.getPosition();
             canvas.drawPoint(position.x(), position.y(), plateauPaint);
         }

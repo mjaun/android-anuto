@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.data.game;
+package ch.logixisland.anuto.data.wave;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;

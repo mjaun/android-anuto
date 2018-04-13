@@ -4,7 +4,7 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 @Root
-public class MortarSettings extends TowerSettings {
+public class MortarSettings extends BasicTowerSettings {
 
     @Element(name = "inaccuracy")
     private float mInaccuracy;

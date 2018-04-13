@@ -4,7 +4,7 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 @Root
-public class TeleporterSettings extends TowerSettings {
+public class TeleporterSettings extends BasicTowerSettings {
 
     @Element(name = "teleportDistance")
     private float mTeleportDistance;

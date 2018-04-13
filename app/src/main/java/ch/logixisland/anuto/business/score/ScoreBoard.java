@@ -3,7 +3,7 @@ package ch.logixisland.anuto.business.score;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.data.game.GameDescriptorRoot;
+import ch.logixisland.anuto.data.GameDescriptor;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.loop.Message;
 import ch.logixisland.anuto.engine.logic.persistence.Persister;
@@ -195,14 +195,14 @@ public class ScoreBoard implements Persister {
     }
 
     @Override
-    public void writeDescriptor(GameDescriptorRoot gameDescriptor) {
+    public void writeDescriptor(GameDescriptor gameDescriptor) {
         gameDescriptor.setCredits(mCredits);
         gameDescriptor.setCreditsEarned(mCreditsEarned);
         gameDescriptor.setLives(mLives);
     }
 
     @Override
-    public void readDescriptor(GameDescriptorRoot gameDescriptor) {
+    public void readDescriptor(GameDescriptor gameDescriptor) {
         mCredits = gameDescriptor.getCredits();
         mCreditsEarned = gameDescriptor.getCreditsEarned();
         mLives = gameDescriptor.getLives();

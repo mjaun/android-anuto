@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.data.setting.tower.BasicTowerSettings;
 import ch.logixisland.anuto.data.setting.tower.TowerSettings;
-import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
@@ -39,8 +39,8 @@ public class MachineGun extends AimingTower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            TowerSettingsRoot towerSettingsRoot = gameEngine.getGameConfiguration().getTowerSettingsRoot();
-            return new MachineGun(gameEngine, towerSettingsRoot.getMachineGunSettings());
+            TowerSettings towerSettings = gameEngine.getGameConfiguration().getTowerSettingsRoot();
+            return new MachineGun(gameEngine, towerSettings.getMachineGunSettings());
         }
     }
 
@@ -61,7 +61,7 @@ public class MachineGun extends AimingTower implements SpriteTransformation {
     private int mShotCount = 0;
     private Sound mSound;
 
-    private MachineGun(GameEngine gameEngine, TowerSettings settings) {
+    private MachineGun(GameEngine gameEngine, BasicTowerSettings settings) {
         super(gameEngine, settings);
         StaticData s = (StaticData) getStaticData();
 

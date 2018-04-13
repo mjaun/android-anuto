@@ -4,7 +4,7 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 @Root
-public class HealerSettings extends EnemySettings {
+public class HealerSettings extends BasicEnemySettings {
 
     @Element(name = "healAmount")
     private float mHealAmount;

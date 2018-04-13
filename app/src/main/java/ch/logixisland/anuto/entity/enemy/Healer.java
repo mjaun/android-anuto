@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.setting.enemy.EnemySettingsRoot;
+import ch.logixisland.anuto.data.setting.enemy.EnemySettings;
 import ch.logixisland.anuto.data.setting.enemy.GlobalSettings;
 import ch.logixisland.anuto.data.setting.enemy.HealerSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
@@ -39,8 +39,8 @@ public class Healer extends Enemy implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            EnemySettingsRoot enemySettingsRoot = gameEngine.getGameConfiguration().getEnemySettingsRoot();
-            return new Healer(gameEngine, enemySettingsRoot.getGlobalSettings(), enemySettingsRoot.getHealerSettings());
+            EnemySettings enemySettings = gameEngine.getGameConfiguration().getEnemySettingsRoot();
+            return new Healer(gameEngine, enemySettings.getGlobalSettings(), enemySettings.getHealerSettings());
         }
     }
 

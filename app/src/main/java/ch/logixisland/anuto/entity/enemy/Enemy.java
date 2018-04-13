@@ -3,7 +3,7 @@ package ch.logixisland.anuto.entity.enemy;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.data.setting.enemy.EnemySettings;
+import ch.logixisland.anuto.data.setting.enemy.BasicEnemySettings;
 import ch.logixisland.anuto.data.setting.enemy.GlobalSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
@@ -46,7 +46,7 @@ public abstract class Enemy extends Entity {
     }
 
     private final GlobalSettings mGlobalSettings;
-    private final EnemySettings mEnemySettings;
+    private final BasicEnemySettings mEnemySettings;
 
     private boolean mEnabled;
     private int mReward;
@@ -60,7 +60,7 @@ public abstract class Enemy extends Entity {
 
     private final List<EnemyListener> mListeners = new CopyOnWriteArrayList<>();
 
-    Enemy(GameEngine gameEngine, GlobalSettings globalSettings, EnemySettings enemySettings) {
+    Enemy(GameEngine gameEngine, GlobalSettings globalSettings, BasicEnemySettings enemySettings) {
         super(gameEngine);
 
         mGlobalSettings = globalSettings;

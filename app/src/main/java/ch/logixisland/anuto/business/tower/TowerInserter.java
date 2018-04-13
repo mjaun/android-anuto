@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.score.ScoreBoard;
-import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
+import ch.logixisland.anuto.data.setting.tower.TowerSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
@@ -59,8 +59,8 @@ public class TowerInserter {
     }
 
     public Tower createPreviewTower(int slot) {
-        TowerSettingsRoot towerSettingsRoot = mGameEngine.getGameConfiguration().getTowerSettingsRoot();
-        return (Tower) mEntityRegistry.createEntity(towerSettingsRoot.getTowerSlots().getTowerOfSlot(slot));
+        TowerSettings towerSettings = mGameEngine.getGameConfiguration().getTowerSettingsRoot();
+        return (Tower) mEntityRegistry.createEntity(towerSettings.getTowerSlots().getTowerOfSlot(slot));
     }
 
     public void setPosition(final Vector2 position) {

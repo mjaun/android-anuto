@@ -1,49 +1,72 @@
 package ch.logixisland.anuto.data.setting.enemy;
 
-import org.simpleframework.xml.Element;
-import org.simpleframework.xml.ElementList;
-import org.simpleframework.xml.Root;
+import android.content.Context;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
+import org.simpleframework.xml.Serializer;
+
+import java.io.InputStream;
+
+import ch.logixisland.anuto.data.SerializerFactory;
 
 @Root
 public class EnemySettings {
 
-    @Element(name = "health")
-    private float mHealth;
+    @Element(name = "global")
+    private GlobalSettings mGlobalSettings;
 
-    @Element(name = "speed")
-    private float mSpeed;
+    @Element(name = "soldier")
+    private BasicEnemySettings mSoldierSettings;
 
-    @Element(name = "reward")
-    private int mReward;
+    @Element(name = "blob")
+    private BasicEnemySettings mBlobSettings;
 
-    @ElementList(entry = "weakAgainst", inline = true, required = false)
-    private Collection<WeaponType> mWeakAgainst = new ArrayList<>();
+    @Element(name = "sprinter")
+    private BasicEnemySettings mSprinterSettings;
 
-    @ElementList(entry = "strongAgainst", inline = true, required = false)
-    private Collection<WeaponType> mStrongAgainst = new ArrayList<>();
+    @Element(name = "healer")
+    private HealerSettings mHealerSettings;
 
-    public float getHealth() {
-        return mHealth;
+    @Element(name = "flyer")
+    private BasicEnemySettings mFlyerSettings;
+
+    public static EnemySettings fromXml(Context context, int resId) throws Exception {
+        InputStream stream = context.getResources().openRawResource(resId);
+
+        try {
+            return fromXml(stream);
+        } finally {
+            stream.close();
+        }
     }
 
-    public float getSpeed() {
-        return mSpeed;
+    private static EnemySettings fromXml(InputStream stream) throws Exception {
+        Serializer serializer = new SerializerFactory().createSerializer();
+        return serializer.read(EnemySettings.class, stream);
     }
 
-    public int getReward() {
-        return mReward;
+    public GlobalSettings getGlobalSettings() {
+        return mGlobalSettings;
     }
 
-    public Collection<WeaponType> getWeakAgainst() {
-        return Collections.unmodifiableCollection(mWeakAgainst);
+    public BasicEnemySettings getSoldierSettings() {
+        return mSoldierSettings;
     }
 
-    public Collection<WeaponType> getStrongAgainst() {
-        return Collections.unmodifiableCollection(mStrongAgainst);
+    public BasicEnemySettings getBlobSettings() {
+        return mBlobSettings;
     }
 
+    public BasicEnemySettings getSprinterSettings() {
+        return mSprinterSettings;
+    }
+
+    public HealerSettings getHealerSettings() {
+        return mHealerSettings;
+    }
+
+    public BasicEnemySettings getFlyerSettings() {
+        return mFlyerSettings;
+    }
 }

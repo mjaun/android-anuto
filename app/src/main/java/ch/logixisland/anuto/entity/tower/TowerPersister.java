@@ -1,7 +1,7 @@
 package ch.logixisland.anuto.entity.tower;
 
-import ch.logixisland.anuto.data.game.EntityDescriptor;
-import ch.logixisland.anuto.data.game.TowerDescriptor;
+import ch.logixisland.anuto.data.entity.EntityDescriptor;
+import ch.logixisland.anuto.data.entity.TowerDescriptor;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;

@@ -7,12 +7,12 @@ import java.util.Collection;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.game.EntityDescriptor;
-import ch.logixisland.anuto.data.game.MineLayerDescriptor;
-import ch.logixisland.anuto.data.map.MapDescriptorRoot;
+import ch.logixisland.anuto.data.entity.EntityDescriptor;
+import ch.logixisland.anuto.data.entity.MineLayerDescriptor;
+import ch.logixisland.anuto.data.map.MapDescriptor;
 import ch.logixisland.anuto.data.map.PathDescriptor;
 import ch.logixisland.anuto.data.setting.tower.MineLayerSettings;
-import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
+import ch.logixisland.anuto.data.setting.tower.TowerSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
@@ -43,9 +43,9 @@ public class MineLayer extends Tower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            TowerSettingsRoot towerSettingsRoot = gameEngine.getGameConfiguration().getTowerSettingsRoot();
-            MapDescriptorRoot mapDescriptorRoot = gameEngine.getGameConfiguration().getMapDescriptorRoot();
-            return new MineLayer(gameEngine, towerSettingsRoot.getMineLayerSettings(), mapDescriptorRoot.getPaths());
+            TowerSettings towerSettings = gameEngine.getGameConfiguration().getTowerSettingsRoot();
+            MapDescriptor mapDescriptor = gameEngine.getGameConfiguration().getMapDescriptorRoot();
+            return new MineLayer(gameEngine, towerSettings.getMineLayerSettings(), mapDescriptor.getPaths());
         }
     }
 

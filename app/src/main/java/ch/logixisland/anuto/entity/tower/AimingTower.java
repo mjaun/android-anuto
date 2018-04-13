@@ -1,6 +1,6 @@
 package ch.logixisland.anuto.entity.tower;
 
-import ch.logixisland.anuto.data.setting.tower.TowerSettings;
+import ch.logixisland.anuto.data.setting.tower.BasicTowerSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityListener;
@@ -25,7 +25,7 @@ public abstract class AimingTower extends Tower {
         }
     };
 
-    protected AimingTower(GameEngine gameEngine, TowerSettings config) {
+    protected AimingTower(GameEngine gameEngine, BasicTowerSettings config) {
         super(gameEngine, config);
     }
 

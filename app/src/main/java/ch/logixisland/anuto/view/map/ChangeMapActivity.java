@@ -12,7 +12,7 @@ import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.game.GameConfigurationLoader;
 import ch.logixisland.anuto.business.game.HighScores;
-import ch.logixisland.anuto.data.map.MapRepository;
+import ch.logixisland.anuto.business.game.MapRepository;
 import ch.logixisland.anuto.engine.theme.ActivityType;
 import ch.logixisland.anuto.view.AnutoActivity;
 

@@ -1,101 +1,128 @@
 package ch.logixisland.anuto.data.setting.tower;
 
+import android.content.Context;
+
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
+import org.simpleframework.xml.Serializer;
 
-import ch.logixisland.anuto.data.setting.enemy.WeaponType;
+import java.io.InputStream;
+
+import ch.logixisland.anuto.data.SerializerFactory;
 
 @Root
 public class TowerSettings {
 
-    @Element(name = "value")
-    private int mValue;
+    @Element(name = "ageModifier")
+    private float mAgeModifier;
 
-    @Element(name = "damage", required = false)
-    private float mDamage;
+    @Element(name = "slots")
+    private TowerSlots mTowerSlots;
 
-    @Element(name = "range")
-    private float mRange;
+    @Element(name = "canon")
+    private BasicTowerSettings mCanonSettings;
 
-    @Element(name = "reload")
-    private float mReload;
+    @Element(name = "dualCanon")
+    private BasicTowerSettings mDualCanonSettings;
 
-    @Element(name = "maxLevel")
-    private int mMaxLevel;
+    @Element(name = "machineGun")
+    private BasicTowerSettings mMachineGunSettings;
 
-    @Element(name = "weaponType", required = false)
-    private WeaponType mWeaponType;
+    @Element(name = "simpleLaser")
+    private BasicTowerSettings mSimpleLaserSettings;
 
-    @Element(name = "enhanceBase")
-    private float mEnhanceBase;
+    @Element(name = "bouncingLaser")
+    private BouncingLaserSettings mBouncingLaserSettings;
 
-    @Element(name = "enhanceCost")
-    private int mEnhanceCost;
+    @Element(name = "straightLaser")
+    private BasicTowerSettings mStraightLaserSettings;
 
-    @Element(name = "enhanceDamage", required = false)
-    private float mEnhanceDamage;
+    @Element(name = "mortar")
+    private MortarSettings mMortarSettings;
 
-    @Element(name = "enhanceRange", required = false)
-    private float mEnhanceRange;
+    @Element(name = "mineLayer")
+    private MineLayerSettings mMineLayerSettings;
 
-    @Element(name = "enhanceReload", required = false)
-    private float mEnhanceReload;
+    @Element(name = "rocketLauncher")
+    private RocketLauncherSettings mRocketLauncherSettings;
 
-    @Element(name = "upgrade", required = false)
-    private String mUpgrade;
+    @Element(name = "glueTower")
+    private GlueTowerSettings mGlueTowerSettings;
 
-    @Element(name = "upgradeCost", required = false)
-    private int mUpgradeCost;
+    @Element(name = "glueGun")
+    private GlueGunSettings mGlueGunSettings;
 
-    public int getValue() {
-        return mValue;
+    @Element(name = "teleporter")
+    private TeleporterSettings mTeleporterSettings;
+
+    public static TowerSettings fromXml(Context context, int resId) throws Exception {
+        InputStream stream = context.getResources().openRawResource(resId);
+
+        try {
+            return fromXml(stream);
+        } finally {
+            stream.close();
+        }
     }
 
-    public float getDamage() {
-        return mDamage;
+    public static TowerSettings fromXml(InputStream stream) throws Exception {
+        Serializer serializer = new SerializerFactory().createSerializer();
+        return serializer.read(TowerSettings.class, stream);
     }
 
-    public float getRange() {
-        return mRange;
+    public float getAgeModifier() {
+        return mAgeModifier;
     }
 
-    public float getReload() {
-        return mReload;
+    public TowerSlots getTowerSlots() {
+        return mTowerSlots;
     }
 
-    public int getMaxLevel() {
-        return mMaxLevel;
+    public BasicTowerSettings getCanonSettings() {
+        return mCanonSettings;
     }
 
-    public WeaponType getWeaponType() {
-        return mWeaponType;
+    public BasicTowerSettings getDualCanonSettings() {
+        return mDualCanonSettings;
     }
 
-    public float getEnhanceBase() {
-        return mEnhanceBase;
+    public BasicTowerSettings getMachineGunSettings() {
+        return mMachineGunSettings;
     }
 
-    public int getEnhanceCost() {
-        return mEnhanceCost;
+    public BasicTowerSettings getSimpleLaserSettings() {
+        return mSimpleLaserSettings;
     }
 
-    public float getEnhanceDamage() {
-        return mEnhanceDamage;
+    public BouncingLaserSettings getBouncingLaserSettings() {
+        return mBouncingLaserSettings;
     }
 
-    public float getEnhanceRange() {
-        return mEnhanceRange;
+    public BasicTowerSettings getStraightLaserSettings() {
+        return mStraightLaserSettings;
     }
 
-    public float getEnhanceReload() {
-        return mEnhanceReload;
+    public MortarSettings getMortarSettings() {
+        return mMortarSettings;
     }
 
-    public String getUpgrade() {
-        return mUpgrade;
+    public MineLayerSettings getMineLayerSettings() {
+        return mMineLayerSettings;
     }
 
-    public int getUpgradeCost() {
-        return mUpgradeCost;
+    public RocketLauncherSettings getRocketLauncherSettings() {
+        return mRocketLauncherSettings;
+    }
+
+    public GlueTowerSettings getGlueTowerSettings() {
+        return mGlueTowerSettings;
+    }
+
+    public GlueGunSettings getGlueGunSettings() {
+        return mGlueGunSettings;
+    }
+
+    public TeleporterSettings getTeleporterSettings() {
+        return mTeleporterSettings;
     }
 }

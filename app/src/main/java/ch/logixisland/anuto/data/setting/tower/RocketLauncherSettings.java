@@ -4,7 +4,7 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 @Root
-public class RocketLauncherSettings extends TowerSettings {
+public class RocketLauncherSettings extends BasicTowerSettings {
 
     @Element(name = "explosionRadius")
     private float mExplosionRadius;

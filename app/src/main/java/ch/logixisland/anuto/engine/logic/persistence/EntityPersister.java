@@ -1,7 +1,7 @@
 package ch.logixisland.anuto.engine.logic.persistence;
 
-import ch.logixisland.anuto.data.game.EntityDescriptor;
-import ch.logixisland.anuto.data.game.GameDescriptorRoot;
+import ch.logixisland.anuto.data.GameDescriptor;
+import ch.logixisland.anuto.data.entity.EntityDescriptor;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
@@ -20,7 +20,7 @@ public class EntityPersister implements Persister {
     }
 
     @Override
-    public void writeDescriptor(GameDescriptorRoot gameDescriptor) {
+    public void writeDescriptor(GameDescriptor gameDescriptor) {
         StreamIterator<Entity> iterator = mGameEngine.getAllEntities()
                 .filter(Entity.nameEquals(mEntityName));
 
@@ -31,8 +31,8 @@ public class EntityPersister implements Persister {
     }
 
     @Override
-    public void readDescriptor(GameDescriptorRoot gameDescriptor) {
-        for (EntityDescriptor entityDescriptor : gameDescriptor.getEntityDescriptors()) {
+    public void readDescriptor(GameDescriptor gameDescriptor) {
+        for (EntityDescriptor entityDescriptor : gameDescriptor.getEntities()) {
             if (mEntityName.equals(entityDescriptor.getName())) {
                 mGameEngine.add(readEntityDescriptor(entityDescriptor));
             }

@@ -4,7 +4,7 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 @Root
-public class MineLayerSettings extends TowerSettings {
+public class MineLayerSettings extends BasicTowerSettings {
 
     @Element(name = "maxMineCount")
     private int mMaxMineCount;
