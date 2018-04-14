@@ -14,7 +14,6 @@ public class MapRepository {
         mMapInfos = new ArrayList<>();
         mMapInfos.add(new MapInfo("original", R.string.map_original_name, R.raw.map_original));
         mMapInfos.add(new MapInfo("waiting_line", R.string.map_waiting_line_name, R.raw.map_waiting_line));
-        mMapInfos.add(new MapInfo("waiting_line", R.string.map_waiting_line_name, R.raw.map_waiting_line));
         mMapInfos.add(new MapInfo("turn_round", R.string.map_turn_round_name, R.raw.map_turn_round));
         mMapInfos.add(new MapInfo("hurry", R.string.map_hurry_name, R.raw.map_hurry));
         mMapInfos.add(new MapInfo("civyshk_yard", R.string.map_civyshk_yard_name, R.raw.map_civyshk_yard));
@@ -37,4 +36,7 @@ public class MapRepository {
         throw new RuntimeException("Map not found!");
     }
 
+    public MapInfo getDefaultMapInfo() {
+        return getMapById("original");
+    }
 }

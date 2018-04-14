@@ -59,8 +59,7 @@ public class GameLoop implements Runnable {
             try {
                 mGameThread.join();
             } catch (InterruptedException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
+                throw new RuntimeException("Could not stop game thread!", e);
             }
         }
     }
@@ -109,8 +108,7 @@ public class GameLoop implements Runnable {
             }
         } catch (Exception e) {
             mRunning = false;
-            e.printStackTrace();
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error in game loop!", e);
         }
     }
 

@@ -4,17 +4,18 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import ch.logixisland.anuto.business.score.ScoreBoard;
+import ch.logixisland.anuto.engine.logic.GameEngine;
 
 public class HighScores implements GameStateListener {
 
     private final SharedPreferences mHighScores;
     private final ScoreBoard mScoreBoard;
-    private final GameConfigurationLoader mGameConfigurationLoader;
+    private final GameEngine mGameEngine;
 
-    public HighScores(Context context, GameState gameState, ScoreBoard scoreBoard, GameConfigurationLoader gameConfigurationLoader) {
+    public HighScores(Context context, GameEngine gameEngine, GameState gameState, ScoreBoard scoreBoard) {
         mHighScores = context.getSharedPreferences("high_scores", Context.MODE_PRIVATE);
         mScoreBoard = scoreBoard;
-        mGameConfigurationLoader = gameConfigurationLoader;
+        mGameEngine = gameEngine;
         gameState.addListener(this);
     }
 
@@ -29,12 +30,11 @@ public class HighScores implements GameStateListener {
 
     @Override
     public void gameOver() {
-        String mapId = mGameConfigurationLoader.getMapInfo().getMapId();
-        int score = mScoreBoard.getScore();
-        setHighScore(mapId, score);
+        String mapId = mGameEngine.getGameConfiguration().getMapId();
+        updateHighScore(mapId, mScoreBoard.getScore());
     }
 
-    private void setHighScore(String mapId, int highScore) {
+    private void updateHighScore(String mapId, int highScore) {
         int currentHighScore = getHighScore(mapId);
 
         if (highScore > currentHighScore) {

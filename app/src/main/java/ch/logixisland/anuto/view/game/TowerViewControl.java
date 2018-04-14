@@ -43,8 +43,6 @@ class TowerViewControl implements GameStateListener, CreditsListener, View.OnTou
         for (TowerView towerView : mTowerViews) {
             towerView.setOnTouchListener(this);
         }
-
-        updateTowerSlots();
     }
 
     void close() {

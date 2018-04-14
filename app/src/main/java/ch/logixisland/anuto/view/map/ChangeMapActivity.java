@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.business.game.GameConfigurationLoader;
+import ch.logixisland.anuto.business.game.GameLoader;
 import ch.logixisland.anuto.business.game.HighScores;
 import ch.logixisland.anuto.business.game.MapRepository;
 import ch.logixisland.anuto.engine.theme.ActivityType;
@@ -19,7 +19,7 @@ import ch.logixisland.anuto.view.AnutoActivity;
 public class ChangeMapActivity extends AnutoActivity implements AdapterView.OnItemClickListener,
         ViewTreeObserver.OnScrollChangedListener {
 
-    private final GameConfigurationLoader mGameConfigurationLoader;
+    private final GameLoader mGameLoader;
     private final MapRepository mMapRepository;
     private final HighScores mHighScores;
 
@@ -31,7 +31,7 @@ public class ChangeMapActivity extends AnutoActivity implements AdapterView.OnIt
 
     public ChangeMapActivity() {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
-        mGameConfigurationLoader = factory.getGameConfigurationLoader();
+        mGameLoader = factory.getGameLoader();
         mMapRepository = factory.getMapRepository();
         mHighScores = factory.getHighScores();
     }
@@ -65,7 +65,7 @@ public class ChangeMapActivity extends AnutoActivity implements AdapterView.OnIt
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        mGameConfigurationLoader.loadMap(mMapRepository.getMapInfos().get(position));
+        mGameLoader.loadMap(mMapRepository.getMapInfos().get(position));
         finish();
     }
 

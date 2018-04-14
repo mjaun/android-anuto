@@ -2,7 +2,7 @@ package ch.logixisland.anuto;
 
 import android.content.Context;
 
-import ch.logixisland.anuto.business.game.GameConfigurationLoader;
+import ch.logixisland.anuto.business.game.GameLoader;
 import ch.logixisland.anuto.business.game.GameSpeed;
 import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.game.HighScores;
@@ -71,7 +71,7 @@ public class GameFactory {
     private TowerAging mTowerAging;
     private TowerInserter mTowerInserter;
     private MapRepository mMapRepository;
-    private GameConfigurationLoader mGameConfigurationLoader;
+    private GameLoader mGameLoader;
     private WaveManager mWaveManager;
     private GameSpeed mSpeedManager;
     private GameState mGameState;
@@ -83,22 +83,7 @@ public class GameFactory {
         initializeBusiness(context);
         registerPersisters();
 
-        mGameState.restart();
-    }
-
-    private void initializeBusiness(Context context) {
-        mMapRepository = new MapRepository();
-        mScoreBoard = new ScoreBoard(mGameEngine);
-        mGameState = new GameState(mGameEngine, mThemeManager, mScoreBoard);
-        mGameConfigurationLoader = new GameConfigurationLoader(context, mGameEngine, mScoreBoard, mGameState, mViewport, mEntityRegistry, mMapRepository);
-        mTowerAging = new TowerAging(mGameEngine);
-        mSpeedManager = new GameSpeed(mGameEngine);
-        mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mGameState, mEntityRegistry, mTowerAging);
-        mHighScores = new HighScores(context, mGameState, mScoreBoard, mGameConfigurationLoader);
-        mTowerSelector = new TowerSelector(mGameEngine, mGameState, mScoreBoard);
-        mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector, mEntityRegistry);
-        mTowerInserter = new TowerInserter(mGameEngine, mGameState, mEntityRegistry, mTowerSelector, mTowerAging, mScoreBoard);
-        mSettingsManager = new SettingsManager(context, mThemeManager, mSoundManager);
+        mGameLoader.loadMap(mMapRepository.getDefaultMapInfo());
     }
 
     private void initializeEngine(Context context) {
@@ -138,13 +123,26 @@ public class GameFactory {
         mEntityRegistry.registerEntity(new GlueTower.Factory());
         mEntityRegistry.registerEntity(new GlueGun.Factory());
         mEntityRegistry.registerEntity(new Teleporter.Factory());
+    }
 
+    private void initializeBusiness(Context context) {
+        mMapRepository = new MapRepository();
+        mScoreBoard = new ScoreBoard(mGameEngine);
+        mGameState = new GameState(mGameEngine, mThemeManager, mScoreBoard);
+        mGameLoader = new GameLoader(context, mGameEngine, mScoreBoard, mGameState, mViewport, mEntityRegistry, mMapRepository);
+        mTowerAging = new TowerAging(mGameEngine);
+        mSpeedManager = new GameSpeed(mGameEngine);
+        mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mGameState, mEntityRegistry, mTowerAging);
+        mHighScores = new HighScores(context, mGameEngine, mGameState, mScoreBoard);
+        mTowerSelector = new TowerSelector(mGameEngine, mGameState, mScoreBoard);
+        mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector, mEntityRegistry);
+        mTowerInserter = new TowerInserter(mGameEngine, mGameState, mEntityRegistry, mTowerSelector, mTowerAging, mScoreBoard);
+        mSettingsManager = new SettingsManager(context, mThemeManager, mSoundManager);
     }
 
     private void registerPersisters() {
         mGamePersister.registerPersister(mEntityRegistry);
         mGamePersister.registerPersister(mMessageQueue);
-        mGamePersister.registerPersister(mGameConfigurationLoader);
         mGamePersister.registerPersister(mScoreBoard);
         mGamePersister.registerPersister(mWaveManager);
 
@@ -202,8 +200,8 @@ public class GameFactory {
         return mTowerInserter;
     }
 
-    public GameConfigurationLoader getGameConfigurationLoader() {
-        return mGameConfigurationLoader;
+    public GameLoader getGameLoader() {
+        return mGameLoader;
     }
 
     public WaveManager getWaveManager() {

@@ -16,7 +16,7 @@ public class SerializerFactory {
         try {
             registry.bind(Vector2.class, VectorConverter.class);
         } catch (Exception e) {
-            throw new RuntimeException("Error binding converters!");
+            throw new RuntimeException("Error binding converters!", e);
         }
 
         Strategy strategy = new RegistryStrategy(registry);

@@ -1,7 +1,5 @@
 package ch.logixisland.anuto.engine.logic.persistence;
 
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,32 +13,15 @@ public class GamePersister {
         mPersisterList.add(persister);
     }
 
-    public void loadGame(InputStream inputStream) {
-        GameDescriptor gameDescriptor;
-
-        try {
-            gameDescriptor = GameDescriptor.fromXml(inputStream);
-        } catch (Exception e) {
-            throw new RuntimeException("loadGame() failed!", e);
-        }
-
+    public void readDescriptor(GameDescriptor gameDescriptor) {
         for (Persister persister : mPersisterList) {
             persister.readDescriptor(gameDescriptor);
         }
-
     }
 
-    public void saveGame(OutputStream outputStream) {
-        GameDescriptor gameDescriptor = new GameDescriptor();
-
+    public void writeDescriptor(GameDescriptor gameDescriptor) {
         for (Persister persister : mPersisterList) {
             persister.writeDescriptor(gameDescriptor);
-        }
-
-        try {
-            gameDescriptor.toXml(outputStream);
-        } catch (Exception e) {
-            throw new RuntimeException("saveGame() failed!", e);
         }
     }
 

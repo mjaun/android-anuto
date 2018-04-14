@@ -24,13 +24,13 @@ import ch.logixisland.anuto.data.wave.WaveDescriptorList;
 public class GameDescriptor {
 
     @Element(name = "settings")
-    private GameSettings mSettings;
+    private GameSettings mGameSettings;
 
     @Element(name = "map")
-    private MapDescriptor mMap;
+    private MapDescriptor mMapDescriptor;
 
     @Element(name = "waves")
-    private List<WaveDescriptor> mWaves;
+    private List<WaveDescriptor> mWaveDescriptors;
 
     @ElementList(name = "activeWaves", entry = "wave")
     private List<ActiveWaveDescriptor> mActiveWaves = new ArrayList<>();
@@ -41,13 +41,17 @@ public class GameDescriptor {
     })
     private List<EntityDescriptor> mEntities = new ArrayList<>();
 
+    @Element(name = "mapId")
+    private String mMapId;
+
     public static GameDescriptor fromXml(Context context, int gameSettingsResId,
                                          int enemySettingsResId, int towerSettingsResId,
-                                         int mapResId, int wavesResId) throws Exception {
+                                         int wavesResId, int mapResId, String mapId) throws Exception {
         GameDescriptor result = new GameDescriptor();
-        result.mSettings = GameSettings.fromXml(context, gameSettingsResId, enemySettingsResId, towerSettingsResId);
-        result.mMap = MapDescriptor.fromXml(context, mapResId);
-        result.mWaves = WaveDescriptorList.fromXml(context, wavesResId);
+        result.mGameSettings = GameSettings.fromXml(context, gameSettingsResId, enemySettingsResId, towerSettingsResId);
+        result.mWaveDescriptors = WaveDescriptorList.fromXml(context, wavesResId);
+        result.mMapDescriptor = MapDescriptor.fromXml(context, mapResId);
+        result.mMapId = mapId;
         return result;
     }
 
@@ -61,16 +65,16 @@ public class GameDescriptor {
         serializer.write(this, stream);
     }
 
-    public GameSettings getSettings() {
-        return mSettings;
+    public GameSettings getGameSettings() {
+        return mGameSettings;
     }
 
-    public MapDescriptor getMap() {
-        return mMap;
+    public MapDescriptor getMapDescriptor() {
+        return mMapDescriptor;
     }
 
-    public List<WaveDescriptor> getWaves() {
-        return mWaves;
+    public List<WaveDescriptor> getWaveDescriptors() {
+        return mWaveDescriptors;
     }
 
     public List<ActiveWaveDescriptor> getActiveWaves() {
@@ -87,5 +91,9 @@ public class GameDescriptor {
 
     public void addEntityDescriptor(EntityDescriptor entityDescriptor) {
         mEntities.add(entityDescriptor);
+    }
+
+    public String getMapId() {
+        return mMapId;
     }
 }
