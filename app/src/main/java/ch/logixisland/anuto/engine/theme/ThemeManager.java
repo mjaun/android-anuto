@@ -21,7 +21,6 @@ public class ThemeManager {
     public ThemeManager(Context context, Renderer renderer) {
         initThemes(context);
 
-        mTheme = mAvailableThemes.get(0);
         mRenderer = renderer;
     }
 

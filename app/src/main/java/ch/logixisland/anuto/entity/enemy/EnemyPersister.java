@@ -23,9 +23,6 @@ public class EnemyPersister extends EntityPersister {
         Enemy enemy = (Enemy) entity;
         EnemyDescriptor enemyDescriptor = (EnemyDescriptor) super.writeEntityDescriptor(entity);
 
-        enemyDescriptor.setId(enemy.getEntityId());
-        enemyDescriptor.setName(enemy.getEntityName());
-        enemyDescriptor.setPosition(enemy.getPosition());
         enemyDescriptor.setHealth(enemy.getHealth());
         enemyDescriptor.setMaxHealth(enemy.getMaxHealth());
         enemyDescriptor.setWayPoints(enemy.getWayPoints());
@@ -43,7 +40,6 @@ public class EnemyPersister extends EntityPersister {
 
         enemy.setHealth(enemyDescriptor.getHealth(), enemyDescriptor.getMaxHealth());
         enemy.setReward(enemyDescriptor.getReward());
-        enemy.setPosition(enemyDescriptor.getPosition());
         enemy.setWaveNumber(enemyDescriptor.getWaveNumber());
         enemy.setupPath(enemyDescriptor.getWayPoints(), enemyDescriptor.getWayPointIndex());
 

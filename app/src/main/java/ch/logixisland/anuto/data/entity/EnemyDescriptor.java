@@ -3,6 +3,7 @@ package ch.logixisland.anuto.data.entity;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.util.math.Vector2;
@@ -22,7 +23,7 @@ public class EnemyDescriptor extends EntityDescriptor {
     private float mMaxHealth;
 
     @ElementList(name = "wayPoints", entry = "wayPoint")
-    private List<Vector2> mWayPoints;
+    private List<Vector2> mWayPoints = new ArrayList<>();
 
     @Element(name = "wayPointIndex")
     private int mWayPointIndex;

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.util.Collection;
 
+import ch.logixisland.anuto.engine.logic.entity.EntityStore;
 import ch.logixisland.anuto.engine.render.Renderer;
 import ch.logixisland.anuto.util.container.SafeCollection;
 
@@ -17,6 +18,8 @@ public class GameLoop implements Runnable {
 
     private final Renderer mRenderer;
     private final FrameRateLogger mFrameRateLogger;
+    private final MessageQueue mMessageQueue;
+    private final EntityStore mEntityStore;
 
     private final Collection<TickListener> mTickListeners = new SafeCollection<>();
 
@@ -25,9 +28,11 @@ public class GameLoop implements Runnable {
     private Thread mGameThread;
     private volatile boolean mRunning = false;
 
-    public GameLoop(Renderer renderer, FrameRateLogger frameRateLogger) {
+    public GameLoop(Renderer renderer, FrameRateLogger frameRateLogger, MessageQueue messageQueue, EntityStore entityStore) {
         mRenderer = renderer;
         mFrameRateLogger = frameRateLogger;
+        mMessageQueue = messageQueue;
+        mEntityStore = entityStore;
     }
 
     public void add(TickListener listener) {
@@ -106,6 +111,9 @@ public class GameLoop implements Runnable {
                     timeNextTick = timeCurrent; // resync
                 }
             }
+
+            // process messages a last time (needed to save game just before loop stops)
+            mMessageQueue.processMessages();
         } catch (Exception e) {
             mRunning = false;
             throw new RuntimeException("Error in game loop!", e);
@@ -113,9 +121,14 @@ public class GameLoop implements Runnable {
     }
 
     private void executeTick() {
+        mMessageQueue.tick();
+        mEntityStore.tick();
+
         for (TickListener listener : mTickListeners) {
             listener.tick();
         }
+
+        mMessageQueue.processMessages();
     }
 
 }

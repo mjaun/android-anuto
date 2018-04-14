@@ -10,7 +10,7 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class MineLayerDescriptor extends TowerDescriptor {
 
-    @ElementList(name = "minePositions", entry = "position")
+    @ElementList(name = "minePositions", entry = "position", required = false)
     Collection<Vector2> mMinePositions = new ArrayList<>();
 
     public Collection<Vector2> getMinePositions() {

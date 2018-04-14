@@ -1,7 +1,11 @@
 package ch.logixisland.anuto.business.game;
 
 import android.content.Context;
+import android.util.Log;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -18,6 +22,9 @@ import ch.logixisland.anuto.engine.render.Viewport;
 import ch.logixisland.anuto.entity.plateau.Plateau;
 
 public class GameLoader {
+
+    private static final String TAG = GameLoader.class.getSimpleName();
+    private static final String SAVED_GAME_FILE = "saved_game.xml";
 
     private final Context mContext;
     private final GameEngine mGameEngine;
@@ -60,6 +67,10 @@ public class GameLoader {
             return;
         }
 
+        if (mGameDescriptor == null) {
+            return;
+        }
+
         MapInfo currentMap = mMapRepository.getMapById(mGameDescriptor.getMapId());
         loadMap(currentMap);
     }
@@ -92,18 +103,34 @@ public class GameLoader {
         loadGame(gameDescriptor, false);
     }
 
-    public void loadGame(final GameDescriptor gameDescriptor) {
+    public void loadGame() {
         if (mGameEngine.isThreadChangeNeeded()) {
             mGameEngine.post(new Message() {
                 @Override
                 public void execute() {
-                    loadGame(gameDescriptor);
+                    loadGame();
                 }
             });
             return;
         }
 
-        loadGame(gameDescriptor, true);
+        GameDescriptor gameDescriptor = null;
+
+        try {
+            FileInputStream inputStream = mContext.openFileInput(SAVED_GAME_FILE);
+            gameDescriptor = GameDescriptor.fromXml(inputStream);
+            inputStream.close();
+        } catch (FileNotFoundException e) {
+            Log.i(TAG, "No save game file found.");
+        } catch (Exception e) {
+            Log.e(TAG, "Loading saved game failed!", e);
+        }
+
+        if (gameDescriptor != null) {
+            loadGame(gameDescriptor, true);
+        } else {
+            loadMap(mMapRepository.getDefaultMapInfo());
+        }
     }
 
     public void saveGame() {
@@ -117,10 +144,16 @@ public class GameLoader {
             return;
         }
 
+        mGameDescriptor.clearEntityDescriptors();
+        mGameDescriptor.clearActiveWaveDescriptors();
         mGamePersister.writeDescriptor(mGameDescriptor);
 
-        for (GameLoaderListener listener : mListeners) {
-            listener.gameSaved(mGameDescriptor);
+        try {
+            FileOutputStream outputStream = mContext.openFileOutput(SAVED_GAME_FILE, Context.MODE_PRIVATE);
+            mGameDescriptor.toXml(outputStream);
+            outputStream.close();
+        } catch (Exception e) {
+            throw new RuntimeException("Could not save game!", e);
         }
     }
 

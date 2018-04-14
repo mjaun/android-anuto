@@ -82,8 +82,6 @@ public class GameFactory {
         registerEntities();
         initializeBusiness(context);
         registerPersisters();
-
-        mGameLoader.loadMap(mMapRepository.getDefaultMapInfo());
     }
 
     private void initializeEngine(Context context) {
@@ -93,7 +91,7 @@ public class GameFactory {
         mGamePersister = new GamePersister();
         mFrameRateLogger = new FrameRateLogger();
         mRenderer = new Renderer(mViewport, mFrameRateLogger);
-        mGameLoop = new GameLoop(mRenderer, mFrameRateLogger);
+        mGameLoop = new GameLoop(mRenderer, mFrameRateLogger, mMessageQueue, mEntityStore);
         mThemeManager = new ThemeManager(context, mRenderer);
         mSoundManager = new SoundManager(context);
         mSpriteFactory = new SpriteFactory(context, mThemeManager);

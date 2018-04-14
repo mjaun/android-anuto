@@ -16,7 +16,6 @@ import ch.logixisland.anuto.business.game.GameLoaderListener;
 import ch.logixisland.anuto.business.score.CreditsListener;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.business.tower.TowerInserter;
-import ch.logixisland.anuto.data.GameDescriptor;
 
 class TowerViewControl implements GameLoaderListener, CreditsListener, View.OnTouchListener {
 
@@ -85,11 +84,6 @@ class TowerViewControl implements GameLoaderListener, CreditsListener, View.OnTo
                 updateTowerSlots();
             }
         });
-    }
-
-    @Override
-    public void gameSaved(GameDescriptor gameDescriptor) {
-
     }
 
     @Override

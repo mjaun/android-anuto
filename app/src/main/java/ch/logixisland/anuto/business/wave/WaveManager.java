@@ -119,11 +119,11 @@ public class WaveManager implements Persister {
     public void readDescriptor(GameDescriptor gameDescriptor) {
         setWaveNumber(gameDescriptor.getGameSettings().getWaveNumber());
 
-        int lastStartedWaveTickCount = 0;
+        int lastStartedWaveTickCount = Integer.MIN_VALUE;
         List<WaveDescriptor> waveDescriptors = mGameEngine.getGameConfiguration().getWaveDescriptors();
         mActiveWaves.clear();
 
-        for (ActiveWaveDescriptor activeWaveDescriptor : gameDescriptor.getActiveWaves()) {
+        for (ActiveWaveDescriptor activeWaveDescriptor : gameDescriptor.getActiveWaveDescriptors()) {
             WaveDescriptor waveDescriptor = waveDescriptors.get(activeWaveDescriptor.getWaveNumber() % waveDescriptors.size());
             WaveAttender waveAttender = new WaveAttender(mGameEngine, mScoreBoard, mEntityRegistry, this, waveDescriptor, activeWaveDescriptor.getWaveNumber());
             waveAttender.setExtend(activeWaveDescriptor.getExtend());

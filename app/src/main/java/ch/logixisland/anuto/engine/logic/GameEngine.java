@@ -39,9 +39,6 @@ public class GameEngine {
         mMessageQueue = messageQueue;
         mRenderer = renderer;
         mGameLoop = gameLoop;
-
-        mGameLoop.add(mMessageQueue);
-        mGameLoop.add(mEntityStore);
     }
 
     public SpriteFactory getSpriteFactory() {
@@ -101,9 +98,6 @@ public class GameEngine {
         mEntityStore.clear();
         mRenderer.clear();
         mGameLoop.clear();
-
-        mGameLoop.add(mMessageQueue);
-        mGameLoop.add(mEntityStore);
     }
 
     public void start() {

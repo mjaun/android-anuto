@@ -24,9 +24,7 @@ public class TowerPersister extends EntityPersister {
         Tower tower = (Tower) entity;
         TowerDescriptor towerDescriptor = (TowerDescriptor) super.writeEntityDescriptor(tower);
 
-        towerDescriptor.setId(tower.getEntityId());
-        towerDescriptor.setName(tower.getEntityName());
-        towerDescriptor.setPosition(tower.getPosition());
+        towerDescriptor.setPlateauId(tower.getPlateau().getEntityId());
         towerDescriptor.setValue(tower.getValue());
         towerDescriptor.setLevel(tower.getLevel());
         towerDescriptor.setDamageInflicted(tower.getDamageInflicted());

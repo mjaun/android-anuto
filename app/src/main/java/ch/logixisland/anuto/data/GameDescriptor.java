@@ -14,6 +14,7 @@ import java.util.List;
 
 import ch.logixisland.anuto.data.entity.EnemyDescriptor;
 import ch.logixisland.anuto.data.entity.EntityDescriptor;
+import ch.logixisland.anuto.data.entity.MineLayerDescriptor;
 import ch.logixisland.anuto.data.entity.TowerDescriptor;
 import ch.logixisland.anuto.data.map.MapDescriptor;
 import ch.logixisland.anuto.data.setting.GameSettings;
@@ -29,20 +30,23 @@ public class GameDescriptor {
     @Element(name = "map")
     private MapDescriptor mMapDescriptor;
 
-    @Element(name = "waves")
+    @Element(name = "mapId")
+    private String mMapId;
+
+    @ElementList(entry = "wave", inline = true)
     private List<WaveDescriptor> mWaveDescriptors;
 
-    @ElementList(name = "activeWaves", entry = "wave")
-    private List<ActiveWaveDescriptor> mActiveWaves = new ArrayList<>();
+    @ElementList(entry = "activeWave", inline = true, required = false)
+    private List<ActiveWaveDescriptor> mActiveWaveDescriptors = new ArrayList<>();
 
     @ElementListUnion({
-            @ElementList(name = "entity", entry = "enemy", type = EnemyDescriptor.class),
-            @ElementList(name = "entity", entry = "tower", type = TowerDescriptor.class),
+            @ElementList(entry = "entity", inline = true, required = false, type = EntityDescriptor.class),
+            @ElementList(entry = "enemy", inline = true, required = false, type = EnemyDescriptor.class),
+            @ElementList(entry = "tower", inline = true, required = false, type = TowerDescriptor.class),
+            @ElementList(entry = "mineLayer", inline = true, required = false, type = MineLayerDescriptor.class),
     })
     private List<EntityDescriptor> mEntityDescriptors = new ArrayList<>();
 
-    @Element(name = "mapId")
-    private String mMapId;
 
     public static GameDescriptor fromXml(Context context, int gameSettingsResId,
                                          int enemySettingsResId, int towerSettingsResId,
@@ -73,27 +77,35 @@ public class GameDescriptor {
         return mMapDescriptor;
     }
 
+    public String getMapId() {
+        return mMapId;
+    }
+
     public List<WaveDescriptor> getWaveDescriptors() {
         return mWaveDescriptors;
     }
 
-    public List<ActiveWaveDescriptor> getActiveWaves() {
-        return mActiveWaves;
+    public List<ActiveWaveDescriptor> getActiveWaveDescriptors() {
+        return mActiveWaveDescriptors;
+    }
+
+    public void clearActiveWaveDescriptors() {
+        mActiveWaveDescriptors.clear();
     }
 
     public void addActiveWaveDescriptor(ActiveWaveDescriptor activeWaveDescriptor) {
-        mActiveWaves.add(activeWaveDescriptor);
+        mActiveWaveDescriptors.add(activeWaveDescriptor);
     }
 
     public List<EntityDescriptor> getEntityDescriptors() {
         return mEntityDescriptors;
     }
 
-    public void addEntityDescriptor(EntityDescriptor entityDescriptor) {
-        mEntityDescriptors.add(entityDescriptor);
+    public void clearEntityDescriptors() {
+        mEntityDescriptors.clear();
     }
 
-    public String getMapId() {
-        return mMapId;
+    public void addEntityDescriptor(EntityDescriptor entityDescriptor) {
+        mEntityDescriptors.add(entityDescriptor);
     }
 }

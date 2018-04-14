@@ -48,12 +48,15 @@ public class EntityPersister implements Persister {
 
         entityDescriptor.setId(entity.getEntityId());
         entityDescriptor.setName(entity.getEntityName());
+        entityDescriptor.setPosition(entity.getPosition());
 
         return entityDescriptor;
     }
 
     protected Entity readEntityDescriptor(EntityDescriptor entityDescriptor) {
-        return mEntityRegistry.createEntity(entityDescriptor.getName(), entityDescriptor.getId());
+        Entity entity = mEntityRegistry.createEntity(entityDescriptor.getName(), entityDescriptor.getId());
+        entity.setPosition(entityDescriptor.getPosition());
+        return entity;
     }
 
     protected GameEngine getGameEngine() {
