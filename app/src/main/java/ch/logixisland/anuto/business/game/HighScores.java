@@ -5,42 +5,41 @@ import android.content.SharedPreferences;
 
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.engine.logic.loop.Message;
 
-public class HighScores implements GameStateListener {
+public class HighScores {
 
     private final SharedPreferences mHighScores;
     private final ScoreBoard mScoreBoard;
     private final GameEngine mGameEngine;
 
-    public HighScores(Context context, GameEngine gameEngine, GameState gameState, ScoreBoard scoreBoard) {
+    public HighScores(Context context, GameEngine gameEngine, ScoreBoard scoreBoard) {
         mHighScores = context.getSharedPreferences("high_scores", Context.MODE_PRIVATE);
         mScoreBoard = scoreBoard;
         mGameEngine = gameEngine;
-        gameState.addListener(this);
     }
 
     public int getHighScore(String mapId) {
         return mHighScores.getInt(mapId, 0);
     }
 
-    @Override
-    public void gameRestart() {
+    public void updateHighScore() {
+        if (mGameEngine.isThreadChangeNeeded()) {
+            mGameEngine.post(new Message() {
+                @Override
+                public void execute() {
+                    updateHighScore();
+                }
+            });
+            return;
+        }
 
-    }
-
-    @Override
-    public void gameOver() {
         String mapId = mGameEngine.getGameConfiguration().getMapId();
-        updateHighScore(mapId, mScoreBoard.getScore());
-    }
+        int highScore = getHighScore(mapId);
+        int score = mScoreBoard.getScore();
 
-    private void updateHighScore(String mapId, int highScore) {
-        int currentHighScore = getHighScore(mapId);
-
-        if (highScore > currentHighScore) {
-            mHighScores.edit()
-                    .putInt(mapId, highScore)
-                    .apply();
+        if (score > highScore) {
+            mHighScores.edit().putInt(mapId, score).apply();
         }
     }
 

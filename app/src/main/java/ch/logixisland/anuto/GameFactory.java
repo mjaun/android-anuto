@@ -87,19 +87,19 @@ public class GameFactory {
     }
 
     private void initializeEngine(Context context) {
-        mThemeManager = new ThemeManager(context);
+        mViewport = new Viewport();
+        mEntityStore = new EntityStore();
+        mMessageQueue = new MessageQueue();
+        mGamePersister = new GamePersister();
+        mFrameRateLogger = new FrameRateLogger();
+        mRenderer = new Renderer(mViewport, mFrameRateLogger);
+        mGameLoop = new GameLoop(mRenderer, mFrameRateLogger);
+        mThemeManager = new ThemeManager(context, mRenderer);
         mSoundManager = new SoundManager(context);
         mSpriteFactory = new SpriteFactory(context, mThemeManager);
         mSoundFactory = new SoundFactory(context, mSoundManager);
-        mViewport = new Viewport();
-        mFrameRateLogger = new FrameRateLogger();
-        mEntityStore = new EntityStore();
-        mMessageQueue = new MessageQueue();
-        mRenderer = new Renderer(mViewport, mThemeManager, mFrameRateLogger);
-        mGameLoop = new GameLoop(mRenderer, mFrameRateLogger);
         mGameEngine = new GameEngine(mSpriteFactory, mThemeManager, mSoundFactory, mEntityStore, mMessageQueue, mRenderer, mGameLoop);
         mEntityRegistry = new EntityRegistry(mGameEngine);
-        mGamePersister = new GamePersister();
     }
 
     private void registerEntities() {
@@ -128,21 +128,22 @@ public class GameFactory {
     private void initializeBusiness(Context context) {
         mMapRepository = new MapRepository();
         mScoreBoard = new ScoreBoard(mGameEngine);
-        mGameState = new GameState(mGameEngine, mThemeManager, mScoreBoard);
-        mGameLoader = new GameLoader(context, mGameEngine, mScoreBoard, mGameState, mViewport, mEntityRegistry, mMapRepository);
+        mHighScores = new HighScores(context, mGameEngine, mScoreBoard);
+        mTowerSelector = new TowerSelector(mGameEngine, mScoreBoard);
+        mGameState = new GameState(mScoreBoard, mHighScores, mTowerSelector);
+        mGameLoader = new GameLoader(context, mGameEngine, mGamePersister, mViewport, mEntityRegistry, mMapRepository);
         mTowerAging = new TowerAging(mGameEngine);
         mSpeedManager = new GameSpeed(mGameEngine);
         mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mGameState, mEntityRegistry, mTowerAging);
-        mHighScores = new HighScores(context, mGameEngine, mGameState, mScoreBoard);
-        mTowerSelector = new TowerSelector(mGameEngine, mGameState, mScoreBoard);
         mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector, mEntityRegistry);
         mTowerInserter = new TowerInserter(mGameEngine, mGameState, mEntityRegistry, mTowerSelector, mTowerAging, mScoreBoard);
-        mSettingsManager = new SettingsManager(context, mThemeManager, mSoundManager);
+        mSettingsManager = new SettingsManager(context, mThemeManager, mSoundManager, mGameLoader);
     }
 
     private void registerPersisters() {
         mGamePersister.registerPersister(mEntityRegistry);
         mGamePersister.registerPersister(mMessageQueue);
+        mGamePersister.registerPersister(mGameState);
         mGamePersister.registerPersister(mScoreBoard);
         mGamePersister.registerPersister(mWaveManager);
 

@@ -39,7 +39,7 @@ public class GameDescriptor {
             @ElementList(name = "entity", entry = "enemy", type = EnemyDescriptor.class),
             @ElementList(name = "entity", entry = "tower", type = TowerDescriptor.class),
     })
-    private List<EntityDescriptor> mEntities = new ArrayList<>();
+    private List<EntityDescriptor> mEntityDescriptors = new ArrayList<>();
 
     @Element(name = "mapId")
     private String mMapId;
@@ -85,12 +85,12 @@ public class GameDescriptor {
         mActiveWaves.add(activeWaveDescriptor);
     }
 
-    public List<EntityDescriptor> getEntities() {
-        return mEntities;
+    public List<EntityDescriptor> getEntityDescriptors() {
+        return mEntityDescriptors;
     }
 
     public void addEntityDescriptor(EntityDescriptor entityDescriptor) {
-        mEntities.add(entityDescriptor);
+        mEntityDescriptors.add(entityDescriptor);
     }
 
     public String getMapId() {

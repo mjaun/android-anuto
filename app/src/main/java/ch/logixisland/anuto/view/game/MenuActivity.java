@@ -9,7 +9,7 @@ import android.widget.Button;
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.business.game.GameState;
+import ch.logixisland.anuto.business.game.GameLoader;
 import ch.logixisland.anuto.engine.theme.ActivityType;
 import ch.logixisland.anuto.view.AnutoActivity;
 import ch.logixisland.anuto.view.map.ChangeMapActivity;
@@ -20,7 +20,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
     private static final int REQUEST_CHANGE_MAP = 1;
     private static final int REQUEST_SETTINGS = 2;
 
-    private final GameState mGameState;
+    private final GameLoader mGameLoader;
 
     private View activity_menu;
     private View menu_layout;
@@ -31,7 +31,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
 
     public MenuActivity() {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
-        mGameState = factory.getGameState();
+        mGameLoader = factory.getGameLoader();
     }
 
     @Override
@@ -62,7 +62,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
     @Override
     public void onClick(View view) {
         if (view == btn_restart) {
-            mGameState.restart();
+            mGameLoader.restart();
             finish();
         }
 

@@ -1,7 +1,5 @@
 package ch.logixisland.anuto.business.tower;
 
-import ch.logixisland.anuto.business.game.GameState;
-import ch.logixisland.anuto.business.game.GameStateListener;
 import ch.logixisland.anuto.business.score.CreditsListener;
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
@@ -13,25 +11,22 @@ import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.entity.tower.TowerListener;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class TowerSelector implements CreditsListener, GameStateListener, EntityListener, TowerListener {
+public class TowerSelector implements CreditsListener, EntityListener, TowerListener {
 
     private final GameEngine mGameEngine;
-    private final GameState mGameState;
     private final ScoreBoard mScoreBoard;
 
     private TowerInfoView mTowerInfoView;
     private TowerBuildView mTowerBuildView;
 
+    private boolean mControlsEnabled;
     private TowerInfo mTowerInfo;
     private Tower mSelectedTower;
 
-    public TowerSelector(GameEngine gameEngine, GameState gameState, ScoreBoard scoreBoard) {
+    public TowerSelector(GameEngine gameEngine, ScoreBoard scoreBoard) {
         mGameEngine = gameEngine;
-        mGameState = gameState;
         mScoreBoard = scoreBoard;
-
         mScoreBoard.addCreditsListener(this);
-        mGameState.addListener(this);
     }
 
     public void setTowerInfoView(TowerInfoView view) {
@@ -114,6 +109,24 @@ public class TowerSelector implements CreditsListener, GameStateListener, Entity
         }
     }
 
+    public void setControlsEnabled(final boolean enabled) {
+        if (mGameEngine.isThreadChangeNeeded()) {
+            mGameEngine.post(new Message() {
+                @Override
+                public void execute() {
+                    setControlsEnabled(enabled);
+                }
+            });
+            return;
+        }
+
+        mControlsEnabled = enabled;
+
+        if (mTowerInfo != null) {
+            updateTowerInfo();
+        }
+    }
+
     void showTowerInfo(Tower tower) {
         if (mGameEngine.isThreadChangeNeeded()) {
             mGameEngine.post(new Message() {
@@ -167,20 +180,6 @@ public class TowerSelector implements CreditsListener, GameStateListener, Entity
         }
     }
 
-    @Override
-    public void gameRestart() {
-        if (mTowerInfo != null) {
-            updateTowerInfo();
-        }
-    }
-
-    @Override
-    public void gameOver() {
-        if (mTowerInfo != null) {
-            updateTowerInfo();
-        }
-    }
-
     Tower getSelectedTower() {
         return mSelectedTower;
     }
@@ -205,7 +204,7 @@ public class TowerSelector implements CreditsListener, GameStateListener, Entity
         mTowerInfo = new TowerInfo(
                 mSelectedTower,
                 mScoreBoard.getCredits(),
-                mGameState.isGameOver()
+                mControlsEnabled
         );
 
         if (mTowerInfoView != null) {

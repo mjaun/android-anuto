@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.business.game.GameLoader;
 import ch.logixisland.anuto.engine.sound.SoundManager;
 import ch.logixisland.anuto.engine.theme.ThemeManager;
 
@@ -18,8 +19,10 @@ public class SettingsManager implements SharedPreferences.OnSharedPreferenceChan
     private final SharedPreferences mPreferences;
     private final ThemeManager mThemeManager;
     private final SoundManager mSoundManager;
+    private final GameLoader mGameLoader;
 
-    public SettingsManager(Context context, ThemeManager themeManager, SoundManager soundManager) {
+    public SettingsManager(Context context, ThemeManager themeManager, SoundManager soundManager, GameLoader gameLoader) {
+        mGameLoader = gameLoader;
         PreferenceManager.setDefaultValues(context, R.xml.settings, false);
         mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         mPreferences.registerOnSharedPreferenceChangeListener(this);
@@ -66,6 +69,7 @@ public class SettingsManager implements SharedPreferences.OnSharedPreferenceChan
 
     private void updateThemeIndex() {
         mThemeManager.setThemeIndex(getThemeIndex());
+        mGameLoader.restart();
     }
 
     private void updateSoundEnabled() {

@@ -23,15 +23,15 @@ public class TowerInfo {
     private TowerStrategy mStrategy;
     private List<TowerInfoValue> mProperties;
 
-    public TowerInfo(Tower tower, int credits, boolean gameOver) {
+    public TowerInfo(Tower tower, int credits, boolean controlsEnabled) {
         mValue = tower.getValue();
         mLevel = tower.getLevel();
         mLevelMax = tower.getMaxLevel();
         mEnhanceCost = tower.getEnhanceCost();
-        mEnhanceable = tower.isEnhanceable() && mEnhanceCost <= credits && !gameOver;
+        mEnhanceable = tower.isEnhanceable() && mEnhanceCost <= credits && controlsEnabled;
         mUpgradeCost = tower.getUpgradeCost();
-        mUpgradeable = tower.isUpgradeable() && mUpgradeCost <= credits && !gameOver;
-        mSellable = !gameOver;
+        mUpgradeable = tower.isUpgradeable() && mUpgradeCost <= credits && controlsEnabled;
+        mSellable = controlsEnabled;
 
         if (tower instanceof AimingTower) {
             AimingTower aimingTower = (AimingTower) tower;

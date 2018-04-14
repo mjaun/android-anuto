@@ -79,7 +79,7 @@ public class WaveManager implements Persister {
             return;
         }
 
-        mGameState.setGameStarted();
+        mGameState.gameStarted();
 
         giveWaveRewardAndEarlyBonus();
         createAndStartWaveAttender();

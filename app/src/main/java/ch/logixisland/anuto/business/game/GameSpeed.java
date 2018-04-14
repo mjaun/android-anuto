@@ -6,7 +6,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.loop.Message;
 
-public class GameSpeed implements GameStateListener {
+public class GameSpeed {
 
     private static final int FAST_FORWARD_SPEED = 4;
 
@@ -43,16 +43,6 @@ public class GameSpeed implements GameStateListener {
 
     public void removeListener(GameSpeedListener listener) {
         mListeners.remove(listener);
-    }
-
-    @Override
-    public void gameRestart() {
-        setFastForwardActive(false);
-    }
-
-    @Override
-    public void gameOver() {
-
     }
 
     private void setFastForwardActive(boolean fastForwardActive) {

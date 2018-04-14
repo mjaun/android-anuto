@@ -32,7 +32,7 @@ public class EntityPersister implements Persister {
 
     @Override
     public void readDescriptor(GameDescriptor gameDescriptor) {
-        for (EntityDescriptor entityDescriptor : gameDescriptor.getEntities()) {
+        for (EntityDescriptor entityDescriptor : gameDescriptor.getEntityDescriptors()) {
             if (mEntityName.equals(entityDescriptor.getName())) {
                 mGameEngine.add(readEntityDescriptor(entityDescriptor));
             }
