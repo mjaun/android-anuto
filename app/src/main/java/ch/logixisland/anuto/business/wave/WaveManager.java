@@ -17,6 +17,7 @@ import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.loop.Message;
 import ch.logixisland.anuto.engine.logic.persistence.Persister;
+import ch.logixisland.anuto.entity.enemy.Enemy;
 
 public class WaveManager implements Persister {
 
@@ -111,6 +112,11 @@ public class WaveManager implements Persister {
             activeWaveDescriptor.setWaveReward(waveAttender.getWaveReward());
             activeWaveDescriptor.setEnemyHealthModifier(waveAttender.getEnemyHealthModifier());
             activeWaveDescriptor.setEnemyRewardModifier(waveAttender.getEnemyRewardModifier());
+
+            for (Enemy enemy : waveAttender.getRemainingEnemies()) {
+                activeWaveDescriptor.addRemainingEnemyIds(enemy.getEntityId());
+            }
+
             gameDescriptor.addActiveWaveDescriptor(activeWaveDescriptor);
         }
     }
@@ -131,6 +137,11 @@ public class WaveManager implements Persister {
             waveAttender.modifyEnemyHealth(waveAttender.getEnemyHealthModifier());
             waveAttender.modifyEnemyReward(waveAttender.getEnemyRewardModifier());
             waveAttender.start(activeWaveDescriptor.getWaveStartTickCount());
+
+            for (int enemyId : activeWaveDescriptor.getRemainingEnemyIds()) {
+                waveAttender.registerRemainingEnemy((Enemy) mGameEngine.getEntityById(enemyId));
+            }
+
             mActiveWaves.add(waveAttender);
 
             lastStartedWaveTickCount = Math.max(lastStartedWaveTickCount, activeWaveDescriptor.getWaveStartTickCount());

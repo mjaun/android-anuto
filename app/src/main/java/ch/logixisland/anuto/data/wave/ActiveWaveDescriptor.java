@@ -1,7 +1,11 @@
 package ch.logixisland.anuto.data.wave;
 
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Root
 public class ActiveWaveDescriptor {
@@ -23,6 +27,9 @@ public class ActiveWaveDescriptor {
 
     @Element(name = "enemyRewardModifier")
     private float mEnemyRewardModifier;
+
+    @ElementList(name = "remainingEnemies", entry = "id", required = false)
+    private Collection<Integer> mRemainingEnemyIds = new ArrayList<>();
 
     public int getWaveNumber() {
         return mWaveNumber;
@@ -70,5 +77,13 @@ public class ActiveWaveDescriptor {
 
     public void setEnemyRewardModifier(float enemyRewardModifier) {
         mEnemyRewardModifier = enemyRewardModifier;
+    }
+
+    public Collection<Integer> getRemainingEnemyIds() {
+        return mRemainingEnemyIds;
+    }
+
+    public void addRemainingEnemyIds(int enemyId) {
+        mRemainingEnemyIds.add(enemyId);
     }
 }

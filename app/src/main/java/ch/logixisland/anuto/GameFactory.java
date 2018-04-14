@@ -143,7 +143,6 @@ public class GameFactory {
         mGamePersister.registerPersister(mMessageQueue);
         mGamePersister.registerPersister(mGameState);
         mGamePersister.registerPersister(mScoreBoard);
-        mGamePersister.registerPersister(mWaveManager);
 
         mGamePersister.registerPersister(new BasicPlateau.Persister(mGameEngine, mEntityRegistry));
 
@@ -165,6 +164,8 @@ public class GameFactory {
         mGamePersister.registerPersister(new GlueTower.Persister(mGameEngine, mEntityRegistry));
         mGamePersister.registerPersister(new GlueGun.Persister(mGameEngine, mEntityRegistry));
         mGamePersister.registerPersister(new Teleporter.Persister(mGameEngine, mEntityRegistry));
+
+        mGamePersister.registerPersister(mWaveManager);
     }
 
     public ThemeManager getThemeManager() {

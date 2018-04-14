@@ -1,6 +1,7 @@
 package ch.logixisland.anuto.business.wave;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import ch.logixisland.anuto.business.score.ScoreBoard;
@@ -23,7 +24,7 @@ class WaveAttender implements EnemyListener {
     private final WaveManager mWaveManager;
     private final WaveDescriptor mWaveDescriptor;
 
-    private final List<Enemy> mRemainingEnemies = new ArrayList<>();
+    private final Collection<Enemy> mRemainingEnemies = new ArrayList<>();
 
     private int mWaveNumber;
     private int mWaveStartTickCount;
@@ -40,7 +41,6 @@ class WaveAttender implements EnemyListener {
         mEntityRegistry = entityRegistry;
         mWaveManager = waveManager;
         mWaveDescriptor = waveDescriptor;
-
         mWaveNumber = waveNumber;
 
         mExtend = 1;
@@ -120,6 +120,15 @@ class WaveAttender implements EnemyListener {
     void start() {
         mWaveStartTickCount = mGameEngine.getTickCount();
         scheduleEnemies();
+    }
+
+    Collection<Enemy> getRemainingEnemies() {
+        return mRemainingEnemies;
+    }
+
+    void registerRemainingEnemy(Enemy enemy) {
+        mRemainingEnemies.add(enemy);
+        enemy.addListener(this);
     }
 
     @Override
