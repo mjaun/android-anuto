@@ -118,7 +118,7 @@ public class WaveManager implements GameStateListener, Persister {
 
     @Override
     public void writeDescriptor(GameDescriptor gameDescriptor) {
-        gameDescriptor.setWaveNumber(mWaveNumber);
+        gameDescriptor.getSettings().setWaveNumber(mWaveNumber);
 
         for (WaveAttender waveAttender : mActiveWaves) {
             ActiveWaveDescriptor activeWaveDescriptor = new ActiveWaveDescriptor();
@@ -136,7 +136,7 @@ public class WaveManager implements GameStateListener, Persister {
     public void readDescriptor(GameDescriptor gameDescriptor) {
         int lastStartedWaveTickCount = 0;
         List<WaveDescriptor> waveDescriptors = mGameEngine.getGameConfiguration().getWaveDescriptors();
-        mWaveNumber = gameDescriptor.getWaveNumber();
+        mWaveNumber = gameDescriptor.getSettings().getWaveNumber();
 
         for (ActiveWaveDescriptor activeWaveDescriptor : gameDescriptor.getActiveWaves()) {
             WaveDescriptor waveDescriptor = waveDescriptors.get(activeWaveDescriptor.getWaveNumber() % waveDescriptors.size());

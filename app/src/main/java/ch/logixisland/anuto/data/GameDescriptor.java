@@ -61,60 +61,16 @@ public class GameDescriptor {
         serializer.write(this, stream);
     }
 
-    public String getMapId() {
-        return mMapId;
+    public GameSettings getSettings() {
+        return mSettings;
     }
 
-    public void setMapId(String mapId) {
-        mMapId = mapId;
+    public MapDescriptor getMap() {
+        return mMap;
     }
 
-    public int getTickCount() {
-        return mTickCount;
-    }
-
-    public void setTickCount(int tickCount) {
-        mTickCount = tickCount;
-    }
-
-    public int getNextEntityId() {
-        return mNextEntityId;
-    }
-
-    public void setNextEntityId(int nextEntityId) {
-        mNextEntityId = nextEntityId;
-    }
-
-    public int getLives() {
-        return mLives;
-    }
-
-    public void setLives(int lives) {
-        mLives = lives;
-    }
-
-    public int getCredits() {
-        return mCredits;
-    }
-
-    public void setCredits(int credits) {
-        mCredits = credits;
-    }
-
-    public int getCreditsEarned() {
-        return mCreditsEarned;
-    }
-
-    public void setCreditsEarned(int creditsEarned) {
-        mCreditsEarned = creditsEarned;
-    }
-
-    public int getWaveNumber() {
-        return mWaveNumber;
-    }
-
-    public void setWaveNumber(int waveNumber) {
-        mWaveNumber = waveNumber;
+    public List<WaveDescriptor> getWaves() {
+        return mWaves;
     }
 
     public List<ActiveWaveDescriptor> getActiveWaves() {
@@ -132,25 +88,4 @@ public class GameDescriptor {
     public void addEntityDescriptor(EntityDescriptor entityDescriptor) {
         mEntities.add(entityDescriptor);
     }
-
-    @Element(name = "lives") // TODO remove
-    private int mLives;
-
-    @Element(name = "credits") // TODO remove
-    private int mCredits;
-
-    @Element(name = "creditsEarned") // TODO remove
-    private int mCreditsEarned;
-
-    @Element(name = "waveNumber") // TODO remove
-    private int mWaveNumber;
-
-    @Element(name = "tickCount") // TODO remove
-    private int mTickCount;
-
-    @Element(name = "nextEntityId") // TODO remove
-    private int mNextEntityId;
-
-    @Element(name = "mapId") // TODO remove
-    private String mMapId;
 }

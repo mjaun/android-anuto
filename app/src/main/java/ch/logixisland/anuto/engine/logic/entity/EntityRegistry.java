@@ -34,11 +34,11 @@ public class EntityRegistry implements Persister {
 
     @Override
     public void writeDescriptor(GameDescriptor gameDescriptor) {
-        gameDescriptor.setNextEntityId(mNextEntityId);
+        gameDescriptor.getSettings().setNextEntityId(mNextEntityId);
     }
 
     @Override
     public void readDescriptor(GameDescriptor gameDescriptor) {
-        mNextEntityId = gameDescriptor.getNextEntityId();
+        mNextEntityId = gameDescriptor.getSettings().getNextEntityId();
     }
 }

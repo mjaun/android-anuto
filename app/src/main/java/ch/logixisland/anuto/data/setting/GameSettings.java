@@ -175,4 +175,28 @@ public class GameSettings {
     public TowerSettings getTowerSettings() {
         return mTowerSettings;
     }
+
+    public void setCredits(int credits) {
+        mCredits = credits;
+    }
+
+    public void setLives(int lives) {
+        mLives = lives;
+    }
+
+    public void setTickCount(int tickCount) {
+        mTickCount = tickCount;
+    }
+
+    public void setNextEntityId(int nextEntityId) {
+        mNextEntityId = nextEntityId;
+    }
+
+    public void setWaveNumber(int waveNumber) {
+        mWaveNumber = waveNumber;
+    }
+
+    public void setCreditsEarned(int creditsEarned) {
+        mCreditsEarned = creditsEarned;
+    }
 }

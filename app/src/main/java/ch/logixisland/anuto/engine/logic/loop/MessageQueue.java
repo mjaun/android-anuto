@@ -57,11 +57,11 @@ public class MessageQueue implements TickListener, Persister {
 
     @Override
     public void writeDescriptor(GameDescriptor gameDescriptor) {
-        gameDescriptor.setTickCount(mTickCount);
+        gameDescriptor.getSettings().setTickCount(mTickCount);
     }
 
     @Override
     public void readDescriptor(GameDescriptor gameDescriptor) {
-        mTickCount = gameDescriptor.getTickCount();
+        mTickCount = gameDescriptor.getSettings().getTickCount();
     }
 }

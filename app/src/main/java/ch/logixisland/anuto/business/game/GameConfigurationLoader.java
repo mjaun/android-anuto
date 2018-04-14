@@ -105,13 +105,13 @@ public class GameConfigurationLoader implements Persister, GameStateListener {
 
     @Override
     public void writeDescriptor(GameDescriptor gameDescriptor) {
-        gameDescriptor.setMapId(mMapInfo.getMapId());
+        //gameDescriptor.setMapId(mMapInfo.getMapId());
     }
 
     @Override
     public void readDescriptor(GameDescriptor gameDescriptor) {
-        setGameConfiguration(mMapRepository.getMapById(gameDescriptor.getMapId()));
-        GameConfiguration configuration = mGameEngine.getGameConfiguration();
-        mViewport.setGameSize(configuration.getMapDescriptor().getWidth(), configuration.getMapDescriptor().getHeight());
+        //setGameConfiguration(mMapRepository.getMapById(gameDescriptor.getMapId()));
+        //GameConfiguration configuration = mGameEngine.getGameConfiguration();
+        //mViewport.setGameSize(configuration.getMapDescriptor().getWidth(), configuration.getMapDescriptor().getHeight());
     }
 }

@@ -196,16 +196,16 @@ public class ScoreBoard implements Persister {
 
     @Override
     public void writeDescriptor(GameDescriptor gameDescriptor) {
-        gameDescriptor.setCredits(mCredits);
-        gameDescriptor.setCreditsEarned(mCreditsEarned);
-        gameDescriptor.setLives(mLives);
+        gameDescriptor.getSettings().setCredits(mCredits);
+        gameDescriptor.getSettings().setCreditsEarned(mCreditsEarned);
+        gameDescriptor.getSettings().setLives(mLives);
     }
 
     @Override
     public void readDescriptor(GameDescriptor gameDescriptor) {
-        mCredits = gameDescriptor.getCredits();
-        mCreditsEarned = gameDescriptor.getCreditsEarned();
-        mLives = gameDescriptor.getLives();
+        mCredits = gameDescriptor.getSettings().getCredits();
+        mCreditsEarned = gameDescriptor.getSettings().getCreditsEarned();
+        mLives = gameDescriptor.getSettings().getLives();
 
         creditsChanged();
         livesChanged();
