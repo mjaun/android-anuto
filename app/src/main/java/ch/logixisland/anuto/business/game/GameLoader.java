@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.BuildConfig;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.data.GameDescriptor;
 import ch.logixisland.anuto.data.map.MapDescriptor;
@@ -120,6 +121,11 @@ public class GameLoader {
             FileInputStream inputStream = mContext.openFileInput(SAVED_GAME_FILE);
             gameDescriptor = GameDescriptor.fromXml(inputStream);
             inputStream.close();
+
+            if (gameDescriptor.getAppVersion() != BuildConfig.VERSION_CODE) {
+                Log.i(TAG, "Ignoring save game file: version does not match.");
+                gameDescriptor = null;
+            }
         } catch (FileNotFoundException e) {
             Log.i(TAG, "No save game file found.");
         } catch (Exception e) {

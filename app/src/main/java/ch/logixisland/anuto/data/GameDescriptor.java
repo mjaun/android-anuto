@@ -12,6 +12,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.logixisland.anuto.BuildConfig;
 import ch.logixisland.anuto.data.entity.EnemyDescriptor;
 import ch.logixisland.anuto.data.entity.EntityDescriptor;
 import ch.logixisland.anuto.data.entity.MineLayerDescriptor;
@@ -23,6 +24,9 @@ import ch.logixisland.anuto.data.wave.WaveDescriptor;
 import ch.logixisland.anuto.data.wave.WaveDescriptorList;
 
 public class GameDescriptor {
+
+    @Element(name = "appVersion")
+    private int mAppVersion;
 
     @Element(name = "settings")
     private GameSettings mGameSettings;
@@ -52,6 +56,7 @@ public class GameDescriptor {
                                          int enemySettingsResId, int towerSettingsResId,
                                          int wavesResId, int mapResId, String mapId) throws Exception {
         GameDescriptor result = new GameDescriptor();
+        result.mAppVersion = BuildConfig.VERSION_CODE;
         result.mGameSettings = GameSettings.fromXml(context, gameSettingsResId, enemySettingsResId, towerSettingsResId);
         result.mWaveDescriptors = WaveDescriptorList.fromXml(context, wavesResId);
         result.mMapDescriptor = MapDescriptor.fromXml(context, mapResId);
@@ -67,6 +72,10 @@ public class GameDescriptor {
     public void toXml(OutputStream stream) throws Exception {
         Serializer serializer = new SerializerFactory().createSerializer();
         serializer.write(this, stream);
+    }
+
+    public int getAppVersion() {
+        return mAppVersion;
     }
 
     public GameSettings getGameSettings() {
