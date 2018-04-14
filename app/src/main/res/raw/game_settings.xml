@@ -10,4 +10,7 @@
     <earlyExponent>0.6</earlyExponent>
     <minHealthModifier>0.5</minHealthModifier>
     <minRewardModifier>1</minRewardModifier>
+    <minSpeedModifier>0.01</minSpeedModifier>
+    <strongAgainstModifier>0.5</strongAgainstModifier>
+    <weakAgainstModifier>2.0</weakAgainstModifier>
 </settings>
