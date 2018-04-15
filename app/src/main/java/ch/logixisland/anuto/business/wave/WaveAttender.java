@@ -6,13 +6,16 @@ import java.util.List;
 
 import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.data.map.PathDescriptor;
+import ch.logixisland.anuto.data.wave.ActiveWaveDescriptor;
 import ch.logixisland.anuto.data.wave.EnemyDescriptor;
 import ch.logixisland.anuto.data.wave.WaveDescriptor;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.loop.Message;
+import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.entity.enemy.EnemyListener;
+import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.MathUtils;
 import ch.logixisland.anuto.util.math.Vector2;
 
@@ -49,14 +52,6 @@ class WaveAttender implements EnemyListener {
         mWaveReward = mWaveDescriptor.getWaveReward();
     }
 
-    int getWaveNumber() {
-        return mWaveNumber;
-    }
-
-    int getWaveStartTickCount() {
-        return mWaveStartTickCount;
-    }
-
     float getWaveDefaultHealth(EnemyDefaultHealth enemyDefaultHealth) {
         float waveHealth = 0f;
         for (EnemyDescriptor d : mWaveDescriptor.getEnemies()) {
@@ -66,24 +61,8 @@ class WaveAttender implements EnemyListener {
         return waveHealth;
     }
 
-    float getEnemyHealthModifier() {
-        return mEnemyHealthModifier;
-    }
-
-    float getEnemyRewardModifier() {
-        return mEnemyRewardModifier;
-    }
-
     int getWaveReward() {
         return mWaveReward;
-    }
-
-    void setWaveReward(int waveReward) {
-        mWaveReward = waveReward;
-    }
-
-    int getExtend() {
-        return mExtend;
     }
 
     void setExtend(int extend) {
@@ -102,6 +81,23 @@ class WaveAttender implements EnemyListener {
         mWaveReward *= modifier;
     }
 
+    void start() {
+        if (mWaveStartTickCount == 0) {
+            mWaveStartTickCount = mGameEngine.getTickCount();
+        }
+
+        scheduleEnemies();
+    }
+
+    void giveWaveReward() {
+        mScoreBoard.giveCredits(mWaveReward, true);
+        mWaveReward = 0;
+    }
+
+    int getRemainingEnemiesCount() {
+        return mRemainingEnemies.size();
+    }
+
     float getRemainingEnemiesReward() {
         float totalReward = 0f;
 
@@ -112,53 +108,31 @@ class WaveAttender implements EnemyListener {
         return totalReward;
     }
 
-    void start(int waveStartTickCount) {
-        mWaveStartTickCount = waveStartTickCount;
-        scheduleEnemies();
+    void writeActiveWaveDescriptor(ActiveWaveDescriptor activeWaveDescriptor) {
+        activeWaveDescriptor.setWaveNumber(mWaveNumber);
+        activeWaveDescriptor.setWaveStartTickCount(mWaveStartTickCount);
+        activeWaveDescriptor.setExtend(mExtend);
+        activeWaveDescriptor.setWaveReward(mWaveReward);
+        activeWaveDescriptor.setEnemyHealthModifier(mEnemyHealthModifier);
+        activeWaveDescriptor.setEnemyRewardModifier(mEnemyRewardModifier);
     }
 
-    void start() {
-        mWaveStartTickCount = mGameEngine.getTickCount();
-        scheduleEnemies();
-    }
+    void readActiveWaveDescriptor(ActiveWaveDescriptor activeWaveDescriptor) {
+        mExtend = activeWaveDescriptor.getExtend();
+        mWaveReward = activeWaveDescriptor.getWaveReward();
+        mEnemyHealthModifier = activeWaveDescriptor.getEnemyHealthModifier();
+        mEnemyRewardModifier = activeWaveDescriptor.getEnemyRewardModifier();
+        mWaveStartTickCount = activeWaveDescriptor.getWaveStartTickCount();
 
-    Collection<Enemy> getRemainingEnemies() {
-        return mRemainingEnemies;
-    }
+        StreamIterator<Enemy> enemyIterator = mGameEngine.getEntitiesByType(Types.ENEMY).cast(Enemy.class);
+        while (enemyIterator.hasNext()) {
+            Enemy enemy = enemyIterator.next();
 
-    void registerRemainingEnemy(Enemy enemy) {
-        mRemainingEnemies.add(enemy);
-        enemy.addListener(this);
-    }
-
-    @Override
-    public void enemyKilled(Enemy enemy) {
-        mScoreBoard.giveCredits(enemy.getReward(), true);
-    }
-
-    @Override
-    public void enemyFinished(Enemy enemy) {
-        mScoreBoard.takeLives(1);
-    }
-
-    @Override
-    public void enemyRemoved(Enemy enemy) {
-        mRemainingEnemies.remove(enemy);
-        mWaveManager.enemyRemoved();
-
-        if (getRemainingEnemiesCount() == 0) {
-            giveWaveReward();
-            mWaveManager.waveFinished(this);
+            if (enemy.getWaveNumber() == mWaveNumber) {
+                mRemainingEnemies.add(enemy);
+                enemy.addListener(this);
+            }
         }
-    }
-
-    void giveWaveReward() {
-        mScoreBoard.giveCredits(mWaveReward, true);
-        mWaveReward = 0;
-    }
-
-    int getRemainingEnemiesCount() {
-        return mRemainingEnemies.size();
     }
 
     private void scheduleEnemies() {
@@ -214,5 +188,26 @@ class WaveAttender implements EnemyListener {
                 mGameEngine.add(enemy);
             }
         }, delayTicks);
+    }
+
+    @Override
+    public void enemyKilled(Enemy enemy) {
+        mScoreBoard.giveCredits(enemy.getReward(), true);
+    }
+
+    @Override
+    public void enemyFinished(Enemy enemy) {
+        mScoreBoard.takeLives(1);
+    }
+
+    @Override
+    public void enemyRemoved(Enemy enemy) {
+        mRemainingEnemies.remove(enemy);
+        mWaveManager.enemyRemoved();
+
+        if (getRemainingEnemiesCount() == 0) {
+            giveWaveReward();
+            mWaveManager.waveFinished(this);
+        }
     }
 }
