@@ -1,6 +1,8 @@
 package ch.logixisland.anuto.entity.plateau;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.data.entity.EntityDescriptor;
+import ch.logixisland.anuto.data.entity.PlateauDescriptor;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
@@ -33,6 +35,11 @@ public class BasicPlateau extends Plateau implements SpriteTransformation {
     public static class Persister extends EntityPersister {
         public Persister(GameEngine gameEngine, EntityRegistry entityRegistry) {
             super(gameEngine, entityRegistry, ENTITY_NAME);
+        }
+
+        @Override
+        protected EntityDescriptor createEntityDescriptor() {
+            return new PlateauDescriptor();
         }
     }
 

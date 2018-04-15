@@ -7,7 +7,7 @@ import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
-public class EntityPersister implements Persister {
+public abstract class EntityPersister implements Persister {
 
     private final GameEngine mGameEngine;
     private final EntityRegistry mEntityRegistry;
@@ -39,9 +39,7 @@ public class EntityPersister implements Persister {
         }
     }
 
-    protected EntityDescriptor createEntityDescriptor() {
-        return new EntityDescriptor();
-    }
+    protected abstract EntityDescriptor createEntityDescriptor();
 
     protected EntityDescriptor writeEntityDescriptor(Entity entity) {
         EntityDescriptor entityDescriptor = createEntityDescriptor();

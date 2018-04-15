@@ -1,6 +1,10 @@
 package ch.logixisland.anuto.data.entity;
 
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementMap;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TowerDescriptor extends EntityDescriptor {
 
@@ -21,6 +25,9 @@ public class TowerDescriptor extends EntityDescriptor {
 
     @Element(name = "lockTarget")
     private boolean mLockTarget;
+
+    @ElementMap(name = "details", attribute = true)
+    private Map<String, String> mDetails = new HashMap<>();
 
     public int getPlateauId() {
         return mPlateauId;
@@ -68,5 +75,13 @@ public class TowerDescriptor extends EntityDescriptor {
 
     public void setLockTarget(boolean lockTarget) {
         mLockTarget = lockTarget;
+    }
+
+    public String getDetail(String key) {
+        return mDetails.get(key);
+    }
+
+    public void addDetail(String key, String value) {
+        mDetails.put(key, value);
     }
 }

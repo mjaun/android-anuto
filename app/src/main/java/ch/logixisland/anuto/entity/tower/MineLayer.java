@@ -8,7 +8,7 @@ import java.util.List;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.data.entity.EntityDescriptor;
-import ch.logixisland.anuto.data.entity.MineLayerDescriptor;
+import ch.logixisland.anuto.data.entity.TowerDescriptor;
 import ch.logixisland.anuto.data.map.MapDescriptor;
 import ch.logixisland.anuto.data.map.PathDescriptor;
 import ch.logixisland.anuto.data.setting.tower.MineLayerSettings;
@@ -50,35 +50,32 @@ public class MineLayer extends Tower implements SpriteTransformation {
     }
 
     public static class Persister extends TowerPersister {
+        private static final String MINE_POSITION_DETAIL = "minePositions";
+
         public Persister(GameEngine gameEngine, EntityRegistry entityRegistry) {
             super(gameEngine, entityRegistry, ENTITY_NAME);
         }
 
         @Override
-        protected MineLayerDescriptor createEntityDescriptor() {
-            return new MineLayerDescriptor();
-        }
-
-        @Override
-        protected MineLayerDescriptor writeEntityDescriptor(Entity entity) {
+        protected TowerDescriptor writeEntityDescriptor(Entity entity) {
             MineLayer mineLayer = (MineLayer) entity;
-            MineLayerDescriptor mineLayerDescriptor = (MineLayerDescriptor) super.writeEntityDescriptor(entity);
+            TowerDescriptor descriptor = super.writeEntityDescriptor(entity);
 
-            Collection<Vector2> minePositions = new ArrayList<>();
+            List<Vector2> minePositions = new ArrayList<>();
             for (Mine mine : mineLayer.mMines) {
                 minePositions.add(mine.getTarget());
             }
-            mineLayerDescriptor.setMinePositions(minePositions);
+            descriptor.addDetail(MINE_POSITION_DETAIL, Vector2.serializeList(minePositions));
 
-            return mineLayerDescriptor;
+            return descriptor;
         }
 
         @Override
         protected MineLayer readEntityDescriptor(EntityDescriptor entityDescriptor) {
             MineLayer mineLayer = (MineLayer) super.readEntityDescriptor(entityDescriptor);
-            MineLayerDescriptor mineLayerDescriptor = (MineLayerDescriptor) entityDescriptor;
+            TowerDescriptor descriptor = (TowerDescriptor) entityDescriptor;
 
-            for (Vector2 minePosition : mineLayerDescriptor.getMinePositions()) {
+            for (Vector2 minePosition : Vector2.deserializeList(descriptor.getDetail(MINE_POSITION_DETAIL))) {
                 Mine mine = new Mine(mineLayer, minePosition, mineLayer.getDamage(), mineLayer.mExplosionRadius);
                 mineLayer.mMines.add(mine);
                 mine.addListener(mineLayer.mMineListener);

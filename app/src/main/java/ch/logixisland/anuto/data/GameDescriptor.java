@@ -15,7 +15,7 @@ import java.util.List;
 import ch.logixisland.anuto.BuildConfig;
 import ch.logixisland.anuto.data.entity.EnemyDescriptor;
 import ch.logixisland.anuto.data.entity.EntityDescriptor;
-import ch.logixisland.anuto.data.entity.MineLayerDescriptor;
+import ch.logixisland.anuto.data.entity.PlateauDescriptor;
 import ch.logixisland.anuto.data.entity.TowerDescriptor;
 import ch.logixisland.anuto.data.map.MapDescriptor;
 import ch.logixisland.anuto.data.setting.GameSettings;
@@ -44,10 +44,9 @@ public class GameDescriptor {
     private List<ActiveWaveDescriptor> mActiveWaveDescriptors = new ArrayList<>();
 
     @ElementListUnion({
-            @ElementList(entry = "entity", inline = true, required = false, type = EntityDescriptor.class),
+            @ElementList(entry = "plateau", inline = true, required = false, type = PlateauDescriptor.class),
             @ElementList(entry = "enemy", inline = true, required = false, type = EnemyDescriptor.class),
             @ElementList(entry = "tower", inline = true, required = false, type = TowerDescriptor.class),
-            @ElementList(entry = "mineLayer", inline = true, required = false, type = MineLayerDescriptor.class),
     })
     private List<EntityDescriptor> mEntityDescriptors = new ArrayList<>();
 

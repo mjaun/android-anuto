@@ -6,7 +6,7 @@ import org.simpleframework.xml.Root;
 import ch.logixisland.anuto.util.math.Vector2;
 
 @Root
-public class EntityDescriptor {
+public abstract class EntityDescriptor {
 
     @Element(name = "id")
     private int mId;
