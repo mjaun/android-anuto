@@ -15,7 +15,7 @@ import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class Rocket extends HomingShot implements SpriteTransformation {
+public class Rocket extends Shot implements SpriteTransformation, TargetTracker.Listener {
 
     private final static float MOVEMENT_SPEED = 2.5f;
     private final static float ANIMATION_SPEED = 3f;
@@ -28,6 +28,7 @@ public class Rocket extends HomingShot implements SpriteTransformation {
     private float mDamage;
     private float mRadius;
     private float mAngle;
+    private TargetTracker mTracker;
 
     private StaticSprite mSprite;
     private AnimatedSprite mSpriteFire;
@@ -40,6 +41,7 @@ public class Rocket extends HomingShot implements SpriteTransformation {
 
         mDamage = damage;
         mRadius = radius;
+        mTracker = new TargetTracker(this, this);
 
         StaticData s = (StaticData) getStaticData();
 
@@ -55,6 +57,10 @@ public class Rocket extends HomingShot implements SpriteTransformation {
 
     public void setAngle(float angle) {
         mAngle = angle;
+    }
+
+    public void setTarget(Enemy target) {
+        mTracker.setTarget(target);
     }
 
     @Override
@@ -73,7 +79,6 @@ public class Rocket extends HomingShot implements SpriteTransformation {
     @Override
     public void init() {
         super.init();
-
         getGameEngine().add(mSprite);
 
         if (isEnabled()) {
@@ -84,7 +89,6 @@ public class Rocket extends HomingShot implements SpriteTransformation {
     @Override
     public void clean() {
         super.clean();
-
         getGameEngine().remove(mSprite);
 
         if (isEnabled()) {
@@ -113,30 +117,32 @@ public class Rocket extends HomingShot implements SpriteTransformation {
     @Override
     public void tick() {
         if (isEnabled()) {
-            setDirection(getDirectionTo(getTarget()));
-            mAngle = getAngleTo(getTarget());
+            Vector2 direction = mTracker.getTargetDirection();
+            setDirection(direction);
+            mAngle = direction.angle();
 
             mSpriteFire.tick();
         }
 
         super.tick();
+        mTracker.tick();
     }
 
     @Override
-    protected void targetLost() {
+    public void targetLost(Enemy target) {
         Enemy closest = (Enemy) getGameEngine().getEntitiesByType(Types.ENEMY)
                 .min(distanceTo(getPosition()));
 
         if (closest == null) {
-            getGameEngine().remove(this);
+            this.remove();
         } else {
-            setTarget(closest);
+            mTracker.setTarget(closest);
         }
     }
 
     @Override
-    protected void targetReached() {
-        getGameEngine().add(new Explosion(getOrigin(), getTarget().getPosition(), mDamage, mRadius));
-        getGameEngine().remove(this);
+    public void targetReached(Enemy target) {
+        getGameEngine().add(new Explosion(getOrigin(), target.getPosition(), mDamage, mRadius));
+        this.remove();
     }
 }

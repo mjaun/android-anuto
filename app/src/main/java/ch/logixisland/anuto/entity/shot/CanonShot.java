@@ -13,7 +13,7 @@ import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class CanonShot extends HomingShot implements SpriteTransformation {
+public class CanonShot extends Shot implements SpriteTransformation, TargetTracker.Listener {
 
     private final static float MOVEMENT_SPEED = 4.0f;
     private final static float ROTATION_SPEED = 1.0f;
@@ -25,16 +25,17 @@ public class CanonShot extends HomingShot implements SpriteTransformation {
 
     private float mAngle;
     private float mDamage;
+    private TargetTracker mTracker;
 
     private StaticSprite mSprite;
 
     public CanonShot(Entity origin, Vector2 position, Enemy target, float damage) {
         super(origin);
         setPosition(position);
-        setTarget(target);
         setSpeed(MOVEMENT_SPEED);
 
         mDamage = damage;
+        mTracker = new TargetTracker(target, this, this);
 
         StaticData s = (StaticData) getStaticData();
 
@@ -56,23 +57,21 @@ public class CanonShot extends HomingShot implements SpriteTransformation {
     @Override
     public void init() {
         super.init();
-
         getGameEngine().add(mSprite);
     }
 
     @Override
     public void clean() {
         super.clean();
-
         getGameEngine().remove(mSprite);
     }
 
     @Override
     public void tick() {
-        setDirection(getDirectionTo(getTarget()));
+        setDirection(mTracker.getTargetDirection());
         mAngle += ROTATION_STEP;
-
         super.tick();
+        mTracker.tick();
     }
 
     @Override
@@ -82,13 +81,13 @@ public class CanonShot extends HomingShot implements SpriteTransformation {
     }
 
     @Override
-    protected void targetLost() {
+    public void targetLost(Enemy target) {
         this.remove();
     }
 
     @Override
-    protected void targetReached() {
-        getTarget().damage(mDamage, getOrigin());
+    public void targetReached(Enemy target) {
+        target.damage(mDamage, getOrigin());
         this.remove();
     }
 }
