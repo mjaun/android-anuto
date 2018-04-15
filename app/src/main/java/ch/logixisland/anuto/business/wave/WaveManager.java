@@ -104,9 +104,8 @@ public class WaveManager implements Persister {
         gameDescriptor.getGameSettings().setWaveNumber(mWaveNumber);
 
         for (WaveAttender waveAttender : mActiveWaves) {
-            ActiveWaveDescriptor activeWaveDescriptor = new ActiveWaveDescriptor();
-            waveAttender.writeActiveWaveDescriptor(activeWaveDescriptor);
-            gameDescriptor.addActiveWaveDescriptor(activeWaveDescriptor);
+            ActiveWaveDescriptor descriptor = waveAttender.writeActiveWaveDescriptor();
+            gameDescriptor.addActiveWaveDescriptor(descriptor);
         }
     }
 

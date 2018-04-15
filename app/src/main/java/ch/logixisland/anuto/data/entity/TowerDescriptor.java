@@ -16,6 +16,12 @@ public class TowerDescriptor extends EntityDescriptor {
     @Element(name = "damageInflicted")
     private float mDamageInflicted;
 
+    @Element(name = "strategy")
+    private String mStrategy;
+
+    @Element(name = "lockTarget")
+    private boolean mLockTarget;
+
     public int getPlateauId() {
         return mPlateauId;
     }
@@ -46,5 +52,21 @@ public class TowerDescriptor extends EntityDescriptor {
 
     public void setDamageInflicted(float damageInflicted) {
         mDamageInflicted = damageInflicted;
+    }
+
+    public String getStrategy() {
+        return mStrategy;
+    }
+
+    public void setStrategy(String strategy) {
+        mStrategy = strategy;
+    }
+
+    public boolean isLockTarget() {
+        return mLockTarget;
+    }
+
+    public void setLockTarget(boolean lockTarget) {
+        mLockTarget = lockTarget;
     }
 }

@@ -108,13 +108,15 @@ class WaveAttender implements EnemyListener {
         return totalReward;
     }
 
-    void writeActiveWaveDescriptor(ActiveWaveDescriptor activeWaveDescriptor) {
-        activeWaveDescriptor.setWaveNumber(mWaveNumber);
-        activeWaveDescriptor.setWaveStartTickCount(mWaveStartTickCount);
-        activeWaveDescriptor.setExtend(mExtend);
-        activeWaveDescriptor.setWaveReward(mWaveReward);
-        activeWaveDescriptor.setEnemyHealthModifier(mEnemyHealthModifier);
-        activeWaveDescriptor.setEnemyRewardModifier(mEnemyRewardModifier);
+    ActiveWaveDescriptor writeActiveWaveDescriptor() {
+        ActiveWaveDescriptor descriptor = new ActiveWaveDescriptor();
+        descriptor.setWaveNumber(mWaveNumber);
+        descriptor.setWaveStartTickCount(mWaveStartTickCount);
+        descriptor.setExtend(mExtend);
+        descriptor.setWaveReward(mWaveReward);
+        descriptor.setEnemyHealthModifier(mEnemyHealthModifier);
+        descriptor.setEnemyRewardModifier(mEnemyRewardModifier);
+        return descriptor;
     }
 
     void readActiveWaveDescriptor(ActiveWaveDescriptor activeWaveDescriptor) {

@@ -41,7 +41,7 @@ public class SimpleLaser extends AimingTower implements SpriteTransformation {
         }
     }
 
-    public static class Persister extends TowerPersister {
+    public static class Persister extends AimingTowerPersister {
         public Persister(GameEngine gameEngine, EntityRegistry entityRegistry) {
             super(gameEngine, entityRegistry, ENTITY_NAME);
         }

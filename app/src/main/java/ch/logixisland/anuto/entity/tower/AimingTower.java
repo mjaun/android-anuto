@@ -1,9 +1,12 @@
 package ch.logixisland.anuto.entity.tower;
 
+import ch.logixisland.anuto.data.entity.EntityDescriptor;
+import ch.logixisland.anuto.data.entity.TowerDescriptor;
 import ch.logixisland.anuto.data.setting.tower.BasicTowerSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityListener;
+import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.loop.TickTimer;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 
@@ -24,6 +27,30 @@ public abstract class AimingTower extends Tower {
             targetLost();
         }
     };
+
+    public static class AimingTowerPersister extends TowerPersister {
+        public AimingTowerPersister(GameEngine gameEngine, EntityRegistry entityRegistry, String entityName) {
+            super(gameEngine, entityRegistry, entityName);
+        }
+
+        @Override
+        protected TowerDescriptor writeEntityDescriptor(Entity entity) {
+            TowerDescriptor towerDescriptor = super.writeEntityDescriptor(entity);
+            AimingTower tower = (AimingTower) entity;
+            towerDescriptor.setStrategy(tower.getStrategy().toString());
+            towerDescriptor.setLockTarget(tower.doesLockTarget());
+            return towerDescriptor;
+        }
+
+        @Override
+        protected Tower readEntityDescriptor(EntityDescriptor entityDescriptor) {
+            AimingTower tower = (AimingTower) super.readEntityDescriptor(entityDescriptor);
+            TowerDescriptor towerDescriptor = (TowerDescriptor) entityDescriptor;
+            tower.setStrategy(TowerStrategy.valueOf(towerDescriptor.getStrategy()));
+            tower.setLockTarget(towerDescriptor.isLockTarget());
+            return tower;
+        }
+    }
 
     protected AimingTower(GameEngine gameEngine, BasicTowerSettings config) {
         super(gameEngine, config);
