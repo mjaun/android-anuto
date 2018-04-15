@@ -84,6 +84,10 @@ public abstract class Tower extends Entity {
         }
     }
 
+    public Aimer getAimer() {
+        return null;
+    }
+
     public abstract void preview(Canvas canvas);
 
     public abstract List<TowerInfoValue> getTowerInfoValues();
@@ -318,5 +322,4 @@ public abstract class Tower extends Entity {
     public void removeListener(TowerListener listener) {
         mListeners.remove(listener);
     }
-
 }

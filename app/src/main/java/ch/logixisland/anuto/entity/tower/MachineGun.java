@@ -25,7 +25,7 @@ import ch.logixisland.anuto.entity.shot.Shot;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class MachineGun extends AimingTower implements SpriteTransformation {
+public class MachineGun extends Tower implements SpriteTransformation {
 
     private final static String ENTITY_NAME = "machineGun";
     private final static float SHOT_SPAWN_OFFSET = 0.7f;
@@ -44,7 +44,7 @@ public class MachineGun extends AimingTower implements SpriteTransformation {
         }
     }
 
-    public static class Persister extends AimingTowerPersister {
+    public static class Persister extends TowerPersister {
         public Persister(GameEngine gameEngine, EntityRegistry entityRegistry) {
             super(gameEngine, entityRegistry, ENTITY_NAME);
         }
@@ -60,6 +60,7 @@ public class MachineGun extends AimingTower implements SpriteTransformation {
     private AnimatedSprite mSpriteCanon;
     private int mShotCount = 0;
     private Sound mSound;
+    private final Aimer mAimer = new Aimer(this);
 
     private MachineGun(GameEngine gameEngine, BasicTowerSettings settings) {
         super(gameEngine, settings);
@@ -115,13 +116,14 @@ public class MachineGun extends AimingTower implements SpriteTransformation {
     @Override
     public void tick() {
         super.tick();
+        mAimer.tick();
 
-        if (getTarget() != null) {
-            mAngle = getAngleTo(getTarget());
+        if (mAimer.getTarget() != null) {
+            mAngle = getAngleTo(mAimer.getTarget());
             mSpriteCanon.tick();
 
             if (isReloaded()) {
-                Shot shot = new CanonShotMg(this, getPosition(), getDirectionTo(getTarget()), getDamage());
+                Shot shot = new CanonShotMg(this, getPosition(), getDirectionTo(mAimer.getTarget()), getDamage());
                 shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
                 getGameEngine().add(shot);
                 mShotCount++;
@@ -133,6 +135,11 @@ public class MachineGun extends AimingTower implements SpriteTransformation {
                 setReloaded(false);
             }
         }
+    }
+
+    @Override
+    public Aimer getAimer() {
+        return mAimer;
     }
 
     @Override

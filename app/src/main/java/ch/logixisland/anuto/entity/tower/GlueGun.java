@@ -24,7 +24,7 @@ import ch.logixisland.anuto.entity.shot.GlueShot;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class GlueGun extends AimingTower implements SpriteTransformation {
+public class GlueGun extends Tower implements SpriteTransformation {
 
     private final static String ENTITY_NAME = "glueGun";
     private final static float SHOT_SPAWN_OFFSET = 0.7f;
@@ -43,7 +43,7 @@ public class GlueGun extends AimingTower implements SpriteTransformation {
         }
     }
 
-    public static class Persister extends AimingTowerPersister {
+    public static class Persister extends TowerPersister {
         public Persister(GameEngine gameEngine, EntityRegistry entityRegistry) {
             super(gameEngine, entityRegistry, ENTITY_NAME);
         }
@@ -59,6 +59,7 @@ public class GlueGun extends AimingTower implements SpriteTransformation {
     private float mAngle = 90f;
     private float mGlueIntensity;
     private boolean mRebounding = false;
+    private final Aimer mAimer = new Aimer(this);
 
     private StaticSprite mSpriteBase;
     private AnimatedSprite mSpriteCanon;
@@ -126,12 +127,13 @@ public class GlueGun extends AimingTower implements SpriteTransformation {
     @Override
     public void tick() {
         super.tick();
+        mAimer.tick();
 
-        if (isReloaded() && getTarget() != null) {
-            float dist = getDistanceTo(getTarget());
+        if (isReloaded() && mAimer.getTarget() != null) {
+            float dist = getDistanceTo(mAimer.getTarget());
             float time = dist / GlueShot.MOVEMENT_SPEED;
 
-            Vector2 target = getTarget().getPositionAfter(time);
+            Vector2 target = mAimer.getTarget().getPositionAfter(time);
 
             mAngle = getAngleTo(target);
 
@@ -146,6 +148,11 @@ public class GlueGun extends AimingTower implements SpriteTransformation {
         if (mRebounding && mSpriteCanon.tick()) {
             mRebounding = false;
         }
+    }
+
+    @Override
+    public Aimer getAimer() {
+        return mAimer;
     }
 
     @Override

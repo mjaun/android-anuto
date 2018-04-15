@@ -24,7 +24,7 @@ import ch.logixisland.anuto.entity.shot.MortarShot;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class Mortar extends AimingTower implements SpriteTransformation {
+public class Mortar extends Tower implements SpriteTransformation {
 
     private final static String ENTITY_NAME = "mortar";
     private final static float SHOT_SPAWN_OFFSET = 0.6f;
@@ -43,7 +43,7 @@ public class Mortar extends AimingTower implements SpriteTransformation {
         }
     }
 
-    public static class Persister extends AimingTowerPersister {
+    public static class Persister extends TowerPersister {
         public Persister(GameEngine gameEngine, EntityRegistry entityRegistry) {
             super(gameEngine, entityRegistry, ENTITY_NAME);
         }
@@ -59,6 +59,7 @@ public class Mortar extends AimingTower implements SpriteTransformation {
     private float mExplosionRadius;
     private float mAngle = 90f;
     private boolean mRebounding = false;
+    private final Aimer mAimer = new Aimer(this);
 
     private StaticSprite mSpriteBase;
     private AnimatedSprite mSpriteCanon;
@@ -126,9 +127,10 @@ public class Mortar extends AimingTower implements SpriteTransformation {
     @Override
     public void tick() {
         super.tick();
+        mAimer.tick();
 
-        if (getTarget() != null && isReloaded()) {
-            Vector2 targetPos = getTarget().getPositionAfter(MortarShot.TIME_TO_TARGET);
+        if (mAimer.getTarget() != null && isReloaded()) {
+            Vector2 targetPos = mAimer.getTarget().getPositionAfter(MortarShot.TIME_TO_TARGET);
             targetPos = targetPos.add(Vector2.polar(RandomUtils.next(mSettings.getInaccuracy()), RandomUtils.next(360f)));
             mAngle = getAngleTo(targetPos);
             Vector2 shotPos = getPosition().add(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
@@ -143,6 +145,11 @@ public class Mortar extends AimingTower implements SpriteTransformation {
         if (mRebounding && mSpriteCanon.tick()) {
             mRebounding = false;
         }
+    }
+
+    @Override
+    public Aimer getAimer() {
+        return mAimer;
     }
 
     @Override

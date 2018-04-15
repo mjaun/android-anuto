@@ -22,29 +22,43 @@ public class TowerPersister extends EntityPersister {
     @Override
     protected TowerDescriptor writeEntityDescriptor(Entity entity) {
         Tower tower = (Tower) entity;
-        TowerDescriptor towerDescriptor = (TowerDescriptor) super.writeEntityDescriptor(tower);
+        TowerDescriptor descriptor = (TowerDescriptor) super.writeEntityDescriptor(tower);
 
-        towerDescriptor.setPlateauId(tower.getPlateau().getEntityId());
-        towerDescriptor.setValue(tower.getValue());
-        towerDescriptor.setLevel(tower.getLevel());
-        towerDescriptor.setDamageInflicted(tower.getDamageInflicted());
+        descriptor.setPlateauId(tower.getPlateau().getEntityId());
+        descriptor.setValue(tower.getValue());
+        descriptor.setLevel(tower.getLevel());
+        descriptor.setDamageInflicted(tower.getDamageInflicted());
 
-        return towerDescriptor;
+        Aimer aimer = tower.getAimer();
+
+        if (aimer != null) {
+            descriptor.setStrategy(aimer.getStrategy().toString());
+            descriptor.setLockTarget(aimer.doesLockTarget());
+        }
+
+        return descriptor;
     }
 
     @Override
     protected Tower readEntityDescriptor(EntityDescriptor entityDescriptor) {
         Tower tower = (Tower) super.readEntityDescriptor(entityDescriptor);
-        TowerDescriptor towerDescriptor = (TowerDescriptor) entityDescriptor;
+        TowerDescriptor descriptor = (TowerDescriptor) entityDescriptor;
 
-        while (tower.getLevel() < towerDescriptor.getLevel()) {
+        while (tower.getLevel() < descriptor.getLevel()) {
             tower.enhance();
         }
 
-        tower.setPlateau((Plateau) getGameEngine().getEntityById(towerDescriptor.getPlateauId()));
-        tower.setValue(towerDescriptor.getValue());
-        tower.setDamageInflicted(towerDescriptor.getDamageInflicted());
+        tower.setPlateau((Plateau) getGameEngine().getEntityById(descriptor.getPlateauId()));
+        tower.setValue(descriptor.getValue());
+        tower.setDamageInflicted(descriptor.getDamageInflicted());
         tower.setEnabled(true);
+
+        Aimer aimer = tower.getAimer();
+
+        if (aimer != null) {
+            aimer.setStrategy(TowerStrategy.valueOf(descriptor.getStrategy()));
+            aimer.setLockTarget(descriptor.isLockTarget());
+        }
 
         return tower;
     }

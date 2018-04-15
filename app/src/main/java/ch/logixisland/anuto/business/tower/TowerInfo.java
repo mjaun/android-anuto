@@ -2,7 +2,7 @@ package ch.logixisland.anuto.business.tower;
 
 import java.util.List;
 
-import ch.logixisland.anuto.entity.tower.AimingTower;
+import ch.logixisland.anuto.entity.tower.Aimer;
 import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.entity.tower.TowerInfoValue;
 import ch.logixisland.anuto.entity.tower.TowerStrategy;
@@ -33,12 +33,13 @@ public class TowerInfo {
         mUpgradeable = tower.isUpgradeable() && mUpgradeCost <= credits && controlsEnabled;
         mSellable = controlsEnabled;
 
-        if (tower instanceof AimingTower) {
-            AimingTower aimingTower = (AimingTower) tower;
+        Aimer aimer = tower.getAimer();
+
+        if (aimer != null) {
             mCanLockTarget = true;
-            mDoesLockTarget = aimingTower.doesLockTarget();
+            mDoesLockTarget = aimer.doesLockTarget();
             mHasStrategy = true;
-            mStrategy = aimingTower.getStrategy();
+            mStrategy = aimer.getStrategy();
         } else {
             mCanLockTarget = false;
             mHasStrategy = false;

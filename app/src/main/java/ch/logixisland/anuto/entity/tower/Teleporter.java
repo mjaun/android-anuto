@@ -26,7 +26,7 @@ import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
-public class Teleporter extends AimingTower implements SpriteTransformation {
+public class Teleporter extends Tower implements SpriteTransformation {
 
     private final static String ENTITY_NAME = "teleporter";
 
@@ -43,7 +43,7 @@ public class Teleporter extends AimingTower implements SpriteTransformation {
         }
     }
 
-    public static class Persister extends AimingTowerPersister {
+    public static class Persister extends TowerPersister {
         public Persister(GameEngine gameEngine, EntityRegistry entityRegistry) {
             super(gameEngine, entityRegistry, ENTITY_NAME);
         }
@@ -62,8 +62,8 @@ public class Teleporter extends AimingTower implements SpriteTransformation {
     }
 
     private TeleporterSettings mSettings;
-
     private float mTeleportDistance;
+    private final Aimer mAimer = new Aimer(this);
 
     private StaticSprite mSpriteBase;
     private StaticSprite mSpriteTower;
@@ -131,7 +131,7 @@ public class Teleporter extends AimingTower implements SpriteTransformation {
     public void tick() {
         super.tick();
 
-        Enemy target = getTarget();
+        Enemy target = mAimer.getTarget();
 
         if (isReloaded() && target != null) {
             // double check because two TeleportTowers might shoot simultaneously
@@ -142,9 +142,14 @@ public class Teleporter extends AimingTower implements SpriteTransformation {
                 mSound.play();
                 setReloaded(false);
             } else {
-                setTarget(null);
+                mAimer.setTarget(null);
             }
         }
+    }
+
+    @Override
+    public Aimer getAimer() {
+        return mAimer;
     }
 
     @Override

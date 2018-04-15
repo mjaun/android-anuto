@@ -26,7 +26,7 @@ import ch.logixisland.anuto.util.math.Function;
 import ch.logixisland.anuto.util.math.SampledFunction;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class Canon extends AimingTower implements SpriteTransformation {
+public class Canon extends Tower implements SpriteTransformation {
 
     private final static String ENTITY_NAME = "canon";
     private final static float SHOT_SPAWN_OFFSET = 0.7f;
@@ -46,7 +46,7 @@ public class Canon extends AimingTower implements SpriteTransformation {
         }
     }
 
-    public static class Persister extends AimingTowerPersister {
+    public static class Persister extends TowerPersister {
         public Persister(GameEngine gameEngine, EntityRegistry entityRegistry) {
             super(gameEngine, entityRegistry, ENTITY_NAME);
         }
@@ -59,6 +59,7 @@ public class Canon extends AimingTower implements SpriteTransformation {
 
     private float mAngle = 90f;
     private boolean mReboundActive;
+    private final Aimer mAimer = new Aimer(this);
 
     private SampledFunction mReboundFunction;
 
@@ -125,12 +126,13 @@ public class Canon extends AimingTower implements SpriteTransformation {
     @Override
     public void tick() {
         super.tick();
+        mAimer.tick();
 
-        if (getTarget() != null) {
-            mAngle = getAngleTo(getTarget());
+        if (mAimer.getTarget() != null) {
+            mAngle = getAngleTo(mAimer.getTarget());
 
             if (isReloaded()) {
-                Shot shot = new CanonShot(this, getPosition(), getTarget(), getDamage());
+                Shot shot = new CanonShot(this, getPosition(), mAimer.getTarget(), getDamage());
                 shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
                 getGameEngine().add(shot);
                 mSound.play();
@@ -147,6 +149,11 @@ public class Canon extends AimingTower implements SpriteTransformation {
                 mReboundActive = false;
             }
         }
+    }
+
+    @Override
+    public Aimer getAimer() {
+        return mAimer;
     }
 
     @Override

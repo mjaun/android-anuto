@@ -22,7 +22,7 @@ import ch.logixisland.anuto.engine.sound.Sound;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class StraightLaser extends AimingTower implements SpriteTransformation {
+public class StraightLaser extends Tower implements SpriteTransformation {
 
     private final static String ENTITY_NAME = "straightLaser";
     private final static float LASER_SPAWN_OFFSET = 0.8f;
@@ -41,7 +41,7 @@ public class StraightLaser extends AimingTower implements SpriteTransformation {
         }
     }
 
-    public static class Persister extends AimingTowerPersister {
+    public static class Persister extends TowerPersister {
         public Persister(GameEngine gameEngine, EntityRegistry entityRegistry) {
             super(gameEngine, entityRegistry, ENTITY_NAME);
         }
@@ -53,6 +53,7 @@ public class StraightLaser extends AimingTower implements SpriteTransformation {
     }
 
     private float mAngle = 90f;
+    private final Aimer mAimer = new Aimer(this);
 
     private StaticSprite mSpriteBase;
     private StaticSprite mSpriteCanon;
@@ -110,9 +111,10 @@ public class StraightLaser extends AimingTower implements SpriteTransformation {
     @Override
     public void tick() {
         super.tick();
+        mAimer.tick();
 
-        if (getTarget() != null) {
-            mAngle = getAngleTo(getTarget());
+        if (mAimer.getTarget() != null) {
+            mAngle = getAngleTo(mAimer.getTarget());
 
             if (isReloaded()) {
                 Vector2 laserFrom = getPosition().add(Vector2.polar(LASER_SPAWN_OFFSET, mAngle));
@@ -122,6 +124,11 @@ public class StraightLaser extends AimingTower implements SpriteTransformation {
                 mSound.play();
             }
         }
+    }
+
+    @Override
+    public Aimer getAimer() {
+        return mAimer;
     }
 
     @Override

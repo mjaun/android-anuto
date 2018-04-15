@@ -8,7 +8,7 @@ import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.loop.Message;
 import ch.logixisland.anuto.entity.plateau.Plateau;
-import ch.logixisland.anuto.entity.tower.AimingTower;
+import ch.logixisland.anuto.entity.tower.Aimer;
 import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.entity.tower.TowerStrategy;
 
@@ -55,11 +55,11 @@ public class TowerControl {
 
         mScoreBoard.takeCredits(upgradeCost);
 
-        if (upgradedTower instanceof AimingTower && selectedTower instanceof AimingTower) {
-            AimingTower aimingTower = (AimingTower) selectedTower;
-            AimingTower aimingUpgraded = (AimingTower) upgradedTower;
-            aimingUpgraded.setLockTarget(aimingTower.doesLockTarget());
-            aimingUpgraded.setStrategy(aimingTower.getStrategy());
+        Aimer upgradedTowerAimer = upgradedTower.getAimer();
+        Aimer selectedTowerAimer = selectedTower.getAimer();
+        if (upgradedTowerAimer != null && selectedTowerAimer != null) {
+            upgradedTowerAimer.setLockTarget(selectedTowerAimer.doesLockTarget());
+            upgradedTowerAimer.setStrategy(selectedTowerAimer.getStrategy());
         }
 
         upgradedTower.setPlateau(plateau);
@@ -102,15 +102,17 @@ public class TowerControl {
         }
 
         Tower selectedTower = mTowerSelector.getSelectedTower();
-        if (selectedTower instanceof AimingTower) {
-            AimingTower tower = (AimingTower) selectedTower;
+        Aimer selectedTowerAimer = selectedTower.getAimer();
 
+        if (selectedTowerAimer != null) {
             List<TowerStrategy> values = Arrays.asList(TowerStrategy.values());
-            int index = values.indexOf(tower.getStrategy()) + 1;
+            int index = values.indexOf(selectedTowerAimer.getStrategy()) + 1;
+
             if (index >= values.size()) {
                 index = 0;
             }
-            tower.setStrategy(values.get(index));
+
+            selectedTowerAimer.setStrategy(values.get(index));
             mTowerSelector.updateTowerInfo();
         }
     }
@@ -127,9 +129,11 @@ public class TowerControl {
         }
 
         Tower selectedTower = mTowerSelector.getSelectedTower();
-        if (selectedTower instanceof AimingTower) {
-            AimingTower tower = (AimingTower) selectedTower;
-            tower.setLockTarget(!tower.doesLockTarget());
+        Aimer selectedTowerAimer = selectedTower.getAimer();
+
+        if (selectedTowerAimer != null) {
+            boolean lock = selectedTowerAimer.doesLockTarget();
+            selectedTowerAimer.setLockTarget(!lock);
             mTowerSelector.updateTowerInfo();
         }
     }
