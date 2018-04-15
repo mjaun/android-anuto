@@ -16,9 +16,10 @@ import ch.logixisland.anuto.entity.enemy.Flyer;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class GlueEffect extends AreaEffect implements SpriteTransformation {
+public class GlueEffect extends Effect implements SpriteTransformation, AreaObserver.Listener {
 
     private final static int ALPHA_START = 150;
+    private final static float RANGE = 1f;
 
     private class StaticData {
         SpriteTemplate mSpriteTemplate;
@@ -27,17 +28,19 @@ public class GlueEffect extends AreaEffect implements SpriteTransformation {
     private float mAngle;
     private float mIntensity;
     private int mAlphaStep;
+    private AreaObserver mAreaObserver;
 
     private Paint mPaint;
     private StaticSprite mSprite;
 
     public GlueEffect(Entity origin, Vector2 position, float intensity, float duration) {
-        super(origin, duration, 1f);
+        super(origin, duration);
         setPosition(position);
 
         mIntensity = intensity;
         mAngle = RandomUtils.next(360f);
         mAlphaStep = (int) (ALPHA_START / (GameEngine.TARGET_FRAME_RATE * duration));
+        mAreaObserver = new AreaObserver(getGameEngine(), position, RANGE, this);
 
         StaticData s = (StaticData) getStaticData();
 
@@ -63,14 +66,12 @@ public class GlueEffect extends AreaEffect implements SpriteTransformation {
     @Override
     public void init() {
         super.init();
-
         getGameEngine().add(mSprite);
     }
 
     @Override
     public void clean() {
         super.clean();
-
         getGameEngine().remove(mSprite);
     }
 
@@ -83,19 +84,19 @@ public class GlueEffect extends AreaEffect implements SpriteTransformation {
     @Override
     public void tick() {
         super.tick();
-
         mPaint.setAlpha(mPaint.getAlpha() - mAlphaStep);
+        mAreaObserver.tick();
     }
 
     @Override
-    protected void enemyEnter(Enemy e) {
+    public void enemyEntered(Enemy e) {
         if (!(e instanceof Flyer)) {
             e.modifySpeed(1f / mIntensity);
         }
     }
 
     @Override
-    protected void enemyExit(Enemy e) {
+    public void enemyExited(Enemy e) {
         if (!(e instanceof Flyer)) {
             e.modifySpeed(mIntensity);
         }
