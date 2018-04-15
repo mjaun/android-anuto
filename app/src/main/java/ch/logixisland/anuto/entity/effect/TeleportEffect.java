@@ -6,16 +6,18 @@ import android.graphics.Paint;
 
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
+import ch.logixisland.anuto.engine.logic.entity.EntityListener;
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class TeleportEffect extends Effect {
+public class TeleportEffect extends Effect implements EntityListener {
 
     private static final float EFFECT_DURATION = 1f;
 
     private class TeleportDrawable implements Drawable {
+
         private Paint mPaint;
 
         public TeleportDrawable() {
@@ -36,13 +38,13 @@ public class TeleportEffect extends Effect {
             Vector2 target = mTarget.getPosition();
             canvas.drawLine(getPosition().x(), getPosition().y(), target.x(), target.y(), mPaint);
         }
-    }
 
+    }
     private Enemy mTarget;
+
     private float mDistance;
     private Vector2 mMoveDirection;
     private float mMoveStep;
-
     private TeleportDrawable mDrawObject;
 
     public TeleportEffect(Entity origin, Vector2 position, Enemy target, float distance) {
@@ -53,6 +55,7 @@ public class TeleportEffect extends Effect {
 
         mTarget = target;
         mDistance = distance;
+        mTarget.addListener(this);
 
         mMoveDirection = target.getDirectionTo(this);
         mMoveStep = target.getDistanceTo(this) / EFFECT_DURATION / GameEngine.TARGET_FRAME_RATE;
@@ -63,29 +66,33 @@ public class TeleportEffect extends Effect {
     @Override
     public void init() {
         super.init();
-
         getGameEngine().add(mDrawObject);
     }
 
     @Override
     public void clean() {
         super.clean();
-
         getGameEngine().remove(mDrawObject);
     }
 
     @Override
     public void tick() {
         super.tick();
-
         mTarget.move(mMoveDirection.mul(mMoveStep));
     }
 
     @Override
-    protected void effectEnd() {
-        mTarget.sendBack(mDistance);
-        mTarget.setEnabled(true);
+    public void entityRemoved(Entity entity) {
+        mTarget = null;
+        remove();
+    }
 
-        getGameEngine().add(new TeleportedMarker(getOrigin(), mTarget));
+    @Override
+    protected void effectEnd() {
+        if (mTarget != null) {
+            mTarget.sendBack(mDistance);
+            mTarget.setEnabled(true);
+            getGameEngine().add(new TeleportedMarker(getOrigin(), mTarget));
+        }
     }
 }
