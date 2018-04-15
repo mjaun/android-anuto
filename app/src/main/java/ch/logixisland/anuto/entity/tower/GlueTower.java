@@ -26,6 +26,7 @@ import ch.logixisland.anuto.entity.shot.GlueShot;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
+import ch.logixisland.anuto.util.math.Intersections;
 import ch.logixisland.anuto.util.math.Line;
 import ch.logixisland.anuto.util.math.Vector2;
 
@@ -249,5 +250,15 @@ public class GlueTower extends Tower implements SpriteTransformation {
 
             dist -= length;
         }
+    }
+
+    private Collection<Line> getPathSectionsInRange(Collection<PathDescriptor> paths) {
+        Collection<Line> sections = new ArrayList<>();
+
+        for (PathDescriptor path : paths) {
+            sections.addAll(Intersections.getPathSectionsInRange(path.getWayPoints(), getPosition(), getRange()));
+        }
+
+        return sections;
     }
 }

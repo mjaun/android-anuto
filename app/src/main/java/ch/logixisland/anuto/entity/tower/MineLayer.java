@@ -27,6 +27,7 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.engine.sound.Sound;
 import ch.logixisland.anuto.entity.shot.Mine;
 import ch.logixisland.anuto.util.RandomUtils;
+import ch.logixisland.anuto.util.math.Intersections;
 import ch.logixisland.anuto.util.math.Line;
 import ch.logixisland.anuto.util.math.Vector2;
 
@@ -259,5 +260,15 @@ public class MineLayer extends Tower implements SpriteTransformation {
         }
 
         return null;
+    }
+
+    private Collection<Line> getPathSectionsInRange(Collection<PathDescriptor> paths) {
+        Collection<Line> sections = new ArrayList<>();
+
+        for (PathDescriptor path : paths) {
+            sections.addAll(Intersections.getPathSectionsInRange(path.getWayPoints(), getPosition(), getRange()));
+        }
+
+        return sections;
     }
 }
