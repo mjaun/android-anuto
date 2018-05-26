@@ -68,7 +68,9 @@
     <string name="map_civyshk_yard_name">Civyshk Yard</string>
     <string name="press_back_button_again_toast">Press back button again to exit</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="getting_started">Getting Started</string>
+    <string name="got_it">Got it!</string>
+
+    <string name="getting_started_welcome">Welcome to another ugly tower defense! Start by building a tower: Drag a tower from the inventory on top onto the playground.</string>
 
 </resources>
