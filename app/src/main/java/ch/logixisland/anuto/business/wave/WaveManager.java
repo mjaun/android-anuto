@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.business.game.GameState;
-import ch.logixisland.anuto.business.score.ScoreBoard;
+import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.business.tower.TowerAging;
 import ch.logixisland.anuto.data.GameDescriptor;
 import ch.logixisland.anuto.data.setting.GameSettings;
@@ -25,6 +25,12 @@ public class WaveManager implements Persister {
     private static final int MAX_WAVES_IN_GAME = 3;
     private static final float MIN_WAVE_DELAY = 5;
 
+    public interface Listener {
+        void waveNumberChanged();
+        void nextWaveReadyChanged();
+        void remainingEnemiesCountChanged();
+    }
+
     private final GameEngine mGameEngine;
     private final ScoreBoard mScoreBoard;
     private final GameState mGameState;
@@ -39,7 +45,7 @@ public class WaveManager implements Persister {
     private boolean mMinWaveDelayTimeout;
 
     private final List<WaveAttender> mActiveWaves = new ArrayList<>();
-    private final List<WaveListener> mListeners = new CopyOnWriteArrayList<>();
+    private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
     public WaveManager(GameEngine gameEngine, ScoreBoard scoreBoard, GameState gameState,
                        EntityRegistry entityRegistry, TowerAging towerAging) {
@@ -91,11 +97,11 @@ public class WaveManager implements Persister {
         triggerMinWaveDelay();
     }
 
-    public void addListener(WaveListener listener) {
+    public void addListener(Listener listener) {
         mListeners.add(listener);
     }
 
-    public void removeListener(WaveListener listener) {
+    public void removeListener(Listener listener) {
         mListeners.remove(listener);
     }
 
@@ -227,7 +233,7 @@ public class WaveManager implements Persister {
         if (mRemainingEnemiesCount != totalCount) {
             mRemainingEnemiesCount = totalCount;
 
-            for (WaveListener listener : mListeners) {
+            for (Listener listener : mListeners) {
                 listener.remainingEnemiesCountChanged();
             }
         }
@@ -299,7 +305,7 @@ public class WaveManager implements Persister {
         if (mWaveNumber != waveNumber) {
             mWaveNumber = waveNumber;
 
-            for (WaveListener listener : mListeners) {
+            for (Listener listener : mListeners) {
                 listener.waveNumberChanged();
             }
         }
@@ -309,7 +315,7 @@ public class WaveManager implements Persister {
         if (mNextWaveReady != ready) {
             mNextWaveReady = ready;
 
-            for (WaveListener listener : mListeners) {
+            for (Listener listener : mListeners) {
                 listener.nextWaveReadyChanged();
             }
         }

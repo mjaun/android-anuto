@@ -14,11 +14,10 @@ import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.game.GameState;
-import ch.logixisland.anuto.business.game.GameStateListener;
-import ch.logixisland.anuto.business.score.ScoreBoard;
+import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.view.AnutoFragment;
 
-public class GameOverFragment extends AnutoFragment implements GameStateListener {
+public class GameOverFragment extends AnutoFragment implements GameState.Listener {
 
     private final GameState mGameState;
     private final ScoreBoard mScoreBoard;

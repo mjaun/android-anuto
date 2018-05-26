@@ -7,10 +7,9 @@ import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.engine.theme.ActivityType;
 import ch.logixisland.anuto.engine.theme.Theme;
-import ch.logixisland.anuto.engine.theme.ThemeListener;
 import ch.logixisland.anuto.engine.theme.ThemeManager;
 
-public abstract class AnutoActivity extends Activity implements ThemeListener {
+public abstract class AnutoActivity extends Activity implements ThemeManager.Listener {
 
     private final ThemeManager mThemeManager;
 

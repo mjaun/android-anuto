@@ -27,6 +27,10 @@ public class GameLoader {
     private static final String TAG = GameLoader.class.getSimpleName();
     private static final String SAVED_GAME_FILE = "saved_game.xml";
 
+    public interface Listener {
+        void gameLoaded();
+    }
+
     private final Context mContext;
     private final GameEngine mGameEngine;
     private final GamePersister mGamePersister;
@@ -36,7 +40,7 @@ public class GameLoader {
 
     private GameDescriptor mGameDescriptor;
 
-    private List<GameLoaderListener> mListeners = new CopyOnWriteArrayList<>();
+    private List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
     public GameLoader(Context context, GameEngine gameEngine, GamePersister gamePersister,
                       Viewport viewport, EntityRegistry entityRegistry, MapRepository mapRepository) {
@@ -49,11 +53,11 @@ public class GameLoader {
         mMapRepository = mapRepository;
     }
 
-    public void addListener(GameLoaderListener listener) {
+    public void addListener(Listener listener) {
         mListeners.add(listener);
     }
 
-    public void removeListener(GameLoaderListener listener) {
+    public void removeListener(Listener listener) {
         mListeners.remove(listener);
     }
 
@@ -176,7 +180,7 @@ public class GameLoader {
             initializeMap(mapDescriptor);
         }
 
-        for (GameLoaderListener listener : mListeners) {
+        for (Listener listener : mListeners) {
             listener.gameLoaded();
         }
     }

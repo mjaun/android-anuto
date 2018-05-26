@@ -12,12 +12,10 @@ import java.util.List;
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.business.game.GameLoader;
-import ch.logixisland.anuto.business.game.GameLoaderListener;
-import ch.logixisland.anuto.business.score.CreditsListener;
-import ch.logixisland.anuto.business.score.ScoreBoard;
+import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.business.tower.TowerInserter;
 
-class TowerViewControl implements GameLoaderListener, CreditsListener, View.OnTouchListener {
+class TowerViewControl implements GameLoader.Listener, ScoreBoard.CreditsListener, View.OnTouchListener {
 
     private final ScoreBoard mScoreBoard;
     private final GameLoader mGameLoader;

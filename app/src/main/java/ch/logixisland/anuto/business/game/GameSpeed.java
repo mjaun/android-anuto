@@ -10,8 +10,12 @@ public class GameSpeed {
 
     private static final int FAST_FORWARD_SPEED = 4;
 
+    public interface Listener {
+        void gameSpeedChanged();
+    }
+
     private final GameEngine mGameEngine;
-    private final List<GameSpeedListener> mListeners = new CopyOnWriteArrayList<>();
+    private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
     private boolean mFastForwardActive = false;
 
@@ -37,11 +41,11 @@ public class GameSpeed {
         setFastForwardActive(!mFastForwardActive);
     }
 
-    public void addListener(GameSpeedListener listener) {
+    public void addListener(Listener listener) {
         mListeners.add(listener);
     }
 
-    public void removeListener(GameSpeedListener listener) {
+    public void removeListener(Listener listener) {
         mListeners.remove(listener);
     }
 
@@ -50,7 +54,7 @@ public class GameSpeed {
             mFastForwardActive = fastForwardActive;
             mGameEngine.setTicksPerLoop(mFastForwardActive ? FAST_FORWARD_SPEED : 1);
 
-            for (GameSpeedListener listener : mListeners) {
+            for (Listener listener : mListeners) {
                 listener.gameSpeedChanged();
             }
         }

@@ -6,13 +6,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
-import ch.logixisland.anuto.engine.logic.entity.EntityListener;
 import ch.logixisland.anuto.engine.logic.loop.TickTimer;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class AreaObserver implements EntityListener {
+public class AreaObserver implements Entity.Listener {
 
     private Vector2 mPosition;
     private float mRange;

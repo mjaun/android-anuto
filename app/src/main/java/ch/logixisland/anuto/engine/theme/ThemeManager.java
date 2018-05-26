@@ -14,13 +14,17 @@ import ch.logixisland.anuto.engine.render.Renderer;
 
 public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeListener {
 
+    public interface Listener {
+        void themeChanged(Theme theme);
+    }
+
     private final SharedPreferences mPreferences;
     private final Renderer mRenderer;
 
     private Theme mTheme;
     private List<Theme> mAvailableThemes = new ArrayList<>();
 
-    private List<ThemeListener> mListeners = new CopyOnWriteArrayList<>();
+    private List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
     public ThemeManager(Context context, Renderer renderer) {
         mRenderer = renderer;
@@ -40,11 +44,11 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
         return mTheme;
     }
 
-    public void addListener(ThemeListener listener) {
+    public void addListener(Listener listener) {
         mListeners.add(listener);
     }
 
-    public void removeListener(ThemeListener listener) {
+    public void removeListener(Listener listener) {
         mListeners.remove(listener);
     }
 
@@ -66,7 +70,7 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
             mTheme = theme;
             mRenderer.setBackgroundColor(mTheme.getColor(R.attr.backgroundColor));
 
-            for (ThemeListener listener : mListeners) {
+            for (Listener listener : mListeners) {
                 listener.themeChanged(theme);
             }
         }

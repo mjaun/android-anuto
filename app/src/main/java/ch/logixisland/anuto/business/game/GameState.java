@@ -3,13 +3,16 @@ package ch.logixisland.anuto.business.game;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.business.score.LivesListener;
-import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.business.tower.TowerSelector;
 import ch.logixisland.anuto.data.GameDescriptor;
 import ch.logixisland.anuto.engine.logic.persistence.Persister;
 
-public class GameState implements LivesListener, Persister {
+public class GameState implements ScoreBoard.LivesListener, Persister {
+
+    public interface Listener {
+        void gameRestart();
+        void gameOver();
+    }
 
     private final ScoreBoard mScoreBoard;
     private final HighScores mHighScores;
@@ -18,7 +21,7 @@ public class GameState implements LivesListener, Persister {
     private boolean mGameOver = false;
     private boolean mGameStarted = false;
 
-    private List<GameStateListener> mListeners = new CopyOnWriteArrayList<>();
+    private List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
     public GameState(ScoreBoard scoreBoard, HighScores highScores, TowerSelector towerSelector) {
         mScoreBoard = scoreBoard;
@@ -36,11 +39,11 @@ public class GameState implements LivesListener, Persister {
         return !mGameOver && mGameStarted;
     }
 
-    public void addListener(GameStateListener listener) {
+    public void addListener(Listener listener) {
         mListeners.add(listener);
     }
 
-    public void removeListener(GameStateListener listener) {
+    public void removeListener(Listener listener) {
         mListeners.remove(listener);
     }
 
@@ -73,7 +76,7 @@ public class GameState implements LivesListener, Persister {
             mHighScores.updateHighScore();
             mTowerSelector.setControlsEnabled(false);
 
-            for (GameStateListener listener : mListeners) {
+            for (Listener listener : mListeners) {
                 listener.gameOver();
             }
         }
@@ -82,7 +85,7 @@ public class GameState implements LivesListener, Persister {
             mGameStarted = false;
             mTowerSelector.setControlsEnabled(true);
 
-            for (GameStateListener listener : mListeners) {
+            for (Listener listener : mListeners) {
                 listener.gameRestart();
             }
         }

@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.business.score;
+package ch.logixisland.anuto.business.game;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -9,6 +9,18 @@ import ch.logixisland.anuto.engine.logic.loop.Message;
 import ch.logixisland.anuto.engine.logic.persistence.Persister;
 
 public class ScoreBoard implements Persister {
+
+    public interface BonusListener {
+        void bonusChanged(int waveBonus, int earlyBonus);
+    }
+
+    public interface CreditsListener {
+        void creditsChanged(int credits);
+    }
+
+    public interface LivesListener {
+        void livesChanged(int lives);
+    }
 
     private final GameEngine mGameEngine;
 
@@ -210,5 +222,4 @@ public class ScoreBoard implements Persister {
         creditsChanged();
         livesChanged();
     }
-
 }

@@ -3,7 +3,6 @@ package ch.logixisland.anuto.business.game;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import ch.logixisland.anuto.business.score.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.loop.Message;
 

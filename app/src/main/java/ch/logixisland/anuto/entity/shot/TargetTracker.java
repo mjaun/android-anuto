@@ -2,11 +2,10 @@ package ch.logixisland.anuto.entity.shot;
 
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
-import ch.logixisland.anuto.engine.logic.entity.EntityListener;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class TargetTracker implements EntityListener {
+public class TargetTracker implements Entity.Listener {
 
     public interface Listener {
         void targetReached(Enemy target);

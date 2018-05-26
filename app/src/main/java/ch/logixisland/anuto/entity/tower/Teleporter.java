@@ -12,7 +12,6 @@ import ch.logixisland.anuto.data.setting.tower.TowerSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
-import ch.logixisland.anuto.engine.logic.entity.EntityListener;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
@@ -49,7 +48,7 @@ public class Teleporter extends Tower implements SpriteTransformation {
         }
     }
 
-    private static class StaticData implements EntityListener {
+    private static class StaticData implements Listener {
         SpriteTemplate mSpriteTemplateBase;
         SpriteTemplate mSpriteTemplateTower;
         Collection<Enemy> mTeleportedEnemies = new ArrayList<>();

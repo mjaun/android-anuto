@@ -1,13 +1,12 @@
 package ch.logixisland.anuto.entity.tower;
 
 import ch.logixisland.anuto.engine.logic.entity.Entity;
-import ch.logixisland.anuto.engine.logic.entity.EntityListener;
 import ch.logixisland.anuto.engine.logic.loop.TickTimer;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
-public class Aimer implements EntityListener {
+public class Aimer implements Entity.Listener {
 
     private static TowerStrategy sDefaultStrategy = TowerStrategy.Closest;
     private static boolean sDefaultLockTarget = true;

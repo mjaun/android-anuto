@@ -6,14 +6,13 @@ import android.graphics.Paint;
 
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
-import ch.logixisland.anuto.engine.logic.entity.EntityListener;
 import ch.logixisland.anuto.engine.logic.loop.TickListener;
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.util.math.Function;
 import ch.logixisland.anuto.util.math.SampledFunction;
 
-public class TeleportedMarker extends Effect implements EntityListener {
+public class TeleportedMarker extends Effect implements Entity.Listener {
 
     private static final float MARKER_MIN_RADIUS = 0.1f;
     private static final float MARKER_MAX_RADIUS = 0.2f;

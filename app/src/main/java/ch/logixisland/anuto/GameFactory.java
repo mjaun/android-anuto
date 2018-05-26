@@ -8,7 +8,7 @@ import ch.logixisland.anuto.business.game.GameSpeed;
 import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.game.HighScores;
 import ch.logixisland.anuto.business.game.MapRepository;
-import ch.logixisland.anuto.business.score.ScoreBoard;
+import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.business.tower.TowerAging;
 import ch.logixisland.anuto.business.tower.TowerControl;
 import ch.logixisland.anuto.business.tower.TowerInserter;

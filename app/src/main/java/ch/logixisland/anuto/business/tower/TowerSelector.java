@@ -1,17 +1,25 @@
 package ch.logixisland.anuto.business.tower;
 
-import ch.logixisland.anuto.business.score.CreditsListener;
-import ch.logixisland.anuto.business.score.ScoreBoard;
+import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
-import ch.logixisland.anuto.engine.logic.entity.EntityListener;
 import ch.logixisland.anuto.engine.logic.loop.Message;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.entity.tower.TowerListener;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class TowerSelector implements CreditsListener, EntityListener, TowerListener {
+public class TowerSelector implements ScoreBoard.CreditsListener, Entity.Listener, TowerListener {
+
+    public interface TowerInfoView {
+        void showTowerInfo(TowerInfo towerInfo);
+        void hideTowerInfo();
+    }
+
+    public interface TowerBuildView {
+        void showTowerBuildView();
+        void hideTowerBuildView();
+    }
 
     private final GameEngine mGameEngine;
     private final ScoreBoard mScoreBoard;
@@ -187,7 +195,7 @@ public class TowerSelector implements CreditsListener, EntityListener, TowerList
     private void setSelectedTower(Tower tower) {
         if (mSelectedTower != null) {
             mSelectedTower.removeListener((TowerListener) this);
-            mSelectedTower.removeListener((EntityListener) this);
+            mSelectedTower.removeListener((Entity.Listener) this);
             mSelectedTower.hideRange();
         }
 
@@ -195,7 +203,7 @@ public class TowerSelector implements CreditsListener, EntityListener, TowerList
 
         if (mSelectedTower != null) {
             mSelectedTower.addListener((TowerListener) this);
-            mSelectedTower.addListener((EntityListener) this);
+            mSelectedTower.addListener((Entity.Listener) this);
             mSelectedTower.showRange();
         }
     }

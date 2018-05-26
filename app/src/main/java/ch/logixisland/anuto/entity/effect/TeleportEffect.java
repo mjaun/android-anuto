@@ -6,13 +6,12 @@ import android.graphics.Paint;
 
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
-import ch.logixisland.anuto.engine.logic.entity.EntityListener;
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class TeleportEffect extends Effect implements EntityListener {
+public class TeleportEffect extends Effect implements Entity.Listener {
 
     private static final float EFFECT_DURATION = 1f;
 

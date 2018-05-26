@@ -16,7 +16,6 @@ import ch.logixisland.anuto.data.setting.tower.TowerSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
-import ch.logixisland.anuto.engine.logic.entity.EntityListener;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
@@ -104,7 +103,7 @@ public class MineLayer extends Tower implements SpriteTransformation {
     private AnimatedSprite mSprite;
     private Sound mSound;
 
-    private final EntityListener mMineListener = new EntityListener() {
+    private final Listener mMineListener = new Listener() {
         @Override
         public void entityRemoved(Entity entity) {
             Mine mine = (Mine) entity;

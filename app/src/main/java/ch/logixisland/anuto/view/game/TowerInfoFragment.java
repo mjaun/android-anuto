@@ -17,7 +17,6 @@ import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.tower.TowerControl;
 import ch.logixisland.anuto.business.tower.TowerInfo;
-import ch.logixisland.anuto.business.tower.TowerInfoView;
 import ch.logixisland.anuto.business.tower.TowerSelector;
 import ch.logixisland.anuto.entity.tower.TowerInfoValue;
 import ch.logixisland.anuto.entity.tower.TowerStrategy;
@@ -25,7 +24,7 @@ import ch.logixisland.anuto.util.StringUtils;
 import ch.logixisland.anuto.view.AnutoFragment;
 
 public class TowerInfoFragment extends AnutoFragment implements View.OnTouchListener,
-        View.OnClickListener, TowerInfoView {
+        View.OnClickListener, TowerSelector.TowerInfoView {
 
     private final TowerSelector mTowerSelector;
     private final TowerControl mTowerControl;
