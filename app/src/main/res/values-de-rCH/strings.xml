@@ -3,24 +3,24 @@
 
     <string name="menu">Menü</string>
     <string name="next_wave">Nächsti</string>
-    <string name="build_tower">Bouä</string>
+    <string name="build_tower">Boue</string>
 
-    <string name="restart">Nöi startä</string>
-    <string name="change_map">Chartä wächslä</string>
+    <string name="restart">Neu starte</string>
+    <string name="change_map">Chartä wächsle</string>
     <string name="theme">Thema</string>
     <string name="sound">Ton</string>
 
     <string name="game_over">Fertig gspiut!</string>
     <string name="score">Pünkt</string>
 
-    <string name="credits">Guethabä</string>
-    <string name="lives">Läbä</string>
-    <string name="wave">Wäuä</string>
+    <string name="credits">Chölä</string>
+    <string name="lives">Läbe</string>
+    <string name="wave">Wäue</string>
     <string name="bonus">Bonus</string>
 
-    <string name="level">Stufä</string>
+    <string name="level">Stufe</string>
     <string name="damage">Schade</string>
-    <string name="reload">Nachäladä</string>
+    <string name="reload">Nachelade</string>
     <string name="range">Riichwiti</string>
     <string name="splash">Explosionsradius</string>
     <string name="distance">Distanz</string>
@@ -28,9 +28,9 @@
     <string name="duration">Duur</string>
     <string name="inflicted">Verursacht</string>
 
-    <string name="lock_target">Ziu verfougä</string>
+    <string name="lock_target">Ziu verfouge</string>
     <string name="strategy">Strategie</string>
-    <string name="enhance">Verbesserä</string>
+    <string name="enhance">Verbessere</string>
     <string name="upgrade">Ufwärte</string>
     <string name="sell">Verchoufe</string>
 
@@ -38,30 +38,46 @@
     <string name="off">Usschautä</string>
 
     <string name="strategy_closest">Nächst</string>
-    <string name="strategy_weakest">Schwächst</string>
+    <string name="strategy_weakest">Schwechst</string>
     <string name="strategy_strongest">Sterchst</string>
     <string name="strategy_first">Erscht</string>
     <string name="strategy_last">Letscht</string>
 
     <string name="theme_original">Originau</string>
     <string name="theme_dark">Dunku</string>
-    <string name="back_button_mode">Schliessä mit Zrügg-Tastä</string>
+    <string name="back_button_mode">Schliesse mit Zrügg-Tastä</string>
     <string name="twice">Dopplet</string>
     <string name="transparent_menus">Transparänti Menüs im Spiu</string>
-    <string name="settings">Istelligä</string>
-    <string name="reset_highscores_warning">Wosch würklech aui Punktzahlä zrüggsetzä?</string>
-    <string name="change_theme">Thema änderä</string>
-    <string name="change_theme_warning">Wosch würklech z\'Thema änderä? Z\'Spiu wird nöi gstartet</string>
+    <string name="settings">Istellige</string>
+    <string name="reset_highscores_warning">Wosch würklech aui Punktzahlä zrüggsetze?</string>
+    <string name="change_theme">Thema ändere</string>
+    <string name="change_theme_warning">Wosch würklech z\'Thema ändere? Z Spiu wird neu gstartet</string>
     <string name="fast_speed">4x</string>
     <string name="map_civyshk_2y_name">Civyshk 2Y</string>
     <string name="map_civyshk_labyrinth_name">Civyshk Labyrinth</string>
-    <string name="map_civyshk_line5_name">Civyshk 5 Liniä</string>
-    <string name="map_civyshk_yard_name">Civyshk Gartä</string>
+    <string name="map_civyshk_line5_name">Civyshk 5 Linie</string>
+    <string name="map_civyshk_yard_name">Civyshk Garte</string>
     <string name="map_hurry_name">Gas gä!</string>
     <string name="map_original_name">Z\'Originau</string>
-    <string name="map_turn_round_name">Ä Rundi dräiä</string>
-    <string name="map_waiting_line_name">Warteschlangä</string>
+    <string name="map_turn_round_name">Ä Rundi dräie</string>
+    <string name="map_waiting_line_name">Warteschlange</string>
     <string name="normal_speed">1x</string>
-    <string name="press_back_button_again_toast">Zum Beändä d Zrügg-Taste nomau drückä</string>
-    <string name="reset_highscores">Punktzahlä zrüggsetzä</string>
+    <string name="press_back_button_again_toast">Zum Beende d Zrügg-Taste nomau drücke</string>
+    <string name="reset_highscores">Punktzahle zrüggsetze</string>
+    <string name="start_tutorial">Tutorial starte</string>
+    <string name="start_tutorial_warning">Wosch würklech z Tutorial starte? Z Spiu wird neu gstartet.</string>
+
+    <string name="tutorial">Tutorial</string>
+    <string name="got_it">Witer</string>
+    <string name="skip_tutorial">Überspringe</string>
+
+    <string name="tutorial_build_tower">Grüessech! Aus Ersts würdi mau ä Turm boue: Für das ziehsch mitem Finger ä Turm uf z Spiufäud.</string>
+    <string name="tutorial_credits">We dr Priis rot isch, hesch zweni Chölä für dä Turm. Chölä bechunnsch wede Gägner abmurgsisch oder Wäuene fertig schaffsch.</string>
+    <string name="tutorial_tower_options_1">Jitz tippsch ufne Turm u när zeigts dr d Riichwiti ah. När drücksch nomau u de gsehsch z Menü mit witere Optione.</string>
+    <string name="tutorial_tower_options_2">D Strategie definiert, wie dr Turm sis Ziu uswäut. Ziu verfouge heisst, dass z Ziu nid gwächslet wird, solangs ir Riichwiti blibt.</string>
+    <string name="tutorial_tower_options_3">Verbessere macht dr Turm leistigsfähiger. Ufwerte steut dr es bessers Gschütz härä.\n\n<b>Tipp:</b> Bim Ufwerte gö Verbesserige wode scho kouft hesch verlore!</string>
+    <string name="tutorial_tower_options_4">Bim Verchoufe bechunnsch ä Teil vom Guethabe zrugg.\n\n<b>Tipp:</b> Dr Wärt nimmt mit dr Zyt ab.</string>
+    <string name="tutorial_next_wave">Drücksch \"Nächsti\", für di nächsti Wäue vo Gägner z starte. Z Ziu isch, dass kene dür dini Verteidigung chunnt.\n\n<b>Tipp:</b> Wede die nächsti Wäue startisch, während no Wäuene aktiv si, bechunnsch ä Bonus!</string>
+    <string name="tutorial_enemies">We ä Gägner glich düre chunnt verliersch es Läbe. Z Spiu isch fertig, wede kener Läbe me hesch.\n\n<b>Tipp:</b> Es paar Türm si gägä gwüssi Gägner besser aus angeri.</string>
+    <string name="tutorial_finish">Viu Spass! Z Tutorial chasch ide Istellige nomau starte.</string>
 </resources>
