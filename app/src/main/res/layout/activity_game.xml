@@ -31,14 +31,14 @@
 
     <fragment
         android:id="@+id/fragment_getting_started"
-        android:name="ch.logixisland.anuto.view.game.GettingStartedFragment"
+        android:name="ch.logixisland.anuto.view.game.TutorialFragment"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="20dp"
-        tools:layout="@layout/fragment_getting_started" />
+        tools:layout="@layout/fragment_tutorial" />
 
     <fragment
         android:id="@+id/fragment_tower_info"

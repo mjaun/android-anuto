@@ -18,15 +18,15 @@ public class TutorialControl implements TowerInserter.Listener, WaveManager.Wave
     }
 
     private enum State {
-        Welcome,
+        BuildTower,
         Credits,
-        Towers1,
-        Towers2,
-        Towers3,
-        Towers4,
-        NextWave,
+        TowerOptions1,
+        TowerOptions2,
+        TowerOptions3,
+        TowerOptions4,
+        TowerOptions5,
         Enemies,
-        Finished,
+        Finish,
         Idle;
 
         public State next() {
@@ -76,13 +76,13 @@ public class TutorialControl implements TowerInserter.Listener, WaveManager.Wave
     }
 
     public void skipClicked() {
-        mState = State.Finished;
+        mState = State.Finish;
         activate();
     }
 
     @Override
     public void towerInserted() {
-        if (mState == State.Welcome) {
+        if (mState == State.BuildTower) {
             mState = mState.next();
             activate();
         }
@@ -90,7 +90,7 @@ public class TutorialControl implements TowerInserter.Listener, WaveManager.Wave
 
     @Override
     public void towerInfoShown() {
-        if (mState == State.Towers1) {
+        if (mState == State.TowerOptions1) {
             mState = mState.next();
             activate();
         }
@@ -98,7 +98,7 @@ public class TutorialControl implements TowerInserter.Listener, WaveManager.Wave
 
     @Override
     public void waveStarted() {
-        if (mState == State.NextWave) {
+        if (mState == State.TowerOptions5) {
             mState = mState.next();
             activate();
         }
@@ -106,7 +106,7 @@ public class TutorialControl implements TowerInserter.Listener, WaveManager.Wave
 
     private void initialize() {
         if (mPreferences.getBoolean(Preferences.TUTORIAL_ENABLED, true)) {
-            mState = State.Welcome;
+            mState = State.BuildTower;
         } else {
             mState = State.Idle;
         }
@@ -116,32 +116,32 @@ public class TutorialControl implements TowerInserter.Listener, WaveManager.Wave
 
     private void activate() {
         switch (mState) {
-            case Welcome:
-                mView.showHint(R.string.getting_started_welcome, true);
+            case BuildTower:
+                mView.showHint(R.string.tutorial_build_tower, true);
                 break;
             case Credits:
-                mView.showHint(R.string.getting_started_credits, false);
+                mView.showHint(R.string.tutorial_credits, false);
                 break;
-            case Towers1:
-                mView.showHint(R.string.getting_started_towers1, false);
+            case TowerOptions1:
+                mView.showHint(R.string.tutorial_tower_options_1, false);
                 break;
-            case Towers2:
-                mView.showHint(R.string.getting_started_towers2, false);
+            case TowerOptions2:
+                mView.showHint(R.string.tutorial_tower_options_2, false);
                 break;
-            case Towers3:
-                mView.showHint(R.string.getting_started_towers3, false);
+            case TowerOptions3:
+                mView.showHint(R.string.tutorial_tower_options_3, false);
                 break;
-            case Towers4:
-                mView.showHint(R.string.getting_started_towers4, false);
+            case TowerOptions4:
+                mView.showHint(R.string.tutorial_tower_options_4, false);
                 break;
-            case NextWave:
-                mView.showHint(R.string.getting_started_next_wave, false);
+            case TowerOptions5:
+                mView.showHint(R.string.tutorial_next_wave, false);
                 break;
             case Enemies:
-                mView.showHint(R.string.getting_started_enemies, false);
+                mView.showHint(R.string.tutorial_enemies, false);
                 break;
-            case Finished:
-                mView.showHint(R.string.getting_started_finished, false);
+            case Finish:
+                mView.showHint(R.string.tutorial_finish, false);
                 break;
             default:
                 mView.tutorialFinished();

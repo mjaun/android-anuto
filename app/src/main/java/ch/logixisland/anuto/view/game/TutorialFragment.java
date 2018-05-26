@@ -14,7 +14,7 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.game.TutorialControl;
 import ch.logixisland.anuto.view.AnutoFragment;
 
-public class GettingStartedFragment extends AnutoFragment implements TutorialControl.TutorialView, View.OnClickListener {
+public class TutorialFragment extends AnutoFragment implements TutorialControl.TutorialView, View.OnClickListener {
 
     private final TutorialControl mControl;
     private final Handler mHandler;
@@ -25,7 +25,7 @@ public class GettingStartedFragment extends AnutoFragment implements TutorialCon
     private Button btn_got_it;
     private Button btn_skip;
 
-    public GettingStartedFragment() {
+    public TutorialFragment() {
         mControl = AnutoApplication.getInstance().getGameFactory().getTutorialControl();
         mHandler = new Handler();
         mVisible = true;
@@ -34,7 +34,7 @@ public class GettingStartedFragment extends AnutoFragment implements TutorialCon
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_getting_started, container, false);
+        View view = inflater.inflate(R.layout.fragment_tutorial, container, false);
 
         txt_content = view.findViewById(R.id.txt_content);
         btn_got_it = view.findViewById(R.id.btn_got_it);
@@ -97,7 +97,7 @@ public class GettingStartedFragment extends AnutoFragment implements TutorialCon
 
         if (!mVisible) {
             getFragmentManager().beginTransaction()
-                    .show(GettingStartedFragment.this)
+                    .show(TutorialFragment.this)
                     .commitAllowingStateLoss();
 
             mVisible = true;
@@ -107,7 +107,7 @@ public class GettingStartedFragment extends AnutoFragment implements TutorialCon
     private void hide() {
         if (mVisible) {
             getFragmentManager().beginTransaction()
-                    .hide(GettingStartedFragment.this)
+                    .hide(TutorialFragment.this)
                     .commitAllowingStateLoss();
 
             mVisible = false;
