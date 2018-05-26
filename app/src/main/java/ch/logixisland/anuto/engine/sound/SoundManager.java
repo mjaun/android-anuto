@@ -2,32 +2,35 @@ package ch.logixisland.anuto.engine.sound;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
-public class SoundManager {
+import ch.logixisland.anuto.Preferences;
 
-    private static final String PREF_FILE = "sound.prefs";
-    private static final String PREF_SOUND_ENABLED = "enabled";
+public class SoundManager implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private final SharedPreferences mPreferences;
 
     private boolean mSoundEnabled;
 
     public SoundManager(Context context) {
-        mPreferences = context.getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE);
-        mSoundEnabled = mPreferences.getBoolean(PREF_SOUND_ENABLED, true);
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        mPreferences.registerOnSharedPreferenceChangeListener(this);
+
+        updateSoundEnabled();
     }
 
     public boolean isSoundEnabled() {
         return mSoundEnabled;
     }
 
-    public void setSoundEnabled(boolean soundEnabled) {
-        if (mSoundEnabled != soundEnabled) {
-            mSoundEnabled = soundEnabled;
-
-            SharedPreferences.Editor editor = mPreferences.edit();
-            editor.putBoolean(PREF_SOUND_ENABLED, mSoundEnabled);
-            editor.apply();
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (Preferences.SOUND_ENABLED.equals(key)) {
+            updateSoundEnabled();
         }
+    }
+
+    private void updateSoundEnabled() {
+        mSoundEnabled = mPreferences.getBoolean(Preferences.SOUND_ENABLED, true);
     }
 }

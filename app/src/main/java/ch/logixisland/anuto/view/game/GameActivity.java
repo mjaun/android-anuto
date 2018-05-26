@@ -9,7 +9,6 @@ import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.game.GameLoader;
-import ch.logixisland.anuto.business.setting.BackButtonMode;
 import ch.logixisland.anuto.business.tower.TowerSelector;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.theme.ActivityType;
@@ -31,7 +30,7 @@ public class GameActivity extends AnutoActivity {
         mGameLoader = factory.getGameLoader();
         mGameEngine = factory.getGameEngine();
         mTowerSelector = factory.getTowerSelector();
-        mBackButtonControl = new BackButtonControl(factory.getSettingsManager());
+        mBackButtonControl = new BackButtonControl(AnutoApplication.getInstance());
     }
 
     @Override
@@ -81,12 +80,14 @@ public class GameActivity extends AnutoActivity {
                 mTowerSelector.selectTower(null);
                 return true;
             } else {
-                if (!mBackButtonControl.backButtonPressed()) {
-                    if (mBackButtonControl.getBackButtonMode() == BackButtonMode.TWICE) {
+                switch (mBackButtonControl.backButtonPressed()) {
+                    case DO_NOTHING:
+                        return true;
+                    case SHOW_TOAST:
                         mBackButtonToast = showBackButtonToast();
-                    }
-
-                    return true;
+                        return true;
+                    default:
+                        return super.onKeyDown(keyCode, event);
                 }
             }
         }

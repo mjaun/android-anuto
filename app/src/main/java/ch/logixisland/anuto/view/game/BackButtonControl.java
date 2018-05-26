@@ -1,51 +1,62 @@
 package ch.logixisland.anuto.view.game;
 
-import ch.logixisland.anuto.business.setting.BackButtonMode;
-import ch.logixisland.anuto.business.setting.SettingsManager;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
+import ch.logixisland.anuto.Preferences;
 
 public class BackButtonControl {
 
-    private static final long BACK_TWICE_INTERVAL = 2000; //ms
+    public enum BackButtonAction {
+        DO_NOTHING,
+        SHOW_TOAST,
+        EXIT
+    }
 
-    private final SettingsManager mSettingsManager;
+    private enum BackButtonMode {
+        DISABLED,
+        ENABLED,
+        TWICE
+    }
+
+    private static final long BACK_TWICE_INTERVAL = 2000;
+
+    private final SharedPreferences mPreferences;
 
     private long mLastBackButtonPress;
 
-    public BackButtonControl(SettingsManager settingsManager) {
-        mSettingsManager = settingsManager;
+    public BackButtonControl(Context context) {
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    public BackButtonMode getBackButtonMode() {
-        return mSettingsManager.getBackButtonMode();
-    }
-
-    /**
-     * Tell the SettingsManager that user wants to exit with back button. Depending on the current
-     * BackButtonMode, the SettingsManager will allow to exit or not.
-     *
-     * @return true if BackButtonMode is ENABLED or if it is TWICE and this is the second press.
-     * false if BackButtonMode is DISABLED or if it is TWICE and this is the first press.
-     */
-    public boolean backButtonPressed() {
+    public BackButtonAction backButtonPressed() {
         long timeNow = System.currentTimeMillis();
 
-        switch (mSettingsManager.getBackButtonMode()) {
-            case DISABLED:
-                return false;
-
+        switch (getBackButtonMode()) {
             case ENABLED:
-                return true;
+                return BackButtonAction.EXIT;
 
             case TWICE:
                 if (timeNow < mLastBackButtonPress + BACK_TWICE_INTERVAL) {
-                    return true;
+                    return BackButtonAction.DO_NOTHING;
                 } else {
                     mLastBackButtonPress = timeNow;
-                    return false;
+                    return BackButtonAction.SHOW_TOAST;
                 }
 
             default:
-                return false;
+                return BackButtonAction.DO_NOTHING;
+        }
+    }
+
+    private BackButtonMode getBackButtonMode() {
+        String backModeString = mPreferences.getString(Preferences.BACK_BUTTON_MODE, null);
+
+        try {
+            return BackButtonMode.valueOf(backModeString);
+        } catch (Exception e) {
+            return BackButtonMode.DISABLED;
         }
     }
 }

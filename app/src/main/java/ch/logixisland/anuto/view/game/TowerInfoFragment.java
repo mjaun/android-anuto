@@ -15,7 +15,6 @@ import java.util.List;
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.business.setting.SettingsManager;
 import ch.logixisland.anuto.business.tower.TowerControl;
 import ch.logixisland.anuto.business.tower.TowerInfo;
 import ch.logixisland.anuto.business.tower.TowerInfoView;

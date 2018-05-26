@@ -1,6 +1,7 @@
 package ch.logixisland.anuto;
 
 import android.content.Context;
+import android.preference.PreferenceManager;
 
 import ch.logixisland.anuto.business.game.GameLoader;
 import ch.logixisland.anuto.business.game.GameSpeed;
@@ -8,7 +9,6 @@ import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.game.HighScores;
 import ch.logixisland.anuto.business.game.MapRepository;
 import ch.logixisland.anuto.business.score.ScoreBoard;
-import ch.logixisland.anuto.business.setting.SettingsManager;
 import ch.logixisland.anuto.business.tower.TowerAging;
 import ch.logixisland.anuto.business.tower.TowerControl;
 import ch.logixisland.anuto.business.tower.TowerInserter;
@@ -75,9 +75,10 @@ public class GameFactory {
     private WaveManager mWaveManager;
     private GameSpeed mSpeedManager;
     private GameState mGameState;
-    private SettingsManager mSettingsManager;
 
     public GameFactory(Context context) {
+        PreferenceManager.setDefaultValues(context, R.xml.settings, false);
+
         initializeEngine(context);
         registerEntities();
         initializeBusiness(context);
@@ -135,7 +136,6 @@ public class GameFactory {
         mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mGameState, mEntityRegistry, mTowerAging);
         mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector, mEntityRegistry);
         mTowerInserter = new TowerInserter(mGameEngine, mGameState, mEntityRegistry, mTowerSelector, mTowerAging, mScoreBoard);
-        mSettingsManager = new SettingsManager(context, mThemeManager, mSoundManager, mGameLoader);
     }
 
     private void registerPersisters() {
@@ -214,10 +214,6 @@ public class GameFactory {
 
     public GameState getGameState() {
         return mGameState;
-    }
-
-    public SettingsManager getSettingsManager() {
-        return mSettingsManager;
     }
 
     public MapRepository getMapRepository() {
