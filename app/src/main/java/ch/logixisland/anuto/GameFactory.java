@@ -9,6 +9,7 @@ import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.game.HighScores;
 import ch.logixisland.anuto.business.game.MapRepository;
 import ch.logixisland.anuto.business.game.ScoreBoard;
+import ch.logixisland.anuto.business.game.TutorialControl;
 import ch.logixisland.anuto.business.tower.TowerAging;
 import ch.logixisland.anuto.business.tower.TowerControl;
 import ch.logixisland.anuto.business.tower.TowerInserter;
@@ -75,6 +76,7 @@ public class GameFactory {
     private WaveManager mWaveManager;
     private GameSpeed mSpeedManager;
     private GameState mGameState;
+    private TutorialControl mTutorialControl;
 
     public GameFactory(Context context) {
         PreferenceManager.setDefaultValues(context, R.xml.settings, false);
@@ -136,6 +138,7 @@ public class GameFactory {
         mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mGameState, mEntityRegistry, mTowerAging);
         mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector, mEntityRegistry);
         mTowerInserter = new TowerInserter(mGameEngine, mGameState, mEntityRegistry, mTowerSelector, mTowerAging, mScoreBoard);
+        mTutorialControl = new TutorialControl(context, mTowerInserter, mTowerSelector, mWaveManager);
     }
 
     private void registerPersisters() {
@@ -224,4 +227,7 @@ public class GameFactory {
         return mHighScores;
     }
 
+    public TutorialControl getTutorialControl() {
+        return mTutorialControl;
+    }
 }

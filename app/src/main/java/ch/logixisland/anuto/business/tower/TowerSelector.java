@@ -1,5 +1,8 @@
 package ch.logixisland.anuto.business.tower;
 
+import java.util.Collection;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
@@ -21,6 +24,10 @@ public class TowerSelector implements ScoreBoard.CreditsListener, Entity.Listene
         void hideTowerBuildView();
     }
 
+    public interface Listener {
+        void towerInfoShown();
+    }
+
     private final GameEngine mGameEngine;
     private final ScoreBoard mScoreBoard;
 
@@ -30,6 +37,8 @@ public class TowerSelector implements ScoreBoard.CreditsListener, Entity.Listene
     private boolean mControlsEnabled;
     private TowerInfo mTowerInfo;
     private Tower mSelectedTower;
+
+    private Collection<Listener> mListeners = new CopyOnWriteArrayList<>();
 
     public TowerSelector(GameEngine gameEngine, ScoreBoard scoreBoard) {
         mGameEngine = gameEngine;
@@ -43,6 +52,14 @@ public class TowerSelector implements ScoreBoard.CreditsListener, Entity.Listene
 
     public void setTowerBuildView(TowerBuildView view) {
         mTowerBuildView = view;
+    }
+
+    public void addListener(Listener listener) {
+        mListeners.add(listener);
+    }
+
+    public void removeListener(Listener listener) {
+        mListeners.remove(listener);
     }
 
     public boolean isTowerSelected() {
@@ -217,6 +234,10 @@ public class TowerSelector implements ScoreBoard.CreditsListener, Entity.Listene
 
         if (mTowerInfoView != null) {
             mTowerInfoView.showTowerInfo(mTowerInfo);
+
+            for (Listener listener : mListeners) {
+                listener.towerInfoShown();
+            }
         }
     }
 

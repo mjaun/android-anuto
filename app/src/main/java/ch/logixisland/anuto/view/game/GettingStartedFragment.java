@@ -2,6 +2,7 @@ package ch.logixisland.anuto.view.game;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,17 +10,26 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import ch.logixisland.anuto.AnutoApplication;
-import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.business.game.TutorialControl;
 import ch.logixisland.anuto.view.AnutoFragment;
 
-public class GettingStartedFragment extends AnutoFragment implements GettingStartedControl.GettingStartedView, View.OnClickListener {
+public class GettingStartedFragment extends AnutoFragment implements TutorialControl.TutorialView, View.OnClickListener {
 
-    private GettingStartedControl mControl;
+    private final TutorialControl mControl;
+    private final Handler mHandler;
+
     private boolean mVisible;
 
     private TextView txt_content;
     private Button btn_got_it;
+    private Button btn_skip;
+
+    public GettingStartedFragment() {
+        mControl = AnutoApplication.getInstance().getGameFactory().getTutorialControl();
+        mHandler = new Handler();
+        mVisible = true;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -28,10 +38,10 @@ public class GettingStartedFragment extends AnutoFragment implements GettingStar
 
         txt_content = view.findViewById(R.id.txt_content);
         btn_got_it = view.findViewById(R.id.btn_got_it);
-        btn_got_it.setOnClickListener(this);
+        btn_skip = view.findViewById(R.id.btn_skip);
 
-        GameFactory gameFactory = AnutoApplication.getInstance().getGameFactory();
-        mControl = new GettingStartedControl(getActivity(), gameFactory.getTowerInserter(), this);
+        btn_got_it.setOnClickListener(this);
+        btn_skip.setOnClickListener(this);
 
         return view;
     }
@@ -40,12 +50,13 @@ public class GettingStartedFragment extends AnutoFragment implements GettingStar
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         hide();
+        mControl.setView(this);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mControl.release();
+        mControl.setView(null);
     }
 
     @Override
@@ -53,27 +64,50 @@ public class GettingStartedFragment extends AnutoFragment implements GettingStar
         if (v == btn_got_it) {
             mControl.gotItClicked();
         }
+
+        if (v == btn_skip) {
+            mControl.skipClicked();
+        }
     }
 
     @Override
-    public void show(int textId, boolean showGotItButton) {
+    public void showHint(final int textId, final boolean showSkipButton) {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                show(textId, showSkipButton);
+            }
+        });
+
+    }
+
+    @Override
+    public void tutorialFinished() {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                hide();
+            }
+        });
+    }
+
+    private void show(int textId, boolean showSkipButton) {
         txt_content.setText(textId);
-        btn_got_it.setVisibility(showGotItButton ? View.VISIBLE : View.GONE);
+        btn_skip.setVisibility(showSkipButton ? View.VISIBLE : View.GONE);
 
         if (!mVisible) {
             getFragmentManager().beginTransaction()
-                    .show(this)
+                    .show(GettingStartedFragment.this)
                     .commitAllowingStateLoss();
 
             mVisible = true;
         }
     }
 
-    @Override
-    public void hide() {
+    private void hide() {
         if (mVisible) {
             getFragmentManager().beginTransaction()
-                    .hide(this)
+                    .hide(GettingStartedFragment.this)
                     .commitAllowingStateLoss();
 
             mVisible = false;

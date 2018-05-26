@@ -18,14 +18,17 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.game.GameLoader;
 import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.game.HighScores;
+import ch.logixisland.anuto.business.game.TutorialControl;
 
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String PREF_RESET_HIGHSCORES = "reset_highscores";
+    private static final String PREF_START_TUTORIAL = "start_tutorial";
 
     private final GameLoader mGameLoader;
     private final GameState mGameState;
     private final HighScores mHighScores;
+    private final TutorialControl mTutorialControl;
     private final Collection<String> mListPreferenceKeys = new ArrayList<>();
 
     public SettingsFragment() {
@@ -33,6 +36,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         mGameLoader = factory.getGameLoader();
         mGameState = factory.getGameState();
         mHighScores = factory.getHighScores();
+        mTutorialControl = factory.getTutorialControl();
     }
 
     @Override
@@ -46,6 +50,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         registerListPreference(Preferences.THEME_INDEX);
         setupChangeThemeConfirmationDialog();
         setupResetHighscores();
+        setupResetTutorial();
     }
 
     @Override
@@ -114,6 +119,30 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 mHighScores.clearHighScores();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null)
+                        .setIcon(R.drawable.alert)
+                        .show();
+                return true;
+            }
+        });
+    }
+
+    private void setupResetTutorial() {
+        Preference preference = findPreference(PREF_START_TUTORIAL);
+        preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                AlertDialog.Builder builder;
+                builder = new AlertDialog.Builder(preference.getContext());
+                builder.setTitle(R.string.start_tutorial)
+                        .setMessage(R.string.start_tutorial_warning)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                mTutorialControl.restart();
+                                mGameLoader.restart();
+                                getActivity().finish();
                             }
                         })
                         .setNegativeButton(android.R.string.no, null)
