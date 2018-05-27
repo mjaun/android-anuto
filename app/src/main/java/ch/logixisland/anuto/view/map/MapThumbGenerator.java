@@ -6,8 +6,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import org.simpleframework.xml.Serializer;
+
 import java.io.InputStream;
 
+import ch.logixisland.anuto.data.SerializerFactory;
 import ch.logixisland.anuto.data.map.MapDescriptor;
 import ch.logixisland.anuto.data.map.PathDescriptor;
 import ch.logixisland.anuto.data.map.PlateauDescriptor;
@@ -21,10 +24,16 @@ class MapThumbGenerator {
     private static final int PLATEAU_COLOR = Color.parseColor("#bbbbbb");
     private static final int PATH_COLOR = Color.parseColor("#000000");
 
+    private final Serializer mSerializer;
+
+    MapThumbGenerator() {
+        mSerializer = SerializerFactory.createSerializer();
+    }
+
     Bitmap generateThumb(Resources resources, int mapDescriptorResId) {
         try {
             InputStream inputStream = resources.openRawResource(mapDescriptorResId);
-            MapDescriptor mapDescriptor = MapDescriptor.fromXml(inputStream);
+            MapDescriptor mapDescriptor = mSerializer.read(MapDescriptor.class, inputStream);
             return generateThumb(mapDescriptor);
         } catch (Exception e) {
             return null;

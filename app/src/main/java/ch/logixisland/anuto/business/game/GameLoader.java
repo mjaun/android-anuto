@@ -3,6 +3,8 @@ package ch.logixisland.anuto.business.game;
 import android.content.Context;
 import android.util.Log;
 
+import org.simpleframework.xml.Serializer;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -12,6 +14,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import ch.logixisland.anuto.BuildConfig;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.data.GameDescriptor;
+import ch.logixisland.anuto.data.SerializerFactory;
 import ch.logixisland.anuto.data.map.MapDescriptor;
 import ch.logixisland.anuto.data.map.PlateauDescriptor;
 import ch.logixisland.anuto.engine.logic.GameConfiguration;
@@ -31,6 +34,7 @@ public class GameLoader {
         void gameLoaded();
     }
 
+    private final Serializer mSerializer;
     private final Context mContext;
     private final GameEngine mGameEngine;
     private final GamePersister mGamePersister;
@@ -44,11 +48,11 @@ public class GameLoader {
 
     public GameLoader(Context context, GameEngine gameEngine, GamePersister gamePersister,
                       Viewport viewport, EntityRegistry entityRegistry, MapRepository mapRepository) {
+        mSerializer = SerializerFactory.createSerializer();
         mContext = context;
         mGameEngine = gameEngine;
         mGamePersister = gamePersister;
         mViewport = viewport;
-
         mEntityRegistry = entityRegistry;
         mMapRepository = mapRepository;
     }
@@ -94,7 +98,9 @@ public class GameLoader {
         GameDescriptor gameDescriptor;
 
         try {
-            gameDescriptor = GameDescriptor.fromXml(mContext,
+            gameDescriptor = GameDescriptor.fromXml(
+                    mSerializer,
+                    mContext,
                     R.raw.game_settings,
                     R.raw.enemy_settings,
                     R.raw.tower_settings,
@@ -125,7 +131,7 @@ public class GameLoader {
         try {
 
             FileInputStream inputStream = mContext.openFileInput(SAVED_GAME_FILE);
-            gameDescriptor = GameDescriptor.fromXml(inputStream);
+            gameDescriptor = mSerializer.read(GameDescriptor.class, inputStream);
             inputStream.close();
 
             if (gameDescriptor.getAppVersion() != BuildConfig.VERSION_CODE) {
@@ -166,7 +172,7 @@ public class GameLoader {
 
         try {
             FileOutputStream outputStream = mContext.openFileOutput(SAVED_GAME_FILE, Context.MODE_PRIVATE);
-            mGameDescriptor.toXml(outputStream);
+            mSerializer.write(mGameDescriptor, outputStream);
             outputStream.close();
 
             Log.i(TAG, "Game saved.");

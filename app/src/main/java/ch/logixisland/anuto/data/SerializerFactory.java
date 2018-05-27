@@ -8,9 +8,13 @@ import org.simpleframework.xml.strategy.Strategy;
 
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class SerializerFactory {
+public final class SerializerFactory {
 
-    public Serializer createSerializer() {
+    private SerializerFactory() {
+
+    }
+
+    public static Serializer createSerializer() {
         Registry registry = new Registry();
 
         try {

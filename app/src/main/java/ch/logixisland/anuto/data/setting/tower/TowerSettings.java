@@ -8,8 +8,6 @@ import org.simpleframework.xml.Serializer;
 
 import java.io.InputStream;
 
-import ch.logixisland.anuto.data.SerializerFactory;
-
 @Root
 public class TowerSettings {
 
@@ -55,19 +53,14 @@ public class TowerSettings {
     @Element(name = "teleporter")
     private TeleporterSettings mTeleporterSettings;
 
-    public static TowerSettings fromXml(Context context, int resId) throws Exception {
+    public static TowerSettings fromXml(Serializer serializer, Context context, int resId) throws Exception {
         InputStream stream = context.getResources().openRawResource(resId);
 
         try {
-            return fromXml(stream);
+            return serializer.read(TowerSettings.class, stream);
         } finally {
             stream.close();
         }
-    }
-
-    public static TowerSettings fromXml(InputStream stream) throws Exception {
-        Serializer serializer = new SerializerFactory().createSerializer();
-        return serializer.read(TowerSettings.class, stream);
     }
 
     public float getAgeModifier() {

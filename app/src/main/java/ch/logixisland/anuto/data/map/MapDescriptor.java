@@ -13,8 +13,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import ch.logixisland.anuto.data.SerializerFactory;
-
 @Root
 public class MapDescriptor {
 
@@ -30,19 +28,14 @@ public class MapDescriptor {
     @ElementList(name = "paths", entry = "path")
     private List<PathDescriptor> mPaths = new ArrayList<>();
 
-    public static MapDescriptor fromXml(Context context, int resId) throws Exception {
+    public static MapDescriptor fromXml(Serializer serializer, Context context, int resId) throws Exception {
         InputStream stream = context.getResources().openRawResource(resId);
 
         try {
-            return fromXml(stream);
+            return serializer.read(MapDescriptor.class, stream);
         } finally {
             stream.close();
         }
-    }
-
-    public static MapDescriptor fromXml(InputStream inputStream) throws Exception {
-        Serializer serializer = new SerializerFactory().createSerializer();
-        return serializer.read(MapDescriptor.class, inputStream);
     }
 
     public int getHeight() {

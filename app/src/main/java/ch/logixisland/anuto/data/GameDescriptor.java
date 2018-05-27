@@ -7,8 +7,6 @@ import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.ElementListUnion;
 import org.simpleframework.xml.Serializer;
 
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,26 +49,16 @@ public class GameDescriptor {
     private List<EntityDescriptor> mEntityDescriptors = new ArrayList<>();
 
 
-    public static GameDescriptor fromXml(Context context, int gameSettingsResId,
+    public static GameDescriptor fromXml(Serializer serializer, Context context, int gameSettingsResId,
                                          int enemySettingsResId, int towerSettingsResId,
                                          int wavesResId, int mapResId, String mapId) throws Exception {
         GameDescriptor result = new GameDescriptor();
         result.mAppVersion = BuildConfig.VERSION_CODE;
-        result.mGameSettings = GameSettings.fromXml(context, gameSettingsResId, enemySettingsResId, towerSettingsResId);
-        result.mWaveDescriptors = WaveDescriptorList.fromXml(context, wavesResId);
-        result.mMapDescriptor = MapDescriptor.fromXml(context, mapResId);
+        result.mGameSettings = GameSettings.fromXml(serializer, context, gameSettingsResId, enemySettingsResId, towerSettingsResId);
+        result.mWaveDescriptors = WaveDescriptorList.fromXml(serializer, context, wavesResId);
+        result.mMapDescriptor = MapDescriptor.fromXml(serializer, context, mapResId);
         result.mMapId = mapId;
         return result;
-    }
-
-    public static GameDescriptor fromXml(InputStream stream) throws Exception {
-        Serializer serializer = new SerializerFactory().createSerializer();
-        return serializer.read(GameDescriptor.class, stream);
-    }
-
-    public void toXml(OutputStream stream) throws Exception {
-        Serializer serializer = new SerializerFactory().createSerializer();
-        serializer.write(this, stream);
     }
 
     public int getAppVersion() {

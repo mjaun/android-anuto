@@ -8,8 +8,6 @@ import org.simpleframework.xml.Serializer;
 
 import java.io.InputStream;
 
-import ch.logixisland.anuto.data.SerializerFactory;
-
 @Root
 public class EnemySettings {
 
@@ -28,19 +26,14 @@ public class EnemySettings {
     @Element(name = "flyer")
     private BasicEnemySettings mFlyerSettings;
 
-    public static EnemySettings fromXml(Context context, int resId) throws Exception {
+    public static EnemySettings fromXml(Serializer serializer, Context context, int resId) throws Exception {
         InputStream stream = context.getResources().openRawResource(resId);
 
         try {
-            return fromXml(stream);
+            return serializer.read(EnemySettings.class, stream);
         } finally {
             stream.close();
         }
-    }
-
-    private static EnemySettings fromXml(InputStream stream) throws Exception {
-        Serializer serializer = new SerializerFactory().createSerializer();
-        return serializer.read(EnemySettings.class, stream);
     }
 
     public BasicEnemySettings getSoldierSettings() {

@@ -8,7 +8,6 @@ import org.simpleframework.xml.Serializer;
 
 import java.io.InputStream;
 
-import ch.logixisland.anuto.data.SerializerFactory;
 import ch.logixisland.anuto.data.setting.enemy.EnemySettings;
 import ch.logixisland.anuto.data.setting.tower.TowerSettings;
 
@@ -75,25 +74,20 @@ public class GameSettings {
     @Element(name = "towerSettings", required = false)
     private TowerSettings mTowerSettings;
 
-    public static GameSettings fromXml(Context context, int gameSettingsResId, int enemySettingsResId,
-                                       int towerSettingsResId) throws Exception {
+    public static GameSettings fromXml(Serializer serializer, Context context, int gameSettingsResId,
+                                       int enemySettingsResId, int towerSettingsResId) throws Exception {
         InputStream stream = context.getResources().openRawResource(gameSettingsResId);
         GameSettings settings;
 
         try {
-            settings = fromXml(stream);
-            settings.mEnemySettings = EnemySettings.fromXml(context, enemySettingsResId);
-            settings.mTowerSettings = TowerSettings.fromXml(context, towerSettingsResId);
+            settings = serializer.read(GameSettings.class, stream);
+            settings.mEnemySettings = EnemySettings.fromXml(serializer, context, enemySettingsResId);
+            settings.mTowerSettings = TowerSettings.fromXml(serializer, context, towerSettingsResId);
         } finally {
             stream.close();
         }
 
         return settings;
-    }
-
-    private static GameSettings fromXml(InputStream stream) throws Exception {
-        Serializer serializer = new SerializerFactory().createSerializer();
-        return serializer.read(GameSettings.class, stream);
     }
 
     public int getCredits() {

@@ -10,8 +10,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.logixisland.anuto.data.SerializerFactory;
-
 @Root
 public class WaveDescriptorList {
 
@@ -21,19 +19,14 @@ public class WaveDescriptorList {
     private WaveDescriptorList() {
     }
 
-    public static List<WaveDescriptor> fromXml(Context context, int resId) throws Exception {
+    public static List<WaveDescriptor> fromXml(Serializer serializer, Context context, int resId) throws Exception {
         InputStream stream = context.getResources().openRawResource(resId);
 
         try {
-            return fromXml(stream);
+            return serializer.read(WaveDescriptorList.class, stream).mWaves;
         } finally {
             stream.close();
         }
-    }
-
-    private static List<WaveDescriptor> fromXml(InputStream inputStream) throws Exception {
-        Serializer serializer = new SerializerFactory().createSerializer();
-        return serializer.read(WaveDescriptorList.class, inputStream).mWaves;
     }
 
 }
