@@ -119,21 +119,26 @@ public class GameLoader {
             return;
         }
 
+        Log.i(TAG, "Loading game...");
         GameDescriptor gameDescriptor = null;
 
         try {
+
             FileInputStream inputStream = mContext.openFileInput(SAVED_GAME_FILE);
             gameDescriptor = GameDescriptor.fromXml(inputStream);
             inputStream.close();
 
             if (gameDescriptor.getAppVersion() != BuildConfig.VERSION_CODE) {
-                Log.i(TAG, "Ignoring save game file: version does not match.");
+                Log.i(TAG, "Ignoring saved game: version does not match.");
                 gameDescriptor = null;
             }
+
+            Log.i(TAG, "Game loaded.");
         } catch (FileNotFoundException e) {
             Log.i(TAG, "No save game file found.");
         } catch (Exception e) {
-            Log.e(TAG, "Loading saved game failed!", e);
+            mContext.deleteFile(SAVED_GAME_FILE);
+            throw new RuntimeException("Could not load game!", e);
         }
 
         if (gameDescriptor != null) {
@@ -154,6 +159,7 @@ public class GameLoader {
             return;
         }
 
+        Log.i(TAG, "Saving game...");
         mGameDescriptor.clearEntityDescriptors();
         mGameDescriptor.clearActiveWaveDescriptors();
         mGamePersister.writeDescriptor(mGameDescriptor);
@@ -162,7 +168,11 @@ public class GameLoader {
             FileOutputStream outputStream = mContext.openFileOutput(SAVED_GAME_FILE, Context.MODE_PRIVATE);
             mGameDescriptor.toXml(outputStream);
             outputStream.close();
+
+            Log.i(TAG, "Game saved.");
         } catch (Exception e) {
+            mContext.deleteFile(SAVED_GAME_FILE);
+            Log.e(TAG, "Could not save game!", e);
             throw new RuntimeException("Could not save game!", e);
         }
     }

@@ -80,21 +80,14 @@ public class GameLoop implements Runnable {
     @Override
     public void run() {
         long timeNextTick = System.currentTimeMillis();
-        long timeCurrent;
         int skipFrameCount = 0;
 
         try {
             while (mRunning) {
+                executeCycle();
+
                 timeNextTick += TICK_TIME;
-
-                mRenderer.lock();
-                for (int repeat = 0; repeat < mGameTicksPerLoop; repeat++) {
-                    executeTick();
-                }
-                mRenderer.unlock();
-
-                timeCurrent = System.currentTimeMillis();
-                int sleepTime = (int) (timeNextTick - timeCurrent);
+                int sleepTime = (int) (timeNextTick - System.currentTimeMillis());
 
                 if (sleepTime > 0 || skipFrameCount >= MAX_FRAME_SKIPS) {
                     mRenderer.invalidate();
@@ -103,12 +96,10 @@ public class GameLoop implements Runnable {
                     skipFrameCount++;
                 }
 
-                mFrameRateLogger.incrementLoopCount();
-
                 if (sleepTime > 0) {
                     Thread.sleep(sleepTime);
                 } else {
-                    timeNextTick = timeCurrent; // resync
+                    timeNextTick = System.currentTimeMillis(); // resync
                 }
             }
 
@@ -120,6 +111,18 @@ public class GameLoop implements Runnable {
         }
     }
 
+    private void executeCycle() {
+        mRenderer.lock();
+        for (int i = 0; i < mGameTicksPerLoop; i++) {
+            executeTick();
+            mMessageQueue.processMessages();
+        }
+        mRenderer.unlock();
+
+        mFrameRateLogger.incrementLoopCount();
+        mFrameRateLogger.outputFrameRate();
+    }
+
     private void executeTick() {
         mMessageQueue.tick();
         mEntityStore.tick();
@@ -127,8 +130,6 @@ public class GameLoop implements Runnable {
         for (TickListener listener : mTickListeners) {
             listener.tick();
         }
-
-        mMessageQueue.processMessages();
     }
 
 }
