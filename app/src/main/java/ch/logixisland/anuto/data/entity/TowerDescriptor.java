@@ -20,7 +20,7 @@ public class TowerDescriptor extends EntityDescriptor {
     @Element(name = "damageInflicted")
     private float mDamageInflicted;
 
-    @Element(name = "strategy")
+    @Element(name = "strategy", required = false)
     private String mStrategy;
 
     @Element(name = "lockTarget")
