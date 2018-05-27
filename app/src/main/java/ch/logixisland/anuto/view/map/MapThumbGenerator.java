@@ -30,7 +30,7 @@ class MapThumbGenerator {
 
     Bitmap generateThumb(Resources resources, int mapDescriptorResId) {
         try {
-            return generateThumb(MapDescriptor.fromXml(mSerializer, resources, mapDescriptorResId));
+            return generateThumb(MapDescriptor.fromXml(mSerializer, resources, mapDescriptorResId, null));
         } catch (Exception e) {
             return null;
         }

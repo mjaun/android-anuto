@@ -33,7 +33,7 @@ public class HighScores {
             return;
         }
 
-        String mapId = mGameEngine.getGameConfiguration().getMapId();
+        String mapId = mGameEngine.getGameConfiguration().getMapDescriptor().getId();
         int highScore = getHighScore(mapId);
         int score = mScoreBoard.getScore();
 

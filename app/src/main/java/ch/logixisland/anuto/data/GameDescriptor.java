@@ -32,9 +32,6 @@ public class GameDescriptor {
     @Element(name = "map")
     private MapDescriptor mMapDescriptor;
 
-    @Element(name = "mapId")
-    private String mMapId;
-
     @ElementList(entry = "wave", inline = true)
     private List<WaveDescriptor> mWaveDescriptors;
 
@@ -56,8 +53,7 @@ public class GameDescriptor {
         result.mAppVersion = BuildConfig.VERSION_CODE;
         result.mGameSettings = GameSettings.fromXml(serializer, resources, gameSettingsResId, enemySettingsResId, towerSettingsResId);
         result.mWaveDescriptors = WaveDescriptorList.fromXml(serializer, resources, wavesResId);
-        result.mMapDescriptor = MapDescriptor.fromXml(serializer, resources, mapResId);
-        result.mMapId = mapId;
+        result.mMapDescriptor = MapDescriptor.fromXml(serializer, resources, mapResId, mapId);
         return result;
     }
 
@@ -71,10 +67,6 @@ public class GameDescriptor {
 
     public MapDescriptor getMapDescriptor() {
         return mMapDescriptor;
-    }
-
-    public String getMapId() {
-        return mMapId;
     }
 
     public List<WaveDescriptor> getWaveDescriptors() {

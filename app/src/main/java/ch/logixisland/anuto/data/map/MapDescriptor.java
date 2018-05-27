@@ -16,6 +16,9 @@ import java.util.List;
 @Root
 public class MapDescriptor {
 
+    @Element(name = "id", required = false)
+    private String mId;
+
     @Element(name = "width")
     private int mWidth;
 
@@ -28,14 +31,20 @@ public class MapDescriptor {
     @ElementList(name = "paths", entry = "path")
     private List<PathDescriptor> mPaths = new ArrayList<>();
 
-    public static MapDescriptor fromXml(Serializer serializer, Resources resources, int resId) throws Exception {
+    public static MapDescriptor fromXml(Serializer serializer, Resources resources, int resId, String mapId) throws Exception {
         InputStream stream = resources.openRawResource(resId);
 
         try {
-            return serializer.read(MapDescriptor.class, stream);
+            MapDescriptor mapDescriptor = serializer.read(MapDescriptor.class, stream);
+            mapDescriptor.mId = mapId;
+            return mapDescriptor;
         } finally {
             stream.close();
         }
+    }
+
+    public String getId() {
+        return mId;
     }
 
     public int getHeight() {
@@ -53,5 +62,4 @@ public class MapDescriptor {
     public List<PathDescriptor> getPaths() {
         return Collections.unmodifiableList(mPaths);
     }
-
 }

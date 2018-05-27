@@ -12,13 +12,11 @@ public class GameConfiguration {
     private final GameSettings mGameSettings;
     private final MapDescriptor mMapDescriptor;
     private final List<WaveDescriptor> mWaveDescriptors;
-    private final String mMapId;
 
     public GameConfiguration(GameDescriptor gameDescriptor) {
         mGameSettings = gameDescriptor.getGameSettings();
         mMapDescriptor = gameDescriptor.getMapDescriptor();
         mWaveDescriptors = gameDescriptor.getWaveDescriptors();
-        mMapId = gameDescriptor.getMapId();
     }
 
     public GameSettings getGameSettings() {
@@ -33,7 +31,4 @@ public class GameConfiguration {
         return mWaveDescriptors;
     }
 
-    public String getMapId() {
-        return mMapId;
-    }
 }

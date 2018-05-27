@@ -80,7 +80,7 @@ public class GameLoader {
             return;
         }
 
-        MapInfo currentMap = mMapRepository.getMapById(mGameDescriptor.getMapId());
+        MapInfo currentMap = mMapRepository.getMapById(mGameDescriptor.getMapDescriptor().getId());
         loadMap(currentMap);
     }
 
