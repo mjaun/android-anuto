@@ -1,6 +1,6 @@
 package ch.logixisland.anuto.data;
 
-import android.content.Context;
+import android.content.res.Resources;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
@@ -49,14 +49,14 @@ public class GameDescriptor {
     private List<EntityDescriptor> mEntityDescriptors = new ArrayList<>();
 
 
-    public static GameDescriptor fromXml(Serializer serializer, Context context, int gameSettingsResId,
+    public static GameDescriptor fromXml(Serializer serializer, Resources resources, int gameSettingsResId,
                                          int enemySettingsResId, int towerSettingsResId,
                                          int wavesResId, int mapResId, String mapId) throws Exception {
         GameDescriptor result = new GameDescriptor();
         result.mAppVersion = BuildConfig.VERSION_CODE;
-        result.mGameSettings = GameSettings.fromXml(serializer, context, gameSettingsResId, enemySettingsResId, towerSettingsResId);
-        result.mWaveDescriptors = WaveDescriptorList.fromXml(serializer, context, wavesResId);
-        result.mMapDescriptor = MapDescriptor.fromXml(serializer, context, mapResId);
+        result.mGameSettings = GameSettings.fromXml(serializer, resources, gameSettingsResId, enemySettingsResId, towerSettingsResId);
+        result.mWaveDescriptors = WaveDescriptorList.fromXml(serializer, resources, wavesResId);
+        result.mMapDescriptor = MapDescriptor.fromXml(serializer, resources, mapResId);
         result.mMapId = mapId;
         return result;
     }

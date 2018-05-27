@@ -8,8 +8,6 @@ import android.graphics.Paint;
 
 import org.simpleframework.xml.Serializer;
 
-import java.io.InputStream;
-
 import ch.logixisland.anuto.data.SerializerFactory;
 import ch.logixisland.anuto.data.map.MapDescriptor;
 import ch.logixisland.anuto.data.map.PathDescriptor;
@@ -32,9 +30,7 @@ class MapThumbGenerator {
 
     Bitmap generateThumb(Resources resources, int mapDescriptorResId) {
         try {
-            InputStream inputStream = resources.openRawResource(mapDescriptorResId);
-            MapDescriptor mapDescriptor = mSerializer.read(MapDescriptor.class, inputStream);
-            return generateThumb(mapDescriptor);
+            return generateThumb(MapDescriptor.fromXml(mSerializer, resources, mapDescriptorResId));
         } catch (Exception e) {
             return null;
         }

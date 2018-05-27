@@ -1,6 +1,6 @@
 package ch.logixisland.anuto.data.wave;
 
-import android.content.Context;
+import android.content.res.Resources;
 
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
@@ -19,8 +19,8 @@ public class WaveDescriptorList {
     private WaveDescriptorList() {
     }
 
-    public static List<WaveDescriptor> fromXml(Serializer serializer, Context context, int resId) throws Exception {
-        InputStream stream = context.getResources().openRawResource(resId);
+    public static List<WaveDescriptor> fromXml(Serializer serializer, Resources resources, int resId) throws Exception {
+        InputStream stream = resources.openRawResource(resId);
 
         try {
             return serializer.read(WaveDescriptorList.class, stream).mWaves;

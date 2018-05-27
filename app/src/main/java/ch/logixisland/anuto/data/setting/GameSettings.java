@@ -1,6 +1,6 @@
 package ch.logixisland.anuto.data.setting;
 
-import android.content.Context;
+import android.content.res.Resources;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
@@ -74,15 +74,15 @@ public class GameSettings {
     @Element(name = "towerSettings", required = false)
     private TowerSettings mTowerSettings;
 
-    public static GameSettings fromXml(Serializer serializer, Context context, int gameSettingsResId,
+    public static GameSettings fromXml(Serializer serializer, Resources resources, int gameSettingsResId,
                                        int enemySettingsResId, int towerSettingsResId) throws Exception {
-        InputStream stream = context.getResources().openRawResource(gameSettingsResId);
+        InputStream stream = resources.openRawResource(gameSettingsResId);
         GameSettings settings;
 
         try {
             settings = serializer.read(GameSettings.class, stream);
-            settings.mEnemySettings = EnemySettings.fromXml(serializer, context, enemySettingsResId);
-            settings.mTowerSettings = TowerSettings.fromXml(serializer, context, towerSettingsResId);
+            settings.mEnemySettings = EnemySettings.fromXml(serializer, resources, enemySettingsResId);
+            settings.mTowerSettings = TowerSettings.fromXml(serializer, resources, towerSettingsResId);
         } finally {
             stream.close();
         }

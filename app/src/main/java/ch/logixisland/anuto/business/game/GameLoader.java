@@ -100,7 +100,7 @@ public class GameLoader {
         try {
             gameDescriptor = GameDescriptor.fromXml(
                     mSerializer,
-                    mContext,
+                    mContext.getResources(),
                     R.raw.game_settings,
                     R.raw.enemy_settings,
                     R.raw.tower_settings,

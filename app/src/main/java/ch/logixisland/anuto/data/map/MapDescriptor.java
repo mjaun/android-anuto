@@ -1,6 +1,6 @@
 package ch.logixisland.anuto.data.map;
 
-import android.content.Context;
+import android.content.res.Resources;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
@@ -28,8 +28,8 @@ public class MapDescriptor {
     @ElementList(name = "paths", entry = "path")
     private List<PathDescriptor> mPaths = new ArrayList<>();
 
-    public static MapDescriptor fromXml(Serializer serializer, Context context, int resId) throws Exception {
-        InputStream stream = context.getResources().openRawResource(resId);
+    public static MapDescriptor fromXml(Serializer serializer, Resources resources, int resId) throws Exception {
+        InputStream stream = resources.openRawResource(resId);
 
         try {
             return serializer.read(MapDescriptor.class, stream);

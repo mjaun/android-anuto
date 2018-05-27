@@ -1,6 +1,6 @@
 package ch.logixisland.anuto.data.setting.enemy;
 
-import android.content.Context;
+import android.content.res.Resources;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
@@ -26,8 +26,8 @@ public class EnemySettings {
     @Element(name = "flyer")
     private BasicEnemySettings mFlyerSettings;
 
-    public static EnemySettings fromXml(Serializer serializer, Context context, int resId) throws Exception {
-        InputStream stream = context.getResources().openRawResource(resId);
+    public static EnemySettings fromXml(Serializer serializer, Resources resources, int resId) throws Exception {
+        InputStream stream = resources.openRawResource(resId);
 
         try {
             return serializer.read(EnemySettings.class, stream);
