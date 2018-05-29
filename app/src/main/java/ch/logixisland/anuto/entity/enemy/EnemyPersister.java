@@ -1,7 +1,7 @@
 package ch.logixisland.anuto.entity.enemy;
 
-import ch.logixisland.anuto.data.entity.EnemyDescriptor;
-import ch.logixisland.anuto.data.entity.EntityDescriptor;
+import ch.logixisland.anuto.data.state.EnemyData;
+import ch.logixisland.anuto.data.state.EntityData;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
@@ -14,14 +14,14 @@ public class EnemyPersister extends EntityPersister {
     }
 
     @Override
-    protected EnemyDescriptor createEntityDescriptor() {
-        return new EnemyDescriptor();
+    protected EnemyData createEntityDescriptor() {
+        return new EnemyData();
     }
 
     @Override
-    protected EnemyDescriptor writeEntityDescriptor(Entity entity) {
+    protected EnemyData writeEntityDescriptor(Entity entity) {
         Enemy enemy = (Enemy) entity;
-        EnemyDescriptor enemyDescriptor = (EnemyDescriptor) super.writeEntityDescriptor(entity);
+        EnemyData enemyDescriptor = (EnemyData) super.writeEntityDescriptor(entity);
 
         enemyDescriptor.setHealth(enemy.getHealth());
         enemyDescriptor.setMaxHealth(enemy.getMaxHealth());
@@ -34,9 +34,9 @@ public class EnemyPersister extends EntityPersister {
     }
 
     @Override
-    protected Enemy readEntityDescriptor(EntityDescriptor entityDescriptor) {
-        Enemy enemy = (Enemy) super.readEntityDescriptor(entityDescriptor);
-        EnemyDescriptor enemyDescriptor = (EnemyDescriptor) entityDescriptor;
+    protected Enemy readEntityDescriptor(EntityData entityData) {
+        Enemy enemy = (Enemy) super.readEntityDescriptor(entityData);
+        EnemyData enemyDescriptor = (EnemyData) entityData;
 
         enemy.setHealth(enemyDescriptor.getHealth(), enemyDescriptor.getMaxHealth());
         enemy.setReward(enemyDescriptor.getReward());

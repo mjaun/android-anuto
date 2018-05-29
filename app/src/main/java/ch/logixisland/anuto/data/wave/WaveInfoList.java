@@ -11,19 +11,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Root
-public class WaveDescriptorList {
+public final class WaveInfoList {
 
     @ElementList(inline = true, entry = "wave")
-    private List<WaveDescriptor> mWaves = new ArrayList<>();
+    private List<WaveInfo> mWaves = new ArrayList<>();
 
-    private WaveDescriptorList() {
+    private WaveInfoList() {
     }
 
-    public static List<WaveDescriptor> fromXml(Serializer serializer, Resources resources, int resId) throws Exception {
+    public static List<WaveInfo> fromXml(Serializer serializer, Resources resources, int resId) throws Exception {
         InputStream stream = resources.openRawResource(resId);
 
         try {
-            return serializer.read(WaveDescriptorList.class, stream).mWaves;
+            return serializer.read(WaveInfoList.class, stream).mWaves;
         } finally {
             stream.close();
         }

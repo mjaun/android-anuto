@@ -1,10 +1,10 @@
-package ch.logixisland.anuto.data.wave;
+package ch.logixisland.anuto.data.state;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 @Root
-public class ActiveWaveDescriptor {
+public class ActiveWaveData {
 
     @Element(name = "waveNumber")
     private int mWaveNumber;

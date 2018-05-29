@@ -3,7 +3,7 @@ package ch.logixisland.anuto.engine.logic.persistence;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.logixisland.anuto.data.GameDescriptor;
+import ch.logixisland.anuto.data.state.GameState;
 
 public class GamePersister {
 
@@ -13,15 +13,15 @@ public class GamePersister {
         mPersisterList.add(persister);
     }
 
-    public void readDescriptor(GameDescriptor gameDescriptor) {
+    public void readDescriptor(GameState gameState) {
         for (Persister persister : mPersisterList) {
-            persister.readDescriptor(gameDescriptor);
+            persister.readDescriptor(gameState);
         }
     }
 
-    public void writeDescriptor(GameDescriptor gameDescriptor) {
+    public void writeDescriptor(GameState gameState) {
         for (Persister persister : mPersisterList) {
-            persister.writeDescriptor(gameDescriptor);
+            persister.writeDescriptor(gameState);
         }
     }
 

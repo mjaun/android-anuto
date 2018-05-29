@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.data.entity;
+package ch.logixisland.anuto.data.state;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
@@ -6,7 +6,7 @@ import org.simpleframework.xml.Root;
 import ch.logixisland.anuto.util.math.Vector2;
 
 @Root
-public abstract class EntityDescriptor {
+public abstract class EntityData {
 
     @Element(name = "id")
     private int mId;

@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.data;
+package ch.logixisland.anuto.data.state;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
@@ -8,13 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import ch.logixisland.anuto.data.entity.EnemyDescriptor;
-import ch.logixisland.anuto.data.entity.EntityDescriptor;
-import ch.logixisland.anuto.data.entity.PlateauDescriptor;
-import ch.logixisland.anuto.data.entity.TowerDescriptor;
-import ch.logixisland.anuto.data.wave.ActiveWaveDescriptor;
-
-public class GameDescriptor {
+public class GameState {
 
     @Element(name = "appVersion")
     private int mAppVersion;
@@ -41,14 +35,14 @@ public class GameDescriptor {
     private int mCreditsEarned;
 
     @ElementList(entry = "activeWave", inline = true, required = false)
-    private List<ActiveWaveDescriptor> mActiveWaveDescriptors = new ArrayList<>();
+    private List<ActiveWaveData> mActiveWaveData = new ArrayList<>();
 
     @ElementListUnion({
-            @ElementList(entry = "plateau", inline = true, required = false, type = PlateauDescriptor.class),
-            @ElementList(entry = "enemy", inline = true, required = false, type = EnemyDescriptor.class),
-            @ElementList(entry = "tower", inline = true, required = false, type = TowerDescriptor.class),
+            @ElementList(entry = "plateau", inline = true, required = false, type = PlateauData.class),
+            @ElementList(entry = "enemy", inline = true, required = false, type = EnemyData.class),
+            @ElementList(entry = "tower", inline = true, required = false, type = TowerData.class),
     })
-    private List<EntityDescriptor> mEntityDescriptors = new ArrayList<>();
+    private List<EntityData> mEntityData = new ArrayList<>();
 
     public int getAppVersion() {
         return mAppVersion;
@@ -114,19 +108,19 @@ public class GameDescriptor {
         mCreditsEarned = creditsEarned;
     }
 
-    public List<ActiveWaveDescriptor> getActiveWaveDescriptors() {
-        return Collections.unmodifiableList(mActiveWaveDescriptors);
+    public List<ActiveWaveData> getActiveWaveData() {
+        return Collections.unmodifiableList(mActiveWaveData);
     }
 
-    public void addActiveWaveDescriptor(ActiveWaveDescriptor activeWaveDescriptor) {
-        mActiveWaveDescriptors.add(activeWaveDescriptor);
+    public void addActiveWaveDescriptor(ActiveWaveData activeWaveData) {
+        mActiveWaveData.add(activeWaveData);
     }
 
-    public List<EntityDescriptor> getEntityDescriptors() {
-        return Collections.unmodifiableList(mEntityDescriptors);
+    public List<EntityData> getEntityData() {
+        return Collections.unmodifiableList(mEntityData);
     }
 
-    public void addEntityDescriptor(EntityDescriptor entityDescriptor) {
-        mEntityDescriptors.add(entityDescriptor);
+    public void addEntityDescriptor(EntityData entityData) {
+        mEntityData.add(entityData);
     }
 }

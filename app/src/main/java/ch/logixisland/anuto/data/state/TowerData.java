@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.data.entity;
+package ch.logixisland.anuto.data.state;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementMap;
@@ -6,7 +6,7 @@ import org.simpleframework.xml.ElementMap;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TowerDescriptor extends EntityDescriptor {
+public class TowerData extends EntityData {
 
     @Element(name = "plateauId")
     private int mPlateauId;

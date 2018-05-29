@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.data.entity;
+package ch.logixisland.anuto.data.state;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
@@ -8,7 +8,7 @@ import java.util.List;
 
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class EnemyDescriptor extends EntityDescriptor {
+public class EnemyData extends EntityData {
 
     @Element(name = "waveNumber")
     private int mWaveNumber;

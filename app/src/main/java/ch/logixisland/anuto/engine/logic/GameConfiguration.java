@@ -2,32 +2,32 @@ package ch.logixisland.anuto.engine.logic;
 
 import java.util.List;
 
-import ch.logixisland.anuto.data.map.MapDescriptor;
+import ch.logixisland.anuto.data.map.GameMap;
 import ch.logixisland.anuto.data.setting.GameSettings;
-import ch.logixisland.anuto.data.wave.WaveDescriptor;
+import ch.logixisland.anuto.data.wave.WaveInfo;
 
 public class GameConfiguration {
 
     private final GameSettings mGameSettings;
-    private final MapDescriptor mMapDescriptor;
-    private final List<WaveDescriptor> mWaveDescriptors;
+    private final GameMap mMapDescriptor;
+    private final List<WaveInfo> mWaveInfos;
 
-    public GameConfiguration(GameSettings gameSettings, MapDescriptor mapDescriptor, List<WaveDescriptor> waveDescriptors) {
+    public GameConfiguration(GameSettings gameSettings, GameMap mapDescriptor, List<WaveInfo> waveInfos) {
         mGameSettings = gameSettings;
         mMapDescriptor = mapDescriptor;
-        mWaveDescriptors = waveDescriptors;
+        mWaveInfos = waveInfos;
     }
 
     public GameSettings getGameSettings() {
         return mGameSettings;
     }
 
-    public MapDescriptor getMapDescriptor() {
+    public GameMap getMapDescriptor() {
         return mMapDescriptor;
     }
 
-    public List<WaveDescriptor> getWaveDescriptors() {
-        return mWaveDescriptors;
+    public List<WaveInfo> getWaveInfos() {
+        return mWaveInfos;
     }
 
 }

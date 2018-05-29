@@ -7,8 +7,8 @@ import java.util.Collection;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.map.MapDescriptor;
-import ch.logixisland.anuto.data.map.PathDescriptor;
+import ch.logixisland.anuto.data.map.GameMap;
+import ch.logixisland.anuto.data.map.MapPath;
 import ch.logixisland.anuto.data.setting.tower.GlueTowerSettings;
 import ch.logixisland.anuto.data.setting.tower.TowerSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
@@ -46,7 +46,7 @@ public class GlueTower extends Tower implements SpriteTransformation {
         @Override
         public Entity create(GameEngine gameEngine) {
             TowerSettings towerSettings = gameEngine.getGameConfiguration().getGameSettings().getTowerSettings();
-            MapDescriptor mapDescriptor = gameEngine.getGameConfiguration().getMapDescriptor();
+            GameMap mapDescriptor = gameEngine.getGameConfiguration().getMapDescriptor();
             return new GlueTower(gameEngine, towerSettings.getGlueTowerSettings(), mapDescriptor.getPaths());
         }
     }
@@ -76,7 +76,7 @@ public class GlueTower extends Tower implements SpriteTransformation {
     }
 
     private GlueTowerSettings mSettings;
-    private Collection<PathDescriptor> mPaths;
+    private Collection<MapPath> mPaths;
 
     private float mGlueIntensity;
     private boolean mShooting;
@@ -88,7 +88,7 @@ public class GlueTower extends Tower implements SpriteTransformation {
     private StaticSprite mSpriteTower;
     private final TickTimer mUpdateTimer = TickTimer.createInterval(0.1f);
 
-    private GlueTower(GameEngine gameEngine, GlueTowerSettings settings, Collection<PathDescriptor> paths) {
+    private GlueTower(GameEngine gameEngine, GlueTowerSettings settings, Collection<MapPath> paths) {
         super(gameEngine, settings);
         StaticData s = (StaticData) getStaticData();
 
@@ -252,10 +252,10 @@ public class GlueTower extends Tower implements SpriteTransformation {
         }
     }
 
-    private Collection<Line> getPathSectionsInRange(Collection<PathDescriptor> paths) {
+    private Collection<Line> getPathSectionsInRange(Collection<MapPath> paths) {
         Collection<Line> sections = new ArrayList<>();
 
-        for (PathDescriptor path : paths) {
+        for (MapPath path : paths) {
             sections.addAll(Intersections.getPathSectionsInRange(path.getWayPoints(), getPosition(), getRange()));
         }
 

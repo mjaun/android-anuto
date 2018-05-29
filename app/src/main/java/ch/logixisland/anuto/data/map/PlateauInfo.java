@@ -6,7 +6,7 @@ import org.simpleframework.xml.Root;
 import ch.logixisland.anuto.util.math.Vector2;
 
 @Root
-public class PlateauDescriptor {
+public class PlateauInfo {
 
     @Attribute(name = "name")
     private String mName;

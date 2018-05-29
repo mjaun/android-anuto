@@ -9,10 +9,10 @@ import java.util.Collections;
 import java.util.List;
 
 @Root
-public class WaveDescriptor {
+public class WaveInfo {
 
     @ElementList(name = "enemies", entry = "enemy")
-    private List<EnemyDescriptor> mEnemies = new ArrayList<>();
+    private List<EnemyInfo> mEnemies = new ArrayList<>();
 
     @Element(name = "waveReward", required = false)
     private int mWaveReward = 0;
@@ -23,7 +23,7 @@ public class WaveDescriptor {
     @Element(name = "maxExtend", required = false)
     private int mMaxExtend = 0;
 
-    public List<EnemyDescriptor> getEnemies() {
+    public List<EnemyInfo> getEnemies() {
         return Collections.unmodifiableList(mEnemies);
     }
 

@@ -6,13 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.business.tower.TowerAging;
-import ch.logixisland.anuto.data.GameDescriptor;
+import ch.logixisland.anuto.data.state.GameState;
 import ch.logixisland.anuto.data.setting.GameSettings;
-import ch.logixisland.anuto.data.wave.ActiveWaveDescriptor;
-import ch.logixisland.anuto.data.wave.WaveDescriptor;
+import ch.logixisland.anuto.data.state.ActiveWaveData;
+import ch.logixisland.anuto.data.wave.WaveInfo;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.loop.Message;
@@ -37,7 +36,7 @@ public class WaveManager implements Persister {
 
     private final GameEngine mGameEngine;
     private final ScoreBoard mScoreBoard;
-    private final GameState mGameState;
+    private final ch.logixisland.anuto.business.game.GameState mGameState;
     private final TowerAging mTowerAging;
     private final EntityRegistry mEntityRegistry;
 
@@ -52,7 +51,7 @@ public class WaveManager implements Persister {
     private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
     private final List<WaveStartedListener> mWaveStartedListeners = new CopyOnWriteArrayList<>();
 
-    public WaveManager(GameEngine gameEngine, ScoreBoard scoreBoard, GameState gameState,
+    public WaveManager(GameEngine gameEngine, ScoreBoard scoreBoard, ch.logixisland.anuto.business.game.GameState gameState,
                        EntityRegistry entityRegistry, TowerAging towerAging) {
         mGameEngine = gameEngine;
         mScoreBoard = scoreBoard;
@@ -123,42 +122,42 @@ public class WaveManager implements Persister {
     }
 
     @Override
-    public void writeDescriptor(GameDescriptor gameDescriptor) {
-        gameDescriptor.setWaveNumber(mWaveNumber);
+    public void writeDescriptor(GameState gameState) {
+        gameState.setWaveNumber(mWaveNumber);
 
         for (WaveAttender waveAttender : mActiveWaves) {
-            ActiveWaveDescriptor descriptor = waveAttender.writeActiveWaveDescriptor();
-            gameDescriptor.addActiveWaveDescriptor(descriptor);
+            ActiveWaveData descriptor = waveAttender.writeActiveWaveDescriptor();
+            gameState.addActiveWaveDescriptor(descriptor);
         }
     }
 
     @Override
-    public void readDescriptor(GameDescriptor gameDescriptor) {
-        setWaveNumber(gameDescriptor.getWaveNumber());
-        initializeActiveWaves(gameDescriptor);
-        initializeNextWaveReady(gameDescriptor);
+    public void readDescriptor(GameState gameState) {
+        setWaveNumber(gameState.getWaveNumber());
+        initializeActiveWaves(gameState);
+        initializeNextWaveReady(gameState);
         updateRemainingEnemiesCount();
     }
 
-    private void initializeActiveWaves(GameDescriptor gameDescriptor) {
+    private void initializeActiveWaves(GameState gameState) {
         mActiveWaves.clear();
-        List<WaveDescriptor> waveDescriptors = mGameEngine.getGameConfiguration().getWaveDescriptors();
+        List<WaveInfo> waveInfos = mGameEngine.getGameConfiguration().getWaveInfos();
 
-        for (ActiveWaveDescriptor activeWaveDescriptor : gameDescriptor.getActiveWaveDescriptors()) {
-            WaveDescriptor waveDescriptor = waveDescriptors.get(activeWaveDescriptor.getWaveNumber() % waveDescriptors.size());
-            WaveAttender waveAttender = new WaveAttender(mGameEngine, mScoreBoard, mEntityRegistry, this, waveDescriptor, activeWaveDescriptor.getWaveNumber());
-            waveAttender.readActiveWaveDescriptor(activeWaveDescriptor);
+        for (ActiveWaveData activeWaveData : gameState.getActiveWaveData()) {
+            WaveInfo waveInfo = waveInfos.get(activeWaveData.getWaveNumber() % waveInfos.size());
+            WaveAttender waveAttender = new WaveAttender(mGameEngine, mScoreBoard, mEntityRegistry, this, waveInfo, activeWaveData.getWaveNumber());
+            waveAttender.readActiveWaveDescriptor(activeWaveData);
             waveAttender.start();
             mActiveWaves.add(waveAttender);
         }
     }
 
-    private void initializeNextWaveReady(GameDescriptor gameDescriptor) {
+    private void initializeNextWaveReady(GameState gameState) {
         int minWaveDelayTicks = Math.round(MIN_WAVE_DELAY * GameEngine.TARGET_FRAME_RATE);
         int lastStartedWaveTickCount = -minWaveDelayTicks;
 
-        for (ActiveWaveDescriptor activeWaveDescriptor : gameDescriptor.getActiveWaveDescriptors()) {
-            lastStartedWaveTickCount = Math.max(lastStartedWaveTickCount, activeWaveDescriptor.getWaveStartTickCount());
+        for (ActiveWaveData activeWaveData : gameState.getActiveWaveData()) {
+            lastStartedWaveTickCount = Math.max(lastStartedWaveTickCount, activeWaveData.getWaveStartTickCount());
         }
 
         int nextWaveReadyTicks = minWaveDelayTicks - (mGameEngine.getTickCount() - lastStartedWaveTickCount);
@@ -257,17 +256,17 @@ public class WaveManager implements Persister {
     }
 
     private void createAndStartWaveAttender() {
-        List<WaveDescriptor> waveDescriptors = mGameEngine.getGameConfiguration().getWaveDescriptors();
-        WaveDescriptor nextWaveDescriptor = waveDescriptors.get(mWaveNumber % waveDescriptors.size());
-        WaveAttender nextWave = new WaveAttender(mGameEngine, mScoreBoard, mEntityRegistry, this, nextWaveDescriptor, mWaveNumber);
-        updateWaveExtend(nextWave, nextWaveDescriptor);
+        List<WaveInfo> waveInfos = mGameEngine.getGameConfiguration().getWaveInfos();
+        WaveInfo nextWaveInfo = waveInfos.get(mWaveNumber % waveInfos.size());
+        WaveAttender nextWave = new WaveAttender(mGameEngine, mScoreBoard, mEntityRegistry, this, nextWaveInfo, mWaveNumber);
+        updateWaveExtend(nextWave, nextWaveInfo);
         updateWaveModifiers(nextWave);
         nextWave.start();
         mActiveWaves.add(nextWave);
     }
 
-    private void updateWaveExtend(WaveAttender wave, WaveDescriptor waveDescriptor) {
-        int extend = Math.min((getIterationNumber() - 1) * waveDescriptor.getExtend(), waveDescriptor.getMaxExtend());
+    private void updateWaveExtend(WaveAttender wave, WaveInfo waveInfo) {
+        int extend = Math.min((getIterationNumber() - 1) * waveInfo.getExtend(), waveInfo.getMaxExtend());
         wave.setExtend(extend);
     }
 
@@ -296,7 +295,7 @@ public class WaveManager implements Persister {
     }
 
     private int getIterationNumber() {
-        return (getWaveNumber() / mGameEngine.getGameConfiguration().getWaveDescriptors().size()) + 1;
+        return (getWaveNumber() / mGameEngine.getGameConfiguration().getWaveInfos().size()) + 1;
     }
 
     private int getEarlyBonus() {

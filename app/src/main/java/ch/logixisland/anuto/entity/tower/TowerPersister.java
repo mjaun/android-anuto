@@ -1,7 +1,7 @@
 package ch.logixisland.anuto.entity.tower;
 
-import ch.logixisland.anuto.data.entity.EntityDescriptor;
-import ch.logixisland.anuto.data.entity.TowerDescriptor;
+import ch.logixisland.anuto.data.state.EntityData;
+import ch.logixisland.anuto.data.state.TowerData;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
@@ -15,14 +15,14 @@ public class TowerPersister extends EntityPersister {
     }
 
     @Override
-    protected TowerDescriptor createEntityDescriptor() {
-        return new TowerDescriptor();
+    protected TowerData createEntityDescriptor() {
+        return new TowerData();
     }
 
     @Override
-    protected TowerDescriptor writeEntityDescriptor(Entity entity) {
+    protected TowerData writeEntityDescriptor(Entity entity) {
         Tower tower = (Tower) entity;
-        TowerDescriptor descriptor = (TowerDescriptor) super.writeEntityDescriptor(tower);
+        TowerData descriptor = (TowerData) super.writeEntityDescriptor(tower);
 
         descriptor.setPlateauId(tower.getPlateau().getEntityId());
         descriptor.setValue(tower.getValue());
@@ -40,9 +40,9 @@ public class TowerPersister extends EntityPersister {
     }
 
     @Override
-    protected Tower readEntityDescriptor(EntityDescriptor entityDescriptor) {
-        Tower tower = (Tower) super.readEntityDescriptor(entityDescriptor);
-        TowerDescriptor descriptor = (TowerDescriptor) entityDescriptor;
+    protected Tower readEntityDescriptor(EntityData entityData) {
+        Tower tower = (Tower) super.readEntityDescriptor(entityData);
+        TowerData descriptor = (TowerData) entityData;
 
         while (tower.getLevel() < descriptor.getLevel()) {
             tower.enhance();

@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Root
-public class MapDescriptor {
+public class GameMap {
 
     @Element(name = "id", required = false)
     private String mId;
@@ -26,16 +26,16 @@ public class MapDescriptor {
     private int mHeight;
 
     @ElementList(name = "plateaus", entry = "plateau")
-    private List<PlateauDescriptor> mPlateaus = new ArrayList<>();
+    private List<PlateauInfo> mPlateaus = new ArrayList<>();
 
     @ElementList(name = "paths", entry = "path")
-    private List<PathDescriptor> mPaths = new ArrayList<>();
+    private List<MapPath> mPaths = new ArrayList<>();
 
-    public static MapDescriptor fromXml(Serializer serializer, Resources resources, int resId, String mapId) throws Exception {
+    public static GameMap fromXml(Serializer serializer, Resources resources, int resId, String mapId) throws Exception {
         InputStream stream = resources.openRawResource(resId);
 
         try {
-            MapDescriptor mapDescriptor = serializer.read(MapDescriptor.class, stream);
+            GameMap mapDescriptor = serializer.read(GameMap.class, stream);
             mapDescriptor.mId = mapId;
             return mapDescriptor;
         } finally {
@@ -55,11 +55,11 @@ public class MapDescriptor {
         return mWidth;
     }
 
-    public Collection<PlateauDescriptor> getPlateaus() {
+    public Collection<PlateauInfo> getPlateaus() {
         return Collections.unmodifiableCollection(mPlateaus);
     }
 
-    public List<PathDescriptor> getPaths() {
+    public List<MapPath> getPaths() {
         return Collections.unmodifiableList(mPaths);
     }
 }

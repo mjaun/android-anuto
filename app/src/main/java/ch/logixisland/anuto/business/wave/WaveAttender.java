@@ -5,10 +5,10 @@ import java.util.Collection;
 import java.util.List;
 
 import ch.logixisland.anuto.business.game.ScoreBoard;
-import ch.logixisland.anuto.data.map.PathDescriptor;
-import ch.logixisland.anuto.data.wave.ActiveWaveDescriptor;
-import ch.logixisland.anuto.data.wave.EnemyDescriptor;
-import ch.logixisland.anuto.data.wave.WaveDescriptor;
+import ch.logixisland.anuto.data.map.MapPath;
+import ch.logixisland.anuto.data.state.ActiveWaveData;
+import ch.logixisland.anuto.data.wave.EnemyInfo;
+import ch.logixisland.anuto.data.wave.WaveInfo;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.loop.Message;
@@ -25,7 +25,7 @@ class WaveAttender implements EnemyListener {
     private final ScoreBoard mScoreBoard;
     private final EntityRegistry mEntityRegistry;
     private final WaveManager mWaveManager;
-    private final WaveDescriptor mWaveDescriptor;
+    private final WaveInfo mWaveInfo;
 
     private final Collection<Enemy> mRemainingEnemies = new ArrayList<>();
 
@@ -38,23 +38,23 @@ class WaveAttender implements EnemyListener {
     private float mEnemyRewardModifier;
 
     WaveAttender(GameEngine gameEngine, ScoreBoard scoreBoard, EntityRegistry entityRegistry,
-                 WaveManager waveManager, WaveDescriptor waveDescriptor, int waveNumber) {
+                 WaveManager waveManager, WaveInfo waveInfo, int waveNumber) {
         mGameEngine = gameEngine;
         mScoreBoard = scoreBoard;
         mEntityRegistry = entityRegistry;
         mWaveManager = waveManager;
-        mWaveDescriptor = waveDescriptor;
+        mWaveInfo = waveInfo;
         mWaveNumber = waveNumber;
 
         mExtend = 1;
         mEnemyHealthModifier = 1;
         mEnemyRewardModifier = 1;
-        mWaveReward = mWaveDescriptor.getWaveReward();
+        mWaveReward = mWaveInfo.getWaveReward();
     }
 
     float getWaveDefaultHealth(EnemyDefaultHealth enemyDefaultHealth) {
         float waveHealth = 0f;
-        for (EnemyDescriptor d : mWaveDescriptor.getEnemies()) {
+        for (EnemyInfo d : mWaveInfo.getEnemies()) {
             waveHealth += enemyDefaultHealth.getDefaultHealth(d.getName());
         }
         waveHealth *= mExtend + 1;
@@ -108,8 +108,8 @@ class WaveAttender implements EnemyListener {
         return totalReward;
     }
 
-    ActiveWaveDescriptor writeActiveWaveDescriptor() {
-        ActiveWaveDescriptor descriptor = new ActiveWaveDescriptor();
+    ActiveWaveData writeActiveWaveDescriptor() {
+        ActiveWaveData descriptor = new ActiveWaveData();
         descriptor.setWaveNumber(mWaveNumber);
         descriptor.setWaveStartTickCount(mWaveStartTickCount);
         descriptor.setExtend(mExtend);
@@ -119,12 +119,12 @@ class WaveAttender implements EnemyListener {
         return descriptor;
     }
 
-    void readActiveWaveDescriptor(ActiveWaveDescriptor activeWaveDescriptor) {
-        mExtend = activeWaveDescriptor.getExtend();
-        mWaveReward = activeWaveDescriptor.getWaveReward();
-        mEnemyHealthModifier = activeWaveDescriptor.getEnemyHealthModifier();
-        mEnemyRewardModifier = activeWaveDescriptor.getEnemyRewardModifier();
-        mWaveStartTickCount = activeWaveDescriptor.getWaveStartTickCount();
+    void readActiveWaveDescriptor(ActiveWaveData activeWaveData) {
+        mExtend = activeWaveData.getExtend();
+        mWaveReward = activeWaveData.getWaveReward();
+        mEnemyHealthModifier = activeWaveData.getEnemyHealthModifier();
+        mEnemyRewardModifier = activeWaveData.getEnemyRewardModifier();
+        mWaveStartTickCount = activeWaveData.getWaveStartTickCount();
 
         StreamIterator<Enemy> enemyIterator = mGameEngine.getEntitiesByType(Types.ENEMY).cast(Enemy.class);
         while (enemyIterator.hasNext()) {
@@ -141,11 +141,11 @@ class WaveAttender implements EnemyListener {
         int delayTicks = mWaveStartTickCount - mGameEngine.getTickCount();
         float offset = 0;
 
-        List<EnemyDescriptor> enemyDescriptors = mWaveDescriptor.getEnemies();
+        List<EnemyInfo> enemyInfos = mWaveInfo.getEnemies();
 
         for (int extendIndex = 0; extendIndex < mExtend + 1; extendIndex++) {
-            for (int enemyIndex = 0; enemyIndex < enemyDescriptors.size(); enemyIndex++) {
-                EnemyDescriptor descriptor = enemyDescriptors.get(enemyIndex);
+            for (int enemyIndex = 0; enemyIndex < enemyInfos.size(); enemyIndex++) {
+                EnemyInfo descriptor = enemyInfos.get(enemyIndex);
 
                 if (MathUtils.equals(descriptor.getDelay(), 0f, 0.1f)) {
                     offset += descriptor.getOffset();
@@ -165,8 +165,8 @@ class WaveAttender implements EnemyListener {
         }
     }
 
-    private Enemy createAndConfigureEnemy(EnemyDescriptor descriptor, float offset) {
-        PathDescriptor path = mGameEngine.getGameConfiguration().getMapDescriptor().getPaths().get(descriptor.getPathIndex());
+    private Enemy createAndConfigureEnemy(EnemyInfo descriptor, float offset) {
+        MapPath path = mGameEngine.getGameConfiguration().getMapDescriptor().getPaths().get(descriptor.getPathIndex());
         Enemy enemy = (Enemy) mEntityRegistry.createEntity(descriptor.getName());
         enemy.setWaveNumber(mWaveNumber);
         enemy.modifyHealth(mEnemyHealthModifier);

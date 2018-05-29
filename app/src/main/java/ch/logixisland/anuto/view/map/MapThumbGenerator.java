@@ -9,9 +9,9 @@ import android.graphics.Paint;
 import org.simpleframework.xml.Serializer;
 
 import ch.logixisland.anuto.data.SerializerFactory;
-import ch.logixisland.anuto.data.map.MapDescriptor;
-import ch.logixisland.anuto.data.map.PathDescriptor;
-import ch.logixisland.anuto.data.map.PlateauDescriptor;
+import ch.logixisland.anuto.data.map.GameMap;
+import ch.logixisland.anuto.data.map.MapPath;
+import ch.logixisland.anuto.data.map.PlateauInfo;
 import ch.logixisland.anuto.engine.render.Viewport;
 import ch.logixisland.anuto.util.math.Vector2;
 
@@ -30,13 +30,13 @@ class MapThumbGenerator {
 
     Bitmap generateThumb(Resources resources, int mapDescriptorResId) {
         try {
-            return generateThumb(MapDescriptor.fromXml(mSerializer, resources, mapDescriptorResId, null));
+            return generateThumb(GameMap.fromXml(mSerializer, resources, mapDescriptorResId, null));
         } catch (Exception e) {
             return null;
         }
     }
 
-    Bitmap generateThumb(MapDescriptor mapDescriptor) {
+    Bitmap generateThumb(GameMap mapDescriptor) {
         Bitmap bitmap = Bitmap.createBitmap(
                 mapDescriptor.getWidth() * PIXELS_PER_SQUARE,
                 mapDescriptor.getHeight() * PIXELS_PER_SQUARE, Bitmap.Config.ARGB_8888);
@@ -53,12 +53,12 @@ class MapThumbGenerator {
         return bitmap;
     }
 
-    private void drawPaths(Canvas canvas, MapDescriptor mapDescriptor) {
+    private void drawPaths(Canvas canvas, GameMap mapDescriptor) {
         Paint pathPaint = new Paint();
         pathPaint.setStyle(Paint.Style.FILL);
         pathPaint.setColor(PATH_COLOR);
 
-        for (PathDescriptor path : mapDescriptor.getPaths()) {
+        for (MapPath path : mapDescriptor.getPaths()) {
             Vector2 lastWayPoint = null;
             for (Vector2 wayPoint : path.getWayPoints()) {
                 if (lastWayPoint != null) {
@@ -74,13 +74,13 @@ class MapThumbGenerator {
         }
     }
 
-    private void drawPlateaus(Canvas canvas, MapDescriptor mapDescriptor) {
+    private void drawPlateaus(Canvas canvas, GameMap mapDescriptor) {
         Paint plateauPaint = new Paint();
         plateauPaint.setStyle(Paint.Style.STROKE);
         plateauPaint.setStrokeWidth(1);
         plateauPaint.setColor(PLATEAU_COLOR);
 
-        for (PlateauDescriptor plateau : mapDescriptor.getPlateaus()) {
+        for (PlateauInfo plateau : mapDescriptor.getPlateaus()) {
             Vector2 position = plateau.getPosition();
             canvas.drawPoint(position.x(), position.y(), plateauPaint);
         }

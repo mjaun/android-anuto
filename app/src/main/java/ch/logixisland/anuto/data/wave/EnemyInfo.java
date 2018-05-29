@@ -4,7 +4,7 @@ import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Root;
 
 @Root
-public class EnemyDescriptor {
+public class EnemyInfo {
 
     @Attribute(name = "name")
     private String mName;

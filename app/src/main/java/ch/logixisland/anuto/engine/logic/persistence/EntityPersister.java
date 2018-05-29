@@ -1,7 +1,7 @@
 package ch.logixisland.anuto.engine.logic.persistence;
 
-import ch.logixisland.anuto.data.GameDescriptor;
-import ch.logixisland.anuto.data.entity.EntityDescriptor;
+import ch.logixisland.anuto.data.state.GameState;
+import ch.logixisland.anuto.data.state.EntityData;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
@@ -20,40 +20,40 @@ public abstract class EntityPersister implements Persister {
     }
 
     @Override
-    public void writeDescriptor(GameDescriptor gameDescriptor) {
+    public void writeDescriptor(GameState gameState) {
         StreamIterator<Entity> iterator = mGameEngine.getAllEntities()
                 .filter(Entity.nameEquals(mEntityName));
 
         while (iterator.hasNext()) {
             Entity entity = iterator.next();
-            gameDescriptor.addEntityDescriptor(writeEntityDescriptor(entity));
+            gameState.addEntityDescriptor(writeEntityDescriptor(entity));
         }
     }
 
     @Override
-    public void readDescriptor(GameDescriptor gameDescriptor) {
-        for (EntityDescriptor entityDescriptor : gameDescriptor.getEntityDescriptors()) {
-            if (mEntityName.equals(entityDescriptor.getName())) {
-                mGameEngine.add(readEntityDescriptor(entityDescriptor));
+    public void readDescriptor(GameState gameState) {
+        for (EntityData entityData : gameState.getEntityData()) {
+            if (mEntityName.equals(entityData.getName())) {
+                mGameEngine.add(readEntityDescriptor(entityData));
             }
         }
     }
 
-    protected abstract EntityDescriptor createEntityDescriptor();
+    protected abstract EntityData createEntityDescriptor();
 
-    protected EntityDescriptor writeEntityDescriptor(Entity entity) {
-        EntityDescriptor entityDescriptor = createEntityDescriptor();
+    protected EntityData writeEntityDescriptor(Entity entity) {
+        EntityData entityData = createEntityDescriptor();
 
-        entityDescriptor.setId(entity.getEntityId());
-        entityDescriptor.setName(entity.getEntityName());
-        entityDescriptor.setPosition(entity.getPosition());
+        entityData.setId(entity.getEntityId());
+        entityData.setName(entity.getEntityName());
+        entityData.setPosition(entity.getPosition());
 
-        return entityDescriptor;
+        return entityData;
     }
 
-    protected Entity readEntityDescriptor(EntityDescriptor entityDescriptor) {
-        Entity entity = mEntityRegistry.createEntity(entityDescriptor.getName(), entityDescriptor.getId());
-        entity.setPosition(entityDescriptor.getPosition());
+    protected Entity readEntityDescriptor(EntityData entityData) {
+        Entity entity = mEntityRegistry.createEntity(entityData.getName(), entityData.getId());
+        entity.setPosition(entityData.getPosition());
         return entity;
     }
 

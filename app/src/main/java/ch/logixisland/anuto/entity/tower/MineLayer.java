@@ -7,10 +7,10 @@ import java.util.Collection;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.entity.EntityDescriptor;
-import ch.logixisland.anuto.data.entity.TowerDescriptor;
-import ch.logixisland.anuto.data.map.MapDescriptor;
-import ch.logixisland.anuto.data.map.PathDescriptor;
+import ch.logixisland.anuto.data.state.EntityData;
+import ch.logixisland.anuto.data.state.TowerData;
+import ch.logixisland.anuto.data.map.GameMap;
+import ch.logixisland.anuto.data.map.MapPath;
 import ch.logixisland.anuto.data.setting.tower.MineLayerSettings;
 import ch.logixisland.anuto.data.setting.tower.TowerSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
@@ -44,7 +44,7 @@ public class MineLayer extends Tower implements SpriteTransformation {
         @Override
         public Entity create(GameEngine gameEngine) {
             TowerSettings towerSettings = gameEngine.getGameConfiguration().getGameSettings().getTowerSettings();
-            MapDescriptor mapDescriptor = gameEngine.getGameConfiguration().getMapDescriptor();
+            GameMap mapDescriptor = gameEngine.getGameConfiguration().getMapDescriptor();
             return new MineLayer(gameEngine, towerSettings.getMineLayerSettings(), mapDescriptor.getPaths());
         }
     }
@@ -57,9 +57,9 @@ public class MineLayer extends Tower implements SpriteTransformation {
         }
 
         @Override
-        protected TowerDescriptor writeEntityDescriptor(Entity entity) {
+        protected TowerData writeEntityDescriptor(Entity entity) {
             MineLayer mineLayer = (MineLayer) entity;
-            TowerDescriptor descriptor = super.writeEntityDescriptor(entity);
+            TowerData descriptor = super.writeEntityDescriptor(entity);
 
             List<Vector2> minePositions = new ArrayList<>();
             for (Mine mine : mineLayer.mMines) {
@@ -71,9 +71,9 @@ public class MineLayer extends Tower implements SpriteTransformation {
         }
 
         @Override
-        protected MineLayer readEntityDescriptor(EntityDescriptor entityDescriptor) {
-            MineLayer mineLayer = (MineLayer) super.readEntityDescriptor(entityDescriptor);
-            TowerDescriptor descriptor = (TowerDescriptor) entityDescriptor;
+        protected MineLayer readEntityDescriptor(EntityData entityData) {
+            MineLayer mineLayer = (MineLayer) super.readEntityDescriptor(entityData);
+            TowerData descriptor = (TowerData) entityData;
 
             for (Vector2 minePosition : Vector2.deserializeList(descriptor.getDetail(MINE_POSITION_DETAIL))) {
                 Mine mine = new Mine(mineLayer, minePosition, mineLayer.getDamage(), mineLayer.mExplosionRadius);
@@ -91,7 +91,7 @@ public class MineLayer extends Tower implements SpriteTransformation {
     }
 
     private MineLayerSettings mSettings;
-    private Collection<PathDescriptor> mPaths;
+    private Collection<MapPath> mPaths;
 
     private float mAngle;
     private int mMaxMineCount;
@@ -112,7 +112,7 @@ public class MineLayer extends Tower implements SpriteTransformation {
         }
     };
 
-    private MineLayer(GameEngine gameEngine, MineLayerSettings settings, Collection<PathDescriptor> paths) {
+    private MineLayer(GameEngine gameEngine, MineLayerSettings settings, Collection<MapPath> paths) {
         super(gameEngine, settings);
         StaticData s = (StaticData) getStaticData();
 
@@ -261,10 +261,10 @@ public class MineLayer extends Tower implements SpriteTransformation {
         return null;
     }
 
-    private Collection<Line> getPathSectionsInRange(Collection<PathDescriptor> paths) {
+    private Collection<Line> getPathSectionsInRange(Collection<MapPath> paths) {
         Collection<Line> sections = new ArrayList<>();
 
-        for (PathDescriptor path : paths) {
+        for (MapPath path : paths) {
             sections.addAll(Intersections.getPathSectionsInRange(path.getWayPoints(), getPosition(), getRange()));
         }
 

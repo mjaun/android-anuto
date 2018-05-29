@@ -3,7 +3,7 @@ package ch.logixisland.anuto.engine.logic.entity;
 import java.util.HashMap;
 import java.util.Map;
 
-import ch.logixisland.anuto.data.GameDescriptor;
+import ch.logixisland.anuto.data.state.GameState;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.persistence.Persister;
 
@@ -33,12 +33,12 @@ public class EntityRegistry implements Persister {
     }
 
     @Override
-    public void writeDescriptor(GameDescriptor gameDescriptor) {
-        gameDescriptor.setNextEntityId(mNextEntityId);
+    public void writeDescriptor(GameState gameState) {
+        gameState.setNextEntityId(mNextEntityId);
     }
 
     @Override
-    public void readDescriptor(GameDescriptor gameDescriptor) {
-        mNextEntityId = gameDescriptor.getNextEntityId();
+    public void readDescriptor(GameState gameState) {
+        mNextEntityId = gameState.getNextEntityId();
     }
 }
