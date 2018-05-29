@@ -124,7 +124,7 @@ public class WaveManager implements Persister {
 
     @Override
     public void writeDescriptor(GameDescriptor gameDescriptor) {
-        gameDescriptor.getGameSettings().setWaveNumber(mWaveNumber);
+        gameDescriptor.setWaveNumber(mWaveNumber);
 
         for (WaveAttender waveAttender : mActiveWaves) {
             ActiveWaveDescriptor descriptor = waveAttender.writeActiveWaveDescriptor();
@@ -134,7 +134,7 @@ public class WaveManager implements Persister {
 
     @Override
     public void readDescriptor(GameDescriptor gameDescriptor) {
-        setWaveNumber(gameDescriptor.getGameSettings().getWaveNumber());
+        setWaveNumber(gameDescriptor.getWaveNumber());
         initializeActiveWaves(gameDescriptor);
         initializeNextWaveReady(gameDescriptor);
         updateRemainingEnemiesCount();

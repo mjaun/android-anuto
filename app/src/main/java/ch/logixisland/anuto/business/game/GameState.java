@@ -65,8 +65,8 @@ public class GameState implements ScoreBoard.LivesListener, Persister {
 
     @Override
     public void readDescriptor(GameDescriptor gameDescriptor) {
-        setGameOver(gameDescriptor.getGameSettings().getLives() < 0);
-        mGameStarted = gameDescriptor.getGameSettings().getWaveNumber() > 0;
+        setGameOver(gameDescriptor.getLives() < 0);
+        mGameStarted = gameDescriptor.getWaveNumber() > 0;
     }
 
     private void setGameOver(boolean gameOver) {

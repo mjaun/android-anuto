@@ -1,39 +1,44 @@
 package ch.logixisland.anuto.data;
 
-import android.content.res.Resources;
-
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.ElementListUnion;
-import org.simpleframework.xml.Serializer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import ch.logixisland.anuto.BuildConfig;
 import ch.logixisland.anuto.data.entity.EnemyDescriptor;
 import ch.logixisland.anuto.data.entity.EntityDescriptor;
 import ch.logixisland.anuto.data.entity.PlateauDescriptor;
 import ch.logixisland.anuto.data.entity.TowerDescriptor;
-import ch.logixisland.anuto.data.map.MapDescriptor;
-import ch.logixisland.anuto.data.setting.GameSettings;
 import ch.logixisland.anuto.data.wave.ActiveWaveDescriptor;
-import ch.logixisland.anuto.data.wave.WaveDescriptor;
-import ch.logixisland.anuto.data.wave.WaveDescriptorList;
 
 public class GameDescriptor {
 
     @Element(name = "appVersion")
     private int mAppVersion;
 
-    @Element(name = "settings")
-    private GameSettings mGameSettings;
+    @Element(name = "mapId")
+    private String mMapId;
 
-    @Element(name = "map")
-    private MapDescriptor mMapDescriptor;
+    @Element(name = "credits")
+    private int mCredits;
 
-    @ElementList(entry = "wave", inline = true)
-    private List<WaveDescriptor> mWaveDescriptors;
+    @Element(name = "lives")
+    private int mLives;
+
+    @Element(name = "tickCount")
+    private int mTickCount;
+
+    @Element(name = "nextEntityId")
+    private int mNextEntityId;
+
+    @Element(name = "waveNumber")
+    private int mWaveNumber;
+
+    @Element(name = "creditsEarned")
+    private int mCreditsEarned;
 
     @ElementList(entry = "activeWave", inline = true, required = false)
     private List<ActiveWaveDescriptor> mActiveWaveDescriptors = new ArrayList<>();
@@ -45,40 +50,72 @@ public class GameDescriptor {
     })
     private List<EntityDescriptor> mEntityDescriptors = new ArrayList<>();
 
-
-    public static GameDescriptor fromXml(Serializer serializer, Resources resources, int gameSettingsResId,
-                                         int enemySettingsResId, int towerSettingsResId,
-                                         int wavesResId, int mapResId, String mapId) throws Exception {
-        GameDescriptor result = new GameDescriptor();
-        result.mAppVersion = BuildConfig.VERSION_CODE;
-        result.mGameSettings = GameSettings.fromXml(serializer, resources, gameSettingsResId, enemySettingsResId, towerSettingsResId);
-        result.mWaveDescriptors = WaveDescriptorList.fromXml(serializer, resources, wavesResId);
-        result.mMapDescriptor = MapDescriptor.fromXml(serializer, resources, mapResId, mapId);
-        return result;
-    }
-
     public int getAppVersion() {
         return mAppVersion;
     }
 
-    public GameSettings getGameSettings() {
-        return mGameSettings;
+    public void setAppVersion(int appVersion) {
+        mAppVersion = appVersion;
     }
 
-    public MapDescriptor getMapDescriptor() {
-        return mMapDescriptor;
+    public String getMapId() {
+        return mMapId;
     }
 
-    public List<WaveDescriptor> getWaveDescriptors() {
-        return mWaveDescriptors;
+    public void setMapId(String mapId) {
+        mMapId = mapId;
+    }
+
+    public int getCredits() {
+        return mCredits;
+    }
+
+    public void setCredits(int credits) {
+        mCredits = credits;
+    }
+
+    public int getLives() {
+        return mLives;
+    }
+
+    public void setLives(int lives) {
+        mLives = lives;
+    }
+
+    public int getTickCount() {
+        return mTickCount;
+    }
+
+    public void setTickCount(int tickCount) {
+        mTickCount = tickCount;
+    }
+
+    public int getNextEntityId() {
+        return mNextEntityId;
+    }
+
+    public void setNextEntityId(int nextEntityId) {
+        mNextEntityId = nextEntityId;
+    }
+
+    public int getWaveNumber() {
+        return mWaveNumber;
+    }
+
+    public void setWaveNumber(int waveNumber) {
+        mWaveNumber = waveNumber;
+    }
+
+    public int getCreditsEarned() {
+        return mCreditsEarned;
+    }
+
+    public void setCreditsEarned(int creditsEarned) {
+        mCreditsEarned = creditsEarned;
     }
 
     public List<ActiveWaveDescriptor> getActiveWaveDescriptors() {
-        return mActiveWaveDescriptors;
-    }
-
-    public void clearActiveWaveDescriptors() {
-        mActiveWaveDescriptors.clear();
+        return Collections.unmodifiableList(mActiveWaveDescriptors);
     }
 
     public void addActiveWaveDescriptor(ActiveWaveDescriptor activeWaveDescriptor) {
@@ -86,11 +123,7 @@ public class GameDescriptor {
     }
 
     public List<EntityDescriptor> getEntityDescriptors() {
-        return mEntityDescriptors;
-    }
-
-    public void clearEntityDescriptors() {
-        mEntityDescriptors.clear();
+        return Collections.unmodifiableList(mEntityDescriptors);
     }
 
     public void addEntityDescriptor(EntityDescriptor entityDescriptor) {

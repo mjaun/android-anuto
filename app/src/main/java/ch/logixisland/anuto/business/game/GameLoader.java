@@ -17,6 +17,8 @@ import ch.logixisland.anuto.data.GameDescriptor;
 import ch.logixisland.anuto.data.SerializerFactory;
 import ch.logixisland.anuto.data.map.MapDescriptor;
 import ch.logixisland.anuto.data.map.PlateauDescriptor;
+import ch.logixisland.anuto.data.setting.GameSettings;
+import ch.logixisland.anuto.data.wave.WaveDescriptorList;
 import ch.logixisland.anuto.engine.logic.GameConfiguration;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
@@ -42,7 +44,7 @@ public class GameLoader {
     private final EntityRegistry mEntityRegistry;
     private final MapRepository mMapRepository;
 
-    private GameDescriptor mGameDescriptor;
+    private String mCurrentMapId;
 
     private List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
@@ -76,12 +78,11 @@ public class GameLoader {
             return;
         }
 
-        if (mGameDescriptor == null) {
+        if (mCurrentMapId == null) {
             return;
         }
 
-        MapInfo currentMap = mMapRepository.getMapById(mGameDescriptor.getMapDescriptor().getId());
-        loadMap(currentMap);
+        loadMap(mMapRepository.getMapById(mCurrentMapId));
     }
 
     public void loadMap(final MapInfo mapInfo) {
@@ -95,23 +96,19 @@ public class GameLoader {
             return;
         }
 
-        GameDescriptor gameDescriptor;
+        GameConfiguration gameConfiguration;
 
         try {
-            gameDescriptor = GameDescriptor.fromXml(
-                    mSerializer,
-                    mContext.getResources(),
-                    R.raw.game_settings,
-                    R.raw.enemy_settings,
-                    R.raw.tower_settings,
-                    R.raw.wave_descriptors,
-                    mapInfo.getMapDescriptorResId(),
-                    mapInfo.getMapId());
+            gameConfiguration = new GameConfiguration(
+                    GameSettings.fromXml(mSerializer, mContext.getResources(), R.raw.game_settings, R.raw.enemy_settings, R.raw.tower_settings),
+                    MapDescriptor.fromXml(mSerializer, mContext.getResources(), mapInfo.getMapDescriptorResId(), mapInfo.getMapId()),
+                    WaveDescriptorList.fromXml(mSerializer, mContext.getResources(), R.raw.wave_descriptors)
+            );
         } catch (Exception e) {
             throw new RuntimeException("Could not load game!", e);
         }
 
-        loadGame(gameDescriptor, false);
+        loadGame(gameConfiguration, null);
     }
 
     public void loadGame() {
@@ -127,6 +124,7 @@ public class GameLoader {
 
         Log.i(TAG, "Loading game...");
         GameDescriptor gameDescriptor = null;
+        GameConfiguration gameConfiguration = null;
 
         try {
 
@@ -134,10 +132,12 @@ public class GameLoader {
             gameDescriptor = mSerializer.read(GameDescriptor.class, inputStream);
             inputStream.close();
 
-            if (gameDescriptor.getAppVersion() != BuildConfig.VERSION_CODE) {
-                Log.i(TAG, "Ignoring saved game: version does not match.");
-                gameDescriptor = null;
-            }
+            MapInfo mapInfo = mMapRepository.getMapById(gameDescriptor.getMapId());
+            gameConfiguration = new GameConfiguration(
+                    GameSettings.fromXml(mSerializer, mContext.getResources(), R.raw.game_settings, R.raw.enemy_settings, R.raw.tower_settings),
+                    MapDescriptor.fromXml(mSerializer, mContext.getResources(), mapInfo.getMapDescriptorResId(), mapInfo.getMapId()),
+                    WaveDescriptorList.fromXml(mSerializer, mContext.getResources(), R.raw.wave_descriptors)
+            );
 
             Log.i(TAG, "Game loaded.");
         } catch (FileNotFoundException e) {
@@ -147,8 +147,8 @@ public class GameLoader {
             throw new RuntimeException("Could not load game!", e);
         }
 
-        if (gameDescriptor != null) {
-            loadGame(gameDescriptor, true);
+        if (gameDescriptor != null && gameConfiguration != null && gameDescriptor.getAppVersion() == BuildConfig.VERSION_CODE) {
+            loadGame(gameConfiguration, gameDescriptor);
         } else {
             loadMap(mMapRepository.getDefaultMapInfo());
         }
@@ -166,15 +166,15 @@ public class GameLoader {
         }
 
         Log.i(TAG, "Saving game...");
-        mGameDescriptor.clearEntityDescriptors();
-        mGameDescriptor.clearActiveWaveDescriptors();
-        mGamePersister.writeDescriptor(mGameDescriptor);
+        GameDescriptor gameDescriptor = new GameDescriptor();
+        gameDescriptor.setAppVersion(BuildConfig.VERSION_CODE);
+        gameDescriptor.setMapId(mCurrentMapId);
+        mGamePersister.writeDescriptor(gameDescriptor);
 
         try {
             FileOutputStream outputStream = mContext.openFileOutput(SAVED_GAME_FILE, Context.MODE_PRIVATE);
-            mSerializer.write(mGameDescriptor, outputStream);
+            mSerializer.write(gameDescriptor, outputStream);
             outputStream.close();
-
             Log.i(TAG, "Game saved.");
         } catch (Exception e) {
             mContext.deleteFile(SAVED_GAME_FILE);
@@ -183,18 +183,23 @@ public class GameLoader {
         }
     }
 
-    private void loadGame(GameDescriptor gameDescriptor, boolean mapInitialized) {
+    private void loadGame(GameConfiguration gameConfiguration, GameDescriptor gameDescriptor) {
         mGameEngine.clear();
 
-        mGameDescriptor = gameDescriptor;
-        MapDescriptor mapDescriptor = mGameDescriptor.getMapDescriptor();
-        mGameEngine.setGameConfiguration(new GameConfiguration(mGameDescriptor));
+        MapDescriptor mapDescriptor = gameConfiguration.getMapDescriptor();
+        mCurrentMapId = mapDescriptor.getId();
+        mGameEngine.setGameConfiguration(gameConfiguration);
         mViewport.setGameSize(mapDescriptor.getWidth(), mapDescriptor.getHeight());
-        mGamePersister.readDescriptor(mGameDescriptor);
 
-        if (!mapInitialized) {
+        if (gameDescriptor == null) {
             initializeMap(mapDescriptor);
+
+            gameDescriptor = new GameDescriptor();
+            gameDescriptor.setCredits(gameConfiguration.getGameSettings().getCredits());
+            gameDescriptor.setLives(gameConfiguration.getGameSettings().getLives());
         }
+
+        mGamePersister.readDescriptor(gameDescriptor);
 
         for (Listener listener : mListeners) {
             listener.gameLoaded();

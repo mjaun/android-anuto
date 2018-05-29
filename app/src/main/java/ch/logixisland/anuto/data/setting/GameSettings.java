@@ -20,18 +20,6 @@ public class GameSettings {
     @Element(name = "lives")
     private int mLives;
 
-    @Element(name = "tickCount", required = false)
-    private int mTickCount;
-
-    @Element(name = "nextEntityId", required = false)
-    private int mNextEntityId;
-
-    @Element(name = "waveNumber", required = false)
-    private int mWaveNumber;
-
-    @Element(name = "creditsEarned", required = false)
-    private int mCreditsEarned;
-
     @Element(name = "difficultyModifier")
     private float mDifficultyModifier;
 
@@ -98,22 +86,6 @@ public class GameSettings {
         return mLives;
     }
 
-    public int getTickCount() {
-        return mTickCount;
-    }
-
-    public int getNextEntityId() {
-        return mNextEntityId;
-    }
-
-    public int getWaveNumber() {
-        return mWaveNumber;
-    }
-
-    public int getCreditsEarned() {
-        return mCreditsEarned;
-    }
-
     public float getDifficultyModifier() {
         return mDifficultyModifier;
     }
@@ -168,29 +140,5 @@ public class GameSettings {
 
     public TowerSettings getTowerSettings() {
         return mTowerSettings;
-    }
-
-    public void setCredits(int credits) {
-        mCredits = credits;
-    }
-
-    public void setLives(int lives) {
-        mLives = lives;
-    }
-
-    public void setTickCount(int tickCount) {
-        mTickCount = tickCount;
-    }
-
-    public void setNextEntityId(int nextEntityId) {
-        mNextEntityId = nextEntityId;
-    }
-
-    public void setWaveNumber(int waveNumber) {
-        mWaveNumber = waveNumber;
-    }
-
-    public void setCreditsEarned(int creditsEarned) {
-        mCreditsEarned = creditsEarned;
     }
 }
