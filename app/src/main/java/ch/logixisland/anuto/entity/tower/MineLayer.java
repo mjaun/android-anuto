@@ -7,12 +7,12 @@ import java.util.Collection;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.state.EntityData;
-import ch.logixisland.anuto.data.state.TowerData;
 import ch.logixisland.anuto.data.map.GameMap;
 import ch.logixisland.anuto.data.map.MapPath;
 import ch.logixisland.anuto.data.setting.tower.MineLayerSettings;
 import ch.logixisland.anuto.data.setting.tower.TowerSettings;
+import ch.logixisland.anuto.data.state.EntityData;
+import ch.logixisland.anuto.data.state.TowerData;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
@@ -63,7 +63,9 @@ public class MineLayer extends Tower implements SpriteTransformation {
 
             List<Vector2> minePositions = new ArrayList<>();
             for (Mine mine : mineLayer.mMines) {
-                minePositions.add(mine.getTarget());
+                if (!mine.isFlying()) {
+                    minePositions.add(mine.getPosition());
+                }
             }
             descriptor.addDetail(MINE_POSITION_DETAIL, Vector2.serializeList(minePositions));
 

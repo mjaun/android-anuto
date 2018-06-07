@@ -1,5 +1,5 @@
 <settings>
-    <credits>500</credits>
+    <credits>5000</credits>
     <lives>20</lives>
     <difficultyModifier>8e-4</difficultyModifier>
     <difficultyExponent>2</difficultyExponent>

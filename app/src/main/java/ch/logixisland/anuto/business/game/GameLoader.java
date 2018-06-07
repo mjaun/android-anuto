@@ -13,11 +13,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.BuildConfig;
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.state.GameState;
 import ch.logixisland.anuto.data.SerializerFactory;
 import ch.logixisland.anuto.data.map.GameMap;
 import ch.logixisland.anuto.data.map.PlateauInfo;
 import ch.logixisland.anuto.data.setting.GameSettings;
+import ch.logixisland.anuto.data.state.GameState;
 import ch.logixisland.anuto.data.wave.WaveInfoList;
 import ch.logixisland.anuto.engine.logic.GameConfiguration;
 import ch.logixisland.anuto.engine.logic.GameEngine;
