@@ -15,49 +15,49 @@ public class TowerPersister extends EntityPersister {
     }
 
     @Override
-    protected TowerData createEntityDescriptor() {
+    protected TowerData createEntityData() {
         return new TowerData();
     }
 
     @Override
-    protected TowerData writeEntityDescriptor(Entity entity) {
+    protected TowerData writeEntityData(Entity entity) {
         Tower tower = (Tower) entity;
-        TowerData descriptor = (TowerData) super.writeEntityDescriptor(tower);
+        TowerData data = (TowerData) super.writeEntityData(tower);
 
-        descriptor.setPlateauId(tower.getPlateau().getEntityId());
-        descriptor.setValue(tower.getValue());
-        descriptor.setLevel(tower.getLevel());
-        descriptor.setDamageInflicted(tower.getDamageInflicted());
+        data.setPlateauId(tower.getPlateau().getEntityId());
+        data.setValue(tower.getValue());
+        data.setLevel(tower.getLevel());
+        data.setDamageInflicted(tower.getDamageInflicted());
 
         Aimer aimer = tower.getAimer();
 
         if (aimer != null) {
-            descriptor.setStrategy(aimer.getStrategy().toString());
-            descriptor.setLockTarget(aimer.doesLockTarget());
+            data.setStrategy(aimer.getStrategy().toString());
+            data.setLockTarget(aimer.doesLockTarget());
         }
 
-        return descriptor;
+        return data;
     }
 
     @Override
-    protected Tower readEntityDescriptor(EntityData entityData) {
-        Tower tower = (Tower) super.readEntityDescriptor(entityData);
-        TowerData descriptor = (TowerData) entityData;
+    protected Tower readEntityData(EntityData entityData) {
+        Tower tower = (Tower) super.readEntityData(entityData);
+        TowerData data = (TowerData) entityData;
 
-        while (tower.getLevel() < descriptor.getLevel()) {
+        while (tower.getLevel() < data.getLevel()) {
             tower.enhance();
         }
 
-        tower.setPlateau((Plateau) getGameEngine().getEntityById(descriptor.getPlateauId()));
-        tower.setValue(descriptor.getValue());
-        tower.setDamageInflicted(descriptor.getDamageInflicted());
+        tower.setPlateau((Plateau) getGameEngine().getEntityById(data.getPlateauId()));
+        tower.setValue(data.getValue());
+        tower.setDamageInflicted(data.getDamageInflicted());
         tower.setEnabled(true);
 
         Aimer aimer = tower.getAimer();
 
         if (aimer != null) {
-            aimer.setStrategy(TowerStrategy.valueOf(descriptor.getStrategy()));
-            aimer.setLockTarget(descriptor.isLockTarget());
+            aimer.setStrategy(TowerStrategy.valueOf(data.getStrategy()));
+            aimer.setLockTarget(data.isLockTarget());
         }
 
         return tower;

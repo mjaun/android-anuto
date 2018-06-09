@@ -35,9 +35,9 @@ public class GameMap {
         InputStream stream = resources.openRawResource(resId);
 
         try {
-            GameMap mapDescriptor = serializer.read(GameMap.class, stream);
-            mapDescriptor.mId = mapId;
-            return mapDescriptor;
+            GameMap gameMap = serializer.read(GameMap.class, stream);
+            gameMap.mId = mapId;
+            return gameMap;
         } finally {
             stream.close();
         }

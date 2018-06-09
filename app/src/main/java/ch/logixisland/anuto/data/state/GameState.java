@@ -112,7 +112,7 @@ public class GameState {
         return Collections.unmodifiableList(mActiveWaveData);
     }
 
-    public void addActiveWaveDescriptor(ActiveWaveData activeWaveData) {
+    public void addActiveWaveData(ActiveWaveData activeWaveData) {
         mActiveWaveData.add(activeWaveData);
     }
 
@@ -120,7 +120,7 @@ public class GameState {
         return Collections.unmodifiableList(mEntityData);
     }
 
-    public void addEntityDescriptor(EntityData entityData) {
+    public void addEntityData(EntityData entityData) {
         mEntityData.add(entityData);
     }
 }

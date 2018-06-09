@@ -84,7 +84,7 @@ class MapsAdapter extends BaseAdapter {
         viewHolder.txt_highscore.setText(resources.getString(R.string.score) + ": " + highScore);
 
         viewHolder.img_thumb.setImageBitmap(null);
-        new LoadThumbTask(resources, viewHolder.img_thumb, mapInfo.getMapDescriptorResId()).execute();
+        new LoadThumbTask(resources, viewHolder.img_thumb, mapInfo.getMapDataResId()).execute();
 
         return mapItemView;
     }

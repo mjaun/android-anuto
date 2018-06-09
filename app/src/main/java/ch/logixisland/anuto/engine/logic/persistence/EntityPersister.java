@@ -1,7 +1,7 @@
 package ch.logixisland.anuto.engine.logic.persistence;
 
-import ch.logixisland.anuto.data.state.GameState;
 import ch.logixisland.anuto.data.state.EntityData;
+import ch.logixisland.anuto.data.state.GameState;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
@@ -20,29 +20,29 @@ public abstract class EntityPersister implements Persister {
     }
 
     @Override
-    public void writeDescriptor(GameState gameState) {
+    public void writeState(GameState gameState) {
         StreamIterator<Entity> iterator = mGameEngine.getAllEntities()
                 .filter(Entity.nameEquals(mEntityName));
 
         while (iterator.hasNext()) {
             Entity entity = iterator.next();
-            gameState.addEntityDescriptor(writeEntityDescriptor(entity));
+            gameState.addEntityData(writeEntityData(entity));
         }
     }
 
     @Override
-    public void readDescriptor(GameState gameState) {
+    public void readState(GameState gameState) {
         for (EntityData entityData : gameState.getEntityData()) {
             if (mEntityName.equals(entityData.getName())) {
-                mGameEngine.add(readEntityDescriptor(entityData));
+                mGameEngine.add(readEntityData(entityData));
             }
         }
     }
 
-    protected abstract EntityData createEntityDescriptor();
+    protected abstract EntityData createEntityData();
 
-    protected EntityData writeEntityDescriptor(Entity entity) {
-        EntityData entityData = createEntityDescriptor();
+    protected EntityData writeEntityData(Entity entity) {
+        EntityData entityData = createEntityData();
 
         entityData.setId(entity.getEntityId());
         entityData.setName(entity.getEntityName());
@@ -51,7 +51,7 @@ public abstract class EntityPersister implements Persister {
         return entityData;
     }
 
-    protected Entity readEntityDescriptor(EntityData entityData) {
+    protected Entity readEntityData(EntityData entityData) {
         Entity entity = mEntityRegistry.createEntity(entityData.getName(), entityData.getId());
         entity.setPosition(entityData.getPosition());
         return entity;

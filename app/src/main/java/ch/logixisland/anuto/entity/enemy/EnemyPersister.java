@@ -14,34 +14,34 @@ public class EnemyPersister extends EntityPersister {
     }
 
     @Override
-    protected EnemyData createEntityDescriptor() {
+    protected EnemyData createEntityData() {
         return new EnemyData();
     }
 
     @Override
-    protected EnemyData writeEntityDescriptor(Entity entity) {
+    protected EnemyData writeEntityData(Entity entity) {
         Enemy enemy = (Enemy) entity;
-        EnemyData enemyDescriptor = (EnemyData) super.writeEntityDescriptor(entity);
+        EnemyData data = (EnemyData) super.writeEntityData(entity);
 
-        enemyDescriptor.setHealth(enemy.getHealth());
-        enemyDescriptor.setMaxHealth(enemy.getMaxHealth());
-        enemyDescriptor.setWayPoints(enemy.getWayPoints());
-        enemyDescriptor.setWayPointIndex(enemy.getWayPointIndex());
-        enemyDescriptor.setWaveNumber(enemy.getWaveNumber());
-        enemyDescriptor.setReward(enemy.getReward());
+        data.setHealth(enemy.getHealth());
+        data.setMaxHealth(enemy.getMaxHealth());
+        data.setWayPoints(enemy.getWayPoints());
+        data.setWayPointIndex(enemy.getWayPointIndex());
+        data.setWaveNumber(enemy.getWaveNumber());
+        data.setReward(enemy.getReward());
 
-        return enemyDescriptor;
+        return data;
     }
 
     @Override
-    protected Enemy readEntityDescriptor(EntityData entityData) {
-        Enemy enemy = (Enemy) super.readEntityDescriptor(entityData);
-        EnemyData enemyDescriptor = (EnemyData) entityData;
+    protected Enemy readEntityData(EntityData entityData) {
+        Enemy enemy = (Enemy) super.readEntityData(entityData);
+        EnemyData data = (EnemyData) entityData;
 
-        enemy.setHealth(enemyDescriptor.getHealth(), enemyDescriptor.getMaxHealth());
-        enemy.setReward(enemyDescriptor.getReward());
-        enemy.setWaveNumber(enemyDescriptor.getWaveNumber());
-        enemy.setupPath(enemyDescriptor.getWayPoints(), enemyDescriptor.getWayPointIndex());
+        enemy.setHealth(data.getHealth(), data.getMaxHealth());
+        enemy.setReward(data.getReward());
+        enemy.setWaveNumber(data.getWaveNumber());
+        enemy.setupPath(data.getWayPoints(), data.getWayPointIndex());
 
         return enemy;
     }

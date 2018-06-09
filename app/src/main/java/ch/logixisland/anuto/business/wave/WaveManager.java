@@ -8,9 +8,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.business.tower.TowerAging;
-import ch.logixisland.anuto.data.state.GameState;
 import ch.logixisland.anuto.data.setting.GameSettings;
 import ch.logixisland.anuto.data.state.ActiveWaveData;
+import ch.logixisland.anuto.data.state.GameState;
 import ch.logixisland.anuto.data.wave.WaveInfo;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
@@ -122,17 +122,17 @@ public class WaveManager implements Persister {
     }
 
     @Override
-    public void writeDescriptor(GameState gameState) {
+    public void writeState(GameState gameState) {
         gameState.setWaveNumber(mWaveNumber);
 
         for (WaveAttender waveAttender : mActiveWaves) {
-            ActiveWaveData descriptor = waveAttender.writeActiveWaveDescriptor();
-            gameState.addActiveWaveDescriptor(descriptor);
+            ActiveWaveData data = waveAttender.writeActiveWaveData();
+            gameState.addActiveWaveData(data);
         }
     }
 
     @Override
-    public void readDescriptor(GameState gameState) {
+    public void readState(GameState gameState) {
         setWaveNumber(gameState.getWaveNumber());
         initializeActiveWaves(gameState);
         initializeNextWaveReady(gameState);
@@ -146,7 +146,7 @@ public class WaveManager implements Persister {
         for (ActiveWaveData activeWaveData : gameState.getActiveWaveData()) {
             WaveInfo waveInfo = waveInfos.get(activeWaveData.getWaveNumber() % waveInfos.size());
             WaveAttender waveAttender = new WaveAttender(mGameEngine, mScoreBoard, mEntityRegistry, this, waveInfo, activeWaveData.getWaveNumber());
-            waveAttender.readActiveWaveDescriptor(activeWaveData);
+            waveAttender.readActiveWaveData(activeWaveData);
             waveAttender.start();
             mActiveWaves.add(waveAttender);
         }

@@ -108,23 +108,23 @@ class WaveAttender implements EnemyListener {
         return totalReward;
     }
 
-    ActiveWaveData writeActiveWaveDescriptor() {
-        ActiveWaveData descriptor = new ActiveWaveData();
-        descriptor.setWaveNumber(mWaveNumber);
-        descriptor.setWaveStartTickCount(mWaveStartTickCount);
-        descriptor.setExtend(mExtend);
-        descriptor.setWaveReward(mWaveReward);
-        descriptor.setEnemyHealthModifier(mEnemyHealthModifier);
-        descriptor.setEnemyRewardModifier(mEnemyRewardModifier);
-        return descriptor;
+    ActiveWaveData writeActiveWaveData() {
+        ActiveWaveData data = new ActiveWaveData();
+        data.setWaveNumber(mWaveNumber);
+        data.setWaveStartTickCount(mWaveStartTickCount);
+        data.setExtend(mExtend);
+        data.setWaveReward(mWaveReward);
+        data.setEnemyHealthModifier(mEnemyHealthModifier);
+        data.setEnemyRewardModifier(mEnemyRewardModifier);
+        return data;
     }
 
-    void readActiveWaveDescriptor(ActiveWaveData activeWaveData) {
-        mExtend = activeWaveData.getExtend();
-        mWaveReward = activeWaveData.getWaveReward();
-        mEnemyHealthModifier = activeWaveData.getEnemyHealthModifier();
-        mEnemyRewardModifier = activeWaveData.getEnemyRewardModifier();
-        mWaveStartTickCount = activeWaveData.getWaveStartTickCount();
+    void readActiveWaveData(ActiveWaveData data) {
+        mExtend = data.getExtend();
+        mWaveReward = data.getWaveReward();
+        mEnemyHealthModifier = data.getEnemyHealthModifier();
+        mEnemyRewardModifier = data.getEnemyRewardModifier();
+        mWaveStartTickCount = data.getWaveStartTickCount();
 
         StreamIterator<Enemy> enemyIterator = mGameEngine.getEntitiesByType(Types.ENEMY).cast(Enemy.class);
         while (enemyIterator.hasNext()) {
@@ -145,29 +145,29 @@ class WaveAttender implements EnemyListener {
 
         for (int extendIndex = 0; extendIndex < mExtend + 1; extendIndex++) {
             for (int enemyIndex = 0; enemyIndex < enemyInfos.size(); enemyIndex++) {
-                EnemyInfo descriptor = enemyInfos.get(enemyIndex);
+                EnemyInfo info = enemyInfos.get(enemyIndex);
 
-                if (MathUtils.equals(descriptor.getDelay(), 0f, 0.1f)) {
-                    offset += descriptor.getOffset();
+                if (MathUtils.equals(info.getDelay(), 0f, 0.1f)) {
+                    offset += info.getOffset();
                 } else {
-                    offset = descriptor.getOffset();
+                    offset = info.getOffset();
                 }
 
                 if (enemyIndex > 0 || extendIndex > 0) {
-                    delayTicks += Math.round(descriptor.getDelay() * GameEngine.TARGET_FRAME_RATE);
+                    delayTicks += Math.round(info.getDelay() * GameEngine.TARGET_FRAME_RATE);
                 }
 
                 if (delayTicks >= 0) {
-                    Enemy enemy = createAndConfigureEnemy(descriptor, offset);
+                    Enemy enemy = createAndConfigureEnemy(info, offset);
                     addEnemy(enemy, delayTicks);
                 }
             }
         }
     }
 
-    private Enemy createAndConfigureEnemy(EnemyInfo descriptor, float offset) {
-        MapPath path = mGameEngine.getGameConfiguration().getMapDescriptor().getPaths().get(descriptor.getPathIndex());
-        Enemy enemy = (Enemy) mEntityRegistry.createEntity(descriptor.getName());
+    private Enemy createAndConfigureEnemy(EnemyInfo info, float offset) {
+        MapPath path = mGameEngine.getGameConfiguration().getGameMap().getPaths().get(info.getPathIndex());
+        Enemy enemy = (Enemy) mEntityRegistry.createEntity(info.getName());
         enemy.setWaveNumber(mWaveNumber);
         enemy.modifyHealth(mEnemyHealthModifier);
         enemy.modifyReward(mEnemyRewardModifier);

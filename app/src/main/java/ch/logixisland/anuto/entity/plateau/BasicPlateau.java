@@ -38,7 +38,7 @@ public class BasicPlateau extends Plateau implements SpriteTransformation {
         }
 
         @Override
-        protected EntityData createEntityDescriptor() {
+        protected EntityData createEntityData() {
             return new PlateauData();
         }
     }

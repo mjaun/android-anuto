@@ -13,21 +13,21 @@ class LoadThumbTask extends AsyncTask<Void, Void, Bitmap> {
 
     private final Resources mResources;
     private final ImageView mImageView;
-    private final int mMapDescriptorResId;
+    private final int mMapResId;
 
-    LoadThumbTask(Resources resources, ImageView imageView, int mapDescriptorResId) {
+    LoadThumbTask(Resources resources, ImageView imageView, int mapResId) {
         mResources = resources;
         mImageView = imageView;
-        mMapDescriptorResId = mapDescriptorResId;
+        mMapResId = mapResId;
     }
 
     @Override
     protected Bitmap doInBackground(Void... params) {
-        Bitmap thumb = sThumbCache.get(mMapDescriptorResId);
+        Bitmap thumb = sThumbCache.get(mMapResId);
 
         if (thumb == null) {
-            thumb = sMapThumbGenerator.generateThumb(mResources, mMapDescriptorResId);
-            sThumbCache.append(mMapDescriptorResId, thumb);
+            thumb = sMapThumbGenerator.generateThumb(mResources, mMapResId);
+            sThumbCache.append(mMapResId, thumb);
         }
 
         return thumb;

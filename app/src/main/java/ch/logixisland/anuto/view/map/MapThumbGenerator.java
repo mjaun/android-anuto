@@ -28,37 +28,37 @@ class MapThumbGenerator {
         mSerializer = SerializerFactory.createSerializer();
     }
 
-    Bitmap generateThumb(Resources resources, int mapDescriptorResId) {
+    Bitmap generateThumb(Resources resources, int mapResId) {
         try {
-            return generateThumb(GameMap.fromXml(mSerializer, resources, mapDescriptorResId, null));
+            return generateThumb(GameMap.fromXml(mSerializer, resources, mapResId, null));
         } catch (Exception e) {
             return null;
         }
     }
 
-    Bitmap generateThumb(GameMap mapDescriptor) {
+    Bitmap generateThumb(GameMap map) {
         Bitmap bitmap = Bitmap.createBitmap(
-                mapDescriptor.getWidth() * PIXELS_PER_SQUARE,
-                mapDescriptor.getHeight() * PIXELS_PER_SQUARE, Bitmap.Config.ARGB_8888);
+                map.getWidth() * PIXELS_PER_SQUARE,
+                map.getHeight() * PIXELS_PER_SQUARE, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
 
         Viewport viewport = new Viewport();
-        viewport.setGameSize(mapDescriptor.getWidth(), mapDescriptor.getHeight());
+        viewport.setGameSize(map.getWidth(), map.getHeight());
         viewport.setScreenSize(bitmap.getWidth(), bitmap.getHeight());
         canvas.concat(viewport.getScreenMatrix());
 
-        drawPaths(canvas, mapDescriptor);
-        drawPlateaus(canvas, mapDescriptor);
+        drawPaths(canvas, map);
+        drawPlateaus(canvas, map);
 
         return bitmap;
     }
 
-    private void drawPaths(Canvas canvas, GameMap mapDescriptor) {
+    private void drawPaths(Canvas canvas, GameMap map) {
         Paint pathPaint = new Paint();
         pathPaint.setStyle(Paint.Style.FILL);
         pathPaint.setColor(PATH_COLOR);
 
-        for (MapPath path : mapDescriptor.getPaths()) {
+        for (MapPath path : map.getPaths()) {
             Vector2 lastWayPoint = null;
             for (Vector2 wayPoint : path.getWayPoints()) {
                 if (lastWayPoint != null) {
@@ -74,13 +74,13 @@ class MapThumbGenerator {
         }
     }
 
-    private void drawPlateaus(Canvas canvas, GameMap mapDescriptor) {
+    private void drawPlateaus(Canvas canvas, GameMap map) {
         Paint plateauPaint = new Paint();
         plateauPaint.setStyle(Paint.Style.STROKE);
         plateauPaint.setStrokeWidth(1);
         plateauPaint.setColor(PLATEAU_COLOR);
 
-        for (PlateauInfo plateau : mapDescriptor.getPlateaus()) {
+        for (PlateauInfo plateau : map.getPlateaus()) {
             Vector2 position = plateau.getPosition();
             canvas.drawPoint(position.x(), position.y(), plateauPaint);
         }

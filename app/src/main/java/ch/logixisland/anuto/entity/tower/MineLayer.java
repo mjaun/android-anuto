@@ -44,8 +44,8 @@ public class MineLayer extends Tower implements SpriteTransformation {
         @Override
         public Entity create(GameEngine gameEngine) {
             TowerSettings towerSettings = gameEngine.getGameConfiguration().getGameSettings().getTowerSettings();
-            GameMap mapDescriptor = gameEngine.getGameConfiguration().getMapDescriptor();
-            return new MineLayer(gameEngine, towerSettings.getMineLayerSettings(), mapDescriptor.getPaths());
+            GameMap map = gameEngine.getGameConfiguration().getGameMap();
+            return new MineLayer(gameEngine, towerSettings.getMineLayerSettings(), map.getPaths());
         }
     }
 
@@ -57,9 +57,9 @@ public class MineLayer extends Tower implements SpriteTransformation {
         }
 
         @Override
-        protected TowerData writeEntityDescriptor(Entity entity) {
+        protected TowerData writeEntityData(Entity entity) {
             MineLayer mineLayer = (MineLayer) entity;
-            TowerData descriptor = super.writeEntityDescriptor(entity);
+            TowerData data = super.writeEntityData(entity);
 
             List<Vector2> minePositions = new ArrayList<>();
             for (Mine mine : mineLayer.mMines) {
@@ -67,17 +67,17 @@ public class MineLayer extends Tower implements SpriteTransformation {
                     minePositions.add(mine.getPosition());
                 }
             }
-            descriptor.addDetail(MINE_POSITION_DETAIL, Vector2.serializeList(minePositions));
+            data.addDetail(MINE_POSITION_DETAIL, Vector2.serializeList(minePositions));
 
-            return descriptor;
+            return data;
         }
 
         @Override
-        protected MineLayer readEntityDescriptor(EntityData entityData) {
-            MineLayer mineLayer = (MineLayer) super.readEntityDescriptor(entityData);
-            TowerData descriptor = (TowerData) entityData;
+        protected MineLayer readEntityData(EntityData entityData) {
+            MineLayer mineLayer = (MineLayer) super.readEntityData(entityData);
+            TowerData data = (TowerData) entityData;
 
-            for (Vector2 minePosition : Vector2.deserializeList(descriptor.getDetail(MINE_POSITION_DETAIL))) {
+            for (Vector2 minePosition : Vector2.deserializeList(data.getDetail(MINE_POSITION_DETAIL))) {
                 Mine mine = new Mine(mineLayer, minePosition, mineLayer.getDamage(), mineLayer.mExplosionRadius);
                 mineLayer.mMines.add(mine);
                 mine.addListener(mineLayer.mMineListener);

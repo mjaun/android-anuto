@@ -13,15 +13,15 @@ public class GamePersister {
         mPersisterList.add(persister);
     }
 
-    public void readDescriptor(GameState gameState) {
+    public void readState(GameState gameState) {
         for (Persister persister : mPersisterList) {
-            persister.readDescriptor(gameState);
+            persister.readState(gameState);
         }
     }
 
-    public void writeDescriptor(GameState gameState) {
+    public void writeState(GameState gameState) {
         for (Persister persister : mPersisterList) {
-            persister.writeDescriptor(gameState);
+            persister.writeState(gameState);
         }
     }
 

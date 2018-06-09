@@ -9,12 +9,12 @@ import ch.logixisland.anuto.data.wave.WaveInfo;
 public class GameConfiguration {
 
     private final GameSettings mGameSettings;
-    private final GameMap mMapDescriptor;
+    private final GameMap mGameMap;
     private final List<WaveInfo> mWaveInfos;
 
-    public GameConfiguration(GameSettings gameSettings, GameMap mapDescriptor, List<WaveInfo> waveInfos) {
+    public GameConfiguration(GameSettings gameSettings, GameMap gameMap, List<WaveInfo> waveInfos) {
         mGameSettings = gameSettings;
-        mMapDescriptor = mapDescriptor;
+        mGameMap = gameMap;
         mWaveInfos = waveInfos;
     }
 
@@ -22,8 +22,8 @@ public class GameConfiguration {
         return mGameSettings;
     }
 
-    public GameMap getMapDescriptor() {
-        return mMapDescriptor;
+    public GameMap getGameMap() {
+        return mGameMap;
     }
 
     public List<WaveInfo> getWaveInfos() {

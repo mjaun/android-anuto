@@ -4,12 +4,12 @@ public class MapInfo {
 
     private String mMapId;
     private int mMapNameResId;
-    private int mMapDescriptorResId;
+    private int mMapDataResId;
 
-    MapInfo(String mapId, int mapNameResId, int mapDescriptorResId) {
+    MapInfo(String mapId, int mapNameResId, int mapDataResId) {
         mMapId = mapId;
         mMapNameResId = mapNameResId;
-        mMapDescriptorResId = mapDescriptorResId;
+        mMapDataResId = mapDataResId;
     }
 
     public String getMapId() {
@@ -20,7 +20,7 @@ public class MapInfo {
         return mMapNameResId;
     }
 
-    public int getMapDescriptorResId() {
-        return mMapDescriptorResId;
+    public int getMapDataResId() {
+        return mMapDataResId;
     }
 }
