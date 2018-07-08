@@ -9,7 +9,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.business.tower.TowerAging;
 import ch.logixisland.anuto.data.KeyValueStore;
-import ch.logixisland.anuto.data.wave.WaveInfo;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.loop.Message;
@@ -45,6 +44,7 @@ public class WaveManager implements Persister {
     private boolean mNextWaveReady;
     private boolean mMinWaveDelayTimeout;
 
+    private final List<WaveInfo> mWaveInfos = new ArrayList<>();
     private final List<WaveAttender> mActiveWaves = new ArrayList<>();
     private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
     private final List<WaveStartedListener> mWaveStartedListeners = new CopyOnWriteArrayList<>();
@@ -121,6 +121,7 @@ public class WaveManager implements Persister {
 
     @Override
     public void resetState() {
+        initializeWaveInfos();
         setWaveNumber(0);
         mActiveWaves.clear();
         setNextWaveReady(true);
@@ -137,18 +138,26 @@ public class WaveManager implements Persister {
 
     @Override
     public void readState(KeyValueStore gameState) {
+        initializeWaveInfos();
         setWaveNumber(gameState.getInt("waveNumber"));
         initializeActiveWaves(gameState);
         initializeNextWaveReady(gameState);
         updateRemainingEnemiesCount();
     }
 
+    private void initializeWaveInfos() {
+        mWaveInfos.clear();
+
+        for (KeyValueStore data : mGameEngine.getGameConfiguration().getWaveInfos().getStoreList("waves")) {
+            mWaveInfos.add(new WaveInfo(data));
+        }
+    }
+
     private void initializeActiveWaves(KeyValueStore gameState) {
         mActiveWaves.clear();
-        List<WaveInfo> waveInfos = mGameEngine.getGameConfiguration().getWaveInfos();
 
         for (KeyValueStore activeWaveData : gameState.getStoreList("activeWaves")) {
-            WaveInfo waveInfo = waveInfos.get(activeWaveData.getInt("waveNumber") % waveInfos.size());
+            WaveInfo waveInfo = mWaveInfos.get(activeWaveData.getInt("waveNumber") % mWaveInfos.size());
             WaveAttender waveAttender = new WaveAttender(mGameEngine, mScoreBoard, mEntityRegistry, this, waveInfo, activeWaveData.getInt("waveNumber"));
             waveAttender.readActiveWaveData(activeWaveData);
             waveAttender.start();
@@ -260,8 +269,7 @@ public class WaveManager implements Persister {
     }
 
     private void createAndStartWaveAttender() {
-        List<WaveInfo> waveInfos = mGameEngine.getGameConfiguration().getWaveInfos();
-        WaveInfo nextWaveInfo = waveInfos.get(mWaveNumber % waveInfos.size());
+        WaveInfo nextWaveInfo = mWaveInfos.get(mWaveNumber % mWaveInfos.size());
         WaveAttender nextWave = new WaveAttender(mGameEngine, mScoreBoard, mEntityRegistry, this, nextWaveInfo, mWaveNumber);
         updateWaveExtend(nextWave, nextWaveInfo);
         updateWaveModifiers(nextWave);
@@ -299,7 +307,7 @@ public class WaveManager implements Persister {
     }
 
     private int getIterationNumber() {
-        return (getWaveNumber() / mGameEngine.getGameConfiguration().getWaveInfos().size()) + 1;
+        return (getWaveNumber() / mWaveInfos.size()) + 1;
     }
 
     private int getEarlyBonus() {

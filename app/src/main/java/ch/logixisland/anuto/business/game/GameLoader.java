@@ -17,7 +17,6 @@ import ch.logixisland.anuto.data.KeyValueStore;
 import ch.logixisland.anuto.data.SerializerFactory;
 import ch.logixisland.anuto.data.map.GameMap;
 import ch.logixisland.anuto.data.map.PlateauInfo;
-import ch.logixisland.anuto.data.wave.WaveInfoList;
 import ch.logixisland.anuto.engine.logic.GameConfiguration;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
@@ -140,7 +139,7 @@ public class GameLoader implements ErrorListener {
             gameConfiguration = new GameConfiguration(
                     readGameSettings(R.raw.game_settings, R.raw.enemy_settings, R.raw.tower_settings),
                     GameMap.fromXml(mSerializer, mContext.getResources(), mapInfo.getMapDataResId(), mapInfo.getMapId()),
-                    WaveInfoList.fromXml(mSerializer, mContext.getResources(), R.raw.waves)
+                    KeyValueStore.fromResources(mContext.getResources(), R.raw.waves)
             );
         } catch (FileNotFoundException e) {
             Log.i(TAG, "No save game file found.");
@@ -183,7 +182,7 @@ public class GameLoader implements ErrorListener {
             gameConfiguration = new GameConfiguration(
                     readGameSettings(R.raw.game_settings, R.raw.enemy_settings, R.raw.tower_settings),
                     GameMap.fromXml(mSerializer, mContext.getResources(), mapInfo.getMapDataResId(), mapInfo.getMapId()),
-                    WaveInfoList.fromXml(mSerializer, mContext.getResources(), R.raw.waves)
+                    KeyValueStore.fromResources(mContext.getResources(), R.raw.waves)
             );
         } catch (Exception e) {
             throw new RuntimeException("Could not load game!", e);
