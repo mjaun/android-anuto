@@ -34,9 +34,9 @@ public class GameLoader implements ErrorListener {
     private static final String SAVED_GAME_FILE = "saved_game.xml";
 
     public interface Listener {
-
         void gameLoaded();
     }
+
     private final Serializer mSerializer;
 
     private final Context mContext;
@@ -88,30 +88,32 @@ public class GameLoader implements ErrorListener {
         loadMap(mMapRepository.getMapById(mCurrentMapId));
     }
 
-    public void loadMap(final MapInfo mapInfo) {
+    public void saveGame() {
         if (mGameEngine.isThreadChangeNeeded()) {
             mGameEngine.post(new Message() {
                 @Override
                 public void execute() {
-                    loadMap(mapInfo);
+                    saveGame();
                 }
             });
             return;
         }
 
-        GameConfiguration gameConfiguration;
+        Log.i(TAG, "Saving game...");
+        GameState gameState = new GameState();
+        gameState.setAppVersion(BuildConfig.VERSION_CODE);
+        gameState.setMapId(mCurrentMapId);
+        mGamePersister.writeState(gameState);
 
         try {
-            gameConfiguration = new GameConfiguration(
-                    GameSettings.fromXml(mSerializer, mContext.getResources(), R.raw.game_settings, R.raw.enemy_settings, R.raw.tower_settings),
-                    GameMap.fromXml(mSerializer, mContext.getResources(), mapInfo.getMapDataResId(), mapInfo.getMapId()),
-                    WaveInfoList.fromXml(mSerializer, mContext.getResources(), R.raw.waves)
-            );
+            FileOutputStream outputStream = mContext.openFileOutput(SAVED_GAME_FILE, Context.MODE_PRIVATE);
+            mSerializer.write(gameState, outputStream);
+            outputStream.close();
+            Log.i(TAG, "Game saved.");
         } catch (Exception e) {
-            throw new RuntimeException("Could not load game!", e);
+            mContext.deleteFile(SAVED_GAME_FILE);
+            throw new RuntimeException("Could not save game!", e);
         }
-
-        loadGame(gameConfiguration, null);
     }
 
     public void loadGame() {
@@ -156,32 +158,35 @@ public class GameLoader implements ErrorListener {
         }
     }
 
-    public void saveGame() {
+    public void loadMap(final MapInfo mapInfo) {
         if (mGameEngine.isThreadChangeNeeded()) {
             mGameEngine.post(new Message() {
                 @Override
                 public void execute() {
-                    saveGame();
+                    loadMap(mapInfo);
                 }
             });
             return;
         }
 
-        Log.i(TAG, "Saving game...");
-        GameState gameState = new GameState();
-        gameState.setAppVersion(BuildConfig.VERSION_CODE);
-        gameState.setMapId(mCurrentMapId);
-        mGamePersister.writeState(gameState);
+        GameConfiguration gameConfiguration;
 
         try {
-            FileOutputStream outputStream = mContext.openFileOutput(SAVED_GAME_FILE, Context.MODE_PRIVATE);
-            mSerializer.write(gameState, outputStream);
-            outputStream.close();
-            Log.i(TAG, "Game saved.");
+            gameConfiguration = new GameConfiguration(
+                    GameSettings.fromXml(mSerializer, mContext.getResources(), R.raw.game_settings, R.raw.enemy_settings, R.raw.tower_settings),
+                    GameMap.fromXml(mSerializer, mContext.getResources(), mapInfo.getMapDataResId(), mapInfo.getMapId()),
+                    WaveInfoList.fromXml(mSerializer, mContext.getResources(), R.raw.waves)
+            );
         } catch (Exception e) {
-            mContext.deleteFile(SAVED_GAME_FILE);
-            throw new RuntimeException("Could not save game!", e);
+            throw new RuntimeException("Could not load game!", e);
         }
+
+        GameState gameState = new GameState();
+        gameState.setCredits(gameConfiguration.getGameSettings().getCredits());
+        gameState.setLives(gameConfiguration.getGameSettings().getLives());
+
+        loadGame(gameConfiguration, gameState);
+        initializeMap(gameConfiguration.getGameMap());
     }
 
     private void loadGame(GameConfiguration gameConfiguration, GameState gameState) {
@@ -191,14 +196,6 @@ public class GameLoader implements ErrorListener {
         mCurrentMapId = map.getId();
         mGameEngine.setGameConfiguration(gameConfiguration);
         mViewport.setGameSize(map.getWidth(), map.getHeight());
-
-        if (gameState == null) {
-            initializeMap(map);
-
-            gameState = new GameState();
-            gameState.setCredits(gameConfiguration.getGameSettings().getCredits());
-            gameState.setLives(gameConfiguration.getGameSettings().getLives());
-        }
 
         mGamePersister.readState(gameState);
 
