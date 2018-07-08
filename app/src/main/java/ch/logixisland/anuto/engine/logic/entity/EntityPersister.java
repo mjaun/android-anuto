@@ -1,9 +1,8 @@
-package ch.logixisland.anuto.engine.logic.persistence;
+package ch.logixisland.anuto.engine.logic.entity;
 
 import ch.logixisland.anuto.data.KeyValueStore;
 import ch.logixisland.anuto.engine.logic.GameEngine;
-import ch.logixisland.anuto.engine.logic.entity.Entity;
-import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
+import ch.logixisland.anuto.engine.logic.persistence.Persister;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
 public abstract class EntityPersister implements Persister {
