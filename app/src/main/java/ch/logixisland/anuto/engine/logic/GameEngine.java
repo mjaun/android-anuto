@@ -2,6 +2,7 @@ package ch.logixisland.anuto.engine.logic;
 
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityStore;
+import ch.logixisland.anuto.engine.logic.loop.ErrorListener;
 import ch.logixisland.anuto.engine.logic.loop.GameLoop;
 import ch.logixisland.anuto.engine.logic.loop.Message;
 import ch.logixisland.anuto.engine.logic.loop.MessageQueue;
@@ -142,6 +143,10 @@ public class GameEngine {
 
     public void setGameConfiguration(GameConfiguration gameConfiguration) {
         mGameConfiguration = gameConfiguration;
+    }
+
+    public void registerErrorListener(ErrorListener listener) {
+        mGameLoop.registerErrorListener(listener);
     }
 
 }

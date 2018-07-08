@@ -22,28 +22,29 @@ import ch.logixisland.anuto.data.wave.WaveInfoList;
 import ch.logixisland.anuto.engine.logic.GameConfiguration;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
+import ch.logixisland.anuto.engine.logic.loop.ErrorListener;
 import ch.logixisland.anuto.engine.logic.loop.Message;
 import ch.logixisland.anuto.engine.logic.persistence.GamePersister;
 import ch.logixisland.anuto.engine.render.Viewport;
 import ch.logixisland.anuto.entity.plateau.Plateau;
 
-public class GameLoader {
+public class GameLoader implements ErrorListener {
 
     private static final String TAG = GameLoader.class.getSimpleName();
     private static final String SAVED_GAME_FILE = "saved_game.xml";
 
     public interface Listener {
+
         void gameLoaded();
     }
-
     private final Serializer mSerializer;
+
     private final Context mContext;
     private final GameEngine mGameEngine;
     private final GamePersister mGamePersister;
     private final Viewport mViewport;
     private final EntityRegistry mEntityRegistry;
     private final MapRepository mMapRepository;
-
     private String mCurrentMapId;
 
     private List<Listener> mListeners = new CopyOnWriteArrayList<>();
@@ -57,6 +58,8 @@ public class GameLoader {
         mViewport = viewport;
         mEntityRegistry = entityRegistry;
         mMapRepository = mapRepository;
+
+        mGameEngine.registerErrorListener(this);
     }
 
     public void addListener(Listener listener) {
@@ -143,7 +146,6 @@ public class GameLoader {
         } catch (FileNotFoundException e) {
             Log.i(TAG, "No save game file found.");
         } catch (Exception e) {
-            mContext.deleteFile(SAVED_GAME_FILE);
             throw new RuntimeException("Could not load game!", e);
         }
 
@@ -178,7 +180,6 @@ public class GameLoader {
             Log.i(TAG, "Game saved.");
         } catch (Exception e) {
             mContext.deleteFile(SAVED_GAME_FILE);
-            Log.e(TAG, "Could not save game!", e);
             throw new RuntimeException("Could not save game!", e);
         }
     }
@@ -213,4 +214,14 @@ public class GameLoader {
             mGameEngine.add(plateau);
         }
     }
+
+    @Override
+    public void error(Exception e, int loopCount) {
+        // avoid game not starting anymore because of a somehow corrupt saved game file
+        if (loopCount < 10) {
+            Log.w(TAG, "Game crashed just after loading, deleting saved game file.");
+            mContext.deleteFile(SAVED_GAME_FILE);
+        }
+    }
+
 }
