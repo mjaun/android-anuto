@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.data;
+package ch.logixisland.anuto.util.container;
 
 import android.content.res.Resources;
 

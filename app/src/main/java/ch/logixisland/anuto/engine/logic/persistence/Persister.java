@@ -1,6 +1,6 @@
 package ch.logixisland.anuto.engine.logic.persistence;
 
-import ch.logixisland.anuto.data.KeyValueStore;
+import ch.logixisland.anuto.util.container.KeyValueStore;
 
 public interface Persister {
     void resetState();

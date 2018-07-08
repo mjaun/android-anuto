@@ -2,8 +2,8 @@ package ch.logixisland.anuto.engine.logic.loop;
 
 import java.util.ArrayList;
 
-import ch.logixisland.anuto.data.KeyValueStore;
 import ch.logixisland.anuto.engine.logic.persistence.Persister;
+import ch.logixisland.anuto.util.container.KeyValueStore;
 
 public class MessageQueue implements Persister {
 

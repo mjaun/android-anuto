@@ -129,10 +129,10 @@ public class GameFactory {
     private void initializeBusiness(Context context) {
         mMapRepository = new MapRepository();
         mScoreBoard = new ScoreBoard(mGameEngine);
-        mHighScores = new HighScores(context, mGameEngine, mScoreBoard);
         mTowerSelector = new TowerSelector(mGameEngine, mScoreBoard);
-        mGameState = new GameState(mScoreBoard, mHighScores, mTowerSelector);
         mGameLoader = new GameLoader(context, mGameEngine, mGamePersister, mViewport, mEntityRegistry, mMapRepository);
+        mHighScores = new HighScores(context, mGameEngine, mScoreBoard, mGameLoader);
+        mGameState = new GameState(mScoreBoard, mHighScores, mTowerSelector);
         mTowerAging = new TowerAging(mGameEngine);
         mSpeedManager = new GameSpeed(mGameEngine);
         mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mGameState, mEntityRegistry, mTowerAging);

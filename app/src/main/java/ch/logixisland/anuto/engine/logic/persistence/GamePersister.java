@@ -3,7 +3,7 @@ package ch.logixisland.anuto.engine.logic.persistence;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.logixisland.anuto.data.KeyValueStore;
+import ch.logixisland.anuto.util.container.KeyValueStore;
 
 public class GamePersister {
 

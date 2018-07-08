@@ -1,7 +1,7 @@
 package ch.logixisland.anuto.engine.logic;
 
-import ch.logixisland.anuto.data.KeyValueStore;
-import ch.logixisland.anuto.data.map.GameMap;
+import ch.logixisland.anuto.engine.logic.map.GameMap;
+import ch.logixisland.anuto.util.container.KeyValueStore;
 
 public class GameConfiguration {
 

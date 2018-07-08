@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.business.tower.TowerSelector;
-import ch.logixisland.anuto.data.KeyValueStore;
 import ch.logixisland.anuto.engine.logic.persistence.Persister;
+import ch.logixisland.anuto.util.container.KeyValueStore;
 
 public class GameState implements ScoreBoard.LivesListener, Persister {
 

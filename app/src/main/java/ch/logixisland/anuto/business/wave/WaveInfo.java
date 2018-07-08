@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import ch.logixisland.anuto.data.KeyValueStore;
+import ch.logixisland.anuto.util.container.KeyValueStore;
 
 @Root
 public class WaveInfo {

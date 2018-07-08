@@ -3,8 +3,6 @@ package ch.logixisland.anuto.business.game;
 import android.content.Context;
 import android.util.Log;
 
-import org.simpleframework.xml.Serializer;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -13,18 +11,17 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.BuildConfig;
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.KeyValueStore;
-import ch.logixisland.anuto.data.SerializerFactory;
-import ch.logixisland.anuto.data.map.GameMap;
-import ch.logixisland.anuto.data.map.PlateauInfo;
 import ch.logixisland.anuto.engine.logic.GameConfiguration;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.loop.ErrorListener;
 import ch.logixisland.anuto.engine.logic.loop.Message;
+import ch.logixisland.anuto.engine.logic.map.GameMap;
+import ch.logixisland.anuto.engine.logic.map.PlateauInfo;
 import ch.logixisland.anuto.engine.logic.persistence.GamePersister;
 import ch.logixisland.anuto.engine.render.Viewport;
 import ch.logixisland.anuto.entity.plateau.Plateau;
+import ch.logixisland.anuto.util.container.KeyValueStore;
 
 public class GameLoader implements ErrorListener {
 
@@ -34,8 +31,6 @@ public class GameLoader implements ErrorListener {
     public interface Listener {
         void gameLoaded();
     }
-
-    private final Serializer mSerializer;
 
     private final Context mContext;
     private final GameEngine mGameEngine;
@@ -49,7 +44,6 @@ public class GameLoader implements ErrorListener {
 
     public GameLoader(Context context, GameEngine gameEngine, GamePersister gamePersister,
                       Viewport viewport, EntityRegistry entityRegistry, MapRepository mapRepository) {
-        mSerializer = SerializerFactory.createSerializer();
         mContext = context;
         mGameEngine = gameEngine;
         mGamePersister = gamePersister;
@@ -66,6 +60,10 @@ public class GameLoader implements ErrorListener {
 
     public void removeListener(Listener listener) {
         mListeners.remove(listener);
+    }
+
+    public String getCurrentMapId() {
+        return mCurrentMapId;
     }
 
     public void restart() {
@@ -138,7 +136,7 @@ public class GameLoader implements ErrorListener {
             MapInfo mapInfo = mMapRepository.getMapById(gameState.getString("mapId"));
             gameConfiguration = new GameConfiguration(
                     readGameSettings(R.raw.game_settings, R.raw.enemy_settings, R.raw.tower_settings),
-                    GameMap.fromXml(mSerializer, mContext.getResources(), mapInfo.getMapDataResId(), mapInfo.getMapId()),
+                    new GameMap(mapInfo.getMapId(), KeyValueStore.fromResources(mContext.getResources(), mapInfo.getMapDataResId())),
                     KeyValueStore.fromResources(mContext.getResources(), R.raw.waves)
             );
         } catch (FileNotFoundException e) {
@@ -181,7 +179,7 @@ public class GameLoader implements ErrorListener {
         try {
             gameConfiguration = new GameConfiguration(
                     readGameSettings(R.raw.game_settings, R.raw.enemy_settings, R.raw.tower_settings),
-                    GameMap.fromXml(mSerializer, mContext.getResources(), mapInfo.getMapDataResId(), mapInfo.getMapId()),
+                    new GameMap(mapInfo.getMapId(), KeyValueStore.fromResources(mContext.getResources(), mapInfo.getMapDataResId())),
                     KeyValueStore.fromResources(mContext.getResources(), R.raw.waves)
             );
         } catch (Exception e) {

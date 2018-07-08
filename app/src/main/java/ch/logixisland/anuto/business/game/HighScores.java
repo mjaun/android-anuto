@@ -11,11 +11,13 @@ public class HighScores {
     private final SharedPreferences mHighScores;
     private final ScoreBoard mScoreBoard;
     private final GameEngine mGameEngine;
+    private final GameLoader mGameLoader;
 
-    public HighScores(Context context, GameEngine gameEngine, ScoreBoard scoreBoard) {
+    public HighScores(Context context, GameEngine gameEngine, ScoreBoard scoreBoard, GameLoader gameLoader) {
         mHighScores = context.getSharedPreferences("high_scores", Context.MODE_PRIVATE);
         mScoreBoard = scoreBoard;
         mGameEngine = gameEngine;
+        mGameLoader = gameLoader;
     }
 
     public int getHighScore(String mapId) {
@@ -33,7 +35,7 @@ public class HighScores {
             return;
         }
 
-        String mapId = mGameEngine.getGameConfiguration().getGameMap().getId();
+        String mapId = mGameLoader.getCurrentMapId();
         int highScore = getHighScore(mapId);
         int score = mScoreBoard.getScore();
 

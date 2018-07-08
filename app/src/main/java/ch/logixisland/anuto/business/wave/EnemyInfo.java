@@ -2,7 +2,7 @@ package ch.logixisland.anuto.business.wave;
 
 import org.simpleframework.xml.Root;
 
-import ch.logixisland.anuto.data.KeyValueStore;
+import ch.logixisland.anuto.util.container.KeyValueStore;
 
 @Root
 public class EnemyInfo {

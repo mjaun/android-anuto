@@ -6,13 +6,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import org.simpleframework.xml.Serializer;
-
-import ch.logixisland.anuto.data.SerializerFactory;
-import ch.logixisland.anuto.data.map.GameMap;
-import ch.logixisland.anuto.data.map.MapPath;
-import ch.logixisland.anuto.data.map.PlateauInfo;
+import ch.logixisland.anuto.engine.logic.map.GameMap;
+import ch.logixisland.anuto.engine.logic.map.MapPath;
+import ch.logixisland.anuto.engine.logic.map.PlateauInfo;
 import ch.logixisland.anuto.engine.render.Viewport;
+import ch.logixisland.anuto.util.container.KeyValueStore;
 import ch.logixisland.anuto.util.math.Vector2;
 
 class MapThumbGenerator {
@@ -22,15 +20,9 @@ class MapThumbGenerator {
     private static final int PLATEAU_COLOR = Color.parseColor("#bbbbbb");
     private static final int PATH_COLOR = Color.parseColor("#000000");
 
-    private final Serializer mSerializer;
-
-    MapThumbGenerator() {
-        mSerializer = SerializerFactory.createSerializer();
-    }
-
     Bitmap generateThumb(Resources resources, int mapResId) {
         try {
-            return generateThumb(GameMap.fromXml(mSerializer, resources, mapResId, null));
+            return generateThumb(new GameMap(null, KeyValueStore.fromResources(resources, mapResId)));
         } catch (Exception e) {
             return null;
         }
