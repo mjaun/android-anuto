@@ -13,11 +13,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.BuildConfig;
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.data.KeyValueStore;
 import ch.logixisland.anuto.data.SerializerFactory;
 import ch.logixisland.anuto.data.map.GameMap;
 import ch.logixisland.anuto.data.map.PlateauInfo;
 import ch.logixisland.anuto.data.setting.GameSettings;
-import ch.logixisland.anuto.data.state.GameState;
 import ch.logixisland.anuto.data.wave.WaveInfoList;
 import ch.logixisland.anuto.engine.logic.GameConfiguration;
 import ch.logixisland.anuto.engine.logic.GameEngine;
@@ -100,7 +100,7 @@ public class GameLoader implements ErrorListener {
         }
 
         Log.i(TAG, "Saving game...");
-        GameState gameState = new GameState();
+        KeyValueStore gameState = new KeyValueStore();
         gameState.putInt("appVersion", BuildConfig.VERSION_CODE);
         gameState.putString("mapId", mCurrentMapId);
         mGamePersister.writeState(gameState);
@@ -128,12 +128,12 @@ public class GameLoader implements ErrorListener {
         }
 
         Log.d(TAG, "Loading state...");
-        GameState gameState = null;
+        KeyValueStore gameState = null;
         GameConfiguration gameConfiguration = null;
 
         try {
             FileInputStream inputStream = mContext.openFileInput(SAVED_GAME_FILE);
-            gameState = GameState.deserialize(inputStream);
+            gameState = KeyValueStore.deserialize(inputStream);
             inputStream.close();
 
             Log.d(TAG, "Loading configuration...");

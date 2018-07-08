@@ -1,7 +1,6 @@
 package ch.logixisland.anuto.engine.logic.persistence;
 
-import ch.logixisland.anuto.data.state.GameState;
-import ch.logixisland.anuto.data.state.KeyValueStore;
+import ch.logixisland.anuto.data.KeyValueStore;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
@@ -25,7 +24,7 @@ public abstract class EntityPersister implements Persister {
     }
 
     @Override
-    public void writeState(GameState gameState) {
+    public void writeState(KeyValueStore gameState) {
         StreamIterator<Entity> iterator = mGameEngine.getAllEntities()
                 .filter(Entity.nameEquals(mEntityName));
 
@@ -36,7 +35,7 @@ public abstract class EntityPersister implements Persister {
     }
 
     @Override
-    public void readState(GameState gameState) {
+    public void readState(KeyValueStore gameState) {
         for (KeyValueStore entityData : gameState.getStoreList("entities")) {
             if (mEntityName.equals(entityData.getString("name"))) {
                 mGameEngine.add(readEntityData(entityData));

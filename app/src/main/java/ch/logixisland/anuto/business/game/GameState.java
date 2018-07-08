@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.business.tower.TowerSelector;
+import ch.logixisland.anuto.data.KeyValueStore;
 import ch.logixisland.anuto.engine.logic.persistence.Persister;
 
 public class GameState implements ScoreBoard.LivesListener, Persister {
@@ -64,12 +65,12 @@ public class GameState implements ScoreBoard.LivesListener, Persister {
     }
 
     @Override
-    public void writeState(ch.logixisland.anuto.data.state.GameState gameState) {
+    public void writeState(KeyValueStore gameState) {
 
     }
 
     @Override
-    public void readState(ch.logixisland.anuto.data.state.GameState gameState) {
+    public void readState(KeyValueStore gameState) {
         setGameOver(gameState.getInt("lives") < 0);
         mGameStarted = gameState.getInt("waveNumber") > 0;
     }

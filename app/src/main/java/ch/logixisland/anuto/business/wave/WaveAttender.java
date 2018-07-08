@@ -5,8 +5,8 @@ import java.util.Collection;
 import java.util.List;
 
 import ch.logixisland.anuto.business.game.ScoreBoard;
+import ch.logixisland.anuto.data.KeyValueStore;
 import ch.logixisland.anuto.data.map.MapPath;
-import ch.logixisland.anuto.data.state.KeyValueStore;
 import ch.logixisland.anuto.data.wave.EnemyInfo;
 import ch.logixisland.anuto.data.wave.WaveInfo;
 import ch.logixisland.anuto.engine.logic.GameEngine;

@@ -2,7 +2,7 @@ package ch.logixisland.anuto.engine.logic.loop;
 
 import java.util.ArrayList;
 
-import ch.logixisland.anuto.data.state.GameState;
+import ch.logixisland.anuto.data.KeyValueStore;
 import ch.logixisland.anuto.engine.logic.persistence.Persister;
 
 public class MessageQueue implements Persister {
@@ -62,12 +62,12 @@ public class MessageQueue implements Persister {
     }
 
     @Override
-    public void writeState(GameState gameState) {
+    public void writeState(KeyValueStore gameState) {
         gameState.putInt("tickCount", mTickCount);
     }
 
     @Override
-    public void readState(GameState gameState) {
+    public void readState(KeyValueStore gameState) {
         mTickCount = gameState.getInt("tickCount");
     }
 }

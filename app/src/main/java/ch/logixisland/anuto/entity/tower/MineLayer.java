@@ -7,11 +7,11 @@ import java.util.Collection;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.data.KeyValueStore;
 import ch.logixisland.anuto.data.map.GameMap;
 import ch.logixisland.anuto.data.map.MapPath;
 import ch.logixisland.anuto.data.setting.tower.MineLayerSettings;
 import ch.logixisland.anuto.data.setting.tower.TowerSettings;
-import ch.logixisland.anuto.data.state.KeyValueStore;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;

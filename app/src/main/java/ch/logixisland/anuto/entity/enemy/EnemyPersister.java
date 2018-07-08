@@ -1,6 +1,6 @@
 package ch.logixisland.anuto.entity.enemy;
 
-import ch.logixisland.anuto.data.state.KeyValueStore;
+import ch.logixisland.anuto.data.KeyValueStore;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;

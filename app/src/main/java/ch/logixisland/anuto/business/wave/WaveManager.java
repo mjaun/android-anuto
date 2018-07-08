@@ -8,9 +8,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.business.tower.TowerAging;
+import ch.logixisland.anuto.data.KeyValueStore;
 import ch.logixisland.anuto.data.setting.GameSettings;
-import ch.logixisland.anuto.data.state.GameState;
-import ch.logixisland.anuto.data.state.KeyValueStore;
 import ch.logixisland.anuto.data.wave.WaveInfo;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
@@ -129,7 +128,7 @@ public class WaveManager implements Persister {
     }
 
     @Override
-    public void writeState(GameState gameState) {
+    public void writeState(KeyValueStore gameState) {
         gameState.putInt("waveNumber", mWaveNumber);
 
         for (WaveAttender waveAttender : mActiveWaves) {
@@ -138,14 +137,14 @@ public class WaveManager implements Persister {
     }
 
     @Override
-    public void readState(GameState gameState) {
+    public void readState(KeyValueStore gameState) {
         setWaveNumber(gameState.getInt("waveNumber"));
         initializeActiveWaves(gameState);
         initializeNextWaveReady(gameState);
         updateRemainingEnemiesCount();
     }
 
-    private void initializeActiveWaves(GameState gameState) {
+    private void initializeActiveWaves(KeyValueStore gameState) {
         mActiveWaves.clear();
         List<WaveInfo> waveInfos = mGameEngine.getGameConfiguration().getWaveInfos();
 
@@ -158,7 +157,7 @@ public class WaveManager implements Persister {
         }
     }
 
-    private void initializeNextWaveReady(GameState gameState) {
+    private void initializeNextWaveReady(KeyValueStore gameState) {
         int minWaveDelayTicks = Math.round(MIN_WAVE_DELAY * GameEngine.TARGET_FRAME_RATE);
         int lastStartedWaveTickCount = -minWaveDelayTicks;
 

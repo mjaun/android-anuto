@@ -3,7 +3,7 @@ package ch.logixisland.anuto.business.game;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.data.state.GameState;
+import ch.logixisland.anuto.data.KeyValueStore;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.loop.Message;
 import ch.logixisland.anuto.engine.logic.persistence.Persister;
@@ -217,14 +217,14 @@ public class ScoreBoard implements Persister {
     }
 
     @Override
-    public void writeState(GameState gameState) {
+    public void writeState(KeyValueStore gameState) {
         gameState.putInt("credits", mCredits);
         gameState.putInt("creditsEarned", mCreditsEarned);
         gameState.putInt("lives", mLives);
     }
 
     @Override
-    public void readState(GameState gameState) {
+    public void readState(KeyValueStore gameState) {
         mCredits = gameState.getInt("credits");
         mCreditsEarned = gameState.getInt("creditsEarned");
         mLives = gameState.getInt("lives");

@@ -1,9 +1,9 @@
 package ch.logixisland.anuto.engine.logic.persistence;
 
-import ch.logixisland.anuto.data.state.GameState;
+import ch.logixisland.anuto.data.KeyValueStore;
 
 public interface Persister {
     void resetState();
-    void writeState(GameState gameState);
-    void readState(GameState gameState);
+    void writeState(KeyValueStore gameState);
+    void readState(KeyValueStore gameState);
 }
