@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.setting.tower.RocketLauncherSettings;
-import ch.logixisland.anuto.data.setting.tower.TowerSettings;
+import ch.logixisland.anuto.data.KeyValueStore;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
@@ -36,8 +35,8 @@ public class RocketLauncher extends Tower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            TowerSettings towerSettings = gameEngine.getGameConfiguration().getGameSettings().getTowerSettings();
-            return new RocketLauncher(gameEngine, towerSettings.getRocketLauncherSettings());
+            KeyValueStore towerSettings = gameEngine.getGameConfiguration().getGameSettings().getStore("towerSettings");
+            return new RocketLauncher(gameEngine, towerSettings.getStore("rocketLauncher"));
         }
     }
 
@@ -52,7 +51,7 @@ public class RocketLauncher extends Tower implements SpriteTransformation {
         SpriteTemplate mSpriteTemplateRocket; // used for preview only
     }
 
-    private RocketLauncherSettings mSettings;
+    private KeyValueStore mSettings;
 
     private float mExplosionRadius;
     private float mAngle = 90f;
@@ -64,7 +63,7 @@ public class RocketLauncher extends Tower implements SpriteTransformation {
     private StaticSprite mSpriteRocket; // used for preview only
     private Sound mSound;
 
-    private RocketLauncher(GameEngine gameEngine, RocketLauncherSettings settings) {
+    private RocketLauncher(GameEngine gameEngine, KeyValueStore settings) {
         super(gameEngine, settings);
         StaticData s = (StaticData) getStaticData();
 
@@ -78,7 +77,7 @@ public class RocketLauncher extends Tower implements SpriteTransformation {
         mSpriteRocket.setListener(this);
         mSpriteRocket.setIndex(RandomUtils.next(4));
 
-        mExplosionRadius = settings.getExplosionRadius();
+        mExplosionRadius = settings.getFloat("explosionRadius");
         mRocketLoadTimer = TickTimer.createInterval(ROCKET_LOAD_TIME);
 
         mSound = getSoundFactory().createSound(R.raw.explosive2_tsh);
@@ -123,7 +122,7 @@ public class RocketLauncher extends Tower implements SpriteTransformation {
     @Override
     public void enhance() {
         super.enhance();
-        mExplosionRadius += mSettings.getEnhanceExplosionRadius();
+        mExplosionRadius += mSettings.getFloat("enhanceExplosionRadius");
     }
 
     @Override

@@ -1,10 +1,11 @@
 package ch.logixisland.anuto.entity.enemy;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.data.setting.GameSettings;
-import ch.logixisland.anuto.data.setting.enemy.BasicEnemySettings;
+import ch.logixisland.anuto.data.KeyValueStore;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.entity.Types;
@@ -45,8 +46,8 @@ public abstract class Enemy extends Entity {
         };
     }
 
-    private final GameSettings mGameSettings;
-    private final BasicEnemySettings mEnemySettings;
+    private final KeyValueStore mGameSettings;
+    private final KeyValueStore mEnemySettings;
 
     private boolean mEnabled;
     private int mReward;
@@ -60,7 +61,7 @@ public abstract class Enemy extends Entity {
 
     private final List<EnemyListener> mListeners = new CopyOnWriteArrayList<>();
 
-    Enemy(GameEngine gameEngine, BasicEnemySettings enemySettings) {
+    Enemy(GameEngine gameEngine, KeyValueStore enemySettings) {
         super(gameEngine);
 
         mGameSettings = gameEngine.getGameConfiguration().getGameSettings();
@@ -69,9 +70,9 @@ public abstract class Enemy extends Entity {
         mEnabled = true;
         mSpeedModifier = 1f;
 
-        mReward = enemySettings.getReward();
-        mHealth = enemySettings.getHealth();
-        mMaxHealth = enemySettings.getHealth();
+        mReward = enemySettings.getInt("reward");
+        mHealth = enemySettings.getFloat("health");
+        mMaxHealth = enemySettings.getFloat("health");
         mHealthBar = new HealthBar(getTheme(), this);
     }
 
@@ -173,11 +174,11 @@ public abstract class Enemy extends Entity {
     }
 
     public float getSpeed() {
-        return mEnemySettings.getSpeed() * mSpeedModifier;
+        return mEnemySettings.getFloat("speed") * mSpeedModifier;
     }
 
     public void modifySpeed(float f) {
-        mSpeedModifier = Math.max(mGameSettings.getMinSpeedModifier(), mSpeedModifier * f);
+        mSpeedModifier = Math.max(mGameSettings.getFloat("minSpeedModifier"), mSpeedModifier * f);
     }
 
     private float getDistanceRemaining() {
@@ -259,12 +260,12 @@ public abstract class Enemy extends Entity {
         if (origin != null && origin instanceof Tower) {
             Tower originTower = (Tower) origin;
 
-            if (mEnemySettings.getWeakAgainst().contains(originTower.getWeaponType())) {
-                amount *= mGameSettings.getWeakAgainstModifier();
+            if (getWeakAgainst().contains(originTower.getWeaponType())) {
+                amount *= mGameSettings.getFloat("weakAgainstModifier");
             }
 
-            if (mEnemySettings.getStrongAgainst().contains(originTower.getWeaponType())) {
-                amount *= mGameSettings.getStrongAgainstModifier();
+            if (getStrongAgainst().contains(originTower.getWeaponType())) {
+                amount *= mGameSettings.getFloat("strongAgainstModifier");
             }
 
             originTower.reportDamageInflicted(amount);
@@ -279,6 +280,26 @@ public abstract class Enemy extends Entity {
 
             remove();
         }
+    }
+
+    private Collection<WeaponType> getWeakAgainst() {
+        Collection<WeaponType> weakAgainst = new ArrayList<>();
+
+        for (String name : mEnemySettings.getStringList("weakAgainst")) {
+            weakAgainst.add(WeaponType.valueOf(name));
+        }
+
+        return weakAgainst;
+    }
+
+    private Collection<WeaponType> getStrongAgainst() {
+        Collection<WeaponType> strongAgainst = new ArrayList<>();
+
+        for (String name : mEnemySettings.getStringList("strongAgainst")) {
+            strongAgainst.add(WeaponType.valueOf(name));
+        }
+
+        return strongAgainst;
     }
 
     public void modifyHealth(float f) {

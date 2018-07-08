@@ -208,9 +208,9 @@ public class ScoreBoard implements Persister {
 
     @Override
     public void resetState() {
-        mCredits = mGameEngine.getGameConfiguration().getGameSettings().getCredits();
+        mCredits = mGameEngine.getGameConfiguration().getGameSettings().getInt("credits");
         mCreditsEarned = 0;
-        mLives = mGameEngine.getGameConfiguration().getGameSettings().getLives();
+        mLives = mGameEngine.getGameConfiguration().getGameSettings().getInt("lives");
 
         creditsChanged();
         livesChanged();

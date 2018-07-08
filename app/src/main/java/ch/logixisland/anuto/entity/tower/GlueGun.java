@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.setting.tower.GlueGunSettings;
-import ch.logixisland.anuto.data.setting.tower.TowerSettings;
+import ch.logixisland.anuto.data.KeyValueStore;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
@@ -38,8 +37,8 @@ public class GlueGun extends Tower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            TowerSettings towerSettings = gameEngine.getGameConfiguration().getGameSettings().getTowerSettings();
-            return new GlueGun(gameEngine, towerSettings.getGlueGunSettings());
+            KeyValueStore towerSettings = gameEngine.getGameConfiguration().getGameSettings().getStore("towerSettings");
+            return new GlueGun(gameEngine, towerSettings.getStore("glueGun"));
         }
     }
 
@@ -54,7 +53,7 @@ public class GlueGun extends Tower implements SpriteTransformation {
         SpriteTemplate mSpriteTemplateCanon;
     }
 
-    private GlueGunSettings mSettings;
+    private KeyValueStore mSettings;
 
     private float mAngle = 90f;
     private float mGlueIntensity;
@@ -65,12 +64,12 @@ public class GlueGun extends Tower implements SpriteTransformation {
     private AnimatedSprite mSpriteCanon;
     private Sound mSound;
 
-    private GlueGun(GameEngine gameEngine, GlueGunSettings settings) {
+    private GlueGun(GameEngine gameEngine, KeyValueStore settings) {
         super(gameEngine, settings);
         StaticData s = (StaticData) getStaticData();
 
         mSettings = settings;
-        mGlueIntensity = settings.getGlueIntensity();
+        mGlueIntensity = settings.getFloat("glueIntensity");
 
         mSpriteBase = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplateBase);
         mSpriteBase.setListener(this);
@@ -121,7 +120,7 @@ public class GlueGun extends Tower implements SpriteTransformation {
     @Override
     public void enhance() {
         super.enhance();
-        mGlueIntensity += mSettings.getEnhanceGlueIntensity();
+        mGlueIntensity += mSettings.getFloat("enhanceGlueIntensity");
     }
 
     @Override
@@ -138,7 +137,7 @@ public class GlueGun extends Tower implements SpriteTransformation {
             mAngle = getAngleTo(target);
 
             Vector2 position = getPosition().add(Vector2.polar(SHOT_SPAWN_OFFSET, getAngleTo(target)));
-            getGameEngine().add(new GlueShot(this, position, target, mGlueIntensity, mSettings.getGlueDuration()));
+            getGameEngine().add(new GlueShot(this, position, target, mGlueIntensity, mSettings.getFloat("glueDuration")));
             mSound.play();
 
             setReloaded(false);
@@ -171,7 +170,7 @@ public class GlueGun extends Tower implements SpriteTransformation {
     public List<TowerInfoValue> getTowerInfoValues() {
         List<TowerInfoValue> properties = new ArrayList<>();
         properties.add(new TowerInfoValue(R.string.intensity, mGlueIntensity));
-        properties.add(new TowerInfoValue(R.string.duration, mSettings.getGlueDuration()));
+        properties.add(new TowerInfoValue(R.string.duration, mSettings.getFloat("glueDuration")));
         properties.add(new TowerInfoValue(R.string.reload, getReloadTime()));
         properties.add(new TowerInfoValue(R.string.range, getRange()));
         return properties;

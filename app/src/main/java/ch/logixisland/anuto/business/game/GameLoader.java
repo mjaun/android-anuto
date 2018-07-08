@@ -1,6 +1,7 @@
 package ch.logixisland.anuto.business.game;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.util.Log;
 
 import org.simpleframework.xml.Serializer;
@@ -17,7 +18,6 @@ import ch.logixisland.anuto.data.KeyValueStore;
 import ch.logixisland.anuto.data.SerializerFactory;
 import ch.logixisland.anuto.data.map.GameMap;
 import ch.logixisland.anuto.data.map.PlateauInfo;
-import ch.logixisland.anuto.data.setting.GameSettings;
 import ch.logixisland.anuto.data.wave.WaveInfoList;
 import ch.logixisland.anuto.engine.logic.GameConfiguration;
 import ch.logixisland.anuto.engine.logic.GameEngine;
@@ -32,6 +32,14 @@ public class GameLoader implements ErrorListener {
 
     private static final String TAG = GameLoader.class.getSimpleName();
     private static final String SAVED_GAME_FILE = "saved_game.json";
+
+    public static KeyValueStore loadGameSettings(Resources resources, int gameSettingsResId,
+                                                 int enemySettingsResId, int towerSettingsResId) throws Exception {
+        KeyValueStore settings = KeyValueStore.fromResources(resources, gameSettingsResId);
+        settings.putStore("enemySettings", KeyValueStore.fromResources(resources, enemySettingsResId));
+        settings.putStore("towerSettings", KeyValueStore.fromResources(resources, towerSettingsResId));
+        return settings;
+    }
 
     public interface Listener {
         void gameLoaded();
@@ -107,7 +115,7 @@ public class GameLoader implements ErrorListener {
 
         try {
             FileOutputStream outputStream = mContext.openFileOutput(SAVED_GAME_FILE, Context.MODE_PRIVATE);
-            gameState.serialize(outputStream);
+            gameState.toStream(outputStream);
             outputStream.close();
             Log.i(TAG, "Game saved.");
         } catch (Exception e) {
@@ -133,13 +141,13 @@ public class GameLoader implements ErrorListener {
 
         try {
             FileInputStream inputStream = mContext.openFileInput(SAVED_GAME_FILE);
-            gameState = KeyValueStore.deserialize(inputStream);
+            gameState = KeyValueStore.fromStream(inputStream);
             inputStream.close();
 
             Log.d(TAG, "Loading configuration...");
             MapInfo mapInfo = mMapRepository.getMapById(gameState.getString("mapId"));
             gameConfiguration = new GameConfiguration(
-                    GameSettings.fromXml(mSerializer, mContext.getResources(), R.raw.game_settings, R.raw.enemy_settings, R.raw.tower_settings),
+                    loadGameSettings(mContext.getResources(), R.raw.game_settings, R.raw.enemy_settings, R.raw.tower_settings),
                     GameMap.fromXml(mSerializer, mContext.getResources(), mapInfo.getMapDataResId(), mapInfo.getMapId()),
                     WaveInfoList.fromXml(mSerializer, mContext.getResources(), R.raw.waves)
             );
@@ -182,7 +190,7 @@ public class GameLoader implements ErrorListener {
 
         try {
             gameConfiguration = new GameConfiguration(
-                    GameSettings.fromXml(mSerializer, mContext.getResources(), R.raw.game_settings, R.raw.enemy_settings, R.raw.tower_settings),
+                    loadGameSettings(mContext.getResources(), R.raw.game_settings, R.raw.enemy_settings, R.raw.tower_settings),
                     GameMap.fromXml(mSerializer, mContext.getResources(), mapInfo.getMapDataResId(), mapInfo.getMapId()),
                     WaveInfoList.fromXml(mSerializer, mContext.getResources(), R.raw.waves)
             );

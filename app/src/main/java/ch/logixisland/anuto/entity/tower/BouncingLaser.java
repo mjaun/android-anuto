@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.setting.tower.BouncingLaserSettings;
-import ch.logixisland.anuto.data.setting.tower.TowerSettings;
+import ch.logixisland.anuto.data.KeyValueStore;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
@@ -35,8 +34,8 @@ public class BouncingLaser extends Tower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            TowerSettings towerSettings = gameEngine.getGameConfiguration().getGameSettings().getTowerSettings();
-            return new BouncingLaser(gameEngine, towerSettings.getBouncingLaserSettings());
+            KeyValueStore towerSettings = gameEngine.getGameConfiguration().getGameSettings().getStore("towerSettings");
+            return new BouncingLaser(gameEngine, towerSettings.getStore("bouncingLaser"));
         }
 
     }
@@ -53,7 +52,7 @@ public class BouncingLaser extends Tower implements SpriteTransformation {
         SpriteTemplate mSpriteTemplateCanon;
     }
 
-    private BouncingLaserSettings mSettings;
+    private KeyValueStore mSettings;
 
     private float mAngle = 90f;
     private final Aimer mAimer = new Aimer(this);
@@ -62,7 +61,7 @@ public class BouncingLaser extends Tower implements SpriteTransformation {
     private StaticSprite mSpriteCanon;
     private Sound mSound;
 
-    private BouncingLaser(GameEngine gameEngine, BouncingLaserSettings settings) {
+    private BouncingLaser(GameEngine gameEngine, KeyValueStore settings) {
         super(gameEngine, settings);
         StaticData s = (StaticData) getStaticData();
 
@@ -124,7 +123,7 @@ public class BouncingLaser extends Tower implements SpriteTransformation {
             if (isReloaded()) {
                 Vector2 origin = getPosition().add(Vector2.polar(LASER_SPAWN_OFFSET, mAngle));
                 getGameEngine().add(new ch.logixisland.anuto.entity.effect.BouncingLaser(
-                        this, origin, mAimer.getTarget(), getDamage(), mSettings.getBounceCount(), mSettings.getBounceDistance()));
+                        this, origin, mAimer.getTarget(), getDamage(), mSettings.getInt("bounceCount"), mSettings.getFloat("bounceDistance")));
                 setReloaded(false);
                 mSound.play();
             }

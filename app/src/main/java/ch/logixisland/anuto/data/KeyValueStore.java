@@ -1,5 +1,7 @@
 package ch.logixisland.anuto.data;
 
+import android.content.res.Resources;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,11 +24,24 @@ public class KeyValueStore {
         mJsonObject = new JSONObject();
     }
 
-    private KeyValueStore(JSONObject jsonObject) {
+    protected KeyValueStore(JSONObject jsonObject) {
         mJsonObject = jsonObject;
     }
 
-    public static KeyValueStore deserialize(InputStream input) {
+    public static KeyValueStore fromResources(Resources resources, int resourceId) {
+        InputStream stream = resources.openRawResource(resourceId);
+
+        try {
+            return fromStream(stream);
+        } finally {
+            try {
+                stream.close();
+            } catch (IOException ignored) {
+            }
+        }
+    }
+
+    public static KeyValueStore fromStream(InputStream input) {
         try {
             char[] buffer = new char[1024];
             StringBuilder stringBuilder = new StringBuilder();
@@ -47,7 +62,7 @@ public class KeyValueStore {
         }
     }
 
-    public void serialize(OutputStream output) {
+    public void toStream(OutputStream output) {
         try {
             output.write(mJsonObject.toString().getBytes(Charset.forName("UTF-8")));
         } catch (IOException e) {
@@ -66,6 +81,35 @@ public class KeyValueStore {
     public String getString(String key) {
         try {
             return mJsonObject.getString(key);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void putStringList(String key, List<String> strings) {
+        try {
+            JSONArray jsonArray = new JSONArray();
+
+            for (String string : strings) {
+                jsonArray.put(string);
+            }
+
+            mJsonObject.put(key, jsonArray);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<String> getStringList(String key) {
+        try {
+            JSONArray jsonArray = mJsonObject.getJSONArray(key);
+            List<String> strings = new ArrayList<>();
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                strings.add(jsonArray.getString(i));
+            }
+
+            return strings;
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
@@ -170,6 +214,22 @@ public class KeyValueStore {
             }
 
             return vectors;
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void putStore(String key, KeyValueStore store) {
+        try {
+            mJsonObject.put(key, store.mJsonObject);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public KeyValueStore getStore(String key) {
+        try {
+            return new KeyValueStore(mJsonObject.getJSONObject(key));
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }

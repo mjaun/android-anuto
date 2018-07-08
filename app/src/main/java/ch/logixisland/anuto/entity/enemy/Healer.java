@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.setting.enemy.EnemySettings;
-import ch.logixisland.anuto.data.setting.enemy.HealerSettings;
+import ch.logixisland.anuto.data.KeyValueStore;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
@@ -38,8 +37,8 @@ public class Healer extends Enemy implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            EnemySettings enemySettings = gameEngine.getGameConfiguration().getGameSettings().getEnemySettings();
-            return new Healer(gameEngine, enemySettings.getHealerSettings());
+            KeyValueStore enemySettings = gameEngine.getGameConfiguration().getGameSettings().getStore("enemySettings");
+            return new Healer(gameEngine, enemySettings.getStore("healer"));
         }
     }
 
@@ -96,12 +95,12 @@ public class Healer extends Enemy implements SpriteTransformation {
         }
     }
 
-    private HealerSettings mHealerSettings;
+    private KeyValueStore mHealerSettings;
     private StaticData mStaticData;
 
     private ReplicatedSprite mSprite;
 
-    private Healer(GameEngine gameEngine, HealerSettings healerSettings) {
+    private Healer(GameEngine gameEngine, KeyValueStore healerSettings) {
         super(gameEngine, healerSettings);
 
         mHealerSettings = healerSettings;
@@ -120,8 +119,8 @@ public class Healer extends Enemy implements SpriteTransformation {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.mHealInterval = mHealerSettings.getHealInterval();
-        s.mHealDuration = mHealerSettings.getHealDuration();
+        s.mHealInterval = mHealerSettings.getFloat("healInterval");
+        s.mHealDuration = mHealerSettings.getFloat("healDuration");
 
         s.mHealTimer = TickTimer.createInterval(s.mHealInterval);
         s.mHealedEnemies = new ArrayList<>();
@@ -181,8 +180,8 @@ public class Healer extends Enemy implements SpriteTransformation {
 
         if (mStaticData.mDropEffect) {
             getGameEngine().add(new HealEffect(this, getPosition(),
-                    mHealerSettings.getHealAmount(),
-                    mHealerSettings.getHealRadius(),
+                    mHealerSettings.getFloat("healAmount"),
+                    mHealerSettings.getFloat("healRadius"),
                     mStaticData.mHealedEnemies));
         }
     }

@@ -48,7 +48,7 @@ public class TowerAging {
         }
 
         int value = tower.getValue();
-        value = Math.round(value * mGameEngine.getGameConfiguration().getGameSettings().getTowerSettings().getAgeModifier());
+        value = Math.round(value * mGameEngine.getGameConfiguration().getGameSettings().getStore("towerSettings").getFloat("ageModifier"));
         tower.setValue(value);
     }
 }

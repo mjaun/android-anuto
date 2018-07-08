@@ -1,8 +1,7 @@
 package ch.logixisland.anuto.entity.enemy;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.setting.enemy.BasicEnemySettings;
-import ch.logixisland.anuto.data.setting.enemy.EnemySettings;
+import ch.logixisland.anuto.data.KeyValueStore;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
@@ -31,8 +30,8 @@ public class Sprinter extends Enemy implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            EnemySettings enemySettings = gameEngine.getGameConfiguration().getGameSettings().getEnemySettings();
-            return new Sprinter(gameEngine, enemySettings.getSprinterSettings());
+            KeyValueStore enemySettings = gameEngine.getGameConfiguration().getGameSettings().getStore("enemySettings");
+            return new Sprinter(gameEngine, enemySettings.getStore("sprinter"));
         }
     }
 
@@ -59,7 +58,7 @@ public class Sprinter extends Enemy implements SpriteTransformation {
     private StaticData mStatic;
     private ReplicatedSprite mSprite;
 
-    private Sprinter(GameEngine gameEngine, BasicEnemySettings enemySettings) {
+    private Sprinter(GameEngine gameEngine, KeyValueStore enemySettings) {
         super(gameEngine, enemySettings);
         mStatic = (StaticData) getStaticData();
 

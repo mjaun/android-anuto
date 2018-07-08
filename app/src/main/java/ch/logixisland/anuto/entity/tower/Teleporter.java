@@ -7,8 +7,7 @@ import java.util.Collection;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.setting.tower.TeleporterSettings;
-import ch.logixisland.anuto.data.setting.tower.TowerSettings;
+import ch.logixisland.anuto.data.KeyValueStore;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
@@ -37,8 +36,8 @@ public class Teleporter extends Tower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            TowerSettings towerSettings = gameEngine.getGameConfiguration().getGameSettings().getTowerSettings();
-            return new Teleporter(gameEngine, towerSettings.getTeleporterSettings());
+            KeyValueStore towerSettings = gameEngine.getGameConfiguration().getGameSettings().getStore("towerSettings");
+            return new Teleporter(gameEngine, towerSettings.getStore("teleporter"));
         }
     }
 
@@ -60,7 +59,7 @@ public class Teleporter extends Tower implements SpriteTransformation {
         }
     }
 
-    private TeleporterSettings mSettings;
+    private KeyValueStore mSettings;
     private float mTeleportDistance;
     private final Aimer mAimer = new Aimer(this);
 
@@ -68,12 +67,12 @@ public class Teleporter extends Tower implements SpriteTransformation {
     private StaticSprite mSpriteTower;
     private Sound mSound;
 
-    private Teleporter(GameEngine gameEngine, TeleporterSettings settings) {
+    private Teleporter(GameEngine gameEngine, KeyValueStore settings) {
         super(gameEngine, settings);
         StaticData s = (StaticData) getStaticData();
 
         mSettings = settings;
-        mTeleportDistance = settings.getTeleportDistance();
+        mTeleportDistance = settings.getFloat("teleportDistance");
 
         mSpriteBase = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplateBase);
         mSpriteBase.setListener(this);
@@ -123,7 +122,7 @@ public class Teleporter extends Tower implements SpriteTransformation {
     @Override
     public void enhance() {
         super.enhance();
-        mTeleportDistance += mSettings.getEnhanceTeleportDistance();
+        mTeleportDistance += mSettings.getFloat("enhanceTeleportDistance");
     }
 
     @Override

@@ -1,0 +1,16 @@
+{
+  "credits": 500,
+  "lives": 20,
+  "difficultyModifier": 8e-4,
+  "difficultyExponent": 2,
+  "difficultyLinear": 20,
+  "rewardModifier": 0.3,
+  "rewardExponent": 0.5,
+  "earlyModifier": 3,
+  "earlyExponent": 0.6,
+  "minHealthModifier": 0.5,
+  "minRewardModifier": 1,
+  "minSpeedModifier": 0.01,
+  "strongAgainstModifier": 0.5,
+  "weakAgainstModifier": 2.0
+}

@@ -6,7 +6,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.game.ScoreBoard;
-import ch.logixisland.anuto.data.setting.tower.TowerSettings;
+import ch.logixisland.anuto.data.KeyValueStore;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
@@ -66,8 +66,8 @@ public class TowerInserter {
     }
 
     public Tower createPreviewTower(int slot) {
-        TowerSettings towerSettings = mGameEngine.getGameConfiguration().getGameSettings().getTowerSettings();
-        return (Tower) mEntityRegistry.createEntity(towerSettings.getTowerSlots().getTowerOfSlot(slot));
+        KeyValueStore towerSettings = mGameEngine.getGameConfiguration().getGameSettings().getStore("towerSettings");
+        return (Tower) mEntityRegistry.createEntity(towerSettings.getStore("slots").getString(Integer.toString(slot)));
     }
 
     public void setPosition(final Vector2 position) {

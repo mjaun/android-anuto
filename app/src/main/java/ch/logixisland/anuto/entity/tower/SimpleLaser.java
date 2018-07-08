@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.setting.tower.BasicTowerSettings;
-import ch.logixisland.anuto.data.setting.tower.TowerSettings;
+import ch.logixisland.anuto.data.KeyValueStore;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
@@ -36,8 +35,8 @@ public class SimpleLaser extends Tower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            TowerSettings towerSettings = gameEngine.getGameConfiguration().getGameSettings().getTowerSettings();
-            return new SimpleLaser(gameEngine, towerSettings.getSimpleLaserSettings());
+            KeyValueStore towerSettings = gameEngine.getGameConfiguration().getGameSettings().getStore("towerSettings");
+            return new SimpleLaser(gameEngine, towerSettings.getStore("simpleLaser"));
         }
     }
 
@@ -59,7 +58,7 @@ public class SimpleLaser extends Tower implements SpriteTransformation {
     private StaticSprite mSpriteCanon;
     private Sound mSound;
 
-    private SimpleLaser(GameEngine gameEngine, BasicTowerSettings settings) {
+    private SimpleLaser(GameEngine gameEngine, KeyValueStore settings) {
         super(gameEngine, settings);
         StaticData s = (StaticData) getStaticData();
 
