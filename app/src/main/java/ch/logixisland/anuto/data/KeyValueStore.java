@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import ch.logixisland.anuto.util.math.Vector2;
@@ -68,6 +69,10 @@ public class KeyValueStore {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public boolean hasKey(String key) {
+        return mJsonObject.has(key);
     }
 
     public void putString(String key, String value) {
@@ -264,6 +269,19 @@ public class KeyValueStore {
             }
 
             return stores;
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void extend(KeyValueStore other) {
+        Iterator<String> it = other.mJsonObject.keys();
+
+        try {
+            while (it.hasNext()) {
+                String key = it.next();
+                mJsonObject.put(key, other.mJsonObject.get(key));
+            }
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }

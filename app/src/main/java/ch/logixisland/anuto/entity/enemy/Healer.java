@@ -36,9 +36,8 @@ public class Healer extends Enemy implements SpriteTransformation {
         }
 
         @Override
-        public Entity create(GameEngine gameEngine) {
-            KeyValueStore enemySettings = gameEngine.getGameConfiguration().getGameSettings().getStore("enemySettings");
-            return new Healer(gameEngine, enemySettings.getStore("healer"));
+        public Entity create(GameEngine gameEngine, KeyValueStore entitySettings) {
+            return new Healer(gameEngine, entitySettings);
         }
     }
 

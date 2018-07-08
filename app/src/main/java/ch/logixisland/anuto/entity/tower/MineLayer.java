@@ -39,10 +39,9 @@ public class MineLayer extends Tower implements SpriteTransformation {
         }
 
         @Override
-        public Entity create(GameEngine gameEngine) {
-            KeyValueStore towerSettings = gameEngine.getGameConfiguration().getGameSettings().getStore("towerSettings");
+        public Entity create(GameEngine gameEngine, KeyValueStore entitySettings) {
             GameMap map = gameEngine.getGameConfiguration().getGameMap();
-            return new MineLayer(gameEngine, towerSettings.getStore("mineLayer"), map.getPaths());
+            return new MineLayer(gameEngine, entitySettings, map.getPaths());
         }
     }
 

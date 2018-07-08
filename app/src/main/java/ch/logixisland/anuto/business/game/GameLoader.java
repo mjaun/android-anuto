@@ -1,7 +1,6 @@
 package ch.logixisland.anuto.business.game;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.util.Log;
 
 import org.simpleframework.xml.Serializer;
@@ -32,14 +31,6 @@ public class GameLoader implements ErrorListener {
 
     private static final String TAG = GameLoader.class.getSimpleName();
     private static final String SAVED_GAME_FILE = "saved_game.json";
-
-    public static KeyValueStore loadGameSettings(Resources resources, int gameSettingsResId,
-                                                 int enemySettingsResId, int towerSettingsResId) throws Exception {
-        KeyValueStore settings = KeyValueStore.fromResources(resources, gameSettingsResId);
-        settings.putStore("enemySettings", KeyValueStore.fromResources(resources, enemySettingsResId));
-        settings.putStore("towerSettings", KeyValueStore.fromResources(resources, towerSettingsResId));
-        return settings;
-    }
 
     public interface Listener {
         void gameLoaded();
@@ -147,7 +138,7 @@ public class GameLoader implements ErrorListener {
             Log.d(TAG, "Loading configuration...");
             MapInfo mapInfo = mMapRepository.getMapById(gameState.getString("mapId"));
             gameConfiguration = new GameConfiguration(
-                    loadGameSettings(mContext.getResources(), R.raw.game_settings, R.raw.enemy_settings, R.raw.tower_settings),
+                    readGameSettings(R.raw.game_settings, R.raw.enemy_settings, R.raw.tower_settings),
                     GameMap.fromXml(mSerializer, mContext.getResources(), mapInfo.getMapDataResId(), mapInfo.getMapId()),
                     WaveInfoList.fromXml(mSerializer, mContext.getResources(), R.raw.waves)
             );
@@ -190,7 +181,7 @@ public class GameLoader implements ErrorListener {
 
         try {
             gameConfiguration = new GameConfiguration(
-                    loadGameSettings(mContext.getResources(), R.raw.game_settings, R.raw.enemy_settings, R.raw.tower_settings),
+                    readGameSettings(R.raw.game_settings, R.raw.enemy_settings, R.raw.tower_settings),
                     GameMap.fromXml(mSerializer, mContext.getResources(), mapInfo.getMapDataResId(), mapInfo.getMapId()),
                     WaveInfoList.fromXml(mSerializer, mContext.getResources(), R.raw.waves)
             );
@@ -208,6 +199,14 @@ public class GameLoader implements ErrorListener {
         }
 
         Log.d(TAG, "Game loaded.");
+    }
+
+    private KeyValueStore readGameSettings(int gameSettingsResId, int enemySettingsResId, int towerSettingsResId) {
+        KeyValueStore settings = KeyValueStore.fromResources(mContext.getResources(), gameSettingsResId);
+        KeyValueStore entitySettings = KeyValueStore.fromResources(mContext.getResources(), enemySettingsResId);
+        entitySettings.extend(KeyValueStore.fromResources(mContext.getResources(), towerSettingsResId));
+        settings.putStore("entitySettings", entitySettings);
+        return settings;
     }
 
     private void loadConfiguration(GameConfiguration gameConfiguration) {

@@ -43,10 +43,9 @@ public class GlueTower extends Tower implements SpriteTransformation {
         }
 
         @Override
-        public Entity create(GameEngine gameEngine) {
-            KeyValueStore towerSettings = gameEngine.getGameConfiguration().getGameSettings().getStore("towerSettings");
+        public Entity create(GameEngine gameEngine, KeyValueStore entitySettings) {
             GameMap map = gameEngine.getGameConfiguration().getGameMap();
-            return new GlueTower(gameEngine, towerSettings.getStore("glueTower"), map.getPaths());
+            return new GlueTower(gameEngine, entitySettings, map.getPaths());
         }
     }
 

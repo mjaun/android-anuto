@@ -36,9 +36,8 @@ public class Mortar extends Tower implements SpriteTransformation {
         }
 
         @Override
-        public Entity create(GameEngine gameEngine) {
-            KeyValueStore towerSettings = gameEngine.getGameConfiguration().getGameSettings().getStore("towerSettings");
-            return new Mortar(gameEngine, towerSettings.getStore("mortar"));
+        public Entity create(GameEngine gameEngine, KeyValueStore entitySettings) {
+            return new Mortar(gameEngine, entitySettings);
         }
     }
 

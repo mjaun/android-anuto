@@ -1,11 +1,4 @@
 {
-  "ageModifier": 0.97,
-  "slots": {
-    "0": "canon",
-    "1": "simpleLaser",
-    "2": "mortar",
-    "3": "glueTower"
-  },
   "canon": {
     "value": 100,
     "damage": 100,

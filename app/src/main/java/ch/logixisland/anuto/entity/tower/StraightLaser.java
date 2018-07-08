@@ -34,9 +34,8 @@ public class StraightLaser extends Tower implements SpriteTransformation {
         }
 
         @Override
-        public Entity create(GameEngine gameEngine) {
-            KeyValueStore towerSettings = gameEngine.getGameConfiguration().getGameSettings().getStore("towerSettings");
-            return new StraightLaser(gameEngine, towerSettings.getStore("straightLaser"));
+        public Entity create(GameEngine gameEngine, KeyValueStore entitySettings) {
+            return new StraightLaser(gameEngine, entitySettings);
         }
     }
 

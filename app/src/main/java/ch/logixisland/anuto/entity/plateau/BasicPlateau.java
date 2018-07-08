@@ -1,6 +1,7 @@
 package ch.logixisland.anuto.entity.plateau;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.data.KeyValueStore;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
@@ -20,7 +21,7 @@ public class BasicPlateau extends Plateau implements SpriteTransformation {
 
     public static class Factory implements EntityFactory {
         @Override
-        public Entity create(GameEngine gameEngine) {
+        public Entity create(GameEngine gameEngine, KeyValueStore entitySettings) {
             return new BasicPlateau(gameEngine);
         }
 

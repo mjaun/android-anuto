@@ -27,9 +27,8 @@ public class Flyer extends Enemy implements SpriteTransformation {
         }
 
         @Override
-        public Entity create(GameEngine gameEngine) {
-            KeyValueStore enemySettings = gameEngine.getGameConfiguration().getGameSettings().getStore("enemySettings");
-            return new Flyer(gameEngine, enemySettings.getStore("flyer"));
+        public Entity create(GameEngine gameEngine, KeyValueStore entitySettings) {
+            return new Flyer(gameEngine, entitySettings);
         }
     }
 

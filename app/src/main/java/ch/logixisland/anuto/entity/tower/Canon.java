@@ -39,9 +39,8 @@ public class Canon extends Tower implements SpriteTransformation {
         }
 
         @Override
-        public Entity create(GameEngine gameEngine) {
-            KeyValueStore towerSettings = gameEngine.getGameConfiguration().getGameSettings().getStore("towerSettings");
-            return new Canon(gameEngine, towerSettings.getStore("canon"));
+        public Entity create(GameEngine gameEngine, KeyValueStore entitySettings) {
+            return new Canon(gameEngine, entitySettings);
         }
     }
 

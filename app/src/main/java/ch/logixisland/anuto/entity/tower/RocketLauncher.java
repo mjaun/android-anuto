@@ -34,9 +34,8 @@ public class RocketLauncher extends Tower implements SpriteTransformation {
         }
 
         @Override
-        public Entity create(GameEngine gameEngine) {
-            KeyValueStore towerSettings = gameEngine.getGameConfiguration().getGameSettings().getStore("towerSettings");
-            return new RocketLauncher(gameEngine, towerSettings.getStore("rocketLauncher"));
+        public Entity create(GameEngine gameEngine, KeyValueStore entitySettings) {
+            return new RocketLauncher(gameEngine, entitySettings);
         }
     }
 

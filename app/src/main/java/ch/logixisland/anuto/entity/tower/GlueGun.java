@@ -36,9 +36,8 @@ public class GlueGun extends Tower implements SpriteTransformation {
         }
 
         @Override
-        public Entity create(GameEngine gameEngine) {
-            KeyValueStore towerSettings = gameEngine.getGameConfiguration().getGameSettings().getStore("towerSettings");
-            return new GlueGun(gameEngine, towerSettings.getStore("glueGun"));
+        public Entity create(GameEngine gameEngine, KeyValueStore entitySettings) {
+            return new GlueGun(gameEngine, entitySettings);
         }
     }
 

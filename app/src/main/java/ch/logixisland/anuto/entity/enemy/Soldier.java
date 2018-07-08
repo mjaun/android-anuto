@@ -27,9 +27,8 @@ public class Soldier extends Enemy implements SpriteTransformation {
         }
 
         @Override
-        public Entity create(GameEngine gameEngine) {
-            KeyValueStore enemySettings = gameEngine.getGameConfiguration().getGameSettings().getStore("enemySettings");
-            return new Soldier(gameEngine, enemySettings.getStore("soldier"));
+        public Entity create(GameEngine gameEngine, KeyValueStore entitySettings) {
+            return new Soldier(gameEngine, entitySettings);
         }
     }
 

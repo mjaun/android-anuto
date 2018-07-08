@@ -66,8 +66,8 @@ public class TowerInserter {
     }
 
     public Tower createPreviewTower(int slot) {
-        KeyValueStore towerSettings = mGameEngine.getGameConfiguration().getGameSettings().getStore("towerSettings");
-        return (Tower) mEntityRegistry.createEntity(towerSettings.getStore("slots").getString(Integer.toString(slot)));
+        KeyValueStore gameSettings = mGameEngine.getGameConfiguration().getGameSettings();
+        return (Tower) mEntityRegistry.createEntity(gameSettings.getStore("slots").getString(Integer.toString(slot)));
     }
 
     public void setPosition(final Vector2 position) {

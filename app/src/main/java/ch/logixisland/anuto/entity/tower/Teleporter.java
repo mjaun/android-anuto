@@ -35,9 +35,8 @@ public class Teleporter extends Tower implements SpriteTransformation {
         }
 
         @Override
-        public Entity create(GameEngine gameEngine) {
-            KeyValueStore towerSettings = gameEngine.getGameConfiguration().getGameSettings().getStore("towerSettings");
-            return new Teleporter(gameEngine, towerSettings.getStore("teleporter"));
+        public Entity create(GameEngine gameEngine, KeyValueStore entitySettings) {
+            return new Teleporter(gameEngine, entitySettings);
         }
     }
 

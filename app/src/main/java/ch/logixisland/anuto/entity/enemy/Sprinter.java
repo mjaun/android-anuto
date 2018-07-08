@@ -29,9 +29,8 @@ public class Sprinter extends Enemy implements SpriteTransformation {
         }
 
         @Override
-        public Entity create(GameEngine gameEngine) {
-            KeyValueStore enemySettings = gameEngine.getGameConfiguration().getGameSettings().getStore("enemySettings");
-            return new Sprinter(gameEngine, enemySettings.getStore("sprinter"));
+        public Entity create(GameEngine gameEngine, KeyValueStore entitySettings) {
+            return new Sprinter(gameEngine, entitySettings);
         }
     }
 

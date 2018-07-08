@@ -39,9 +39,8 @@ public class DualCanon extends Tower implements SpriteTransformation {
         }
 
         @Override
-        public Entity create(GameEngine gameEngine) {
-            KeyValueStore towerSettings = gameEngine.getGameConfiguration().getGameSettings().getStore("towerSettings");
-            return new DualCanon(gameEngine, towerSettings.getStore("dualCanon"));
+        public Entity create(GameEngine gameEngine, KeyValueStore entitySettings) {
+            return new DualCanon(gameEngine, entitySettings);
         }
     }
 

@@ -27,7 +27,9 @@ public class EntityRegistry implements Persister {
     }
 
     public Entity createEntity(String name, int id) {
-        Entity entity = mEntityFactories.get(name).create(mGameEngine);
+        KeyValueStore entitySettings = mGameEngine.getGameConfiguration().getGameSettings().getStore("entitySettings");
+        entitySettings = entitySettings.hasKey(name) ? entitySettings.getStore(name) : null;
+        Entity entity = mEntityFactories.get(name).create(mGameEngine, entitySettings);
         entity.setEntityId(id);
         return entity;
     }

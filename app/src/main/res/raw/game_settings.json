@@ -12,5 +12,12 @@
   "minRewardModifier": 1,
   "minSpeedModifier": 0.01,
   "strongAgainstModifier": 0.5,
-  "weakAgainstModifier": 2.0
+  "weakAgainstModifier": 2.0,
+  "ageModifier": 0.97,
+  "slots": {
+    "0": "canon",
+    "1": "simpleLaser",
+    "2": "mortar",
+    "3": "glueTower"
+  }
 }

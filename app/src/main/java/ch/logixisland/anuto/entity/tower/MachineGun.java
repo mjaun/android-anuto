@@ -37,9 +37,8 @@ public class MachineGun extends Tower implements SpriteTransformation {
         }
 
         @Override
-        public Entity create(GameEngine gameEngine) {
-            KeyValueStore towerSettings = gameEngine.getGameConfiguration().getGameSettings().getStore("towerSettings");
-            return new MachineGun(gameEngine, towerSettings.getStore("machineGun"));
+        public Entity create(GameEngine gameEngine, KeyValueStore entitySettings) {
+            return new MachineGun(gameEngine, entitySettings);
         }
     }
 

@@ -27,9 +27,8 @@ public class Blob extends Enemy implements SpriteTransformation {
         }
 
         @Override
-        public Entity create(GameEngine gameEngine) {
-            KeyValueStore enemySettings = gameEngine.getGameConfiguration().getGameSettings().getStore("enemySettings");
-            return new Blob(gameEngine, enemySettings.getStore("blob"));
+        public Entity create(GameEngine gameEngine, KeyValueStore entitySettings) {
+            return new Blob(gameEngine, entitySettings);
         }
     }
 

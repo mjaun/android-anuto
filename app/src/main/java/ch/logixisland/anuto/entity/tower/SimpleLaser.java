@@ -34,9 +34,8 @@ public class SimpleLaser extends Tower implements SpriteTransformation {
         }
 
         @Override
-        public Entity create(GameEngine gameEngine) {
-            KeyValueStore towerSettings = gameEngine.getGameConfiguration().getGameSettings().getStore("towerSettings");
-            return new SimpleLaser(gameEngine, towerSettings.getStore("simpleLaser"));
+        public Entity create(GameEngine gameEngine, KeyValueStore entitySettings) {
+            return new SimpleLaser(gameEngine, entitySettings);
         }
     }
 

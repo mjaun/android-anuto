@@ -33,9 +33,8 @@ public class BouncingLaser extends Tower implements SpriteTransformation {
         }
 
         @Override
-        public Entity create(GameEngine gameEngine) {
-            KeyValueStore towerSettings = gameEngine.getGameConfiguration().getGameSettings().getStore("towerSettings");
-            return new BouncingLaser(gameEngine, towerSettings.getStore("bouncingLaser"));
+        public Entity create(GameEngine gameEngine, KeyValueStore entitySettings) {
+            return new BouncingLaser(gameEngine, entitySettings);
         }
 
     }
