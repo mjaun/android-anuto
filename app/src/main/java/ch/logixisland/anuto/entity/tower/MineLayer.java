@@ -11,8 +11,7 @@ import ch.logixisland.anuto.data.map.GameMap;
 import ch.logixisland.anuto.data.map.MapPath;
 import ch.logixisland.anuto.data.setting.tower.MineLayerSettings;
 import ch.logixisland.anuto.data.setting.tower.TowerSettings;
-import ch.logixisland.anuto.data.state.EntityData;
-import ch.logixisland.anuto.data.state.TowerData;
+import ch.logixisland.anuto.data.state.KeyValueStore;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
@@ -50,16 +49,15 @@ public class MineLayer extends Tower implements SpriteTransformation {
     }
 
     public static class Persister extends TowerPersister {
-        private static final String MINE_POSITION_DETAIL = "minePositions";
 
         public Persister(GameEngine gameEngine, EntityRegistry entityRegistry) {
             super(gameEngine, entityRegistry, ENTITY_NAME);
         }
 
         @Override
-        protected TowerData writeEntityData(Entity entity) {
+        protected KeyValueStore writeEntityData(Entity entity) {
             MineLayer mineLayer = (MineLayer) entity;
-            TowerData data = super.writeEntityData(entity);
+            KeyValueStore data = super.writeEntityData(entity);
 
             List<Vector2> minePositions = new ArrayList<>();
             for (Mine mine : mineLayer.mMines) {
@@ -67,17 +65,16 @@ public class MineLayer extends Tower implements SpriteTransformation {
                     minePositions.add(mine.getPosition());
                 }
             }
-            data.addDetail(MINE_POSITION_DETAIL, Vector2.serializeList(minePositions));
+            data.putVectorList("minePositions", minePositions);
 
             return data;
         }
 
         @Override
-        protected MineLayer readEntityData(EntityData entityData) {
+        protected MineLayer readEntityData(KeyValueStore entityData) {
             MineLayer mineLayer = (MineLayer) super.readEntityData(entityData);
-            TowerData data = (TowerData) entityData;
 
-            for (Vector2 minePosition : Vector2.deserializeList(data.getDetail(MINE_POSITION_DETAIL))) {
+            for (Vector2 minePosition : entityData.getVectorList("minePositions")) {
                 Mine mine = new Mine(mineLayer, minePosition, mineLayer.getDamage(), mineLayer.mExplosionRadius);
                 mineLayer.mMines.add(mine);
                 mine.addListener(mineLayer.mMineListener);

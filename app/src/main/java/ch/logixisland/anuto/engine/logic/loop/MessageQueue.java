@@ -57,12 +57,17 @@ public class MessageQueue implements Persister {
     }
 
     @Override
+    public void resetState() {
+        mTickCount = 0;
+    }
+
+    @Override
     public void writeState(GameState gameState) {
-        gameState.setTickCount(mTickCount);
+        gameState.putInt("tickCount", mTickCount);
     }
 
     @Override
     public void readState(GameState gameState) {
-        mTickCount = gameState.getTickCount();
+        mTickCount = gameState.getInt("tickCount");
     }
 }

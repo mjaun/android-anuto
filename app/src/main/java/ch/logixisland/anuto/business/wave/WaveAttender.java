@@ -6,7 +6,7 @@ import java.util.List;
 
 import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.data.map.MapPath;
-import ch.logixisland.anuto.data.state.ActiveWaveData;
+import ch.logixisland.anuto.data.state.KeyValueStore;
 import ch.logixisland.anuto.data.wave.EnemyInfo;
 import ch.logixisland.anuto.data.wave.WaveInfo;
 import ch.logixisland.anuto.engine.logic.GameEngine;
@@ -108,23 +108,23 @@ class WaveAttender implements EnemyListener {
         return totalReward;
     }
 
-    ActiveWaveData writeActiveWaveData() {
-        ActiveWaveData data = new ActiveWaveData();
-        data.setWaveNumber(mWaveNumber);
-        data.setWaveStartTickCount(mWaveStartTickCount);
-        data.setExtend(mExtend);
-        data.setWaveReward(mWaveReward);
-        data.setEnemyHealthModifier(mEnemyHealthModifier);
-        data.setEnemyRewardModifier(mEnemyRewardModifier);
+    KeyValueStore writeActiveWaveData() {
+        KeyValueStore data = new KeyValueStore();
+        data.putInt("waveNumber", mWaveNumber);
+        data.putInt("waveStartTickCount", mWaveStartTickCount);
+        data.putInt("extend", mExtend);
+        data.putInt("waveReward", mWaveReward);
+        data.putFloat("enemyHealthModifier", mEnemyHealthModifier);
+        data.putFloat("enemyRewardModifier", mEnemyRewardModifier);
         return data;
     }
 
-    void readActiveWaveData(ActiveWaveData data) {
-        mExtend = data.getExtend();
-        mWaveReward = data.getWaveReward();
-        mEnemyHealthModifier = data.getEnemyHealthModifier();
-        mEnemyRewardModifier = data.getEnemyRewardModifier();
-        mWaveStartTickCount = data.getWaveStartTickCount();
+    void readActiveWaveData(KeyValueStore data) {
+        mExtend = data.getInt("extend");
+        mWaveReward = data.getInt("waveReward");
+        mEnemyHealthModifier = data.getFloat("enemyHealthModifier");
+        mEnemyRewardModifier = data.getFloat("enemyRewardModifier");
+        mWaveStartTickCount = data.getInt("waveStartTickCount");
 
         StreamIterator<Enemy> enemyIterator = mGameEngine.getEntitiesByType(Types.ENEMY).cast(Enemy.class);
         while (enemyIterator.hasNext()) {

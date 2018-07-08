@@ -1,7 +1,6 @@
 package ch.logixisland.anuto.entity.tower;
 
-import ch.logixisland.anuto.data.state.EntityData;
-import ch.logixisland.anuto.data.state.TowerData;
+import ch.logixisland.anuto.data.state.KeyValueStore;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
@@ -15,49 +14,43 @@ public class TowerPersister extends EntityPersister {
     }
 
     @Override
-    protected TowerData createEntityData() {
-        return new TowerData();
-    }
-
-    @Override
-    protected TowerData writeEntityData(Entity entity) {
+    protected KeyValueStore writeEntityData(Entity entity) {
         Tower tower = (Tower) entity;
-        TowerData data = (TowerData) super.writeEntityData(tower);
+        KeyValueStore data = super.writeEntityData(tower);
 
-        data.setPlateauId(tower.getPlateau().getEntityId());
-        data.setValue(tower.getValue());
-        data.setLevel(tower.getLevel());
-        data.setDamageInflicted(tower.getDamageInflicted());
+        data.putInt("plateauId", tower.getPlateau().getEntityId());
+        data.putInt("value", tower.getValue());
+        data.putInt("level", tower.getLevel());
+        data.putFloat("damageInflicted", tower.getDamageInflicted());
 
         Aimer aimer = tower.getAimer();
 
         if (aimer != null) {
-            data.setStrategy(aimer.getStrategy().toString());
-            data.setLockTarget(aimer.doesLockTarget());
+            data.putString("strategy", aimer.getStrategy().toString());
+            data.putBoolean("lockTarget", aimer.doesLockTarget());
         }
 
         return data;
     }
 
     @Override
-    protected Tower readEntityData(EntityData entityData) {
+    protected Tower readEntityData(KeyValueStore entityData) {
         Tower tower = (Tower) super.readEntityData(entityData);
-        TowerData data = (TowerData) entityData;
 
-        while (tower.getLevel() < data.getLevel()) {
+        while (tower.getLevel() < entityData.getInt("level")) {
             tower.enhance();
         }
 
-        tower.setPlateau((Plateau) getGameEngine().getEntityById(data.getPlateauId()));
-        tower.setValue(data.getValue());
-        tower.setDamageInflicted(data.getDamageInflicted());
+        tower.setPlateau((Plateau) getGameEngine().getEntityById(entityData.getInt("plateauId")));
+        tower.setValue(entityData.getInt("value"));
+        tower.setDamageInflicted(entityData.getFloat("damageInflicted"));
         tower.setEnabled(true);
 
         Aimer aimer = tower.getAimer();
 
         if (aimer != null) {
-            aimer.setStrategy(TowerStrategy.valueOf(data.getStrategy()));
-            aimer.setLockTarget(data.isLockTarget());
+            aimer.setStrategy(TowerStrategy.valueOf(entityData.getString("strategy")));
+            aimer.setLockTarget(entityData.getBoolean("lockTarget"));
         }
 
         return tower;

@@ -58,14 +58,20 @@ public class GameState implements ScoreBoard.LivesListener, Persister {
     }
 
     @Override
+    public void resetState() {
+        setGameOver(false);
+        mGameStarted = false;
+    }
+
+    @Override
     public void writeState(ch.logixisland.anuto.data.state.GameState gameState) {
 
     }
 
     @Override
     public void readState(ch.logixisland.anuto.data.state.GameState gameState) {
-        setGameOver(gameState.getLives() < 0);
-        mGameStarted = gameState.getWaveNumber() > 0;
+        setGameOver(gameState.getInt("lives") < 0);
+        mGameStarted = gameState.getInt("waveNumber") > 0;
     }
 
     private void setGameOver(boolean gameOver) {

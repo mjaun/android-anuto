@@ -33,12 +33,17 @@ public class EntityRegistry implements Persister {
     }
 
     @Override
+    public void resetState() {
+        mNextEntityId = 0;
+    }
+
+    @Override
     public void writeState(GameState gameState) {
-        gameState.setNextEntityId(mNextEntityId);
+        gameState.putInt("nextEntityId", mNextEntityId);
     }
 
     @Override
     public void readState(GameState gameState) {
-        mNextEntityId = gameState.getNextEntityId();
+        mNextEntityId = gameState.getInt("nextEntityId");
     }
 }

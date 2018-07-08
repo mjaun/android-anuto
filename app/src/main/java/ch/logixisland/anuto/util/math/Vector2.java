@@ -1,8 +1,5 @@
 package ch.logixisland.anuto.util.math;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Vector2 {
 
     public static Vector2 polar(float length, float angle) {
@@ -14,31 +11,6 @@ public class Vector2 {
 
     private float x;
     private float y;
-
-    public static String serializeList(List<Vector2> vectors) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < vectors.size(); i++) {
-            if (i > 0) {
-                builder.append(";");
-            }
-            builder.append(vectors.get(i).toString());
-        }
-        return builder.toString();
-    }
-
-    public static List<Vector2> deserializeList(String string) {
-        String[] parts = string.split(";");
-        List<Vector2> result = new ArrayList<>();
-        for (String part : parts) {
-            result.add(Vector2.parseVector(part));
-        }
-        return result;
-    }
-
-    public static Vector2 parseVector(String string) {
-        String[] parts = string.split(",");
-        return new Vector2(Float.parseFloat(parts[0]), Float.parseFloat(parts[1]));
-    }
 
     public Vector2() {
         this.x = 0f;

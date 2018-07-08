@@ -9,8 +9,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.business.tower.TowerAging;
 import ch.logixisland.anuto.data.setting.GameSettings;
-import ch.logixisland.anuto.data.state.ActiveWaveData;
 import ch.logixisland.anuto.data.state.GameState;
+import ch.logixisland.anuto.data.state.KeyValueStore;
 import ch.logixisland.anuto.data.wave.WaveInfo;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
@@ -122,18 +122,24 @@ public class WaveManager implements Persister {
     }
 
     @Override
+    public void resetState() {
+        setWaveNumber(0);
+        mActiveWaves.clear();
+        setNextWaveReady(true);
+    }
+
+    @Override
     public void writeState(GameState gameState) {
-        gameState.setWaveNumber(mWaveNumber);
+        gameState.putInt("waveNumber", mWaveNumber);
 
         for (WaveAttender waveAttender : mActiveWaves) {
-            ActiveWaveData data = waveAttender.writeActiveWaveData();
-            gameState.addActiveWaveData(data);
+            gameState.appendStore("activeWaves", waveAttender.writeActiveWaveData());
         }
     }
 
     @Override
     public void readState(GameState gameState) {
-        setWaveNumber(gameState.getWaveNumber());
+        setWaveNumber(gameState.getInt("waveNumber"));
         initializeActiveWaves(gameState);
         initializeNextWaveReady(gameState);
         updateRemainingEnemiesCount();
@@ -143,9 +149,9 @@ public class WaveManager implements Persister {
         mActiveWaves.clear();
         List<WaveInfo> waveInfos = mGameEngine.getGameConfiguration().getWaveInfos();
 
-        for (ActiveWaveData activeWaveData : gameState.getActiveWaveData()) {
-            WaveInfo waveInfo = waveInfos.get(activeWaveData.getWaveNumber() % waveInfos.size());
-            WaveAttender waveAttender = new WaveAttender(mGameEngine, mScoreBoard, mEntityRegistry, this, waveInfo, activeWaveData.getWaveNumber());
+        for (KeyValueStore activeWaveData : gameState.getStoreList("activeWaves")) {
+            WaveInfo waveInfo = waveInfos.get(activeWaveData.getInt("waveNumber") % waveInfos.size());
+            WaveAttender waveAttender = new WaveAttender(mGameEngine, mScoreBoard, mEntityRegistry, this, waveInfo, activeWaveData.getInt("waveNumber"));
             waveAttender.readActiveWaveData(activeWaveData);
             waveAttender.start();
             mActiveWaves.add(waveAttender);
@@ -156,8 +162,8 @@ public class WaveManager implements Persister {
         int minWaveDelayTicks = Math.round(MIN_WAVE_DELAY * GameEngine.TARGET_FRAME_RATE);
         int lastStartedWaveTickCount = -minWaveDelayTicks;
 
-        for (ActiveWaveData activeWaveData : gameState.getActiveWaveData()) {
-            lastStartedWaveTickCount = Math.max(lastStartedWaveTickCount, activeWaveData.getWaveStartTickCount());
+        for (KeyValueStore activeWaveData : gameState.getStoreList("activeWaves")) {
+            lastStartedWaveTickCount = Math.max(lastStartedWaveTickCount, activeWaveData.getInt("waveStartTickCount"));
         }
 
         int nextWaveReadyTicks = minWaveDelayTicks - (mGameEngine.getTickCount() - lastStartedWaveTickCount);

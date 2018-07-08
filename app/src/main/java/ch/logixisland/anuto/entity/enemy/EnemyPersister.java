@@ -1,7 +1,6 @@
 package ch.logixisland.anuto.entity.enemy;
 
-import ch.logixisland.anuto.data.state.EnemyData;
-import ch.logixisland.anuto.data.state.EntityData;
+import ch.logixisland.anuto.data.state.KeyValueStore;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
@@ -14,34 +13,28 @@ public class EnemyPersister extends EntityPersister {
     }
 
     @Override
-    protected EnemyData createEntityData() {
-        return new EnemyData();
-    }
-
-    @Override
-    protected EnemyData writeEntityData(Entity entity) {
+    protected KeyValueStore writeEntityData(Entity entity) {
         Enemy enemy = (Enemy) entity;
-        EnemyData data = (EnemyData) super.writeEntityData(entity);
+        KeyValueStore data = super.writeEntityData(entity);
 
-        data.setHealth(enemy.getHealth());
-        data.setMaxHealth(enemy.getMaxHealth());
-        data.setWayPoints(enemy.getWayPoints());
-        data.setWayPointIndex(enemy.getWayPointIndex());
-        data.setWaveNumber(enemy.getWaveNumber());
-        data.setReward(enemy.getReward());
+        data.putFloat("health", enemy.getHealth());
+        data.putFloat("maxHealth", enemy.getMaxHealth());
+        data.putVectorList("wayPoints", enemy.getWayPoints());
+        data.putInt("wayPointIndex", enemy.getWayPointIndex());
+        data.putInt("waveNumber", enemy.getWaveNumber());
+        data.putInt("reward", enemy.getReward());
 
         return data;
     }
 
     @Override
-    protected Enemy readEntityData(EntityData entityData) {
+    protected Enemy readEntityData(KeyValueStore entityData) {
         Enemy enemy = (Enemy) super.readEntityData(entityData);
-        EnemyData data = (EnemyData) entityData;
 
-        enemy.setHealth(data.getHealth(), data.getMaxHealth());
-        enemy.setReward(data.getReward());
-        enemy.setWaveNumber(data.getWaveNumber());
-        enemy.setupPath(data.getWayPoints(), data.getWayPointIndex());
+        enemy.setHealth(entityData.getFloat("health"), entityData.getFloat("maxHealth"));
+        enemy.setReward(entityData.getInt("reward"));
+        enemy.setWaveNumber(entityData.getInt("waveNumber"));
+        enemy.setupPath(entityData.getVectorList("wayPoints"), entityData.getInt("wayPointIndex"));
 
         return enemy;
     }

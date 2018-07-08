@@ -13,6 +13,12 @@ public class GamePersister {
         mPersisterList.add(persister);
     }
 
+    public void resetState() {
+        for (Persister persister : mPersisterList) {
+            persister.resetState();
+        }
+    }
+
     public void readState(GameState gameState) {
         for (Persister persister : mPersisterList) {
             persister.readState(gameState);
@@ -24,5 +30,4 @@ public class GamePersister {
             persister.writeState(gameState);
         }
     }
-
 }
