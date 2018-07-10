@@ -13,15 +13,15 @@ public class GamePersister {
         mPersisterList.add(persister);
     }
 
-    public void resetState() {
+    public void resetState(KeyValueStore gameConfig) {
         for (Persister persister : mPersisterList) {
-            persister.resetState();
+            persister.resetState(gameConfig);
         }
     }
 
-    public void readState(KeyValueStore gameState) {
+    public void readState(KeyValueStore gameConfig, KeyValueStore gameState) {
         for (Persister persister : mPersisterList) {
-            persister.readState(gameState);
+            persister.readState(gameConfig, gameState);
         }
     }
 

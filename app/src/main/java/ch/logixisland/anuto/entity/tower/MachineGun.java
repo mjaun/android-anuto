@@ -30,15 +30,15 @@ public class MachineGun extends Tower implements SpriteTransformation {
     private final static float SHOT_SPAWN_OFFSET = 0.7f;
     private final static float MG_ROTATION_SPEED = 2f;
 
-    public static class Factory implements EntityFactory {
+    public static class Factory extends EntityFactory {
         @Override
         public String getEntityName() {
             return ENTITY_NAME;
         }
 
         @Override
-        public Entity create(GameEngine gameEngine, KeyValueStore entitySettings) {
-            return new MachineGun(gameEngine, entitySettings);
+        public Entity create(GameEngine gameEngine) {
+            return new MachineGun(gameEngine, getEntitySettings());
         }
     }
 

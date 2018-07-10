@@ -29,15 +29,15 @@ public class Healer extends Enemy implements SpriteTransformation {
     private final static float HEAL_SCALE_FACTOR = 2f;
     private final static float HEAL_ROTATION = 2.5f;
 
-    public static class Factory implements EntityFactory {
+    public static class Factory extends EntityFactory {
         @Override
         public String getEntityName() {
             return ENTITY_NAME;
         }
 
         @Override
-        public Entity create(GameEngine gameEngine, KeyValueStore entitySettings) {
-            return new Healer(gameEngine, entitySettings);
+        public Entity create(GameEngine gameEngine) {
+            return new Healer(gameEngine, getEntitySettings());
         }
     }
 

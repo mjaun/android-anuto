@@ -27,25 +27,28 @@ public class EntityRegistry implements Persister {
     }
 
     public Entity createEntity(String name, int id) {
-        KeyValueStore entitySettings = mGameEngine.getGameConfiguration().getGameSettings().getStore("entitySettings");
-        entitySettings = entitySettings.hasKey(name) ? entitySettings.getStore(name) : null;
-        Entity entity = mEntityFactories.get(name).create(mGameEngine, entitySettings);
+        Entity entity = mEntityFactories.get(name).create(mGameEngine);
         entity.setEntityId(id);
         return entity;
     }
 
     @Override
-    public void resetState() {
+    public void resetState(KeyValueStore gameConfig) {
         mNextEntityId = 0;
+
+        for (EntityFactory entityFactory : mEntityFactories.values()) {
+            entityFactory.setGameConfig(gameConfig);
+        }
+    }
+
+    @Override
+    public void readState(KeyValueStore gameConfig, KeyValueStore gameState) {
+        resetState(gameConfig);
+        mNextEntityId = gameState.getInt("nextEntityId");
     }
 
     @Override
     public void writeState(KeyValueStore gameState) {
         gameState.putInt("nextEntityId", mNextEntityId);
-    }
-
-    @Override
-    public void readState(KeyValueStore gameState) {
-        mNextEntityId = gameState.getInt("nextEntityId");
     }
 }

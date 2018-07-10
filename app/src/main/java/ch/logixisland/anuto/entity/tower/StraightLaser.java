@@ -27,15 +27,15 @@ public class StraightLaser extends Tower implements SpriteTransformation {
     private final static float LASER_SPAWN_OFFSET = 0.8f;
     private final static float LASER_LENGTH = 100f;
 
-    public static class Factory implements EntityFactory {
+    public static class Factory extends EntityFactory {
         @Override
         public String getEntityName() {
             return ENTITY_NAME;
         }
 
         @Override
-        public Entity create(GameEngine gameEngine, KeyValueStore entitySettings) {
-            return new StraightLaser(gameEngine, entitySettings);
+        public Entity create(GameEngine gameEngine) {
+            return new StraightLaser(gameEngine, getEntitySettings());
         }
     }
 

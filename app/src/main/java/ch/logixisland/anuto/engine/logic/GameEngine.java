@@ -28,8 +28,6 @@ public class GameEngine {
     private final Renderer mRenderer;
     private final GameLoop mGameLoop;
 
-    private GameConfiguration mGameConfiguration;
-
     public GameEngine(SpriteFactory spriteFactory, ThemeManager themeManager,
                       SoundFactory soundFactory, EntityStore entityStore, MessageQueue messageQueue,
                       Renderer renderer, GameLoop gameLoop) {
@@ -135,14 +133,6 @@ public class GameEngine {
 
     public boolean isPositionVisible(Vector2 position) {
         return mRenderer.isPositionVisible(position);
-    }
-
-    public GameConfiguration getGameConfiguration() {
-        return mGameConfiguration;
-    }
-
-    public void setGameConfiguration(GameConfiguration gameConfiguration) {
-        mGameConfiguration = gameConfiguration;
     }
 
     public void registerErrorListener(ErrorListener listener) {

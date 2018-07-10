@@ -11,6 +11,8 @@ import ch.logixisland.anuto.business.tower.TowerAging;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.loop.Message;
+import ch.logixisland.anuto.engine.logic.map.GameMap;
+import ch.logixisland.anuto.engine.logic.map.MapPath;
 import ch.logixisland.anuto.engine.logic.persistence.Persister;
 import ch.logixisland.anuto.util.container.KeyValueStore;
 
@@ -36,13 +38,24 @@ public class WaveManager implements Persister {
     private final ch.logixisland.anuto.business.game.GameState mGameState;
     private final TowerAging mTowerAging;
     private final EntityRegistry mEntityRegistry;
-
     private final EnemyDefaultHealth mEnemyDefaultHealth;
 
     private int mWaveNumber;
     private int mRemainingEnemiesCount;
     private boolean mNextWaveReady;
     private boolean mMinWaveDelayTimeout;
+
+    private float mDifficultyLinear;
+    private float mDifficultyModifier;
+    private float mMinHealthModifier;
+    private float mMinRewardModifier;
+    private float mRewardModifier;
+    private float mDifficultyExponent;
+    private float mRewardExponent;
+    private float mEarlyModifier;
+    private float mEarlyExponent;
+
+    private List<MapPath> mPaths;
 
     private final List<WaveInfo> mWaveInfos = new ArrayList<>();
     private final List<WaveAttender> mActiveWaves = new ArrayList<>();
@@ -120,8 +133,9 @@ public class WaveManager implements Persister {
     }
 
     @Override
-    public void resetState() {
-        initializeWaveInfos();
+    public void resetState(KeyValueStore gameConfig) {
+        initializeConfig(gameConfig);
+        initializeWaveInfos(gameConfig);
         setWaveNumber(0);
         mActiveWaves.clear();
         setNextWaveReady(true);
@@ -137,18 +151,32 @@ public class WaveManager implements Persister {
     }
 
     @Override
-    public void readState(KeyValueStore gameState) {
-        initializeWaveInfos();
-        setWaveNumber(gameState.getInt("waveNumber"));
+    public void readState(KeyValueStore gameConfig, KeyValueStore gameState) {
+        initializeConfig(gameConfig);
+        initializeWaveInfos(gameConfig);
         initializeActiveWaves(gameState);
         initializeNextWaveReady(gameState);
+        setWaveNumber(gameState.getInt("waveNumber"));
         updateRemainingEnemiesCount();
     }
 
-    private void initializeWaveInfos() {
+    private void initializeConfig(KeyValueStore gameConfig) {
+        mDifficultyLinear = gameConfig.getFloat("difficultyLinear");
+        mDifficultyModifier = gameConfig.getFloat("difficultyModifier");
+        mDifficultyExponent = gameConfig.getFloat("difficultyExponent");
+        mMinHealthModifier = gameConfig.getFloat("minHealthModifier");
+        mRewardModifier = gameConfig.getFloat("rewardModifier");
+        mRewardExponent = gameConfig.getFloat("rewardExponent");
+        mMinRewardModifier = gameConfig.getFloat("minRewardModifier");
+        mEarlyModifier = gameConfig.getFloat("earlyModifier");
+        mEarlyExponent = gameConfig.getFloat("earlyExponent");
+        mPaths = new GameMap(gameConfig).getPaths();
+    }
+
+    private void initializeWaveInfos(KeyValueStore gameConfig) {
         mWaveInfos.clear();
 
-        for (KeyValueStore data : mGameEngine.getGameConfiguration().getWaveInfos().getStoreList("waves")) {
+        for (KeyValueStore data : gameConfig.getStoreList("waves")) {
             mWaveInfos.add(new WaveInfo(data));
         }
     }
@@ -158,7 +186,7 @@ public class WaveManager implements Persister {
 
         for (KeyValueStore activeWaveData : gameState.getStoreList("activeWaves")) {
             WaveInfo waveInfo = mWaveInfos.get(activeWaveData.getInt("waveNumber") % mWaveInfos.size());
-            WaveAttender waveAttender = new WaveAttender(mGameEngine, mScoreBoard, mEntityRegistry, this, waveInfo, activeWaveData.getInt("waveNumber"));
+            WaveAttender waveAttender = new WaveAttender(mGameEngine, mScoreBoard, mEntityRegistry, this, waveInfo, mPaths, activeWaveData.getInt("waveNumber"));
             waveAttender.readActiveWaveData(activeWaveData);
             waveAttender.start();
             mActiveWaves.add(waveAttender);
@@ -270,7 +298,7 @@ public class WaveManager implements Persister {
 
     private void createAndStartWaveAttender() {
         WaveInfo nextWaveInfo = mWaveInfos.get(mWaveNumber % mWaveInfos.size());
-        WaveAttender nextWave = new WaveAttender(mGameEngine, mScoreBoard, mEntityRegistry, this, nextWaveInfo, mWaveNumber);
+        WaveAttender nextWave = new WaveAttender(mGameEngine, mScoreBoard, mEntityRegistry, this, nextWaveInfo, mPaths, mWaveNumber);
         updateWaveExtend(nextWave, nextWaveInfo);
         updateWaveModifiers(nextWave);
         nextWave.start();
@@ -283,16 +311,14 @@ public class WaveManager implements Persister {
     }
 
     private void updateWaveModifiers(WaveAttender wave) {
-        KeyValueStore settings = mGameEngine.getGameConfiguration().getGameSettings();
-
         float waveHealth = wave.getWaveDefaultHealth(this.mEnemyDefaultHealth);
-        float damagePossible = settings.getFloat("difficultyLinear") * mScoreBoard.getCreditsEarned()
-                + settings.getFloat("difficultyModifier") * (float) Math.pow(mScoreBoard.getCreditsEarned(), settings.getFloat("difficultyExponent"));
+        float damagePossible = mDifficultyLinear * mScoreBoard.getCreditsEarned()
+                + mDifficultyModifier * (float) Math.pow(mScoreBoard.getCreditsEarned(), mDifficultyExponent);
         float healthModifier = damagePossible / waveHealth;
-        healthModifier = Math.max(healthModifier, settings.getFloat("minHealthModifier"));
+        healthModifier = Math.max(healthModifier, mMinHealthModifier);
 
-        float rewardModifier = settings.getFloat("rewardModifier") * (float) Math.pow(healthModifier, settings.getFloat("rewardExponent"));
-        rewardModifier = Math.max(rewardModifier, settings.getFloat("minRewardModifier"));
+        float rewardModifier = mRewardModifier * (float) Math.pow(healthModifier, mRewardExponent);
+        rewardModifier = Math.max(rewardModifier, mMinRewardModifier);
 
         wave.modifyEnemyHealth(healthModifier);
         wave.modifyEnemyReward(rewardModifier);
@@ -317,8 +343,7 @@ public class WaveManager implements Persister {
             remainingReward += wave.getRemainingEnemiesReward();
         }
 
-        KeyValueStore settings = mGameEngine.getGameConfiguration().getGameSettings();
-        return Math.round(settings.getFloat("earlyModifier") * (float) Math.pow(remainingReward, settings.getFloat("earlyExponent")));
+        return Math.round(mEarlyModifier * (float) Math.pow(remainingReward, mEarlyExponent));
     }
 
     private WaveAttender getCurrentWave() {

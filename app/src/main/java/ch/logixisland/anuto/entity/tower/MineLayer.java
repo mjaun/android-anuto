@@ -32,16 +32,16 @@ public class MineLayer extends Tower implements SpriteTransformation {
     private final static String ENTITY_NAME = "mineLayer";
     private final static float ANIMATION_DURATION = 1f;
 
-    public static class Factory implements EntityFactory {
+    public static class Factory extends EntityFactory {
         @Override
         public String getEntityName() {
             return ENTITY_NAME;
         }
 
         @Override
-        public Entity create(GameEngine gameEngine, KeyValueStore entitySettings) {
-            GameMap map = gameEngine.getGameConfiguration().getGameMap();
-            return new MineLayer(gameEngine, entitySettings, map.getPaths());
+        public Entity create(GameEngine gameEngine) {
+            List<MapPath> paths = new GameMap(getGameConfig()).getPaths();
+            return new MineLayer(gameEngine, getEntitySettings(), paths);
         }
     }
 

@@ -27,15 +27,15 @@ public class RocketLauncher extends Tower implements SpriteTransformation {
     private final static String ENTITY_NAME = "rocketLauncher";
     private final static float ROCKET_LOAD_TIME = 1.0f;
 
-    public static class Factory implements EntityFactory {
+    public static class Factory extends EntityFactory {
         @Override
         public String getEntityName() {
             return ENTITY_NAME;
         }
 
         @Override
-        public Entity create(GameEngine gameEngine, KeyValueStore entitySettings) {
-            return new RocketLauncher(gameEngine, entitySettings);
+        public Entity create(GameEngine gameEngine) {
+            return new RocketLauncher(gameEngine, getEntitySettings());
         }
     }
 

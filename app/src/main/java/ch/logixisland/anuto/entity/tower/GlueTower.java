@@ -36,16 +36,16 @@ public class GlueTower extends Tower implements SpriteTransformation {
     private final static float CANON_OFFSET_MAX = 0.5f;
     private final static float CANON_OFFSET_STEP = CANON_OFFSET_MAX / GameEngine.TARGET_FRAME_RATE / 0.8f;
 
-    public static class Factory implements EntityFactory {
+    public static class Factory extends EntityFactory {
         @Override
         public String getEntityName() {
             return ENTITY_NAME;
         }
 
         @Override
-        public Entity create(GameEngine gameEngine, KeyValueStore entitySettings) {
-            GameMap map = gameEngine.getGameConfiguration().getGameMap();
-            return new GlueTower(gameEngine, entitySettings, map.getPaths());
+        public Entity create(GameEngine gameEngine) {
+            List<MapPath> paths = new GameMap(getGameConfig()).getPaths();
+            return new GlueTower(gameEngine, getEntitySettings(), paths);
         }
     }
 

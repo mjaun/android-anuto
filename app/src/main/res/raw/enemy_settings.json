@@ -4,7 +4,10 @@
     "speed": 1.0,
     "reward": 10,
     "weakAgainst": [],
-    "strongAgainst": []
+    "strongAgainst": [],
+    "weakAgainstModifier": 2.0,
+    "strongAgainstModifier": 0.5,
+    "minSpeedModifier": 0.01
   },
   "blob": {
     "health": 600,
@@ -15,7 +18,10 @@
     ],
     "strongAgainst": [
       "Bullet"
-    ]
+    ],
+    "weakAgainstModifier": 2.0,
+    "strongAgainstModifier": 0.5,
+    "minSpeedModifier": 0.01
   },
   "sprinter": {
     "health": 200,
@@ -26,7 +32,10 @@
     ],
     "strongAgainst": [
       "Laser"
-    ]
+    ],
+    "weakAgainstModifier": 2.0,
+    "strongAgainstModifier": 0.5,
+    "minSpeedModifier": 0.01
   },
   "healer": {
     "health": 400,
@@ -39,7 +48,10 @@
     "weakAgainst": [
       "Laser",
       "Bullet"
-    ]
+    ],
+    "weakAgainstModifier": 2.0,
+    "strongAgainstModifier": 0.5,
+    "minSpeedModifier": 0.01
   },
   "flyer": {
     "health": 400,
@@ -48,6 +60,9 @@
     "weakAgainst": [
       "Laser",
       "Bullet"
-    ]
+    ],
+    "weakAgainstModifier": 2.0,
+    "strongAgainstModifier": 0.5,
+    "minSpeedModifier": 0.01
   }
 }

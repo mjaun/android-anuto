@@ -20,15 +20,15 @@ public class Soldier extends Enemy implements SpriteTransformation {
     private final static String ENTITY_NAME = "soldier";
     private final static float ANIMATION_SPEED = 1f;
 
-    public static class Factory implements EntityFactory {
+    public static class Factory extends EntityFactory {
         @Override
         public String getEntityName() {
             return ENTITY_NAME;
         }
 
         @Override
-        public Entity create(GameEngine gameEngine, KeyValueStore entitySettings) {
-            return new Soldier(gameEngine, entitySettings);
+        public Entity create(GameEngine gameEngine) {
+            return new Soldier(gameEngine, getEntitySettings());
         }
     }
 

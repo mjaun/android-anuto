@@ -246,10 +246,10 @@ public class KeyValueStore {
 
             if (jsonArray == null) {
                 jsonArray = new JSONArray();
+                mJsonObject.put(key, jsonArray);
             }
 
             jsonArray.put(store.mJsonObject);
-            mJsonObject.put(key, jsonArray);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
@@ -275,16 +275,38 @@ public class KeyValueStore {
     }
 
     public void extend(KeyValueStore other) {
-        Iterator<String> it = other.mJsonObject.keys();
-
         try {
-            while (it.hasNext()) {
-                String key = it.next();
-                mJsonObject.put(key, other.mJsonObject.get(key));
-            }
+            extendObject(mJsonObject, other.mJsonObject);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
     }
 
+    private static void extendObject(JSONObject object, JSONObject other) throws JSONException {
+        Iterator<String> it = other.keys();
+        while (it.hasNext()) {
+            String key = it.next();
+
+            Object objectValue = object.opt(key);
+            Object otherValue = other.get(key);
+
+            if (objectValue instanceof JSONObject && otherValue instanceof JSONObject) {
+                extendObject((JSONObject) objectValue, (JSONObject) otherValue);
+                continue;
+            }
+
+            if (objectValue instanceof JSONArray && otherValue instanceof JSONArray) {
+                extendArray((JSONArray) objectValue, (JSONArray) otherValue);
+                continue;
+            }
+
+            object.put(key, otherValue);
+        }
+    }
+
+    private static void extendArray(JSONArray array, JSONArray other) throws JSONException {
+        for (int i = 0; i < other.length(); i++) {
+            array.put(other.get(i));
+        }
+    }
 }

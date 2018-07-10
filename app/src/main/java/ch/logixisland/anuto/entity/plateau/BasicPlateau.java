@@ -13,15 +13,14 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.util.RandomUtils;
-import ch.logixisland.anuto.util.container.KeyValueStore;
 
 public class BasicPlateau extends Plateau implements SpriteTransformation {
 
     private final static String ENTITY_NAME = "basic";
 
-    public static class Factory implements EntityFactory {
+    public static class Factory extends EntityFactory {
         @Override
-        public Entity create(GameEngine gameEngine, KeyValueStore entitySettings) {
+        public Entity create(GameEngine gameEngine) {
             return new BasicPlateau(gameEngine);
         }
 

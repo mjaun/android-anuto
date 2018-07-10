@@ -22,13 +22,13 @@ class MapThumbGenerator {
 
     Bitmap generateThumb(Resources resources, int mapResId) {
         try {
-            return generateThumb(new GameMap(null, KeyValueStore.fromResources(resources, mapResId)));
+            return generateThumb(new GameMap(KeyValueStore.fromResources(resources, mapResId)));
         } catch (Exception e) {
             return null;
         }
     }
 
-    Bitmap generateThumb(GameMap map) {
+    private Bitmap generateThumb(GameMap map) {
         Bitmap bitmap = Bitmap.createBitmap(
                 map.getWidth() * PIXELS_PER_SQUARE,
                 map.getHeight() * PIXELS_PER_SQUARE, Bitmap.Config.ARGB_8888);

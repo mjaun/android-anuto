@@ -20,15 +20,15 @@ public class Flyer extends Enemy implements SpriteTransformation {
     private final static String ENTITY_NAME = "flyer";
     private final static float ANIMATION_SPEED = 1.0f;
 
-    public static class Factory implements EntityFactory {
+    public static class Factory extends EntityFactory {
         @Override
         public String getEntityName() {
             return ENTITY_NAME;
         }
 
         @Override
-        public Entity create(GameEngine gameEngine, KeyValueStore entitySettings) {
-            return new Flyer(gameEngine, entitySettings);
+        public Entity create(GameEngine gameEngine) {
+            return new Flyer(gameEngine, getEntitySettings());
         }
     }
 

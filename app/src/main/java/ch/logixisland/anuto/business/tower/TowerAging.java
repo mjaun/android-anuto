@@ -4,12 +4,16 @@ import java.util.Iterator;
 
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.loop.Message;
+import ch.logixisland.anuto.engine.logic.persistence.Persister;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.tower.Tower;
+import ch.logixisland.anuto.util.container.KeyValueStore;
 
-public class TowerAging {
+public class TowerAging implements Persister {
 
     private final GameEngine mGameEngine;
+
+    private float mAgeModifier;
 
     public TowerAging(GameEngine gameEngine) {
         mGameEngine = gameEngine;
@@ -48,7 +52,22 @@ public class TowerAging {
         }
 
         int value = tower.getValue();
-        value = Math.round(value * mGameEngine.getGameConfiguration().getGameSettings().getFloat("ageModifier"));
+        value = Math.round(value * mAgeModifier);
         tower.setValue(value);
+    }
+
+    @Override
+    public void resetState(KeyValueStore gameConfig) {
+        mAgeModifier = gameConfig.getFloat("ageModifier");
+    }
+
+    @Override
+    public void readState(KeyValueStore gameConfig, KeyValueStore gameState) {
+        resetState(gameConfig);
+    }
+
+    @Override
+    public void writeState(KeyValueStore gameState) {
+
     }
 }

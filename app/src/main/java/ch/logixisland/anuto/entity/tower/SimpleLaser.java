@@ -27,15 +27,15 @@ public class SimpleLaser extends Tower implements SpriteTransformation {
     private final static String ENTITY_NAME = "simpleLaser";
     private final static float LASER_SPAWN_OFFSET = 0.7f;
 
-    public static class Factory implements EntityFactory {
+    public static class Factory extends EntityFactory {
         @Override
         public String getEntityName() {
             return ENTITY_NAME;
         }
 
         @Override
-        public Entity create(GameEngine gameEngine, KeyValueStore entitySettings) {
-            return new SimpleLaser(gameEngine, entitySettings);
+        public Entity create(GameEngine gameEngine) {
+            return new SimpleLaser(gameEngine, getEntitySettings());
         }
     }
 

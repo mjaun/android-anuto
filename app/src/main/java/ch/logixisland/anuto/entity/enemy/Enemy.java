@@ -17,8 +17,6 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public abstract class Enemy extends Entity {
 
-    private int mWaveNumber;
-
     public static Predicate<Enemy> enabled() {
         return new Predicate<Enemy>() {
             @Override
@@ -46,14 +44,18 @@ public abstract class Enemy extends Entity {
         };
     }
 
-    private final KeyValueStore mGameSettings;
-    private final KeyValueStore mEnemySettings;
-
+    private int mWaveNumber;
     private boolean mEnabled;
     private int mReward;
     private float mHealth;
     private float mMaxHealth;
+    private float mSpeed;
+    private Collection<WeaponType> mWeakAgainst;
+    private Collection<WeaponType> mStrongAgainst;
     private float mSpeedModifier;
+    private float mMinSpeedModifier;
+    private float mWeakAgainstModifier;
+    private float mStrongAgainstModifier;
     private List<Vector2> mWayPoints;
     private int mWayPointIndex;
 
@@ -64,15 +66,27 @@ public abstract class Enemy extends Entity {
     Enemy(GameEngine gameEngine, KeyValueStore enemySettings) {
         super(gameEngine);
 
-        mGameSettings = gameEngine.getGameConfiguration().getGameSettings();
-        mEnemySettings = enemySettings;
-
         mEnabled = true;
         mSpeedModifier = 1f;
 
         mReward = enemySettings.getInt("reward");
         mHealth = enemySettings.getFloat("health");
         mMaxHealth = enemySettings.getFloat("health");
+        mSpeed = enemySettings.getFloat("speed");
+        mMinSpeedModifier = enemySettings.getFloat("minSpeedModifier");
+        mWeakAgainstModifier = enemySettings.getFloat("weakAgainstModifier");
+        mStrongAgainstModifier = enemySettings.getFloat("strongAgainstModifier");
+        mWeakAgainst = new ArrayList<>();
+        mStrongAgainst = new ArrayList<>();
+
+        for (String name : enemySettings.getStringList("weakAgainst")) {
+            mWeakAgainst.add(WeaponType.valueOf(name));
+        }
+
+        for (String name : enemySettings.getStringList("strongAgainst")) {
+            mStrongAgainst.add(WeaponType.valueOf(name));
+        }
+
         mHealthBar = new HealthBar(getTheme(), this);
     }
 
@@ -174,11 +188,11 @@ public abstract class Enemy extends Entity {
     }
 
     public float getSpeed() {
-        return mEnemySettings.getFloat("speed") * mSpeedModifier;
+        return mSpeed * mSpeedModifier;
     }
 
     public void modifySpeed(float f) {
-        mSpeedModifier = Math.max(mGameSettings.getFloat("minSpeedModifier"), mSpeedModifier * f);
+        mSpeedModifier = Math.max(mMinSpeedModifier, mSpeedModifier * f);
     }
 
     private float getDistanceRemaining() {
@@ -260,12 +274,12 @@ public abstract class Enemy extends Entity {
         if (origin != null && origin instanceof Tower) {
             Tower originTower = (Tower) origin;
 
-            if (getWeakAgainst().contains(originTower.getWeaponType())) {
-                amount *= mGameSettings.getFloat("weakAgainstModifier");
+            if (mWeakAgainst.contains(originTower.getWeaponType())) {
+                amount *= mWeakAgainstModifier;
             }
 
-            if (getStrongAgainst().contains(originTower.getWeaponType())) {
-                amount *= mGameSettings.getFloat("strongAgainstModifier");
+            if (mStrongAgainst.contains(originTower.getWeaponType())) {
+                amount *= mStrongAgainstModifier;
             }
 
             originTower.reportDamageInflicted(amount);
@@ -280,26 +294,6 @@ public abstract class Enemy extends Entity {
 
             remove();
         }
-    }
-
-    private Collection<WeaponType> getWeakAgainst() {
-        Collection<WeaponType> weakAgainst = new ArrayList<>();
-
-        for (String name : mEnemySettings.getStringList("weakAgainst")) {
-            weakAgainst.add(WeaponType.valueOf(name));
-        }
-
-        return weakAgainst;
-    }
-
-    private Collection<WeaponType> getStrongAgainst() {
-        Collection<WeaponType> strongAgainst = new ArrayList<>();
-
-        for (String name : mEnemySettings.getStringList("strongAgainst")) {
-            strongAgainst.add(WeaponType.valueOf(name));
-        }
-
-        return strongAgainst;
     }
 
     public void modifyHealth(float f) {

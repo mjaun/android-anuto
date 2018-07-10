@@ -25,6 +25,7 @@ class WaveAttender implements EnemyListener {
     private final WaveManager mWaveManager;
     private final WaveInfo mWaveInfo;
 
+    private final List<MapPath> mPaths;
     private final Collection<Enemy> mRemainingEnemies = new ArrayList<>();
 
     private int mWaveNumber;
@@ -36,12 +37,13 @@ class WaveAttender implements EnemyListener {
     private float mEnemyRewardModifier;
 
     WaveAttender(GameEngine gameEngine, ScoreBoard scoreBoard, EntityRegistry entityRegistry,
-                 WaveManager waveManager, WaveInfo waveInfo, int waveNumber) {
+                 WaveManager waveManager, WaveInfo waveInfo, List<MapPath> paths, int waveNumber) {
         mGameEngine = gameEngine;
         mScoreBoard = scoreBoard;
         mEntityRegistry = entityRegistry;
         mWaveManager = waveManager;
         mWaveInfo = waveInfo;
+        mPaths = paths;
         mWaveNumber = waveNumber;
 
         mExtend = 1;
@@ -164,7 +166,7 @@ class WaveAttender implements EnemyListener {
     }
 
     private Enemy createAndConfigureEnemy(EnemyInfo info, float offset) {
-        MapPath path = mGameEngine.getGameConfiguration().getGameMap().getPaths().get(info.getPathIndex());
+        MapPath path = mPaths.get(info.getPathIndex());
         Enemy enemy = (Enemy) mEntityRegistry.createEntity(info.getName());
         enemy.setWaveNumber(mWaveNumber);
         enemy.modifyHealth(mEnemyHealthModifier);

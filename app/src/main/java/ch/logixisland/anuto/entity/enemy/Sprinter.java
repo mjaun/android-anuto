@@ -22,15 +22,15 @@ public class Sprinter extends Enemy implements SpriteTransformation {
     private final static String ENTITY_NAME = "sprinter";
     private final static float ANIMATION_SPEED = 0.7f;
 
-    public static class Factory implements EntityFactory {
+    public static class Factory extends EntityFactory {
         @Override
         public String getEntityName() {
             return ENTITY_NAME;
         }
 
         @Override
-        public Entity create(GameEngine gameEngine, KeyValueStore entitySettings) {
-            return new Sprinter(gameEngine, entitySettings);
+        public Entity create(GameEngine gameEngine) {
+            return new Sprinter(gameEngine, getEntitySettings());
         }
     }
 

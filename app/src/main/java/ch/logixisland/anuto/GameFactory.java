@@ -146,6 +146,8 @@ public class GameFactory {
         mGamePersister.registerPersister(mMessageQueue);
         mGamePersister.registerPersister(mGameState);
         mGamePersister.registerPersister(mScoreBoard);
+        mGamePersister.registerPersister(mTowerAging);
+        mGamePersister.registerPersister(mTowerInserter);
 
         mGamePersister.registerPersister(new BasicPlateau.Persister(mGameEngine, mEntityRegistry));
 

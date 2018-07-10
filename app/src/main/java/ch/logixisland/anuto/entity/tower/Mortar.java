@@ -29,15 +29,15 @@ public class Mortar extends Tower implements SpriteTransformation {
     private final static float SHOT_SPAWN_OFFSET = 0.6f;
     private final static float REBOUND_DURATION = 0.5f;
 
-    public static class Factory implements EntityFactory {
+    public static class Factory extends EntityFactory {
         @Override
         public String getEntityName() {
             return ENTITY_NAME;
         }
 
         @Override
-        public Entity create(GameEngine gameEngine, KeyValueStore entitySettings) {
-            return new Mortar(gameEngine, entitySettings);
+        public Entity create(GameEngine gameEngine) {
+            return new Mortar(gameEngine, getEntitySettings());
         }
     }
 
