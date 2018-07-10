@@ -1,11 +1,8 @@
 package ch.logixisland.anuto.engine.logic.map;
 
-import org.simpleframework.xml.Root;
-
 import ch.logixisland.anuto.util.container.KeyValueStore;
 import ch.logixisland.anuto.util.math.Vector2;
 
-@Root
 public class PlateauInfo {
 
     private final String mName;

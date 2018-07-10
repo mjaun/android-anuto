@@ -1,7 +1,5 @@
 package ch.logixisland.anuto.engine.logic.map;
 
-import org.simpleframework.xml.Root;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -9,7 +7,6 @@ import java.util.List;
 
 import ch.logixisland.anuto.util.container.KeyValueStore;
 
-@Root
 public class GameMap {
 
     private final int mWidth;

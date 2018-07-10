@@ -1,14 +1,11 @@
 package ch.logixisland.anuto.business.wave;
 
-import org.simpleframework.xml.Root;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import ch.logixisland.anuto.util.container.KeyValueStore;
 
-@Root
 public class WaveInfo {
 
     private final int mWaveReward;
