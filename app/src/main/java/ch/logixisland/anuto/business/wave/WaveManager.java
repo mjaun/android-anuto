@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.business.game.GameLoader;
+import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.business.tower.TowerAging;
 import ch.logixisland.anuto.engine.logic.GameEngine;
@@ -35,10 +37,11 @@ public class WaveManager implements Persister {
 
     private final GameEngine mGameEngine;
     private final ScoreBoard mScoreBoard;
-    private final ch.logixisland.anuto.business.game.GameState mGameState;
+    private final GameState mGameState;
     private final TowerAging mTowerAging;
     private final EntityRegistry mEntityRegistry;
     private final EnemyDefaultHealth mEnemyDefaultHealth;
+    private final GameLoader mGameLoader;
 
     private int mWaveNumber;
     private int mRemainingEnemiesCount;
@@ -62,13 +65,14 @@ public class WaveManager implements Persister {
     private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
     private final List<WaveStartedListener> mWaveStartedListeners = new CopyOnWriteArrayList<>();
 
-    public WaveManager(GameEngine gameEngine, ScoreBoard scoreBoard, ch.logixisland.anuto.business.game.GameState gameState,
-                       EntityRegistry entityRegistry, TowerAging towerAging) {
+    public WaveManager(GameEngine gameEngine, ScoreBoard scoreBoard, GameState gameState,
+                       EntityRegistry entityRegistry, TowerAging towerAging, GameLoader gameLoader) {
         mGameEngine = gameEngine;
         mScoreBoard = scoreBoard;
         mGameState = gameState;
         mTowerAging = towerAging;
         mEntityRegistry = entityRegistry;
+        mGameLoader = gameLoader;
 
         mEnemyDefaultHealth = new EnemyDefaultHealth(entityRegistry);
     }
@@ -110,6 +114,8 @@ public class WaveManager implements Persister {
         setWaveNumber(mWaveNumber + 1);
         setNextWaveReady(false);
         triggerMinWaveDelay();
+
+        mGameLoader.saveGame();
 
         for (WaveStartedListener listener : mWaveStartedListeners) {
             listener.waveStarted();
