@@ -115,6 +115,7 @@
     "enhanceBase": 1.2,
     "enhanceCost": 250,
     "enhanceDamage": 240,
+    "enhanceRange": 0,
     "enhanceReload": 0.05,
     "maxMineCount": 3,
     "enhanceMaxMineCount": 1,
@@ -178,6 +179,7 @@
     "maxLevel": 4,
     "enhanceBase": 1.2,
     "enhanceCost": 2000,
+    "enhanceRange": 0,
     "enhanceReload": 0.5,
     "teleportDistance": 15,
     "enhanceTeleportDistance": 6

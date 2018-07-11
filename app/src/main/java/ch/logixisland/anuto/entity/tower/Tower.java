@@ -160,15 +160,15 @@ public abstract class Tower extends Entity {
     }
 
     public boolean isUpgradeable() {
-        return mSettings.getString("upgrade") != null;
+        return mSettings.hasKey("upgrade");
     }
 
     public String getUpgradeName() {
-        return mSettings.getString("upgrade");
+        return isUpgradeable() ? mSettings.getString("upgrade") : null;
     }
 
     public int getUpgradeCost() {
-        return mSettings.getInt("upgradeCost");
+        return isUpgradeable() ? mSettings.getInt("upgradeCost") : 0;
     }
 
     public void enhance() {

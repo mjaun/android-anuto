@@ -49,6 +49,7 @@
       "Laser",
       "Bullet"
     ],
+    "strongAgainst": [],
     "weakAgainstModifier": 2.0,
     "strongAgainstModifier": 0.5,
     "minSpeedModifier": 0.01
@@ -61,6 +62,7 @@
       "Laser",
       "Bullet"
     ],
+    "strongAgainst": [],
     "weakAgainstModifier": 2.0,
     "strongAgainstModifier": 0.5,
     "minSpeedModifier": 0.01
