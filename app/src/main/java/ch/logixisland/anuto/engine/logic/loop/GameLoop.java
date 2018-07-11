@@ -108,12 +108,13 @@ public class GameLoop implements Runnable {
                 } else {
                     timeNextTick = System.currentTimeMillis(); // resync
                 }
+
+                loopCount++;
             }
 
             // process messages a last time (needed to save game just before loop stops)
             mMessageQueue.processMessages();
 
-            loopCount++;
         } catch (Exception e) {
             mRunning = false;
             notifyErrorListeners(loopCount, e);
