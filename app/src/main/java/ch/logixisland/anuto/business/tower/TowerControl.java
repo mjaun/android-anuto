@@ -43,15 +43,14 @@ public class TowerControl {
             return;
         }
 
-        Plateau plateau = selectedTower.getPlateau();
-        selectedTower.remove();
-
         Tower upgradedTower = (Tower) mEntityRegistry.createEntity(selectedTower.getUpgradeName());
-
         int upgradeCost = upgradedTower.getValue();
         if (upgradeCost > mScoreBoard.getCredits()) {
             return;
         }
+
+        Plateau plateau = selectedTower.getPlateau();
+        selectedTower.remove();
 
         mScoreBoard.takeCredits(upgradeCost);
 
