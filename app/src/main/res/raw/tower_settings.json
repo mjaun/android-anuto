@@ -11,6 +11,7 @@
     "enhanceDamage": 50,
     "enhanceRange": 0.1,
     "enhanceReload": 0.05,
+    "minReload": 0.05,
     "upgrade": "dualCanon",
     "upgradeCost": 1300
   },
@@ -26,6 +27,7 @@
     "enhanceDamage": 75,
     "enhanceRange": 0.1,
     "enhanceReload": 0.03,
+    "minReload": 0.05,
     "upgrade": "machineGun",
     "upgradeCost": 13600
   },
@@ -40,7 +42,8 @@
     "enhanceCost": 240,
     "enhanceDamage": 135,
     "enhanceRange": 0.1,
-    "enhanceReload": 0.01
+    "enhanceReload": 0.01,
+    "minReload": 0.05
   },
   "simpleLaser": {
     "value": 150,
@@ -54,6 +57,7 @@
     "enhanceDamage": 170,
     "enhanceRange": 0.1,
     "enhanceReload": 0.1,
+    "minReload": 2.0,
     "upgrade": "bouncingLaser",
     "upgradeCost": 1450
   },
@@ -69,6 +73,7 @@
     "enhanceDamage": 150,
     "enhanceRange": 0.1,
     "enhanceReload": 0.1,
+    "minReload": 2.0,
     "bounceCount": 2,
     "bounceDistance": 2.0,
     "upgrade": "straightLaser",
@@ -85,7 +90,8 @@
     "enhanceCost": 300,
     "enhanceDamage": 900,
     "enhanceRange": 0.2,
-    "enhanceReload": 0.1
+    "enhanceReload": 0.1,
+    "minReload": 2.0
   },
   "mortar": {
     "value": 250,
@@ -99,6 +105,7 @@
     "enhanceDamage": 85,
     "enhanceRange": 0.1,
     "enhanceReload": 0.05,
+    "minReload": 2.0,
     "inaccuracy": 1.0,
     "explosionRadius": 1.5,
     "enhanceExplosionRadius": 0.05,
@@ -117,6 +124,7 @@
     "enhanceDamage": 240,
     "enhanceRange": 0,
     "enhanceReload": 0.05,
+    "minReload": 2.0,
     "maxMineCount": 3,
     "enhanceMaxMineCount": 1,
     "explosionRadius": 2.0,
@@ -136,6 +144,7 @@
     "enhanceDamage": 2100,
     "enhanceRange": 0.2,
     "enhanceReload": 0.1,
+    "minReload": 2.0,
     "explosionRadius": 1.7,
     "enhanceExplosionRadius": 0.05
   },
@@ -147,8 +156,10 @@
     "maxLevel": 5,
     "enhanceBase": 1.2,
     "enhanceCost": 100,
+    "enhanceDamage": 0,
     "enhanceRange": 0.1,
     "enhanceReload": 0,
+    "minReload": 2.0,
     "glueIntensity": 1.2,
     "enhanceGlueIntensity": 0.2,
     "glueDuration": 1.5,
@@ -163,8 +174,10 @@
     "maxLevel": 5,
     "enhanceBase": 1.2,
     "enhanceCost": 200,
+    "enhanceDamage": 0,
     "enhanceRange": 0.2,
     "enhanceReload": 0,
+    "minReload": 2.0,
     "glueIntensity": 1.2,
     "enhanceGlueIntensity": 0.3,
     "glueDuration": 2.5,
@@ -179,8 +192,10 @@
     "maxLevel": 5,
     "enhanceBase": 1.2,
     "enhanceCost": 2000,
+    "enhanceDamage": 0,
     "enhanceRange": 0,
     "enhanceReload": 0.5,
+    "minReload": 2.0,
     "teleportDistance": 15,
     "enhanceTeleportDistance": 6
   }
