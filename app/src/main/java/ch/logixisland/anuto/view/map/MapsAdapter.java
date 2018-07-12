@@ -2,6 +2,7 @@ package ch.logixisland.anuto.view.map;
 
 import android.app.Activity;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,9 @@ import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
 import java.text.DecimalFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.game.HighScores;
@@ -19,6 +22,8 @@ import ch.logixisland.anuto.business.game.MapInfo;
 import ch.logixisland.anuto.business.game.MapRepository;
 
 class MapsAdapter extends BaseAdapter {
+
+    private static final Map<String, Bitmap> sThumbCache = new HashMap<>();
 
     private final WeakReference<Activity> mActivityRef;
     private final HighScores mHighScores;
@@ -83,8 +88,13 @@ class MapsAdapter extends BaseAdapter {
         String highScore = fmt.format(mHighScores.getHighScore(mapInfo.getMapId()));
         viewHolder.txt_highscore.setText(resources.getString(R.string.score) + ": " + highScore);
 
-        viewHolder.img_thumb.setImageBitmap(null);
-        new LoadThumbTask(resources, viewHolder.img_thumb, mapInfo.getMapDataResId()).execute();
+        if (!sThumbCache.containsKey(mapInfo.getMapId())) {
+            MapThumbGenerator generator = new MapThumbGenerator();
+            Bitmap thumb = generator.generateThumb(resources, mapInfo.getMapDataResId());
+            sThumbCache.put(mapInfo.getMapId(), thumb);
+        }
+
+        viewHolder.img_thumb.setImageBitmap(sThumbCache.get(mapInfo.getMapId()));
 
         return mapItemView;
     }
