@@ -28,7 +28,7 @@ public class MachineGun extends Tower implements SpriteTransformation {
 
     private final static String ENTITY_NAME = "machineGun";
     private final static float SHOT_SPAWN_OFFSET = 0.7f;
-    private final static float MG_ROTATION_SPEED = 2f;
+    private final static float MG_ROTATION_SPEED = 3f;
 
     public static class Factory extends EntityFactory {
         @Override
@@ -53,6 +53,7 @@ public class MachineGun extends Tower implements SpriteTransformation {
         SpriteTemplate mSpriteTemplateCanon;
     }
 
+    private float mBaseReloadTime;
     private float mAngle = 90f;
     private StaticSprite mSpriteBase;
     private AnimatedSprite mSpriteCanon;
@@ -71,6 +72,8 @@ public class MachineGun extends Tower implements SpriteTransformation {
         mSpriteCanon = getSpriteFactory().createAnimated(Layers.TOWER, s.mSpriteTemplateCanon);
         mSpriteCanon.setListener(this);
         mSpriteCanon.setSequenceForward();
+
+        mBaseReloadTime = getReloadTime();
         mSpriteCanon.setFrequency(MG_ROTATION_SPEED);
 
         mSound = getSoundFactory().createSound(R.raw.gun3_dit);
@@ -109,6 +112,12 @@ public class MachineGun extends Tower implements SpriteTransformation {
 
         getGameEngine().remove(mSpriteBase);
         getGameEngine().remove(mSpriteCanon);
+    }
+
+    @Override
+    public void enhance() {
+        super.enhance();
+        mSpriteCanon.setFrequency(MG_ROTATION_SPEED * mBaseReloadTime / getReloadTime());
     }
 
     @Override
