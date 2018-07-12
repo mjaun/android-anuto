@@ -49,10 +49,14 @@ public class TowerControl {
             return;
         }
 
+        mTowerSelector.showTowerInfo(upgradedTower);
+        mScoreBoard.takeCredits(upgradeCost);
         Plateau plateau = selectedTower.getPlateau();
         selectedTower.remove();
-
-        mScoreBoard.takeCredits(upgradeCost);
+        upgradedTower.setPlateau(plateau);
+        upgradedTower.setValue(selectedTower.getValue() + upgradeCost);
+        upgradedTower.setEnabled(true);
+        mGameEngine.add(upgradedTower);
 
         Aimer upgradedTowerAimer = upgradedTower.getAimer();
         Aimer selectedTowerAimer = selectedTower.getAimer();
@@ -60,12 +64,6 @@ public class TowerControl {
             upgradedTowerAimer.setLockTarget(selectedTowerAimer.doesLockTarget());
             upgradedTowerAimer.setStrategy(selectedTowerAimer.getStrategy());
         }
-
-        upgradedTower.setPlateau(plateau);
-        upgradedTower.setValue(selectedTower.getValue() + upgradeCost);
-        upgradedTower.setEnabled(true);
-        mGameEngine.add(upgradedTower);
-        mTowerSelector.showTowerInfo(upgradedTower);
     }
 
     public void enhanceTower() {
