@@ -65,7 +65,7 @@ public class ChangeMapActivity extends AnutoActivity implements AdapterView.OnIt
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        mGameLoader.loadMap(mMapRepository.getMapInfos().get(position));
+        mGameLoader.loadMap(mMapRepository.getMapInfos().get(position).getMapId());
         finish();
     }
 

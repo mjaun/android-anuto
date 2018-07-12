@@ -80,7 +80,7 @@ public class GameLoader implements ErrorListener {
             return;
         }
 
-        loadMap(mMapRepository.getMapById(mCurrentMapId));
+        loadMap(mCurrentMapId);
     }
 
     public void saveGame() {
@@ -131,7 +131,7 @@ public class GameLoader implements ErrorListener {
             inputStream.close();
         } catch (FileNotFoundException e) {
             Log.i(TAG, "No save game file found.");
-            loadMap(mMapRepository.getDefaultMapInfo());
+            loadMap(mMapRepository.getDefaultMapId());
             return;
         } catch (Exception e) {
             throw new RuntimeException("Could not load game!", e);
@@ -139,53 +139,33 @@ public class GameLoader implements ErrorListener {
 
         if (gameState.getInt("appVersion") != BuildConfig.VERSION_CODE) {
             Log.i(TAG, "App version mismatch.");
-            loadMap(mMapRepository.getDefaultMapInfo());
+            loadMap(mMapRepository.getDefaultMapId());
             return;
         }
 
-        Log.d(TAG, "Loading configuration...");
-        MapInfo mapInfo = mMapRepository.getMapById(gameState.getString("mapId"));
-        KeyValueStore gameConfig = createGameConfig(mapInfo);
-
-        Log.d(TAG, "Initializing...");
-        initializeGame(gameConfig);
-        mGamePersister.readState(gameConfig, gameState);
-        mCurrentMapId = mapInfo.getMapId();
-
-        for (Listener listener : mListeners) {
-            listener.gameLoaded();
-        }
-
-        Log.d(TAG, "Game loaded.");
+        mCurrentMapId = gameState.getString("mapId");
+        KeyValueStore gameConfig = createGameConfig(mCurrentMapId);
+        initializeGame(gameConfig, gameState);
     }
 
-    public void loadMap(final MapInfo mapInfo) {
+    public void loadMap(final String mapId) {
         if (mGameEngine.isThreadChangeNeeded()) {
             mGameEngine.post(new Message() {
                 @Override
                 public void execute() {
-                    loadMap(mapInfo);
+                    loadMap(mapId);
                 }
             });
             return;
         }
 
-        Log.d(TAG, "Loading configuration...");
-        KeyValueStore gameConfig = createGameConfig(mapInfo);
-
-        Log.d(TAG, "Initializing...");
-        initializeGame(gameConfig);
-        mGamePersister.resetState(gameConfig);
-        mCurrentMapId = mapInfo.getMapId();
-
-        for (Listener listener : mListeners) {
-            listener.gameLoaded();
-        }
-
-        Log.d(TAG, "Game loaded.");
+        mCurrentMapId = mapId;
+        KeyValueStore gameConfig = createGameConfig(mapId);
+        initializeGame(gameConfig, null);
     }
 
-    private KeyValueStore createGameConfig(MapInfo mapInfo) {
+    private KeyValueStore createGameConfig(String mapId) {
+        Log.d(TAG, "Loading configuration...");
         KeyValueStore gameConfig = KeyValueStore.fromResources(mContext.getResources(), R.raw.game_settings);
 
         KeyValueStore entityConfig = new KeyValueStore();
@@ -193,24 +173,40 @@ public class GameLoader implements ErrorListener {
         entityConfig.extend(KeyValueStore.fromResources(mContext.getResources(), R.raw.tower_settings));
         gameConfig.putStore("entities", entityConfig);
 
+        MapInfo mapInfo = mMapRepository.getMapById(mapId);
         gameConfig.putStore("map", KeyValueStore.fromResources(mContext.getResources(), mapInfo.getMapDataResId()));
         gameConfig.extend(KeyValueStore.fromResources(mContext.getResources(), R.raw.waves));
 
         return gameConfig;
     }
 
-    private void initializeGame(KeyValueStore gameConfig) {
+    private void initializeGame(KeyValueStore gameConfig, KeyValueStore gameState) {
+        Log.d(TAG, "Initializing game...");
         mGameEngine.clear();
 
         GameMap map = new GameMap(gameConfig);
+        mViewport.setGameSize(map.getWidth(), map.getHeight());
 
+        if (gameState != null) {
+            mGamePersister.readState(gameConfig, gameState);
+        } else {
+            mGamePersister.resetState(gameConfig);
+            initializeMap(map);
+        }
+
+        for (Listener listener : mListeners) {
+            listener.gameLoaded();
+        }
+
+        Log.d(TAG, "Game loaded.");
+    }
+
+    private void initializeMap(GameMap map) {
         for (PlateauInfo info : map.getPlateaus()) {
             Plateau plateau = (Plateau) mEntityRegistry.createEntity(info.getName());
             plateau.setPosition(info.getPosition());
             mGameEngine.add(plateau);
         }
-
-        mViewport.setGameSize(map.getWidth(), map.getHeight());
     }
 
     @Override

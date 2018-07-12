@@ -36,7 +36,7 @@ public class MapRepository {
         throw new RuntimeException("Map not found!");
     }
 
-    public MapInfo getDefaultMapInfo() {
-        return getMapById("original");
+    public String getDefaultMapId() {
+        return "original";
     }
 }
