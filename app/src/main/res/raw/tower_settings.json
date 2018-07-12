@@ -168,7 +168,7 @@
     "glueIntensity": 1.2,
     "enhanceGlueIntensity": 0.3,
     "glueDuration": 2.5,
-    "upgrade": "teleportTower",
+    "upgrade": "teleporter",
     "upgradeCost": 1700
   },
   "teleporter": {

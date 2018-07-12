@@ -12,7 +12,7 @@ public class EntityRegistry implements Persister {
     private final GameEngine mGameEngine;
     private final Map<String, EntityFactory> mEntityFactories = new HashMap<>();
 
-    private int mNextEntityId = 1;
+    private int mNextEntityId;
 
     public EntityRegistry(GameEngine gameEngine) {
         mGameEngine = gameEngine;
