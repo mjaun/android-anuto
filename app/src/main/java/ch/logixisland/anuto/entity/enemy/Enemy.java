@@ -17,11 +17,11 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public abstract class Enemy extends Entity {
 
-    public static Predicate<Enemy> enabled() {
+    public static Predicate<Enemy> beingTeleported(final boolean value) {
         return new Predicate<Enemy>() {
             @Override
             public boolean apply(Enemy enemy) {
-                return enemy.isEnabled();
+                return enemy.isBeingTeleported() == value;
             }
         };
     }
@@ -45,7 +45,7 @@ public abstract class Enemy extends Entity {
     }
 
     private int mWaveNumber;
-    private boolean mEnabled;
+    private boolean mBeingTeleported;
     private int mReward;
     private float mHealth;
     private float mMaxHealth;
@@ -66,7 +66,7 @@ public abstract class Enemy extends Entity {
     Enemy(GameEngine gameEngine, KeyValueStore enemySettings) {
         super(gameEngine);
 
-        mEnabled = true;
+        mBeingTeleported = false;
         mSpeedModifier = 1f;
 
         mReward = enemySettings.getInt("reward");
@@ -117,7 +117,7 @@ public abstract class Enemy extends Entity {
     public void tick() {
         super.tick();
 
-        if (!mEnabled) {
+        if (mBeingTeleported) {
             return;
         }
 
@@ -138,12 +138,12 @@ public abstract class Enemy extends Entity {
         }
     }
 
-    public boolean isEnabled() {
-        return mEnabled;
+    public boolean isBeingTeleported() {
+        return mBeingTeleported;
     }
 
-    public void setEnabled(boolean enabled) {
-        mEnabled = enabled;
+    public void setBeingTeleported(boolean beingTeleported) {
+        mBeingTeleported = beingTeleported;
     }
 
     public int getWaveNumber() {

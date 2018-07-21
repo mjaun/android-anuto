@@ -44,7 +44,7 @@ public class TowerPersister extends EntityPersister {
         tower.setPlateau((Plateau) getGameEngine().getEntityById(entityData.getInt("plateauId")));
         tower.setValue(entityData.getInt("value"));
         tower.setDamageInflicted(entityData.getFloat("damageInflicted"));
-        tower.setEnabled(true);
+        tower.setBuilt();
 
         Aimer aimer = tower.getAimer();
 

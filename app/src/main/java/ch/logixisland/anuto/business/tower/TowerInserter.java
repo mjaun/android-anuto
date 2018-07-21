@@ -116,7 +116,7 @@ public class TowerInserter implements Persister {
 
         if (mInsertedTower != null && mCurrentPlateau != null) {
             mInsertedTower.setPlateau(mCurrentPlateau);
-            mInsertedTower.setEnabled(true);
+            mInsertedTower.setBuilt();
 
             mScoreBoard.takeCredits(mInsertedTower.getValue());
             mTowerAging.ageTower(mInsertedTower);

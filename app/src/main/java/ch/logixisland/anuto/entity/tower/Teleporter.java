@@ -132,7 +132,7 @@ public class Teleporter extends Tower implements SpriteTransformation {
 
         if (isReloaded() && target != null) {
             // double check because two TeleportTowers might shoot simultaneously
-            if (target.isEnabled() && getDistanceTo(target) <= getRange()) {
+            if (!target.isBeingTeleported() && getDistanceTo(target) <= getRange()) {
                 StaticData s = (StaticData) getStaticData();
                 s.mTeleportedEnemies.add(target);
                 getGameEngine().add(new TeleportEffect(this, getPosition(), target, mTeleportDistance));
@@ -175,6 +175,6 @@ public class Teleporter extends Tower implements SpriteTransformation {
 
         return super.getPossibleTargets()
                 .filter(s.mTeleportedEnemies)
-                .filter(Enemy.enabled());
+                .filter(Enemy.beingTeleported(false));
     }
 }

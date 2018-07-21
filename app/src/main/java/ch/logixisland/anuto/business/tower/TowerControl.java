@@ -55,7 +55,7 @@ public class TowerControl {
         selectedTower.remove();
         upgradedTower.setPlateau(plateau);
         upgradedTower.setValue(selectedTower.getValue() + upgradeCost);
-        upgradedTower.setEnabled(true);
+        upgradedTower.setBuilt();
         mGameEngine.add(upgradedTower);
 
         Aimer upgradedTowerAimer = upgradedTower.getAimer();

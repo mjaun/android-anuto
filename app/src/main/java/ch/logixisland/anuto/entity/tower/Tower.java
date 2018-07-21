@@ -19,7 +19,7 @@ public abstract class Tower extends Entity {
 
     private final KeyValueStore mSettings;
 
-    private boolean mEnabled;
+    private boolean mBuilt;
     private int mValue;
     private int mLevel;
     private float mDamage;
@@ -49,7 +49,7 @@ public abstract class Tower extends Entity {
 
         mReloadTimer = TickTimer.createInterval(mReloadTime);
 
-        setEnabled(false);
+        mBuilt = false;
     }
 
     @Override
@@ -72,7 +72,7 @@ public abstract class Tower extends Entity {
     public void tick() {
         super.tick();
 
-        if (mEnabled && !mReloaded && mReloadTimer.tick()) {
+        if (mBuilt && !mReloaded && mReloadTimer.tick()) {
             mReloaded = true;
         }
     }
@@ -99,12 +99,9 @@ public abstract class Tower extends Entity {
         setPosition(mPlateau.getPosition());
     }
 
-    public void setEnabled(boolean enabled) {
-        mEnabled = enabled;
-
-        if (mEnabled) {
-            mReloaded = true;
-        }
+    public void setBuilt() {
+        mBuilt = true;
+        mReloaded = true;
     }
 
     public WeaponType getWeaponType() {

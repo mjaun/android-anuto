@@ -157,12 +157,9 @@ public class GlueTower extends Tower implements SpriteTransformation {
     }
 
     @Override
-    public void setEnabled(boolean enabled) {
-        super.setEnabled(enabled);
-
-        if (enabled) {
-            determineTargets();
-        }
+    public void setBuilt() {
+        super.setBuilt();
+        determineTargets();
     }
 
     @Override

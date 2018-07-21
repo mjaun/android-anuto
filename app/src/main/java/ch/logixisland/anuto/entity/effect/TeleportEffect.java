@@ -50,7 +50,7 @@ public class TeleportEffect extends Effect implements Entity.Listener {
         super(origin, EFFECT_DURATION);
         setPosition(position);
 
-        target.setEnabled(false);
+        target.setBeingTeleported(true);
 
         mTarget = target;
         mDistance = distance;
@@ -90,7 +90,7 @@ public class TeleportEffect extends Effect implements Entity.Listener {
     protected void effectEnd() {
         if (mTarget != null) {
             mTarget.sendBack(mDistance);
-            mTarget.setEnabled(true);
+            mTarget.setBeingTeleported(false);
             getGameEngine().add(new TeleportedMarker(getOrigin(), mTarget));
         }
     }
