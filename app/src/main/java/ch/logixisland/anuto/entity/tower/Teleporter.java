@@ -128,6 +128,7 @@ public class Teleporter extends Tower implements SpriteTransformation {
     public void tick() {
         super.tick();
 
+        mAimer.tick();
         Enemy target = mAimer.getTarget();
 
         if (isReloaded() && target != null) {

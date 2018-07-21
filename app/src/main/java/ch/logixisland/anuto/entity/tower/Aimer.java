@@ -2,9 +2,7 @@ package ch.logixisland.anuto.entity.tower;
 
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.loop.TickTimer;
-import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.enemy.Enemy;
-import ch.logixisland.anuto.util.iterator.StreamIterator;
 
 public class Aimer implements Entity.Listener {
 
@@ -70,32 +68,26 @@ public class Aimer implements Entity.Listener {
         }
     }
 
-    public StreamIterator<Enemy> getPossibleTargets() {
-        return mTower.getGameEngine().getEntitiesByType(Types.ENEMY)
-                .filter(Entity.inRange(mTower.getPosition(), mTower.getRange()))
-                .cast(Enemy.class);
-    }
-
     private void nextTarget() {
         switch (mStrategy) {
             case Closest:
-                setTarget(getPossibleTargets().min(Entity.distanceTo(mTower.getPosition())));
+                setTarget(mTower.getPossibleTargets().min(Entity.distanceTo(mTower.getPosition())));
                 break;
 
             case Strongest:
-                setTarget(getPossibleTargets().max(Enemy.health()));
+                setTarget(mTower.getPossibleTargets().max(Enemy.health()));
                 break;
 
             case Weakest:
-                setTarget(getPossibleTargets().min(Enemy.health()));
+                setTarget(mTower.getPossibleTargets().min(Enemy.health()));
                 break;
 
             case First:
-                setTarget(getPossibleTargets().min(Enemy.distanceRemaining()));
+                setTarget(mTower.getPossibleTargets().min(Enemy.distanceRemaining()));
                 break;
 
             case Last:
-                setTarget(getPossibleTargets().max(Enemy.distanceRemaining()));
+                setTarget(mTower.getPossibleTargets().max(Enemy.distanceRemaining()));
         }
     }
 
