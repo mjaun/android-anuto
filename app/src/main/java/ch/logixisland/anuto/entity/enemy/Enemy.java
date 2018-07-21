@@ -188,11 +188,11 @@ public abstract class Enemy extends Entity {
     }
 
     public float getSpeed() {
-        return mSpeed * mSpeedModifier;
+        return mSpeed * Math.max(mMinSpeedModifier, mSpeedModifier);
     }
 
     public void modifySpeed(float f) {
-        mSpeedModifier = Math.max(mMinSpeedModifier, mSpeedModifier * f);
+        mSpeedModifier = mSpeedModifier * f;
     }
 
     private float getDistanceRemaining() {

@@ -72,6 +72,7 @@ public class GlueEffect extends Effect implements SpriteTransformation, AreaObse
     @Override
     public void clean() {
         super.clean();
+        mAreaObserver.clean();
         getGameEngine().remove(mSprite);
     }
 

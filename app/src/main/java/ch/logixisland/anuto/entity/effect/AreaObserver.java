@@ -15,6 +15,7 @@ public class AreaObserver implements Entity.Listener {
 
     private Vector2 mPosition;
     private float mRange;
+    private boolean mFinished;
 
     private final GameEngine mGameEngine;
     private final Listener mListener;
@@ -31,15 +32,30 @@ public class AreaObserver implements Entity.Listener {
         mPosition = position;
         mRange = range;
         mListener = listener;
+        mFinished = false;
     }
 
     public void tick() {
+        if (mFinished) {
+            return;
+        }
+
         if (!mUpdateTimer.tick()) {
             return;
         }
 
         checkForExitedEnemies();
         checkForEnteredEnemies();
+    }
+
+    public void clean() {
+        for (Enemy enemy : mEnemiesInArea) {
+            enemy.removeListener(this);
+            mListener.enemyExited(enemy);
+        }
+
+        mEnemiesInArea.clear();
+        mFinished = true;
     }
 
     private void checkForExitedEnemies() {
