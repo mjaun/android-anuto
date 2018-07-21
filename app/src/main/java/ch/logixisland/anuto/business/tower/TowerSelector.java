@@ -20,7 +20,7 @@ public class TowerSelector implements ScoreBoard.CreditsListener, Entity.Listene
     }
 
     public interface TowerBuildView {
-        void showTowerBuildView();
+        void toggleTowerBuildView();
         void hideTowerBuildView();
     }
 
@@ -70,19 +70,22 @@ public class TowerSelector implements ScoreBoard.CreditsListener, Entity.Listene
         return mTowerInfo;
     }
 
-    public void requestBuildTower() {
+    public void toggleTowerBuildView() {
         if (mGameEngine.isThreadChangeNeeded()) {
             mGameEngine.post(new Message() {
                 @Override
                 public void execute() {
-                    requestBuildTower();
+                    toggleTowerBuildView();
                 }
             });
             return;
         }
 
-        selectTower(null);
-        showTowerBuildView();
+        hideTowerInfoView();
+
+        if (mTowerBuildView != null) {
+            mTowerBuildView.toggleTowerBuildView();
+        }
     }
 
     public void selectTowerAt(Vector2 position) {
@@ -246,12 +249,6 @@ public class TowerSelector implements ScoreBoard.CreditsListener, Entity.Listene
 
         if (mTowerInfoView != null) {
             mTowerInfoView.hideTowerInfo();
-        }
-    }
-
-    private void showTowerBuildView() {
-        if (mTowerBuildView != null) {
-            mTowerBuildView.showTowerBuildView();
         }
     }
 

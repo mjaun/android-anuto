@@ -156,7 +156,7 @@ public class HeaderFragment extends AnutoFragment implements WaveManager.Listene
         }
 
         if (v == btn_build_tower) {
-            mTowerSelector.requestBuildTower();
+            mTowerSelector.toggleTowerBuildView();
         }
     }
 

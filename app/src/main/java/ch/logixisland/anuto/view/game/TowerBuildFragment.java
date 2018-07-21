@@ -31,11 +31,15 @@ public class TowerBuildFragment extends AnutoFragment implements TowerSelector.T
     }
 
     @Override
-    public void showTowerBuildView() {
+    public void toggleTowerBuildView() {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                show();
+                if (mVisible) {
+                    hide();
+                } else {
+                    show();
+                }
             }
         });
     }
