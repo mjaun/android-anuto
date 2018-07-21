@@ -50,8 +50,8 @@ public class Viewport {
         mScreenMatrix.postScale(tileSize, tileSize);
 
         float paddingLeft = (mScreenWidth - (tileSize * mGameWidth)) / 2f;
-        float paddingTop = (mScreenHeight - (tileSize * mGameHeight)) / 2f;
-        mScreenMatrix.postTranslate(paddingLeft, paddingTop);
+        float paddingBottom = (mScreenHeight - (tileSize * mGameHeight));
+        mScreenMatrix.postTranslate(paddingLeft, paddingBottom);
 
         mScreenMatrix.postScale(1f, -1f);
         mScreenMatrix.postTranslate(0, mScreenHeight);

@@ -1,6 +1,7 @@
 package ch.logixisland.anuto.engine.render;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.view.View;
 
 import java.lang.ref.WeakReference;
@@ -61,8 +62,10 @@ public class Renderer {
     public void draw(Canvas canvas) {
         mLock.lock();
 
-        canvas.drawColor(mBackgroundColor);
+        canvas.drawColor(Color.BLACK);
         canvas.concat(mViewport.getScreenMatrix());
+        canvas.clipRect(mViewport.getScreenClipRect());
+        canvas.drawColor(mBackgroundColor);
 
         for (Drawable obj : mDrawables) {
             obj.draw(canvas);
