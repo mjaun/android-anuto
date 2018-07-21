@@ -43,12 +43,12 @@ public class TowerControl {
             return;
         }
 
-        Tower upgradedTower = (Tower) mEntityRegistry.createEntity(selectedTower.getUpgradeName());
-        int upgradeCost = upgradedTower.getValue();
+        int upgradeCost = selectedTower.getUpgradeCost();
         if (upgradeCost > mScoreBoard.getCredits()) {
             return;
         }
 
+        Tower upgradedTower = (Tower) mEntityRegistry.createEntity(selectedTower.getUpgradeName());
         mTowerSelector.showTowerInfo(upgradedTower);
         mScoreBoard.takeCredits(upgradeCost);
         Plateau plateau = selectedTower.getPlateau();
