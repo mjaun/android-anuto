@@ -30,17 +30,6 @@
         tools:layout="@layout/fragment_game_over" />
 
     <fragment
-        android:id="@+id/fragment_getting_started"
-        android:name="ch.logixisland.anuto.view.game.TutorialFragment"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="20dp"
-        tools:layout="@layout/fragment_tutorial" />
-
-    <fragment
         android:id="@+id/fragment_tower_info"
         android:name="ch.logixisland.anuto.view.game.TowerInfoFragment"
         android:layout_width="wrap_content"
@@ -57,5 +46,16 @@
         android:layout_alignParentLeft="true"
         android:layout_margin="5dp"
         tools:layout="@layout/fragment_tower_build"/>
+
+    <fragment
+        android:id="@+id/fragment_tutorial"
+        android:name="ch.logixisland.anuto.view.game.TutorialFragment"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20dp"
+        tools:layout="@layout/fragment_tutorial" />
 
 </RelativeLayout>
