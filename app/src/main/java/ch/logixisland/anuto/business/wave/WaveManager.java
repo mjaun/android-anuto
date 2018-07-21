@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.business.game.GameLoader;
 import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.business.tower.TowerAging;
@@ -41,7 +40,6 @@ public class WaveManager implements Persister {
     private final TowerAging mTowerAging;
     private final EntityRegistry mEntityRegistry;
     private final EnemyDefaultHealth mEnemyDefaultHealth;
-    private final GameLoader mGameLoader;
 
     private int mWaveNumber;
     private int mRemainingEnemiesCount;
@@ -66,13 +64,12 @@ public class WaveManager implements Persister {
     private final List<WaveStartedListener> mWaveStartedListeners = new CopyOnWriteArrayList<>();
 
     public WaveManager(GameEngine gameEngine, ScoreBoard scoreBoard, GameState gameState,
-                       EntityRegistry entityRegistry, TowerAging towerAging, GameLoader gameLoader) {
+                       EntityRegistry entityRegistry, TowerAging towerAging) {
         mGameEngine = gameEngine;
         mScoreBoard = scoreBoard;
         mGameState = gameState;
         mTowerAging = towerAging;
         mEntityRegistry = entityRegistry;
-        mGameLoader = gameLoader;
 
         mEnemyDefaultHealth = new EnemyDefaultHealth(entityRegistry);
     }
@@ -114,8 +111,6 @@ public class WaveManager implements Persister {
         setWaveNumber(mWaveNumber + 1);
         setNextWaveReady(false);
         triggerMinWaveDelay();
-
-        mGameLoader.saveGame();
 
         for (WaveStartedListener listener : mWaveStartedListeners) {
             listener.waveStarted();
