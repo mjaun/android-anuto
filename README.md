@@ -11,3 +11,6 @@ However it features astonishing hand-drawn graphics and a smooth gameplay.
 - cd pixijs-anuto
 - npm install
 - npm  run start
+
+- kilroy was here
+
