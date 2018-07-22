@@ -174,11 +174,6 @@ public abstract class Tower extends Entity {
         mRange += mSettings.getFloat("enhanceRange");
         mReloadTime -= mSettings.getFloat("enhanceReload");
 
-        float minReload = mSettings.getFloat("minReload");
-        if (mReloadTime < minReload) {
-            mReloadTime = minReload;
-        }
-
         mLevel++;
 
         mReloadTimer.setInterval(mReloadTime);

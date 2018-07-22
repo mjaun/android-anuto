@@ -5,9 +5,9 @@
     "reward": 10,
     "weakAgainst": [],
     "strongAgainst": [],
-    "weakAgainstModifier": 2.0,
-    "strongAgainstModifier": 0.5,
-    "minSpeedModifier": 0.01
+    "weakAgainstModifier": 3.0,
+    "strongAgainstModifier": 0.33,
+    "minSpeedModifier": 0.05
   },
   "blob": {
     "health": 600,
