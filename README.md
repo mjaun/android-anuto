@@ -7,7 +7,7 @@ However it features astonishing hand-drawn graphics and a smooth gameplay.
 
 ## Install
 
-- git clone git@github.com:gcristofol/pixiejs-anuto.git
+- git clone git@github.com:gcristofol/pixijs-anuto.git
 - cd pixijs-anuto
 - npm install
 - npm  run start
