@@ -71,8 +71,8 @@ function setup() {
   plateau = new Sprite(resources["images/plateau.png"].texture);
   plateau.x = 0;
   plateau.y = 0;
-  plateau.width = 25;
-  plateau.height = 25;
+  plateau.width = PLATEAU_WIDTH;
+  plateau.height = PLATEAU_HEIGHT;
   
 //TODO move to map class
 var x,y = 0;
@@ -80,29 +80,22 @@ for (var row = 0; row < map.length; row++) {
   for (var col = 0; col < map[row].length; col++) {
 
     y = plateau.height * row
-    x = plateau.width * col
-    let sprite =  new PIXI.Sprite(map[row][col] == "0" ? backgroundTexture:plateauTexture);
+    x = plateau.width  * col
+    let sprite =  new PIXI.Sprite(map[row][col] === '0' ? plateauTexture:backgroundTexture);
     sprite.x = x
     sprite.y = y
-    sprite.scale.x = .18
+    sprite.scale.x = .18 //TODO remove when there are proper textures
     sprite.scale.y = .18
     gameScene.addChild(sprite);
   }
 }
   
-  //Make the enemies
-  //Create the health bar
-  //Add some text for the game over message
-  //Create a `gameOverScene` group
-  //Assign the player's keyboard controllers
+  //TODO Make the enemies
+  //TODO Create the health bar
+  //TODO Add some text for the game over message
+  //TODO Create a `gameOverScene` group
+  //TODO Assign the player's keyboard controllers
   wave = new Wave(waveScene, 1);
-//  cat = new Sprite(resources["images/cat.png"].texture);
-//  cat.x = 25*2
-//  cat.y = 0
-//  cat.scale.x = .4
-//  cat.scale.y = .4
-//  waveScene.addChild(cat);
-  
 
   //set the game state to `play`
   state = waveLoop;
@@ -112,6 +105,24 @@ for (var row = 0; row < map.length; row++) {
 }
 
 
+function gameLoop(delta){
+
+  //Update the current game state:
+  state(delta);
+}
+
+function waveLoop(delta) {
+  //Move the wave
+  wave.move(map)
+}
+
+
+function end() {
+  //All the code that should run at the end of the game
+  
+}
+
+//Function called from javascript form
 function nextWave() {
   console.log("Next Wave");
   //setup the wave
@@ -119,40 +130,4 @@ function nextWave() {
   
   //set the game state to `play`
   //state = wave;
-}
-
-function gameLoop(delta){
-
-  //Update the current game state:
-  state(delta);
-}
-
-
-function play(delta) {
-
-  //Use the cat's velocity to make it move
-  //cat.vx = 1
-  //cat.vy = 1
-  //cat.x += cat.vx;
-  //cat.y += cat.vy
-}
-
-function waveLoop(delta) {
-
-  wave.move()
-  // cat.vx = 1
-  //cat.vy = 1
-  //Use the current enemy set for wave
-  //cat.x += cat.vx;
-  
-  //if
-  
-  //cat.y += cat.vy
-  //console.log("cat xy", cat.x, cat.y);
-}
-
-
-function end() {
-  //All the code that should run at the end of the game
-  
 }
