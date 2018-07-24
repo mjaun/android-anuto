@@ -29,7 +29,7 @@ app.renderer = PIXI.autoDetectRenderer(
 
 
 loader
-  .add(["images/cat.png", "images/plateau.png", "images/background1.png", "images/background2.png"])
+  .add(["images/cat.png", "images/bunny.png", "images/carrot.png", "images/plateau.png", "images/background1.png", "images/background2.png"])
   .on("progress", loadProgressHandler)
   .load(setup);
 
@@ -53,6 +53,12 @@ let wave, state;
 function setup() {
 
   console.log("All files loaded");
+  
+  //TODO add interaction plugin
+  app.stage.interactive = true;
+  app.stage.on("mousedown", function(e){
+    console.log("mousedown", e);
+  })
 
   //Create the `gameScene` group
   gameScene = new Container();
@@ -73,22 +79,22 @@ function setup() {
   plateau.y = 0;
   plateau.width = PLATEAU_WIDTH;
   plateau.height = PLATEAU_HEIGHT;
+    
+  //TODO move to map class
+  var x,y = 0;
+  for (var row = 0; row < map.length; row++) {
+    for (var col = 0; col < map[row].length; col++) {
   
-//TODO move to map class
-var x,y = 0;
-for (var row = 0; row < map.length; row++) {
-  for (var col = 0; col < map[row].length; col++) {
-
-    y = plateau.height * row
-    x = plateau.width  * col
-    let sprite =  new PIXI.Sprite(map[row][col] === '0' ? plateauTexture:backgroundTexture);
-    sprite.x = x
-    sprite.y = y
-    sprite.scale.x = .18 //TODO remove when there are proper textures
-    sprite.scale.y = .18
-    gameScene.addChild(sprite);
+      y = plateau.height * row
+      x = plateau.width  * col
+      let sprite =  new PIXI.Sprite(map[row][col] === '0' ? plateauTexture:backgroundTexture);
+      sprite.x = x
+      sprite.y = y
+      sprite.scale.x = .18 //TODO remove when there are proper textures
+      sprite.scale.y = .18
+      gameScene.addChild(sprite);
+    }
   }
-}
   
   //TODO Make the enemies
   //TODO Create the health bar
@@ -96,6 +102,9 @@ for (var row = 0; row < map.length; row++) {
   //TODO Create a `gameOverScene` group
   //TODO Assign the player's keyboard controllers
   wave = new Wave(waveScene, 1);
+  
+  //tower = new Tower();
+  towers = new Towers(waveScene);
 
   //set the game state to `play`
   state = waveLoop;
@@ -114,6 +123,7 @@ function gameLoop(delta){
 function waveLoop(delta) {
   //Move the wave
   wave.move(map)
+  towers.attack(wave)
 }
 
 
