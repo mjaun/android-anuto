@@ -1,3 +1,5 @@
+const ENEMY_VELOCITY = 0.5;
+
 class Wave {
 
   // TODO Make enemies into an array
@@ -15,7 +17,7 @@ class Wave {
     this.enemy.scale.y = .35
 
     //move down by default until first collision
-    this.enemy.vy = 1
+    this.enemy.vy = ENEMY_VELOCITY
     this.enemy.vx = 0
 
     waveScene.addChild(this.enemy);
@@ -32,7 +34,7 @@ class Wave {
     
     //TODO check enemy makes it outside the map
 
-    //check if the next move has crossed boundaries 
+    //check if the next move has crossed boundaries
     if (this.contain(this.enemy, map)) {
       console.log("enemy hits wall");
       //determine where to go next
@@ -42,18 +44,18 @@ class Wave {
       switch (map[row][col]) {
         case 'R':
           this.enemy.vy = 0
-          this.enemy.vx = 1
+          this.enemy.vx = ENEMY_VELOCITY
           break;
         case 'D':
-          this.enemy.vy = 1
+          this.enemy.vy = ENEMY_VELOCITY
           this.enemy.vx = 0
           break;
         case 'L':
           this.enemy.vy = 0
-          this.enemy.vx = -1
+          this.enemy.vx = -ENEMY_VELOCITY
           break;
         case 'U':
-          this.enemy.vy = -1
+          this.enemy.vy = -ENEMY_VELOCITY
           this.enemy.vx = 0
           break;
       }

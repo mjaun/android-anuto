@@ -2,10 +2,18 @@
 
 class Tower extends PIXI.Container {
 
-  constructor(col, row) {
+  constructor(col, row, size) {
     super()
-    //super(resources["images/carrot.png"].texture); // call the super class
     
+     let superFastSprites = new PIXI.particles.ParticleContainer(
+      size,
+      {
+        rotation: true,
+        alphaAndtint: true,
+        scale: true,
+        uvs: true
+      }
+    );
     
     this.sprite = new PIXI.Sprite(resources["images/bunny.png"].texture);
     this.rectangle = new PIXI.Graphics();
@@ -27,6 +35,7 @@ class Tower extends PIXI.Container {
     
     this.addChild(this.rectangle)
     this.addChild(this.sprite)
+    this.addChild(superFastSprites)
 
     this.sprite.anchor.x = 0.5;
     this.sprite.anchor.y = 0.5;
@@ -39,7 +48,7 @@ class Tower extends PIXI.Container {
     var dist_X = enemy.position.x - this.sprite.position.y;
     var angle = Math.atan2(dist_Y,dist_X);
     var degrees = angle * 180 / Math.PI;
-    console.log("Rotate angle to aim enemy ", degrees);
+    //console.log("Rotate angle to aim enemy ", degrees);
     this.sprite.rotation = angle
   }
 
