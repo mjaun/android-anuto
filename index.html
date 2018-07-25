@@ -1,0 +1,36 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Another Ugly Tower Defense</title>
+<style>
+  * {padding: 0; margin: 0}
+  body { background-color: #000000; }
+	canvas { background-color: #222222; }
+	form {background-color: white;}
+</style>
+<body>
+  <div style="border:1px solid red;">
+  <form>
+  Credits:
+  <input type="text" name="credits"><br>
+  Bonus:
+  <input type="text" name="bonus"><br>
+  Lives:
+  <input type="text" name="lives"><br>
+  <button onclick="nextWave()" type="button">Next Wave!</button>
+</form>
+</div>
+  <div align="center">
+		<canvas id="game-canvas" width="800" height="600"></canvas>
+	</div>
+<script src="node_modules/pixi.js/dist/pixi.js"></script>
+<script src="src/util/keyboard.js"></script>
+<!--script src="src/User.js"></script-->
+<script src="src/Map.js"></script>
+<script src="src/tower/Tower.js"></script>
+<script src="src/tower/Towers.js"></script>
+
+<script src="src/wave/Wave.js"></script>
+<script src="src/Main.js"></script>
+</body>
+
+

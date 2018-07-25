@@ -4,6 +4,8 @@
 # Names of contributors must not be used to endorse or promote products
 # derived from this file without specific prior written permission.
 
+node_modules/
+
 .idea
 *.iml
 *.ipr
