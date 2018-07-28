@@ -7,8 +7,8 @@ android {
         applicationId "ch.logixisland.anuto"
         minSdkVersion 17
         targetSdkVersion 27
-        versionCode 17
-        versionName "0.4"
+        versionCode 18
+        versionName "0.4-1"
     }
     buildTypes {
         release {
