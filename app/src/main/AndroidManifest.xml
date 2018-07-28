@@ -27,21 +27,18 @@
         </activity>
         <activity
             android:name=".view.game.MenuActivity"
-            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
         </activity>
         <activity
             android:name=".view.setting.SettingsActivity"
             android:label="@string/settings"
             android:icon="@drawable/settings"
-            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.DeviceDefault">
         </activity>
         <activity
             android:name=".view.map.ChangeMapActivity"
             android:label="@string/change_map"
             android:icon="@drawable/settings"
-            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.DeviceDefault">
         </activity>
     </application>
