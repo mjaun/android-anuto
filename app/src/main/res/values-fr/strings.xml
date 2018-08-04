@@ -3,13 +3,25 @@
     <string name="app_name">Anuto TD</string>
 
     <string name="menu">Menu</string>
-    <string name="next_wave">Prochaine</string>
     <string name="build_tower">Bâtir</string>
+    <string name="next_wave">Prochaine</string>
+    <string name="normal_speed">1×</string>
+    <string name="fast_speed">4×</string>
 
     <string name="restart">Redémarrer</string>
-    <string name="change_map">Changer la carte</string>
-    <string name="theme">Thème</string>
+    <string name="change_map">Changer de carte</string>
+    <string name="settings">Réglages</string>
+
     <string name="sound">Sons</string>
+    <string name="theme">Thème</string>
+    <string name="change_theme">Changer de thème</string>
+    <string name="change_theme_warning">Souhaitez-vous vraiment changer le thème ? La partie va redémarrer.</string>
+    <string name="back_button_mode">Fermer l\'appli avec le bouton Retour</string>
+    <string name="reset_highscores">Effacer les scores</string>
+    <string name="reset_highscores_warning">Voulez-vous vraiment effacer tous les scores ?</string>
+    <string name="start_tutorial">Commencer le tutoriel</string>
+    <string name="start_tutorial_warning">Voulez-vous vraiment commencer le tutoriel ? La partie va redémarrer.</string>
+    <string name="transparent_menus">Menus du jeu transparents</string>
 
     <string name="game_over">Fin de la partie !</string>
     <string name="score">Score</string>
@@ -37,6 +49,7 @@
 
     <string name="on">Activé</string>
     <string name="off">Désactivé</string>
+    <string name="twice">Deux fois</string>
 
     <string name="strategy_closest">Le plus proche</string>
     <string name="strategy_weakest">Le plus faible</string>
@@ -46,19 +59,37 @@
 
     <string name="theme_original">Original</string>
     <string name="theme_dark">Sombre</string>
-    <string name="settings">Réglages</string>
-    <string name="back_button_mode">Comportement du bouton Retour</string>
-    <string name="twice">Deux fois</string>
 
     <string name="map_original_name">L\'original</string>
     <string name="map_waiting_line_name">Je hais les files d\'attente</string>
-    <string name="map_turn_round_name">Tourner autour</string>
+    <string name="map_turn_round_name">Tour de manège</string>
     <string name="map_hurry_name">Le temps presse !</string>
     <string name="map_civyshk_2y_name">Civyshk 2Y</string>
     <string name="map_civyshk_line5_name">Civyshk 5 lignes</string>
     <string name="map_civyshk_labyrinth_name">Labyrinthe de Civyshk</string>
     <string name="map_civyshk_yard_name">Le jardin de Civyshk</string>
-    <string name="change_theme">Changer le thème</string>
-    <string name="change_theme_warning">Souhaitez-vous vraiment changer le thème ? La partie va redémarrer</string>
+    <string name="press_back_button_again_toast">Appuyez de nouveau sur le bouton retour pour quitter</string>
+
+    <string name="tutorial">Commencer à jouer</string>
+    <string name="got_it">Compris !</string>
+    <string name="skip_tutorial">Passer le tutoriel</string>
+
+    <string name="tutorial_build_tower">Bienvenue dans Anuto TD ! Commencez par construire une tourelle : déplacez-la depuis l\'inventaire en haut jusque sur le terrain.</string>
+    <string name="tutorial_credits">Si l\'étiquette de prix d\'une tourelle devient rouge, c\'est que vous n\'avez plus assez de crédits pour la construire. Vous pouvez gagner des crédits en tuant les ennemis et en finissant chaque vague.</string>
+    <string name="tutorial_tower_options_1">Appuyez sur une tour pour voir sa portée, et appuyez de nouveau pour ouvrir son menu pour plus d\'options.</string>
+    <string name="tutorial_tower_options_2">La stratégie défini la manière dont la tour choisi sa cible. Verrouiller la cible signifie que la tourelle ne changera pas de cible tant que la cible actuelle reste à portée.</string>
+    <string name="tutorial_tower_options_3">Améliorer une tourelle la rendra plus efficace. La surclasser la remplacera par une meilleure tourelle.\n
+ \n
+ <b>Indice :</b> en surclassant une tourelle, rappelez-vous que les crédits dépensés dans des améliorations seront perdus.</string>
+    <string name="tutorial_tower_options_4">Vendre la tourelle la supprimera et vous récupérerez des crédits.\n
+ \n
+ <b>Indice :</b> la valeur des tourelles diminue avec le temps.</string>
+    <string name="tutorial_next_wave">Appuyez sur « prochaine » pour appeler la prochaine vague d\'ennemis. Le but est qu\'aucun ne traverse votre défense.\n
+ \n
+ <b>Indice :</b> en appelant la vague suivante alors que des vagues sont toujours actives, vous gagnez des crédits en bonus !</string>
+    <string name="tutorial_enemies">Si un ennemi arrive au bout du chemin, vous perdez une vie. La partie se termine si vous n\'avez plus de vie.\n
+ \n
+ <b>Indice :</b> certaines tourelles sont plus efficaces contre certains ennemis.</string>
+    <string name="tutorial_finish">Bonne chance et amusez-vous bien ! Vous pouvez de nouveau activer le tutoriel dans les paramètres.</string>
 
 </resources>
