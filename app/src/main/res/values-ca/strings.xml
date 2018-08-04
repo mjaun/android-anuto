@@ -21,7 +21,7 @@
     <string name="reset_highscores_warning">Segur que desitges restablir totes les màximes puntuacions?</string>
     <string name="transparent_menus">Menús transparents al juego</string>
 
-    <string name="game_over">S'ha acabat!</string>
+    <string name="game_over">S\'ha acabat!</string>
     <string name="score">Puntuació</string>
 
     <string name="credits">Crèdits</string>
@@ -58,7 +58,7 @@
     <string name="theme_original">Original</string>
     <string name="theme_dark">Fosc</string>
 
-    <string name="map_original_name">L'original</string>
+    <string name="map_original_name">L\'original</string>
     <string name="map_waiting_line_name">Odio les cues</string>
     <string name="map_turn_round_name">Una ronda</string>
     <string name="map_hurry_name">Tenim pressa!</string>
