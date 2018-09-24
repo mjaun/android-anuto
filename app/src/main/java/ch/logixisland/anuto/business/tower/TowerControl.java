@@ -99,19 +99,24 @@ public class TowerControl {
         }
 
         Tower selectedTower = mTowerSelector.getSelectedTower();
-        Aimer selectedTowerAimer = selectedTower.getAimer();
-
-        if (selectedTowerAimer != null) {
-            List<TowerStrategy> values = Arrays.asList(TowerStrategy.values());
-            int index = values.indexOf(selectedTowerAimer.getStrategy()) + 1;
-
-            if (index >= values.size()) {
-                index = 0;
-            }
-
-            selectedTowerAimer.setStrategy(values.get(index));
-            mTowerSelector.updateTowerInfo();
+        if (selectedTower == null) {
+            return;
         }
+
+        Aimer selectedTowerAimer = selectedTower.getAimer();
+        if (selectedTowerAimer == null) {
+            return;
+        }
+
+        List<TowerStrategy> values = Arrays.asList(TowerStrategy.values());
+        int index = values.indexOf(selectedTowerAimer.getStrategy()) + 1;
+
+        if (index >= values.size()) {
+            index = 0;
+        }
+
+        selectedTowerAimer.setStrategy(values.get(index));
+        mTowerSelector.updateTowerInfo();
     }
 
     public void toggleLockTarget() {
@@ -126,13 +131,18 @@ public class TowerControl {
         }
 
         Tower selectedTower = mTowerSelector.getSelectedTower();
-        Aimer selectedTowerAimer = selectedTower.getAimer();
-
-        if (selectedTowerAimer != null) {
-            boolean lock = selectedTowerAimer.doesLockTarget();
-            selectedTowerAimer.setLockTarget(!lock);
-            mTowerSelector.updateTowerInfo();
+        if (selectedTower == null) {
+            return;
         }
+
+        Aimer selectedTowerAimer = selectedTower.getAimer();
+        if (selectedTowerAimer == null) {
+            return;
+        }
+
+        boolean lock = selectedTowerAimer.doesLockTarget();
+        selectedTowerAimer.setLockTarget(!lock);
+        mTowerSelector.updateTowerInfo();
     }
 
     public void sellTower() {
