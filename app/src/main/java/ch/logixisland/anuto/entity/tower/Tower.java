@@ -99,6 +99,10 @@ public abstract class Tower extends Entity {
         setPosition(mPlateau.getPosition());
     }
 
+    public boolean isBuilt() {
+        return mBuilt;
+    }
+
     public void setBuilt() {
         mBuilt = true;
         mReloaded = true;

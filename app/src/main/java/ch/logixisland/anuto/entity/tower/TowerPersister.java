@@ -16,6 +16,11 @@ public class TowerPersister extends EntityPersister {
     @Override
     protected KeyValueStore writeEntityData(Entity entity) {
         Tower tower = (Tower) entity;
+
+        if (!tower.isBuilt()) {
+            return null;
+        }
+
         KeyValueStore data = super.writeEntityData(tower);
 
         data.putInt("plateauId", tower.getPlateau().getEntityId());

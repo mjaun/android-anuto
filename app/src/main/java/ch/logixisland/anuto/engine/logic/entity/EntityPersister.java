@@ -29,7 +29,11 @@ public abstract class EntityPersister implements Persister {
 
         while (iterator.hasNext()) {
             Entity entity = iterator.next();
-            gameState.appendStore("entities", writeEntityData(entity));
+            KeyValueStore entityData = writeEntityData(entity);
+
+            if (entityData != null) {
+                gameState.appendStore("entities", entityData);
+            }
         }
     }
 
