@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ColourTheme">
+        <item name="gameActivityStyle">@style/ColourTheme.Game</item>
+        <item name="popupActivityStyle">@style/ColourTheme.Popup</item>
+        <item name="normalActivityStyle">@style/ColourTheme.Normal</item>
+
+
+        <item name="textColor">#000000</item>
+        <item name="textDisabledColor">#ff0000</item>
+        <item name="backgroundColor">#ffffff</item>
+        <item name="healthBarColor">#222</item>
+        <item name="healthBarBackgroundColor">#88FFFFFF</item>
+        <item name="levelIndicatorColor">#030303</item>
+        <item name="rangeIndicatorColor">#8888</item>
+        <item name="explosionColor">#C8FFAA00</item>
+        <item name="laserColor">#B457D56F</item>
+        <item name="healEffectColor">#77EE2828</item>
+        <item name="teleportEffectColor">#79AF35AF</item>
+
+        <item name="base1">@drawable/tower_base1</item>
+        <item name="base2">@drawable/tower_base2</item>
+        <item name="base3">@drawable/tower_base3</item>
+        <item name="base4">@drawable/tower_base4</item>
+        <item name="base5">@drawable/tower_base5</item>
+        <item name="blob">@drawable/blob_co</item>
+        <item name="canon">@drawable/canon_co</item>
+        <item name="canonDual">@drawable/canon_dual_co</item>
+        <item name="canonMg">@drawable/canon_mg_co</item>
+        <item name="canonMgShot">@drawable/canon_mg_shot</item>
+        <item name="canonShot">@drawable/canon_shot</item>
+        <item name="flyer">@drawable/flyer_co</item>
+        <item name="glueEffect">@drawable/glue_effect</item>
+        <item name="glueGun">@drawable/glue_gun_co</item>
+        <item name="glueShot">@drawable/glue_shot_co</item>
+        <item name="glueTowerGun">@drawable/glue_tower_gun_co</item>
+        <item name="grenade">@drawable/grenade</item>
+        <item name="healer">@drawable/healer_co</item>
+        <item name="laserTower1">@drawable/laser_tower1_co</item>
+        <item name="laserTower2">@drawable/laser_tower2_co</item>
+        <item name="laserTower3">@drawable/laser_tower3_co</item>
+        <item name="mine">@drawable/mine</item>
+        <item name="mineLayer">@drawable/mine_layer_co</item>
+        <item name="mortar">@drawable/mortar_co</item>
+        <item name="plateau1">@drawable/plateau1_co</item>
+        <item name="rocket">@drawable/rocket</item>
+        <item name="rocketFire">@drawable/rocket_fire</item>
+        <item name="rocketLauncher">@drawable/rocket_launcher_co</item>
+        <item name="soldier">@drawable/soldier_co</item>
+        <item name="sprinter">@drawable/sprinter_co</item>
+        <item name="teleportTower">@drawable/teleport_tower_co</item>
+    </style>
+
+    <style name="ColourTheme.Game" parent="@android:style/Theme.NoTitleBar.Fullscreen">
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceSmallInverse</item>
+        <item name="android:textColor">#000000</item>
+
+        <item name="backgroundHeader">@drawable/background_header_co</item>
+        <item name="backgroundPopup">@drawable/background_popup_co</item>
+    </style>
+
+    <style name="ColourTheme.Popup" parent="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceSmallInverse</item>
+        <item name="android:textColor">#000000</item>
+
+        <item name="shadowColor">#88333333</item>
+        <item name="backgroundPopup">@drawable/background_popup_co</item>
+    </style>
+
+    <style name="ColourTheme.Normal" parent="@android:style/Theme.DeviceDefault.Light">
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceSmallInverse</item>
+        <item name="android:textColor">#000000</item>
+
+        <item name="selectMapArrow">@drawable/select_map_arrow_drawn</item>
+    </style>
+</resources>

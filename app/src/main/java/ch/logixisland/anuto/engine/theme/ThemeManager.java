@@ -38,6 +38,7 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
     private void initThemes(Context context) {
         mAvailableThemes.add(new Theme(context, R.string.theme_original, R.style.OriginalTheme));
         mAvailableThemes.add(new Theme(context, R.string.theme_dark, R.style.DarkTheme));
+        mAvailableThemes.add(new Theme(context, R.string.theme_colour, R.style.ColourTheme));
     }
 
     public Theme getTheme() {
