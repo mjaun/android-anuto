@@ -9,6 +9,7 @@ import ch.logixisland.anuto.business.tower.TowerInserter;
 import ch.logixisland.anuto.business.tower.TowerSelector;
 import ch.logixisland.anuto.business.wave.WaveManager;
 import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.engine.logic.loop.TickTimer;
 import ch.logixisland.anuto.engine.logic.map.MapPath;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.plateau.Plateau;
@@ -26,21 +27,28 @@ public class DefaultGameSimulator extends GameSimulator {
     private static final int MAX_ENHANCED_TOWERS_PER_TIER = 4;
     private static final int NO_SLOW_DOWN_TOWERS_BEFORE_WAVE = 20;
 
-    private final Random mRandom;
     private final TowerTiers mTowerTiers;
+    private final Random mRandom = new Random();
+    private final TickTimer mSaveAndLoadTimer = TickTimer.createInterval(60f);
+    private final TickTimer mSimulationTickTimer = TickTimer.createInterval(0.5f);
 
     DefaultGameSimulator(GameFactory gameFactory) {
         super(gameFactory);
-        mRandom = new Random();
         mTowerTiers = new TowerTiers(gameFactory);
     }
 
     @Override
     protected void tick() {
-        tryUpgradeTower();
-        tryEnhanceTower();
-        tryBuildTower();
-        tryStartNextWave();
+        if (mSimulationTickTimer.tick()) {
+            tryUpgradeTower();
+            tryEnhanceTower();
+            tryBuildTower();
+            tryStartNextWave();
+        }
+
+        if (mSaveAndLoadTimer.tick()) {
+            saveAndLoad();
+        }
     }
 
     private void tryUpgradeTower() {

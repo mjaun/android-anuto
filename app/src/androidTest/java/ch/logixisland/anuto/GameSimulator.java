@@ -6,7 +6,6 @@ import java.util.concurrent.CountDownLatch;
 
 import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.engine.logic.loop.TickListener;
-import ch.logixisland.anuto.engine.logic.loop.TickTimer;
 
 public abstract class GameSimulator {
 
@@ -21,24 +20,9 @@ public abstract class GameSimulator {
     }
 
     void startSimulation() {
-        mGameFactory.getGameEngine().setTicksPerLoop(20);
-
-        loadDefaultMap();
-
         mFinishedLatch = new CountDownLatch(1);
-
-        mGameFactory.getGameEngine().add(new TickListener() {
-            private final TickTimer mSimulationTickTimer = TickTimer.createInterval(0.2f);
-
-            @Override
-            public void tick() {
-                if (mGameFactory.getGameState().isGameOver()) {
-                    simulationFinished();
-                } else if (mSimulationTickTimer.tick()) {
-                    GameSimulator.this.tick();
-                }
-            }
-        });
+        mGameFactory.getGameEngine().setTicksPerLoop(20);
+        loadDefaultMap();
     }
 
     void waitForFinished() {
@@ -55,12 +39,10 @@ public abstract class GameSimulator {
         return mGameFactory;
     }
 
-    private void simulationFinished() {
-        if (mFinishedLatch.getCount() > 0) {
-            Log.i(TAG, String.format("final wave=%d", mGameFactory.getWaveManager().getWaveNumber()));
-            Log.i(TAG, String.format("final score=%d", mGameFactory.getScoreBoard().getScore()));
-            mFinishedLatch.countDown();
-        }
+    protected void saveAndLoad() {
+        mGameFactory.getGameLoader().saveGame();
+        mGameFactory.getGameLoader().loadGame();
+        installTickHandler();
     }
 
     private void loadDefaultMap() {
@@ -68,10 +50,14 @@ public abstract class GameSimulator {
     }
 
     private void loadMap(String mapId) {
+        mGameFactory.getGameLoader().loadMap(mapId);
+        waitForGameRestarted();
+        installTickHandler();
+    }
+
+    private void waitForGameRestarted() {
         final GameState gameState = mGameFactory.getGameState();
         final CountDownLatch loadMapLatch = new CountDownLatch(1);
-
-        mGameFactory.getGameLoader().loadMap(mapId);
 
         gameState.addListener(new GameState.Listener() {
             @Override
@@ -90,6 +76,28 @@ public abstract class GameSimulator {
             loadMapLatch.await();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private void installTickHandler() {
+        mGameFactory.getGameEngine().add(new TickListener() {
+
+            @Override
+            public void tick() {
+                if (mGameFactory.getGameState().isGameOver()) {
+                    simulationFinished();
+                } else {
+                    GameSimulator.this.tick();
+                }
+            }
+        });
+    }
+
+    private void simulationFinished() {
+        if (mFinishedLatch.getCount() > 0) {
+            Log.i(TAG, String.format("final wave=%d", mGameFactory.getWaveManager().getWaveNumber()));
+            Log.i(TAG, String.format("final score=%d", mGameFactory.getScoreBoard().getScore()));
+            mFinishedLatch.countDown();
         }
     }
 

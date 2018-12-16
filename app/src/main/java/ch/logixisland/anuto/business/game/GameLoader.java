@@ -122,7 +122,7 @@ public class GameLoader implements ErrorListener {
             return;
         }
 
-        Log.d(TAG, "Loading state...");
+        Log.i(TAG, "Loading state...");
         KeyValueStore gameState;
 
         try {
