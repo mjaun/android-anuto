@@ -1,7 +1,9 @@
 package ch.logixisland.anuto.business.tower;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.business.game.GameState;
@@ -70,6 +72,16 @@ public class TowerInserter implements Persister {
     public Tower createPreviewTower(int slot) {
         String towerName = mSlotConfig.getString(Integer.toString(slot));
         return (Tower) mEntityRegistry.createEntity(towerName);
+    }
+
+    public List<Integer> getAssignedSlots() {
+        List<Integer> slots = new ArrayList<>();
+
+        for (String key : mSlotConfig.getKeys()) {
+            slots.add(Integer.valueOf(key));
+        }
+
+        return slots;
     }
 
     public void setPosition(final Vector2 position) {

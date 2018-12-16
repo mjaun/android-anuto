@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Random;
 
 public abstract class StreamIterator<T> implements Iterator<T> {
 
@@ -83,6 +84,17 @@ public abstract class StreamIterator<T> implements Iterator<T> {
         }
 
         return last;
+    }
+
+    public T random(Random random) {
+        List<T> list = toList();
+
+        if (list.isEmpty()) {
+            return null;
+        }
+
+        int index = random.nextInt(list.size());
+        return list.get(index);
     }
 
     public int count() {

@@ -189,6 +189,10 @@ public class GameFactory {
         return mGameEngine;
     }
 
+    public EntityRegistry getEntityRegistry() {
+        return mEntityRegistry;
+    }
+
     public ScoreBoard getScoreBoard() {
         return mScoreBoard;
     }

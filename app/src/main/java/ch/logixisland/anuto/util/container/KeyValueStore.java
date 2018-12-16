@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -73,6 +74,17 @@ public class KeyValueStore {
 
     public boolean hasKey(String key) {
         return mJsonObject.has(key);
+    }
+
+    public Collection<String> getKeys() {
+        Collection<String> collection = new ArrayList<>();
+        Iterator<String> iterator = mJsonObject.keys();
+
+        while (iterator.hasNext()) {
+            collection.add(iterator.next());
+        }
+
+        return collection;
     }
 
     public void putString(String key, String value) {

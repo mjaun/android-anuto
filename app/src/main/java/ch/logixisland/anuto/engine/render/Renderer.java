@@ -25,6 +25,7 @@ public class Renderer {
     public Renderer(Viewport viewport, FrameRateLogger frameRateLogger) {
         mViewport = viewport;
         mFrameRateLogger = frameRateLogger;
+        mViewRef = new WeakReference<>(null);
     }
 
     public void setView(final View view) {
