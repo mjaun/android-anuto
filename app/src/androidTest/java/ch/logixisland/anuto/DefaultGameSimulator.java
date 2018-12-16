@@ -14,11 +14,13 @@ import ch.logixisland.anuto.engine.logic.map.MapPath;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.plateau.Plateau;
 import ch.logixisland.anuto.entity.tower.Tower;
+import ch.logixisland.anuto.entity.tower.TowerStrategy;
 import ch.logixisland.anuto.util.iterator.Function;
 import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.Intersections;
 import ch.logixisland.anuto.util.math.Line;
+import ch.logixisland.anuto.util.math.Vector2;
 
 public class DefaultGameSimulator extends GameSimulator {
 
@@ -82,12 +84,18 @@ public class DefaultGameSimulator extends GameSimulator {
                 continue;
             }
 
+            Vector2 position = tower.getPosition();
+
             towerSelector.selectTower(tower);
             towerControl.upgradeTower();
+
+            randomizeTowerStrategy(position);
         }
     }
 
     private void tryEnhanceTower() {
+        final TowerSelector towerSelector = getGameFactory().getTowerSelector();
+        final TowerControl towerControl = getGameFactory().getTowerControl();
         final ScoreBoard scoreBoard = getGameFactory().getScoreBoard();
 
         StreamIterator<Tower> iterator = getTowers();
@@ -112,7 +120,8 @@ public class DefaultGameSimulator extends GameSimulator {
                 continue;
             }
 
-            tower.enhance();
+            towerSelector.selectTower(tower);
+            towerControl.enhanceTower();
             return;
         }
     }
@@ -170,6 +179,26 @@ public class DefaultGameSimulator extends GameSimulator {
         towerInserter.insertTower(selectedTower.getEntityName());
         towerInserter.setPosition(selectedPlateau.getPosition());
         towerInserter.buyTower();
+
+        randomizeTowerStrategy(selectedPlateau.getPosition());
+    }
+
+    private void randomizeTowerStrategy(Vector2 position) {
+        final TowerSelector towerSelector = getGameFactory().getTowerSelector();
+        final TowerControl towerControl = getGameFactory().getTowerControl();
+
+        boolean toggleLock = mRandom.nextBoolean();
+        int cycleStrategyCount = mRandom.nextInt(TowerStrategy.values().length);
+
+        towerSelector.selectTowerAt(position);
+
+        if (toggleLock) {
+            towerControl.toggleLockTarget();
+        }
+
+        for (int i = 0; i < cycleStrategyCount; i++) {
+            towerControl.cycleTowerStrategy();
+        }
     }
 
     private Plateau findTowerPlateau(Tower tower) {
