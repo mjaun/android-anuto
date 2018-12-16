@@ -24,7 +24,7 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class DefaultGameSimulator extends GameSimulator {
 
-    private static final int FINAL_TIER = 3;
+    private static final int MAX_TIER = 3;
     private static final int MAX_UNENHANCED_TOWERS_PER_TIER = 2;
     private static final int MAX_ENHANCED_TOWERS_PER_TIER = 4;
     private static final int NO_SLOW_DOWN_TOWERS_BEFORE_WAVE = 20;
@@ -71,7 +71,7 @@ public class DefaultGameSimulator extends GameSimulator {
                 continue;
             }
 
-            int unenhancedTowerCount = getTowers()
+            int unenhancedTowersInNextTier = getTowers()
                     .filter(new Predicate<Tower>() {
                         @Override
                         public boolean apply(Tower tower) {
@@ -80,7 +80,20 @@ public class DefaultGameSimulator extends GameSimulator {
                     })
                     .count();
 
-            if (unenhancedTowerCount > MAX_ENHANCED_TOWERS_PER_TIER && tier + 1 != FINAL_TIER) {
+            if (unenhancedTowersInNextTier >= MAX_UNENHANCED_TOWERS_PER_TIER && tier + 1 != MAX_TIER) {
+                continue;
+            }
+
+            int notAffordableUpgradesInSameTier = getTowers()
+                    .filter(new Predicate<Tower>() {
+                        @Override
+                        public boolean apply(Tower tower) {
+                            return mTowerTiers.getTowerTier(tower) == tier && tower.isUpgradeable() && tower.getUpgradeCost() > scoreBoard.getCredits();
+                        }
+                    })
+                    .count();
+
+            if (notAffordableUpgradesInSameTier > 0) {
                 continue;
             }
 
@@ -107,7 +120,7 @@ public class DefaultGameSimulator extends GameSimulator {
                 continue;
             }
 
-            int enhancedTowerCount = getTowers()
+            int enhancedTowersInTier = getTowers()
                     .filter(new Predicate<Tower>() {
                         @Override
                         public boolean apply(Tower tower) {
@@ -116,7 +129,7 @@ public class DefaultGameSimulator extends GameSimulator {
                     })
                     .count();
 
-            if (enhancedTowerCount > MAX_ENHANCED_TOWERS_PER_TIER) {
+            if (enhancedTowersInTier >= MAX_ENHANCED_TOWERS_PER_TIER) {
                 continue;
             }
 
