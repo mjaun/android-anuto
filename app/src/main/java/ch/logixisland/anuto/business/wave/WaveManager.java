@@ -161,6 +161,10 @@ public class WaveManager implements Persister {
         updateRemainingEnemiesCount();
     }
 
+    public List<MapPath> getPaths() {
+        return mPaths;
+    }
+
     private void initializeConfig(KeyValueStore gameConfig) {
         mDifficultyLinear = gameConfig.getFloat("difficultyLinear");
         mDifficultyModifier = gameConfig.getFloat("difficultyModifier");

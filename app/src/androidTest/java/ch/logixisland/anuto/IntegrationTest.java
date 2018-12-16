@@ -19,7 +19,9 @@ public class IntegrationTest {
 
     @Test
     public void integrationTest() {
-        new DefaultGameSimulator().waitForFinished();
+        GameSimulator simulator = new DefaultGameSimulator(AnutoApplication.getInstance().getGameFactory());
+        simulator.startSimulation();
+        simulator.waitForFinished();
     }
 
 

@@ -1,5 +1,6 @@
 package ch.logixisland.anuto;
 
+import java.util.List;
 import java.util.Random;
 
 import ch.logixisland.anuto.business.game.ScoreBoard;
@@ -7,10 +8,16 @@ import ch.logixisland.anuto.business.tower.TowerControl;
 import ch.logixisland.anuto.business.tower.TowerInserter;
 import ch.logixisland.anuto.business.tower.TowerSelector;
 import ch.logixisland.anuto.business.wave.WaveManager;
+import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.engine.logic.map.MapPath;
+import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.plateau.Plateau;
 import ch.logixisland.anuto.entity.tower.Tower;
+import ch.logixisland.anuto.util.iterator.Function;
 import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
+import ch.logixisland.anuto.util.math.Intersections;
+import ch.logixisland.anuto.util.math.Line;
 
 public class DefaultGameSimulator extends GameSimulator {
 
@@ -19,7 +26,14 @@ public class DefaultGameSimulator extends GameSimulator {
     private static final int MAX_ENHANCED_TOWERS_PER_TIER = 4;
     private static final int NO_SLOW_DOWN_TOWERS_BEFORE_WAVE = 20;
 
-    private Random mRandom = new Random();
+    private final Random mRandom;
+    private final TowerTiers mTowerTiers;
+
+    DefaultGameSimulator(GameFactory gameFactory) {
+        super(gameFactory);
+        mRandom = new Random();
+        mTowerTiers = new TowerTiers(gameFactory);
+    }
 
     @Override
     protected void tick() {
@@ -37,7 +51,7 @@ public class DefaultGameSimulator extends GameSimulator {
         StreamIterator<Tower> iterator = getTowers();
         while (iterator.hasNext()) {
             Tower tower = iterator.next();
-            final int tier = getTowerTier(tower);
+            final int tier = mTowerTiers.getTowerTier(tower);
 
             if (!tower.isUpgradeable() || tower.getUpgradeCost() > scoreBoard.getCredits()) {
                 continue;
@@ -51,7 +65,7 @@ public class DefaultGameSimulator extends GameSimulator {
                     .filter(new Predicate<Tower>() {
                         @Override
                         public boolean apply(Tower tower) {
-                            return getTowerTier(tower) == tier + 1 && tower.getLevel() == 1;
+                            return mTowerTiers.getTowerTier(tower) == tier + 1 && tower.getLevel() == 1;
                         }
                     })
                     .count();
@@ -71,7 +85,7 @@ public class DefaultGameSimulator extends GameSimulator {
         StreamIterator<Tower> iterator = getTowers();
         while (iterator.hasNext()) {
             Tower tower = iterator.next();
-            final int tier = getTowerTier(tower);
+            final int tier = mTowerTiers.getTowerTier(tower);
 
             if (!tower.isEnhanceable() || tower.getEnhanceCost() > scoreBoard.getCredits()) {
                 continue;
@@ -81,7 +95,7 @@ public class DefaultGameSimulator extends GameSimulator {
                     .filter(new Predicate<Tower>() {
                         @Override
                         public boolean apply(Tower tower) {
-                            return getTowerTier(tower) == tier && tower.getLevel() > 1;
+                            return mTowerTiers.getTowerTier(tower) == tier && tower.getLevel() > 1;
                         }
                     })
                     .count();
@@ -104,7 +118,7 @@ public class DefaultGameSimulator extends GameSimulator {
                 .filter(new Predicate<Tower>() {
                     @Override
                     public boolean apply(Tower tower) {
-                        return getTowerTier(tower) == 1 && tower.getLevel() == 1;
+                        return mTowerTiers.getTowerTier(tower) == 1 && tower.getLevel() == 1;
                     }
                 })
                 .count();
@@ -113,11 +127,24 @@ public class DefaultGameSimulator extends GameSimulator {
             return;
         }
 
-        Tower selectedTower = getBuildableTowers()
+        int unaffordableTowers = mTowerTiers.getBuildableTowers()
                 .filter(new Predicate<Tower>() {
                     @Override
                     public boolean apply(Tower tower) {
-                        return tower.getValue() <= scoreBoard.getCredits() && (tower.getDamage() > 0 || waveManager.getWaveNumber() > NO_SLOW_DOWN_TOWERS_BEFORE_WAVE);
+                        return tower.getValue() > scoreBoard.getCredits();
+                    }
+                })
+                .count();
+
+        if (unaffordableTowers > 0) {
+            return;
+        }
+
+        Tower selectedTower = mTowerTiers.getBuildableTowers()
+                .filter(new Predicate<Tower>() {
+                    @Override
+                    public boolean apply(Tower tower) {
+                        return tower.getDamage() > 0 || waveManager.getWaveNumber() > NO_SLOW_DOWN_TOWERS_BEFORE_WAVE;
                     }
                 })
                 .random(mRandom);
@@ -126,7 +153,7 @@ public class DefaultGameSimulator extends GameSimulator {
             return;
         }
 
-        Plateau selectedPlateau = getFreePlateaus().random(mRandom);
+        Plateau selectedPlateau = findTowerPlateau(selectedTower);
 
         if (selectedPlateau == null) {
             return;
@@ -137,12 +164,69 @@ public class DefaultGameSimulator extends GameSimulator {
         towerInserter.buyTower();
     }
 
+    private Plateau findTowerPlateau(Tower tower) {
+        final List<MapPath> paths = getGameFactory().getWaveManager().getPaths();
+        final float range = tower.getRange();
+
+        final Function<Plateau, Float> distanceCovered = new Function<Plateau, Float>() {
+            @Override
+            public Float apply(Plateau plateau) {
+                float distanceCovered = 0;
+
+                for (MapPath path : paths) {
+                    for (Line line : Intersections.getPathSectionsInRange(path.getWayPoints(), plateau.getPosition(), range)) {
+                        distanceCovered += line.length();
+                    }
+                }
+
+                return distanceCovered;
+            }
+        };
+
+        final Float maxDistanceCovered = getFreePlateaus()
+                .map(distanceCovered)
+                .max(new Function<Float, Float>() {
+                    @Override
+                    public Float apply(Float input) {
+                        return input;
+                    }
+                });
+
+        if (maxDistanceCovered == null) {
+            return null;
+        }
+
+        return getFreePlateaus()
+                .filter(new Predicate<Plateau>() {
+                    @Override
+                    public boolean apply(Plateau value) {
+                        return distanceCovered.apply(value) > maxDistanceCovered * 0.8f;
+                    }
+                })
+                .random(mRandom);
+    }
+
     private void tryStartNextWave() {
         final WaveManager waveManager = getGameFactory().getWaveManager();
 
         if (waveManager.isNextWaveReady() && waveManager.getRemainingEnemiesCount() < 50) {
             waveManager.startNextWave();
         }
+    }
+
+    private StreamIterator<Tower> getTowers() {
+        final GameEngine gameEngine = getGameFactory().getGameEngine();
+
+        return gameEngine.getEntitiesByType(Types.TOWER)
+                .cast(Tower.class);
+    }
+
+    private StreamIterator<Plateau> getFreePlateaus() {
+        final GameEngine gameEngine = getGameFactory().getGameEngine();
+
+        return gameEngine.getEntitiesByType(Types.PLATEAU)
+                .cast(Plateau.class)
+                .filter(Plateau.unoccupied());
     }
 
 }
