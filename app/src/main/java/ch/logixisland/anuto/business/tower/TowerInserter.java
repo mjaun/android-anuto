@@ -1,9 +1,7 @@
 package ch.logixisland.anuto.business.tower;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.business.game.GameState;
@@ -12,14 +10,12 @@ import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.loop.Message;
-import ch.logixisland.anuto.engine.logic.persistence.Persister;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.plateau.Plateau;
 import ch.logixisland.anuto.entity.tower.Tower;
-import ch.logixisland.anuto.util.container.KeyValueStore;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class TowerInserter implements Persister {
+public class TowerInserter {
 
     public interface Listener {
         void towerInserted();
@@ -36,7 +32,6 @@ public class TowerInserter implements Persister {
 
     private Tower mInsertedTower;
     private Plateau mCurrentPlateau;
-    private KeyValueStore mSlotConfig;
     private Collection<Listener> mListeners = new CopyOnWriteArrayList<>();
 
     public TowerInserter(GameEngine gameEngine, GameState gameState, EntityRegistry entityRegistry,
@@ -67,21 +62,6 @@ public class TowerInserter implements Persister {
             showTowerLevels();
             mInsertedTower = (Tower) mEntityRegistry.createEntity(towerName);
         }
-    }
-
-    public Tower createPreviewTower(int slot) {
-        String towerName = mSlotConfig.getString(Integer.toString(slot));
-        return (Tower) mEntityRegistry.createEntity(towerName);
-    }
-
-    public List<Integer> getAssignedSlots() {
-        List<Integer> slots = new ArrayList<>();
-
-        for (String key : mSlotConfig.getKeys()) {
-            slots.add(Integer.valueOf(key));
-        }
-
-        return slots;
     }
 
     public void setPosition(final Vector2 position) {
@@ -171,21 +151,6 @@ public class TowerInserter implements Persister {
 
     public void removeListener(Listener listener) {
         mListeners.remove(listener);
-    }
-
-    @Override
-    public void resetState(KeyValueStore gameConfig) {
-        mSlotConfig = gameConfig.getStore("slots");
-    }
-
-    @Override
-    public void readState(KeyValueStore gameConfig, KeyValueStore gameState) {
-        resetState(gameConfig);
-    }
-
-    @Override
-    public void writeState(KeyValueStore gameState) {
-
     }
 
     private void showTowerLevels() {

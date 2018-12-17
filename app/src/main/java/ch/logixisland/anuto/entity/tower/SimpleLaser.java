@@ -24,7 +24,7 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class SimpleLaser extends Tower implements SpriteTransformation {
 
-    private final static String ENTITY_NAME = "simpleLaser";
+    public final static String ENTITY_NAME = "simpleLaser";
     private final static float LASER_SPAWN_OFFSET = 0.7f;
 
     public static class Factory extends EntityFactory {

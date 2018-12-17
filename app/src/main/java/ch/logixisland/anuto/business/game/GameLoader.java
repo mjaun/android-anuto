@@ -166,7 +166,7 @@ public class GameLoader implements ErrorListener {
 
     private KeyValueStore createGameConfig(String mapId) {
         Log.d(TAG, "Loading configuration...");
-        KeyValueStore gameConfig = KeyValueStore.fromResources(mContext.getResources(), R.raw.game_settings);
+        KeyValueStore gameConfig = new KeyValueStore();
 
         KeyValueStore entityConfig = new KeyValueStore();
         entityConfig.extend(KeyValueStore.fromResources(mContext.getResources(), R.raw.enemy_settings));

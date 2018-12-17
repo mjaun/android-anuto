@@ -2,7 +2,7 @@ package ch.logixisland.anuto;
 
 import java.util.HashMap;
 
-import ch.logixisland.anuto.business.tower.TowerInserter;
+import ch.logixisland.anuto.business.game.GameSettings;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.util.iterator.Function;
@@ -18,13 +18,14 @@ public class TowerTiers {
     }
 
     protected StreamIterator<Tower> getBuildableTowers() {
-        final TowerInserter towerInserter = mGameFactory.getTowerInserter();
+        final GameSettings gameSettings = mGameFactory.getGameSettings();
+        final EntityRegistry entityRegistry = mGameFactory.getEntityRegistry();
 
-        return StreamIterator.fromIterable(towerInserter.getAssignedSlots())
-                .map(new Function<Integer, Tower>() {
+        return StreamIterator.fromIterable(gameSettings.getBuildMenuTowerNames())
+                .map(new Function<String, Tower>() {
                     @Override
-                    public Tower apply(Integer slot) {
-                        return towerInserter.createPreviewTower(slot);
+                    public Tower apply(String name) {
+                        return (Tower) entityRegistry.createEntity(name);
                     }
                 });
     }

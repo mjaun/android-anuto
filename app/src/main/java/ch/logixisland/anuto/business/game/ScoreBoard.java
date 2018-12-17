@@ -22,6 +22,7 @@ public class ScoreBoard implements Persister {
         void livesChanged(int lives);
     }
 
+    private final GameSettings mGameSettings;
     private final GameEngine mGameEngine;
 
     private int mCredits;
@@ -34,30 +35,9 @@ public class ScoreBoard implements Persister {
     private final List<LivesListener> mLivesListeners = new CopyOnWriteArrayList<>();
     private final List<BonusListener> mBonusListeners = new CopyOnWriteArrayList<>();
 
-    public ScoreBoard(GameEngine gameEngine) {
+    public ScoreBoard(GameSettings gameSettings, GameEngine gameEngine) {
+        mGameSettings = gameSettings;
         mGameEngine = gameEngine;
-    }
-
-    public void reset(final int lives, final int credits) {
-        if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    reset(lives, credits);
-                }
-            });
-            return;
-        }
-
-        mCredits = credits;
-        mCreditsEarned = 0;
-        mLives = lives;
-        mEarlyBonus = 0;
-        mWaveBonus = 0;
-
-        creditsChanged();
-        livesChanged();
-        bonusChanged();
     }
 
     public void takeLives(final int lives) {
@@ -208,8 +188,8 @@ public class ScoreBoard implements Persister {
 
     @Override
     public void resetState(KeyValueStore gameConfig) {
-        mLives = gameConfig.getInt("lives");
-        mCredits = gameConfig.getInt("credits");
+        mLives = mGameSettings.getStartLives();
+        mCredits = mGameSettings.getStartCredits();
         mCreditsEarned = 0;
 
         creditsChanged();
