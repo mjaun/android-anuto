@@ -59,6 +59,7 @@
 
     <string name="theme_original">Original</string>
     <string name="theme_dark">Dark</string>
+    <string name="theme_colour">Colour</string>
 
     <string name="map_original_name">The Original</string>
     <string name="map_waiting_line_name">I hate waiting lines</string>
