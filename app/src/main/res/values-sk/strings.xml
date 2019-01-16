@@ -24,14 +24,14 @@
     <string name="game_over">Koniec hry!</string>
     <string name="score">Skóre</string>
 
-    <string name="credits">Autori</string>
+    <string name="credits">Kredity</string>
     <string name="lives">Životy</string>
     <string name="wave">Vlna</string>
     <string name="bonus">Bonus</string>
 
     <string name="level">Úroveň</string>
     <string name="damage">Poškodenie</string>
-    <string name="reload">Nabiť</string>
+    <string name="reload">Čas nabita</string>
     <string name="range">Dosah</string>
     <string name="splash">Polomer výbušnosti</string>
     <string name="distance">Vzdialenosť</string>
@@ -55,8 +55,8 @@
     <string name="strategy_first">Prvý</string>
     <string name="strategy_last">Posledný</string>
 
-    <string name="theme_original">Pôvodná</string>
-    <string name="theme_dark">Tmavá</string>
+    <string name="theme_original">Pôvodný</string>
+    <string name="theme_dark">Tmavý</string>
 
     <string name="map_original_name">The Original</string>
     <string name="map_waiting_line_name">I hate waiting lines</string>
