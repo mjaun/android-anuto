@@ -3,51 +3,32 @@ package ch.logixisland.anuto.business.game;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.business.score.LivesListener;
-import ch.logixisland.anuto.business.score.ScoreBoard;
-import ch.logixisland.anuto.engine.logic.GameEngine;
-import ch.logixisland.anuto.engine.logic.loop.Message;
-import ch.logixisland.anuto.engine.theme.Theme;
-import ch.logixisland.anuto.engine.theme.ThemeListener;
-import ch.logixisland.anuto.engine.theme.ThemeManager;
+import ch.logixisland.anuto.business.tower.TowerSelector;
+import ch.logixisland.anuto.engine.logic.persistence.Persister;
+import ch.logixisland.anuto.util.container.KeyValueStore;
 
-public class GameState implements ThemeListener, LivesListener {
+public class GameState implements ScoreBoard.LivesListener, Persister {
 
-    private final static String TAG = GameState.class.getSimpleName();
+    public interface Listener {
+        void gameRestart();
+        void gameOver();
+    }
 
-    private final GameEngine mGameEngine;
     private final ScoreBoard mScoreBoard;
+    private final HighScores mHighScores;
+    private final TowerSelector mTowerSelector;
 
     private boolean mGameOver = false;
     private boolean mGameStarted = false;
 
-    private List<GameStateListener> mListeners = new CopyOnWriteArrayList<>();
+    private List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
-    public GameState(GameEngine gameEngine, ThemeManager themeManager, ScoreBoard scoreBoard) {
-        mGameEngine = gameEngine;
+    public GameState(ScoreBoard scoreBoard, HighScores highScores, TowerSelector towerSelector) {
         mScoreBoard = scoreBoard;
+        mHighScores = highScores;
+        mTowerSelector = towerSelector;
 
         mScoreBoard.addLivesListener(this);
-        themeManager.addListener(this);
-    }
-
-    public void restart() {
-        if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    restart();
-                }
-            });
-            return;
-        }
-
-        for (GameStateListener listener : mListeners) {
-            listener.gameRestart();
-        }
-
-        mGameOver = false;
-        mGameStarted = false;
     }
 
     public boolean isGameOver() {
@@ -58,32 +39,61 @@ public class GameState implements ThemeListener, LivesListener {
         return !mGameOver && mGameStarted;
     }
 
-    public void addListener(GameStateListener listener) {
+    public void addListener(Listener listener) {
         mListeners.add(listener);
     }
 
-    public void removeListener(GameStateListener listener) {
+    public void removeListener(Listener listener) {
         mListeners.remove(listener);
+    }
+
+    public void gameStarted() {
+        mGameStarted = true;
     }
 
     @Override
     public void livesChanged(int lives) {
         if (!mGameOver && mScoreBoard.getLives() < 0) {
-            mGameOver = true;
-
-            for (GameStateListener listener : mListeners) {
-                listener.gameOver();
-            }
+            setGameOver(true);
         }
     }
 
     @Override
-    public void themeChanged(Theme theme) {
-        restart();
+    public void resetState(KeyValueStore gameConfig) {
+        setGameOver(false);
+        mGameStarted = false;
     }
 
-    public void setGameStarted() {
-        mGameStarted = true;
+    @Override
+    public void writeState(KeyValueStore gameState) {
+
     }
 
+    @Override
+    public void readState(KeyValueStore gameConfig, KeyValueStore gameState) {
+        setGameOver(gameState.getInt("lives") < 0);
+        mGameStarted = gameState.getInt("waveNumber") > 0;
+    }
+
+    private void setGameOver(boolean gameOver) {
+        mGameOver = gameOver;
+
+        if (gameOver) {
+            mHighScores.updateHighScore();
+            mTowerSelector.setControlsEnabled(false);
+
+            for (Listener listener : mListeners) {
+                listener.gameOver();
+            }
+        }
+
+        if (!gameOver) {
+            mGameStarted = false;
+            mTowerSelector.setControlsEnabled(true);
+
+            for (Listener listener : mListeners) {
+                listener.gameRestart();
+            }
+        }
+    }
 }

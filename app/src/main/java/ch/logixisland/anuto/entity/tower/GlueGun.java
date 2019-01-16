@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.setting.tower.GlueGunSettings;
-import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
@@ -22,15 +20,16 @@ import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.engine.sound.Sound;
 import ch.logixisland.anuto.entity.shot.GlueShot;
 import ch.logixisland.anuto.util.RandomUtils;
+import ch.logixisland.anuto.util.container.KeyValueStore;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class GlueGun extends AimingTower implements SpriteTransformation {
+public class GlueGun extends Tower implements SpriteTransformation {
 
     private final static String ENTITY_NAME = "glueGun";
     private final static float SHOT_SPAWN_OFFSET = 0.7f;
     private final static float REBOUND_DURATION = 0.5f;
 
-    public static class Factory implements EntityFactory {
+    public static class Factory extends EntityFactory {
         @Override
         public String getEntityName() {
             return ENTITY_NAME;
@@ -38,8 +37,7 @@ public class GlueGun extends AimingTower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            TowerSettingsRoot towerSettingsRoot = gameEngine.getGameConfiguration().getTowerSettingsRoot();
-            return new GlueGun(gameEngine, towerSettingsRoot.getGlueGunSettings());
+            return new GlueGun(gameEngine, getEntitySettings());
         }
     }
 
@@ -54,22 +52,23 @@ public class GlueGun extends AimingTower implements SpriteTransformation {
         SpriteTemplate mSpriteTemplateCanon;
     }
 
-    private GlueGunSettings mSettings;
+    private KeyValueStore mSettings;
 
     private float mAngle = 90f;
     private float mGlueIntensity;
     private boolean mRebounding = false;
+    private final Aimer mAimer = new Aimer(this);
 
     private StaticSprite mSpriteBase;
     private AnimatedSprite mSpriteCanon;
     private Sound mSound;
 
-    private GlueGun(GameEngine gameEngine, GlueGunSettings settings) {
+    private GlueGun(GameEngine gameEngine, KeyValueStore settings) {
         super(gameEngine, settings);
         StaticData s = (StaticData) getStaticData();
 
         mSettings = settings;
-        mGlueIntensity = settings.getGlueIntensity();
+        mGlueIntensity = settings.getFloat("glueIntensity");
 
         mSpriteBase = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplateBase);
         mSpriteBase.setListener(this);
@@ -120,23 +119,24 @@ public class GlueGun extends AimingTower implements SpriteTransformation {
     @Override
     public void enhance() {
         super.enhance();
-        mGlueIntensity += mSettings.getEnhanceGlueIntensity();
+        mGlueIntensity += mSettings.getFloat("enhanceGlueIntensity");
     }
 
     @Override
     public void tick() {
         super.tick();
+        mAimer.tick();
 
-        if (isReloaded() && getTarget() != null) {
-            float dist = getDistanceTo(getTarget());
+        if (isReloaded() && mAimer.getTarget() != null) {
+            float dist = getDistanceTo(mAimer.getTarget());
             float time = dist / GlueShot.MOVEMENT_SPEED;
 
-            Vector2 target = getTarget().getPositionAfter(time);
+            Vector2 target = mAimer.getTarget().getPositionAfter(time);
 
             mAngle = getAngleTo(target);
 
             Vector2 position = getPosition().add(Vector2.polar(SHOT_SPAWN_OFFSET, getAngleTo(target)));
-            getGameEngine().add(new GlueShot(this, position, target, mGlueIntensity, mSettings.getGlueDuration()));
+            getGameEngine().add(new GlueShot(this, position, target, mGlueIntensity, mSettings.getFloat("glueDuration")));
             mSound.play();
 
             setReloaded(false);
@@ -146,6 +146,11 @@ public class GlueGun extends AimingTower implements SpriteTransformation {
         if (mRebounding && mSpriteCanon.tick()) {
             mRebounding = false;
         }
+    }
+
+    @Override
+    public Aimer getAimer() {
+        return mAimer;
     }
 
     @Override
@@ -164,7 +169,7 @@ public class GlueGun extends AimingTower implements SpriteTransformation {
     public List<TowerInfoValue> getTowerInfoValues() {
         List<TowerInfoValue> properties = new ArrayList<>();
         properties.add(new TowerInfoValue(R.string.intensity, mGlueIntensity));
-        properties.add(new TowerInfoValue(R.string.duration, mSettings.getGlueDuration()));
+        properties.add(new TowerInfoValue(R.string.duration, mSettings.getFloat("glueDuration")));
         properties.add(new TowerInfoValue(R.string.reload, getReloadTime()));
         properties.add(new TowerInfoValue(R.string.range, getRange()));
         return properties;

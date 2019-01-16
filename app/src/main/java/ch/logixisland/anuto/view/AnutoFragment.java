@@ -1,26 +1,22 @@
 package ch.logixisland.anuto.view;
 
 import android.app.Fragment;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.View;
 
-import ch.logixisland.anuto.AnutoApplication;
-import ch.logixisland.anuto.GameFactory;
-import ch.logixisland.anuto.business.setting.SettingsManager;
+import ch.logixisland.anuto.Preferences;
 
 public class AnutoFragment extends Fragment {
-
-    private final SettingsManager mSettingsManager;
-
-    public AnutoFragment() {
-        GameFactory factory = AnutoApplication.getInstance().getGameFactory();
-        mSettingsManager = factory.getSettingsManager();
-    }
 
     protected void updateMenuTransparency() {
         View view = getView();
 
         if (view != null) {
-            if (mSettingsManager.isTransparentMenusEnabled()) {
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            boolean transparentMenusEnabled = preferences.getBoolean(Preferences.TRANSPARENT_MENUS_ENABLED, false);
+
+            if (transparentMenusEnabled) {
                 view.setAlpha(0.73f);
             } else {
                 view.setAlpha(1.0f);

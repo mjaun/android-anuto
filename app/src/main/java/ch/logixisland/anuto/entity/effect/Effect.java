@@ -31,10 +31,6 @@ public abstract class Effect extends Entity {
         return mOrigin;
     }
 
-    public State getState() {
-        return mState;
-    }
-
     @Override
     public final int getEntityType() {
         return Types.EFFECT;

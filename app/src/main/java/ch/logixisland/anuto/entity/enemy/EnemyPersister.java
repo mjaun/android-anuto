@@ -1,11 +1,10 @@
 package ch.logixisland.anuto.entity.enemy;
 
-import ch.logixisland.anuto.data.game.EnemyDescriptor;
-import ch.logixisland.anuto.data.game.EntityDescriptor;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
+import ch.logixisland.anuto.engine.logic.entity.EntityPersister;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
-import ch.logixisland.anuto.engine.logic.persistence.EntityPersister;
+import ch.logixisland.anuto.util.container.KeyValueStore;
 
 public class EnemyPersister extends EntityPersister {
 
@@ -14,38 +13,28 @@ public class EnemyPersister extends EntityPersister {
     }
 
     @Override
-    protected EnemyDescriptor createEntityDescriptor() {
-        return new EnemyDescriptor();
-    }
-
-    @Override
-    protected EnemyDescriptor writeEntityDescriptor(Entity entity) {
+    protected KeyValueStore writeEntityData(Entity entity) {
         Enemy enemy = (Enemy) entity;
-        EnemyDescriptor enemyDescriptor = (EnemyDescriptor) super.writeEntityDescriptor(entity);
+        KeyValueStore data = super.writeEntityData(entity);
 
-        enemyDescriptor.setId(enemy.getEntityId());
-        enemyDescriptor.setName(enemy.getEntityName());
-        enemyDescriptor.setPosition(enemy.getPosition());
-        enemyDescriptor.setHealth(enemy.getHealth());
-        enemyDescriptor.setMaxHealth(enemy.getMaxHealth());
-        enemyDescriptor.setWayPoints(enemy.getWayPoints());
-        enemyDescriptor.setWayPointIndex(enemy.getWayPointIndex());
-        enemyDescriptor.setWaveNumber(enemy.getWaveNumber());
-        enemyDescriptor.setReward(enemy.getReward());
+        data.putFloat("health", enemy.getHealth());
+        data.putFloat("maxHealth", enemy.getMaxHealth());
+        data.putVectorList("wayPoints", enemy.getWayPoints());
+        data.putInt("wayPointIndex", enemy.getWayPointIndex());
+        data.putInt("waveNumber", enemy.getWaveNumber());
+        data.putInt("reward", enemy.getReward());
 
-        return enemyDescriptor;
+        return data;
     }
 
     @Override
-    protected Enemy readEntityDescriptor(EntityDescriptor entityDescriptor) {
-        Enemy enemy = (Enemy) super.readEntityDescriptor(entityDescriptor);
-        EnemyDescriptor enemyDescriptor = (EnemyDescriptor) entityDescriptor;
+    protected Enemy readEntityData(KeyValueStore entityData) {
+        Enemy enemy = (Enemy) super.readEntityData(entityData);
 
-        enemy.setHealth(enemyDescriptor.getHealth(), enemyDescriptor.getMaxHealth());
-        enemy.setReward(enemyDescriptor.getReward());
-        enemy.setPosition(enemyDescriptor.getPosition());
-        enemy.setWaveNumber(enemyDescriptor.getWaveNumber());
-        enemy.setupPath(enemyDescriptor.getWayPoints(), enemyDescriptor.getWayPointIndex());
+        enemy.setHealth(entityData.getFloat("health"), entityData.getFloat("maxHealth"));
+        enemy.setReward(entityData.getInt("reward"));
+        enemy.setWaveNumber(entityData.getInt("waveNumber"));
+        enemy.setupPath(entityData.getVectorList("wayPoints"), entityData.getInt("wayPointIndex"));
 
         return enemy;
     }

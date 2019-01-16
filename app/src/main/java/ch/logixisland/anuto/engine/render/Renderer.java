@@ -1,21 +1,18 @@
 package ch.logixisland.anuto.engine.render;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.view.View;
 
 import java.lang.ref.WeakReference;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.loop.FrameRateLogger;
-import ch.logixisland.anuto.engine.theme.Theme;
-import ch.logixisland.anuto.engine.theme.ThemeListener;
-import ch.logixisland.anuto.engine.theme.ThemeManager;
 import ch.logixisland.anuto.util.container.SafeMultiMap;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class Renderer implements ThemeListener {
+public class Renderer {
 
     private final Viewport mViewport;
     private final FrameRateLogger mFrameRateLogger;
@@ -25,11 +22,10 @@ public class Renderer implements ThemeListener {
     private int mBackgroundColor;
     private WeakReference<View> mViewRef;
 
-    public Renderer(Viewport viewport, ThemeManager themeManager, FrameRateLogger frameRateLogger) {
+    public Renderer(Viewport viewport, FrameRateLogger frameRateLogger) {
         mViewport = viewport;
         mFrameRateLogger = frameRateLogger;
-        themeManager.addListener(this);
-        themeChanged(themeManager.getTheme());
+        mViewRef = new WeakReference<>(null);
     }
 
     public void setView(final View view) {
@@ -67,8 +63,10 @@ public class Renderer implements ThemeListener {
     public void draw(Canvas canvas) {
         mLock.lock();
 
-        canvas.drawColor(mBackgroundColor);
+        canvas.drawColor(Color.BLACK);
         canvas.concat(mViewport.getScreenMatrix());
+        canvas.clipRect(mViewport.getScreenClipRect());
+        canvas.drawColor(mBackgroundColor);
 
         for (Drawable obj : mDrawables) {
             obj.draw(canvas);
@@ -79,9 +77,8 @@ public class Renderer implements ThemeListener {
         mFrameRateLogger.incrementRenderCount();
     }
 
-    @Override
-    public void themeChanged(Theme theme) {
-        mBackgroundColor = theme.getColor(R.attr.backgroundColor);
+    public void setBackgroundColor(int backgroundColor) {
+        mBackgroundColor = backgroundColor;
     }
 
     public boolean isPositionVisible(Vector2 position) {

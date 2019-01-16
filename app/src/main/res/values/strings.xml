@@ -19,6 +19,8 @@
     <string name="back_button_mode">Close app with back button</string>
     <string name="reset_highscores">Reset highscores</string>
     <string name="reset_highscores_warning">Are you sure you want to reset all highscores?</string>
+    <string name="start_tutorial">Start tutorial</string>
+    <string name="start_tutorial_warning">Are you sure you want to start the tutorial? The game will restart.</string>
     <string name="transparent_menus">Transparent in-game menus</string>
 
     <string name="game_over">Game Over!</string>
@@ -57,6 +59,7 @@
 
     <string name="theme_original">Original</string>
     <string name="theme_dark">Dark</string>
+    <string name="theme_colour">Colour</string>
 
     <string name="map_original_name">The Original</string>
     <string name="map_waiting_line_name">I hate waiting lines</string>
@@ -68,7 +71,18 @@
     <string name="map_civyshk_yard_name">Civyshk Yard</string>
     <string name="press_back_button_again_toast">Press back button again to exit</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tutorial">Getting Started</string>
+    <string name="got_it">Got It!</string>
+    <string name="skip_tutorial">Skip Tutorial</string>
+
+    <string name="tutorial_build_tower">Welcome to Anuto TD! Start by building a tower: Drag a tower from the inventory on top onto the playground.</string>
+    <string name="tutorial_credits">If the price tag of a tower becomes red, you don\'t have enough credits to buy this tower. You earn credits by killing enemies and finishing waves.</string>
+    <string name="tutorial_tower_options_1">Tap a tower to view its range, tap it again to open its menu for more options.</string>
+    <string name="tutorial_tower_options_2">The strategy defines how the tower chooses its target. Lock target means that the tower will not switch target as long as the current target stays within range.</string>
+    <string name="tutorial_tower_options_3">Enhancing a tower will make it perform better. Upgrading a tower will replace the tower with a better tower.\n\n<b>Tip:</b> If upgrading towers, keep in mind that credits already spent into enhancements are lost.</string>
+    <string name="tutorial_tower_options_4">Selling the tower will remove it and you\'ll get some credits back.\n\n<b>Tip:</b> Towers decrease in value over time.</string>
+    <string name="tutorial_next_wave">Press \"Next Wave\" to call in the next wave of enemies. The goal is that none of them makes it through your defense.\n\n<b>Tip:</b> If you call in the next wave while there are still active waves, you earn bonus credits!</string>
+    <string name="tutorial_enemies">If an enemy finishes the path, you loose one life. The game is over if you have no more lives left.\n\n<b>Tip:</b> Some towers are more effective against a certain type of enemy than others.</string>
+    <string name="tutorial_finish">Good luck and have fun! You can activate the tutorial again in the settings.</string>
 
 </resources>

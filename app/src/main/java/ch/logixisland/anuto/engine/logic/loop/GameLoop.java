@@ -3,7 +3,9 @@ package ch.logixisland.anuto.engine.logic.loop;
 import android.util.Log;
 
 import java.util.Collection;
+import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.engine.logic.entity.EntityStore;
 import ch.logixisland.anuto.engine.render.Renderer;
 import ch.logixisland.anuto.util.container.SafeCollection;
 
@@ -17,17 +19,26 @@ public class GameLoop implements Runnable {
 
     private final Renderer mRenderer;
     private final FrameRateLogger mFrameRateLogger;
+    private final MessageQueue mMessageQueue;
+    private final EntityStore mEntityStore;
 
     private final Collection<TickListener> mTickListeners = new SafeCollection<>();
+    private final Collection<ErrorListener> mErrorListeners = new CopyOnWriteArrayList<>();
 
     private int mGameTicksPerLoop = 1;
 
     private Thread mGameThread;
     private volatile boolean mRunning = false;
 
-    public GameLoop(Renderer renderer, FrameRateLogger frameRateLogger) {
+    public GameLoop(Renderer renderer, FrameRateLogger frameRateLogger, MessageQueue messageQueue, EntityStore entityStore) {
         mRenderer = renderer;
         mFrameRateLogger = frameRateLogger;
+        mMessageQueue = messageQueue;
+        mEntityStore = entityStore;
+    }
+
+    public void registerErrorListener(ErrorListener listener) {
+        mErrorListeners.add(listener);
     }
 
     public void add(TickListener listener) {
@@ -59,8 +70,7 @@ public class GameLoop implements Runnable {
             try {
                 mGameThread.join();
             } catch (InterruptedException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
+                throw new RuntimeException("Could not stop game thread!", e);
             }
         }
     }
@@ -76,21 +86,15 @@ public class GameLoop implements Runnable {
     @Override
     public void run() {
         long timeNextTick = System.currentTimeMillis();
-        long timeCurrent;
         int skipFrameCount = 0;
+        int loopCount = 0;
 
         try {
             while (mRunning) {
+                executeCycle();
+
                 timeNextTick += TICK_TIME;
-
-                mRenderer.lock();
-                for (int repeat = 0; repeat < mGameTicksPerLoop; repeat++) {
-                    executeTick();
-                }
-                mRenderer.unlock();
-
-                timeCurrent = System.currentTimeMillis();
-                int sleepTime = (int) (timeNextTick - timeCurrent);
+                int sleepTime = (int) (timeNextTick - System.currentTimeMillis());
 
                 if (sleepTime > 0 || skipFrameCount >= MAX_FRAME_SKIPS) {
                     mRenderer.invalidate();
@@ -99,24 +103,49 @@ public class GameLoop implements Runnable {
                     skipFrameCount++;
                 }
 
-                mFrameRateLogger.incrementLoopCount();
-
                 if (sleepTime > 0) {
                     Thread.sleep(sleepTime);
                 } else {
-                    timeNextTick = timeCurrent; // resync
+                    timeNextTick = System.currentTimeMillis(); // resync
                 }
+
+                loopCount++;
             }
+
+            // process messages a last time (needed to save game just before loop stops)
+            mMessageQueue.processMessages();
+
         } catch (Exception e) {
             mRunning = false;
-            e.printStackTrace();
-            throw new RuntimeException(e);
+            notifyErrorListeners(loopCount, e);
+            throw new RuntimeException("Error in game loop!", e);
         }
     }
 
+    private void executeCycle() {
+        mRenderer.lock();
+        for (int i = 0; i < mGameTicksPerLoop; i++) {
+            executeTick();
+            mMessageQueue.processMessages();
+        }
+        mRenderer.unlock();
+
+        mFrameRateLogger.incrementLoopCount();
+        mFrameRateLogger.outputFrameRate();
+    }
+
     private void executeTick() {
+        mMessageQueue.tick();
+        mEntityStore.tick();
+
         for (TickListener listener : mTickListeners) {
             listener.tick();
+        }
+    }
+
+    private void notifyErrorListeners(int loopCount, Exception e) {
+        for (ErrorListener listener : mErrorListeners) {
+            listener.error(e, loopCount);
         }
     }
 

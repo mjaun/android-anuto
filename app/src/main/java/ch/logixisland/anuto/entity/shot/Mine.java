@@ -79,10 +79,12 @@ public class Mine extends Shot implements SpriteTransformation {
         super(origin);
 
         setPosition(position);
+        setDirection(new Vector2());
 
         mFlying = false;
         mDamage = damage;
         mRadius = radius;
+        mAngle = RandomUtils.next(0f, 360f);
 
         mHeightScalingFunction = Function.constant(HEIGHT_SCALING_STOP).sample();
 
@@ -178,5 +180,9 @@ public class Mine extends Shot implements SpriteTransformation {
         transformer.translate(getPosition());
         transformer.scale(s);
         transformer.rotate(mAngle);
+    }
+
+    public boolean isFlying() {
+        return mFlying;
     }
 }

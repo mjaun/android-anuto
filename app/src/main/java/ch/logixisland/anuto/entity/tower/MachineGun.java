@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.setting.tower.TowerSettings;
-import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
@@ -23,15 +21,16 @@ import ch.logixisland.anuto.engine.sound.Sound;
 import ch.logixisland.anuto.entity.shot.CanonShotMg;
 import ch.logixisland.anuto.entity.shot.Shot;
 import ch.logixisland.anuto.util.RandomUtils;
+import ch.logixisland.anuto.util.container.KeyValueStore;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class MachineGun extends AimingTower implements SpriteTransformation {
+public class MachineGun extends Tower implements SpriteTransformation {
 
     private final static String ENTITY_NAME = "machineGun";
     private final static float SHOT_SPAWN_OFFSET = 0.7f;
-    private final static float MG_ROTATION_SPEED = 2f;
+    private final static float MG_ROTATION_SPEED = 3f;
 
-    public static class Factory implements EntityFactory {
+    public static class Factory extends EntityFactory {
         @Override
         public String getEntityName() {
             return ENTITY_NAME;
@@ -39,8 +38,7 @@ public class MachineGun extends AimingTower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            TowerSettingsRoot towerSettingsRoot = gameEngine.getGameConfiguration().getTowerSettingsRoot();
-            return new MachineGun(gameEngine, towerSettingsRoot.getMachineGunSettings());
+            return new MachineGun(gameEngine, getEntitySettings());
         }
     }
 
@@ -55,13 +53,15 @@ public class MachineGun extends AimingTower implements SpriteTransformation {
         SpriteTemplate mSpriteTemplateCanon;
     }
 
+    private float mBaseReloadTime;
     private float mAngle = 90f;
     private StaticSprite mSpriteBase;
     private AnimatedSprite mSpriteCanon;
     private int mShotCount = 0;
     private Sound mSound;
+    private final Aimer mAimer = new Aimer(this);
 
-    private MachineGun(GameEngine gameEngine, TowerSettings settings) {
+    private MachineGun(GameEngine gameEngine, KeyValueStore settings) {
         super(gameEngine, settings);
         StaticData s = (StaticData) getStaticData();
 
@@ -72,6 +72,8 @@ public class MachineGun extends AimingTower implements SpriteTransformation {
         mSpriteCanon = getSpriteFactory().createAnimated(Layers.TOWER, s.mSpriteTemplateCanon);
         mSpriteCanon.setListener(this);
         mSpriteCanon.setSequenceForward();
+
+        mBaseReloadTime = getReloadTime();
         mSpriteCanon.setFrequency(MG_ROTATION_SPEED);
 
         mSound = getSoundFactory().createSound(R.raw.gun3_dit);
@@ -113,15 +115,22 @@ public class MachineGun extends AimingTower implements SpriteTransformation {
     }
 
     @Override
+    public void enhance() {
+        super.enhance();
+        mSpriteCanon.setFrequency(MG_ROTATION_SPEED * mBaseReloadTime / getReloadTime());
+    }
+
+    @Override
     public void tick() {
         super.tick();
+        mAimer.tick();
 
-        if (getTarget() != null) {
-            mAngle = getAngleTo(getTarget());
+        if (mAimer.getTarget() != null) {
+            mAngle = getAngleTo(mAimer.getTarget());
             mSpriteCanon.tick();
 
             if (isReloaded()) {
-                Shot shot = new CanonShotMg(this, getPosition(), getDirectionTo(getTarget()), getDamage());
+                Shot shot = new CanonShotMg(this, getPosition(), getDirectionTo(mAimer.getTarget()), getDamage());
                 shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
                 getGameEngine().add(shot);
                 mShotCount++;
@@ -133,6 +142,11 @@ public class MachineGun extends AimingTower implements SpriteTransformation {
                 setReloaded(false);
             }
         }
+    }
+
+    @Override
+    public Aimer getAimer() {
+        return mAimer;
     }
 
     @Override

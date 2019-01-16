@@ -13,23 +13,30 @@ import java.util.Collection;
 
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
+import ch.logixisland.anuto.Preferences;
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.business.game.GameLoader;
 import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.game.HighScores;
-import ch.logixisland.anuto.business.setting.SettingsManager;
+import ch.logixisland.anuto.business.game.TutorialControl;
 
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String PREF_RESET_HIGHSCORES = "reset_highscores";
+    private static final String PREF_START_TUTORIAL = "start_tutorial";
 
+    private final GameLoader mGameLoader;
     private final GameState mGameState;
     private final HighScores mHighScores;
+    private final TutorialControl mTutorialControl;
     private final Collection<String> mListPreferenceKeys = new ArrayList<>();
 
     public SettingsFragment() {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
+        mGameLoader = factory.getGameLoader();
         mGameState = factory.getGameState();
         mHighScores = factory.getHighScores();
+        mTutorialControl = factory.getTutorialControl();
     }
 
     @Override
@@ -39,10 +46,11 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         addPreferencesFromResource(R.xml.settings);
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
-        registerListPreference(SettingsManager.PREF_BACK_BUTTON_MODE);
-        registerListPreference(SettingsManager.PREF_THEME_INDEX);
+        registerListPreference(Preferences.BACK_BUTTON_MODE);
+        registerListPreference(Preferences.THEME_INDEX);
         setupChangeThemeConfirmationDialog();
         setupResetHighscores();
+        setupResetTutorial();
     }
 
     @Override
@@ -57,6 +65,10 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         if (mListPreferenceKeys.contains(key)) {
             updateListPreferenceSummary(key);
         }
+
+        if (Preferences.THEME_INDEX.equals(key)) {
+            mGameLoader.restart();
+        }
     }
 
     private void registerListPreference(String key) {
@@ -70,7 +82,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     }
 
     private void setupChangeThemeConfirmationDialog() {
-        final ListPreference themePreference = (ListPreference) findPreference(SettingsManager.PREF_THEME_INDEX);
+        final ListPreference themePreference = (ListPreference) findPreference(Preferences.THEME_INDEX);
         themePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(final Preference preference, final Object newValue) {
@@ -107,6 +119,30 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 mHighScores.clearHighScores();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null)
+                        .setIcon(R.drawable.alert)
+                        .show();
+                return true;
+            }
+        });
+    }
+
+    private void setupResetTutorial() {
+        Preference preference = findPreference(PREF_START_TUTORIAL);
+        preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                AlertDialog.Builder builder;
+                builder = new AlertDialog.Builder(preference.getContext());
+                builder.setTitle(R.string.start_tutorial)
+                        .setMessage(R.string.start_tutorial_warning)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                mTutorialControl.restart();
+                                mGameLoader.restart();
+                                getActivity().finish();
                             }
                         })
                         .setNegativeButton(android.R.string.no, null)

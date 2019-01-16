@@ -7,15 +7,13 @@ import java.util.Collection;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.map.MapDescriptorRoot;
-import ch.logixisland.anuto.data.map.PathDescriptor;
-import ch.logixisland.anuto.data.setting.tower.GlueTowerSettings;
-import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.loop.TickTimer;
+import ch.logixisland.anuto.engine.logic.map.GameMap;
+import ch.logixisland.anuto.engine.logic.map.MapPath;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
@@ -24,8 +22,10 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.entity.shot.GlueShot;
 import ch.logixisland.anuto.util.RandomUtils;
+import ch.logixisland.anuto.util.container.KeyValueStore;
 import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
+import ch.logixisland.anuto.util.math.Intersections;
 import ch.logixisland.anuto.util.math.Line;
 import ch.logixisland.anuto.util.math.Vector2;
 
@@ -36,7 +36,7 @@ public class GlueTower extends Tower implements SpriteTransformation {
     private final static float CANON_OFFSET_MAX = 0.5f;
     private final static float CANON_OFFSET_STEP = CANON_OFFSET_MAX / GameEngine.TARGET_FRAME_RATE / 0.8f;
 
-    public static class Factory implements EntityFactory {
+    public static class Factory extends EntityFactory {
         @Override
         public String getEntityName() {
             return ENTITY_NAME;
@@ -44,9 +44,8 @@ public class GlueTower extends Tower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            TowerSettingsRoot towerSettingsRoot = gameEngine.getGameConfiguration().getTowerSettingsRoot();
-            MapDescriptorRoot mapDescriptorRoot = gameEngine.getGameConfiguration().getMapDescriptorRoot();
-            return new GlueTower(gameEngine, towerSettingsRoot.getGlueTowerSettings(), mapDescriptorRoot.getPaths());
+            List<MapPath> paths = new GameMap(getGameConfig()).getPaths();
+            return new GlueTower(gameEngine, getEntitySettings(), paths);
         }
     }
 
@@ -74,8 +73,8 @@ public class GlueTower extends Tower implements SpriteTransformation {
         }
     }
 
-    private GlueTowerSettings mSettings;
-    private Collection<PathDescriptor> mPaths;
+    private KeyValueStore mSettings;
+    private Collection<MapPath> mPaths;
 
     private float mGlueIntensity;
     private boolean mShooting;
@@ -87,13 +86,13 @@ public class GlueTower extends Tower implements SpriteTransformation {
     private StaticSprite mSpriteTower;
     private final TickTimer mUpdateTimer = TickTimer.createInterval(0.1f);
 
-    private GlueTower(GameEngine gameEngine, GlueTowerSettings settings, Collection<PathDescriptor> paths) {
+    private GlueTower(GameEngine gameEngine, KeyValueStore settings, Collection<MapPath> paths) {
         super(gameEngine, settings);
         StaticData s = (StaticData) getStaticData();
 
         mPaths = paths;
         mSettings = settings;
-        mGlueIntensity = settings.getGlueIntensity();
+        mGlueIntensity = settings.getFloat("glueIntensity");
 
         mSpriteBase = getSpriteFactory().createStatic(Layers.TOWER, s.mSpriteTemplateBase);
         mSpriteBase.setListener(this);
@@ -158,18 +157,15 @@ public class GlueTower extends Tower implements SpriteTransformation {
     }
 
     @Override
-    public void setEnabled(boolean enabled) {
-        super.setEnabled(enabled);
-
-        if (enabled) {
-            determineTargets();
-        }
+    public void setBuilt() {
+        super.setBuilt();
+        determineTargets();
     }
 
     @Override
     public void enhance() {
         super.enhance();
-        mGlueIntensity += mSettings.getEnhanceGlueIntensity();
+        mGlueIntensity += mSettings.getFloat("enhanceGlueIntensity");
     }
 
     @Override
@@ -189,7 +185,7 @@ public class GlueTower extends Tower implements SpriteTransformation {
 
                 for (Vector2 target : mTargets) {
                     Vector2 position = getPosition().add(Vector2.polar(SHOT_SPAWN_OFFSET, getAngleTo(target)));
-                    getGameEngine().add(new GlueShot(this, position, target, mGlueIntensity, mSettings.getGlueDuration()));
+                    getGameEngine().add(new GlueShot(this, position, target, mGlueIntensity, mSettings.getFloat("glueDuration")));
                 }
             }
         } else if (mCanonOffset > 0f) {
@@ -212,7 +208,7 @@ public class GlueTower extends Tower implements SpriteTransformation {
     public List<TowerInfoValue> getTowerInfoValues() {
         List<TowerInfoValue> properties = new ArrayList<>();
         properties.add(new TowerInfoValue(R.string.intensity, mGlueIntensity));
-        properties.add(new TowerInfoValue(R.string.duration, mSettings.getGlueDuration()));
+        properties.add(new TowerInfoValue(R.string.duration, mSettings.getFloat("glueDuration")));
         properties.add(new TowerInfoValue(R.string.reload, getReloadTime()));
         properties.add(new TowerInfoValue(R.string.range, getRange()));
         return properties;
@@ -249,5 +245,15 @@ public class GlueTower extends Tower implements SpriteTransformation {
 
             dist -= length;
         }
+    }
+
+    private Collection<Line> getPathSectionsInRange(Collection<MapPath> paths) {
+        Collection<Line> sections = new ArrayList<>();
+
+        for (MapPath path : paths) {
+            sections.addAll(Intersections.getPathSectionsInRange(path.getWayPoints(), getPosition(), getRange()));
+        }
+
+        return sections;
     }
 }

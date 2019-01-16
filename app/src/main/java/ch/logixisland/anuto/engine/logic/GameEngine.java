@@ -2,6 +2,7 @@ package ch.logixisland.anuto.engine.logic;
 
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityStore;
+import ch.logixisland.anuto.engine.logic.loop.ErrorListener;
 import ch.logixisland.anuto.engine.logic.loop.GameLoop;
 import ch.logixisland.anuto.engine.logic.loop.Message;
 import ch.logixisland.anuto.engine.logic.loop.MessageQueue;
@@ -27,8 +28,6 @@ public class GameEngine {
     private final Renderer mRenderer;
     private final GameLoop mGameLoop;
 
-    private GameConfiguration mGameConfiguration;
-
     public GameEngine(SpriteFactory spriteFactory, ThemeManager themeManager,
                       SoundFactory soundFactory, EntityStore entityStore, MessageQueue messageQueue,
                       Renderer renderer, GameLoop gameLoop) {
@@ -39,9 +38,6 @@ public class GameEngine {
         mMessageQueue = messageQueue;
         mRenderer = renderer;
         mGameLoop = gameLoop;
-
-        mGameLoop.add(mMessageQueue);
-        mGameLoop.add(mEntityStore);
     }
 
     public SpriteFactory getSpriteFactory() {
@@ -101,9 +97,6 @@ public class GameEngine {
         mEntityStore.clear();
         mRenderer.clear();
         mGameLoop.clear();
-
-        mGameLoop.add(mMessageQueue);
-        mGameLoop.add(mEntityStore);
     }
 
     public void start() {
@@ -142,12 +135,8 @@ public class GameEngine {
         return mRenderer.isPositionVisible(position);
     }
 
-    public GameConfiguration getGameConfiguration() {
-        return mGameConfiguration;
-    }
-
-    public void setGameConfiguration(GameConfiguration gameConfiguration) {
-        mGameConfiguration = gameConfiguration;
+    public void registerErrorListener(ErrorListener listener) {
+        mGameLoop.registerErrorListener(listener);
     }
 
 }

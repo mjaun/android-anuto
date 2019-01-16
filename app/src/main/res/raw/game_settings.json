@@ -1,0 +1,20 @@
+{
+  "credits": 500,
+  "lives": 20,
+  "difficultyModifier": 8e-4,
+  "difficultyExponent": 1.9,
+  "difficultyLinear": 20,
+  "rewardModifier": 0.4,
+  "rewardExponent": 0.5,
+  "earlyModifier": 3,
+  "earlyExponent": 0.6,
+  "minHealthModifier": 0.5,
+  "minRewardModifier": 1,
+  "ageModifier": 0.97,
+  "slots": {
+    "0": "canon",
+    "1": "simpleLaser",
+    "2": "mortar",
+    "3": "glueTower"
+  }
+}

@@ -17,19 +17,14 @@ import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.game.GameSpeed;
-import ch.logixisland.anuto.business.game.GameSpeedListener;
-import ch.logixisland.anuto.business.score.BonusListener;
-import ch.logixisland.anuto.business.score.CreditsListener;
-import ch.logixisland.anuto.business.score.LivesListener;
-import ch.logixisland.anuto.business.score.ScoreBoard;
+import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.business.tower.TowerSelector;
-import ch.logixisland.anuto.business.wave.WaveListener;
 import ch.logixisland.anuto.business.wave.WaveManager;
 import ch.logixisland.anuto.util.StringUtils;
 import ch.logixisland.anuto.view.AnutoFragment;
 
-public class HeaderFragment extends AnutoFragment implements WaveListener, CreditsListener,
-        LivesListener, BonusListener, GameSpeedListener, View.OnClickListener {
+public class HeaderFragment extends AnutoFragment implements WaveManager.Listener, ScoreBoard.CreditsListener,
+        ScoreBoard.LivesListener, ScoreBoard.BonusListener, GameSpeed.Listener, View.OnClickListener {
 
     private final WaveManager mWaveManager;
     private final GameSpeed mSpeedManager;
@@ -161,7 +156,7 @@ public class HeaderFragment extends AnutoFragment implements WaveListener, Credi
         }
 
         if (v == btn_build_tower) {
-            mTowerSelector.requestBuildTower();
+            mTowerSelector.toggleTowerBuildView();
         }
     }
 

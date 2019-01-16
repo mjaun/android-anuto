@@ -1,0 +1,53 @@
+<svg 
+	xmlns="http://www.w3.org/2000/svg" 
+	xmlns:xlink= "http://www.w3.org/1999/xlink" 
+	version="1.1"
+	width="108"
+	height="108">
+	<defs>
+		<pattern 
+			id="background1" 
+			width="42.2" height="42.2" 
+			patternUnits="userSpaceOnUse">
+			<image 
+				xlink:href="background1.png" 
+				x="0" y="0"
+				width="42.2" height="42.2" />
+		</pattern>
+		
+		<pattern 
+			id="background2" 
+			width="4.2" height="4.2" 
+			patternUnits="userSpaceOnUse">
+			<image 
+				xlink:href="background2.png" 
+				x="0" y="0"
+				width="4.2" height="4.2" />
+		</pattern>
+	</defs>
+
+	<g transform="translate(54,54)">
+		<g transform="translate(0,5.6) rotate(30)">
+			<circle
+				cx="0" cy="0"
+				r="21.1"
+				stroke="black"
+				stroke-width="0.7"
+				fill="url(#background1)" />
+		</g>
+	
+		<rect
+			x="-7" y="-28.1"
+			width="14.1" height="42.2"
+			stroke="black"
+			stroke-width="0.7"
+			fill="url(#background1)" />
+			
+		<rect
+			x="-7" y="-28.1"
+			width="14.1" height="8.4"
+			stroke="black"
+			stroke-width="0.7"
+			fill="url(#background2)" />
+	</g>
+</svg>

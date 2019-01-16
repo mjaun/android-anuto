@@ -7,17 +7,12 @@ import java.util.Collection;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.game.EntityDescriptor;
-import ch.logixisland.anuto.data.game.MineLayerDescriptor;
-import ch.logixisland.anuto.data.map.MapDescriptorRoot;
-import ch.logixisland.anuto.data.map.PathDescriptor;
-import ch.logixisland.anuto.data.setting.tower.MineLayerSettings;
-import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
-import ch.logixisland.anuto.engine.logic.entity.EntityListener;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
+import ch.logixisland.anuto.engine.logic.map.GameMap;
+import ch.logixisland.anuto.engine.logic.map.MapPath;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
@@ -27,6 +22,8 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.engine.sound.Sound;
 import ch.logixisland.anuto.entity.shot.Mine;
 import ch.logixisland.anuto.util.RandomUtils;
+import ch.logixisland.anuto.util.container.KeyValueStore;
+import ch.logixisland.anuto.util.math.Intersections;
 import ch.logixisland.anuto.util.math.Line;
 import ch.logixisland.anuto.util.math.Vector2;
 
@@ -35,7 +32,7 @@ public class MineLayer extends Tower implements SpriteTransformation {
     private final static String ENTITY_NAME = "mineLayer";
     private final static float ANIMATION_DURATION = 1f;
 
-    public static class Factory implements EntityFactory {
+    public static class Factory extends EntityFactory {
         @Override
         public String getEntityName() {
             return ENTITY_NAME;
@@ -43,42 +40,38 @@ public class MineLayer extends Tower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            TowerSettingsRoot towerSettingsRoot = gameEngine.getGameConfiguration().getTowerSettingsRoot();
-            MapDescriptorRoot mapDescriptorRoot = gameEngine.getGameConfiguration().getMapDescriptorRoot();
-            return new MineLayer(gameEngine, towerSettingsRoot.getMineLayerSettings(), mapDescriptorRoot.getPaths());
+            List<MapPath> paths = new GameMap(getGameConfig()).getPaths();
+            return new MineLayer(gameEngine, getEntitySettings(), paths);
         }
     }
 
     public static class Persister extends TowerPersister {
+
         public Persister(GameEngine gameEngine, EntityRegistry entityRegistry) {
             super(gameEngine, entityRegistry, ENTITY_NAME);
         }
 
         @Override
-        protected MineLayerDescriptor createEntityDescriptor() {
-            return new MineLayerDescriptor();
-        }
-
-        @Override
-        protected MineLayerDescriptor writeEntityDescriptor(Entity entity) {
+        protected KeyValueStore writeEntityData(Entity entity) {
             MineLayer mineLayer = (MineLayer) entity;
-            MineLayerDescriptor mineLayerDescriptor = (MineLayerDescriptor) super.writeEntityDescriptor(entity);
+            KeyValueStore data = super.writeEntityData(entity);
 
-            Collection<Vector2> minePositions = new ArrayList<>();
+            List<Vector2> minePositions = new ArrayList<>();
             for (Mine mine : mineLayer.mMines) {
-                minePositions.add(mine.getTarget());
+                if (!mine.isFlying()) {
+                    minePositions.add(mine.getPosition());
+                }
             }
-            mineLayerDescriptor.setMinePositions(minePositions);
+            data.putVectorList("minePositions", minePositions);
 
-            return mineLayerDescriptor;
+            return data;
         }
 
         @Override
-        protected MineLayer readEntityDescriptor(EntityDescriptor entityDescriptor) {
-            MineLayer mineLayer = (MineLayer) super.readEntityDescriptor(entityDescriptor);
-            MineLayerDescriptor mineLayerDescriptor = (MineLayerDescriptor) entityDescriptor;
+        protected MineLayer readEntityData(KeyValueStore entityData) {
+            MineLayer mineLayer = (MineLayer) super.readEntityData(entityData);
 
-            for (Vector2 minePosition : mineLayerDescriptor.getMinePositions()) {
+            for (Vector2 minePosition : entityData.getVectorList("minePositions")) {
                 Mine mine = new Mine(mineLayer, minePosition, mineLayer.getDamage(), mineLayer.mExplosionRadius);
                 mineLayer.mMines.add(mine);
                 mine.addListener(mineLayer.mMineListener);
@@ -93,8 +86,8 @@ public class MineLayer extends Tower implements SpriteTransformation {
         public SpriteTemplate mSpriteTemplate;
     }
 
-    private MineLayerSettings mSettings;
-    private Collection<PathDescriptor> mPaths;
+    private KeyValueStore mSettings;
+    private Collection<MapPath> mPaths;
 
     private float mAngle;
     private int mMaxMineCount;
@@ -106,7 +99,7 @@ public class MineLayer extends Tower implements SpriteTransformation {
     private AnimatedSprite mSprite;
     private Sound mSound;
 
-    private final EntityListener mMineListener = new EntityListener() {
+    private final Listener mMineListener = new Listener() {
         @Override
         public void entityRemoved(Entity entity) {
             Mine mine = (Mine) entity;
@@ -115,7 +108,7 @@ public class MineLayer extends Tower implements SpriteTransformation {
         }
     };
 
-    private MineLayer(GameEngine gameEngine, MineLayerSettings settings, Collection<PathDescriptor> paths) {
+    private MineLayer(GameEngine gameEngine, KeyValueStore settings, Collection<MapPath> paths) {
         super(gameEngine, settings);
         StaticData s = (StaticData) getStaticData();
 
@@ -128,8 +121,8 @@ public class MineLayer extends Tower implements SpriteTransformation {
         mSprite.setInterval(ANIMATION_DURATION);
 
         mAngle = RandomUtils.next(360f);
-        mMaxMineCount = mSettings.getMaxMineCount();
-        mExplosionRadius = mSettings.getExplosionRadius();
+        mMaxMineCount = mSettings.getInt("maxMineCount");
+        mExplosionRadius = mSettings.getFloat("explosionRadius");
 
         mSound = getSoundFactory().createSound(R.raw.gun2_donk);
     }
@@ -185,8 +178,8 @@ public class MineLayer extends Tower implements SpriteTransformation {
     @Override
     public void enhance() {
         super.enhance();
-        mMaxMineCount += mSettings.getEnhanceMaxMineCount();
-        mExplosionRadius += mSettings.getEnhanceExplosionRadius();
+        mMaxMineCount += mSettings.getInt("enhanceMaxMineCount");
+        mExplosionRadius += mSettings.getFloat("enhanceExplosionRadius");
     }
 
     @Override
@@ -262,5 +255,15 @@ public class MineLayer extends Tower implements SpriteTransformation {
         }
 
         return null;
+    }
+
+    private Collection<Line> getPathSectionsInRange(Collection<MapPath> paths) {
+        Collection<Line> sections = new ArrayList<>();
+
+        for (MapPath path : paths) {
+            sections.addAll(Intersections.getPathSectionsInRange(path.getWayPoints(), getPosition(), getRange()));
+        }
+
+        return sections;
     }
 }

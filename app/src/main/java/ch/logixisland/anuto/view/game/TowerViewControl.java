@@ -11,16 +11,14 @@ import java.util.List;
 
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
-import ch.logixisland.anuto.business.game.GameState;
-import ch.logixisland.anuto.business.game.GameStateListener;
-import ch.logixisland.anuto.business.score.CreditsListener;
-import ch.logixisland.anuto.business.score.ScoreBoard;
+import ch.logixisland.anuto.business.game.GameLoader;
+import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.business.tower.TowerInserter;
 
-class TowerViewControl implements GameStateListener, CreditsListener, View.OnTouchListener {
+class TowerViewControl implements GameLoader.Listener, ScoreBoard.CreditsListener, View.OnTouchListener {
 
     private final ScoreBoard mScoreBoard;
-    private final GameState mGameState;
+    private final GameLoader mGameLoader;
     private final TowerInserter mTowerInserter;
 
     private final Handler mHandler;
@@ -32,23 +30,21 @@ class TowerViewControl implements GameStateListener, CreditsListener, View.OnTou
 
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
         mScoreBoard = factory.getScoreBoard();
-        mGameState = factory.getGameState();
+        mGameLoader = factory.getGameLoader();
         mTowerInserter = factory.getTowerInserter();
 
         mHandler = new Handler();
 
-        mGameState.addListener(this);
+        mGameLoader.addListener(this);
         mScoreBoard.addCreditsListener(this);
 
         for (TowerView towerView : mTowerViews) {
             towerView.setOnTouchListener(this);
         }
-
-        updateTowerSlots();
     }
 
     void close() {
-        mGameState.removeListener(this);
+        mGameLoader.removeListener(this);
         mScoreBoard.removeCreditsListener(this);
         mHandler.removeCallbacksAndMessages(null);
     }
@@ -79,18 +75,13 @@ class TowerViewControl implements GameStateListener, CreditsListener, View.OnTou
     }
 
     @Override
-    public void gameRestart() {
+    public void gameLoaded() {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
                 updateTowerSlots();
             }
         });
-    }
-
-    @Override
-    public void gameOver() {
-
     }
 
     @Override

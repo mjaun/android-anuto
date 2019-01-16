@@ -3,44 +3,44 @@ package ch.logixisland.anuto.business.game;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import ch.logixisland.anuto.business.score.ScoreBoard;
+import ch.logixisland.anuto.engine.logic.GameEngine;
+import ch.logixisland.anuto.engine.logic.loop.Message;
 
-public class HighScores implements GameStateListener {
+public class HighScores {
 
     private final SharedPreferences mHighScores;
     private final ScoreBoard mScoreBoard;
-    private final GameConfigurationLoader mGameConfigurationLoader;
+    private final GameEngine mGameEngine;
+    private final GameLoader mGameLoader;
 
-    public HighScores(Context context, GameState gameState, ScoreBoard scoreBoard, GameConfigurationLoader gameConfigurationLoader) {
+    public HighScores(Context context, GameEngine gameEngine, ScoreBoard scoreBoard, GameLoader gameLoader) {
         mHighScores = context.getSharedPreferences("high_scores", Context.MODE_PRIVATE);
         mScoreBoard = scoreBoard;
-        mGameConfigurationLoader = gameConfigurationLoader;
-        gameState.addListener(this);
+        mGameEngine = gameEngine;
+        mGameLoader = gameLoader;
     }
 
     public int getHighScore(String mapId) {
         return mHighScores.getInt(mapId, 0);
     }
 
-    @Override
-    public void gameRestart() {
+    public void updateHighScore() {
+        if (mGameEngine.isThreadChangeNeeded()) {
+            mGameEngine.post(new Message() {
+                @Override
+                public void execute() {
+                    updateHighScore();
+                }
+            });
+            return;
+        }
 
-    }
-
-    @Override
-    public void gameOver() {
-        String mapId = mGameConfigurationLoader.getMapInfo().getMapId();
+        String mapId = mGameLoader.getCurrentMapId();
+        int highScore = getHighScore(mapId);
         int score = mScoreBoard.getScore();
-        setHighScore(mapId, score);
-    }
 
-    private void setHighScore(String mapId, int highScore) {
-        int currentHighScore = getHighScore(mapId);
-
-        if (highScore > currentHighScore) {
-            mHighScores.edit()
-                    .putInt(mapId, highScore)
-                    .apply();
+        if (score > highScore) {
+            mHighScores.edit().putInt(mapId, score).apply();
         }
     }
 

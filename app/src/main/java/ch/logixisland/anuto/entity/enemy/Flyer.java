@@ -1,9 +1,6 @@
 package ch.logixisland.anuto.entity.enemy;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.setting.enemy.EnemySettings;
-import ch.logixisland.anuto.data.setting.enemy.EnemySettingsRoot;
-import ch.logixisland.anuto.data.setting.enemy.GlobalSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
@@ -16,13 +13,14 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
+import ch.logixisland.anuto.util.container.KeyValueStore;
 
 public class Flyer extends Enemy implements SpriteTransformation {
 
     private final static String ENTITY_NAME = "flyer";
     private final static float ANIMATION_SPEED = 1.0f;
 
-    public static class Factory implements EntityFactory {
+    public static class Factory extends EntityFactory {
         @Override
         public String getEntityName() {
             return ENTITY_NAME;
@@ -30,8 +28,7 @@ public class Flyer extends Enemy implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            EnemySettingsRoot enemySettingsRoot = gameEngine.getGameConfiguration().getEnemySettingsRoot();
-            return new Flyer(gameEngine, enemySettingsRoot.getGlobalSettings(), enemySettingsRoot.getFlyerSettings());
+            return new Flyer(gameEngine, getEntitySettings());
         }
     }
 
@@ -55,8 +52,8 @@ public class Flyer extends Enemy implements SpriteTransformation {
 
     private ReplicatedSprite mSprite;
 
-    private Flyer(GameEngine gameEngine, GlobalSettings globalSettings, EnemySettings enemySettings) {
-        super(gameEngine, globalSettings, enemySettings);
+    private Flyer(GameEngine gameEngine, KeyValueStore enemySettings) {
+        super(gameEngine, enemySettings);
         StaticData s = (StaticData) getStaticData();
 
         mSprite = getSpriteFactory().createReplication(s.mReferenceSprite);

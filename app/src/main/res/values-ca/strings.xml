@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="app_name">Anuto TD</string>
+
+    <string name="menu">Menú</string>
+    <string name="build_tower">Construir</string>
+    <string name="next_wave">Nova onada</string>
+    <string name="normal_speed">1x</string>
+    <string name="fast_speed">4x</string>
+
+    <string name="restart">Reiniciar</string>
+    <string name="change_map">Canviar Mapa</string>
+    <string name="settings">Configuració</string>
+
+    <string name="sound">So</string>
+    <string name="theme">Estil</string>
+    <string name="change_theme">Cambiar tema</string>
+    <string name="change_theme_warning">Estàs segur de voler canviar el tema? La partida es reiniciarà.</string>
+    <string name="back_button_mode">Sortir en prémer «enrere»</string>
+    <string name="reset_highscores">Restablir màximes puntuacions</string>
+    <string name="reset_highscores_warning">Segur que desitges restablir totes les màximes puntuacions?</string>
+    <string name="transparent_menus">Menús transparents al juego</string>
+
+    <string name="game_over">S\'ha acabat!</string>
+    <string name="score">Puntuació</string>
+
+    <string name="credits">Crèdits</string>
+    <string name="lives">Vides</string>
+    <string name="wave">Onada</string>
+    <string name="bonus">Bonus</string>
+
+    <string name="level">Nivell</string>
+    <string name="damage">Dany</string>
+    <string name="reload">Recàrrega</string>
+    <string name="range">Rang</string>
+    <string name="splash">Radi explosiu</string>
+    <string name="distance">Distància</string>
+    <string name="intensity">Intensitat</string>
+    <string name="duration">Durada</string>
+    <string name="inflicted">Infligit</string>
+
+    <string name="lock_target">Fixar Objectiu</string>
+    <string name="strategy">Estratègia</string>
+    <string name="enhance">Millorar</string>
+    <string name="upgrade">Actualitzar</string>
+    <string name="sell">Vendre</string>
+
+    <string name="on">Encès</string>
+    <string name="off">Apagat</string>
+    <string name="twice">Doble</string>
+
+    <string name="strategy_closest">Més proper</string>
+    <string name="strategy_weakest">Més dèbil</string>
+    <string name="strategy_strongest">Més fort</string>
+    <string name="strategy_first">Primer</string>
+    <string name="strategy_last">Últim</string>
+
+    <string name="theme_original">Original</string>
+    <string name="theme_dark">Fosc</string>
+
+    <string name="map_original_name">L\'original</string>
+    <string name="map_waiting_line_name">Odio les cues</string>
+    <string name="map_turn_round_name">Una ronda</string>
+    <string name="map_hurry_name">Tenim pressa!</string>
+    <string name="map_civyshk_2y_name">Civyshk 2Y</string>
+    <string name="map_civyshk_line5_name">Civyshk Line5</string>
+    <string name="map_civyshk_labyrinth_name">Laberint Civyshk</string>
+    <string name="map_civyshk_yard_name">Pati Civyshk</string>
+
+    <string name="press_back_button_again_toast">Prem el botó «enrere» de nou per a sortir</string>
+</resources>

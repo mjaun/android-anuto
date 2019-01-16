@@ -7,12 +7,9 @@ import java.util.Collection;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.setting.tower.TeleporterSettings;
-import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
-import ch.logixisland.anuto.engine.logic.entity.EntityListener;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
@@ -24,13 +21,14 @@ import ch.logixisland.anuto.engine.sound.Sound;
 import ch.logixisland.anuto.entity.effect.TeleportEffect;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.RandomUtils;
+import ch.logixisland.anuto.util.container.KeyValueStore;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
-public class Teleporter extends AimingTower implements SpriteTransformation {
+public class Teleporter extends Tower implements SpriteTransformation {
 
     private final static String ENTITY_NAME = "teleporter";
 
-    public static class Factory implements EntityFactory {
+    public static class Factory extends EntityFactory {
         @Override
         public String getEntityName() {
             return ENTITY_NAME;
@@ -38,8 +36,7 @@ public class Teleporter extends AimingTower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            TowerSettingsRoot towerSettingsRoot = gameEngine.getGameConfiguration().getTowerSettingsRoot();
-            return new Teleporter(gameEngine, towerSettingsRoot.getTeleporterSettings());
+            return new Teleporter(gameEngine, getEntitySettings());
         }
     }
 
@@ -49,7 +46,7 @@ public class Teleporter extends AimingTower implements SpriteTransformation {
         }
     }
 
-    private static class StaticData implements EntityListener {
+    private static class StaticData implements Listener {
         SpriteTemplate mSpriteTemplateBase;
         SpriteTemplate mSpriteTemplateTower;
         Collection<Enemy> mTeleportedEnemies = new ArrayList<>();
@@ -61,20 +58,20 @@ public class Teleporter extends AimingTower implements SpriteTransformation {
         }
     }
 
-    private TeleporterSettings mSettings;
-
+    private KeyValueStore mSettings;
     private float mTeleportDistance;
+    private final Aimer mAimer = new Aimer(this);
 
     private StaticSprite mSpriteBase;
     private StaticSprite mSpriteTower;
     private Sound mSound;
 
-    private Teleporter(GameEngine gameEngine, TeleporterSettings settings) {
+    private Teleporter(GameEngine gameEngine, KeyValueStore settings) {
         super(gameEngine, settings);
         StaticData s = (StaticData) getStaticData();
 
         mSettings = settings;
-        mTeleportDistance = settings.getTeleportDistance();
+        mTeleportDistance = settings.getFloat("teleportDistance");
 
         mSpriteBase = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplateBase);
         mSpriteBase.setListener(this);
@@ -124,27 +121,33 @@ public class Teleporter extends AimingTower implements SpriteTransformation {
     @Override
     public void enhance() {
         super.enhance();
-        mTeleportDistance += mSettings.getEnhanceTeleportDistance();
+        mTeleportDistance += mSettings.getFloat("enhanceTeleportDistance");
     }
 
     @Override
     public void tick() {
         super.tick();
 
-        Enemy target = getTarget();
+        mAimer.tick();
+        Enemy target = mAimer.getTarget();
 
         if (isReloaded() && target != null) {
             // double check because two TeleportTowers might shoot simultaneously
-            if (target.isEnabled() && getDistanceTo(target) <= getRange()) {
+            if (!target.isBeingTeleported() && getDistanceTo(target) <= getRange()) {
                 StaticData s = (StaticData) getStaticData();
                 s.mTeleportedEnemies.add(target);
                 getGameEngine().add(new TeleportEffect(this, getPosition(), target, mTeleportDistance));
                 mSound.play();
                 setReloaded(false);
             } else {
-                setTarget(null);
+                mAimer.setTarget(null);
             }
         }
+    }
+
+    @Override
+    public Aimer getAimer() {
+        return mAimer;
     }
 
     @Override
@@ -173,6 +176,6 @@ public class Teleporter extends AimingTower implements SpriteTransformation {
 
         return super.getPossibleTargets()
                 .filter(s.mTeleportedEnemies)
-                .filter(Enemy.enabled());
+                .filter(Enemy.beingTeleported(false));
     }
 }

@@ -1,0 +1,11 @@
+language: android
+android:
+  components:
+    - tools
+    - platform-tools
+    - tools
+
+    - build-tools-28.0.3
+    - android-28
+script:
+  - ./gradlew build check

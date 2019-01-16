@@ -9,6 +9,7 @@ public class SampledFunction {
 
     SampledFunction(Function function) {
         mFunction = function;
+        setPosition(0);
     }
 
     public int getPosition() {

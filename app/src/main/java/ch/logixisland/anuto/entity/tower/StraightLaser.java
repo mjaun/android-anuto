@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.setting.tower.TowerSettings;
-import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
@@ -20,15 +18,16 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.engine.sound.Sound;
 import ch.logixisland.anuto.util.RandomUtils;
+import ch.logixisland.anuto.util.container.KeyValueStore;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class StraightLaser extends AimingTower implements SpriteTransformation {
+public class StraightLaser extends Tower implements SpriteTransformation {
 
     private final static String ENTITY_NAME = "straightLaser";
     private final static float LASER_SPAWN_OFFSET = 0.8f;
     private final static float LASER_LENGTH = 100f;
 
-    public static class Factory implements EntityFactory {
+    public static class Factory extends EntityFactory {
         @Override
         public String getEntityName() {
             return ENTITY_NAME;
@@ -36,8 +35,7 @@ public class StraightLaser extends AimingTower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            TowerSettingsRoot towerSettingsRoot = gameEngine.getGameConfiguration().getTowerSettingsRoot();
-            return new StraightLaser(gameEngine, towerSettingsRoot.getStraightLaserSettings());
+            return new StraightLaser(gameEngine, getEntitySettings());
         }
     }
 
@@ -53,12 +51,13 @@ public class StraightLaser extends AimingTower implements SpriteTransformation {
     }
 
     private float mAngle = 90f;
+    private final Aimer mAimer = new Aimer(this);
 
     private StaticSprite mSpriteBase;
     private StaticSprite mSpriteCanon;
     private Sound mSound;
 
-    private StraightLaser(GameEngine gameEngine, TowerSettings settings) {
+    private StraightLaser(GameEngine gameEngine, KeyValueStore settings) {
         super(gameEngine, settings);
         StaticData s = (StaticData) getStaticData();
 
@@ -110,9 +109,10 @@ public class StraightLaser extends AimingTower implements SpriteTransformation {
     @Override
     public void tick() {
         super.tick();
+        mAimer.tick();
 
-        if (getTarget() != null) {
-            mAngle = getAngleTo(getTarget());
+        if (mAimer.getTarget() != null) {
+            mAngle = getAngleTo(mAimer.getTarget());
 
             if (isReloaded()) {
                 Vector2 laserFrom = getPosition().add(Vector2.polar(LASER_SPAWN_OFFSET, mAngle));
@@ -122,6 +122,11 @@ public class StraightLaser extends AimingTower implements SpriteTransformation {
                 mSound.play();
             }
         }
+    }
+
+    @Override
+    public Aimer getAimer() {
+        return mAimer;
     }
 
     @Override

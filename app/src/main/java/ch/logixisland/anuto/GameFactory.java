@@ -1,19 +1,20 @@
 package ch.logixisland.anuto;
 
 import android.content.Context;
+import android.preference.PreferenceManager;
 
-import ch.logixisland.anuto.business.game.GameConfigurationLoader;
+import ch.logixisland.anuto.business.game.GameLoader;
 import ch.logixisland.anuto.business.game.GameSpeed;
 import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.game.HighScores;
-import ch.logixisland.anuto.business.score.ScoreBoard;
-import ch.logixisland.anuto.business.setting.SettingsManager;
+import ch.logixisland.anuto.business.game.MapRepository;
+import ch.logixisland.anuto.business.game.ScoreBoard;
+import ch.logixisland.anuto.business.game.TutorialControl;
 import ch.logixisland.anuto.business.tower.TowerAging;
 import ch.logixisland.anuto.business.tower.TowerControl;
 import ch.logixisland.anuto.business.tower.TowerInserter;
 import ch.logixisland.anuto.business.tower.TowerSelector;
 import ch.logixisland.anuto.business.wave.WaveManager;
-import ch.logixisland.anuto.data.map.MapRepository;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.entity.EntityStore;
@@ -49,69 +50,57 @@ import ch.logixisland.anuto.entity.tower.Teleporter;
 public class GameFactory {
 
     // Engine
-    private final ThemeManager mThemeManager;
-    private final SoundManager mSoundManager;
-    private final SpriteFactory mSpriteFactory;
-    private final SoundFactory mSoundFactory;
-    private final Viewport mViewport;
-    private final FrameRateLogger mFrameRateLogger;
-    private final EntityStore mEntityStore;
-    private final MessageQueue mMessageQueue;
-    private final Renderer mRenderer;
-    private final GameEngine mGameEngine;
-    private final GameLoop mGameLoop;
-    private final GamePersister mGamePersister;
-    private final EntityRegistry mEntityRegistry;
+    private ThemeManager mThemeManager;
+    private SoundManager mSoundManager;
+    private SpriteFactory mSpriteFactory;
+    private SoundFactory mSoundFactory;
+    private Viewport mViewport;
+    private FrameRateLogger mFrameRateLogger;
+    private EntityStore mEntityStore;
+    private MessageQueue mMessageQueue;
+    private Renderer mRenderer;
+    private GameEngine mGameEngine;
+    private GameLoop mGameLoop;
+    private GamePersister mGamePersister;
+    private EntityRegistry mEntityRegistry;
 
     // Business
-    private final ScoreBoard mScoreBoard;
-    private final HighScores mHighScores;
-    private final TowerSelector mTowerSelector;
-    private final TowerControl mTowerControl;
-    private final TowerAging mTowerAging;
-    private final TowerInserter mTowerInserter;
-    private final MapRepository mMapRepository;
-    private final GameConfigurationLoader mGameConfigurationLoader;
-    private final WaveManager mWaveManager;
-    private final GameSpeed mSpeedManager;
-    private final GameState mGameState;
-    private final SettingsManager mSettingsManager;
+    private ScoreBoard mScoreBoard;
+    private HighScores mHighScores;
+    private TowerSelector mTowerSelector;
+    private TowerControl mTowerControl;
+    private TowerAging mTowerAging;
+    private TowerInserter mTowerInserter;
+    private MapRepository mMapRepository;
+    private GameLoader mGameLoader;
+    private WaveManager mWaveManager;
+    private GameSpeed mSpeedManager;
+    private GameState mGameState;
+    private TutorialControl mTutorialControl;
 
     public GameFactory(Context context) {
-        // Engine
-        mThemeManager = new ThemeManager(context);
+        PreferenceManager.setDefaultValues(context, R.xml.settings, false);
+
+        initializeEngine(context);
+        registerEntities();
+        initializeBusiness(context);
+        registerPersisters();
+    }
+
+    private void initializeEngine(Context context) {
+        mViewport = new Viewport();
+        mEntityStore = new EntityStore();
+        mMessageQueue = new MessageQueue();
+        mGamePersister = new GamePersister();
+        mFrameRateLogger = new FrameRateLogger();
+        mRenderer = new Renderer(mViewport, mFrameRateLogger);
+        mGameLoop = new GameLoop(mRenderer, mFrameRateLogger, mMessageQueue, mEntityStore);
+        mThemeManager = new ThemeManager(context, mRenderer);
         mSoundManager = new SoundManager(context);
         mSpriteFactory = new SpriteFactory(context, mThemeManager);
         mSoundFactory = new SoundFactory(context, mSoundManager);
-        mViewport = new Viewport();
-        mFrameRateLogger = new FrameRateLogger();
-        mEntityStore = new EntityStore();
-        mMessageQueue = new MessageQueue();
-        mRenderer = new Renderer(mViewport, mThemeManager, mFrameRateLogger);
-        mGameLoop = new GameLoop(mRenderer, mFrameRateLogger);
         mGameEngine = new GameEngine(mSpriteFactory, mThemeManager, mSoundFactory, mEntityStore, mMessageQueue, mRenderer, mGameLoop);
         mEntityRegistry = new EntityRegistry(mGameEngine);
-        mGamePersister = new GamePersister();
-
-        registerEntities();
-
-        // Business
-        mMapRepository = new MapRepository();
-        mScoreBoard = new ScoreBoard(mGameEngine);
-        mGameState = new GameState(mGameEngine, mThemeManager, mScoreBoard);
-        mGameConfigurationLoader = new GameConfigurationLoader(context, mGameEngine, mScoreBoard, mGameState, mViewport, mEntityRegistry, mMapRepository);
-        mTowerAging = new TowerAging(mGameEngine);
-        mSpeedManager = new GameSpeed(mGameEngine);
-        mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mGameState, mEntityRegistry, mTowerAging);
-        mHighScores = new HighScores(context, mGameState, mScoreBoard, mGameConfigurationLoader);
-        mTowerSelector = new TowerSelector(mGameEngine, mGameState, mScoreBoard);
-        mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector, mEntityRegistry);
-        mTowerInserter = new TowerInserter(mGameEngine, mGameState, mEntityRegistry, mTowerSelector, mTowerAging, mScoreBoard);
-        mSettingsManager = new SettingsManager(context, mThemeManager, mSoundManager);
-
-        registerPersisters();
-        
-        mGameState.restart();
     }
 
     private void registerEntities() {
@@ -135,15 +124,30 @@ public class GameFactory {
         mEntityRegistry.registerEntity(new GlueTower.Factory());
         mEntityRegistry.registerEntity(new GlueGun.Factory());
         mEntityRegistry.registerEntity(new Teleporter.Factory());
+    }
 
+    private void initializeBusiness(Context context) {
+        mMapRepository = new MapRepository();
+        mScoreBoard = new ScoreBoard(mGameEngine);
+        mTowerSelector = new TowerSelector(mGameEngine, mScoreBoard);
+        mGameLoader = new GameLoader(context, mGameEngine, mGamePersister, mViewport, mEntityRegistry, mMapRepository);
+        mHighScores = new HighScores(context, mGameEngine, mScoreBoard, mGameLoader);
+        mGameState = new GameState(mScoreBoard, mHighScores, mTowerSelector);
+        mTowerAging = new TowerAging(mGameEngine);
+        mSpeedManager = new GameSpeed(mGameEngine);
+        mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mGameState, mEntityRegistry, mTowerAging);
+        mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector, mEntityRegistry);
+        mTowerInserter = new TowerInserter(mGameEngine, mGameState, mEntityRegistry, mTowerSelector, mTowerAging, mScoreBoard);
+        mTutorialControl = new TutorialControl(context, mTowerInserter, mTowerSelector, mWaveManager);
     }
 
     private void registerPersisters() {
         mGamePersister.registerPersister(mEntityRegistry);
         mGamePersister.registerPersister(mMessageQueue);
-        mGamePersister.registerPersister(mGameConfigurationLoader);
+        mGamePersister.registerPersister(mGameState);
         mGamePersister.registerPersister(mScoreBoard);
-        mGamePersister.registerPersister(mWaveManager);
+        mGamePersister.registerPersister(mTowerAging);
+        mGamePersister.registerPersister(mTowerInserter);
 
         mGamePersister.registerPersister(new BasicPlateau.Persister(mGameEngine, mEntityRegistry));
 
@@ -165,6 +169,8 @@ public class GameFactory {
         mGamePersister.registerPersister(new GlueTower.Persister(mGameEngine, mEntityRegistry));
         mGamePersister.registerPersister(new GlueGun.Persister(mGameEngine, mEntityRegistry));
         mGamePersister.registerPersister(new Teleporter.Persister(mGameEngine, mEntityRegistry));
+
+        mGamePersister.registerPersister(mWaveManager);
     }
 
     public ThemeManager getThemeManager() {
@@ -183,6 +189,10 @@ public class GameFactory {
         return mGameEngine;
     }
 
+    public EntityRegistry getEntityRegistry() {
+        return mEntityRegistry;
+    }
+
     public ScoreBoard getScoreBoard() {
         return mScoreBoard;
     }
@@ -199,8 +209,8 @@ public class GameFactory {
         return mTowerInserter;
     }
 
-    public GameConfigurationLoader getGameConfigurationLoader() {
-        return mGameConfigurationLoader;
+    public GameLoader getGameLoader() {
+        return mGameLoader;
     }
 
     public WaveManager getWaveManager() {
@@ -215,10 +225,6 @@ public class GameFactory {
         return mGameState;
     }
 
-    public SettingsManager getSettingsManager() {
-        return mSettingsManager;
-    }
-
     public MapRepository getMapRepository() {
         return mMapRepository;
     }
@@ -227,4 +233,7 @@ public class GameFactory {
         return mHighScores;
     }
 
+    public TutorialControl getTutorialControl() {
+        return mTutorialControl;
+    }
 }

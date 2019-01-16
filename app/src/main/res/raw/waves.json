@@ -1,0 +1,1181 @@
+{
+  "waves": [
+    {
+      "waveReward": 100,
+      "extend": 2,
+      "maxExtend": 8,
+      "enemies": [
+        {
+          "name": "soldier",
+          "delay": 9
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        }
+      ]
+    },
+    {
+      "waveReward": 100,
+      "extend": 2,
+      "maxExtend": 4,
+      "enemies": [
+        {
+          "name": "soldier",
+          "delay": 9
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "delay": 9
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        }
+      ]
+    },
+    {
+      "waveReward": 120,
+      "extend": 1,
+      "maxExtend": 4,
+      "enemies": [
+        {
+          "name": "soldier",
+          "delay": 9
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "delay": 6
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        }
+      ]
+    },
+    {
+      "waveReward": 120,
+      "extend": 1,
+      "maxExtend": 3,
+      "enemies": [
+        {
+          "name": "soldier",
+          "delay": 9
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "delay": 6
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "delay": 9
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        }
+      ]
+    },
+    {
+      "waveReward": 150,
+      "extend": 1,
+      "maxExtend": 3,
+      "enemies": [
+        {
+          "name": "sprinter",
+          "delay": 10
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "delay": 2
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "delay": 2
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        }
+      ]
+    },
+    {
+      "waveReward": 150,
+      "extend": 1,
+      "maxExtend": 3,
+      "enemies": [
+        {
+          "name": "soldier",
+          "delay": 9
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "delay": 2
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "delay": 2
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        }
+      ]
+    },
+    {
+      "waveReward": 170,
+      "extend": 1,
+      "maxExtend": 4,
+      "enemies": [
+        {
+          "name": "flyer",
+          "delay": 9
+        },
+        {
+          "name": "flyer",
+          "offset": 1.1
+        },
+        {
+          "name": "flyer",
+          "offset": 1.1
+        },
+        {
+          "name": "flyer",
+          "offset": 1.1
+        },
+        {
+          "name": "flyer",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "delay": 9
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        }
+      ]
+    },
+    {
+      "waveReward": 170,
+      "extend": 1,
+      "maxExtend": 3,
+      "enemies": [
+        {
+          "name": "sprinter",
+          "delay": 9
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "delay": 4
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "flyer",
+          "delay": 9
+        },
+        {
+          "name": "flyer",
+          "offset": 1.1
+        },
+        {
+          "name": "flyer",
+          "offset": 1.1
+        },
+        {
+          "name": "flyer",
+          "offset": 1.1
+        },
+        {
+          "name": "flyer",
+          "offset": 1.1
+        },
+        {
+          "name": "flyer",
+          "offset": 1.1
+        }
+      ]
+    },
+    {
+      "waveReward": 190,
+      "extend": 1,
+      "maxExtend": 2,
+      "enemies": [
+        {
+          "name": "sprinter",
+          "delay": 9
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "delay": 2
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "flyer",
+          "delay": 4
+        },
+        {
+          "name": "flyer",
+          "offset": 1.1
+        },
+        {
+          "name": "flyer",
+          "offset": 1.1
+        },
+        {
+          "name": "flyer",
+          "offset": 1.1
+        },
+        {
+          "name": "flyer",
+          "offset": 1.1
+        },
+        {
+          "name": "flyer",
+          "offset": 1.1
+        },
+        {
+          "name": "flyer",
+          "offset": 1.1
+        },
+        {
+          "name": "flyer",
+          "offset": 1.1
+        },
+        {
+          "name": "flyer",
+          "offset": 1.1
+        }
+      ]
+    },
+    {
+      "waveReward": 190,
+      "extend": 1,
+      "maxExtend": 2,
+      "enemies": [
+        {
+          "name": "healer",
+          "delay": 9
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "delay": 4
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "delay": 9
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        }
+      ]
+    },
+    {
+      "waveReward": 240,
+      "extend": 1,
+      "maxExtend": 4,
+      "enemies": [
+        {
+          "name": "healer",
+          "delay": 9
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "healer",
+          "delay": 9
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        }
+      ]
+    },
+    {
+      "waveReward": 240,
+      "extend": 1,
+      "maxExtend": 4,
+      "enemies": [
+        {
+          "name": "healer",
+          "delay": 9
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "delay": 9
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        }
+      ]
+    },
+    {
+      "waveReward": 240,
+      "extend": 1,
+      "maxExtend": 3,
+      "enemies": [
+        {
+          "name": "healer",
+          "delay": 9
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "delay": 2
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "healer",
+          "delay": 9
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "delay": 2
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        }
+      ]
+    },
+    {
+      "waveReward": 240,
+      "extend": 1,
+      "maxExtend": 3,
+      "enemies": [
+        {
+          "name": "healer",
+          "delay": 9
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "delay": 2
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "flyer",
+          "delay": 2
+        },
+        {
+          "name": "flyer",
+          "offset": 1.1
+        },
+        {
+          "name": "flyer",
+          "offset": 1.1
+        },
+        {
+          "name": "flyer",
+          "offset": 1.1
+        },
+        {
+          "name": "flyer",
+          "offset": 1.1
+        },
+        {
+          "name": "flyer",
+          "offset": 1.1
+        }
+      ]
+    },
+    {
+      "waveReward": 300,
+      "extend": 1,
+      "maxExtend": 2,
+      "enemies": [
+        {
+          "name": "blob",
+          "delay": 9
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "blob",
+          "offset": 1.1
+        },
+        {
+          "name": "healer",
+          "delay": 2
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "delay": 2
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "soldier",
+          "offset": 1.1
+        },
+        {
+          "name": "flyer",
+          "delay": 2
+        },
+        {
+          "name": "flyer",
+          "offset": 1.1
+        },
+        {
+          "name": "flyer",
+          "offset": 1.1
+        },
+        {
+          "name": "flyer",
+          "offset": 1.1
+        },
+        {
+          "name": "flyer",
+          "offset": 1.1
+        },
+        {
+          "name": "flyer",
+          "offset": 1.1
+        },
+        {
+          "name": "flyer",
+          "offset": 1.1
+        },
+        {
+          "name": "flyer",
+          "offset": 1.1
+        },
+        {
+          "name": "flyer",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "delay": 2
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "sprinter",
+          "offset": 1.1
+        },
+        {
+          "name": "healer",
+          "delay": 2
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        },
+        {
+          "name": "healer",
+          "offset": 1.1
+        }
+      ]
+    }
+  ]
+}

@@ -1,14 +1,15 @@
 package ch.logixisland.anuto.entity.enemy;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.data.setting.enemy.EnemySettings;
-import ch.logixisland.anuto.data.setting.enemy.GlobalSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.tower.Tower;
+import ch.logixisland.anuto.util.container.KeyValueStore;
 import ch.logixisland.anuto.util.iterator.Function;
 import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.math.Vector2;
@@ -16,13 +17,11 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public abstract class Enemy extends Entity {
 
-    private int mWaveNumber;
-
-    public static Predicate<Enemy> enabled() {
+    public static Predicate<Enemy> beingTeleported(final boolean value) {
         return new Predicate<Enemy>() {
             @Override
             public boolean apply(Enemy enemy) {
-                return enemy.isEnabled();
+                return enemy.isBeingTeleported() == value;
             }
         };
     }
@@ -45,14 +44,18 @@ public abstract class Enemy extends Entity {
         };
     }
 
-    private final GlobalSettings mGlobalSettings;
-    private final EnemySettings mEnemySettings;
-
-    private boolean mEnabled;
+    private int mWaveNumber;
+    private boolean mBeingTeleported;
     private int mReward;
     private float mHealth;
     private float mMaxHealth;
+    private float mSpeed;
+    private Collection<WeaponType> mWeakAgainst;
+    private Collection<WeaponType> mStrongAgainst;
     private float mSpeedModifier;
+    private float mMinSpeedModifier;
+    private float mWeakAgainstModifier;
+    private float mStrongAgainstModifier;
     private List<Vector2> mWayPoints;
     private int mWayPointIndex;
 
@@ -60,18 +63,30 @@ public abstract class Enemy extends Entity {
 
     private final List<EnemyListener> mListeners = new CopyOnWriteArrayList<>();
 
-    Enemy(GameEngine gameEngine, GlobalSettings globalSettings, EnemySettings enemySettings) {
+    Enemy(GameEngine gameEngine, KeyValueStore enemySettings) {
         super(gameEngine);
 
-        mGlobalSettings = globalSettings;
-        mEnemySettings = enemySettings;
-
-        mEnabled = true;
+        mBeingTeleported = false;
         mSpeedModifier = 1f;
 
-        mReward = enemySettings.getReward();
-        mHealth = enemySettings.getHealth();
-        mMaxHealth = enemySettings.getHealth();
+        mReward = enemySettings.getInt("reward");
+        mHealth = enemySettings.getFloat("health");
+        mMaxHealth = enemySettings.getFloat("health");
+        mSpeed = enemySettings.getFloat("speed");
+        mMinSpeedModifier = enemySettings.getFloat("minSpeedModifier");
+        mWeakAgainstModifier = enemySettings.getFloat("weakAgainstModifier");
+        mStrongAgainstModifier = enemySettings.getFloat("strongAgainstModifier");
+        mWeakAgainst = new ArrayList<>();
+        mStrongAgainst = new ArrayList<>();
+
+        for (String name : enemySettings.getStringList("weakAgainst")) {
+            mWeakAgainst.add(WeaponType.valueOf(name));
+        }
+
+        for (String name : enemySettings.getStringList("strongAgainst")) {
+            mStrongAgainst.add(WeaponType.valueOf(name));
+        }
+
         mHealthBar = new HealthBar(getTheme(), this);
     }
 
@@ -102,7 +117,7 @@ public abstract class Enemy extends Entity {
     public void tick() {
         super.tick();
 
-        if (!mEnabled) {
+        if (mBeingTeleported) {
             return;
         }
 
@@ -123,12 +138,12 @@ public abstract class Enemy extends Entity {
         }
     }
 
-    public boolean isEnabled() {
-        return mEnabled;
+    public boolean isBeingTeleported() {
+        return mBeingTeleported;
     }
 
-    public void setEnabled(boolean enabled) {
-        mEnabled = enabled;
+    public void setBeingTeleported(boolean beingTeleported) {
+        mBeingTeleported = beingTeleported;
     }
 
     public int getWaveNumber() {
@@ -173,11 +188,11 @@ public abstract class Enemy extends Entity {
     }
 
     public float getSpeed() {
-        return mEnemySettings.getSpeed() * mSpeedModifier;
+        return mSpeed * Math.max(mMinSpeedModifier, mSpeedModifier);
     }
 
     public void modifySpeed(float f) {
-        mSpeedModifier = Math.max(mGlobalSettings.getMinSpeedModifier(), mSpeedModifier * f);
+        mSpeedModifier = mSpeedModifier * f;
     }
 
     private float getDistanceRemaining() {
@@ -259,12 +274,12 @@ public abstract class Enemy extends Entity {
         if (origin != null && origin instanceof Tower) {
             Tower originTower = (Tower) origin;
 
-            if (mEnemySettings.getWeakAgainst().contains(originTower.getWeaponType())) {
-                amount *= mGlobalSettings.getWeakAgainstModifier();
+            if (mWeakAgainst.contains(originTower.getWeaponType())) {
+                amount *= mWeakAgainstModifier;
             }
 
-            if (mEnemySettings.getStrongAgainst().contains(originTower.getWeaponType())) {
-                amount *= mGlobalSettings.getStrongAgainstModifier();
+            if (mStrongAgainst.contains(originTower.getWeaponType())) {
+                amount *= mStrongAgainstModifier;
             }
 
             originTower.reportDamageInflicted(amount);

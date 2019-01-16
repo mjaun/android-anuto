@@ -10,7 +10,6 @@ public class AnutoApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         sInstance = this;
         mGameFactory = new GameFactory(getApplicationContext());
     }

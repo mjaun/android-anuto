@@ -1,9 +1,6 @@
 package ch.logixisland.anuto.entity.enemy;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.setting.enemy.EnemySettings;
-import ch.logixisland.anuto.data.setting.enemy.EnemySettingsRoot;
-import ch.logixisland.anuto.data.setting.enemy.GlobalSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
@@ -16,6 +13,7 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
+import ch.logixisland.anuto.util.container.KeyValueStore;
 import ch.logixisland.anuto.util.math.Function;
 import ch.logixisland.anuto.util.math.SampledFunction;
 
@@ -24,7 +22,7 @@ public class Sprinter extends Enemy implements SpriteTransformation {
     private final static String ENTITY_NAME = "sprinter";
     private final static float ANIMATION_SPEED = 0.7f;
 
-    public static class Factory implements EntityFactory {
+    public static class Factory extends EntityFactory {
         @Override
         public String getEntityName() {
             return ENTITY_NAME;
@@ -32,8 +30,7 @@ public class Sprinter extends Enemy implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            EnemySettingsRoot enemySettingsRoot = gameEngine.getGameConfiguration().getEnemySettingsRoot();
-            return new Sprinter(gameEngine, enemySettingsRoot.getGlobalSettings(), enemySettingsRoot.getSprinterSettings());
+            return new Sprinter(gameEngine, getEntitySettings());
         }
     }
 
@@ -60,8 +57,8 @@ public class Sprinter extends Enemy implements SpriteTransformation {
     private StaticData mStatic;
     private ReplicatedSprite mSprite;
 
-    private Sprinter(GameEngine gameEngine, GlobalSettings globalSettings, EnemySettings enemySettings) {
-        super(gameEngine, globalSettings, enemySettings);
+    private Sprinter(GameEngine gameEngine, KeyValueStore enemySettings) {
+        super(gameEngine, enemySettings);
         mStatic = (StaticData) getStaticData();
 
         mSprite = getSpriteFactory().createReplication(mStatic.mReferenceSprite);

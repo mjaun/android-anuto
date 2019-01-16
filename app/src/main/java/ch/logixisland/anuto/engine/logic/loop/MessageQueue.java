@@ -2,10 +2,10 @@ package ch.logixisland.anuto.engine.logic.loop;
 
 import java.util.ArrayList;
 
-import ch.logixisland.anuto.data.game.GameDescriptorRoot;
 import ch.logixisland.anuto.engine.logic.persistence.Persister;
+import ch.logixisland.anuto.util.container.KeyValueStore;
 
-public class MessageQueue implements TickListener, Persister {
+public class MessageQueue implements Persister {
 
     private static class MessageEntry {
         private final Message mMessage;
@@ -45,10 +45,11 @@ public class MessageQueue implements TickListener, Persister {
         mQueue.clear();
     }
 
-    @Override
     public synchronized void tick() {
         mTickCount++;
+    }
 
+    public synchronized void processMessages() {
         while (!mQueue.isEmpty() && mTickCount >= mQueue.get(0).mDueTickCount) {
             MessageEntry messageEntry = mQueue.remove(0);
             messageEntry.mMessage.execute();
@@ -56,12 +57,17 @@ public class MessageQueue implements TickListener, Persister {
     }
 
     @Override
-    public void writeDescriptor(GameDescriptorRoot gameDescriptor) {
-        gameDescriptor.setTickCount(mTickCount);
+    public void resetState(KeyValueStore gameConfig) {
+        mTickCount = 0;
     }
 
     @Override
-    public void readDescriptor(GameDescriptorRoot gameDescriptor) {
-        mTickCount = gameDescriptor.getTickCount();
+    public void writeState(KeyValueStore gameState) {
+        gameState.putInt("tickCount", mTickCount);
+    }
+
+    @Override
+    public void readState(KeyValueStore gameConfig, KeyValueStore gameState) {
+        mTickCount = gameState.getInt("tickCount");
     }
 }

@@ -13,11 +13,10 @@ import java.util.List;
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.business.tower.TowerBuildView;
 import ch.logixisland.anuto.business.tower.TowerSelector;
 import ch.logixisland.anuto.view.AnutoFragment;
 
-public class TowerBuildFragment extends AnutoFragment implements TowerBuildView {
+public class TowerBuildFragment extends AnutoFragment implements TowerSelector.TowerBuildView {
 
     private final TowerSelector mTowerSelector;
 
@@ -32,11 +31,15 @@ public class TowerBuildFragment extends AnutoFragment implements TowerBuildView 
     }
 
     @Override
-    public void showTowerBuildView() {
+    public void toggleTowerBuildView() {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                show();
+                if (mVisible) {
+                    hide();
+                } else {
+                    show();
+                }
             }
         });
     }

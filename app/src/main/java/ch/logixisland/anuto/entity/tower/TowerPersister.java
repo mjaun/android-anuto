@@ -1,12 +1,11 @@
 package ch.logixisland.anuto.entity.tower;
 
-import ch.logixisland.anuto.data.game.EntityDescriptor;
-import ch.logixisland.anuto.data.game.TowerDescriptor;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
+import ch.logixisland.anuto.engine.logic.entity.EntityPersister;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
-import ch.logixisland.anuto.engine.logic.persistence.EntityPersister;
 import ch.logixisland.anuto.entity.plateau.Plateau;
+import ch.logixisland.anuto.util.container.KeyValueStore;
 
 public class TowerPersister extends EntityPersister {
 
@@ -15,38 +14,49 @@ public class TowerPersister extends EntityPersister {
     }
 
     @Override
-    protected TowerDescriptor createEntityDescriptor() {
-        return new TowerDescriptor();
-    }
-
-    @Override
-    protected TowerDescriptor writeEntityDescriptor(Entity entity) {
+    protected KeyValueStore writeEntityData(Entity entity) {
         Tower tower = (Tower) entity;
-        TowerDescriptor towerDescriptor = (TowerDescriptor) super.writeEntityDescriptor(tower);
 
-        towerDescriptor.setId(tower.getEntityId());
-        towerDescriptor.setName(tower.getEntityName());
-        towerDescriptor.setPosition(tower.getPosition());
-        towerDescriptor.setValue(tower.getValue());
-        towerDescriptor.setLevel(tower.getLevel());
-        towerDescriptor.setDamageInflicted(tower.getDamageInflicted());
+        if (!tower.isBuilt()) {
+            return null;
+        }
 
-        return towerDescriptor;
+        KeyValueStore data = super.writeEntityData(tower);
+
+        data.putInt("plateauId", tower.getPlateau().getEntityId());
+        data.putInt("value", tower.getValue());
+        data.putInt("level", tower.getLevel());
+        data.putFloat("damageInflicted", tower.getDamageInflicted());
+
+        Aimer aimer = tower.getAimer();
+
+        if (aimer != null) {
+            data.putString("strategy", aimer.getStrategy().toString());
+            data.putBoolean("lockTarget", aimer.doesLockTarget());
+        }
+
+        return data;
     }
 
     @Override
-    protected Tower readEntityDescriptor(EntityDescriptor entityDescriptor) {
-        Tower tower = (Tower) super.readEntityDescriptor(entityDescriptor);
-        TowerDescriptor towerDescriptor = (TowerDescriptor) entityDescriptor;
+    protected Tower readEntityData(KeyValueStore entityData) {
+        Tower tower = (Tower) super.readEntityData(entityData);
 
-        while (tower.getLevel() < towerDescriptor.getLevel()) {
+        while (tower.getLevel() < entityData.getInt("level")) {
             tower.enhance();
         }
 
-        tower.setPlateau((Plateau) getGameEngine().getEntityById(towerDescriptor.getPlateauId()));
-        tower.setValue(towerDescriptor.getValue());
-        tower.setDamageInflicted(towerDescriptor.getDamageInflicted());
-        tower.setEnabled(true);
+        tower.setPlateau((Plateau) getGameEngine().getEntityById(entityData.getInt("plateauId")));
+        tower.setValue(entityData.getInt("value"));
+        tower.setDamageInflicted(entityData.getFloat("damageInflicted"));
+        tower.setBuilt();
+
+        Aimer aimer = tower.getAimer();
+
+        if (aimer != null) {
+            aimer.setStrategy(TowerStrategy.valueOf(entityData.getString("strategy")));
+            aimer.setLockTarget(entityData.getBoolean("lockTarget"));
+        }
 
         return tower;
     }

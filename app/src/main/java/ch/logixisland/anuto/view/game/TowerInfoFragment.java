@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -15,18 +14,16 @@ import java.util.List;
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.business.setting.SettingsManager;
 import ch.logixisland.anuto.business.tower.TowerControl;
 import ch.logixisland.anuto.business.tower.TowerInfo;
-import ch.logixisland.anuto.business.tower.TowerInfoView;
 import ch.logixisland.anuto.business.tower.TowerSelector;
 import ch.logixisland.anuto.entity.tower.TowerInfoValue;
 import ch.logixisland.anuto.entity.tower.TowerStrategy;
 import ch.logixisland.anuto.util.StringUtils;
 import ch.logixisland.anuto.view.AnutoFragment;
 
-public class TowerInfoFragment extends AnutoFragment implements View.OnTouchListener,
-        View.OnClickListener, TowerInfoView {
+public class TowerInfoFragment extends AnutoFragment implements View.OnClickListener,
+        TowerSelector.TowerInfoView {
 
     private final TowerSelector mTowerSelector;
     private final TowerControl mTowerControl;
@@ -114,11 +111,6 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnTouchList
 
         mTowerSelector.setTowerInfoView(null);
         mHandler.removeCallbacksAndMessages(null);
-    }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        return true;
     }
 
     @Override

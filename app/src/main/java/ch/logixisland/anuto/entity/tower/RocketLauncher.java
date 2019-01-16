@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.setting.tower.RocketLauncherSettings;
-import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
@@ -22,13 +20,14 @@ import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.engine.sound.Sound;
 import ch.logixisland.anuto.entity.shot.Rocket;
 import ch.logixisland.anuto.util.RandomUtils;
+import ch.logixisland.anuto.util.container.KeyValueStore;
 
-public class RocketLauncher extends AimingTower implements SpriteTransformation {
+public class RocketLauncher extends Tower implements SpriteTransformation {
 
     private final static String ENTITY_NAME = "rocketLauncher";
     private final static float ROCKET_LOAD_TIME = 1.0f;
 
-    public static class Factory implements EntityFactory {
+    public static class Factory extends EntityFactory {
         @Override
         public String getEntityName() {
             return ENTITY_NAME;
@@ -36,8 +35,7 @@ public class RocketLauncher extends AimingTower implements SpriteTransformation 
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            TowerSettingsRoot towerSettingsRoot = gameEngine.getGameConfiguration().getTowerSettingsRoot();
-            return new RocketLauncher(gameEngine, towerSettingsRoot.getRocketLauncherSettings());
+            return new RocketLauncher(gameEngine, getEntitySettings());
         }
     }
 
@@ -52,18 +50,19 @@ public class RocketLauncher extends AimingTower implements SpriteTransformation 
         SpriteTemplate mSpriteTemplateRocket; // used for preview only
     }
 
-    private RocketLauncherSettings mSettings;
+    private KeyValueStore mSettings;
 
     private float mExplosionRadius;
     private float mAngle = 90f;
     private Rocket mRocket;
     private TickTimer mRocketLoadTimer;
+    private final Aimer mAimer = new Aimer(this);
 
     private StaticSprite mSprite;
     private StaticSprite mSpriteRocket; // used for preview only
     private Sound mSound;
 
-    private RocketLauncher(GameEngine gameEngine, RocketLauncherSettings settings) {
+    private RocketLauncher(GameEngine gameEngine, KeyValueStore settings) {
         super(gameEngine, settings);
         StaticData s = (StaticData) getStaticData();
 
@@ -77,7 +76,7 @@ public class RocketLauncher extends AimingTower implements SpriteTransformation 
         mSpriteRocket.setListener(this);
         mSpriteRocket.setIndex(RandomUtils.next(4));
 
-        mExplosionRadius = settings.getExplosionRadius();
+        mExplosionRadius = settings.getFloat("explosionRadius");
         mRocketLoadTimer = TickTimer.createInterval(ROCKET_LOAD_TIME);
 
         mSound = getSoundFactory().createSound(R.raw.explosive2_tsh);
@@ -122,12 +121,13 @@ public class RocketLauncher extends AimingTower implements SpriteTransformation 
     @Override
     public void enhance() {
         super.enhance();
-        mExplosionRadius += mSettings.getEnhanceExplosionRadius();
+        mExplosionRadius += mSettings.getFloat("enhanceExplosionRadius");
     }
 
     @Override
     public void tick() {
         super.tick();
+        mAimer.tick();
 
         if (mRocket == null && mRocketLoadTimer.tick()) {
             mRocket = new Rocket(this, getPosition(), getDamage(), mExplosionRadius);
@@ -135,14 +135,14 @@ public class RocketLauncher extends AimingTower implements SpriteTransformation 
             getGameEngine().add(mRocket);
         }
 
-        if (getTarget() != null) {
-            mAngle = getAngleTo(getTarget());
+        if (mAimer.getTarget() != null) {
+            mAngle = getAngleTo(mAimer.getTarget());
 
             if (mRocket != null) {
                 mRocket.setAngle(mAngle);
 
                 if (isReloaded()) {
-                    mRocket.setTarget(getTarget());
+                    mRocket.setTarget(mAimer.getTarget());
                     mRocket.setEnabled(true);
                     mRocket = null;
                     mSound.play();
@@ -151,6 +151,11 @@ public class RocketLauncher extends AimingTower implements SpriteTransformation 
                 }
             }
         }
+    }
+
+    @Override
+    public Aimer getAimer() {
+        return mAimer;
     }
 
     @Override

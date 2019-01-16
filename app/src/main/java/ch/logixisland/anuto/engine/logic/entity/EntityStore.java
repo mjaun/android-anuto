@@ -5,11 +5,10 @@ import android.util.SparseArray;
 import java.util.HashMap;
 import java.util.Map;
 
-import ch.logixisland.anuto.engine.logic.loop.TickListener;
 import ch.logixisland.anuto.util.container.SafeMultiMap;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
-public class EntityStore implements TickListener {
+public class EntityStore {
 
     private final SafeMultiMap<Entity> mEntities = new SafeMultiMap<>();
     private final SparseArray<Entity> mEntityIdMap = new SparseArray<>();
@@ -47,6 +46,12 @@ public class EntityStore implements TickListener {
         entity.clean();
     }
 
+    public void tick() {
+        for (Entity entity : mEntities) {
+            entity.tick();
+        }
+    }
+
     public void clear() {
         for (Entity entity : mEntities) {
             mEntities.remove(entity.getEntityType(), entity);
@@ -54,12 +59,5 @@ public class EntityStore implements TickListener {
         }
 
         mStaticData.clear();
-    }
-
-    @Override
-    public void tick() {
-        for (Entity entity : mEntities) {
-            entity.tick();
-        }
     }
 }

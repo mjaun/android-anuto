@@ -14,6 +14,10 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public abstract class Entity {
 
+    public interface Listener {
+        void entityRemoved(Entity entity);
+    }
+
     public static Predicate<Entity> inRange(final Vector2 center, final float range) {
         return new Predicate<Entity>() {
             @Override
@@ -66,7 +70,7 @@ public abstract class Entity {
     }
 
     private final GameEngine mGameEngine;
-    private final List<EntityListener> mListeners = new CopyOnWriteArrayList<>();
+    private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
     private int mEntityId;
     private Vector2 mPosition = new Vector2();
@@ -98,7 +102,7 @@ public abstract class Entity {
     }
 
     public void clean() {
-        for (EntityListener l : mListeners) {
+        for (Listener l : mListeners) {
             l.entityRemoved(this);
         }
     }
@@ -171,12 +175,11 @@ public abstract class Entity {
         return getGameEngine().isPositionVisible(mPosition);
     }
 
-    public void addListener(EntityListener listener) {
+    public void addListener(Listener listener) {
         mListeners.add(listener);
     }
 
-    public void removeListener(EntityListener listener) {
+    public void removeListener(Listener listener) {
         mListeners.remove(listener);
     }
-
 }

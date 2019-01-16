@@ -1,37 +1,49 @@
 package ch.logixisland.anuto.business.tower;
 
-import ch.logixisland.anuto.business.game.GameState;
-import ch.logixisland.anuto.business.game.GameStateListener;
-import ch.logixisland.anuto.business.score.CreditsListener;
-import ch.logixisland.anuto.business.score.ScoreBoard;
+import java.util.Collection;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
-import ch.logixisland.anuto.engine.logic.entity.EntityListener;
 import ch.logixisland.anuto.engine.logic.loop.Message;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.entity.tower.TowerListener;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class TowerSelector implements CreditsListener, GameStateListener, EntityListener, TowerListener {
+public class TowerSelector implements ScoreBoard.CreditsListener, Entity.Listener, TowerListener {
+
+    public interface TowerInfoView {
+        void showTowerInfo(TowerInfo towerInfo);
+        void hideTowerInfo();
+    }
+
+    public interface TowerBuildView {
+        void toggleTowerBuildView();
+        void hideTowerBuildView();
+    }
+
+    public interface Listener {
+        void towerInfoShown();
+    }
 
     private final GameEngine mGameEngine;
-    private final GameState mGameState;
     private final ScoreBoard mScoreBoard;
 
     private TowerInfoView mTowerInfoView;
     private TowerBuildView mTowerBuildView;
 
+    private boolean mControlsEnabled;
     private TowerInfo mTowerInfo;
     private Tower mSelectedTower;
 
-    public TowerSelector(GameEngine gameEngine, GameState gameState, ScoreBoard scoreBoard) {
-        mGameEngine = gameEngine;
-        mGameState = gameState;
-        mScoreBoard = scoreBoard;
+    private Collection<Listener> mListeners = new CopyOnWriteArrayList<>();
 
+    public TowerSelector(GameEngine gameEngine, ScoreBoard scoreBoard) {
+        mGameEngine = gameEngine;
+        mScoreBoard = scoreBoard;
         mScoreBoard.addCreditsListener(this);
-        mGameState.addListener(this);
     }
 
     public void setTowerInfoView(TowerInfoView view) {
@@ -42,6 +54,14 @@ public class TowerSelector implements CreditsListener, GameStateListener, Entity
         mTowerBuildView = view;
     }
 
+    public void addListener(Listener listener) {
+        mListeners.add(listener);
+    }
+
+    public void removeListener(Listener listener) {
+        mListeners.remove(listener);
+    }
+
     public boolean isTowerSelected() {
         return mSelectedTower != null;
     }
@@ -50,19 +70,22 @@ public class TowerSelector implements CreditsListener, GameStateListener, Entity
         return mTowerInfo;
     }
 
-    public void requestBuildTower() {
+    public void toggleTowerBuildView() {
         if (mGameEngine.isThreadChangeNeeded()) {
             mGameEngine.post(new Message() {
                 @Override
                 public void execute() {
-                    requestBuildTower();
+                    toggleTowerBuildView();
                 }
             });
             return;
         }
 
-        selectTower(null);
-        showTowerBuildView();
+        hideTowerInfoView();
+
+        if (mTowerBuildView != null) {
+            mTowerBuildView.toggleTowerBuildView();
+        }
     }
 
     public void selectTowerAt(Vector2 position) {
@@ -111,6 +134,24 @@ public class TowerSelector implements CreditsListener, GameStateListener, Entity
             }
         } else {
             setSelectedTower(null);
+        }
+    }
+
+    public void setControlsEnabled(final boolean enabled) {
+        if (mGameEngine.isThreadChangeNeeded()) {
+            mGameEngine.post(new Message() {
+                @Override
+                public void execute() {
+                    setControlsEnabled(enabled);
+                }
+            });
+            return;
+        }
+
+        mControlsEnabled = enabled;
+
+        if (mTowerInfo != null) {
+            updateTowerInfo();
         }
     }
 
@@ -167,20 +208,6 @@ public class TowerSelector implements CreditsListener, GameStateListener, Entity
         }
     }
 
-    @Override
-    public void gameRestart() {
-        if (mTowerInfo != null) {
-            updateTowerInfo();
-        }
-    }
-
-    @Override
-    public void gameOver() {
-        if (mTowerInfo != null) {
-            updateTowerInfo();
-        }
-    }
-
     Tower getSelectedTower() {
         return mSelectedTower;
     }
@@ -188,7 +215,7 @@ public class TowerSelector implements CreditsListener, GameStateListener, Entity
     private void setSelectedTower(Tower tower) {
         if (mSelectedTower != null) {
             mSelectedTower.removeListener((TowerListener) this);
-            mSelectedTower.removeListener((EntityListener) this);
+            mSelectedTower.removeListener((Entity.Listener) this);
             mSelectedTower.hideRange();
         }
 
@@ -196,7 +223,7 @@ public class TowerSelector implements CreditsListener, GameStateListener, Entity
 
         if (mSelectedTower != null) {
             mSelectedTower.addListener((TowerListener) this);
-            mSelectedTower.addListener((EntityListener) this);
+            mSelectedTower.addListener((Entity.Listener) this);
             mSelectedTower.showRange();
         }
     }
@@ -205,11 +232,15 @@ public class TowerSelector implements CreditsListener, GameStateListener, Entity
         mTowerInfo = new TowerInfo(
                 mSelectedTower,
                 mScoreBoard.getCredits(),
-                mGameState.isGameOver()
+                mControlsEnabled
         );
 
         if (mTowerInfoView != null) {
             mTowerInfoView.showTowerInfo(mTowerInfo);
+
+            for (Listener listener : mListeners) {
+                listener.towerInfoShown();
+            }
         }
     }
 
@@ -218,12 +249,6 @@ public class TowerSelector implements CreditsListener, GameStateListener, Entity
 
         if (mTowerInfoView != null) {
             mTowerInfoView.hideTowerInfo();
-        }
-    }
-
-    private void showTowerBuildView() {
-        if (mTowerBuildView != null) {
-            mTowerBuildView.showTowerBuildView();
         }
     }
 

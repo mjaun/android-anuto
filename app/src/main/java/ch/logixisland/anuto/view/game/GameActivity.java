@@ -8,7 +8,7 @@ import android.widget.Toast;
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.business.setting.BackButtonMode;
+import ch.logixisland.anuto.business.game.GameLoader;
 import ch.logixisland.anuto.business.tower.TowerSelector;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.theme.ActivityType;
@@ -16,6 +16,7 @@ import ch.logixisland.anuto.view.AnutoActivity;
 
 public class GameActivity extends AnutoActivity {
 
+    private final GameLoader mGameLoader;
     private final GameEngine mGameEngine;
     private final TowerSelector mTowerSelector;
     private final BackButtonControl mBackButtonControl;
@@ -26,9 +27,10 @@ public class GameActivity extends AnutoActivity {
 
     public GameActivity() {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
+        mGameLoader = factory.getGameLoader();
         mGameEngine = factory.getGameEngine();
         mTowerSelector = factory.getTowerSelector();
-        mBackButtonControl = new BackButtonControl(factory.getSettingsManager());
+        mBackButtonControl = new BackButtonControl(AnutoApplication.getInstance());
     }
 
     @Override
@@ -38,7 +40,10 @@ public class GameActivity extends AnutoActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mGameLoader.loadGame();
+
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_game);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
@@ -54,6 +59,7 @@ public class GameActivity extends AnutoActivity {
     @Override
     public void onPause() {
         super.onPause();
+        mGameLoader.saveGame();
         mGameEngine.stop();
     }
 
@@ -74,12 +80,14 @@ public class GameActivity extends AnutoActivity {
                 mTowerSelector.selectTower(null);
                 return true;
             } else {
-                if (!mBackButtonControl.backButtonPressed()) {
-                    if (mBackButtonControl.getBackButtonMode() == BackButtonMode.TWICE) {
+                switch (mBackButtonControl.backButtonPressed()) {
+                    case DO_NOTHING:
+                        return true;
+                    case SHOW_TOAST:
                         mBackButtonToast = showBackButtonToast();
-                    }
-
-                    return true;
+                        return true;
+                    default:
+                        return super.onKeyDown(keyCode, event);
                 }
             }
         }

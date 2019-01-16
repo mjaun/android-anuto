@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.setting.tower.TowerSettings;
-import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
@@ -22,18 +20,19 @@ import ch.logixisland.anuto.engine.sound.Sound;
 import ch.logixisland.anuto.entity.shot.CanonShot;
 import ch.logixisland.anuto.entity.shot.Shot;
 import ch.logixisland.anuto.util.RandomUtils;
+import ch.logixisland.anuto.util.container.KeyValueStore;
 import ch.logixisland.anuto.util.math.Function;
 import ch.logixisland.anuto.util.math.SampledFunction;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class Canon extends AimingTower implements SpriteTransformation {
+public class Canon extends Tower implements SpriteTransformation {
 
     private final static String ENTITY_NAME = "canon";
     private final static float SHOT_SPAWN_OFFSET = 0.7f;
     private final static float REBOUND_RANGE = 0.25f;
     private final static float REBOUND_DURATION = 0.2f;
 
-    public static class Factory implements EntityFactory {
+    public static class Factory extends EntityFactory {
         @Override
         public String getEntityName() {
             return ENTITY_NAME;
@@ -41,8 +40,7 @@ public class Canon extends AimingTower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            TowerSettingsRoot towerSettingsRoot = gameEngine.getGameConfiguration().getTowerSettingsRoot();
-            return new Canon(gameEngine, towerSettingsRoot.getCanonSettings());
+            return new Canon(gameEngine, getEntitySettings());
         }
     }
 
@@ -59,6 +57,7 @@ public class Canon extends AimingTower implements SpriteTransformation {
 
     private float mAngle = 90f;
     private boolean mReboundActive;
+    private final Aimer mAimer = new Aimer(this);
 
     private SampledFunction mReboundFunction;
 
@@ -67,7 +66,7 @@ public class Canon extends AimingTower implements SpriteTransformation {
 
     private Sound mSound;
 
-    private Canon(GameEngine gameEngine, TowerSettings settings) {
+    private Canon(GameEngine gameEngine, KeyValueStore settings) {
         super(gameEngine, settings);
         StaticData s = (StaticData) getStaticData();
 
@@ -125,12 +124,13 @@ public class Canon extends AimingTower implements SpriteTransformation {
     @Override
     public void tick() {
         super.tick();
+        mAimer.tick();
 
-        if (getTarget() != null) {
-            mAngle = getAngleTo(getTarget());
+        if (mAimer.getTarget() != null) {
+            mAngle = getAngleTo(mAimer.getTarget());
 
             if (isReloaded()) {
-                Shot shot = new CanonShot(this, getPosition(), getTarget(), getDamage());
+                Shot shot = new CanonShot(this, getPosition(), mAimer.getTarget(), getDamage());
                 shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
                 getGameEngine().add(shot);
                 mSound.play();
@@ -147,6 +147,11 @@ public class Canon extends AimingTower implements SpriteTransformation {
                 mReboundActive = false;
             }
         }
+    }
+
+    @Override
+    public Aimer getAimer() {
+        return mAimer;
     }
 
     @Override

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Anuto TD</string>
+
+    <string name="menu">Menu</string>
+    <string name="build_tower">Budovať</string>
+    <string name="next_wave">Ďalšia vlna</string>
+    <string name="normal_speed">1x</string>
+    <string name="fast_speed">4x</string>
+
+    <string name="restart">Reštart</string>
+    <string name="change_map">Zmeniť mapu</string>
+    <string name="settings">Nastavenia</string>
+
+    <string name="sound">Zvuk</string>
+    <string name="theme">Vzhľad</string>
+    <string name="change_theme">Zmeniť vzhľad</string>
+    <string name="change_theme_warning">Naozaj si prajete zmeniť vzhľad? Hra bude reštartovaná</string>
+    <string name="back_button_mode">Zatvoriť aplikáciu stlačením tlačidla späť</string>
+    <string name="reset_highscores">Resetovať vysoké skóre</string>
+    <string name="reset_highscores_warning">Naozaj chcete resetovať všetky vysoké skóre?</string>
+    <string name="transparent_menus">Priehľadné menu</string>
+
+    <string name="game_over">Koniec hry!</string>
+    <string name="score">Skóre</string>
+
+    <string name="credits">Autori</string>
+    <string name="lives">Životy</string>
+    <string name="wave">Vlna</string>
+    <string name="bonus">Bonus</string>
+
+    <string name="level">Úroveň</string>
+    <string name="damage">Poškodenie</string>
+    <string name="reload">Nabiť</string>
+    <string name="range">Dosah</string>
+    <string name="splash">Polomer výbušnosti</string>
+    <string name="distance">Vzdialenosť</string>
+    <string name="intensity">Intenzita</string>
+    <string name="duration">Trvanie</string>
+    <string name="inflicted">Utŕžené</string>
+
+    <string name="lock_target">Sledovať cieľ</string>
+    <string name="strategy">Stratégia</string>
+    <string name="enhance">Vylepšiť</string>
+    <string name="upgrade">Vylepšiť</string>
+    <string name="sell">Predať</string>
+
+    <string name="on">Zapnuté</string>
+    <string name="off">Vypnuté</string>
+    <string name="twice">Dvakrát</string>
+
+    <string name="strategy_closest">Najbližší</string>
+    <string name="strategy_weakest">Najslabší</string>
+    <string name="strategy_strongest">Najsilnejší</string>
+    <string name="strategy_first">Prvý</string>
+    <string name="strategy_last">Posledný</string>
+
+    <string name="theme_original">Pôvodná</string>
+    <string name="theme_dark">Tmavá</string>
+
+    <string name="map_original_name">The Original</string>
+    <string name="map_waiting_line_name">I hate waiting lines</string>
+    <string name="map_turn_round_name">Turn a round</string>
+    <string name="map_hurry_name">We\'re in a hurry!</string>
+    <string name="map_civyshk_2y_name">Civyshk 2Y</string>
+    <string name="map_civyshk_line5_name">Civyshk Line5</string>
+    <string name="map_civyshk_labyrinth_name">Civyshk Labyrinth</string>
+    <string name="map_civyshk_yard_name">Civyshk Yard</string>
+    <string name="press_back_button_again_toast">Stlačte znovu tlačidlo spät pre ukončenie</string>
+</resources>

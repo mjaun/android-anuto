@@ -1,0 +1,598 @@
+{
+  "height": 15,
+  "width": 10,
+  "plateaus": [
+    {
+      "name": "basic",
+      "x": 0,
+      "y": 14
+    },
+    {
+      "name": "basic",
+      "x": 0,
+      "y": 12
+    },
+    {
+      "name": "basic",
+      "x": 0,
+      "y": 11
+    },
+    {
+      "name": "basic",
+      "x": 0,
+      "y": 10
+    },
+    {
+      "name": "basic",
+      "x": 0,
+      "y": 9
+    },
+    {
+      "name": "basic",
+      "x": 0,
+      "y": 8
+    },
+    {
+      "name": "basic",
+      "x": 0,
+      "y": 7
+    },
+    {
+      "name": "basic",
+      "x": 0,
+      "y": 6
+    },
+    {
+      "name": "basic",
+      "x": 0,
+      "y": 5
+    },
+    {
+      "name": "basic",
+      "x": 0,
+      "y": 4
+    },
+    {
+      "name": "basic",
+      "x": 0,
+      "y": 3
+    },
+    {
+      "name": "basic",
+      "x": 0,
+      "y": 2
+    },
+    {
+      "name": "basic",
+      "x": 0,
+      "y": 1
+    },
+    {
+      "name": "basic",
+      "x": 0,
+      "y": 0
+    },
+    {
+      "name": "basic",
+      "x": 1,
+      "y": 14
+    },
+    {
+      "name": "basic",
+      "x": 1,
+      "y": 12
+    },
+    {
+      "name": "basic",
+      "x": 1,
+      "y": 8
+    },
+    {
+      "name": "basic",
+      "x": 1,
+      "y": 7
+    },
+    {
+      "name": "basic",
+      "x": 1,
+      "y": 6
+    },
+    {
+      "name": "basic",
+      "x": 1,
+      "y": 5
+    },
+    {
+      "name": "basic",
+      "x": 1,
+      "y": 4
+    },
+    {
+      "name": "basic",
+      "x": 1,
+      "y": 3
+    },
+    {
+      "name": "basic",
+      "x": 1,
+      "y": 2
+    },
+    {
+      "name": "basic",
+      "x": 1,
+      "y": 1
+    },
+    {
+      "name": "basic",
+      "x": 1,
+      "y": 0
+    },
+    {
+      "name": "basic",
+      "x": 2,
+      "y": 14
+    },
+    {
+      "name": "basic",
+      "x": 2,
+      "y": 12
+    },
+    {
+      "name": "basic",
+      "x": 2,
+      "y": 10
+    },
+    {
+      "name": "basic",
+      "x": 2,
+      "y": 8
+    },
+    {
+      "name": "basic",
+      "x": 2,
+      "y": 4
+    },
+    {
+      "name": "basic",
+      "x": 2,
+      "y": 3
+    },
+    {
+      "name": "basic",
+      "x": 2,
+      "y": 2
+    },
+    {
+      "name": "basic",
+      "x": 2,
+      "y": 1
+    },
+    {
+      "name": "basic",
+      "x": 2,
+      "y": 0
+    },
+    {
+      "name": "basic",
+      "x": 3,
+      "y": 14
+    },
+    {
+      "name": "basic",
+      "x": 3,
+      "y": 12
+    },
+    {
+      "name": "basic",
+      "x": 3,
+      "y": 10
+    },
+    {
+      "name": "basic",
+      "x": 3,
+      "y": 8
+    },
+    {
+      "name": "basic",
+      "x": 3,
+      "y": 6
+    },
+    {
+      "name": "basic",
+      "x": 3,
+      "y": 4
+    },
+    {
+      "name": "basic",
+      "x": 3,
+      "y": 3
+    },
+    {
+      "name": "basic",
+      "x": 3,
+      "y": 2
+    },
+    {
+      "name": "basic",
+      "x": 3,
+      "y": 1
+    },
+    {
+      "name": "basic",
+      "x": 3,
+      "y": 0
+    },
+    {
+      "name": "basic",
+      "x": 4,
+      "y": 14
+    },
+    {
+      "name": "basic",
+      "x": 4,
+      "y": 10
+    },
+    {
+      "name": "basic",
+      "x": 4,
+      "y": 8
+    },
+    {
+      "name": "basic",
+      "x": 4,
+      "y": 6
+    },
+    {
+      "name": "basic",
+      "x": 4,
+      "y": 4
+    },
+    {
+      "name": "basic",
+      "x": 4,
+      "y": 3
+    },
+    {
+      "name": "basic",
+      "x": 4,
+      "y": 2
+    },
+    {
+      "name": "basic",
+      "x": 4,
+      "y": 1
+    },
+    {
+      "name": "basic",
+      "x": 4,
+      "y": 0
+    },
+    {
+      "name": "basic",
+      "x": 5,
+      "y": 14
+    },
+    {
+      "name": "basic",
+      "x": 5,
+      "y": 13
+    },
+    {
+      "name": "basic",
+      "x": 5,
+      "y": 12
+    },
+    {
+      "name": "basic",
+      "x": 5,
+      "y": 11
+    },
+    {
+      "name": "basic",
+      "x": 5,
+      "y": 10
+    },
+    {
+      "name": "basic",
+      "x": 5,
+      "y": 8
+    },
+    {
+      "name": "basic",
+      "x": 5,
+      "y": 6
+    },
+    {
+      "name": "basic",
+      "x": 5,
+      "y": 4
+    },
+    {
+      "name": "basic",
+      "x": 5,
+      "y": 0
+    },
+    {
+      "name": "basic",
+      "x": 6,
+      "y": 14
+    },
+    {
+      "name": "basic",
+      "x": 6,
+      "y": 13
+    },
+    {
+      "name": "basic",
+      "x": 6,
+      "y": 12
+    },
+    {
+      "name": "basic",
+      "x": 6,
+      "y": 11
+    },
+    {
+      "name": "basic",
+      "x": 6,
+      "y": 10
+    },
+    {
+      "name": "basic",
+      "x": 6,
+      "y": 8
+    },
+    {
+      "name": "basic",
+      "x": 6,
+      "y": 6
+    },
+    {
+      "name": "basic",
+      "x": 6,
+      "y": 4
+    },
+    {
+      "name": "basic",
+      "x": 6,
+      "y": 2
+    },
+    {
+      "name": "basic",
+      "x": 6,
+      "y": 0
+    },
+    {
+      "name": "basic",
+      "x": 7,
+      "y": 14
+    },
+    {
+      "name": "basic",
+      "x": 7,
+      "y": 13
+    },
+    {
+      "name": "basic",
+      "x": 7,
+      "y": 12
+    },
+    {
+      "name": "basic",
+      "x": 7,
+      "y": 11
+    },
+    {
+      "name": "basic",
+      "x": 7,
+      "y": 10
+    },
+    {
+      "name": "basic",
+      "x": 7,
+      "y": 6
+    },
+    {
+      "name": "basic",
+      "x": 7,
+      "y": 4
+    },
+    {
+      "name": "basic",
+      "x": 7,
+      "y": 2
+    },
+    {
+      "name": "basic",
+      "x": 7,
+      "y": 0
+    },
+    {
+      "name": "basic",
+      "x": 8,
+      "y": 14
+    },
+    {
+      "name": "basic",
+      "x": 8,
+      "y": 13
+    },
+    {
+      "name": "basic",
+      "x": 8,
+      "y": 12
+    },
+    {
+      "name": "basic",
+      "x": 8,
+      "y": 11
+    },
+    {
+      "name": "basic",
+      "x": 8,
+      "y": 10
+    },
+    {
+      "name": "basic",
+      "x": 8,
+      "y": 9
+    },
+    {
+      "name": "basic",
+      "x": 8,
+      "y": 8
+    },
+    {
+      "name": "basic",
+      "x": 8,
+      "y": 7
+    },
+    {
+      "name": "basic",
+      "x": 8,
+      "y": 6
+    },
+    {
+      "name": "basic",
+      "x": 8,
+      "y": 2
+    },
+    {
+      "name": "basic",
+      "x": 8,
+      "y": 0
+    },
+    {
+      "name": "basic",
+      "x": 9,
+      "y": 14
+    },
+    {
+      "name": "basic",
+      "x": 9,
+      "y": 13
+    },
+    {
+      "name": "basic",
+      "x": 9,
+      "y": 12
+    },
+    {
+      "name": "basic",
+      "x": 9,
+      "y": 11
+    },
+    {
+      "name": "basic",
+      "x": 9,
+      "y": 10
+    },
+    {
+      "name": "basic",
+      "x": 9,
+      "y": 9
+    },
+    {
+      "name": "basic",
+      "x": 9,
+      "y": 8
+    },
+    {
+      "name": "basic",
+      "x": 9,
+      "y": 7
+    },
+    {
+      "name": "basic",
+      "x": 9,
+      "y": 6
+    },
+    {
+      "name": "basic",
+      "x": 9,
+      "y": 5
+    },
+    {
+      "name": "basic",
+      "x": 9,
+      "y": 4
+    },
+    {
+      "name": "basic",
+      "x": 9,
+      "y": 3
+    },
+    {
+      "name": "basic",
+      "x": 9,
+      "y": 2
+    },
+    {
+      "name": "basic",
+      "x": 9,
+      "y": 0
+    }
+  ],
+  "paths": [
+    {
+      "wayPoints": [
+        {
+          "x": 10.5,
+          "y": 1
+        },
+        {
+          "x": 5,
+          "y": 1
+        },
+        {
+          "x": 5,
+          "y": 3
+        },
+        {
+          "x": 8,
+          "y": 3
+        },
+        {
+          "x": 8,
+          "y": 5
+        },
+        {
+          "x": 2,
+          "y": 5
+        },
+        {
+          "x": 2,
+          "y": 7
+        },
+        {
+          "x": 7,
+          "y": 7
+        },
+        {
+          "x": 7,
+          "y": 9
+        },
+        {
+          "x": 1,
+          "y": 9
+        },
+        {
+          "x": 1,
+          "y": 11
+        },
+        {
+          "x": 4,
+          "y": 11
+        },
+        {
+          "x": 4,
+          "y": 13
+        },
+        {
+          "x": -1.5,
+          "y": 13
+        }
+      ]
+    }
+  ]
+}

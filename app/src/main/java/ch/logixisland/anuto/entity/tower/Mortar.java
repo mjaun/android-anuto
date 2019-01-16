@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.data.setting.tower.MortarSettings;
-import ch.logixisland.anuto.data.setting.tower.TowerSettingsRoot;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
@@ -22,15 +20,16 @@ import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.engine.sound.Sound;
 import ch.logixisland.anuto.entity.shot.MortarShot;
 import ch.logixisland.anuto.util.RandomUtils;
+import ch.logixisland.anuto.util.container.KeyValueStore;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class Mortar extends AimingTower implements SpriteTransformation {
+public class Mortar extends Tower implements SpriteTransformation {
 
     private final static String ENTITY_NAME = "mortar";
     private final static float SHOT_SPAWN_OFFSET = 0.6f;
     private final static float REBOUND_DURATION = 0.5f;
 
-    public static class Factory implements EntityFactory {
+    public static class Factory extends EntityFactory {
         @Override
         public String getEntityName() {
             return ENTITY_NAME;
@@ -38,8 +37,7 @@ public class Mortar extends AimingTower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            TowerSettingsRoot towerSettingsRoot = gameEngine.getGameConfiguration().getTowerSettingsRoot();
-            return new Mortar(gameEngine, towerSettingsRoot.getMortarSettings());
+            return new Mortar(gameEngine, getEntitySettings());
         }
     }
 
@@ -54,22 +52,23 @@ public class Mortar extends AimingTower implements SpriteTransformation {
         SpriteTemplate mSpriteTemplateCanon;
     }
 
-    private MortarSettings mSettings;
+    private KeyValueStore mSettings;
 
     private float mExplosionRadius;
     private float mAngle = 90f;
     private boolean mRebounding = false;
+    private final Aimer mAimer = new Aimer(this);
 
     private StaticSprite mSpriteBase;
     private AnimatedSprite mSpriteCanon;
     private Sound mSound;
 
-    private Mortar(GameEngine gameEngine, MortarSettings settings) {
+    private Mortar(GameEngine gameEngine, KeyValueStore settings) {
         super(gameEngine, settings);
         StaticData s = (StaticData) getStaticData();
 
         mSettings = settings;
-        mExplosionRadius = mSettings.getExplosionRadius();
+        mExplosionRadius = mSettings.getFloat("explosionRadius");
 
         mSpriteBase = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplateBase);
         mSpriteBase.setIndex(RandomUtils.next(4));
@@ -120,16 +119,17 @@ public class Mortar extends AimingTower implements SpriteTransformation {
     @Override
     public void enhance() {
         super.enhance();
-        mExplosionRadius += mSettings.getEnhanceExplosionRadius();
+        mExplosionRadius += mSettings.getFloat("enhanceExplosionRadius");
     }
 
     @Override
     public void tick() {
         super.tick();
+        mAimer.tick();
 
-        if (getTarget() != null && isReloaded()) {
-            Vector2 targetPos = getTarget().getPositionAfter(MortarShot.TIME_TO_TARGET);
-            targetPos = targetPos.add(Vector2.polar(RandomUtils.next(mSettings.getInaccuracy()), RandomUtils.next(360f)));
+        if (mAimer.getTarget() != null && isReloaded()) {
+            Vector2 targetPos = mAimer.getTarget().getPositionAfter(MortarShot.TIME_TO_TARGET);
+            targetPos = targetPos.add(Vector2.polar(RandomUtils.next(mSettings.getFloat("inaccuracy")), RandomUtils.next(360f)));
             mAngle = getAngleTo(targetPos);
             Vector2 shotPos = getPosition().add(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
 
@@ -143,6 +143,11 @@ public class Mortar extends AimingTower implements SpriteTransformation {
         if (mRebounding && mSpriteCanon.tick()) {
             mRebounding = false;
         }
+    }
+
+    @Override
+    public Aimer getAimer() {
+        return mAimer;
     }
 
     @Override

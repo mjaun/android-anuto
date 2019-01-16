@@ -2,31 +2,24 @@ package ch.logixisland.anuto.entity.tower;
 
 import android.graphics.Canvas;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.data.map.PathDescriptor;
-import ch.logixisland.anuto.data.setting.enemy.WeaponType;
-import ch.logixisland.anuto.data.setting.tower.TowerSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.loop.TickTimer;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.enemy.Enemy;
+import ch.logixisland.anuto.entity.enemy.WeaponType;
 import ch.logixisland.anuto.entity.plateau.Plateau;
+import ch.logixisland.anuto.util.container.KeyValueStore;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
-import ch.logixisland.anuto.util.math.Intersections;
-import ch.logixisland.anuto.util.math.Line;
-import ch.logixisland.anuto.util.math.MathUtils;
-import ch.logixisland.anuto.util.math.Vector2;
 
 public abstract class Tower extends Entity {
 
-    private final TowerSettings mSettings;
+    private final KeyValueStore mSettings;
 
-    private boolean mEnabled;
+    private boolean mBuilt;
     private int mValue;
     private int mLevel;
     private float mDamage;
@@ -43,20 +36,20 @@ public abstract class Tower extends Entity {
 
     private final List<TowerListener> mListeners = new CopyOnWriteArrayList<>();
 
-    Tower(GameEngine gameEngine, TowerSettings settings) {
+    Tower(GameEngine gameEngine, KeyValueStore settings) {
         super(gameEngine);
 
         mSettings = settings;
 
-        mValue = mSettings.getValue();
-        mDamage = mSettings.getDamage();
-        mRange = mSettings.getRange();
-        mReloadTime = mSettings.getReload();
+        mValue = mSettings.getInt("value");
+        mDamage = mSettings.getFloat("damage");
+        mRange = mSettings.getFloat("range");
+        mReloadTime = mSettings.getFloat("reload");
         mLevel = 1;
 
         mReloadTimer = TickTimer.createInterval(mReloadTime);
 
-        setEnabled(false);
+        mBuilt = false;
     }
 
     @Override
@@ -79,9 +72,13 @@ public abstract class Tower extends Entity {
     public void tick() {
         super.tick();
 
-        if (mEnabled && !mReloaded && mReloadTimer.tick()) {
+        if (mBuilt && !mReloaded && mReloadTimer.tick()) {
             mReloaded = true;
         }
+    }
+
+    public Aimer getAimer() {
+        return null;
     }
 
     public abstract void preview(Canvas canvas);
@@ -102,16 +99,17 @@ public abstract class Tower extends Entity {
         setPosition(mPlateau.getPosition());
     }
 
-    public void setEnabled(boolean enabled) {
-        mEnabled = enabled;
+    public boolean isBuilt() {
+        return mBuilt;
+    }
 
-        if (mEnabled) {
-            mReloaded = true;
-        }
+    public void setBuilt() {
+        mBuilt = true;
+        mReloaded = true;
     }
 
     public WeaponType getWeaponType() {
-        return mSettings.getWeaponType();
+        return WeaponType.valueOf(mSettings.getString("weaponType"));
     }
 
     public boolean isReloaded() {
@@ -163,22 +161,22 @@ public abstract class Tower extends Entity {
     }
 
     public boolean isUpgradeable() {
-        return mSettings.getUpgrade() != null;
+        return mSettings.hasKey("upgrade");
     }
 
     public String getUpgradeName() {
-        return mSettings.getUpgrade();
+        return isUpgradeable() ? mSettings.getString("upgrade") : null;
     }
 
     public int getUpgradeCost() {
-        return mSettings.getUpgradeCost();
+        return isUpgradeable() ? mSettings.getInt("upgradeCost") : 0;
     }
 
     public void enhance() {
         mValue += getEnhanceCost();
-        mDamage += mSettings.getEnhanceDamage() * (float) Math.pow(mSettings.getEnhanceBase(), mLevel - 1);
-        mRange += mSettings.getEnhanceRange();
-        mReloadTime -= mSettings.getEnhanceReload();
+        mDamage += mSettings.getFloat("enhanceDamage") * (float) Math.pow(mSettings.getFloat("enhanceBase"), mLevel - 1);
+        mRange += mSettings.getFloat("enhanceRange");
+        mReloadTime -= mSettings.getFloat("enhanceReload");
 
         mLevel++;
 
@@ -186,7 +184,7 @@ public abstract class Tower extends Entity {
     }
 
     public boolean isEnhanceable() {
-        return mLevel < mSettings.getMaxLevel();
+        return mLevel < mSettings.getInt("maxLevel");
     }
 
     public int getEnhanceCost() {
@@ -194,7 +192,7 @@ public abstract class Tower extends Entity {
             return -1;
         }
 
-        return Math.round(mSettings.getEnhanceCost() * (float) Math.pow(mSettings.getEnhanceBase(), mLevel - 1));
+        return Math.round(mSettings.getInt("enhanceCost") * (float) Math.pow(mSettings.getFloat("enhanceBase"), mLevel - 1));
     }
 
     public int getLevel() {
@@ -202,7 +200,7 @@ public abstract class Tower extends Entity {
     }
 
     public int getMaxLevel() {
-        return mSettings.getMaxLevel();
+        return mSettings.getInt("maxLevel");
     }
 
     public void showRange() {
@@ -239,78 +237,6 @@ public abstract class Tower extends Entity {
                 .cast(Enemy.class);
     }
 
-    Collection<Line> getPathSectionsInRange(Collection<PathDescriptor> paths) {
-        Collection<Line> sections = new ArrayList<>();
-
-        for (PathDescriptor path : paths) {
-            sections.addAll(getPathSectionsInRange(path));
-        }
-
-        return sections;
-    }
-
-    private Collection<Line> getPathSectionsInRange(PathDescriptor path) {
-        float r2 = MathUtils.square(getRange());
-        Collection<Line> sections = new ArrayList<>();
-        List<Vector2> wayPoints = path.getWayPoints();
-
-        for (int i = 1; i < wayPoints.size(); i++) {
-            Vector2 p1 = getPosition().to(wayPoints.get(i - 1));
-            Vector2 p2 = getPosition().to(wayPoints.get(i));
-
-            boolean p1in = p1.len2() <= r2;
-            boolean p2in = p2.len2() <= r2;
-
-            Vector2[] is = Intersections.lineCircle(p1, p2, getRange());
-
-            Vector2 sectionP1;
-            Vector2 sectionP2;
-
-            if (p1in && p2in) {
-                sectionP1 = p1.add(getPosition());
-                sectionP2 = p2.add(getPosition());
-            } else if (!p1in && !p2in) {
-                if (is == null) {
-                    continue;
-                }
-
-                float a1 = is[0].to(p1).angle();
-                float a2 = is[0].to(p2).angle();
-
-                if (MathUtils.equals(a1, a2, 10f)) {
-                    continue;
-                }
-
-                sectionP1 = is[0].add(getPosition());
-                sectionP2 = is[1].add(getPosition());
-            } else {
-                float angle = p1.to(p2).angle();
-
-                if (p1in) {
-                    if (MathUtils.equals(angle, p1.to(is[0]).angle(), 10f)) {
-                        sectionP2 = is[0].add(getPosition());
-                    } else {
-                        sectionP2 = is[1].add(getPosition());
-                    }
-
-                    sectionP1 = (p1.add(getPosition()));
-                } else {
-                    if (MathUtils.equals(angle, is[0].to(p2).angle(), 10f)) {
-                        sectionP1 = is[0].add(getPosition());
-                    } else {
-                        sectionP1 = is[1].add(getPosition());
-                    }
-
-                    sectionP2 = p2.add(getPosition());
-                }
-            }
-
-            sections.add(new Line(sectionP1, sectionP2));
-        }
-
-        return sections;
-    }
-
     public void addListener(TowerListener listener) {
         mListeners.add(listener);
     }
@@ -318,5 +244,4 @@ public abstract class Tower extends Entity {
     public void removeListener(TowerListener listener) {
         mListeners.remove(listener);
     }
-
 }
