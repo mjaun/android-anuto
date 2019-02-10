@@ -22,7 +22,6 @@ public class WaveManager implements Persister {
 
     private static final String TAG = WaveManager.class.getSimpleName();
 
-    private static final int MAX_WAVES_IN_GAME = 3;
     private static final float MIN_WAVE_DELAY = 5;
 
     public interface Listener {
@@ -45,7 +44,6 @@ public class WaveManager implements Persister {
     private int mWaveNumber;
     private int mRemainingEnemiesCount;
     private boolean mNextWaveReady;
-    private boolean mMinWaveDelayTimeout;
 
     private final List<WaveAttender> mActiveWaves = new ArrayList<>();
     private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
@@ -171,13 +169,11 @@ public class WaveManager implements Persister {
 
         if (nextWaveReadyTicks > 0) {
             setNextWaveReady(false);
-            mMinWaveDelayTimeout = false;
 
             mGameEngine.postAfterTicks(new Message() {
                 @Override
                 public void execute() {
-                    mMinWaveDelayTimeout = true;
-                    updateNextWaveReady();
+                    setNextWaveReady(true);
                 }
             }, nextWaveReadyTicks);
         } else {
@@ -195,7 +191,6 @@ public class WaveManager implements Persister {
 
         mTowerAging.ageTowers();
         updateBonusOnScoreBoard();
-        updateNextWaveReady();
     }
 
     private void giveWaveRewardAndEarlyBonus() {
@@ -208,31 +203,12 @@ public class WaveManager implements Persister {
     }
 
     private void triggerMinWaveDelay() {
-        mMinWaveDelayTimeout = false;
-
         mGameEngine.postDelayed(new Message() {
             @Override
             public void execute() {
-                mMinWaveDelayTimeout = true;
-                updateNextWaveReady();
+                setNextWaveReady(true);
             }
         }, MIN_WAVE_DELAY);
-    }
-
-    private void updateNextWaveReady() {
-        if (mNextWaveReady) {
-            return;
-        }
-
-        if (!mMinWaveDelayTimeout) {
-            return;
-        }
-
-        if (mActiveWaves.size() >= MAX_WAVES_IN_GAME) {
-            return;
-        }
-
-        setNextWaveReady(true);
     }
 
     private void updateBonusOnScoreBoard() {
