@@ -8,7 +8,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.loop.TickTimer;
-import ch.logixisland.anuto.entity.Types;
+import ch.logixisland.anuto.entity.EntityTypes;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.entity.enemy.WeaponType;
 import ch.logixisland.anuto.entity.plateau.Plateau;
@@ -53,7 +53,7 @@ public abstract class Tower extends Entity {
 
     @Override
     public final int getEntityType() {
-        return Types.TOWER;
+        return EntityTypes.TOWER;
     }
 
     @Override
@@ -231,7 +231,7 @@ public abstract class Tower extends Entity {
     }
 
     public StreamIterator<Enemy> getPossibleTargets() {
-        return getGameEngine().getEntitiesByType(Types.ENEMY)
+        return getGameEngine().getEntitiesByType(EntityTypes.ENEMY)
                 .filter(inRange(getPosition(), getRange()))
                 .cast(Enemy.class);
     }

@@ -2,7 +2,7 @@ package ch.logixisland.anuto.entity.effect;
 
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.loop.TickTimer;
-import ch.logixisland.anuto.entity.Types;
+import ch.logixisland.anuto.entity.EntityTypes;
 
 public abstract class Effect extends Entity {
 
@@ -33,7 +33,7 @@ public abstract class Effect extends Entity {
 
     @Override
     public final int getEntityType() {
-        return Types.EFFECT;
+        return EntityTypes.EFFECT;
     }
 
     @Override

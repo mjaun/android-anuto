@@ -2,7 +2,7 @@ package ch.logixisland.anuto.entity.shot;
 
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
-import ch.logixisland.anuto.entity.Types;
+import ch.logixisland.anuto.entity.EntityTypes;
 import ch.logixisland.anuto.util.math.Vector2;
 
 public abstract class Shot extends Entity {
@@ -19,7 +19,7 @@ public abstract class Shot extends Entity {
 
     @Override
     public final int getEntityType() {
-        return Types.SHOT;
+        return EntityTypes.SHOT;
     }
 
     @Override

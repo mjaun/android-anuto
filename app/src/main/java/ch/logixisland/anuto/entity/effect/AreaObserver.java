@@ -7,7 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.loop.TickTimer;
-import ch.logixisland.anuto.entity.Types;
+import ch.logixisland.anuto.entity.EntityTypes;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.math.Vector2;
 
@@ -69,7 +69,7 @@ public class AreaObserver implements Entity.Listener {
     }
 
     private void checkForEnteredEnemies() {
-        Iterator<Enemy> enemies = mGameEngine.getEntitiesByType(Types.ENEMY)
+        Iterator<Enemy> enemies = mGameEngine.getEntitiesByType(EntityTypes.ENEMY)
                 .filter(Entity.inRange(mPosition, mRange))
                 .cast(Enemy.class);
 

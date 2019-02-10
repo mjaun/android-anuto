@@ -10,7 +10,7 @@ import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.loop.Message;
-import ch.logixisland.anuto.entity.Types;
+import ch.logixisland.anuto.entity.EntityTypes;
 import ch.logixisland.anuto.entity.plateau.Plateau;
 import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.util.math.Vector2;
@@ -76,7 +76,7 @@ public class TowerInserter {
         }
 
         if (mInsertedTower != null) {
-            Plateau closestPlateau = mGameEngine.getEntitiesByType(Types.PLATEAU)
+            Plateau closestPlateau = mGameEngine.getEntitiesByType(EntityTypes.PLATEAU)
                     .cast(Plateau.class)
                     .filter(Plateau.unoccupied())
                     .min(Entity.distanceTo(position));
@@ -154,7 +154,7 @@ public class TowerInserter {
     }
 
     private void showTowerLevels() {
-        Iterator<Tower> towers = mGameEngine.getEntitiesByType(Types.TOWER).cast(Tower.class);
+        Iterator<Tower> towers = mGameEngine.getEntitiesByType(EntityTypes.TOWER).cast(Tower.class);
 
         while (towers.hasNext()) {
             Tower tower = towers.next();
@@ -163,7 +163,7 @@ public class TowerInserter {
     }
 
     private void hideTowerLevels() {
-        Iterator<Tower> towers = mGameEngine.getEntitiesByType(Types.TOWER).cast(Tower.class);
+        Iterator<Tower> towers = mGameEngine.getEntitiesByType(EntityTypes.TOWER).cast(Tower.class);
 
         while (towers.hasNext()) {
             Tower tower = towers.next();

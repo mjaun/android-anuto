@@ -11,7 +11,7 @@ import ch.logixisland.anuto.business.wave.WaveManager;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.loop.TickTimer;
 import ch.logixisland.anuto.engine.logic.map.MapPath;
-import ch.logixisland.anuto.entity.Types;
+import ch.logixisland.anuto.entity.EntityTypes;
 import ch.logixisland.anuto.entity.plateau.Plateau;
 import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.entity.tower.TowerStrategy;
@@ -267,14 +267,14 @@ public class DefaultGameSimulator extends GameSimulator {
     private StreamIterator<Tower> getTowers() {
         final GameEngine gameEngine = getGameFactory().getGameEngine();
 
-        return gameEngine.getEntitiesByType(Types.TOWER)
+        return gameEngine.getEntitiesByType(EntityTypes.TOWER)
                 .cast(Tower.class);
     }
 
     private StreamIterator<Plateau> getFreePlateaus() {
         final GameEngine gameEngine = getGameFactory().getGameEngine();
 
-        return gameEngine.getEntitiesByType(Types.PLATEAU)
+        return gameEngine.getEntitiesByType(EntityTypes.PLATEAU)
                 .cast(Plateau.class)
                 .filter(Plateau.unoccupied());
     }

@@ -1,7 +1,7 @@
 package ch.logixisland.anuto.entity;
 
-public final class Types {
-    private Types() {
+public final class EntityTypes {
+    private EntityTypes() {
     }
 
     public static final int PLATEAU = 1;

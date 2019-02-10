@@ -7,7 +7,7 @@ import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.loop.Message;
-import ch.logixisland.anuto.entity.Types;
+import ch.logixisland.anuto.entity.EntityTypes;
 import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.entity.tower.TowerListener;
 import ch.logixisland.anuto.util.math.Vector2;
@@ -101,7 +101,7 @@ public class TowerSelector implements ScoreBoard.CreditsListener, Entity.Listene
         }
 
         Tower closest = (Tower) mGameEngine
-                .getEntitiesByType(Types.TOWER)
+                .getEntitiesByType(EntityTypes.TOWER)
                 .min(Entity.distanceTo(position));
 
         if (closest != null && closest.getDistanceTo(position) < 0.6f) {

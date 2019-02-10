@@ -10,7 +10,7 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
-import ch.logixisland.anuto.entity.Types;
+import ch.logixisland.anuto.entity.EntityTypes;
 import ch.logixisland.anuto.entity.effect.Explosion;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.entity.enemy.Flyer;
@@ -157,7 +157,7 @@ public class Mine extends Shot implements SpriteTransformation {
                 setSpeed(0f);
             }
         } else if (mUpdateTimer.tick()) {
-            StreamIterator<Enemy> enemiesInRange = getGameEngine().getEntitiesByType(Types.ENEMY)
+            StreamIterator<Enemy> enemiesInRange = getGameEngine().getEntitiesByType(EntityTypes.ENEMY)
                     .filter(inRange(getPosition(), TRIGGER_RADIUS))
                     .cast(Enemy.class)
                     .filter(new Predicate<Enemy>() {

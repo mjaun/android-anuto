@@ -8,7 +8,7 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
-import ch.logixisland.anuto.entity.Types;
+import ch.logixisland.anuto.entity.EntityTypes;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.math.Vector2;
@@ -71,7 +71,7 @@ public class CanonShotMg extends Shot implements SpriteTransformation {
     public void tick() {
         super.tick();
 
-        Enemy enemy = (Enemy) getGameEngine().getEntitiesByType(Types.ENEMY)
+        Enemy enemy = (Enemy) getGameEngine().getEntitiesByType(EntityTypes.ENEMY)
                 .filter(inRange(getPosition(), HIT_RANGE))
                 .first();
 

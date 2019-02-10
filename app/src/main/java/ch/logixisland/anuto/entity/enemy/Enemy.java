@@ -6,7 +6,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import ch.logixisland.anuto.GameSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
-import ch.logixisland.anuto.entity.Types;
+import ch.logixisland.anuto.entity.EntityTypes;
 import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.util.iterator.Function;
 import ch.logixisland.anuto.util.iterator.Predicate;
@@ -70,7 +70,7 @@ public abstract class Enemy extends Entity {
 
     @Override
     public final int getEntityType() {
-        return Types.ENEMY;
+        return EntityTypes.ENEMY;
     }
 
     @Override

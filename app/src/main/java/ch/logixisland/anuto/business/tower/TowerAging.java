@@ -5,7 +5,7 @@ import java.util.Iterator;
 import ch.logixisland.anuto.GameSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.loop.Message;
-import ch.logixisland.anuto.entity.Types;
+import ch.logixisland.anuto.entity.EntityTypes;
 import ch.logixisland.anuto.entity.tower.Tower;
 
 public class TowerAging {
@@ -28,7 +28,7 @@ public class TowerAging {
         }
 
         Iterator<Tower> towers = mGameEngine
-                .getEntitiesByType(Types.TOWER)
+                .getEntitiesByType(EntityTypes.TOWER)
                 .cast(Tower.class);
 
         while (towers.hasNext()) {

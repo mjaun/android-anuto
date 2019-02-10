@@ -2,7 +2,7 @@ package ch.logixisland.anuto.entity.plateau;
 
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
-import ch.logixisland.anuto.entity.Types;
+import ch.logixisland.anuto.entity.EntityTypes;
 import ch.logixisland.anuto.util.iterator.Predicate;
 
 public abstract class Plateau extends Entity {
@@ -24,7 +24,7 @@ public abstract class Plateau extends Entity {
 
     @Override
     public final int getEntityType() {
-        return Types.PLATEAU;
+        return EntityTypes.PLATEAU;
     }
 
     public boolean isOccupied() {

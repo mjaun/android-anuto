@@ -9,7 +9,7 @@ import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.loop.Message;
 import ch.logixisland.anuto.engine.logic.map.MapPath;
-import ch.logixisland.anuto.entity.Types;
+import ch.logixisland.anuto.entity.EntityTypes;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.entity.enemy.EnemyListener;
 import ch.logixisland.anuto.util.container.KeyValueStore;
@@ -126,7 +126,7 @@ class WaveAttender implements EnemyListener {
         mEnemyRewardModifier = data.getFloat("enemyRewardModifier");
         mWaveStartTickCount = data.getInt("waveStartTickCount");
 
-        StreamIterator<Enemy> enemyIterator = mGameEngine.getEntitiesByType(Types.ENEMY).cast(Enemy.class);
+        StreamIterator<Enemy> enemyIterator = mGameEngine.getEntitiesByType(EntityTypes.ENEMY).cast(Enemy.class);
         while (enemyIterator.hasNext()) {
             Enemy enemy = enemyIterator.next();
 

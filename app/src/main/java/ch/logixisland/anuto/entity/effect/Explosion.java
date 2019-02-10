@@ -10,7 +10,7 @@ import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.sound.Sound;
-import ch.logixisland.anuto.entity.Types;
+import ch.logixisland.anuto.entity.EntityTypes;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.Vector2;
@@ -94,7 +94,7 @@ public class Explosion extends Effect {
     protected void effectBegin() {
         mSound.play();
 
-        StreamIterator<Enemy> enemies = getGameEngine().getEntitiesByType(Types.ENEMY)
+        StreamIterator<Enemy> enemies = getGameEngine().getEntitiesByType(EntityTypes.ENEMY)
                 .filter(inRange(getPosition(), mRadius))
                 .cast(Enemy.class);
 

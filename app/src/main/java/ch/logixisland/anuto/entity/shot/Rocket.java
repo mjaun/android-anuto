@@ -9,7 +9,7 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
-import ch.logixisland.anuto.entity.Types;
+import ch.logixisland.anuto.entity.EntityTypes;
 import ch.logixisland.anuto.entity.effect.Explosion;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.util.RandomUtils;
@@ -130,7 +130,7 @@ public class Rocket extends Shot implements SpriteTransformation, TargetTracker.
 
     @Override
     public void targetLost(Enemy target) {
-        Enemy closest = (Enemy) getGameEngine().getEntitiesByType(Types.ENEMY)
+        Enemy closest = (Enemy) getGameEngine().getEntitiesByType(EntityTypes.ENEMY)
                 .min(distanceTo(getPosition()));
 
         if (closest == null) {
