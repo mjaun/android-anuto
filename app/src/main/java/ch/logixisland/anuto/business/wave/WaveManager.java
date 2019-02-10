@@ -18,11 +18,11 @@ import ch.logixisland.anuto.engine.logic.map.WaveInfo;
 import ch.logixisland.anuto.engine.logic.persistence.Persister;
 import ch.logixisland.anuto.util.container.KeyValueStore;
 
-public class WaveManager implements Persister {
+public class WaveManager implements Persister, GameState.Listener {
 
     private static final String TAG = WaveManager.class.getSimpleName();
 
-    private static final float MIN_WAVE_DELAY = 5;
+    private static final float NEXT_WAVE_MIN_DELAY = 5;
 
     public interface Listener {
         void waveNumberChanged();
@@ -58,6 +58,8 @@ public class WaveManager implements Persister {
         mEntityRegistry = entityRegistry;
 
         mEnemyDefaultHealth = new EnemyDefaultHealth(entityRegistry);
+
+        mGameState.addListener(this);
     }
 
     public int getWaveNumber() {
@@ -96,7 +98,7 @@ public class WaveManager implements Persister {
 
         setWaveNumber(mWaveNumber + 1);
         setNextWaveReady(false);
-        triggerMinWaveDelay();
+        nextWaveReadyDelayed(NEXT_WAVE_MIN_DELAY);
 
         for (WaveStartedListener listener : mWaveStartedListeners) {
             listener.waveStarted();
@@ -138,9 +140,19 @@ public class WaveManager implements Persister {
     @Override
     public void readState(KeyValueStore gameState) {
         initializeActiveWaves(gameState);
-        initializeNextWaveReady(gameState);
+        initializeNextWaveReady();
         setWaveNumber(gameState.getInt("waveNumber"));
         updateRemainingEnemiesCount();
+    }
+
+    @Override
+    public void gameRestart() {
+
+    }
+
+    @Override
+    public void gameOver() {
+        setNextWaveReady(false);
     }
 
     private void initializeActiveWaves(KeyValueStore gameState) {
@@ -157,25 +169,25 @@ public class WaveManager implements Persister {
         }
     }
 
-    private void initializeNextWaveReady(KeyValueStore gameState) {
-        int minWaveDelayTicks = Math.round(MIN_WAVE_DELAY * GameEngine.TARGET_FRAME_RATE);
+    private void initializeNextWaveReady() {
+        if (mGameState.isGameOver()) {
+            setNextWaveReady(false);
+            return;
+        }
+
+        int minWaveDelayTicks = Math.round(NEXT_WAVE_MIN_DELAY * GameEngine.TARGET_FRAME_RATE);
         int lastStartedWaveTickCount = -minWaveDelayTicks;
 
-        for (KeyValueStore activeWaveData : gameState.getStoreList("activeWaves")) {
-            lastStartedWaveTickCount = Math.max(lastStartedWaveTickCount, activeWaveData.getInt("waveStartTickCount"));
+        for (WaveAttender wave : mActiveWaves) {
+            lastStartedWaveTickCount = Math.max(lastStartedWaveTickCount, wave.getWaveStartTickCount());
         }
 
         int nextWaveReadyTicks = minWaveDelayTicks - (mGameEngine.getTickCount() - lastStartedWaveTickCount);
+        float nextWaveReadyDelay = (float) nextWaveReadyTicks / GameEngine.TARGET_FRAME_RATE;
 
-        if (nextWaveReadyTicks > 0) {
+        if (nextWaveReadyDelay > 0f) {
             setNextWaveReady(false);
-
-            mGameEngine.postAfterTicks(new Message() {
-                @Override
-                public void execute() {
-                    setNextWaveReady(true);
-                }
-            }, nextWaveReadyTicks);
+            nextWaveReadyDelayed(nextWaveReadyDelay);
         } else {
             setNextWaveReady(true);
         }
@@ -202,13 +214,15 @@ public class WaveManager implements Persister {
         }
     }
 
-    private void triggerMinWaveDelay() {
+    private void nextWaveReadyDelayed(float delay) {
         mGameEngine.postDelayed(new Message() {
             @Override
             public void execute() {
-                setNextWaveReady(true);
+                if (!mGameState.isGameOver()) {
+                    setNextWaveReady(true);
+                }
             }
-        }, MIN_WAVE_DELAY);
+        }, delay);
     }
 
     private void updateBonusOnScoreBoard() {
