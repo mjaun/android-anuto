@@ -6,6 +6,7 @@ import android.util.Log;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -17,6 +18,7 @@ import ch.logixisland.anuto.engine.logic.loop.ErrorListener;
 import ch.logixisland.anuto.engine.logic.loop.Message;
 import ch.logixisland.anuto.engine.logic.map.GameMap;
 import ch.logixisland.anuto.engine.logic.map.PlateauInfo;
+import ch.logixisland.anuto.engine.logic.map.WaveInfo;
 import ch.logixisland.anuto.engine.logic.persistence.GamePersister;
 import ch.logixisland.anuto.engine.render.Viewport;
 import ch.logixisland.anuto.entity.plateau.Plateau;
@@ -181,6 +183,13 @@ public class GameLoader implements ErrorListener {
 
         GameMap map = new GameMap(gameConfig);
         mGameEngine.setGameMap(map);
+
+        List<WaveInfo> waveInfos = new ArrayList<>();
+        for (KeyValueStore data : gameConfig.getStoreList("waves")) {
+            waveInfos.add(new WaveInfo(data));
+        }
+        mGameEngine.setWaveInfos(waveInfos);
+
         mViewport.setGameSize(map.getWidth(), map.getHeight());
 
         if (gameState != null) {

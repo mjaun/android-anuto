@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.business.wave;
+package ch.logixisland.anuto.engine.logic.map;
 
 import java.util.ArrayList;
 import java.util.Collections;

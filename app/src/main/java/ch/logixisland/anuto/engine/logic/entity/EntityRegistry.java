@@ -35,15 +35,10 @@ public class EntityRegistry implements Persister {
     @Override
     public void resetState(KeyValueStore gameConfig) {
         mNextEntityId = 0;
-
-        for (EntityFactory entityFactory : mEntityFactories.values()) {
-            entityFactory.setGameConfig(gameConfig);
-        }
     }
 
     @Override
     public void readState(KeyValueStore gameConfig, KeyValueStore gameState) {
-        resetState(gameConfig);
         mNextEntityId = gameState.getInt("nextEntityId");
     }
 

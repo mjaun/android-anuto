@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.business.wave;
+package ch.logixisland.anuto.engine.logic.map;
 
 import ch.logixisland.anuto.util.container.KeyValueStore;
 

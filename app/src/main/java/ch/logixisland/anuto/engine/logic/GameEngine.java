@@ -1,5 +1,7 @@
 package ch.logixisland.anuto.engine.logic;
 
+import java.util.List;
+
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityStore;
 import ch.logixisland.anuto.engine.logic.loop.ErrorListener;
@@ -8,6 +10,7 @@ import ch.logixisland.anuto.engine.logic.loop.Message;
 import ch.logixisland.anuto.engine.logic.loop.MessageQueue;
 import ch.logixisland.anuto.engine.logic.loop.TickListener;
 import ch.logixisland.anuto.engine.logic.map.GameMap;
+import ch.logixisland.anuto.engine.logic.map.WaveInfo;
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Renderer;
 import ch.logixisland.anuto.engine.render.sprite.SpriteFactory;
@@ -31,6 +34,7 @@ public class GameEngine {
     private final GameLoop mGameLoop;
 
     private GameMap mGameMap;
+    private List<WaveInfo> mWaveInfos;
 
     public GameEngine(SpriteFactory spriteFactory, ThemeManager themeManager,
                       SoundFactory soundFactory, EntityStore entityStore, MessageQueue messageQueue,
@@ -50,6 +54,14 @@ public class GameEngine {
 
     public void setGameMap(GameMap gameMap) {
         mGameMap = gameMap;
+    }
+
+    public List<WaveInfo> getWaveInfos() {
+        return mWaveInfos;
+    }
+
+    public void setWaveInfos(List<WaveInfo> waveInfos) {
+        mWaveInfos = waveInfos;
     }
 
     public ThemeManager getThemeManager() {
