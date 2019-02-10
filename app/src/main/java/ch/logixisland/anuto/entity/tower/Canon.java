@@ -17,10 +17,10 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.engine.sound.Sound;
+import ch.logixisland.anuto.entity.enemy.WeaponType;
 import ch.logixisland.anuto.entity.shot.CanonShot;
 import ch.logixisland.anuto.entity.shot.Shot;
 import ch.logixisland.anuto.util.RandomUtils;
-import ch.logixisland.anuto.util.container.KeyValueStore;
 import ch.logixisland.anuto.util.math.Function;
 import ch.logixisland.anuto.util.math.SampledFunction;
 import ch.logixisland.anuto.util.math.Vector2;
@@ -32,6 +32,22 @@ public class Canon extends Tower implements SpriteTransformation {
     private final static float REBOUND_RANGE = 0.25f;
     private final static float REBOUND_DURATION = 0.2f;
 
+    private final static TowerProperties TOWER_PROPERTIES = new TowerProperties.Builder()
+            .setValue(100)
+            .setDamage(100)
+            .setRange(2.5f)
+            .setReload(1.0f)
+            .setMaxLevel(10)
+            .setWeaponType(WeaponType.Bullet)
+            .setEnhanceBase(1.2f)
+            .setEnhanceCost(50)
+            .setEnhanceDamage(40)
+            .setEnhanceRange(0.05f)
+            .setEnhanceReload(0.05f)
+            .setUpgradeTowerName(DualCanon.ENTITY_NAME)
+            .setUpgradeCost(5600)
+            .build();
+
     public static class Factory extends EntityFactory {
         @Override
         public String getEntityName() {
@@ -40,7 +56,7 @@ public class Canon extends Tower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            return new Canon(gameEngine, getEntitySettings());
+            return new Canon(gameEngine);
         }
     }
 
@@ -66,8 +82,8 @@ public class Canon extends Tower implements SpriteTransformation {
 
     private Sound mSound;
 
-    private Canon(GameEngine gameEngine, KeyValueStore settings) {
-        super(gameEngine, settings);
+    private Canon(GameEngine gameEngine) {
+        super(gameEngine, TOWER_PROPERTIES);
         StaticData s = (StaticData) getStaticData();
 
         mReboundFunction = Function.sine()

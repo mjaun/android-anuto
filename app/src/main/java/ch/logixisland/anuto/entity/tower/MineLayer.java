@@ -20,6 +20,7 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.engine.sound.Sound;
+import ch.logixisland.anuto.entity.enemy.WeaponType;
 import ch.logixisland.anuto.entity.shot.Mine;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.container.KeyValueStore;
@@ -29,8 +30,28 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class MineLayer extends Tower implements SpriteTransformation {
 
-    private final static String ENTITY_NAME = "mineLayer";
+    public final static String ENTITY_NAME = "mineLayer";
     private final static float ANIMATION_DURATION = 1f;
+    private final static int MAX_MINE_COUNT = 3;
+    private final static int ENHANCE_MAX_MINE_COUNT = 1;
+    private final static float EXPLOSION_RADIUS = 2.0f;
+    private final static float ENHANCE_EXPLOSION_RADIUS = 0.05f;
+
+    private final static TowerProperties TOWER_PROPERTIES = new TowerProperties.Builder()
+            .setValue(10250)
+            .setDamage(3100)
+            .setRange(2.5f)
+            .setReload(2.5f)
+            .setMaxLevel(10)
+            .setWeaponType(WeaponType.Explosive)
+            .setEnhanceBase(1.4f)
+            .setEnhanceCost(750)
+            .setEnhanceDamage(270)
+            .setEnhanceRange(0.0f)
+            .setEnhanceReload(0.05f)
+            .setUpgradeTowerName(RocketLauncher.ENTITY_NAME)
+            .setUpgradeCost(102850)
+            .build();
 
     public static class Factory extends EntityFactory {
         @Override
@@ -41,7 +62,7 @@ public class MineLayer extends Tower implements SpriteTransformation {
         @Override
         public Entity create(GameEngine gameEngine) {
             List<MapPath> paths = new GameMap(getGameConfig()).getPaths();
-            return new MineLayer(gameEngine, getEntitySettings(), paths);
+            return new MineLayer(gameEngine, paths);
         }
     }
 
@@ -86,9 +107,7 @@ public class MineLayer extends Tower implements SpriteTransformation {
         public SpriteTemplate mSpriteTemplate;
     }
 
-    private KeyValueStore mSettings;
     private Collection<MapPath> mPaths;
-
     private float mAngle;
     private int mMaxMineCount;
     private float mExplosionRadius;
@@ -108,12 +127,11 @@ public class MineLayer extends Tower implements SpriteTransformation {
         }
     };
 
-    private MineLayer(GameEngine gameEngine, KeyValueStore settings, Collection<MapPath> paths) {
-        super(gameEngine, settings);
+    private MineLayer(GameEngine gameEngine, Collection<MapPath> paths) {
+        super(gameEngine, TOWER_PROPERTIES);
         StaticData s = (StaticData) getStaticData();
 
         mPaths = paths;
-        mSettings = settings;
 
         mSprite = getSpriteFactory().createAnimated(Layers.TOWER_BASE, s.mSpriteTemplate);
         mSprite.setListener(this);
@@ -121,8 +139,8 @@ public class MineLayer extends Tower implements SpriteTransformation {
         mSprite.setInterval(ANIMATION_DURATION);
 
         mAngle = RandomUtils.next(360f);
-        mMaxMineCount = mSettings.getInt("maxMineCount");
-        mExplosionRadius = mSettings.getFloat("explosionRadius");
+        mMaxMineCount = MAX_MINE_COUNT;
+        mExplosionRadius = EXPLOSION_RADIUS;
 
         mSound = getSoundFactory().createSound(R.raw.gun2_donk);
     }
@@ -178,8 +196,8 @@ public class MineLayer extends Tower implements SpriteTransformation {
     @Override
     public void enhance() {
         super.enhance();
-        mMaxMineCount += mSettings.getInt("enhanceMaxMineCount");
-        mExplosionRadius += mSettings.getFloat("enhanceExplosionRadius");
+        mMaxMineCount += ENHANCE_MAX_MINE_COUNT;
+        mExplosionRadius += ENHANCE_EXPLOSION_RADIUS;
     }
 
     @Override

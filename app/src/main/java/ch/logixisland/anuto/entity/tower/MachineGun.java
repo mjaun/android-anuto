@@ -18,17 +18,31 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.engine.sound.Sound;
+import ch.logixisland.anuto.entity.enemy.WeaponType;
 import ch.logixisland.anuto.entity.shot.CanonShotMg;
 import ch.logixisland.anuto.entity.shot.Shot;
 import ch.logixisland.anuto.util.RandomUtils;
-import ch.logixisland.anuto.util.container.KeyValueStore;
 import ch.logixisland.anuto.util.math.Vector2;
 
 public class MachineGun extends Tower implements SpriteTransformation {
 
-    private final static String ENTITY_NAME = "machineGun";
+    public final static String ENTITY_NAME = "machineGun";
     private final static float SHOT_SPAWN_OFFSET = 0.7f;
     private final static float MG_ROTATION_SPEED = 3f;
+
+    private final static TowerProperties TOWER_PROPERTIES = new TowerProperties.Builder()
+            .setValue(94200)
+            .setDamage(20000)
+            .setRange(3.5f)
+            .setReload(0.15f)
+            .setMaxLevel(15)
+            .setWeaponType(WeaponType.Bullet)
+            .setEnhanceBase(1.5f)
+            .setEnhanceCost(750)
+            .setEnhanceDamage(120)
+            .setEnhanceRange(0.05f)
+            .setEnhanceReload(0.005f)
+            .build();
 
     public static class Factory extends EntityFactory {
         @Override
@@ -38,7 +52,7 @@ public class MachineGun extends Tower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            return new MachineGun(gameEngine, getEntitySettings());
+            return new MachineGun(gameEngine);
         }
     }
 
@@ -61,8 +75,8 @@ public class MachineGun extends Tower implements SpriteTransformation {
     private Sound mSound;
     private final Aimer mAimer = new Aimer(this);
 
-    private MachineGun(GameEngine gameEngine, KeyValueStore settings) {
-        super(gameEngine, settings);
+    private MachineGun(GameEngine gameEngine) {
+        super(gameEngine, TOWER_PROPERTIES);
         StaticData s = (StaticData) getStaticData();
 
         mSpriteBase = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplateBase);

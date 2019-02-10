@@ -17,14 +17,32 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.engine.sound.Sound;
+import ch.logixisland.anuto.entity.enemy.WeaponType;
 import ch.logixisland.anuto.util.RandomUtils;
-import ch.logixisland.anuto.util.container.KeyValueStore;
 import ch.logixisland.anuto.util.math.Vector2;
 
 public class BouncingLaser extends Tower implements SpriteTransformation {
 
-    private final static String ENTITY_NAME = "bouncingLaser";
+    public final static String ENTITY_NAME = "bouncingLaser";
     private final static float LASER_SPAWN_OFFSET = 0.7f;
+    private final static int BOUNCE_COUNT = 4;
+    private final static float BOUNCE_DISTANCE = 2.0f;
+
+    private final static TowerProperties TOWER_PROPERTIES = new TowerProperties.Builder()
+            .setValue(7150)
+            .setDamage(4300)
+            .setRange(3.0f)
+            .setReload(1.5f)
+            .setMaxLevel(10)
+            .setWeaponType(WeaponType.Laser)
+            .setEnhanceBase(1.4f)
+            .setEnhanceCost(580)
+            .setEnhanceDamage(160)
+            .setEnhanceRange(0.05f)
+            .setEnhanceReload(0.1f)
+            .setUpgradeTowerName(ch.logixisland.anuto.entity.tower.StraightLaser.ENTITY_NAME)
+            .setUpgradeCost(96450)
+            .build();
 
     public static class Factory extends EntityFactory {
         @Override
@@ -34,7 +52,7 @@ public class BouncingLaser extends Tower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            return new BouncingLaser(gameEngine, getEntitySettings());
+            return new BouncingLaser(gameEngine);
         }
 
     }
@@ -51,8 +69,6 @@ public class BouncingLaser extends Tower implements SpriteTransformation {
         SpriteTemplate mSpriteTemplateCanon;
     }
 
-    private KeyValueStore mSettings;
-
     private float mAngle = 90f;
     private final Aimer mAimer = new Aimer(this);
 
@@ -60,11 +76,9 @@ public class BouncingLaser extends Tower implements SpriteTransformation {
     private StaticSprite mSpriteCanon;
     private Sound mSound;
 
-    private BouncingLaser(GameEngine gameEngine, KeyValueStore settings) {
-        super(gameEngine, settings);
+    private BouncingLaser(GameEngine gameEngine) {
+        super(gameEngine, TOWER_PROPERTIES);
         StaticData s = (StaticData) getStaticData();
-
-        mSettings = settings;
 
         mSpriteBase = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplateBase);
         mSpriteBase.setIndex(RandomUtils.next(4));
@@ -122,7 +136,13 @@ public class BouncingLaser extends Tower implements SpriteTransformation {
             if (isReloaded()) {
                 Vector2 origin = getPosition().add(Vector2.polar(LASER_SPAWN_OFFSET, mAngle));
                 getGameEngine().add(new ch.logixisland.anuto.entity.effect.BouncingLaser(
-                        this, origin, mAimer.getTarget(), getDamage(), mSettings.getInt("bounceCount"), mSettings.getFloat("bounceDistance")));
+                        this,
+                        origin,
+                        mAimer.getTarget(),
+                        getDamage(),
+                        BOUNCE_COUNT,
+                        BOUNCE_DISTANCE
+                ));
                 setReloaded(false);
                 mSound.play();
             }

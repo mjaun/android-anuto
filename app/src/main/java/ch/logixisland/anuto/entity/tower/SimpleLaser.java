@@ -18,14 +18,30 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.engine.sound.Sound;
 import ch.logixisland.anuto.entity.effect.BouncingLaser;
+import ch.logixisland.anuto.entity.enemy.WeaponType;
 import ch.logixisland.anuto.util.RandomUtils;
-import ch.logixisland.anuto.util.container.KeyValueStore;
 import ch.logixisland.anuto.util.math.Vector2;
 
 public class SimpleLaser extends Tower implements SpriteTransformation {
 
     public final static String ENTITY_NAME = "simpleLaser";
     private final static float LASER_SPAWN_OFFSET = 0.7f;
+
+    private final static TowerProperties TOWER_PROPERTIES = new TowerProperties.Builder()
+            .setValue(150)
+            .setDamage(230)
+            .setRange(3.0f)
+            .setReload(1.5f)
+            .setMaxLevel(10)
+            .setWeaponType(WeaponType.Laser)
+            .setEnhanceBase(1.2f)
+            .setEnhanceCost(50)
+            .setEnhanceDamage(40)
+            .setEnhanceRange(0.05f)
+            .setEnhanceReload(0.1f)
+            .setUpgradeTowerName(ch.logixisland.anuto.entity.tower.BouncingLaser.ENTITY_NAME)
+            .setUpgradeCost(7000)
+            .build();
 
     public static class Factory extends EntityFactory {
         @Override
@@ -35,7 +51,7 @@ public class SimpleLaser extends Tower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            return new SimpleLaser(gameEngine, getEntitySettings());
+            return new SimpleLaser(gameEngine);
         }
     }
 
@@ -57,8 +73,8 @@ public class SimpleLaser extends Tower implements SpriteTransformation {
     private StaticSprite mSpriteCanon;
     private Sound mSound;
 
-    private SimpleLaser(GameEngine gameEngine, KeyValueStore settings) {
-        super(gameEngine, settings);
+    private SimpleLaser(GameEngine gameEngine) {
+        super(gameEngine, TOWER_PROPERTIES);
         StaticData s = (StaticData) getStaticData();
 
         mSpriteBase = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplateBase);

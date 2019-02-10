@@ -18,16 +18,35 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.engine.sound.Sound;
+import ch.logixisland.anuto.entity.enemy.WeaponType;
 import ch.logixisland.anuto.entity.shot.GlueShot;
 import ch.logixisland.anuto.util.RandomUtils;
-import ch.logixisland.anuto.util.container.KeyValueStore;
 import ch.logixisland.anuto.util.math.Vector2;
 
 public class GlueGun extends Tower implements SpriteTransformation {
 
-    private final static String ENTITY_NAME = "glueGun";
+    public final static String ENTITY_NAME = "glueGun";
     private final static float SHOT_SPAWN_OFFSET = 0.7f;
     private final static float REBOUND_DURATION = 0.5f;
+    private final static float GLUE_INTENSITY = 1.2f;
+    private final static float ENHANCE_GLUE_INTENSITY = 0.3f;
+    private final static float GLUE_DURATION = 2.5f;
+
+    private final static TowerProperties TOWER_PROPERTIES = new TowerProperties.Builder()
+            .setValue(1300)
+            .setDamage(0)
+            .setRange(2.5f)
+            .setReload(3.0f)
+            .setMaxLevel(5)
+            .setWeaponType(WeaponType.None)
+            .setEnhanceBase(1.2f)
+            .setEnhanceCost(200)
+            .setEnhanceDamage(0)
+            .setEnhanceRange(0.2f)
+            .setEnhanceReload(0f)
+            .setUpgradeTowerName(Teleporter.ENTITY_NAME)
+            .setUpgradeCost(1700)
+            .build();
 
     public static class Factory extends EntityFactory {
         @Override
@@ -37,7 +56,7 @@ public class GlueGun extends Tower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            return new GlueGun(gameEngine, getEntitySettings());
+            return new GlueGun(gameEngine);
         }
     }
 
@@ -52,8 +71,6 @@ public class GlueGun extends Tower implements SpriteTransformation {
         SpriteTemplate mSpriteTemplateCanon;
     }
 
-    private KeyValueStore mSettings;
-
     private float mAngle = 90f;
     private float mGlueIntensity;
     private boolean mRebounding = false;
@@ -63,12 +80,11 @@ public class GlueGun extends Tower implements SpriteTransformation {
     private AnimatedSprite mSpriteCanon;
     private Sound mSound;
 
-    private GlueGun(GameEngine gameEngine, KeyValueStore settings) {
-        super(gameEngine, settings);
+    private GlueGun(GameEngine gameEngine) {
+        super(gameEngine, TOWER_PROPERTIES);
         StaticData s = (StaticData) getStaticData();
 
-        mSettings = settings;
-        mGlueIntensity = settings.getFloat("glueIntensity");
+        mGlueIntensity = GLUE_INTENSITY;
 
         mSpriteBase = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplateBase);
         mSpriteBase.setListener(this);
@@ -119,7 +135,7 @@ public class GlueGun extends Tower implements SpriteTransformation {
     @Override
     public void enhance() {
         super.enhance();
-        mGlueIntensity += mSettings.getFloat("enhanceGlueIntensity");
+        mGlueIntensity += ENHANCE_GLUE_INTENSITY;
     }
 
     @Override
@@ -136,7 +152,7 @@ public class GlueGun extends Tower implements SpriteTransformation {
             mAngle = getAngleTo(target);
 
             Vector2 position = getPosition().add(Vector2.polar(SHOT_SPAWN_OFFSET, getAngleTo(target)));
-            getGameEngine().add(new GlueShot(this, position, target, mGlueIntensity, mSettings.getFloat("glueDuration")));
+            getGameEngine().add(new GlueShot(this, position, target, mGlueIntensity, GLUE_DURATION));
             mSound.play();
 
             setReloaded(false);
@@ -169,7 +185,7 @@ public class GlueGun extends Tower implements SpriteTransformation {
     public List<TowerInfoValue> getTowerInfoValues() {
         List<TowerInfoValue> properties = new ArrayList<>();
         properties.add(new TowerInfoValue(R.string.intensity, mGlueIntensity));
-        properties.add(new TowerInfoValue(R.string.duration, mSettings.getFloat("glueDuration")));
+        properties.add(new TowerInfoValue(R.string.duration, GLUE_DURATION));
         properties.add(new TowerInfoValue(R.string.reload, getReloadTime()));
         properties.add(new TowerInfoValue(R.string.range, getRange()));
         return properties;

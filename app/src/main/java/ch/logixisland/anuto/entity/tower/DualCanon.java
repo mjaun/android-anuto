@@ -17,20 +17,36 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.engine.sound.Sound;
+import ch.logixisland.anuto.entity.enemy.WeaponType;
 import ch.logixisland.anuto.entity.shot.CanonShot;
 import ch.logixisland.anuto.entity.shot.Shot;
 import ch.logixisland.anuto.util.RandomUtils;
-import ch.logixisland.anuto.util.container.KeyValueStore;
 import ch.logixisland.anuto.util.math.Function;
 import ch.logixisland.anuto.util.math.SampledFunction;
 import ch.logixisland.anuto.util.math.Vector2;
 
 public class DualCanon extends Tower implements SpriteTransformation {
 
-    private final static String ENTITY_NAME = "dualCanon";
+    public final static String ENTITY_NAME = "dualCanon";
     private final static float SHOT_SPAWN_OFFSET = 0.7f;
     private final static float REBOUND_RANGE = 0.25f;
     private final static float REBOUND_DURATION = 0.2f;
+
+    private final static TowerProperties TOWER_PROPERTIES = new TowerProperties.Builder()
+            .setValue(5700)
+            .setDamage(3400)
+            .setRange(3.0f)
+            .setReload(0.5f)
+            .setMaxLevel(10)
+            .setWeaponType(WeaponType.Bullet)
+            .setEnhanceBase(1.4f)
+            .setEnhanceCost(470)
+            .setEnhanceDamage(160)
+            .setEnhanceRange(0.05f)
+            .setEnhanceReload(0.03f)
+            .setUpgradeTowerName(MachineGun.ENTITY_NAME)
+            .setUpgradeCost(88500)
+            .build();
 
     public static class Factory extends EntityFactory {
         @Override
@@ -40,7 +56,7 @@ public class DualCanon extends Tower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            return new DualCanon(gameEngine, getEntitySettings());
+            return new DualCanon(gameEngine);
         }
     }
 
@@ -72,8 +88,8 @@ public class DualCanon extends Tower implements SpriteTransformation {
 
     private Sound mSound;
 
-    private DualCanon(GameEngine gameEngine, KeyValueStore settings) {
-        super(gameEngine, settings);
+    private DualCanon(GameEngine gameEngine) {
+        super(gameEngine, TOWER_PROPERTIES);
         StaticData s = (StaticData) getStaticData();
 
         Function reboundFunction = Function.sine()

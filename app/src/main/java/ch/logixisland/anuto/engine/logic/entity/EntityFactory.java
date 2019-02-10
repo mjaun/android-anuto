@@ -18,12 +18,4 @@ public abstract class EntityFactory {
         return mGameConfig;
     }
 
-    public KeyValueStore getEntitySettings() {
-        if (!mGameConfig.getStore("entities").hasKey(getEntityName())) {
-            return null;
-        }
-
-        return mGameConfig.getStore("entities").getStore(getEntityName());
-    }
-
 }

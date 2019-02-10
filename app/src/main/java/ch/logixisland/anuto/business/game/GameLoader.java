@@ -168,10 +168,6 @@ public class GameLoader implements ErrorListener {
         Log.d(TAG, "Loading configuration...");
         KeyValueStore gameConfig = new KeyValueStore();
 
-        KeyValueStore entityConfig = new KeyValueStore();
-        entityConfig.extend(KeyValueStore.fromResources(mContext.getResources(), R.raw.tower_settings));
-        gameConfig.putStore("entities", entityConfig);
-
         MapInfo mapInfo = mMapRepository.getMapById(mapId);
         gameConfig.putStore("map", KeyValueStore.fromResources(mContext.getResources(), mapInfo.getMapDataResId()));
         gameConfig.extend(KeyValueStore.fromResources(mContext.getResources(), R.raw.waves));

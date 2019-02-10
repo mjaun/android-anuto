@@ -20,13 +20,29 @@ import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.engine.sound.Sound;
 import ch.logixisland.anuto.entity.effect.TeleportEffect;
 import ch.logixisland.anuto.entity.enemy.Enemy;
+import ch.logixisland.anuto.entity.enemy.WeaponType;
 import ch.logixisland.anuto.util.RandomUtils;
-import ch.logixisland.anuto.util.container.KeyValueStore;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
 public class Teleporter extends Tower implements SpriteTransformation {
 
-    private final static String ENTITY_NAME = "teleporter";
+    public final static String ENTITY_NAME = "teleporter";
+    private final static float TELEPORT_DISTANCE = 15f;
+    private final static float ENHANCE_TELEPORT_DISTANCE = 5f;
+
+    private final static TowerProperties TOWER_PROPERTIES = new TowerProperties.Builder()
+            .setValue(3000)
+            .setDamage(0)
+            .setRange(3.5f)
+            .setReload(5.0f)
+            .setMaxLevel(5)
+            .setWeaponType(WeaponType.None)
+            .setEnhanceBase(1.2f)
+            .setEnhanceCost(2000)
+            .setEnhanceDamage(0)
+            .setEnhanceRange(0f)
+            .setEnhanceReload(0.5f)
+            .build();
 
     public static class Factory extends EntityFactory {
         @Override
@@ -36,7 +52,7 @@ public class Teleporter extends Tower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            return new Teleporter(gameEngine, getEntitySettings());
+            return new Teleporter(gameEngine);
         }
     }
 
@@ -58,7 +74,6 @@ public class Teleporter extends Tower implements SpriteTransformation {
         }
     }
 
-    private KeyValueStore mSettings;
     private float mTeleportDistance;
     private final Aimer mAimer = new Aimer(this);
 
@@ -66,12 +81,11 @@ public class Teleporter extends Tower implements SpriteTransformation {
     private StaticSprite mSpriteTower;
     private Sound mSound;
 
-    private Teleporter(GameEngine gameEngine, KeyValueStore settings) {
-        super(gameEngine, settings);
+    private Teleporter(GameEngine gameEngine) {
+        super(gameEngine, TOWER_PROPERTIES);
         StaticData s = (StaticData) getStaticData();
 
-        mSettings = settings;
-        mTeleportDistance = settings.getFloat("teleportDistance");
+        mTeleportDistance = TELEPORT_DISTANCE;
 
         mSpriteBase = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplateBase);
         mSpriteBase.setListener(this);
@@ -121,7 +135,7 @@ public class Teleporter extends Tower implements SpriteTransformation {
     @Override
     public void enhance() {
         super.enhance();
-        mTeleportDistance += mSettings.getFloat("enhanceTeleportDistance");
+        mTeleportDistance += ENHANCE_TELEPORT_DISTANCE;
     }
 
     @Override

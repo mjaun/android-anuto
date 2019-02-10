@@ -18,9 +18,9 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.engine.sound.Sound;
+import ch.logixisland.anuto.entity.enemy.WeaponType;
 import ch.logixisland.anuto.entity.shot.MortarShot;
 import ch.logixisland.anuto.util.RandomUtils;
-import ch.logixisland.anuto.util.container.KeyValueStore;
 import ch.logixisland.anuto.util.math.Vector2;
 
 public class Mortar extends Tower implements SpriteTransformation {
@@ -28,6 +28,26 @@ public class Mortar extends Tower implements SpriteTransformation {
     public final static String ENTITY_NAME = "mortar";
     private final static float SHOT_SPAWN_OFFSET = 0.6f;
     private final static float REBOUND_DURATION = 0.5f;
+
+    private final static float INACCURACY = 1.0f;
+    private final static float EXPLOSION_RADIUS = 1.5f;
+    private final static float ENHANCE_EXPLOSION_RADIUS = 0.05f;
+
+    private final static TowerProperties TOWER_PROPERTIES = new TowerProperties.Builder()
+            .setValue(250)
+            .setDamage(100)
+            .setRange(2.5f)
+            .setReload(2.0f)
+            .setMaxLevel(10)
+            .setWeaponType(WeaponType.Explosive)
+            .setEnhanceBase(1.2f)
+            .setEnhanceCost(125)
+            .setEnhanceDamage(60)
+            .setEnhanceRange(0.05f)
+            .setEnhanceReload(0.05f)
+            .setUpgradeTowerName(MineLayer.ENTITY_NAME)
+            .setUpgradeCost(10000)
+            .build();
 
     public static class Factory extends EntityFactory {
         @Override
@@ -37,7 +57,7 @@ public class Mortar extends Tower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            return new Mortar(gameEngine, getEntitySettings());
+            return new Mortar(gameEngine);
         }
     }
 
@@ -52,8 +72,6 @@ public class Mortar extends Tower implements SpriteTransformation {
         SpriteTemplate mSpriteTemplateCanon;
     }
 
-    private KeyValueStore mSettings;
-
     private float mExplosionRadius;
     private float mAngle = 90f;
     private boolean mRebounding = false;
@@ -63,12 +81,11 @@ public class Mortar extends Tower implements SpriteTransformation {
     private AnimatedSprite mSpriteCanon;
     private Sound mSound;
 
-    private Mortar(GameEngine gameEngine, KeyValueStore settings) {
-        super(gameEngine, settings);
+    private Mortar(GameEngine gameEngine) {
+        super(gameEngine, TOWER_PROPERTIES);
         StaticData s = (StaticData) getStaticData();
 
-        mSettings = settings;
-        mExplosionRadius = mSettings.getFloat("explosionRadius");
+        mExplosionRadius = EXPLOSION_RADIUS;
 
         mSpriteBase = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplateBase);
         mSpriteBase.setIndex(RandomUtils.next(4));
@@ -119,7 +136,7 @@ public class Mortar extends Tower implements SpriteTransformation {
     @Override
     public void enhance() {
         super.enhance();
-        mExplosionRadius += mSettings.getFloat("enhanceExplosionRadius");
+        mExplosionRadius += ENHANCE_EXPLOSION_RADIUS;
     }
 
     @Override
@@ -129,7 +146,7 @@ public class Mortar extends Tower implements SpriteTransformation {
 
         if (mAimer.getTarget() != null && isReloaded()) {
             Vector2 targetPos = mAimer.getTarget().getPositionAfter(MortarShot.TIME_TO_TARGET);
-            targetPos = targetPos.add(Vector2.polar(RandomUtils.next(mSettings.getFloat("inaccuracy")), RandomUtils.next(360f)));
+            targetPos = targetPos.add(Vector2.polar(RandomUtils.next(INACCURACY), RandomUtils.next(360f)));
             mAngle = getAngleTo(targetPos);
             Vector2 shotPos = getPosition().add(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
 

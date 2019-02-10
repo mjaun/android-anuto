@@ -12,12 +12,11 @@ import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.entity.enemy.WeaponType;
 import ch.logixisland.anuto.entity.plateau.Plateau;
-import ch.logixisland.anuto.util.container.KeyValueStore;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
 public abstract class Tower extends Entity {
 
-    private final KeyValueStore mSettings;
+    private TowerProperties mTowerProperties;
 
     private boolean mBuilt;
     private int mValue;
@@ -36,15 +35,15 @@ public abstract class Tower extends Entity {
 
     private final List<TowerListener> mListeners = new CopyOnWriteArrayList<>();
 
-    Tower(GameEngine gameEngine, KeyValueStore settings) {
+    Tower(GameEngine gameEngine, TowerProperties towerProperties) {
         super(gameEngine);
 
-        mSettings = settings;
+        mTowerProperties = towerProperties;
 
-        mValue = mSettings.getInt("value");
-        mDamage = mSettings.getFloat("damage");
-        mRange = mSettings.getFloat("range");
-        mReloadTime = mSettings.getFloat("reload");
+        mValue = mTowerProperties.getValue();
+        mDamage = mTowerProperties.getDamage();
+        mRange = mTowerProperties.getRange();
+        mReloadTime = mTowerProperties.getReload();
         mLevel = 1;
 
         mReloadTimer = TickTimer.createInterval(mReloadTime);
@@ -109,7 +108,7 @@ public abstract class Tower extends Entity {
     }
 
     public WeaponType getWeaponType() {
-        return WeaponType.valueOf(mSettings.getString("weaponType"));
+        return mTowerProperties.getWeaponType();
     }
 
     public boolean isReloaded() {
@@ -161,22 +160,22 @@ public abstract class Tower extends Entity {
     }
 
     public boolean isUpgradeable() {
-        return mSettings.hasKey("upgrade");
+        return mTowerProperties.getUpgradeTowerName() != null;
     }
 
     public String getUpgradeName() {
-        return isUpgradeable() ? mSettings.getString("upgrade") : null;
+        return mTowerProperties.getUpgradeTowerName();
     }
 
     public int getUpgradeCost() {
-        return isUpgradeable() ? mSettings.getInt("upgradeCost") : 0;
+        return mTowerProperties.getUpgradeCost();
     }
 
     public void enhance() {
         mValue += getEnhanceCost();
-        mDamage += mSettings.getFloat("enhanceDamage") * (float) Math.pow(mSettings.getFloat("enhanceBase"), mLevel - 1);
-        mRange += mSettings.getFloat("enhanceRange");
-        mReloadTime -= mSettings.getFloat("enhanceReload");
+        mDamage += mTowerProperties.getEnhanceDamage() * (float) Math.pow(mTowerProperties.getEnhanceBase(), mLevel - 1);
+        mRange += mTowerProperties.getEnhanceRange();
+        mReloadTime -= mTowerProperties.getEnhanceReload();
 
         mLevel++;
 
@@ -184,7 +183,7 @@ public abstract class Tower extends Entity {
     }
 
     public boolean isEnhanceable() {
-        return mLevel < mSettings.getInt("maxLevel");
+        return mLevel < mTowerProperties.getMaxLevel();
     }
 
     public int getEnhanceCost() {
@@ -192,7 +191,7 @@ public abstract class Tower extends Entity {
             return -1;
         }
 
-        return Math.round(mSettings.getInt("enhanceCost") * (float) Math.pow(mSettings.getFloat("enhanceBase"), mLevel - 1));
+        return Math.round(mTowerProperties.getEnhanceCost() * (float) Math.pow(mTowerProperties.getEnhanceBase(), mLevel - 1));
     }
 
     public int getLevel() {
@@ -200,7 +199,7 @@ public abstract class Tower extends Entity {
     }
 
     public int getMaxLevel() {
-        return mSettings.getInt("maxLevel");
+        return mTowerProperties.getMaxLevel();
     }
 
     public void showRange() {

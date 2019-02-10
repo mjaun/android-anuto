@@ -18,14 +18,30 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.engine.sound.Sound;
+import ch.logixisland.anuto.entity.enemy.WeaponType;
 import ch.logixisland.anuto.entity.shot.Rocket;
 import ch.logixisland.anuto.util.RandomUtils;
-import ch.logixisland.anuto.util.container.KeyValueStore;
 
 public class RocketLauncher extends Tower implements SpriteTransformation {
 
-    private final static String ENTITY_NAME = "rocketLauncher";
+    public final static String ENTITY_NAME = "rocketLauncher";
     private final static float ROCKET_LOAD_TIME = 1.0f;
+    private final static float EXPLOSION_RADIUS = 1.7f;
+    private final static float ENHANCE_EXPLOSION_RADIUS = 0.05f;
+
+    private final static TowerProperties TOWER_PROPERTIES = new TowerProperties.Builder()
+            .setValue(113100)
+            .setDamage(48000)
+            .setRange(3.0f)
+            .setReload(3.0f)
+            .setMaxLevel(15)
+            .setWeaponType(WeaponType.Explosive)
+            .setEnhanceBase(1.5f)
+            .setEnhanceCost(950)
+            .setEnhanceDamage(410)
+            .setEnhanceRange(0.1f)
+            .setEnhanceReload(0.07f)
+            .build();
 
     public static class Factory extends EntityFactory {
         @Override
@@ -35,7 +51,7 @@ public class RocketLauncher extends Tower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            return new RocketLauncher(gameEngine, getEntitySettings());
+            return new RocketLauncher(gameEngine);
         }
     }
 
@@ -50,8 +66,6 @@ public class RocketLauncher extends Tower implements SpriteTransformation {
         SpriteTemplate mSpriteTemplateRocket; // used for preview only
     }
 
-    private KeyValueStore mSettings;
-
     private float mExplosionRadius;
     private float mAngle = 90f;
     private Rocket mRocket;
@@ -62,11 +76,9 @@ public class RocketLauncher extends Tower implements SpriteTransformation {
     private StaticSprite mSpriteRocket; // used for preview only
     private Sound mSound;
 
-    private RocketLauncher(GameEngine gameEngine, KeyValueStore settings) {
-        super(gameEngine, settings);
+    private RocketLauncher(GameEngine gameEngine) {
+        super(gameEngine, TOWER_PROPERTIES);
         StaticData s = (StaticData) getStaticData();
-
-        mSettings = settings;
 
         mSprite = getSpriteFactory().createStatic(Layers.TOWER_BASE, s.mSpriteTemplate);
         mSprite.setListener(this);
@@ -76,7 +88,7 @@ public class RocketLauncher extends Tower implements SpriteTransformation {
         mSpriteRocket.setListener(this);
         mSpriteRocket.setIndex(RandomUtils.next(4));
 
-        mExplosionRadius = settings.getFloat("explosionRadius");
+        mExplosionRadius = EXPLOSION_RADIUS;
         mRocketLoadTimer = TickTimer.createInterval(ROCKET_LOAD_TIME);
 
         mSound = getSoundFactory().createSound(R.raw.explosive2_tsh);
@@ -121,7 +133,7 @@ public class RocketLauncher extends Tower implements SpriteTransformation {
     @Override
     public void enhance() {
         super.enhance();
-        mExplosionRadius += mSettings.getFloat("enhanceExplosionRadius");
+        mExplosionRadius += ENHANCE_EXPLOSION_RADIUS;
     }
 
     @Override
