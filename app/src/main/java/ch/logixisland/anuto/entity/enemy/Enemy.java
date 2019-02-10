@@ -3,6 +3,7 @@ package ch.logixisland.anuto.entity.enemy;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.GameSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.entity.Types;
@@ -41,7 +42,7 @@ public abstract class Enemy extends Entity {
         };
     }
 
-    private EnemySettings mEnemySettings;
+    private EnemyProperties mEnemyProperties;
     private float mHealth;
     private float mMaxHealth;
     private float mSpeedModifier;
@@ -55,14 +56,14 @@ public abstract class Enemy extends Entity {
 
     private final List<EnemyListener> mListeners = new CopyOnWriteArrayList<>();
 
-    Enemy(GameEngine gameEngine, EnemySettings enemySettings) {
+    Enemy(GameEngine gameEngine, EnemyProperties enemyProperties) {
         super(gameEngine);
 
-        mEnemySettings = enemySettings;
+        mEnemyProperties = enemyProperties;
         mSpeedModifier = 1f;
-        mHealth = enemySettings.getHealth();
-        mMaxHealth = enemySettings.getHealth();
-        mReward = enemySettings.getReward();
+        mHealth = enemyProperties.getHealth();
+        mMaxHealth = enemyProperties.getHealth();
+        mReward = enemyProperties.getReward();
 
         mHealthBar = new HealthBar(getTheme(), this);
     }
@@ -165,7 +166,7 @@ public abstract class Enemy extends Entity {
     }
 
     public float getSpeed() {
-        return Math.max(mEnemySettings.getMinSpeed(), mEnemySettings.getSpeed() * mSpeedModifier);
+        return mEnemyProperties.getSpeed() * Math.max(mSpeedModifier, GameSettings.MIN_SPEED_MODIFIER);
     }
 
     public void modifySpeed(float f) {
@@ -243,19 +244,19 @@ public abstract class Enemy extends Entity {
     }
 
     public float getMaxHealth() {
-        return mEnemySettings.getHealth();
+        return mEnemyProperties.getHealth();
     }
 
     public void damage(float amount, Entity origin) {
         if (origin instanceof Tower) {
             Tower originTower = (Tower) origin;
 
-            if (mEnemySettings.getWeakAgainst().contains(originTower.getWeaponType())) {
-                amount *= mEnemySettings.getWeakAgainstModifier();
+            if (mEnemyProperties.getWeakAgainst().contains(originTower.getWeaponType())) {
+                amount *= GameSettings.WEAK_AGAINST_DAMAGE_MODIFIER;
             }
 
-            if (mEnemySettings.getStrongAgainst().contains(originTower.getWeaponType())) {
-                amount *= mEnemySettings.getStrongAgainstModifier();
+            if (mEnemyProperties.getStrongAgainst().contains(originTower.getWeaponType())) {
+                amount *= GameSettings.STRONG_AGAINST_DAMAGE_MODIFIER;
             }
 
             originTower.reportDamageInflicted(amount);

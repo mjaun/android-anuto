@@ -21,16 +21,13 @@ public class Sprinter extends Enemy implements SpriteTransformation {
     private final static String ENTITY_NAME = "sprinter";
     private final static float ANIMATION_SPEED = 0.7f;
 
-    private final static EnemySettings ENEMY_SETTINGS = new EnemySettings(
-            200,
-            3.0f,
-            0.03f,
-            15,
-            new WeaponType[]{WeaponType.Explosive},
-            new WeaponType[]{WeaponType.Laser},
-            2.0f,
-            0.5f
-    );
+    private final static EnemyProperties ENEMY_PROPERTIES = new EnemyProperties.Builder()
+            .setHealth(200)
+            .setSpeed(3.0f)
+            .setReward(15)
+            .setWeakAgainst(WeaponType.Explosive)
+            .setStrongAgainst(WeaponType.Laser)
+            .build();
 
     public static class Factory extends EntityFactory {
         @Override
@@ -68,7 +65,7 @@ public class Sprinter extends Enemy implements SpriteTransformation {
     private ReplicatedSprite mSprite;
 
     private Sprinter(GameEngine gameEngine) {
-        super(gameEngine, ENEMY_SETTINGS);
+        super(gameEngine, ENEMY_PROPERTIES);
         mStatic = (StaticData) getStaticData();
 
         mSprite = getSpriteFactory().createReplication(mStatic.mReferenceSprite);

@@ -19,16 +19,12 @@ public class Flyer extends Enemy implements SpriteTransformation {
     private final static String ENTITY_NAME = "flyer";
     private final static float ANIMATION_SPEED = 1.0f;
 
-    private final static EnemySettings ENEMY_SETTINGS = new EnemySettings(
-            400,
-            1.3f,
-            0.013f,
-            30,
-            new WeaponType[]{WeaponType.Laser, WeaponType.Bullet},
-            null,
-            2.0f,
-            0.5f
-    );
+    private final static EnemyProperties ENEMY_PROPERTIES = new EnemyProperties.Builder()
+            .setHealth(400)
+            .setSpeed(1.3f)
+            .setReward(30)
+            .setWeakAgainst(WeaponType.Laser, WeaponType.Bullet)
+            .build();
 
     public static class Factory extends EntityFactory {
         @Override
@@ -63,7 +59,7 @@ public class Flyer extends Enemy implements SpriteTransformation {
     private ReplicatedSprite mSprite;
 
     private Flyer(GameEngine gameEngine) {
-        super(gameEngine, ENEMY_SETTINGS);
+        super(gameEngine, ENEMY_PROPERTIES);
         StaticData s = (StaticData) getStaticData();
 
         mSprite = getSpriteFactory().createReplication(s.mReferenceSprite);

@@ -19,16 +19,13 @@ public class Blob extends Enemy implements SpriteTransformation {
     private final static String ENTITY_NAME = "blob";
     private final static float ANIMATION_SPEED = 1.5f;
 
-    private final static EnemySettings ENEMY_SETTINGS = new EnemySettings(
-            600,
-            0.5f,
-            0.005f,
-            20,
-            new WeaponType[]{WeaponType.Explosive},
-            new WeaponType[]{WeaponType.Bullet},
-            2.0f,
-            0.5f
-    );
+    private final static EnemyProperties ENEMY_PROPERTIES = new EnemyProperties.Builder()
+            .setHealth(600)
+            .setSpeed(0.5f)
+            .setReward(20)
+            .setWeakAgainst(WeaponType.Explosive)
+            .setStrongAgainst(WeaponType.Bullet)
+            .build();
 
     public static class Factory extends EntityFactory {
         @Override
@@ -61,7 +58,7 @@ public class Blob extends Enemy implements SpriteTransformation {
     private ReplicatedSprite mSprite;
 
     private Blob(GameEngine gameEngine) {
-        super(gameEngine, ENEMY_SETTINGS);
+        super(gameEngine, ENEMY_PROPERTIES);
         StaticData s = (StaticData) getStaticData();
 
         mSprite = getSpriteFactory().createReplication(s.mReferenceSprite);

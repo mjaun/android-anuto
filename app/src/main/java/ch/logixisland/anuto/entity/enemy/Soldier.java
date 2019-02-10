@@ -19,16 +19,11 @@ public class Soldier extends Enemy implements SpriteTransformation {
     private final static String ENTITY_NAME = "soldier";
     private final static float ANIMATION_SPEED = 1f;
 
-    private final static EnemySettings ENEMY_SETTINGS = new EnemySettings(
-            300,
-            1.0f,
-            0.05f,
-            10,
-            null,
-            null,
-            3.0f,
-            0.33f
-    );
+    private final static EnemyProperties ENEMY_PROPERTIES = new EnemyProperties.Builder()
+            .setHealth(300)
+            .setSpeed(1.0f)
+            .setReward(10)
+            .build();
 
     public static class Factory extends EntityFactory {
         @Override
@@ -61,7 +56,7 @@ public class Soldier extends Enemy implements SpriteTransformation {
     private ReplicatedSprite mSprite;
 
     private Soldier(GameEngine gameEngine) {
-        super(gameEngine, ENEMY_SETTINGS);
+        super(gameEngine, ENEMY_PROPERTIES);
         StaticData s = (StaticData) getStaticData();
 
         mSprite = getSpriteFactory().createReplication(s.mReferenceSprite);

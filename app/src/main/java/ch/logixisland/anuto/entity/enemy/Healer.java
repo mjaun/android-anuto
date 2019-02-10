@@ -33,16 +33,12 @@ public class Healer extends Enemy implements SpriteTransformation {
     private final static float HEAL_DURATION = 1.5f;
     private final static float HEAL_RADIUS = 0.7f;
 
-    private final static EnemySettings ENEMY_SETTINGS = new EnemySettings(
-            400,
-            1.2f,
-            0.012f,
-            30,
-            new WeaponType[]{WeaponType.Laser, WeaponType.Bullet},
-            null,
-            2.0f,
-            0.5f
-    );
+    private final static EnemyProperties ENEMY_PROPERTIES = new EnemyProperties.Builder()
+            .setHealth(400)
+            .setSpeed(1.2f)
+            .setReward(30)
+            .setWeakAgainst(WeaponType.Laser, WeaponType.Bullet)
+            .build();
 
     public static class Factory extends EntityFactory {
         @Override
@@ -111,7 +107,7 @@ public class Healer extends Enemy implements SpriteTransformation {
     private ReplicatedSprite mSprite;
 
     private Healer(GameEngine gameEngine) {
-        super(gameEngine, ENEMY_SETTINGS);
+        super(gameEngine, ENEMY_PROPERTIES);
 
         mStaticData = (StaticData) getStaticData();
 

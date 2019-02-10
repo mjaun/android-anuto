@@ -330,7 +330,7 @@ public class WaveManager implements Persister {
             remainingReward += wave.getRemainingEnemiesReward();
         }
 
-        return Math.round(GameSettings.EARLY_MODIFIER * (float) Math.pow(remainingReward, GameSettings.EARLY_EXPONENT));
+        return Math.round(GameSettings.EARLY_BONUS_MODIFIER * (float) Math.pow(remainingReward, GameSettings.EARLY_BONUS_EXPONENT));
     }
 
     private WaveAttender getCurrentWave() {
