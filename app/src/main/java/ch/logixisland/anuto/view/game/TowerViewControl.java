@@ -65,6 +65,7 @@ class TowerViewControl implements GameLoader.Listener, ScoreBoard.CreditsListene
                 View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder() {
                     @Override
                     public void onProvideShadowMetrics(Point shadowSize, Point shadowTouchPoint) {
+                        shadowSize.set(1, 1);  // must be positive
                     }
 
                     @Override
