@@ -34,7 +34,7 @@ public class EntityRegistry implements Persister {
 
     @Override
     public void resetState() {
-        mNextEntityId = 0;
+        mNextEntityId = 1;
     }
 
     @Override

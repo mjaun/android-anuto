@@ -36,7 +36,9 @@ public class EntityStore {
 
     public void add(Entity entity) {
         mEntities.add(entity.getEntityType(), entity);
-        mEntityIdMap.put(entity.getEntityId(), entity);
+        if (entity.getEntityId() > 0) {
+            mEntityIdMap.put(entity.getEntityId(), entity);
+        }
         entity.init();
     }
 
