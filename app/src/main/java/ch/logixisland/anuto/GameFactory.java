@@ -4,7 +4,6 @@ import android.content.Context;
 import android.preference.PreferenceManager;
 
 import ch.logixisland.anuto.business.game.GameLoader;
-import ch.logixisland.anuto.business.game.GameSettings;
 import ch.logixisland.anuto.business.game.GameSpeed;
 import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.game.HighScores;
@@ -66,7 +65,6 @@ public class GameFactory {
     private EntityRegistry mEntityRegistry;
 
     // Business
-    private GameSettings mGameSettings;
     private ScoreBoard mScoreBoard;
     private HighScores mHighScores;
     private TowerSelector mTowerSelector;
@@ -85,7 +83,6 @@ public class GameFactory {
 
         initializeEngine(context);
         registerEntities();
-        initializeSettings();
         initializeBusiness(context);
         registerPersisters();
     }
@@ -129,40 +126,16 @@ public class GameFactory {
         mEntityRegistry.registerEntity(new Teleporter.Factory());
     }
 
-    private void initializeSettings() {
-        mGameSettings = new GameSettings();
-
-        mGameSettings.setStartCredits(500);
-        mGameSettings.setStartLives(20);
-        mGameSettings.setDifficultyModifier(8e-4f);
-        mGameSettings.setDifficultyExponent(1.9f);
-        mGameSettings.setDifficultyLinear(20);
-        mGameSettings.setRewardModifier(0.4f);
-        mGameSettings.setRewardExponent(0.5f);
-        mGameSettings.setEarlyModifier(3);
-        mGameSettings.setEarlyExponent(0.6f);
-        mGameSettings.setMinHealthModifier(0.5f);
-        mGameSettings.setMinRewardModifier(1);
-        mGameSettings.setAgeModifier(0.97f);
-
-        mGameSettings.setBuildMenuTowerNames(
-                Canon.ENTITY_NAME,
-                SimpleLaser.ENTITY_NAME,
-                Mortar.ENTITY_NAME,
-                GlueTower.ENTITY_NAME
-        );
-    }
-
     private void initializeBusiness(Context context) {
         mMapRepository = new MapRepository();
-        mScoreBoard = new ScoreBoard(mGameSettings, mGameEngine);
+        mScoreBoard = new ScoreBoard(mGameEngine);
         mTowerSelector = new TowerSelector(mGameEngine, mScoreBoard);
         mGameLoader = new GameLoader(context, mGameEngine, mGamePersister, mViewport, mEntityRegistry, mMapRepository);
         mHighScores = new HighScores(context, mGameEngine, mScoreBoard, mGameLoader);
         mGameState = new GameState(mScoreBoard, mHighScores, mTowerSelector);
-        mTowerAging = new TowerAging(mGameSettings, mGameEngine);
+        mTowerAging = new TowerAging(mGameEngine);
         mSpeedManager = new GameSpeed(mGameEngine);
-        mWaveManager = new WaveManager(mGameSettings, mGameEngine, mScoreBoard, mGameState, mEntityRegistry, mTowerAging);
+        mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mGameState, mEntityRegistry, mTowerAging);
         mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector, mEntityRegistry);
         mTowerInserter = new TowerInserter(mGameEngine, mGameState, mEntityRegistry, mTowerSelector, mTowerAging, mScoreBoard);
         mTutorialControl = new TutorialControl(context, mTowerInserter, mTowerSelector, mWaveManager);
@@ -262,7 +235,4 @@ public class GameFactory {
         return mTutorialControl;
     }
 
-    public GameSettings getGameSettings() {
-        return mGameSettings;
-    }
 }

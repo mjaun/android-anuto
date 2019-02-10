@@ -2,7 +2,6 @@ package ch.logixisland.anuto;
 
 import java.util.HashMap;
 
-import ch.logixisland.anuto.business.game.GameSettings;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.util.iterator.Function;

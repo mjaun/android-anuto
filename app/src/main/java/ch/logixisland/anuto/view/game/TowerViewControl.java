@@ -11,8 +11,8 @@ import java.util.List;
 
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
+import ch.logixisland.anuto.GameSettings;
 import ch.logixisland.anuto.business.game.GameLoader;
-import ch.logixisland.anuto.business.game.GameSettings;
 import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.business.tower.TowerInserter;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
@@ -23,7 +23,6 @@ class TowerViewControl implements GameLoader.Listener, ScoreBoard.CreditsListene
     private final ScoreBoard mScoreBoard;
     private final GameLoader mGameLoader;
     private final TowerInserter mTowerInserter;
-    private final GameSettings mGameSettings;
     private final EntityRegistry mEntityRegistry;
 
     private final Handler mHandler;
@@ -37,7 +36,6 @@ class TowerViewControl implements GameLoader.Listener, ScoreBoard.CreditsListene
         mScoreBoard = factory.getScoreBoard();
         mGameLoader = factory.getGameLoader();
         mTowerInserter = factory.getTowerInserter();
-        mGameSettings = factory.getGameSettings();
         mEntityRegistry = factory.getEntityRegistry();
 
         mHandler = new Handler();
@@ -102,10 +100,8 @@ class TowerViewControl implements GameLoader.Listener, ScoreBoard.CreditsListene
     }
 
     private void updateTowerSlots() {
-        List<String> towerNames = mGameSettings.getBuildMenuTowerNames();
-
         for (int i = 0; i < mTowerViews.size(); i++) {
-            Tower previewTower = (Tower) mEntityRegistry.createEntity(towerNames.get(i));
+            Tower previewTower = (Tower) mEntityRegistry.createEntity(GameSettings.BUILD_MENU_TOWER_NAMES[i]);
             mTowerViews.get(i).setPreviewTower(previewTower);
         }
 

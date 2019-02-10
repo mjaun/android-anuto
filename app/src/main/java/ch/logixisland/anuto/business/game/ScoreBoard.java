@@ -3,6 +3,7 @@ package ch.logixisland.anuto.business.game;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.GameSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.loop.Message;
 import ch.logixisland.anuto.engine.logic.persistence.Persister;
@@ -22,7 +23,6 @@ public class ScoreBoard implements Persister {
         void livesChanged(int lives);
     }
 
-    private final GameSettings mGameSettings;
     private final GameEngine mGameEngine;
 
     private int mCredits;
@@ -35,8 +35,7 @@ public class ScoreBoard implements Persister {
     private final List<LivesListener> mLivesListeners = new CopyOnWriteArrayList<>();
     private final List<BonusListener> mBonusListeners = new CopyOnWriteArrayList<>();
 
-    public ScoreBoard(GameSettings gameSettings, GameEngine gameEngine) {
-        mGameSettings = gameSettings;
+    public ScoreBoard(GameEngine gameEngine) {
         mGameEngine = gameEngine;
     }
 
@@ -188,8 +187,8 @@ public class ScoreBoard implements Persister {
 
     @Override
     public void resetState(KeyValueStore gameConfig) {
-        mLives = mGameSettings.getStartLives();
-        mCredits = mGameSettings.getStartCredits();
+        mLives = GameSettings.START_LIVES;
+        mCredits = GameSettings.START_CREDITS;
         mCreditsEarned = 0;
 
         creditsChanged();

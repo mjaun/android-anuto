@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.business.game.GameSettings;
+import ch.logixisland.anuto.GameSettings;
 import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.business.tower.TowerAging;
@@ -35,7 +35,6 @@ public class WaveManager implements Persister {
         void waveStarted();
     }
 
-    private final GameSettings mGameSettings;
     private final GameEngine mGameEngine;
     private final ScoreBoard mScoreBoard;
     private final GameState mGameState;
@@ -55,9 +54,8 @@ public class WaveManager implements Persister {
     private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
     private final List<WaveStartedListener> mWaveStartedListeners = new CopyOnWriteArrayList<>();
 
-    public WaveManager(GameSettings gameSettings, GameEngine gameEngine, ScoreBoard scoreBoard,
-                       GameState gameState, EntityRegistry entityRegistry, TowerAging towerAging) {
-        mGameSettings = gameSettings;
+    public WaveManager(GameEngine gameEngine, ScoreBoard scoreBoard, GameState gameState,
+                       EntityRegistry entityRegistry, TowerAging towerAging) {
         mGameEngine = gameEngine;
         mScoreBoard = scoreBoard;
         mGameState = gameState;
@@ -301,13 +299,13 @@ public class WaveManager implements Persister {
 
     private void updateWaveModifiers(WaveAttender wave) {
         float waveHealth = wave.getWaveDefaultHealth(this.mEnemyDefaultHealth);
-        float damagePossible = mGameSettings.getDifficultyLinear() * mScoreBoard.getCreditsEarned()
-                + mGameSettings.getDifficultyModifier() * (float) Math.pow(mScoreBoard.getCreditsEarned(), mGameSettings.getDifficultyExponent());
+        float damagePossible = GameSettings.DIFFICULTY_LINEAR * mScoreBoard.getCreditsEarned()
+                + GameSettings.DIFFICULTY_MODIFIER * (float) Math.pow(mScoreBoard.getCreditsEarned(), GameSettings.DIFFICULTY_EXPONENT);
         float healthModifier = damagePossible / waveHealth;
-        healthModifier = Math.max(healthModifier, mGameSettings.getMinHealthModifier());
+        healthModifier = Math.max(healthModifier, GameSettings.MIN_HEALTH_MODIFIER);
 
-        float rewardModifier = mGameSettings.getRewardModifier() * (float) Math.pow(healthModifier, mGameSettings.getRewardExponent());
-        rewardModifier = Math.max(rewardModifier, mGameSettings.getMinRewardModifier());
+        float rewardModifier = GameSettings.REWARD_MODIFIER * (float) Math.pow(healthModifier, GameSettings.REWARD_EXPONENT);
+        rewardModifier = Math.max(rewardModifier, GameSettings.MIN_REWARD_MODIFIER);
 
         wave.modifyEnemyHealth(healthModifier);
         wave.modifyEnemyReward(rewardModifier);
@@ -332,7 +330,7 @@ public class WaveManager implements Persister {
             remainingReward += wave.getRemainingEnemiesReward();
         }
 
-        return Math.round(mGameSettings.getEarlyModifier() * (float) Math.pow(remainingReward, mGameSettings.getEarlyExponent()));
+        return Math.round(GameSettings.EARLY_MODIFIER * (float) Math.pow(remainingReward, GameSettings.EARLY_EXPONENT));
     }
 
     private WaveAttender getCurrentWave() {
