@@ -157,7 +157,7 @@ public abstract class Enemy extends Entity {
         return mWayPoints != null && mWayPointIndex < mWayPoints.size();
     }
 
-    Vector2 getDirection() {
+    public Vector2 getDirection() {
         if (!hasWayPoint()) {
             return null;
         }

@@ -16,7 +16,7 @@ import ch.logixisland.anuto.util.math.Vector2;
 public class CanonShotMg extends Shot implements SpriteTransformation {
 
     private final static float HIT_RANGE = 0.5f;
-    private final static float MOVEMENT_SPEED = 8.0f;
+    public final static float MOVEMENT_SPEED = 8.0f;
 
     private class StaticData {
         public SpriteTemplate mSpriteTemplate;

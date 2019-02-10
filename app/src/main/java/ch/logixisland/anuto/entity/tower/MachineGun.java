@@ -18,10 +18,12 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.engine.sound.Sound;
+import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.entity.enemy.WeaponType;
 import ch.logixisland.anuto.entity.shot.CanonShotMg;
 import ch.logixisland.anuto.entity.shot.Shot;
 import ch.logixisland.anuto.util.RandomUtils;
+import ch.logixisland.anuto.util.math.MathUtils;
 import ch.logixisland.anuto.util.math.Vector2;
 
 public class MachineGun extends Tower implements SpriteTransformation {
@@ -140,11 +142,12 @@ public class MachineGun extends Tower implements SpriteTransformation {
         mAimer.tick();
 
         if (mAimer.getTarget() != null) {
-            mAngle = getAngleTo(mAimer.getTarget());
+            Vector2 shootingDirection = calcShootingDirection(mAimer.getTarget());
+            mAngle = shootingDirection.angle();
             mSpriteCanon.tick();
 
             if (isReloaded()) {
-                Shot shot = new CanonShotMg(this, getPosition(), getDirectionTo(mAimer.getTarget()), getDamage());
+                Shot shot = new CanonShotMg(this, getPosition(), shootingDirection, getDamage());
                 shot.move(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
                 getGameEngine().add(shot);
                 mShotCount++;
@@ -183,5 +186,20 @@ public class MachineGun extends Tower implements SpriteTransformation {
         properties.add(new TowerInfoValue(R.string.range, getRange()));
         properties.add(new TowerInfoValue(R.string.inflicted, getDamageInflicted()));
         return properties;
+    }
+
+    private Vector2 calcShootingDirection(Enemy target) {
+        Vector2 ps = getPosition().add(getDirectionTo(target).mul(SHOT_SPAWN_OFFSET));
+        Vector2 pt = target.getPosition();
+        Vector2 dt = target.getDirection();
+        Vector2 ptToPs = pt.to(ps);
+        float vs = CanonShotMg.MOVEMENT_SPEED;
+        float vt = target.getSpeed();
+
+        float alpha = dt.angle() - ptToPs.angle();
+        float beta = MathUtils.toDegrees((float) Math.asin(vt * Math.sin(MathUtils.toRadians(alpha)) / vs));
+
+        float angle = 180f + ptToPs.angle() - beta;
+        return Vector2.polar(1f, angle);
     }
 }
