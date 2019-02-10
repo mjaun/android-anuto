@@ -244,7 +244,7 @@ public abstract class Enemy extends Entity {
     }
 
     public float getMaxHealth() {
-        return mEnemyProperties.getHealth();
+        return mMaxHealth;
     }
 
     public void damage(float amount, Entity origin) {

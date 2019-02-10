@@ -1,5 +1,6 @@
 package ch.logixisland.anuto;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
@@ -17,10 +18,9 @@ public class TowerTiers {
     }
 
     protected StreamIterator<Tower> getBuildableTowers() {
-        final GameSettings gameSettings = mGameFactory.getGameSettings();
         final EntityRegistry entityRegistry = mGameFactory.getEntityRegistry();
 
-        return StreamIterator.fromIterable(gameSettings.getBuildMenuTowerNames())
+        return StreamIterator.fromIterable(Arrays.asList(GameSettings.BUILD_MENU_TOWER_NAMES))
                 .map(new Function<String, Tower>() {
                     @Override
                     public Tower apply(String name) {
