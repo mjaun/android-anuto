@@ -31,7 +31,7 @@ public class DefaultGameSimulator extends GameSimulator {
 
     private final TowerTiers mTowerTiers;
     private final Random mRandom = new Random();
-    private final TickTimer mSaveAndLoadTimer = TickTimer.createInterval(60f);
+    private final TickTimer mSaveAndLoadTimer = TickTimer.createInterval(120f);
     private final TickTimer mSimulationTickTimer = TickTimer.createInterval(0.5f);
 
     DefaultGameSimulator(GameFactory gameFactory) {

@@ -52,6 +52,7 @@ public abstract class GameSimulator {
     private void loadMap(String mapId) {
         mGameFactory.getGameLoader().loadMap(mapId);
         waitForGameRestarted();
+        adjustSettings();
         installTickHandler();
     }
 
@@ -77,6 +78,11 @@ public abstract class GameSimulator {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void adjustSettings() {
+        // make it a little bit easier for the simulator to be sure that higher tiers are reached
+        mGameFactory.getScoreBoard().giveCredits(200000, false);
     }
 
     private void installTickHandler() {
