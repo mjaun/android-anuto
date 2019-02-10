@@ -21,9 +21,7 @@ class MapThumbGenerator {
     private static final int PATH_COLOR = Color.parseColor("#000000");
 
     Bitmap generateThumb(Resources resources, int mapResId) {
-        KeyValueStore gameConfig = new KeyValueStore();
-        gameConfig.putStore("map", KeyValueStore.fromResources(resources, mapResId));
-        return generateThumb(new GameMap(gameConfig));
+        return generateThumb(new GameMap(KeyValueStore.fromResources(resources, mapResId)));
     }
 
     private Bitmap generateThumb(GameMap map) {

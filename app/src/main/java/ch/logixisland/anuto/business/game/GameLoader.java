@@ -146,8 +146,7 @@ public class GameLoader implements ErrorListener {
         }
 
         mCurrentMapId = gameState.getString("mapId");
-        KeyValueStore gameConfig = createGameConfig(mCurrentMapId);
-        initializeGame(gameConfig, gameState);
+        initializeGame(mCurrentMapId, gameState);
     }
 
     public void loadMap(final String mapId) {
@@ -162,30 +161,20 @@ public class GameLoader implements ErrorListener {
         }
 
         mCurrentMapId = mapId;
-        KeyValueStore gameConfig = createGameConfig(mapId);
-        initializeGame(gameConfig, null);
+        initializeGame(mCurrentMapId, null);
     }
 
-    private KeyValueStore createGameConfig(String mapId) {
-        Log.d(TAG, "Loading configuration...");
-        KeyValueStore gameConfig = new KeyValueStore();
-
-        MapInfo mapInfo = mMapRepository.getMapById(mapId);
-        gameConfig.putStore("map", KeyValueStore.fromResources(mContext.getResources(), mapInfo.getMapDataResId()));
-        gameConfig.extend(KeyValueStore.fromResources(mContext.getResources(), R.raw.waves));
-
-        return gameConfig;
-    }
-
-    private void initializeGame(KeyValueStore gameConfig, KeyValueStore gameState) {
+    private void initializeGame(String mapId, KeyValueStore gameState) {
         Log.d(TAG, "Initializing game...");
         mGameEngine.clear();
 
-        GameMap map = new GameMap(gameConfig);
+        MapInfo mapInfo = mMapRepository.getMapById(mapId);
+        GameMap map = new GameMap(KeyValueStore.fromResources(mContext.getResources(), mapInfo.getMapDataResId()));
         mGameEngine.setGameMap(map);
 
+        KeyValueStore waveData = KeyValueStore.fromResources(mContext.getResources(), R.raw.waves);
         List<WaveInfo> waveInfos = new ArrayList<>();
-        for (KeyValueStore data : gameConfig.getStoreList("waves")) {
+        for (KeyValueStore data : waveData.getStoreList("waves")) {
             waveInfos.add(new WaveInfo(data));
         }
         mGameEngine.setWaveInfos(waveInfos);
@@ -193,9 +182,9 @@ public class GameLoader implements ErrorListener {
         mViewport.setGameSize(map.getWidth(), map.getHeight());
 
         if (gameState != null) {
-            mGamePersister.readState(gameConfig, gameState);
+            mGamePersister.readState(gameState);
         } else {
-            mGamePersister.resetState(gameConfig);
+            mGamePersister.resetState();
             initializeMap(map);
         }
 

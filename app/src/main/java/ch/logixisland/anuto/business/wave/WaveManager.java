@@ -122,7 +122,7 @@ public class WaveManager implements Persister {
     }
 
     @Override
-    public void resetState(KeyValueStore gameConfig) {
+    public void resetState() {
         setWaveNumber(0);
         mActiveWaves.clear();
         setNextWaveReady(true);
@@ -138,7 +138,7 @@ public class WaveManager implements Persister {
     }
 
     @Override
-    public void readState(KeyValueStore gameConfig, KeyValueStore gameState) {
+    public void readState(KeyValueStore gameState) {
         initializeActiveWaves(gameState);
         initializeNextWaveReady(gameState);
         setWaveNumber(gameState.getInt("waveNumber"));

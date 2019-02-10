@@ -59,7 +59,7 @@ public class GameState implements ScoreBoard.LivesListener, Persister {
     }
 
     @Override
-    public void resetState(KeyValueStore gameConfig) {
+    public void resetState() {
         setGameOver(false);
         mGameStarted = false;
     }
@@ -70,7 +70,7 @@ public class GameState implements ScoreBoard.LivesListener, Persister {
     }
 
     @Override
-    public void readState(KeyValueStore gameConfig, KeyValueStore gameState) {
+    public void readState(KeyValueStore gameState) {
         setGameOver(gameState.getInt("lives") < 0);
         mGameStarted = gameState.getInt("waveNumber") > 0;
     }

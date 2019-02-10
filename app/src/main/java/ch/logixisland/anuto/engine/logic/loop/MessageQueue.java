@@ -57,7 +57,7 @@ public class MessageQueue implements Persister {
     }
 
     @Override
-    public void resetState(KeyValueStore gameConfig) {
+    public void resetState() {
         mTickCount = 0;
     }
 
@@ -67,7 +67,7 @@ public class MessageQueue implements Persister {
     }
 
     @Override
-    public void readState(KeyValueStore gameConfig, KeyValueStore gameState) {
+    public void readState(KeyValueStore gameState) {
         mTickCount = gameState.getInt("tickCount");
     }
 }

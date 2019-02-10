@@ -186,7 +186,7 @@ public class ScoreBoard implements Persister {
     }
 
     @Override
-    public void resetState(KeyValueStore gameConfig) {
+    public void resetState() {
         mLives = GameSettings.START_LIVES;
         mCredits = GameSettings.START_CREDITS;
         mCreditsEarned = 0;
@@ -203,7 +203,7 @@ public class ScoreBoard implements Persister {
     }
 
     @Override
-    public void readState(KeyValueStore gameConfig, KeyValueStore gameState) {
+    public void readState(KeyValueStore gameState) {
         mLives = gameState.getInt("lives");
         mCredits = gameState.getInt("credits");
         mCreditsEarned = gameState.getInt("creditsEarned");

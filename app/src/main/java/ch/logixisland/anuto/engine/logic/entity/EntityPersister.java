@@ -18,7 +18,7 @@ public abstract class EntityPersister implements Persister {
     }
 
     @Override
-    public void resetState(KeyValueStore gameConfig) {
+    public void resetState() {
 
     }
 
@@ -38,7 +38,7 @@ public abstract class EntityPersister implements Persister {
     }
 
     @Override
-    public void readState(KeyValueStore gameConfig, KeyValueStore gameState) {
+    public void readState(KeyValueStore gameState) {
         for (KeyValueStore entityData : gameState.getStoreList("entities")) {
             if (mEntityName.equals(entityData.getString("name"))) {
                 mGameEngine.add(readEntityData(entityData));

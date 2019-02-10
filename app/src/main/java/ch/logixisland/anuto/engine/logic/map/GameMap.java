@@ -14,8 +14,7 @@ public class GameMap {
     private final List<PlateauInfo> mPlateaus = new ArrayList<>();
     private final List<MapPath> mPaths = new ArrayList<>();
 
-    public GameMap(KeyValueStore gameConfig) {
-        KeyValueStore data = gameConfig.getStore("map");
+    public GameMap(KeyValueStore data) {
         mWidth = data.getInt("width");
         mHeight = data.getInt("height");
 
