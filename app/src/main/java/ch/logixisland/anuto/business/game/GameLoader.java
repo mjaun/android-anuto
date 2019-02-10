@@ -169,7 +169,6 @@ public class GameLoader implements ErrorListener {
         KeyValueStore gameConfig = new KeyValueStore();
 
         KeyValueStore entityConfig = new KeyValueStore();
-        entityConfig.extend(KeyValueStore.fromResources(mContext.getResources(), R.raw.enemy_settings));
         entityConfig.extend(KeyValueStore.fromResources(mContext.getResources(), R.raw.tower_settings));
         gameConfig.putStore("entities", entityConfig);
 

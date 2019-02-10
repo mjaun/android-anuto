@@ -13,12 +13,22 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
-import ch.logixisland.anuto.util.container.KeyValueStore;
 
 public class Soldier extends Enemy implements SpriteTransformation {
 
     private final static String ENTITY_NAME = "soldier";
     private final static float ANIMATION_SPEED = 1f;
+
+    private final static EnemySettings ENEMY_SETTINGS = new EnemySettings(
+            300,
+            1.0f,
+            0.05f,
+            10,
+            null,
+            null,
+            3.0f,
+            0.33f
+    );
 
     public static class Factory extends EntityFactory {
         @Override
@@ -28,7 +38,7 @@ public class Soldier extends Enemy implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            return new Soldier(gameEngine, getEntitySettings());
+            return new Soldier(gameEngine);
         }
     }
 
@@ -50,8 +60,8 @@ public class Soldier extends Enemy implements SpriteTransformation {
 
     private ReplicatedSprite mSprite;
 
-    private Soldier(GameEngine gameEngine, KeyValueStore enemySettings) {
-        super(gameEngine, enemySettings);
+    private Soldier(GameEngine gameEngine) {
+        super(gameEngine, ENEMY_SETTINGS);
         StaticData s = (StaticData) getStaticData();
 
         mSprite = getSpriteFactory().createReplication(s.mReferenceSprite);

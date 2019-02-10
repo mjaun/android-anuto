@@ -13,12 +13,22 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
-import ch.logixisland.anuto.util.container.KeyValueStore;
 
 public class Flyer extends Enemy implements SpriteTransformation {
 
     private final static String ENTITY_NAME = "flyer";
     private final static float ANIMATION_SPEED = 1.0f;
+
+    private final static EnemySettings ENEMY_SETTINGS = new EnemySettings(
+            400,
+            1.3f,
+            0.013f,
+            30,
+            new WeaponType[]{WeaponType.Laser, WeaponType.Bullet},
+            null,
+            2.0f,
+            0.5f
+    );
 
     public static class Factory extends EntityFactory {
         @Override
@@ -28,7 +38,7 @@ public class Flyer extends Enemy implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            return new Flyer(gameEngine, getEntitySettings());
+            return new Flyer(gameEngine);
         }
     }
 
@@ -52,8 +62,8 @@ public class Flyer extends Enemy implements SpriteTransformation {
 
     private ReplicatedSprite mSprite;
 
-    private Flyer(GameEngine gameEngine, KeyValueStore enemySettings) {
-        super(gameEngine, enemySettings);
+    private Flyer(GameEngine gameEngine) {
+        super(gameEngine, ENEMY_SETTINGS);
         StaticData s = (StaticData) getStaticData();
 
         mSprite = getSpriteFactory().createReplication(s.mReferenceSprite);

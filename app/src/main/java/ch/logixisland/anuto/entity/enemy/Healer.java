@@ -18,7 +18,6 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.entity.effect.HealEffect;
-import ch.logixisland.anuto.util.container.KeyValueStore;
 import ch.logixisland.anuto.util.math.Function;
 import ch.logixisland.anuto.util.math.SampledFunction;
 
@@ -29,6 +28,22 @@ public class Healer extends Enemy implements SpriteTransformation {
     private final static float HEAL_SCALE_FACTOR = 2f;
     private final static float HEAL_ROTATION = 2.5f;
 
+    private final static float HEAL_AMOUNT = 0.1f;
+    private final static float HEAL_INTERVAL = 5.0f;
+    private final static float HEAL_DURATION = 1.5f;
+    private final static float HEAL_RADIUS = 0.7f;
+
+    private final static EnemySettings ENEMY_SETTINGS = new EnemySettings(
+            400,
+            1.2f,
+            0.012f,
+            30,
+            new WeaponType[]{WeaponType.Laser, WeaponType.Bullet},
+            null,
+            2.0f,
+            0.5f
+    );
+
     public static class Factory extends EntityFactory {
         @Override
         public String getEntityName() {
@@ -37,7 +52,7 @@ public class Healer extends Enemy implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            return new Healer(gameEngine, getEntitySettings());
+            return new Healer(gameEngine);
         }
     }
 
@@ -48,9 +63,6 @@ public class Healer extends Enemy implements SpriteTransformation {
     }
 
     private static class StaticData implements TickListener {
-        float mHealDuration;
-        float mHealInterval;
-
         boolean mHealing;
         boolean mDropEffect;
         float mAngle;
@@ -78,7 +90,7 @@ public class Healer extends Enemy implements SpriteTransformation {
                 mAngle += mRotateFunction.getValue();
                 mScale = mScaleFunction.getValue();
 
-                if (mScaleFunction.getPosition() >= GameEngine.TARGET_FRAME_RATE * mHealDuration) {
+                if (mScaleFunction.getPosition() >= GameEngine.TARGET_FRAME_RATE * HEAL_DURATION) {
                     mHealedEnemies.clear();
                     mDropEffect = true;
                     mHealing = false;
@@ -94,15 +106,13 @@ public class Healer extends Enemy implements SpriteTransformation {
         }
     }
 
-    private KeyValueStore mHealerSettings;
     private StaticData mStaticData;
 
     private ReplicatedSprite mSprite;
 
-    private Healer(GameEngine gameEngine, KeyValueStore healerSettings) {
-        super(gameEngine, healerSettings);
+    private Healer(GameEngine gameEngine) {
+        super(gameEngine, ENEMY_SETTINGS);
 
-        mHealerSettings = healerSettings;
         mStaticData = (StaticData) getStaticData();
 
         mSprite = getSpriteFactory().createReplication(mStaticData.mReferenceSprite);
@@ -118,24 +128,21 @@ public class Healer extends Enemy implements SpriteTransformation {
     public Object initStatic() {
         StaticData s = new StaticData();
 
-        s.mHealInterval = mHealerSettings.getFloat("healInterval");
-        s.mHealDuration = mHealerSettings.getFloat("healDuration");
-
-        s.mHealTimer = TickTimer.createInterval(s.mHealInterval);
+        s.mHealTimer = TickTimer.createInterval(HEAL_INTERVAL);
         s.mHealedEnemies = new ArrayList<>();
 
         s.mScaleFunction = Function.sine()
                 .join(Function.constant(0), (float) Math.PI)
                 .multiply(HEAL_SCALE_FACTOR - 1f)
                 .offset(1f)
-                .stretch(GameEngine.TARGET_FRAME_RATE * s.mHealDuration * 0.66f / (float) Math.PI)
+                .stretch(GameEngine.TARGET_FRAME_RATE * HEAL_DURATION * 0.66f / (float) Math.PI)
                 .invert()
                 .sample();
 
         s.mRotateFunction = Function.constant(0)
                 .join(Function.sine(), (float) Math.PI / 2f)
                 .multiply(HEAL_ROTATION / GameEngine.TARGET_FRAME_RATE * 360f)
-                .stretch(GameEngine.TARGET_FRAME_RATE * s.mHealDuration * 0.66f / (float) Math.PI)
+                .stretch(GameEngine.TARGET_FRAME_RATE * HEAL_DURATION * 0.66f / (float) Math.PI)
                 .sample();
 
         s.mSpriteTemplate = getSpriteFactory().createTemplate(R.attr.healer, 4);
@@ -179,8 +186,8 @@ public class Healer extends Enemy implements SpriteTransformation {
 
         if (mStaticData.mDropEffect) {
             getGameEngine().add(new HealEffect(this, getPosition(),
-                    mHealerSettings.getFloat("healAmount"),
-                    mHealerSettings.getFloat("healRadius"),
+                    HEAL_AMOUNT,
+                    HEAL_RADIUS,
                     mStaticData.mHealedEnemies));
         }
     }

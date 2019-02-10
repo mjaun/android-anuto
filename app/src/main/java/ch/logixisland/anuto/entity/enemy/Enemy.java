@@ -1,7 +1,5 @@
 package ch.logixisland.anuto.entity.enemy;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -9,7 +7,6 @@ import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.entity.Types;
 import ch.logixisland.anuto.entity.tower.Tower;
-import ch.logixisland.anuto.util.container.KeyValueStore;
 import ch.logixisland.anuto.util.iterator.Function;
 import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.math.Vector2;
@@ -44,48 +41,28 @@ public abstract class Enemy extends Entity {
         };
     }
 
-    private int mWaveNumber;
-    private boolean mBeingTeleported;
-    private int mReward;
+    private EnemySettings mEnemySettings;
     private float mHealth;
     private float mMaxHealth;
-    private float mSpeed;
-    private Collection<WeaponType> mWeakAgainst;
-    private Collection<WeaponType> mStrongAgainst;
     private float mSpeedModifier;
-    private float mMinSpeedModifier;
-    private float mWeakAgainstModifier;
-    private float mStrongAgainstModifier;
+    private int mReward;
+    private int mWaveNumber;
     private List<Vector2> mWayPoints;
     private int mWayPointIndex;
+    private boolean mBeingTeleported;
 
     private HealthBar mHealthBar;
 
     private final List<EnemyListener> mListeners = new CopyOnWriteArrayList<>();
 
-    Enemy(GameEngine gameEngine, KeyValueStore enemySettings) {
+    Enemy(GameEngine gameEngine, EnemySettings enemySettings) {
         super(gameEngine);
 
-        mBeingTeleported = false;
+        mEnemySettings = enemySettings;
         mSpeedModifier = 1f;
-
-        mReward = enemySettings.getInt("reward");
-        mHealth = enemySettings.getFloat("health");
-        mMaxHealth = enemySettings.getFloat("health");
-        mSpeed = enemySettings.getFloat("speed");
-        mMinSpeedModifier = enemySettings.getFloat("minSpeedModifier");
-        mWeakAgainstModifier = enemySettings.getFloat("weakAgainstModifier");
-        mStrongAgainstModifier = enemySettings.getFloat("strongAgainstModifier");
-        mWeakAgainst = new ArrayList<>();
-        mStrongAgainst = new ArrayList<>();
-
-        for (String name : enemySettings.getStringList("weakAgainst")) {
-            mWeakAgainst.add(WeaponType.valueOf(name));
-        }
-
-        for (String name : enemySettings.getStringList("strongAgainst")) {
-            mStrongAgainst.add(WeaponType.valueOf(name));
-        }
+        mHealth = enemySettings.getHealth();
+        mMaxHealth = enemySettings.getHealth();
+        mReward = enemySettings.getReward();
 
         mHealthBar = new HealthBar(getTheme(), this);
     }
@@ -188,7 +165,7 @@ public abstract class Enemy extends Entity {
     }
 
     public float getSpeed() {
-        return mSpeed * Math.max(mMinSpeedModifier, mSpeedModifier);
+        return Math.max(mEnemySettings.getMinSpeed(), mEnemySettings.getSpeed() * mSpeedModifier);
     }
 
     public void modifySpeed(float f) {
@@ -229,7 +206,6 @@ public abstract class Enemy extends Entity {
                 return position.add(toWaypoint.mul(distance / toWaypointDist));
             } else {
                 distance -= toWaypointDist;
-                mWayPoints.get(index);
                 index++;
             }
         }
@@ -267,19 +243,19 @@ public abstract class Enemy extends Entity {
     }
 
     public float getMaxHealth() {
-        return mMaxHealth;
+        return mEnemySettings.getHealth();
     }
 
     public void damage(float amount, Entity origin) {
-        if (origin != null && origin instanceof Tower) {
+        if (origin instanceof Tower) {
             Tower originTower = (Tower) origin;
 
-            if (mWeakAgainst.contains(originTower.getWeaponType())) {
-                amount *= mWeakAgainstModifier;
+            if (mEnemySettings.getWeakAgainst().contains(originTower.getWeaponType())) {
+                amount *= mEnemySettings.getWeakAgainstModifier();
             }
 
-            if (mStrongAgainst.contains(originTower.getWeaponType())) {
-                amount *= mStrongAgainstModifier;
+            if (mEnemySettings.getStrongAgainst().contains(originTower.getWeaponType())) {
+                amount *= mEnemySettings.getStrongAgainstModifier();
             }
 
             originTower.reportDamageInflicted(amount);

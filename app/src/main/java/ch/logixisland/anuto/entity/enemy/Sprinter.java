@@ -13,7 +13,6 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
-import ch.logixisland.anuto.util.container.KeyValueStore;
 import ch.logixisland.anuto.util.math.Function;
 import ch.logixisland.anuto.util.math.SampledFunction;
 
@@ -21,6 +20,17 @@ public class Sprinter extends Enemy implements SpriteTransformation {
 
     private final static String ENTITY_NAME = "sprinter";
     private final static float ANIMATION_SPEED = 0.7f;
+
+    private final static EnemySettings ENEMY_SETTINGS = new EnemySettings(
+            200,
+            3.0f,
+            0.03f,
+            15,
+            new WeaponType[]{WeaponType.Explosive},
+            new WeaponType[]{WeaponType.Laser},
+            2.0f,
+            0.5f
+    );
 
     public static class Factory extends EntityFactory {
         @Override
@@ -30,7 +40,7 @@ public class Sprinter extends Enemy implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            return new Sprinter(gameEngine, getEntitySettings());
+            return new Sprinter(gameEngine);
         }
     }
 
@@ -57,8 +67,8 @@ public class Sprinter extends Enemy implements SpriteTransformation {
     private StaticData mStatic;
     private ReplicatedSprite mSprite;
 
-    private Sprinter(GameEngine gameEngine, KeyValueStore enemySettings) {
-        super(gameEngine, enemySettings);
+    private Sprinter(GameEngine gameEngine) {
+        super(gameEngine, ENEMY_SETTINGS);
         mStatic = (StaticData) getStaticData();
 
         mSprite = getSpriteFactory().createReplication(mStatic.mReferenceSprite);
