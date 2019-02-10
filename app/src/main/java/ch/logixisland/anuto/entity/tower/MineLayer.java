@@ -11,7 +11,6 @@ import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
-import ch.logixisland.anuto.engine.logic.map.GameMap;
 import ch.logixisland.anuto.engine.logic.map.MapPath;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
@@ -61,8 +60,7 @@ public class MineLayer extends Tower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            List<MapPath> paths = new GameMap(getGameConfig()).getPaths();
-            return new MineLayer(gameEngine, paths);
+            return new MineLayer(gameEngine);
         }
     }
 
@@ -107,7 +105,6 @@ public class MineLayer extends Tower implements SpriteTransformation {
         public SpriteTemplate mSpriteTemplate;
     }
 
-    private Collection<MapPath> mPaths;
     private float mAngle;
     private int mMaxMineCount;
     private float mExplosionRadius;
@@ -127,11 +124,9 @@ public class MineLayer extends Tower implements SpriteTransformation {
         }
     };
 
-    private MineLayer(GameEngine gameEngine, Collection<MapPath> paths) {
+    private MineLayer(GameEngine gameEngine) {
         super(gameEngine, TOWER_PROPERTIES);
         StaticData s = (StaticData) getStaticData();
-
-        mPaths = paths;
 
         mSprite = getSpriteFactory().createAnimated(Layers.TOWER_BASE, s.mSpriteTemplate);
         mSprite.setListener(this);
@@ -184,13 +179,15 @@ public class MineLayer extends Tower implements SpriteTransformation {
     @Override
     public void setPosition(Vector2 position) {
         super.setPosition(position);
-        mSections = getPathSectionsInRange(mPaths);
+        List<MapPath> paths = getGameEngine().getGameMap().getPaths();
+        mSections = getPathSectionsInRange(paths);
     }
 
     @Override
     public void move(Vector2 offset) {
         super.move(offset);
-        mSections = getPathSectionsInRange(mPaths);
+        List<MapPath> paths = getGameEngine().getGameMap().getPaths();
+        mSections = getPathSectionsInRange(paths);
     }
 
     @Override

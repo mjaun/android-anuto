@@ -12,7 +12,6 @@ import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.loop.TickTimer;
-import ch.logixisland.anuto.engine.logic.map.GameMap;
 import ch.logixisland.anuto.engine.logic.map.MapPath;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
@@ -63,8 +62,7 @@ public class GlueTower extends Tower implements SpriteTransformation {
 
         @Override
         public Entity create(GameEngine gameEngine) {
-            List<MapPath> paths = new GameMap(getGameConfig()).getPaths();
-            return new GlueTower(gameEngine, paths);
+            return new GlueTower(gameEngine);
         }
     }
 
@@ -92,7 +90,6 @@ public class GlueTower extends Tower implements SpriteTransformation {
         }
     }
 
-    private Collection<MapPath> mPaths;
     private float mGlueIntensity;
     private boolean mShooting;
     private float mCanonOffset;
@@ -103,11 +100,10 @@ public class GlueTower extends Tower implements SpriteTransformation {
     private StaticSprite mSpriteTower;
     private final TickTimer mUpdateTimer = TickTimer.createInterval(0.1f);
 
-    private GlueTower(GameEngine gameEngine, Collection<MapPath> paths) {
+    private GlueTower(GameEngine gameEngine) {
         super(gameEngine, TOWER_PROPERTIES);
         StaticData s = (StaticData) getStaticData();
 
-        mPaths = paths;
         mGlueIntensity = GLUE_INTENSITY;
 
         mSpriteBase = getSpriteFactory().createStatic(Layers.TOWER, s.mSpriteTemplateBase);
@@ -231,7 +227,8 @@ public class GlueTower extends Tower implements SpriteTransformation {
     }
 
     private void determineTargets() {
-        Collection<Line> sections = getPathSectionsInRange(mPaths);
+        List<MapPath> paths = getGameEngine().getGameMap().getPaths();
+        Collection<Line> sections = getPathSectionsInRange(paths);
         float dist = 0f;
 
         mTargets.clear();

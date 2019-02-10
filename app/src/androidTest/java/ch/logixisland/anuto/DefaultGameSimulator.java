@@ -215,7 +215,7 @@ public class DefaultGameSimulator extends GameSimulator {
     }
 
     private Plateau findTowerPlateau(Tower tower) {
-        final List<MapPath> paths = getGameFactory().getWaveManager().getPaths();
+        final List<MapPath> paths = getGameFactory().getGameEngine().getGameMap().getPaths();
         final float range = tower.getRange();
 
         final Function<Plateau, Float> distanceCovered = new Function<Plateau, Float>() {

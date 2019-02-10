@@ -180,6 +180,7 @@ public class GameLoader implements ErrorListener {
         mGameEngine.clear();
 
         GameMap map = new GameMap(gameConfig);
+        mGameEngine.setGameMap(map);
         mViewport.setGameSize(map.getWidth(), map.getHeight());
 
         if (gameState != null) {

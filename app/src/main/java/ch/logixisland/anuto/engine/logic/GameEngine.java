@@ -7,6 +7,7 @@ import ch.logixisland.anuto.engine.logic.loop.GameLoop;
 import ch.logixisland.anuto.engine.logic.loop.Message;
 import ch.logixisland.anuto.engine.logic.loop.MessageQueue;
 import ch.logixisland.anuto.engine.logic.loop.TickListener;
+import ch.logixisland.anuto.engine.logic.map.GameMap;
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Renderer;
 import ch.logixisland.anuto.engine.render.sprite.SpriteFactory;
@@ -19,14 +20,17 @@ public class GameEngine {
 
     public final static int TARGET_FRAME_RATE = GameLoop.TARGET_FRAME_RATE;
 
-    private final SpriteFactory mSpriteFactory;
     private final ThemeManager mThemeManager;
+
+    private final SpriteFactory mSpriteFactory;
     private final SoundFactory mSoundFactory;
 
     private final EntityStore mEntityStore;
     private final MessageQueue mMessageQueue;
     private final Renderer mRenderer;
     private final GameLoop mGameLoop;
+
+    private GameMap mGameMap;
 
     public GameEngine(SpriteFactory spriteFactory, ThemeManager themeManager,
                       SoundFactory soundFactory, EntityStore entityStore, MessageQueue messageQueue,
@@ -40,12 +44,20 @@ public class GameEngine {
         mGameLoop = gameLoop;
     }
 
-    public SpriteFactory getSpriteFactory() {
-        return mSpriteFactory;
+    public GameMap getGameMap() {
+        return mGameMap;
+    }
+
+    public void setGameMap(GameMap gameMap) {
+        mGameMap = gameMap;
     }
 
     public ThemeManager getThemeManager() {
         return mThemeManager;
+    }
+
+    public SpriteFactory getSpriteFactory() {
+        return mSpriteFactory;
     }
 
     public SoundFactory getSoundFactory() {
