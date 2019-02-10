@@ -56,8 +56,8 @@ public class TeleportedMarker extends Effect implements Entity.Listener {
     private StaticData mStaticData;
     private MarkerDrawable mDrawable;
 
-    public TeleportedMarker(Entity origin, Entity marked) {
-        super(origin);
+    public TeleportedMarker(Entity marked) {
+        super(marked);
         mMarked = marked;
         mMarked.addListener(this);
 

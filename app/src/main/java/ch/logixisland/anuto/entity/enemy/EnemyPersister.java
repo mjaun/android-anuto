@@ -23,6 +23,7 @@ public class EnemyPersister extends EntityPersister {
         data.putInt("wayPointIndex", enemy.getWayPointIndex());
         data.putInt("waveNumber", enemy.getWaveNumber());
         data.putInt("reward", enemy.getReward());
+        data.putBoolean("teleported", enemy.wasTeleported());
 
         return data;
     }
@@ -35,6 +36,10 @@ public class EnemyPersister extends EntityPersister {
         enemy.setReward(entityData.getInt("reward"));
         enemy.setWaveNumber(entityData.getInt("waveNumber"));
         enemy.setupPath(entityData.getVectorList("wayPoints"), entityData.getInt("wayPointIndex"));
+
+        if (entityData.getBoolean("teleported")) {
+            enemy.finishTeleport();
+        }
 
         return enemy;
     }

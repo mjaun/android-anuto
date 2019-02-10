@@ -3,7 +3,6 @@ package ch.logixisland.anuto.entity.tower;
 import android.graphics.Canvas;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import ch.logixisland.anuto.R;
@@ -22,6 +21,7 @@ import ch.logixisland.anuto.entity.effect.TeleportEffect;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.entity.enemy.WeaponType;
 import ch.logixisland.anuto.util.RandomUtils;
+import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
 public class Teleporter extends Tower implements SpriteTransformation {
@@ -62,16 +62,9 @@ public class Teleporter extends Tower implements SpriteTransformation {
         }
     }
 
-    private static class StaticData implements Listener {
+    private static class StaticData {
         SpriteTemplate mSpriteTemplateBase;
         SpriteTemplate mSpriteTemplateTower;
-        Collection<Enemy> mTeleportedEnemies = new ArrayList<>();
-
-        @Override
-        public void entityRemoved(Entity entity) {
-            Enemy enemy = (Enemy) entity;
-            mTeleportedEnemies.remove(enemy);
-        }
     }
 
     private float mTeleportDistance;
@@ -148,8 +141,6 @@ public class Teleporter extends Tower implements SpriteTransformation {
         if (isReloaded() && target != null) {
             // double check because two TeleportTowers might shoot simultaneously
             if (!target.isBeingTeleported() && getDistanceTo(target) <= getRange()) {
-                StaticData s = (StaticData) getStaticData();
-                s.mTeleportedEnemies.add(target);
                 getGameEngine().add(new TeleportEffect(this, getPosition(), target, mTeleportDistance));
                 mSound.play();
                 setReloaded(false);
@@ -189,7 +180,11 @@ public class Teleporter extends Tower implements SpriteTransformation {
         StaticData s = (StaticData) getStaticData();
 
         return super.getPossibleTargets()
-                .filter(s.mTeleportedEnemies)
-                .filter(Enemy.beingTeleported(false));
+                .filter(new Predicate<Enemy>() {
+                    @Override
+                    public boolean apply(Enemy enemy) {
+                        return !enemy.isBeingTeleported() && !enemy.wasTeleported();
+                    }
+                });
     }
 }

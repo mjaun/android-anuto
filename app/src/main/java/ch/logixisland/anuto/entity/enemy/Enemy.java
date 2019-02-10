@@ -7,22 +7,13 @@ import ch.logixisland.anuto.GameSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.entity.EntityTypes;
+import ch.logixisland.anuto.entity.effect.TeleportedMarker;
 import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.util.iterator.Function;
-import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.math.Vector2;
 
 
 public abstract class Enemy extends Entity {
-
-    public static Predicate<Enemy> beingTeleported(final boolean value) {
-        return new Predicate<Enemy>() {
-            @Override
-            public boolean apply(Enemy enemy) {
-                return enemy.isBeingTeleported() == value;
-            }
-        };
-    }
 
     public static Function<Enemy, Float> health() {
         return new Function<Enemy, Float>() {
@@ -51,6 +42,7 @@ public abstract class Enemy extends Entity {
     private List<Vector2> mWayPoints;
     private int mWayPointIndex;
     private boolean mBeingTeleported;
+    private boolean mWasTeleported;
 
     private HealthBar mHealthBar;
 
@@ -116,12 +108,22 @@ public abstract class Enemy extends Entity {
         }
     }
 
+    public void startTeleport() {
+        mBeingTeleported = true;
+    }
+
+    public void finishTeleport() {
+        mBeingTeleported = false;
+        mWasTeleported = true;
+        getGameEngine().add(new TeleportedMarker(this));
+    }
+
     public boolean isBeingTeleported() {
         return mBeingTeleported;
     }
 
-    public void setBeingTeleported(boolean beingTeleported) {
-        mBeingTeleported = beingTeleported;
+    public boolean wasTeleported() {
+        return mWasTeleported;
     }
 
     public int getWaveNumber() {
