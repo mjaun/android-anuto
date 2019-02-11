@@ -21,8 +21,8 @@ public final class GameSettings {
     public static final float EARLY_BONUS_MODIFIER = 3f;
     public static final float EARLY_BONUS_EXPONENT = 0.6f;
     public static final float TOWER_AGE_MODIFIER = 0.97f;
-    public static final float WEAK_AGAINST_DAMAGE_MODIFIER = 2.0f;
-    public static final float STRONG_AGAINST_DAMAGE_MODIFIER = 0.5f;
+    public static final float WEAK_AGAINST_DAMAGE_MODIFIER = 3.0f;
+    public static final float STRONG_AGAINST_DAMAGE_MODIFIER = 0.33f;
     public static final float MIN_SPEED_MODIFIER = 0.05f;
 
     public static final String[] BUILD_MENU_TOWER_NAMES = {
