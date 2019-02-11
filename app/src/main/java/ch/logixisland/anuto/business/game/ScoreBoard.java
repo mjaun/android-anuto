@@ -11,15 +11,9 @@ import ch.logixisland.anuto.util.container.KeyValueStore;
 
 public class ScoreBoard implements Persister {
 
-    public interface BonusListener {
-        void bonusChanged(int waveBonus, int earlyBonus);
-    }
-
-    public interface CreditsListener {
+    public interface Listener {
         void creditsChanged(int credits);
-    }
-
-    public interface LivesListener {
+        void bonusChanged(int waveBonus, int earlyBonus);
         void livesChanged(int lives);
     }
 
@@ -31,9 +25,7 @@ public class ScoreBoard implements Persister {
     private int mEarlyBonus;
     private int mWaveBonus;
 
-    private final List<CreditsListener> mCreditsListeners = new CopyOnWriteArrayList<>();
-    private final List<LivesListener> mLivesListeners = new CopyOnWriteArrayList<>();
-    private final List<BonusListener> mBonusListeners = new CopyOnWriteArrayList<>();
+    private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
     public ScoreBoard(GameEngine gameEngine) {
         mGameEngine = gameEngine;
@@ -143,44 +135,28 @@ public class ScoreBoard implements Persister {
         return mWaveBonus;
     }
 
-    public void addBonusListener(BonusListener listener) {
-        mBonusListeners.add(listener);
+    public void addListener(Listener listener) {
+        mListeners.add(listener);
     }
 
-    public void removeBonusListener(BonusListener listener) {
-        mBonusListeners.remove(listener);
-    }
-
-    public void addCreditsListener(CreditsListener listener) {
-        mCreditsListeners.add(listener);
-    }
-
-    public void removeCreditsListener(CreditsListener listener) {
-        mCreditsListeners.remove(listener);
-    }
-
-    public void addLivesListener(LivesListener listener) {
-        mLivesListeners.add(listener);
-    }
-
-    public void removeLivesListener(LivesListener listener) {
-        mLivesListeners.remove(listener);
+    public void removeListener(Listener listener) {
+        mListeners.remove(listener);
     }
 
     private void bonusChanged() {
-        for (BonusListener listener : mBonusListeners) {
+        for (Listener listener : mListeners) {
             listener.bonusChanged(mWaveBonus, mEarlyBonus);
         }
     }
 
     private void creditsChanged() {
-        for (CreditsListener listener : mCreditsListeners) {
+        for (Listener listener : mListeners) {
             listener.creditsChanged(mCredits);
         }
     }
 
     private void livesChanged() {
-        for (LivesListener listener : mLivesListeners) {
+        for (Listener listener : mListeners) {
             listener.livesChanged(mLives);
         }
     }

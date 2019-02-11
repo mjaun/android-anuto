@@ -10,7 +10,7 @@ import ch.logixisland.anuto.business.tower.TowerInserter;
 import ch.logixisland.anuto.business.tower.TowerSelector;
 import ch.logixisland.anuto.business.wave.WaveManager;
 
-public class TutorialControl implements TowerInserter.Listener, WaveManager.WaveStartedListener, TowerSelector.Listener {
+public class TutorialControl implements TowerInserter.Listener, WaveManager.Listener, TowerSelector.Listener {
 
     public interface TutorialView {
         void showHint(int textId, boolean showSkipButton);
@@ -102,6 +102,21 @@ public class TutorialControl implements TowerInserter.Listener, WaveManager.Wave
             mState = mState.next();
             activate();
         }
+    }
+
+    @Override
+    public void waveNumberChanged() {
+
+    }
+
+    @Override
+    public void nextWaveReadyChanged() {
+
+    }
+
+    @Override
+    public void remainingEnemiesCountChanged() {
+
     }
 
     private void initialize() {

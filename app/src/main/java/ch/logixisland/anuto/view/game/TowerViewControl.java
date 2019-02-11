@@ -18,7 +18,7 @@ import ch.logixisland.anuto.business.tower.TowerInserter;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.entity.tower.Tower;
 
-class TowerViewControl implements GameLoader.Listener, ScoreBoard.CreditsListener, View.OnTouchListener {
+class TowerViewControl implements GameLoader.Listener, ScoreBoard.Listener, View.OnTouchListener {
 
     private final ScoreBoard mScoreBoard;
     private final GameLoader mGameLoader;
@@ -41,7 +41,7 @@ class TowerViewControl implements GameLoader.Listener, ScoreBoard.CreditsListene
         mHandler = new Handler();
 
         mGameLoader.addListener(this);
-        mScoreBoard.addCreditsListener(this);
+        mScoreBoard.addListener(this);
 
         for (TowerView towerView : mTowerViews) {
             towerView.setOnTouchListener(this);
@@ -50,7 +50,7 @@ class TowerViewControl implements GameLoader.Listener, ScoreBoard.CreditsListene
 
     void close() {
         mGameLoader.removeListener(this);
-        mScoreBoard.removeCreditsListener(this);
+        mScoreBoard.removeListener(this);
         mHandler.removeCallbacksAndMessages(null);
     }
 
@@ -98,6 +98,16 @@ class TowerViewControl implements GameLoader.Listener, ScoreBoard.CreditsListene
                 updateTowerEnabled();
             }
         });
+    }
+
+    @Override
+    public void bonusChanged(int waveBonus, int earlyBonus) {
+
+    }
+
+    @Override
+    public void livesChanged(int lives) {
+
     }
 
     private void updateTowerSlots() {

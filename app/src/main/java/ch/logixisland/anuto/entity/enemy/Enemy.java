@@ -33,6 +33,12 @@ public abstract class Enemy extends Entity {
         };
     }
 
+    public interface Listener {
+        void enemyKilled(Enemy enemy);
+        void enemyFinished(Enemy enemy);
+        void enemyRemoved(Enemy enemy);
+    }
+
     private EnemyProperties mEnemyProperties;
     private float mHealth;
     private float mMaxHealth;
@@ -46,7 +52,7 @@ public abstract class Enemy extends Entity {
 
     private HealthBar mHealthBar;
 
-    private final List<EnemyListener> mListeners = new CopyOnWriteArrayList<>();
+    private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
     Enemy(GameEngine gameEngine, EnemyProperties enemyProperties) {
         super(gameEngine);
@@ -76,7 +82,7 @@ public abstract class Enemy extends Entity {
         super.clean();
         getGameEngine().remove(mHealthBar);
 
-        for (EnemyListener listener : mListeners) {
+        for (Listener listener : mListeners) {
             listener.enemyRemoved(this);
         }
 
@@ -92,7 +98,7 @@ public abstract class Enemy extends Entity {
         }
 
         if (!hasWayPoint()) {
-            for (EnemyListener listener : mListeners) {
+            for (Listener listener : mListeners) {
                 listener.enemyFinished(this);
             }
             remove();
@@ -267,7 +273,7 @@ public abstract class Enemy extends Entity {
         mHealth -= amount;
 
         if (mHealth <= 0) {
-            for (EnemyListener listener : mListeners) {
+            for (Listener listener : mListeners) {
                 listener.enemyKilled(this);
             }
 
@@ -305,11 +311,11 @@ public abstract class Enemy extends Entity {
         mReward = reward;
     }
 
-    public void addListener(EnemyListener listener) {
+    public void addListener(Listener listener) {
         mListeners.add(listener);
     }
 
-    public void removeListener(EnemyListener listener) {
+    public void removeListener(Listener listener) {
         mListeners.remove(listener);
     }
 

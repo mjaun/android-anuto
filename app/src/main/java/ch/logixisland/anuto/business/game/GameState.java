@@ -7,7 +7,7 @@ import ch.logixisland.anuto.business.tower.TowerSelector;
 import ch.logixisland.anuto.engine.logic.persistence.Persister;
 import ch.logixisland.anuto.util.container.KeyValueStore;
 
-public class GameState implements ScoreBoard.LivesListener, Persister {
+public class GameState implements ScoreBoard.Listener, Persister {
 
     public interface Listener {
         void gameRestart();
@@ -28,7 +28,7 @@ public class GameState implements ScoreBoard.LivesListener, Persister {
         mHighScores = highScores;
         mTowerSelector = towerSelector;
 
-        mScoreBoard.addLivesListener(this);
+        mScoreBoard.addListener(this);
     }
 
     public boolean isGameOver() {
@@ -56,6 +56,16 @@ public class GameState implements ScoreBoard.LivesListener, Persister {
         if (!mGameOver && mScoreBoard.getLives() < 0) {
             setGameOver(true);
         }
+    }
+
+    @Override
+    public void creditsChanged(int credits) {
+
+    }
+
+    @Override
+    public void bonusChanged(int waveBonus, int earlyBonus) {
+
     }
 
     @Override

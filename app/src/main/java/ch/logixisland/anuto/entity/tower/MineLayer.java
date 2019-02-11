@@ -103,7 +103,7 @@ public class MineLayer extends Tower implements SpriteTransformation {
     private AnimatedSprite mSprite;
     private Sound mSound;
 
-    private final Listener mMineListener = new Listener() {
+    private final Entity.Listener mMineListener = new Entity.Listener() {
         @Override
         public void entityRemoved(Entity entity) {
             Mine mine = (Mine) entity;

@@ -16,6 +16,11 @@ import ch.logixisland.anuto.util.iterator.StreamIterator;
 
 public abstract class Tower extends Entity {
 
+    public interface Listener {
+        void damageInflicted(float totalDamage);
+        void valueChanged(int value);
+    }
+
     private TowerProperties mTowerProperties;
 
     private boolean mBuilt;
@@ -33,7 +38,7 @@ public abstract class Tower extends Entity {
     private RangeIndicator mRangeIndicator;
     private LevelIndicator mLevelIndicator;
 
-    private final List<TowerListener> mListeners = new CopyOnWriteArrayList<>();
+    private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
     Tower(GameEngine gameEngine, TowerProperties towerProperties) {
         super(gameEngine);
@@ -126,7 +131,7 @@ public abstract class Tower extends Entity {
     public void setValue(int value) {
         mValue = value;
 
-        for (TowerListener listener : mListeners) {
+        for (Listener listener : mListeners) {
             listener.valueChanged(mValue);
         }
     }
@@ -150,7 +155,7 @@ public abstract class Tower extends Entity {
     public void reportDamageInflicted(float amount) {
         mDamageInflicted += amount;
 
-        for (TowerListener listener : mListeners) {
+        for (Listener listener : mListeners) {
             listener.damageInflicted(mDamageInflicted);
         }
     }
@@ -236,11 +241,12 @@ public abstract class Tower extends Entity {
                 .cast(Enemy.class);
     }
 
-    public void addListener(TowerListener listener) {
+    public void addListener(Listener listener) {
         mListeners.add(listener);
     }
 
-    public void removeListener(TowerListener listener) {
+    public void removeListener(Listener listener) {
         mListeners.remove(listener);
     }
+
 }

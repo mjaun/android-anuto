@@ -13,13 +13,12 @@ import ch.logixisland.anuto.engine.logic.map.MapPath;
 import ch.logixisland.anuto.engine.logic.map.WaveInfo;
 import ch.logixisland.anuto.entity.EntityTypes;
 import ch.logixisland.anuto.entity.enemy.Enemy;
-import ch.logixisland.anuto.entity.enemy.EnemyListener;
 import ch.logixisland.anuto.util.container.KeyValueStore;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.MathUtils;
 import ch.logixisland.anuto.util.math.Vector2;
 
-class WaveAttender implements EnemyListener {
+class WaveAttender implements Enemy.Listener {
 
     private final GameEngine mGameEngine;
     private final ScoreBoard mScoreBoard;

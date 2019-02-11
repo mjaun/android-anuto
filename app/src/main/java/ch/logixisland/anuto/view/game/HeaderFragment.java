@@ -23,8 +23,8 @@ import ch.logixisland.anuto.business.wave.WaveManager;
 import ch.logixisland.anuto.util.StringUtils;
 import ch.logixisland.anuto.view.AnutoFragment;
 
-public class HeaderFragment extends AnutoFragment implements WaveManager.Listener, ScoreBoard.CreditsListener,
-        ScoreBoard.LivesListener, ScoreBoard.BonusListener, GameSpeed.Listener, View.OnClickListener {
+public class HeaderFragment extends AnutoFragment implements WaveManager.Listener, ScoreBoard.Listener,
+        GameSpeed.Listener, View.OnClickListener {
 
     private final WaveManager mWaveManager;
     private final GameSpeed mSpeedManager;
@@ -115,9 +115,7 @@ public class HeaderFragment extends AnutoFragment implements WaveManager.Listene
 
         mWaveManager.addListener(this);
         mSpeedManager.addListener(this);
-        mScoreBoard.addBonusListener(this);
-        mScoreBoard.addCreditsListener(this);
-        mScoreBoard.addLivesListener(this);
+        mScoreBoard.addListener(this);
     }
 
     @Override
@@ -128,9 +126,7 @@ public class HeaderFragment extends AnutoFragment implements WaveManager.Listene
 
         mWaveManager.removeListener(this);
         mSpeedManager.removeListener(this);
-        mScoreBoard.removeBonusListener(this);
-        mScoreBoard.removeCreditsListener(this);
-        mScoreBoard.removeLivesListener(this);
+        mScoreBoard.removeListener(this);
 
         mHandler.removeCallbacksAndMessages(null);
     }
@@ -158,6 +154,11 @@ public class HeaderFragment extends AnutoFragment implements WaveManager.Listene
         if (v == btn_build_tower) {
             mTowerSelector.toggleTowerBuildView();
         }
+    }
+
+    @Override
+    public void waveStarted() {
+
     }
 
     @Override

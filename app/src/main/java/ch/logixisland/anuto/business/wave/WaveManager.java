@@ -25,13 +25,10 @@ public class WaveManager implements Persister, GameState.Listener {
     private static final float NEXT_WAVE_MIN_DELAY = 5;
 
     public interface Listener {
+        void waveStarted();
         void waveNumberChanged();
         void nextWaveReadyChanged();
         void remainingEnemiesCountChanged();
-    }
-
-    public interface WaveStartedListener {
-        void waveStarted();
     }
 
     private final GameEngine mGameEngine;
@@ -47,7 +44,6 @@ public class WaveManager implements Persister, GameState.Listener {
 
     private final List<WaveAttender> mActiveWaves = new ArrayList<>();
     private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
-    private final List<WaveStartedListener> mWaveStartedListeners = new CopyOnWriteArrayList<>();
 
     public WaveManager(GameEngine gameEngine, ScoreBoard scoreBoard, GameState gameState,
                        EntityRegistry entityRegistry, TowerAging towerAging) {
@@ -100,7 +96,7 @@ public class WaveManager implements Persister, GameState.Listener {
         setNextWaveReady(false);
         nextWaveReadyDelayed(NEXT_WAVE_MIN_DELAY);
 
-        for (WaveStartedListener listener : mWaveStartedListeners) {
+        for (Listener listener : mListeners) {
             listener.waveStarted();
         }
     }
@@ -111,14 +107,6 @@ public class WaveManager implements Persister, GameState.Listener {
 
     public void removeListener(Listener listener) {
         mListeners.remove(listener);
-    }
-
-    public void addListener(WaveStartedListener listener) {
-        mWaveStartedListeners.add(listener);
-    }
-
-    public void removeListener(WaveStartedListener listener) {
-        mWaveStartedListeners.remove(listener);
     }
 
     @Override

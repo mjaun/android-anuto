@@ -9,10 +9,9 @@ import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.loop.Message;
 import ch.logixisland.anuto.entity.EntityTypes;
 import ch.logixisland.anuto.entity.tower.Tower;
-import ch.logixisland.anuto.entity.tower.TowerListener;
 import ch.logixisland.anuto.util.math.Vector2;
 
-public class TowerSelector implements ScoreBoard.CreditsListener, Entity.Listener, TowerListener {
+public class TowerSelector implements ScoreBoard.Listener, Entity.Listener, Tower.Listener {
 
     public interface TowerInfoView {
         void showTowerInfo(TowerInfo towerInfo);
@@ -43,7 +42,7 @@ public class TowerSelector implements ScoreBoard.CreditsListener, Entity.Listene
     public TowerSelector(GameEngine gameEngine, ScoreBoard scoreBoard) {
         mGameEngine = gameEngine;
         mScoreBoard = scoreBoard;
-        mScoreBoard.addCreditsListener(this);
+        mScoreBoard.addListener(this);
     }
 
     public void setTowerInfoView(TowerInfoView view) {
@@ -208,13 +207,23 @@ public class TowerSelector implements ScoreBoard.CreditsListener, Entity.Listene
         }
     }
 
+    @Override
+    public void bonusChanged(int waveBonus, int earlyBonus) {
+
+    }
+
+    @Override
+    public void livesChanged(int lives) {
+
+    }
+
     Tower getSelectedTower() {
         return mSelectedTower;
     }
 
     private void setSelectedTower(Tower tower) {
         if (mSelectedTower != null) {
-            mSelectedTower.removeListener((TowerListener) this);
+            mSelectedTower.removeListener((Tower.Listener) this);
             mSelectedTower.removeListener((Entity.Listener) this);
             mSelectedTower.hideRange();
         }
@@ -222,7 +231,7 @@ public class TowerSelector implements ScoreBoard.CreditsListener, Entity.Listene
         mSelectedTower = tower;
 
         if (mSelectedTower != null) {
-            mSelectedTower.addListener((TowerListener) this);
+            mSelectedTower.addListener((Tower.Listener) this);
             mSelectedTower.addListener((Entity.Listener) this);
             mSelectedTower.showRange();
         }
