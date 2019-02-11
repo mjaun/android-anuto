@@ -23,7 +23,7 @@ public final class GameSettings {
     public static final float TOWER_AGE_MODIFIER = 0.97f;
     public static final float WEAK_AGAINST_DAMAGE_MODIFIER = 2.0f;
     public static final float STRONG_AGAINST_DAMAGE_MODIFIER = 0.5f;
-    public static final float MIN_SPEED_MODIFIER = 0.01f;
+    public static final float MIN_SPEED_MODIFIER = 0.05f;
 
     public static final String[] BUILD_MENU_TOWER_NAMES = {
             Canon.ENTITY_NAME,
