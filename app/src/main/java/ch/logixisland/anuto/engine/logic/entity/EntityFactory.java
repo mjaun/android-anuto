@@ -5,6 +5,5 @@ import ch.logixisland.anuto.engine.logic.GameEngine;
 public abstract class EntityFactory {
 
     public abstract Entity create(GameEngine gameEngine);
-    public abstract String getEntityName();
 
 }

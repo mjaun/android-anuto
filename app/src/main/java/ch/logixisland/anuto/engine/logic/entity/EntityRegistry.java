@@ -6,11 +6,13 @@ import java.util.Map;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.persistence.Persister;
 import ch.logixisland.anuto.util.container.KeyValueStore;
+import ch.logixisland.anuto.util.iterator.StreamIterator;
 
 public class EntityRegistry implements Persister {
 
     private final GameEngine mGameEngine;
     private final Map<String, EntityFactory> mEntityFactories = new HashMap<>();
+    private final Map<String, EntityPersister> mEntityPersisters = new HashMap<>();
 
     private int mNextEntityId;
 
@@ -18,17 +20,14 @@ public class EntityRegistry implements Persister {
         mGameEngine = gameEngine;
     }
 
-    public void registerEntity(EntityFactory factory) {
-        mEntityFactories.put(factory.getEntityName(), factory);
+    public void registerEntity(String name, EntityFactory factory, EntityPersister persister) {
+        mEntityFactories.put(name, factory);
+        mEntityPersisters.put(name, persister);
     }
 
     public Entity createEntity(String name) {
-        return createEntity(name, mNextEntityId++);
-    }
-
-    public Entity createEntity(String name, int id) {
         Entity entity = mEntityFactories.get(name).create(mGameEngine);
-        entity.setEntityId(id);
+        entity.setEntityId(mNextEntityId++);
         return entity;
     }
 
@@ -40,10 +39,27 @@ public class EntityRegistry implements Persister {
     @Override
     public void readState(KeyValueStore gameState) {
         mNextEntityId = gameState.getInt("nextEntityId");
+
+        for (KeyValueStore data : gameState.getStoreList("entities")) {
+            String entityName = data.getString("name");
+            Entity entity = mEntityFactories.get(entityName).create(mGameEngine);
+            mEntityPersisters.get(entityName).readEntityData(entity, data);
+            mGameEngine.add(entity);
+        }
     }
 
     @Override
     public void writeState(KeyValueStore gameState) {
         gameState.putInt("nextEntityId", mNextEntityId);
+
+        StreamIterator<Entity> iterator = mGameEngine.getAllEntities();
+        while (iterator.hasNext()) {
+            Entity entity = iterator.next();
+            EntityPersister persister = mEntityPersisters.get(entity.getEntityName());
+
+            if (persister != null) {
+                gameState.appendStore("entities", persister.writeEntityData(entity));
+            }
+        }
     }
 }

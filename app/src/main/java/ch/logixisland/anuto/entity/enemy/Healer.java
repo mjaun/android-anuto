@@ -7,7 +7,6 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
-import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.loop.TickListener;
 import ch.logixisland.anuto.engine.logic.loop.TickTimer;
 import ch.logixisland.anuto.engine.render.Layers;
@@ -23,7 +22,7 @@ import ch.logixisland.anuto.util.math.SampledFunction;
 
 public class Healer extends Enemy implements SpriteTransformation {
 
-    private final static String ENTITY_NAME = "healer";
+    public final static String ENTITY_NAME = "healer";
     private final static float ANIMATION_SPEED = 1.5f;
     private final static float HEAL_SCALE_FACTOR = 2f;
     private final static float HEAL_ROTATION = 2.5f;
@@ -42,20 +41,13 @@ public class Healer extends Enemy implements SpriteTransformation {
 
     public static class Factory extends EntityFactory {
         @Override
-        public String getEntityName() {
-            return ENTITY_NAME;
-        }
-
-        @Override
         public Entity create(GameEngine gameEngine) {
             return new Healer(gameEngine);
         }
     }
 
     public static class Persister extends EnemyPersister {
-        public Persister(GameEngine gameEngine, EntityRegistry entityRegistry) {
-            super(gameEngine, entityRegistry, ENTITY_NAME);
-        }
+
     }
 
     private static class StaticData implements TickListener {

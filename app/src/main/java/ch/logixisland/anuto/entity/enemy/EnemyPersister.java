@@ -1,22 +1,16 @@
 package ch.logixisland.anuto.entity.enemy;
 
-import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityPersister;
-import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.util.container.KeyValueStore;
 
 public class EnemyPersister extends EntityPersister {
 
-    public EnemyPersister(GameEngine gameEngine, EntityRegistry entityRegistry, String entityName) {
-        super(gameEngine, entityRegistry, entityName);
-    }
-
     @Override
-    protected KeyValueStore writeEntityData(Entity entity) {
-        Enemy enemy = (Enemy) entity;
+    public KeyValueStore writeEntityData(Entity entity) {
         KeyValueStore data = super.writeEntityData(entity);
 
+        Enemy enemy = (Enemy) entity;
         data.putFloat("health", enemy.getHealth());
         data.putFloat("maxHealth", enemy.getMaxHealth());
         data.putVectorList("wayPoints", enemy.getWayPoints());
@@ -29,9 +23,10 @@ public class EnemyPersister extends EntityPersister {
     }
 
     @Override
-    protected Enemy readEntityData(KeyValueStore entityData) {
-        Enemy enemy = (Enemy) super.readEntityData(entityData);
+    public void readEntityData(Entity entity, KeyValueStore entityData) {
+        super.readEntityData(entity, entityData);
 
+        Enemy enemy = (Enemy) entity;
         enemy.setHealth(entityData.getFloat("health"), entityData.getFloat("maxHealth"));
         enemy.setReward(entityData.getInt("reward"));
         enemy.setWaveNumber(entityData.getInt("waveNumber"));
@@ -40,8 +35,6 @@ public class EnemyPersister extends EntityPersister {
         if (entityData.getBoolean("teleported")) {
             enemy.finishTeleport();
         }
-
-        return enemy;
     }
 
 }

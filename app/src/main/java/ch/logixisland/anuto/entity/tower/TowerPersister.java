@@ -1,20 +1,14 @@
 package ch.logixisland.anuto.entity.tower;
 
-import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityPersister;
-import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.entity.plateau.Plateau;
 import ch.logixisland.anuto.util.container.KeyValueStore;
 
 public class TowerPersister extends EntityPersister {
 
-    public TowerPersister(GameEngine gameEngine, EntityRegistry entityRegistry, String entityName) {
-        super(gameEngine, entityRegistry, entityName);
-    }
-
     @Override
-    protected KeyValueStore writeEntityData(Entity entity) {
+    public KeyValueStore writeEntityData(Entity entity) {
         Tower tower = (Tower) entity;
 
         if (!tower.isBuilt()) {
@@ -39,14 +33,15 @@ public class TowerPersister extends EntityPersister {
     }
 
     @Override
-    protected Tower readEntityData(KeyValueStore entityData) {
-        Tower tower = (Tower) super.readEntityData(entityData);
+    public void readEntityData(Entity entity, KeyValueStore entityData) {
+        super.readEntityData(entity, entityData);
+        Tower tower = (Tower) entity;
 
         while (tower.getLevel() < entityData.getInt("level")) {
             tower.enhance();
         }
 
-        tower.setPlateau((Plateau) getGameEngine().getEntityById(entityData.getInt("plateauId")));
+        tower.setPlateau((Plateau) tower.getGameEngine().getEntityById(entityData.getInt("plateauId")));
         tower.setValue(entityData.getInt("value"));
         tower.setDamageInflicted(entityData.getFloat("damageInflicted"));
         tower.setBuilt();
@@ -57,8 +52,6 @@ public class TowerPersister extends EntityPersister {
             aimer.setStrategy(TowerStrategy.valueOf(entityData.getString("strategy")));
             aimer.setLockTarget(entityData.getBoolean("lockTarget"));
         }
-
-        return tower;
     }
 
 }

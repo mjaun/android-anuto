@@ -4,7 +4,6 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
-import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.loop.TickListener;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
@@ -16,7 +15,7 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 
 public class Soldier extends Enemy implements SpriteTransformation {
 
-    private final static String ENTITY_NAME = "soldier";
+    public final static String ENTITY_NAME = "soldier";
     private final static float ANIMATION_SPEED = 1f;
 
     private final static EnemyProperties ENEMY_PROPERTIES = new EnemyProperties.Builder()
@@ -27,20 +26,13 @@ public class Soldier extends Enemy implements SpriteTransformation {
 
     public static class Factory extends EntityFactory {
         @Override
-        public String getEntityName() {
-            return ENTITY_NAME;
-        }
-
-        @Override
         public Entity create(GameEngine gameEngine) {
             return new Soldier(gameEngine);
         }
     }
 
     public static class Persister extends EnemyPersister {
-        public Persister(GameEngine gameEngine, EntityRegistry entityRegistry) {
-            super(gameEngine, entityRegistry, ENTITY_NAME);
-        }
+
     }
 
     private static class StaticData implements TickListener {

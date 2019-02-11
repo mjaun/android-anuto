@@ -10,7 +10,6 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
-import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.map.MapPath;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.AnimatedSprite;
@@ -54,26 +53,16 @@ public class MineLayer extends Tower implements SpriteTransformation {
 
     public static class Factory extends EntityFactory {
         @Override
-        public String getEntityName() {
-            return ENTITY_NAME;
-        }
-
-        @Override
         public Entity create(GameEngine gameEngine) {
             return new MineLayer(gameEngine);
         }
     }
 
     public static class Persister extends TowerPersister {
-
-        public Persister(GameEngine gameEngine, EntityRegistry entityRegistry) {
-            super(gameEngine, entityRegistry, ENTITY_NAME);
-        }
-
         @Override
-        protected KeyValueStore writeEntityData(Entity entity) {
-            MineLayer mineLayer = (MineLayer) entity;
+        public KeyValueStore writeEntityData(Entity entity) {
             KeyValueStore data = super.writeEntityData(entity);
+            MineLayer mineLayer = (MineLayer) entity;
 
             List<Vector2> minePositions = new ArrayList<>();
             for (Mine mine : mineLayer.mMines) {
@@ -87,17 +76,16 @@ public class MineLayer extends Tower implements SpriteTransformation {
         }
 
         @Override
-        protected MineLayer readEntityData(KeyValueStore entityData) {
-            MineLayer mineLayer = (MineLayer) super.readEntityData(entityData);
+        public void readEntityData(Entity entity, KeyValueStore entityData) {
+            super.readEntityData(entity, entityData);
+            MineLayer mineLayer = (MineLayer) entity;
 
             for (Vector2 minePosition : entityData.getVectorList("minePositions")) {
                 Mine mine = new Mine(mineLayer, minePosition, mineLayer.getDamage(), mineLayer.mExplosionRadius);
                 mineLayer.mMines.add(mine);
                 mine.addListener(mineLayer.mMineListener);
-                getGameEngine().add(mine);
+                mineLayer.getGameEngine().add(mine);
             }
-
-            return mineLayer;
         }
     }
 

@@ -10,7 +10,6 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
-import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.loop.TickTimer;
 import ch.logixisland.anuto.engine.logic.map.MapPath;
 import ch.logixisland.anuto.engine.render.Layers;
@@ -56,20 +55,13 @@ public class GlueTower extends Tower implements SpriteTransformation {
 
     public static class Factory extends EntityFactory {
         @Override
-        public String getEntityName() {
-            return ENTITY_NAME;
-        }
-
-        @Override
         public Entity create(GameEngine gameEngine) {
             return new GlueTower(gameEngine);
         }
     }
 
     public static class Persister extends TowerPersister {
-        public Persister(GameEngine gameEngine, EntityRegistry entityRegistry) {
-            super(gameEngine, entityRegistry, ENTITY_NAME);
-        }
+
     }
 
     private static class StaticData {

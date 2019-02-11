@@ -5,7 +5,6 @@ import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityFactory;
 import ch.logixisland.anuto.engine.logic.entity.EntityPersister;
-import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
@@ -16,24 +15,17 @@ import ch.logixisland.anuto.util.RandomUtils;
 
 public class BasicPlateau extends Plateau implements SpriteTransformation {
 
-    private final static String ENTITY_NAME = "basic";
+    public final static String ENTITY_NAME = "basic";
 
     public static class Factory extends EntityFactory {
         @Override
         public Entity create(GameEngine gameEngine) {
             return new BasicPlateau(gameEngine);
         }
-
-        @Override
-        public String getEntityName() {
-            return ENTITY_NAME;
-        }
     }
 
     public static class Persister extends EntityPersister {
-        public Persister(GameEngine gameEngine, EntityRegistry entityRegistry) {
-            super(gameEngine, entityRegistry, ENTITY_NAME);
-        }
+
     }
 
     private static class StaticData {
