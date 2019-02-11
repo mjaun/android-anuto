@@ -31,7 +31,7 @@ public class StraightLaser extends Tower implements SpriteTransformation {
             .setDamage(44000)
             .setRange(3.0f)
             .setReload(3.0f)
-            .setMaxLevel(10)
+            .setMaxLevel(15)
             .setWeaponType(WeaponType.Laser)
             .setEnhanceBase(1.5f)
             .setEnhanceCost(950)
