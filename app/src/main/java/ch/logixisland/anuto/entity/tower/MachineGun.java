@@ -183,8 +183,14 @@ public class MachineGun extends Tower implements SpriteTransformation {
     private Vector2 calcShootingDirection(Enemy target) {
         Vector2 ps = getPosition().add(getDirectionTo(target).mul(SHOT_SPAWN_OFFSET));
         Vector2 pt = target.getPosition();
-        Vector2 dt = target.getDirection();
         Vector2 ptToPs = pt.to(ps);
+
+        Vector2 dt = target.getDirection();
+        if (dt == null) {
+            // target has no waypoint
+            return getDirectionTo(target);
+        }
+
         float vs = CanonShotMg.MOVEMENT_SPEED;
         float vt = target.getSpeed();
 
