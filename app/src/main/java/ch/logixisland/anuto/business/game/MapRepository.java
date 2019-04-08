@@ -20,6 +20,11 @@ public class MapRepository {
         mMapInfos.add(new MapInfo("civyshk_2y", R.string.map_civyshk_2y_name, R.raw.map_civyshk_2y));
         mMapInfos.add(new MapInfo("civyshk_line5", R.string.map_civyshk_line5_name, R.raw.map_civyshk_line5));
         mMapInfos.add(new MapInfo("civyshk_labyrinth", R.string.map_civyshk_labyrinth_name, R.raw.map_civyshk_labyrinth));
+        mMapInfos.add(new MapInfo("higgledy_piggledy", R.string.map_higgledy_piggledy_name, R.raw.map_higgledy_piggledy));
+        mMapInfos.add(new MapInfo("big_u", R.string.map_big_u_name, R.raw.map_big_u));
+        mMapInfos.add(new MapInfo("cloverleaf", R.string.map_cloverleaf_name, R.raw.map_cloverleaf));
+        mMapInfos.add(new MapInfo("roundabout", R.string.map_roundabout_name, R.raw.map_roundabout));
+        mMapInfos.add(new MapInfo("runway", R.string.map_runway_name, R.raw.map_runway));
     }
 
     public List<MapInfo> getMapInfos() {
