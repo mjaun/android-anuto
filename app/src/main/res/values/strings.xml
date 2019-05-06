@@ -69,6 +69,11 @@
     <string name="map_civyshk_line5_name">Civyshk Line5</string>
     <string name="map_civyshk_labyrinth_name">Civyshk Labyrinth</string>
     <string name="map_civyshk_yard_name">Civyshk Yard</string>
+    <string name="map_higgledy_piggledy_name">Higgledy Piggledy</string>
+    <string name="map_big_u_name">Big U</string>
+    <string name="map_cloverleaf_name">Cloverleaf</string>
+    <string name="map_roundabout_name">Roundabout</string>
+    <string name="map_runway_name">Runway</string>
     <string name="press_back_button_again_toast">Press back button again to exit</string>
 
     <string name="tutorial">Getting Started</string>
