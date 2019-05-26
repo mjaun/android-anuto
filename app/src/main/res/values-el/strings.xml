@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="app_name">Anuto TD</string>
+
+    <string name="menu">Μενού</string>
+    <string name="build_tower">Οικοδόμηση</string>
+    <string name="next_wave">Επόμενο κύμα</string>
+    <string name="normal_speed">1x</string>
+    <string name="fast_speed">4x</string>
+
+    <string name="restart">Ξεκίνημα από την αρχή</string>
+    <string name="change_map">Αλλαγή χάρτη</string>
+    <string name="settings">Ρυθμίσεις</string>
+
+    <string name="sound">Ήχος</string>
+    <string name="theme">Θέμα</string>
+    <string name="change_theme">Αλλαγή θέματος</string>
+    <string name="change_theme_warning">Είστε βέβαιοι ότι θέλετε να αλλάξετε το θέμα; Το παιχνίδι θα ξεκινήσει από την αρχή.</string>
+    <string name="back_button_mode">Κλείσιμο εφαρμογής με το κουμπί πίσω</string>
+    <string name="reset_highscores">Μηδενισμός των ρεκόρ</string>
+    <string name="reset_highscores_warning">Είστε βέβαιοι ότι θέλετε να μηδενίσετε όλα τα ρεκόρ;</string>
+    <string name="start_tutorial">Έναρξη οδηγού</string>
+    <string name="start_tutorial_warning">Είστε βέβαιοι ότι θέλετε να εκκινήσετε τον οδηγό; Το παιχνίδι θα ξεκινήσει από την αρχή.</string>
+    <string name="transparent_menus">Διαφανή μενού στο παιχνίδι</string>
+
+    <string name="game_over">Τέλος παιχνιδιού!</string>
+    <string name="score">Σκορ</string>
+
+    <string name="credits">Μονάδες</string>
+    <string name="lives">Ζωές</string>
+    <string name="wave">Κύμα</string>
+    <string name="bonus">Μπόνους</string>
+
+    <string name="level">Επίπεδο</string>
+    <string name="damage">Ζημιά</string>
+    <string name="reload">Ξαναγέμισμα</string>
+    <string name="range">Βεληνεκές</string>
+    <string name="splash">Ακτίνα έκρηξης</string>
+    <string name="distance">Απόσταση</string>
+    <string name="intensity">Ένταση</string>
+    <string name="duration">Διάρκεια</string>
+    <string name="inflicted">Έπληξε</string>
+
+    <string name="lock_target">Κλείδωμα στόχου</string>
+    <string name="strategy">Στρατηγική</string>
+    <string name="enhance">Βελτίωση</string>
+    <string name="upgrade">Αναβάθμιση</string>
+    <string name="sell">Πώληση</string>
+
+    <string name="on">Ενεργό</string>
+    <string name="off">Ανενεργό</string>
+    <string name="twice">Δις</string>
+
+    <string name="strategy_closest">Πλησιέστερο</string>
+    <string name="strategy_weakest">Ασθενέστερο</string>
+    <string name="strategy_strongest">Ισχυρότερο</string>
+    <string name="strategy_first">Πρώτο</string>
+    <string name="strategy_last">Τελευταίο</string>
+
+    <string name="theme_original">Αρχικό</string>
+    <string name="theme_dark">Σκούρο</string>
+    <string name="theme_colour">Έγχρωμο</string>
+
+    <string name="map_original_name">Το αρχικό</string>
+    <string name="map_waiting_line_name">Μισώ τις ουρές αναμονής</string>
+    <string name="map_turn_round_name">Γύρνα ένα γύρο</string>
+    <string name="map_hurry_name">Βιαζόμαστε!</string>
+    <string name="map_civyshk_2y_name">Civyshk 2Y</string>
+    <string name="map_civyshk_line5_name">Civyshk Γραμμή5</string>
+    <string name="map_civyshk_labyrinth_name">Λαβύρινθος του Civyshk</string>
+    <string name="map_civyshk_yard_name">Αυλή του Civyshk</string>
+    <string name="map_higgledy_piggledy_name">Άνω κάτω</string>
+    <string name="map_big_u_name">Μεγάλο πέταλο</string>
+    <string name="map_cloverleaf_name">Τριφύλλι</string>
+    <string name="map_roundabout_name">Κυκλικός κόμβος</string>
+    <string name="map_runway_name">Αεροδιάδρομος</string>
+    <string name="press_back_button_again_toast">Πατήστε ξανά το κουμπί πίσω για έξοδο</string>
+
+    <string name="tutorial">Ξεκινώντας</string>
+    <string name="got_it">Το \'πιασα!</string>
+    <string name="skip_tutorial">Παράλειψη οδηγού</string>
+
+    <string name="tutorial_build_tower">Καλωσήλθατε στο Anuto TD! Ξεκινήστε με την οικοδόμηση ενός πύργου: Σύρετε έναν πύργο από το απόθεμα πάνω στην πίστα.</string>
+    <string name="tutorial_credits">Εάν η τιμή ενός πύργου γίνει κόκκινη, δεν έχετε αρκετές μονάδες για να αγοράσετε αυτόν τον πύργο. Μονάδες κερδίζετε σκοτώνοντας εχθρούς και ολοκληρώνοντας κύματα.</string>
+    <string name="tutorial_tower_options_1">Πατήστε έναν πύργο για να δείτε το βεληκές του, πατήστε ξανά για να ανοίξετε το μενού του για περισσότερες επιλογές.</string>
+    <string name="tutorial_tower_options_2">Η στρατηγική καθορίζει τον τρόπο με τον οποίο ο πύργος επιλέγει το στόχο του. Κλείδωμα στόχου σημαίνει ότι ο πύργος δεν θα αλλάξει στόχο όσο ο τρέχων στόχος παραμένει εντός βεληνεκούς.</string>
+    <string name="tutorial_tower_options_3">Η βελτίωση ενός πύργου θα τον κάνει να αποδίδει καλύτερα. Η αναβάθμιση ενός πύργου θα αντικαταστήσει τον πύργο με έναν καλύτερο πύργο.\n\n<b>Υπόψιν:</b> Όταν αναβαθμίζετε πύργους να θυμάστε ότι οι μονάδες που έχουν ήδη δαπανηθεί για βελτιώσεις χάνονται.</string>
+    <string name="tutorial_tower_options_4">Πώληση του πύργου θα τον αφαιρέσει και θα πάρετε κάποιες μονάδες πίσω.\n\n<b>Υπόψιν:</b> Οι πύργοι χάνουν σε αξία με την πάροδο του χρόνου.</string>
+    <string name="tutorial_next_wave">Πατήστε «Επόμενο κύμα» για να καλέσετε το επόμενο κύμα εχθρών. Ο στόχος είναι να μην καταφέρει κανένας από αυτούς να διασχίσει την άμυνά σας.\n\n<b>Υπόψιν:</b> Εάν καλέσετε το επόμενο κύμα ενώ εξακολουθούν να υπάρχουν ενεργά κύματα, κερδίζετε μονάδες μπόνους!</string>
+    <string name="tutorial_enemies">Αν ένας εχθρός ολοκληρώσει τη διαδρομή, χάνετε μια ζωή. Το παιχνίδι τελείωνει όταν δεν σας έχουν απομείνει άλλες ζωές.\n\n<b>Υπόψιν:</b> Κάποιοι πύργοι είναι πιο αποτελεσματικοί από άλλους απέναντι σε συγκεκριμένου τύπου εχθρούς.</string>
+    <string name="tutorial_finish">Καλή τύχη και καλή διασκέδαση! Μπορείτε να ενεργοποιήσετε ξανά τον οδηγό στις ρυθμίσεις.</string>
+
+</resources>
