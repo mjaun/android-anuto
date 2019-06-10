@@ -8,7 +8,7 @@ import ch.logixisland.anuto.engine.logic.loop.Message;
 
 public class GameSpeed {
 
-    private static final int FAST_FORWARD_SPEED = 4;
+    private static final int SPEED_LEVELS[] = {1, 4, 8};
 
     public interface Listener {
         void gameSpeedChanged();
@@ -17,14 +17,14 @@ public class GameSpeed {
     private final GameEngine mGameEngine;
     private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
-    private boolean mFastForwardActive = false;
+    private int mCurrentSpeed = SPEED_LEVELS[0];
 
     public GameSpeed(GameEngine gameEngine) {
         mGameEngine = gameEngine;
     }
 
-    public boolean isFastForwardActive() {
-        return mFastForwardActive;
+    public int getCurrentSpeed() {
+        return mCurrentSpeed;
     }
 
     public void toggleFastForward() {
@@ -38,7 +38,15 @@ public class GameSpeed {
             return;
         }
 
-        setFastForwardActive(!mFastForwardActive);
+        int index = 0;
+        for (int level : SPEED_LEVELS) {
+            if (level == mCurrentSpeed) {
+                index++;
+                break;
+            }
+            index++;
+        }
+        setFastForwardActive(SPEED_LEVELS[index % SPEED_LEVELS.length]);
     }
 
     public void addListener(Listener listener) {
@@ -49,10 +57,10 @@ public class GameSpeed {
         mListeners.remove(listener);
     }
 
-    private void setFastForwardActive(boolean fastForwardActive) {
-        if (mFastForwardActive != fastForwardActive) {
-            mFastForwardActive = fastForwardActive;
-            mGameEngine.setTicksPerLoop(mFastForwardActive ? FAST_FORWARD_SPEED : 1);
+    private void setFastForwardActive(int currentSpeed) {
+        if (mCurrentSpeed != currentSpeed) {
+            mCurrentSpeed = currentSpeed;
+            mGameEngine.setTicksPerLoop(mCurrentSpeed);
 
             for (Listener listener : mListeners) {
                 listener.gameSpeedChanged();

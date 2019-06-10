@@ -84,7 +84,7 @@ public class HeaderFragment extends AnutoFragment implements WaveManager.Listene
         txt_credits.setText(getString(R.string.credits) + ": " + StringUtils.formatSuffix(mScoreBoard.getCredits()));
         txt_lives.setText(getString(R.string.lives) + ": " + mScoreBoard.getLives());
         txt_bonus.setText(getString(R.string.bonus) + ": " + StringUtils.formatSuffix(mScoreBoard.getWaveBonus() + mScoreBoard.getEarlyBonus()));
-        btn_fast_forward.setText(getString(mSpeedManager.isFastForwardActive() ? R.string.fast_speed : R.string.normal_speed));
+        btn_fast_forward.setText(mSpeedManager.getCurrentSpeed() + "x");
 
         final List<TowerView> towerViews = new ArrayList<>();
         towerViews.add((TowerView) v.findViewById(R.id.view_tower_1));
@@ -226,7 +226,7 @@ public class HeaderFragment extends AnutoFragment implements WaveManager.Listene
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                btn_fast_forward.setText(getString(mSpeedManager.isFastForwardActive() ? R.string.fast_speed : R.string.normal_speed));
+                btn_fast_forward.setText(mSpeedManager.getCurrentSpeed() + "x");
             }
         });
     }
