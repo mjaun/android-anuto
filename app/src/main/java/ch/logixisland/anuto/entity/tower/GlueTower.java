@@ -51,6 +51,7 @@ public class GlueTower extends Tower implements SpriteTransformation {
             .setEnhanceReload(0f)
             .setUpgradeTowerName(GlueGun.ENTITY_NAME)
             .setUpgradeCost(800)
+            .setUpgradeLevel(1)
             .build();
 
     public static class Factory extends EntityFactory {

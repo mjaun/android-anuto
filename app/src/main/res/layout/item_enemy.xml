@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="185dp"
+    android:orientation="vertical"
+    android:scaleType="fitCenter">
+
+    <TableRow>
+
+        <ImageView
+            android:id="@+id/img_enemy"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingLeft="20dp"
+            android:paddingBottom="5dp"
+            android:scaleType="fitStart" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/txt_name_text"
+            android:layout_column="0"
+            android:paddingRight="20dp"
+            android:text="@string/name" />
+
+        <TextView
+            android:id="@+id/txt_name"
+            android:layout_column="1"
+            android:text="" />
+    </TableRow>
+    <TableRow>
+
+        <TextView
+            android:id="@+id/txt_health_text"
+            android:layout_column="0"
+            android:paddingRight="20dp"
+            android:text="@string/health" />
+
+        <TextView
+            android:id="@+id/txt_health"
+            android:layout_column="1"
+            android:text="" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/txt_speed_text"
+            android:layout_column="0"
+            android:paddingRight="20dp"
+            android:text="@string/speed" />
+
+        <TextView
+            android:id="@+id/txt_speed"
+            android:layout_column="1"
+            android:text="" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/txt_reward_text"
+            android:layout_column="0"
+            android:paddingRight="20dp"
+            android:text="@string/reward" />
+
+        <TextView
+            android:id="@+id/txt_reward"
+            android:layout_column="1"
+            android:text="" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/txt_weak_against_text"
+            android:layout_column="0"
+            android:paddingRight="20dp"
+            android:text="@string/weak_against" />
+
+        <TextView
+            android:id="@+id/txt_weak_against"
+            android:layout_column="1"
+            android:text="" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/txt_strong_against_text"
+            android:layout_column="0"
+            android:paddingRight="20dp"
+            android:text="@string/strong_against" />
+
+        <TextView
+            android:id="@+id/txt_strong_against"
+            android:layout_column="1"
+            android:text="" />
+    </TableRow>
+
+</TableLayout>

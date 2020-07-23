@@ -4,5 +4,6 @@ public enum WeaponType {
     None,
     Bullet,
     Laser,
-    Explosive
+    Explosive,
+    Glue
 }

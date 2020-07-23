@@ -1,5 +1,6 @@
 package ch.logixisland.anuto.engine.render;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.View;
@@ -9,6 +10,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import ch.logixisland.anuto.engine.logic.loop.FrameRateLogger;
+import ch.logixisland.anuto.util.Screenshot;
 import ch.logixisland.anuto.util.container.SafeMultiMap;
 import ch.logixisland.anuto.util.math.Vector2;
 
@@ -58,6 +60,10 @@ public class Renderer {
         if (view != null) {
             view.postInvalidate();
         }
+    }
+
+    public Bitmap getScreenshot() {
+        return Screenshot.takeScreenshotOfRootView(mViewRef.get());
     }
 
     public void draw(Canvas canvas) {

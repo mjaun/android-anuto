@@ -17,16 +17,10 @@ import ch.logixisland.anuto.util.math.SampledFunction;
 
 public class Sprinter extends Enemy implements SpriteTransformation {
 
-    public final static String ENTITY_NAME = "sprinter";
+    public final static String ENTITY_NAME = EnemyType.sprinter.name();
     private final static float ANIMATION_SPEED = 0.7f;
 
-    private final static EnemyProperties ENEMY_PROPERTIES = new EnemyProperties.Builder()
-            .setHealth(200)
-            .setSpeed(3.0f)
-            .setReward(15)
-            .setWeakAgainst(WeaponType.Explosive)
-            .setStrongAgainst(WeaponType.Laser)
-            .build();
+    private final static EnemyProperties ENEMY_PROPERTIES = new EnemyProperties.Builder(ENTITY_NAME).build();
 
     public static class Factory extends EntityFactory {
         @Override

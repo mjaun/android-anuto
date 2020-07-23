@@ -130,7 +130,7 @@ public class GameFactory {
         mMapRepository = new MapRepository();
         mScoreBoard = new ScoreBoard(mGameEngine);
         mTowerSelector = new TowerSelector(mGameEngine, mScoreBoard);
-        mGameLoader = new GameLoader(context, mGameEngine, mGamePersister, mViewport, mEntityRegistry, mMapRepository);
+        mGameLoader = new GameLoader(context, mGameEngine, mGamePersister, mViewport, mEntityRegistry, mMapRepository, mRenderer);
         mHighScores = new HighScores(context, mGameEngine, mScoreBoard, mGameLoader);
         mGameState = new GameState(mScoreBoard, mHighScores, mTowerSelector);
         mTowerAging = new TowerAging(mGameEngine);

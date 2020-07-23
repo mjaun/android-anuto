@@ -6,7 +6,7 @@
     <string name="build_tower">Build</string>
     <string name="next_wave">Next Wave</string>
     <string name="normal_speed">1x</string>
-    <string name="fast_speed">4x</string>
+    <string name="var_speed">%1$dx</string>
 
     <string name="restart">Restart</string>
     <string name="change_map">Change Map</string>
@@ -89,5 +89,26 @@
     <string name="tutorial_next_wave">Press \"Next Wave\" to call in the next wave of enemies. The goal is that none of them makes it through your defense.\n\n<b>Tip:</b> If you call in the next wave while there are still active waves, you earn bonus credits!</string>
     <string name="tutorial_enemies">If an enemy finishes the path, you loose one life. The game is over if you have no more lives left.\n\n<b>Tip:</b> Some towers are more effective against a certain type of enemy than others.</string>
     <string name="tutorial_finish">Good luck and have fun! You can activate the tutorial again in the settings.</string>
+    <string name="dps" translatable="false">DPS</string>
+    <string name="savemenu">Save menu</string>
+    <string name="faq" translatable="false">FAQ</string>
+    <string name="health">Health:</string>
+    <string name="speed">Speed:</string>
+    <string name="reward">Reward:</string>
+    <string name="weak_against">Weak against:</string>
+    <string name="strong_against">Strong against:</string>
+    <string name="none">None</string>
+    <string name="quicksave">Quicksave</string>
+    <string name="loadmenu">Load menu</string>
+    <string name="remainingEnemiesCount">Remaining enemies</string>
+    <string name="saveGameSuccessful">Savegame successfully created</string>
+    <string name="delete">Delete</string>
+    <string name="deleteConfirmation">Do you really want to delete this savegame?</string>
+    <string name="name">Name:</string>
+    <string name="soldier">Soldier</string>
+    <string name="blob">Blob</string>
+    <string name="sprinter">Sprinter</string>
+    <string name="flyer">Flyer</string>
+    <string name="healer">Healer</string>
 
 </resources>

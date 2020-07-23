@@ -151,6 +151,10 @@ public class GameEngine {
         mGameLoop.setTicksPerLoop(ticksPerLoop);
     }
 
+    public  boolean isThreadRunnging() {
+        return mGameLoop.isRunning();
+    }
+
     public boolean isThreadChangeNeeded() {
         return mGameLoop.isThreadChangeNeeded();
     }

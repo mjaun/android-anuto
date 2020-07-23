@@ -53,6 +53,8 @@ public class GameLoop implements Runnable {
         mTickListeners.clear();
     }
 
+    public boolean isRunning() { return mRunning; }
+
     public void start() {
         if (!mRunning) {
             Log.i(TAG, "Starting game loop");

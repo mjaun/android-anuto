@@ -17,6 +17,9 @@
     <attr name="healEffectColor" format="color"/>
     <attr name="teleportEffectColor" format="color"/>
 
+    <attr name="weakAgainstColor" format="color"/>
+    <attr name="strongAgainstColor" format="color"/>
+
     <attr name="base1" format="reference"/>
     <attr name="base2" format="reference"/>
     <attr name="base3" format="reference"/>

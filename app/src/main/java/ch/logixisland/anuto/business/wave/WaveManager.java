@@ -85,6 +85,9 @@ public class WaveManager implements Persister, GameState.Listener {
             return;
         }
 
+        setNextWaveReady(false);
+        nextWaveReadyDelayed(NEXT_WAVE_MIN_DELAY);
+
         mGameState.gameStarted();
 
         giveWaveRewardAndEarlyBonus();
@@ -93,8 +96,6 @@ public class WaveManager implements Persister, GameState.Listener {
         updateRemainingEnemiesCount();
 
         setWaveNumber(mWaveNumber + 1);
-        setNextWaveReady(false);
-        nextWaveReadyDelayed(NEXT_WAVE_MIN_DELAY);
 
         for (Listener listener : mListeners) {
             listener.waveStarted();

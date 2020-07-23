@@ -24,23 +24,46 @@ public final class StringUtils {
 
     public static String formatSuffix(float value, boolean integer) {
         String suffix = "";
-        boolean big = false;
+        boolean usePointedFmt = false;
 
+        /*if (value >= 1e25f) {
+            suffix = "Y";
+            value /= 1e24f;
+            usePointedFmt = true;
+        } else if (value >= 1e22f) {
+            suffix = "Z";
+            value /= 1e21f;
+            usePointedFmt = true;
+        } else if (value >= 1e19f) {
+            suffix = "E";
+            value /= 1e18f;
+            usePointedFmt = true;
+        } else if (value >= 1e16f) {
+            suffix = "P";
+            value /= 1e15f;
+            usePointedFmt = true;
+        } else if (value >= 1e13f) {
+            suffix = "T";
+            value /= 1e12f;
+            usePointedFmt = true;
+        } else*/
         if (value >= 1e10f) {
             suffix = "G";
             value /= 1e9f;
-            big = true;
+            usePointedFmt = true;
         } else if (value >= 1e7f) {
             suffix = "M";
             value /= 1e6f;
-            big = true;
+            usePointedFmt = true;
         } else if (value >= 1e4f) {
             suffix = "k";
             value /= 1e3f;
-            big = true;
+            usePointedFmt = true;
+        } else if (value < 1e2f) {
+            usePointedFmt = (value > 0f) && !integer;
         }
 
-        DecimalFormat fmt = (value < 1e2f && (!integer || big)) ? fmt1 : fmt0;
+        DecimalFormat fmt = (usePointedFmt) ? fmt1 : fmt0;
         return fmt.format(value) + suffix;
     }
 

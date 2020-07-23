@@ -45,6 +45,7 @@ public class GlueGun extends Tower implements SpriteTransformation {
             .setEnhanceReload(0f)
             .setUpgradeTowerName(Teleporter.ENTITY_NAME)
             .setUpgradeCost(1700)
+            .setUpgradeLevel(2)
             .build();
 
     public static class Factory extends EntityFactory {

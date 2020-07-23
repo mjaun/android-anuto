@@ -6,7 +6,6 @@
     <string name="build_tower">Construir</string>
     <string name="next_wave">Nova onada</string>
     <string name="normal_speed">1x</string>
-    <string name="fast_speed">4x</string>
 
     <string name="restart">Reiniciar</string>
     <string name="change_map">Canviar Mapa</string>

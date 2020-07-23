@@ -53,7 +53,6 @@
     <string name="press_back_button_again_toast">Zum Schließen Zurück-Taste erneut drücken</string>
     <string name="back_button_mode">Schließen mit Zurück-Taste</string>
     <string name="normal_speed">1x</string>
-    <string name="fast_speed">4x</string>
     <string name="transparent_menus">Transparente Menüs im Spiel</string>
     <string name="map_hurry_name">Beeilung!</string>
     <string name="map_original_name">Das Original</string>
@@ -86,4 +85,15 @@
     <string name="map_cloverleaf_name">Kleeblatt</string>
     <string name="map_roundabout_name">Kreisverkehr</string>
     <string name="map_runway_name">Startbahn</string>
+    <string name="savemenu">Speichern/laden</string>
+    <string name="health">Energie:</string>
+    <string name="speed">Geschwindigkeit:</string>
+    <string name="reward">Belohnung:</string>
+    <string name="weak_against">Schwach gegen:</string>
+    <string name="strong_against">Stark gegen:</string>
+    <string name="none">Keine</string>
+    <string name="loadmenu">Spielstand Menü</string>
+    <string name="quicksave">Schnellspeichern</string>
+    <string name="theme_colour">Farbig</string>
+    <string name="remainingEnemiesCount">Verbleibende Gegner</string>
 </resources>
