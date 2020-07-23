@@ -38,6 +38,7 @@ public class StraightLaser extends Tower implements SpriteTransformation {
             .setEnhanceDamage(410)
             .setEnhanceRange(0.07f)
             .setEnhanceReload(0.07f)
+            .setUpgradeLevel(3)
             .build();
 
     public static class Factory extends EntityFactory {
@@ -152,6 +153,7 @@ public class StraightLaser extends Tower implements SpriteTransformation {
         List<TowerInfoValue> properties = new ArrayList<>();
         properties.add(new TowerInfoValue(R.string.damage, getDamage()));
         properties.add(new TowerInfoValue(R.string.reload, getReloadTime()));
+        properties.add(new TowerInfoValue(R.string.dps, getDamage()/getReloadTime()));
         properties.add(new TowerInfoValue(R.string.range, getRange()));
         properties.add(new TowerInfoValue(R.string.inflicted, getDamageInflicted()));
         return properties;

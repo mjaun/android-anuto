@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class HeaderFragment extends AnutoFragment implements WaveManager.Listene
 
     private Button btn_next_wave;
     private Button btn_fast_forward;
+    private CheckBox checkbox_fast_active;
     private Button btn_menu;
     private Button btn_build_tower;
 
@@ -70,11 +72,13 @@ public class HeaderFragment extends AnutoFragment implements WaveManager.Listene
 
         btn_next_wave = (Button) v.findViewById(R.id.btn_next_wave);
         btn_fast_forward = (Button) v.findViewById(R.id.btn_fast_forward);
+        checkbox_fast_active = (CheckBox) v.findViewById(R.id.checkbox_fast_active);
         btn_menu = (Button) v.findViewById(R.id.btn_menu);
         btn_build_tower = (Button) v.findViewById(R.id.btn_build_tower);
 
         btn_next_wave.setOnClickListener(this);
         btn_fast_forward.setOnClickListener(this);
+        checkbox_fast_active.setOnClickListener(this);
         btn_menu.setOnClickListener(this);
         btn_build_tower.setOnClickListener(this);
         fragment_header.setOnClickListener(this);
@@ -84,7 +88,7 @@ public class HeaderFragment extends AnutoFragment implements WaveManager.Listene
         txt_credits.setText(getString(R.string.credits) + ": " + StringUtils.formatSuffix(mScoreBoard.getCredits()));
         txt_lives.setText(getString(R.string.lives) + ": " + mScoreBoard.getLives());
         txt_bonus.setText(getString(R.string.bonus) + ": " + StringUtils.formatSuffix(mScoreBoard.getWaveBonus() + mScoreBoard.getEarlyBonus()));
-        btn_fast_forward.setText(getString(mSpeedManager.isFastForwardActive() ? R.string.fast_speed : R.string.normal_speed));
+        btn_fast_forward.setText(getString(R.string.var_speed, mSpeedManager.fastForwardMultiplier()));
 
         final List<TowerView> towerViews = new ArrayList<>();
         towerViews.add((TowerView) v.findViewById(R.id.view_tower_1));
@@ -135,24 +139,36 @@ public class HeaderFragment extends AnutoFragment implements WaveManager.Listene
     public void onClick(View v) {
         if (v == fragment_header) {
             mTowerSelector.selectTower(null);
+            return;
         }
 
         if (v == btn_next_wave) {
             mWaveManager.startNextWave();
+            return;
         }
 
         if (v == btn_fast_forward) {
-            mSpeedManager.toggleFastForward();
+            mSpeedManager.cycleFastForward();
+            return;
+        }
+
+        if (v == checkbox_fast_active) {
+            boolean checked = checkbox_fast_active.isChecked();
+            if (checked != mSpeedManager.isFastForwardActive())
+                mSpeedManager.setFastForwardActive(checked);
+            return;
         }
 
         if (v == btn_menu) {
             mTowerSelector.selectTower(null);
             Intent intent = new Intent(getActivity(), MenuActivity.class);
             startActivity(intent);
+            return;
         }
 
         if (v == btn_build_tower) {
             mTowerSelector.toggleTowerBuildView();
+            return;
         }
     }
 
@@ -226,7 +242,11 @@ public class HeaderFragment extends AnutoFragment implements WaveManager.Listene
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                btn_fast_forward.setText(getString(mSpeedManager.isFastForwardActive() ? R.string.fast_speed : R.string.normal_speed));
+                btn_fast_forward.setText(getString(R.string.var_speed, mSpeedManager.fastForwardMultiplier()));
+
+                boolean checked = mSpeedManager.isFastForwardActive();
+                if (checked != checkbox_fast_active.isChecked())
+                    checkbox_fast_active.setChecked(checked);
             }
         });
     }

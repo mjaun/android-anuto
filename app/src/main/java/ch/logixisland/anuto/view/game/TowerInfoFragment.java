@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import ch.logixisland.anuto.AnutoApplication;
@@ -31,8 +32,8 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnClickList
     private Handler mHandler;
 
     private TextView txt_level;
-    private TextView[] txt_property = new TextView[5];
-    private TextView[] txt_property_text = new TextView[5];
+    private TextView[] txt_property = new TextView[6];
+    private TextView[] txt_property_text = new TextView[6];
 
     private Button btn_strategy;
     private Button btn_lock_target;
@@ -58,6 +59,7 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnClickList
         txt_property[2] = (TextView) v.findViewById(R.id.txt_property3);
         txt_property[3] = (TextView) v.findViewById(R.id.txt_property4);
         txt_property[4] = (TextView) v.findViewById(R.id.txt_property5);
+        txt_property[5] = (TextView) v.findViewById(R.id.txt_property6);
 
         TextView txt_level_text = (TextView) v.findViewById(R.id.txt_level_text);
         txt_level_text.setText(getResources().getString(R.string.level) + ":");
@@ -67,6 +69,7 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnClickList
         txt_property_text[2] = (TextView) v.findViewById(R.id.txt_property_text3);
         txt_property_text[3] = (TextView) v.findViewById(R.id.txt_property_text4);
         txt_property_text[4] = (TextView) v.findViewById(R.id.txt_property_text5);
+        txt_property_text[5] = (TextView) v.findViewById(R.id.txt_property_text6);
 
         btn_strategy = (Button) v.findViewById(R.id.btn_strategy);
         btn_lock_target = (Button) v.findViewById(R.id.btn_lock_target);
@@ -117,22 +120,27 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnClickList
     public void onClick(View v) {
         if (v == btn_strategy) {
             mTowerControl.cycleTowerStrategy();
+            return;
         }
 
         if (v == btn_lock_target) {
             mTowerControl.toggleLockTarget();
+            return;
         }
 
         if (v == btn_enhance) {
             mTowerControl.enhanceTower();
+            return;
         }
 
         if (v == btn_upgrade) {
             mTowerControl.upgradeTower();
+            return;
         }
 
         if (v == btn_sell) {
             mTowerControl.sellTower();
+            return;
         }
     }
 
@@ -180,7 +188,9 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnClickList
     }
 
     private void refresh(TowerInfo towerInfo) {
-        txt_level.setText(towerInfo.getLevel() + " / " + towerInfo.getLevelMax());
+        DecimalFormat fmt = new DecimalFormat();
+        String level = fmt.format(towerInfo.getLevel()) + " / " + fmt.format(towerInfo.getLevelMax());
+        txt_level.setText(level);
 
         List<TowerInfoValue> properties = towerInfo.getProperties();
         for (int i = 0; i < properties.size(); i++) {

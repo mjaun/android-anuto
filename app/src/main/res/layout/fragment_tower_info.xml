@@ -87,6 +87,20 @@
                 android:layout_column="1"
                 android:text="1234" />
         </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/txt_property_text6"
+                android:layout_column="0"
+                android:paddingRight="10dp"
+                android:text="Property:" />
+
+            <TextView
+                android:id="@+id/txt_property6"
+                android:layout_column="1"
+                android:text="1234" />
+        </TableRow>
     </TableLayout>
 
     <Space

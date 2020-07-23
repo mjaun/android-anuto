@@ -41,6 +41,7 @@ public class BouncingLaser extends Tower implements SpriteTransformation {
             .setEnhanceReload(0.1f)
             .setUpgradeTowerName(ch.logixisland.anuto.entity.tower.StraightLaser.ENTITY_NAME)
             .setUpgradeCost(96450)
+            .setUpgradeLevel(2)
             .build();
 
     public static class Factory extends EntityFactory {
@@ -163,6 +164,7 @@ public class BouncingLaser extends Tower implements SpriteTransformation {
         List<TowerInfoValue> properties = new ArrayList<>();
         properties.add(new TowerInfoValue(R.string.damage, getDamage()));
         properties.add(new TowerInfoValue(R.string.reload, getReloadTime()));
+        properties.add(new TowerInfoValue(R.string.dps, getDamage()/getReloadTime()));
         properties.add(new TowerInfoValue(R.string.range, getRange()));
         properties.add(new TowerInfoValue(R.string.inflicted, getDamageInflicted()));
         return properties;

@@ -19,6 +19,7 @@ public abstract class Tower extends Entity {
     public interface Listener {
         void damageInflicted(float totalDamage);
         void valueChanged(int value);
+        void strengthChanged();
     }
 
     private TowerProperties mTowerProperties;
@@ -110,6 +111,7 @@ public abstract class Tower extends Entity {
     public void setBuilt() {
         mBuilt = true;
         mReloaded = true;
+        updateStrength();
     }
 
     public WeaponType getWeaponType() {
@@ -176,6 +178,17 @@ public abstract class Tower extends Entity {
         return mTowerProperties.getUpgradeCost();
     }
 
+    public int getUpgradeLevel() {
+        return mTowerProperties.getUpgradeLevel();
+    }
+
+    private void updateStrength() {
+
+        for (Listener listener : mListeners) {
+            listener.strengthChanged();
+        }
+    }
+
     public void enhance() {
         mValue += getEnhanceCost();
         mDamage += mTowerProperties.getEnhanceDamage() * (float) Math.pow(mTowerProperties.getEnhanceBase(), mLevel - 1);
@@ -185,6 +198,7 @@ public abstract class Tower extends Entity {
         mLevel++;
 
         mReloadTimer.setInterval(mReloadTime);
+        updateStrength();
     }
 
     public boolean isEnhanceable() {

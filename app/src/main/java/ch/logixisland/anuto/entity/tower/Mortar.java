@@ -46,6 +46,7 @@ public class Mortar extends Tower implements SpriteTransformation {
             .setEnhanceReload(0.05f)
             .setUpgradeTowerName(MineLayer.ENTITY_NAME)
             .setUpgradeCost(10000)
+            .setUpgradeLevel(1)
             .build();
 
     public static class Factory extends EntityFactory {
@@ -180,6 +181,7 @@ public class Mortar extends Tower implements SpriteTransformation {
         properties.add(new TowerInfoValue(R.string.damage, getDamage()));
         properties.add(new TowerInfoValue(R.string.splash, mExplosionRadius));
         properties.add(new TowerInfoValue(R.string.reload, getReloadTime()));
+        properties.add(new TowerInfoValue(R.string.dps, getDamage()/getReloadTime()));
         properties.add(new TowerInfoValue(R.string.range, getRange()));
         properties.add(new TowerInfoValue(R.string.inflicted, getDamageInflicted()));
         return properties;
