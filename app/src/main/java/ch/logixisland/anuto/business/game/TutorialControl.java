@@ -14,6 +14,7 @@ public class TutorialControl implements TowerInserter.Listener, WaveManager.List
 
     public interface TutorialView {
         void showHint(int textId, boolean showSkipButton);
+
         void tutorialFinished();
     }
 

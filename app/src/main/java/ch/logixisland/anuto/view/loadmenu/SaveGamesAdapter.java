@@ -42,13 +42,13 @@ public class SaveGamesAdapter extends BaseAdapter {
         TextView txt_lives;
 
         ViewHolder(View view) {
-            img_thumb = (ImageView) view.findViewById(R.id.img_thumb);
-            txt_datetime = (TextView) view.findViewById(R.id.txt_datetime);
-            txt_score = (TextView) view.findViewById(R.id.txt_score);
-            txt_waveNumber = (TextView) view.findViewById(R.id.txt_waveNumber);
-            txt_remainingEnemiesCount = (TextView) view.findViewById(R.id.txt_remainingEnemiesCount);
-            txt_credits = (TextView) view.findViewById(R.id.txt_credits);
-            txt_lives = (TextView) view.findViewById(R.id.txt_lives);
+            img_thumb = view.findViewById(R.id.img_thumb);
+            txt_datetime = view.findViewById(R.id.txt_datetime);
+            txt_score = view.findViewById(R.id.txt_score);
+            txt_waveNumber = view.findViewById(R.id.txt_waveNumber);
+            txt_remainingEnemiesCount = view.findViewById(R.id.txt_remainingEnemiesCount);
+            txt_credits = view.findViewById(R.id.txt_credits);
+            txt_lives = view.findViewById(R.id.txt_lives);
         }
     }
 

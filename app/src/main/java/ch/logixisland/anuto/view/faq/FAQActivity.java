@@ -38,7 +38,7 @@ public class FAQActivity extends AnutoActivity implements ThemeManager.Listener 
 
         mAdapter = new EnemiesAdapter(this, appContext, mTheme);
 
-        grid_enemies = (GridView) findViewById(R.id.grid_enemies);
+        grid_enemies = findViewById(R.id.grid_enemies);
         grid_enemies.setAdapter(mAdapter);
     }
 }

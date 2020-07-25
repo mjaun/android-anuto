@@ -84,8 +84,8 @@ public class GameSpeed {
         else
             mGameEngine.setTicksPerLoop(1);
 
-            for (Listener listener : mListeners) {
-                listener.gameSpeedChanged();
-            }
+        for (Listener listener : mListeners) {
+            listener.gameSpeedChanged();
         }
+    }
 }

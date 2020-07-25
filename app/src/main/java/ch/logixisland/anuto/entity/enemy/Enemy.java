@@ -35,7 +35,9 @@ public abstract class Enemy extends Entity {
 
     public interface Listener {
         void enemyKilled(Enemy enemy);
+
         void enemyFinished(Enemy enemy);
+
         void enemyRemoved(Enemy enemy);
     }
 

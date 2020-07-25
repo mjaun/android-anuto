@@ -95,11 +95,17 @@ public class EnemyProperties {
 
     }
 
-    public EnemyType getEnemyType() { return mEnemyType; }
+    public EnemyType getEnemyType() {
+        return mEnemyType;
+    }
 
-    public int getHealth() { return mHealth; }
+    public int getHealth() {
+        return mHealth;
+    }
 
-    public float getSpeed() { return mSpeed; }
+    public float getSpeed() {
+        return mSpeed;
+    }
 
     public int getReward() {
         return mReward;

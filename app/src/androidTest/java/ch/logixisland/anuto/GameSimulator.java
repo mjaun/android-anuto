@@ -1,21 +1,31 @@
 package ch.logixisland.anuto;
 
 import android.util.Log;
+import android.widget.Toast;
 
+import java.io.File;
 import java.util.concurrent.CountDownLatch;
 
 import ch.logixisland.anuto.business.game.GameState;
+import ch.logixisland.anuto.business.game.SaveGameInfo;
 import ch.logixisland.anuto.engine.logic.loop.TickListener;
+import ch.logixisland.anuto.util.iterator.Predicate;
+import ch.logixisland.anuto.util.iterator.StreamIterator;
+import ch.logixisland.anuto.view.game.GameActivity;
 
 public abstract class GameSimulator {
 
     private final static String TAG = GameSimulator.class.getSimpleName();
 
+    private final GameActivity mGameActivity;
     private final GameFactory mGameFactory;
 
     private CountDownLatch mFinishedLatch;
 
-    GameSimulator(GameFactory gameFactory) {
+    private SaveGameInfo mLastSG = null;
+
+    GameSimulator(GameActivity gameActivity, GameFactory gameFactory) {
+        mGameActivity = gameActivity;
         mGameFactory = gameFactory;
     }
 
@@ -28,6 +38,7 @@ public abstract class GameSimulator {
     void waitForFinished() {
         try {
             mFinishedLatch.await();
+            deleteSG();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -37,6 +48,49 @@ public abstract class GameSimulator {
 
     protected GameFactory getGameFactory() {
         return mGameFactory;
+    }
+
+    protected void saveSG() {
+        deleteSG();
+        mLastSG = SaveGameInfo.createSGI(mGameFactory.getGameLoader(), mGameFactory.getGameLoader().makeNewSavegame());
+        Thread thread = new Thread() {
+            public void run() {
+                mGameActivity.runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(mGameActivity, mGameActivity.getString(ch.logixisland.anuto.R.string.saveGameSuccessful), Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        };
+        thread.start();
+    }
+
+
+    private static Predicate<SaveGameInfo> byFolder(final File folder) {
+        return new Predicate<SaveGameInfo>() {
+            @Override
+            public boolean apply(SaveGameInfo value) {
+                return value.getFolder().equals(folder);
+            }
+        };
+    }
+
+    protected void loadSG() {
+        if (mLastSG != null) {
+            if (!StreamIterator.fromIterable(mGameFactory.getGameLoader().getSaveGameRepository()
+                    .getSavegameInfos()).filter(byFolder(mLastSG.getFolder())).isEmpty())
+                mGameFactory.getGameLoader().loadGameState(mLastSG.getSavegameState());
+            else
+                mLastSG = null;
+            installTickHandler();
+        }
+    }
+
+    protected void deleteSG() {
+        if (mLastSG != null) {
+            mGameFactory.getGameLoader().deleteSavegame(mLastSG.getFolder());
+            mLastSG = null;
+        }
     }
 
     protected void saveAndLoad() {
@@ -106,5 +160,4 @@ public abstract class GameSimulator {
             mFinishedLatch.countDown();
         }
     }
-
 }

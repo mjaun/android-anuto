@@ -61,13 +61,13 @@ public class EnemiesAdapter extends BaseAdapter {
         TextView txt_strong_against;
 
         ViewHolder(View view) {
-            img_enemy = (ImageView) view.findViewById(R.id.img_enemy);
-            txt_name = (TextView) view.findViewById(R.id.txt_name);
-            txt_health = (TextView) view.findViewById(R.id.txt_health);
-            txt_speed = (TextView) view.findViewById(R.id.txt_speed);
-            txt_reward = (TextView) view.findViewById(R.id.txt_reward);
-            txt_weak_against = (TextView) view.findViewById(R.id.txt_weak_against);
-            txt_strong_against = (TextView) view.findViewById(R.id.txt_strong_against);
+            img_enemy = view.findViewById(R.id.img_enemy);
+            txt_name = view.findViewById(R.id.txt_name);
+            txt_health = view.findViewById(R.id.txt_health);
+            txt_speed = view.findViewById(R.id.txt_speed);
+            txt_reward = view.findViewById(R.id.txt_reward);
+            txt_weak_against = view.findViewById(R.id.txt_weak_against);
+            txt_strong_against = view.findViewById(R.id.txt_strong_against);
         }
     }
 

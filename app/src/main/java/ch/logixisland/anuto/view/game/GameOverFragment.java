@@ -37,7 +37,7 @@ public class GameOverFragment extends AnutoFragment implements GameState.Listene
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_game_over, container, false);
 
-        txt_score = (TextView) v.findViewById(R.id.txt_score);
+        txt_score = v.findViewById(R.id.txt_score);
 
         mHandler = new Handler();
 

@@ -65,16 +65,16 @@ public class HeaderFragment extends AnutoFragment implements WaveManager.Listene
         View v = inflater.inflate(R.layout.fragment_header, container, false);
 
         fragment_header = v;
-        txt_credits = (TextView) v.findViewById(R.id.txt_credits);
-        txt_lives = (TextView) v.findViewById(R.id.txt_lives);
-        txt_wave = (TextView) v.findViewById(R.id.txt_wave);
-        txt_bonus = (TextView) v.findViewById(R.id.txt_bonus);
+        txt_credits = v.findViewById(R.id.txt_credits);
+        txt_lives = v.findViewById(R.id.txt_lives);
+        txt_wave = v.findViewById(R.id.txt_wave);
+        txt_bonus = v.findViewById(R.id.txt_bonus);
 
-        btn_next_wave = (Button) v.findViewById(R.id.btn_next_wave);
-        btn_fast_forward = (Button) v.findViewById(R.id.btn_fast_forward);
-        checkbox_fast_active = (CheckBox) v.findViewById(R.id.checkbox_fast_active);
-        btn_menu = (Button) v.findViewById(R.id.btn_menu);
-        btn_build_tower = (Button) v.findViewById(R.id.btn_build_tower);
+        btn_next_wave = v.findViewById(R.id.btn_next_wave);
+        btn_fast_forward = v.findViewById(R.id.btn_fast_forward);
+        checkbox_fast_active = v.findViewById(R.id.checkbox_fast_active);
+        btn_menu = v.findViewById(R.id.btn_menu);
+        btn_build_tower = v.findViewById(R.id.btn_build_tower);
 
         btn_next_wave.setOnClickListener(this);
         btn_fast_forward.setOnClickListener(this);

@@ -18,7 +18,9 @@ public abstract class Tower extends Entity {
 
     public interface Listener {
         void damageInflicted(float totalDamage);
+
         void valueChanged(int value);
+
         void strengthChanged();
     }
 
