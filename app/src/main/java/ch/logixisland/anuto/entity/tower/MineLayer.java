@@ -231,7 +231,7 @@ public class MineLayer extends Tower implements SpriteTransformation {
         properties.add(new TowerInfoValue(R.string.damage, getDamage()));
         properties.add(new TowerInfoValue(R.string.splash, mExplosionRadius));
         properties.add(new TowerInfoValue(R.string.reload, getReloadTime()));
-        properties.add(new TowerInfoValue(R.string.dps, getDamage()/getReloadTime()));
+        properties.add(new TowerInfoValue(R.string.dps, getDamage() / getReloadTime()));
         properties.add(new TowerInfoValue(R.string.range, getRange()));
         properties.add(new TowerInfoValue(R.string.inflicted, getDamageInflicted()));
         return properties;

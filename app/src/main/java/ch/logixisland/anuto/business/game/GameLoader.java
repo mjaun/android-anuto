@@ -1,10 +1,8 @@
 package ch.logixisland.anuto.business.game;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -36,7 +34,7 @@ import ch.logixisland.anuto.engine.render.Renderer;
 import ch.logixisland.anuto.engine.render.Viewport;
 import ch.logixisland.anuto.entity.plateau.Plateau;
 import ch.logixisland.anuto.util.container.KeyValueStore;
-import ch.logixisland.anuto.util.iterator.Predicate;
+
 public class GameLoader implements ErrorListener {
 
     private static final String TAG = GameLoader.class.getSimpleName();
@@ -104,20 +102,20 @@ public class GameLoader implements ErrorListener {
     }
 
     public void saveGame() {
-        saveGame("", false);
-    }
-
-    public void saveGame(final String rootdir, final boolean userSavegame) {
         if (mGameEngine.isThreadRunnging() && mGameEngine.isThreadChangeNeeded()) {
             mGameEngine.post(new Message() {
                 @Override
                 public void execute() {
-                    saveGame(rootdir, userSavegame);
+                    saveGame();
                 }
             });
             return;
         }
 
+        saveGame("", false);
+    }
+
+    private void saveGame(final String rootdir, final boolean userSavegame) {
         Log.i(TAG, "Saving game...");
         String fileName = userSavegame ? rootdir + File.separator + SAVED_GAME_FILE : SAVED_GAME_FILE;
         KeyValueStore gameState = new KeyValueStore();
@@ -136,7 +134,17 @@ public class GameLoader implements ErrorListener {
         }
     }
 
-    public void makeNewSavegame(Activity activity) {
+    public File makeNewSavegame() {
+        /*if (mGameEngine.isThreadRunnging() && mGameEngine.isThreadChangeNeeded()) {
+            mGameEngine.post(new Message() {
+                @Override
+                public void execute() {
+                    makeNewSavegame();
+                }
+            });
+            return;
+        }*/
+
         GameFactory daFac = AnutoApplication.getInstance().getGameFactory();
         WaveManager mWaveManager = daFac.getWaveManager();
         ScoreBoard mScoreBoard = daFac.getScoreBoard();
@@ -197,21 +205,12 @@ public class GameLoader implements ErrorListener {
             outputStream.close();
             Log.i(TAG, "Savegame info saved.");
         } catch (Exception e) {
+            //deleteSavegame?
             e.printStackTrace();
             throw new RuntimeException("Could not save game!", e);
         }
 
-        Toast toast = (Toast) Toast.makeText(activity, activity.getString(ch.logixisland.anuto.R.string.saveGameSuccessful), Toast.LENGTH_LONG);
-        toast.show();
-    }
-    
-    public static Predicate<String> includedIn(final List<String> coll) {
-        return new Predicate<String>() {
-            @Override
-            public boolean apply(String value) {
-                return coll.contains(value);
-            }
-        };
+        return rootdir;
     }
 
     public void deleteSavegame(File rootdir) {
@@ -300,7 +299,7 @@ public class GameLoader implements ErrorListener {
         initializeGame(mCurrentMapId, gameState);
     }
 
-    public KeyValueStore getGameState(final String fileName, final boolean userSavegame) throws FileNotFoundException, IOException {
+    public KeyValueStore getGameState(final String fileName, final boolean userSavegame) throws IOException {
         Log.i(TAG, "Reading state...");
         KeyValueStore gameState;
 
@@ -401,11 +400,8 @@ public class GameLoader implements ErrorListener {
 
         File[] files = rootdir.listFiles();
 
-        if ((files != null) && (files.length > 0)) {
-            return true;
-        }
+        return (files != null) && (files.length > 0);
 
-        return false;
     }
 
     public SaveGameRepository getSaveGameRepository() {

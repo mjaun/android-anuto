@@ -41,9 +41,9 @@ class MapsAdapter extends BaseAdapter {
         TextView txt_highscore;
 
         ViewHolder(View view) {
-            img_thumb = (ImageView) view.findViewById(R.id.img_thumb);
-            txt_name = (TextView) view.findViewById(R.id.txt_name);
-            txt_highscore = (TextView) view.findViewById(R.id.txt_highscore);
+            img_thumb = view.findViewById(R.id.img_thumb);
+            txt_name = view.findViewById(R.id.txt_name);
+            txt_highscore = view.findViewById(R.id.txt_highscore);
         }
     }
 

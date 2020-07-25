@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
@@ -54,12 +55,12 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        btn_restart = (Button) findViewById(R.id.btn_restart);
-        btn_change_map = (Button) findViewById(R.id.btn_change_map);
-        btn_quicksave = (Button) findViewById(R.id.btn_quicksave);
-        btn_loadmenu = (Button) findViewById(R.id.btn_loadmenu);
-        btn_faq = (Button) findViewById(R.id.btn_faq);
-        btn_settings = (Button) findViewById(R.id.btn_settings);
+        btn_restart = findViewById(R.id.btn_restart);
+        btn_change_map = findViewById(R.id.btn_change_map);
+        btn_quicksave = findViewById(R.id.btn_quicksave);
+        btn_loadmenu = findViewById(R.id.btn_loadmenu);
+        btn_faq = findViewById(R.id.btn_faq);
+        btn_settings = findViewById(R.id.btn_settings);
 
         activity_menu = findViewById(R.id.activity_menu);
         menu_layout = findViewById(R.id.menu_layout);
@@ -92,12 +93,13 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
         }
 
         if (view == btn_quicksave) {
-            mGameLoader.makeNewSavegame(this);
+            mGameLoader.makeNewSavegame();
             btn_loadmenu.setEnabled(true);
+            Toast.makeText(this, getString(ch.logixisland.anuto.R.string.saveGameSuccessful), Toast.LENGTH_LONG).show();
             return;
         }
 
-        if(view == btn_loadmenu) {
+        if (view == btn_loadmenu) {
             Intent intent = new Intent(this, LoadMenuActivity.class);
             startActivityForResult(intent, REQUEST_LOADMENU);
             return;
@@ -150,5 +152,4 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
             finish();
         }
     }
-
 }

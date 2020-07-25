@@ -19,7 +19,7 @@ public class SaveGameRepository {
     }
 
     public void removeSGIAt(int position) {
-        if(mSavegameInfos.size()>position) {
+        if (mSavegameInfos.size() > position) {
             mGameLoader.deleteSavegame(mSavegameInfos.get(position).getFolder());
             mSavegameInfos.remove(position);
         }

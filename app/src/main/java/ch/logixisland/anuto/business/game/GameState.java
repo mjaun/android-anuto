@@ -11,6 +11,7 @@ public class GameState implements ScoreBoard.Listener, Persister {
 
     public interface Listener {
         void gameRestart();
+
         void gameOver();
     }
 

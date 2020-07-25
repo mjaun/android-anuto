@@ -26,8 +26,11 @@ public class WaveManager implements Persister, GameState.Listener {
 
     public interface Listener {
         void waveStarted();
+
         void waveNumberChanged();
+
         void nextWaveReadyChanged();
+
         void remainingEnemiesCountChanged();
     }
 

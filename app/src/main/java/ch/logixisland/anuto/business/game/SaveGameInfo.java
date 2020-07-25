@@ -8,7 +8,7 @@ import java.io.FileInputStream;
 
 import ch.logixisland.anuto.util.container.KeyValueStore;
 
-public class SaveGameInfo {
+public final class SaveGameInfo {
     final private File mFolder;
     final private KeyValueStore mSavegameState;
     final private KeyValueStore mSavegameInfoStore;

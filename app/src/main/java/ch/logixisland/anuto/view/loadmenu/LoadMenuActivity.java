@@ -54,10 +54,10 @@ public class LoadMenuActivity extends AnutoActivity implements AdapterView.OnIte
 
         mAdapter = new SaveGamesAdapter(this, mSaveGameRepository);
 
-        arrow_up = (ImageView) findViewById(R.id.arrow_up);
-        arrow_down = (ImageView) findViewById(R.id.arrow_down);
+        arrow_up = findViewById(R.id.arrow_up);
+        arrow_down = findViewById(R.id.arrow_down);
 
-        grid_savegames = (GridView) findViewById(R.id.grid_savegames);
+        grid_savegames = findViewById(R.id.grid_savegames);
         grid_savegames.setOnItemClickListener(this);
         grid_savegames.getViewTreeObserver().addOnScrollChangedListener(this);
         grid_savegames.post(new Runnable() {

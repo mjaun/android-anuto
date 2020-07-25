@@ -15,11 +15,13 @@ public class TowerSelector implements ScoreBoard.Listener, Entity.Listener, Towe
 
     public interface TowerInfoView {
         void showTowerInfo(TowerInfo towerInfo);
+
         void hideTowerInfo();
     }
 
     public interface TowerBuildView {
         void toggleTowerBuildView();
+
         void hideTowerBuildView();
     }
 

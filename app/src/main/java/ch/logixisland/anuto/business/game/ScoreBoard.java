@@ -13,7 +13,9 @@ public class ScoreBoard implements Persister {
 
     public interface Listener {
         void creditsChanged(int credits);
+
         void bonusChanged(int waveBonus, int earlyBonus);
+
         void livesChanged(int lives);
     }
 
