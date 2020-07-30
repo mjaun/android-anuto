@@ -37,8 +37,6 @@ public class SaveGamesAdapter extends BaseAdapter {
         TextView txt_datetime;
         TextView txt_score;
         TextView txt_waveNumber;
-        TextView txt_remainingEnemiesCount;
-        TextView txt_credits;
         TextView txt_lives;
 
         ViewHolder(View view) {
@@ -46,8 +44,6 @@ public class SaveGamesAdapter extends BaseAdapter {
             txt_datetime = view.findViewById(R.id.txt_datetime);
             txt_score = view.findViewById(R.id.txt_score);
             txt_waveNumber = view.findViewById(R.id.txt_waveNumber);
-            txt_remainingEnemiesCount = view.findViewById(R.id.txt_remainingEnemiesCount);
-            txt_credits = view.findViewById(R.id.txt_credits);
             txt_lives = view.findViewById(R.id.txt_lives);
         }
     }
@@ -65,11 +61,6 @@ public class SaveGamesAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         return 0;
-    }
-
-    public void removeItem(int position) {
-        mSaveGameInfos.remove(position);
-        this.notifyDataSetChanged();
     }
 
     @Override
@@ -97,10 +88,6 @@ public class SaveGamesAdapter extends BaseAdapter {
         viewHolder.txt_score.setText(tmp);
         tmp = resources.getString(R.string.wave) + ": " + StringUtils.formatSuffix(saveGameInfo.getWave());
         viewHolder.txt_waveNumber.setText(tmp);
-        tmp = resources.getString(R.string.remainingEnemiesCount) + ": " + StringUtils.formatSuffix(saveGameInfo.getRemainingEnemiesCount());
-        viewHolder.txt_remainingEnemiesCount.setText(tmp);
-        tmp = resources.getString(R.string.credits) + ": " + StringUtils.formatSuffix(saveGameInfo.getCredits());
-        viewHolder.txt_credits.setText(tmp);
         tmp = resources.getString(R.string.lives) + ": " + StringUtils.formatSuffix(saveGameInfo.getLives());
         viewHolder.txt_lives.setText(tmp);
 

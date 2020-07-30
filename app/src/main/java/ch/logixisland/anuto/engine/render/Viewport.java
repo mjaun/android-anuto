@@ -14,6 +14,7 @@ public class Viewport {
     private float mScreenWidth;
     private float mScreenHeight;
     private RectF mScreenClipRect;
+    private RectF mMapRect;
 
     public void setGameSize(int width, int height) {
         mGameWidth = width;
@@ -36,6 +37,10 @@ public class Viewport {
         return mScreenClipRect;
     }
 
+    public RectF getMapRect() {
+        return mMapRect;
+    }
+
     public Vector2 screenToGame(Vector2 pos) {
         float[] pts = {pos.x(), pos.y()};
         mScreenMatrixInverse.mapPoints(pts);
@@ -46,11 +51,22 @@ public class Viewport {
         mScreenMatrix = new Matrix();
 
         float tileSize = Math.min(mScreenWidth / mGameWidth, mScreenHeight / mGameHeight);
+
+        float width = (tileSize * mGameWidth);
+        float height = (tileSize * mGameHeight);
+
+        float left = (mScreenWidth - width) / 2f;
+        float top = 0f;
+        float right = left + width;
+        float bottom = top + height;
+
+        mMapRect = new RectF(left, top, right, bottom);
+
         mScreenMatrix.postTranslate(0.5f, 0.5f);
         mScreenMatrix.postScale(tileSize, tileSize);
 
-        float paddingLeft = (mScreenWidth - (tileSize * mGameWidth)) / 2f;
-        float paddingBottom = (mScreenHeight - (tileSize * mGameHeight));
+        float paddingLeft = (mScreenWidth - width) / 2f;
+        float paddingBottom = (mScreenHeight - height);
         mScreenMatrix.postTranslate(paddingLeft, paddingBottom);
 
         mScreenMatrix.postScale(1f, -1f);
