@@ -3,6 +3,7 @@ package ch.logixisland.anuto.engine.render;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.RectF;
 import android.view.View;
 
 import java.lang.ref.WeakReference;
@@ -10,7 +11,6 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import ch.logixisland.anuto.engine.logic.loop.FrameRateLogger;
-import ch.logixisland.anuto.util.Screenshot;
 import ch.logixisland.anuto.util.container.SafeMultiMap;
 import ch.logixisland.anuto.util.math.Vector2;
 
@@ -63,7 +63,19 @@ public class Renderer {
     }
 
     public Bitmap getScreenshot() {
-        return Screenshot.takeScreenshotOfRootView(mViewRef.get());
+        RectF mapRect = mViewport.getMapRect();
+        Bitmap bitmap = Bitmap.createBitmap(Math.round(mapRect.width()), Math.round(mapRect.height()), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+
+        //that call would eventually end in Renderer.draw(), so just take a shortcut.
+        //it should be sufficient, since we only need our drawables
+        //mViewRef.get().draw(canvas);
+
+        //perhaps build another draw routine, so the game map is better visible
+        //e.g. an independent theme just for savegame screenshot
+        draw(canvas);
+
+        return bitmap;
     }
 
     public void draw(Canvas canvas) {
