@@ -43,13 +43,13 @@
         </activity>
         <activity
             android:name=".view.loadmenu.LoadMenuActivity"
-            android:label="@string/savemenu"
+            android:label="@string/savegames"
             android:icon="@drawable/settings"
             android:theme="@android:style/Theme.DeviceDefault">
         </activity>
         <activity
-            android:name=".view.faq.FAQActivity"
-            android:label="@string/faq"
+            android:name=".view.faq.EnemyStatsActivity"
+            android:label="@string/enemy_stats"
             android:icon="@drawable/settings"
             android:theme="@android:style/Theme.DeviceDefault">
         </activity>

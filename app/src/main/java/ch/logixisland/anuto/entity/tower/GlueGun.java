@@ -37,7 +37,7 @@ public class GlueGun extends Tower implements SpriteTransformation {
             .setRange(2.5f)
             .setReload(3.0f)
             .setMaxLevel(5)
-            .setWeaponType(WeaponType.None)
+            .setWeaponType(WeaponType.Glue)
             .setEnhanceBase(1.2f)
             .setEnhanceCost(200)
             .setEnhanceDamage(0)

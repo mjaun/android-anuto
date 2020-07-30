@@ -12,7 +12,6 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.entity.enemy.Enemy;
-import ch.logixisland.anuto.entity.enemy.Flyer;
 import ch.logixisland.anuto.util.RandomUtils;
 import ch.logixisland.anuto.util.math.Vector2;
 
@@ -91,15 +90,11 @@ public class GlueEffect extends Effect implements SpriteTransformation, AreaObse
 
     @Override
     public void enemyEntered(Enemy e) {
-        if (!(e instanceof Flyer)) {
-            e.modifySpeed(1f / mIntensity);
-        }
+        e.modifySpeed(1f / mIntensity, getOrigin());
     }
 
     @Override
     public void enemyExited(Enemy e) {
-        if (!(e instanceof Flyer)) {
-            e.modifySpeed(mIntensity);
-        }
+        e.modifySpeed(mIntensity, getOrigin());
     }
 }

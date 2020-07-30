@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:icon="@drawable/settings"
     android:title="@string/settings">
     <ListPreference
@@ -8,25 +7,25 @@
         android:defaultValue="0"
         android:entries="@array/theme_entries"
         android:entryValues="@array/theme_entry_values"
-        android:title="@string/theme"/>
+        android:title="@string/theme" />
     <SwitchPreference
         android:key="sound_enabled"
         android:defaultValue="true"
-        android:title="@string/sound"/>
+        android:title="@string/sound" />
     <SwitchPreference
         android:key="transparent_menus_enabled"
         android:defaultValue="false"
-        android:title="@string/transparent_menus"/>
+        android:title="@string/transparent_menus" />
     <ListPreference
         android:key="back_button_mode"
         android:defaultValue="@string/back_button_mode_disabled"
         android:entries="@array/back_button_mode_entries"
         android:entryValues="@array/back_button_mode_entry_values"
-        android:title="@string/back_button_mode"/>
+        android:title="@string/back_button_mode" />
     <Preference
         android:key="start_tutorial"
         android:title="@string/start_tutorial" />
     <Preference
         android:key="reset_highscores"
-        android:title="@string/reset_highscores"/>
+        android:title="@string/reset_highscores" />
 </PreferenceScreen>
