@@ -1,9 +1,14 @@
 package ch.logixisland.anuto.business.tower;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.AnutoApplication;
+import ch.logixisland.anuto.Preferences;
 import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
@@ -21,6 +26,10 @@ public class TowerInserter {
         void towerInserted();
     }
 
+    private final SharedPreferences mPreferences;
+
+    private boolean mShowLevelEnabled;
+
     private final GameEngine mGameEngine;
     private final GameState mGameState;
     private final EntityRegistry mEntityRegistry;
@@ -36,6 +45,7 @@ public class TowerInserter {
 
     public TowerInserter(GameEngine gameEngine, GameState gameState, EntityRegistry entityRegistry,
                          TowerSelector towerSelector, TowerAging towerAging, ScoreBoard scoreBoard) {
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(AnutoApplication.getContext());
         mGameEngine = gameEngine;
         mGameState = gameState;
         mEntityRegistry = entityRegistry;
@@ -59,6 +69,9 @@ public class TowerInserter {
 
         if (mInsertedTower == null && !mGameState.isGameOver() &&
                 mScoreBoard.getCredits() >= mTowerDefaultValue.getDefaultValue(towerName)) {
+
+            mShowLevelEnabled = mPreferences.getBoolean(Preferences.SHOW_TOWER_LEVELS_ENABLED, false);
+
             showTowerLevels();
             mInsertedTower = (Tower) mEntityRegistry.createEntity(towerName);
         }
@@ -154,6 +167,9 @@ public class TowerInserter {
     }
 
     private void showTowerLevels() {
+        if (mShowLevelEnabled)
+            return;
+
         Iterator<Tower> towers = mGameEngine.getEntitiesByType(EntityTypes.TOWER).cast(Tower.class);
 
         while (towers.hasNext()) {
@@ -163,6 +179,9 @@ public class TowerInserter {
     }
 
     private void hideTowerLevels() {
+        if (mShowLevelEnabled)
+            return;
+
         Iterator<Tower> towers = mGameEngine.getEntitiesByType(EntityTypes.TOWER).cast(Tower.class);
 
         while (towers.hasNext()) {

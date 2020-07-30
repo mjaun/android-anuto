@@ -70,6 +70,11 @@ public class GameState implements ScoreBoard.Listener, Persister {
     }
 
     @Override
+    public void pointsChanged(int lives) {
+
+    }
+
+    @Override
     public void resetState() {
         setGameOver(false);
         mGameStarted = false;

@@ -9,7 +9,7 @@ public final class GameSettings {
     private GameSettings() {
     }
 
-    public static final int START_CREDITS = 500;
+    public static final int START_CREDITS = BuildConfig.DEBUG ? 500 * 1 : 500;
     public static final int START_LIVES = 20;
     public static final float DIFFICULTY_MODIFIER = 8e-4f;
     public static final float DIFFICULTY_EXPONENT = 1.9f;

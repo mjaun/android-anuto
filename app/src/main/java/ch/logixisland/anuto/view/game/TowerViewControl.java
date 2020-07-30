@@ -110,6 +110,11 @@ class TowerViewControl implements GameLoader.Listener, ScoreBoard.Listener, View
 
     }
 
+    @Override
+    public void pointsChanged(int lives) {
+
+    }
+
     private void updateTowerSlots() {
         for (int i = 0; i < mTowerViews.size(); i++) {
             Tower previewTower = (Tower) mEntityRegistry.createEntity(GameSettings.BUILD_MENU_TOWER_NAMES[i]);

@@ -224,6 +224,11 @@ public class TowerSelector implements ScoreBoard.Listener, Entity.Listener, Towe
 
     }
 
+    @Override
+    public void pointsChanged(int lives) {
+
+    }
+
     Tower getSelectedTower() {
         return mSelectedTower;
     }

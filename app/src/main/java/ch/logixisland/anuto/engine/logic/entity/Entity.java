@@ -51,6 +51,15 @@ public abstract class Entity {
         };
     }
 
+    public static Predicate<Entity> isNotThis(final Entity that) {
+        return new Predicate<Entity>() {
+            @Override
+            public boolean apply(Entity value) {
+                return !(that == value);
+            }
+        };
+    }
+
     public static Predicate<Entity> nameEquals(final String name) {
         return new Predicate<Entity>() {
             @Override

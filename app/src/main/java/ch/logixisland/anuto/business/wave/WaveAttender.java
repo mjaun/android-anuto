@@ -99,6 +99,16 @@ class WaveAttender implements Enemy.Listener {
         return mRemainingEnemies.size();
     }
 
+    float getRemainingEnemiesHealth() {
+        float totalHealth = 0f;
+
+        for (Enemy enemy : mRemainingEnemies) {
+            totalHealth += enemy.getHealth();
+        }
+
+        return totalHealth;
+    }
+
     int getWaveStartTickCount() {
         return mWaveStartTickCount;
     }

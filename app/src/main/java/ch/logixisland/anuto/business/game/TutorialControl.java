@@ -120,6 +120,11 @@ public class TutorialControl implements TowerInserter.Listener, WaveManager.List
 
     }
 
+    @Override
+    public void remainingEnemiesHealthChanged(final float remainingEnemiesHealth) {
+
+    }
+
     private void initialize() {
         if (mPreferences.getBoolean(Preferences.TUTORIAL_ENABLED, true)) {
             mState = State.BuildTower;

@@ -26,6 +26,7 @@ import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.loop.ErrorListener;
 import ch.logixisland.anuto.engine.logic.loop.Message;
+import ch.logixisland.anuto.engine.logic.loop.TickListener;
 import ch.logixisland.anuto.engine.logic.map.GameMap;
 import ch.logixisland.anuto.engine.logic.map.PlateauInfo;
 import ch.logixisland.anuto.engine.logic.map.WaveInfo;
@@ -35,13 +36,14 @@ import ch.logixisland.anuto.engine.render.Viewport;
 import ch.logixisland.anuto.entity.plateau.Plateau;
 import ch.logixisland.anuto.util.container.KeyValueStore;
 
-public class GameLoader implements ErrorListener {
+public class GameLoader implements ErrorListener, TickListener {
 
     private static final String TAG = GameLoader.class.getSimpleName();
     public static final String SAVED_GAME_FILE = "saved_game.json";
+    public static final String SAVED_GAME_FILE_TICK1 = "saved_game_tick1.json";
+    public static final String SAVED_GAME_FILE_TICK2 = "saved_game_tick2.json";
     public static final String SAVED_SCREENSHOT_FILE = "screen.png";
     public static final String SAVED_GAMEINFO_FILE = "gameinfo.json";
-
 
     public interface Listener {
         void gameLoaded();
@@ -55,6 +57,7 @@ public class GameLoader implements ErrorListener {
     private final MapRepository mMapRepository;
     private final Renderer mRenderer;
     private String mCurrentMapId;
+    private KeyValueStore lastGameState;
 
     private List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
@@ -69,6 +72,7 @@ public class GameLoader implements ErrorListener {
         mRenderer = renderer;
 
         mGameEngine.registerErrorListener(this);
+        mGameEngine.add(this);
     }
 
     public void addListener(Listener listener) {
@@ -112,12 +116,67 @@ public class GameLoader implements ErrorListener {
             return;
         }
 
-        saveGame("", false);
+        saveGame(SAVED_GAME_FILE, false);
+    }
+
+    public void saveGameViaTick() {
+        if (mGameEngine.isThreadRunnging() && mGameEngine.isThreadChangeNeeded()) {
+            mGameEngine.post(new Message() {
+                @Override
+                public void execute() {
+                    saveGame();
+                }
+            });
+            return;
+        }
+
+        saveGame(SAVED_GAME_FILE_TICK1, false);
+    }
+
+    @Override
+    public void tick() {
+        if(true)
+            return;
+
+        KeyValueStore gameState = new KeyValueStore();
+        mGamePersister.writeState(gameState);
+        //gameState.putInt("appVersion", BuildConfig.VERSION_CODE);
+        //gameState.putString("mapId", mCurrentMapId);
+        if (lastGameState != null) {
+            int tc = gameState.getInt("tickCount");
+            gameState.putInt("tickCount", lastGameState.getInt("tickCount"));
+            if (lastGameState.equals(gameState))
+                Log.i(TAG, "same");
+            else {
+                Log.i(TAG, "different");
+                //gameState.putInt("tickCount", tc);
+
+                /*try {
+                    FileOutputStream outputStream = mContext.openFileOutput(SAVED_GAME_FILE_TICK1, Context.MODE_PRIVATE);
+                    gameState.toStream(outputStream);
+                    outputStream.close();
+                    Log.i(TAG, "Game saved.");
+                } catch (Exception e) {
+                    mContext.deleteFile(SAVED_GAME_FILE_TICK1);
+                    throw new RuntimeException("Could not save game!", e);
+                }
+                try {
+                    FileOutputStream outputStream = mContext.openFileOutput(SAVED_GAME_FILE_TICK2, Context.MODE_PRIVATE);
+                    lastGameState.toStream(outputStream);
+                    outputStream.close();
+                    Log.i(TAG, "Game saved.");
+                } catch (Exception e) {
+                    mContext.deleteFile(SAVED_GAME_FILE_TICK2);
+                    throw new RuntimeException("Could not save game!", e);
+                }*/
+            }
+        }
+        lastGameState = gameState;
     }
 
     private void saveGame(final String rootdir, final boolean userSavegame) {
         Log.i(TAG, "Saving game...");
-        String fileName = userSavegame ? rootdir + File.separator + SAVED_GAME_FILE : SAVED_GAME_FILE;
+        String fileName = userSavegame ? rootdir + File.separator + SAVED_GAME_FILE : rootdir;
         KeyValueStore gameState = new KeyValueStore();
         mGamePersister.writeState(gameState);
         gameState.putInt("appVersion", BuildConfig.VERSION_CODE);
@@ -348,6 +407,7 @@ public class GameLoader implements ErrorListener {
     private void initializeGame(String mapId, KeyValueStore gameState) {
         Log.d(TAG, "Initializing game...");
         mGameEngine.clear();
+        mGameEngine.add(this);
 
         MapInfo mapInfo = mMapRepository.getMapById(mapId);
         GameMap map = new GameMap(KeyValueStore.fromResources(mContext.getResources(), mapInfo.getMapDataResId()));

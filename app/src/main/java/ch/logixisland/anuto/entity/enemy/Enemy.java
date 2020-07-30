@@ -249,7 +249,7 @@ public abstract class Enemy extends Entity {
         mWayPointIndex = 1;
     }
 
-    float getHealth() {
+    public float getHealth() {
         return mHealth;
     }
 

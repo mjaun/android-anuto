@@ -6,13 +6,15 @@
         <item name="popupActivityStyle">@style/ColourTheme.Popup</item>
         <item name="normalActivityStyle">@style/ColourTheme.Normal</item>
 
-
         <item name="textColor">#000000</item>
         <item name="textDisabledColor">#ff0000</item>
         <item name="backgroundColor">#ffffff</item>
         <item name="healthBarColor">#222</item>
         <item name="healthBarBackgroundColor">#88FFFFFF</item>
-        <item name="levelIndicatorColor">#030303</item>
+        <item name="levelIndicatorColorStroke">#ff444444</item>
+        <item name="levelIndicatorColorLvl1">#00d000</item>
+        <item name="levelIndicatorColorLvl2">#00b0ff</item>
+        <item name="levelIndicatorColorLvl3">#ff5050</item>
         <item name="rangeIndicatorColor">#8888</item>
         <item name="explosionColor">#C8FFAA00</item>
         <item name="laserColor">#B457D56F</item>

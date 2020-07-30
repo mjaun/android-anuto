@@ -17,6 +17,8 @@ public class ScoreBoard implements Persister {
         void bonusChanged(int waveBonus, int earlyBonus);
 
         void livesChanged(int lives);
+
+        void pointsChanged(int points);
     }
 
     private final GameEngine mGameEngine;
@@ -63,6 +65,7 @@ public class ScoreBoard implements Persister {
 
         if (earned) {
             mCreditsEarned += credits;
+            pointsChanged();
         }
 
         creditsChanged();
@@ -163,6 +166,12 @@ public class ScoreBoard implements Persister {
         }
     }
 
+    private void pointsChanged() {
+        for (Listener listener : mListeners) {
+            listener.pointsChanged(mCreditsEarned);
+        }
+    }
+
     @Override
     public void resetState() {
         mLives = GameSettings.START_LIVES;
@@ -171,6 +180,7 @@ public class ScoreBoard implements Persister {
 
         creditsChanged();
         livesChanged();
+        pointsChanged();
     }
 
     @Override
@@ -188,5 +198,6 @@ public class ScoreBoard implements Persister {
 
         creditsChanged();
         livesChanged();
+        pointsChanged();
     }
 }

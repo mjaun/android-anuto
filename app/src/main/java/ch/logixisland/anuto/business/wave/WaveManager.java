@@ -1,12 +1,16 @@
 package ch.logixisland.anuto.business.wave;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameSettings;
+import ch.logixisland.anuto.Preferences;
 import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.business.tower.TowerAging;
@@ -18,11 +22,15 @@ import ch.logixisland.anuto.engine.logic.map.WaveInfo;
 import ch.logixisland.anuto.engine.logic.persistence.Persister;
 import ch.logixisland.anuto.util.container.KeyValueStore;
 
-public class WaveManager implements Persister, GameState.Listener {
+public class WaveManager implements Persister, GameState.Listener, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String TAG = WaveManager.class.getSimpleName();
 
     private static final float NEXT_WAVE_MIN_DELAY = 5;
+
+    private final SharedPreferences mPreferences;
+    private boolean mAutoWavesEnabled;
+    private boolean mAutoWavesActive;
 
     public interface Listener {
         void waveStarted();
@@ -32,6 +40,8 @@ public class WaveManager implements Persister, GameState.Listener {
         void nextWaveReadyChanged();
 
         void remainingEnemiesCountChanged();
+
+        void remainingEnemiesHealthChanged(float remainingEnemiesHealth);
     }
 
     private final GameEngine mGameEngine;
@@ -43,6 +53,7 @@ public class WaveManager implements Persister, GameState.Listener {
 
     private int mWaveNumber;
     private int mRemainingEnemiesCount;
+    private float mRemainingEnemiesHealth;
     private boolean mNextWaveReady;
 
     private final List<WaveAttender> mActiveWaves = new ArrayList<>();
@@ -59,6 +70,18 @@ public class WaveManager implements Persister, GameState.Listener {
         mEnemyDefaultHealth = new EnemyDefaultHealth(entityRegistry);
 
         mGameState.addListener(this);
+
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(AnutoApplication.getContext());
+        mPreferences.registerOnSharedPreferenceChangeListener(this);
+        mAutoWavesEnabled = mPreferences.getBoolean(Preferences.AUTO_WAVES_ENABLED, false);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (Preferences.AUTO_WAVES_ENABLED.equals(key)) {
+            mAutoWavesEnabled = mPreferences.getBoolean(Preferences.AUTO_WAVES_ENABLED, false);
+            handleAutoWave();
+        }
     }
 
     public int getWaveNumber() {
@@ -71,6 +94,10 @@ public class WaveManager implements Persister, GameState.Listener {
 
     public int getRemainingEnemiesCount() {
         return mRemainingEnemiesCount;
+    }
+
+    public float getRemainingEnemiesHealth() {
+        return mRemainingEnemiesHealth;
     }
 
     public void startNextWave() {
@@ -117,6 +144,7 @@ public class WaveManager implements Persister, GameState.Listener {
     public void resetState() {
         setWaveNumber(0);
         mActiveWaves.clear();
+        updateRemainingEnemiesCount();
         setNextWaveReady(true);
     }
 
@@ -230,16 +258,36 @@ public class WaveManager implements Persister, GameState.Listener {
 
     private void updateRemainingEnemiesCount() {
         int totalCount = 0;
+        float totalHealth = 0;
+        int healthFac = 0;
 
         for (WaveAttender waveAttender : mActiveWaves) {
             totalCount += waveAttender.getRemainingEnemiesCount();
+            totalHealth += waveAttender.getRemainingEnemiesHealth();
         }
+
+        while (totalHealth > 10000.0f) {
+            healthFac += 1;
+            totalHealth /= 10.0f;
+        }
+        if (healthFac > 0)
+            totalHealth = (float) (Math.round(totalHealth) * Math.pow(10.0f, healthFac));
 
         if (mRemainingEnemiesCount != totalCount) {
             mRemainingEnemiesCount = totalCount;
+            mRemainingEnemiesHealth = totalHealth;
+
+            //nur wenn (mRemainingEnemiesCount < 200) aktiv ist
+            //autoWave();
 
             for (Listener listener : mListeners) {
                 listener.remainingEnemiesCountChanged();
+            }
+        } else if (mRemainingEnemiesHealth != totalHealth) {
+            mRemainingEnemiesHealth = totalHealth;
+
+            for (Listener listener : mListeners) {
+                listener.remainingEnemiesHealthChanged(mRemainingEnemiesHealth);
             }
         }
     }
@@ -318,9 +366,31 @@ public class WaveManager implements Persister, GameState.Listener {
         if (mNextWaveReady != ready) {
             mNextWaveReady = ready;
 
+            if (handleAutoWave()) {
+                return;
+            }
+
             for (Listener listener : mListeners) {
                 listener.nextWaveReadyChanged();
             }
         }
+    }
+
+    public boolean isAutoNextWaveActive() {
+        return mAutoWavesActive;
+    }
+
+    public void setAutoNextWaveActive(boolean checked) {
+        mAutoWavesActive = checked;
+        handleAutoWave();
+    }
+
+    private boolean handleAutoWave() {
+        if (mAutoWavesEnabled && mAutoWavesActive && (mWaveNumber > 0) && (mNextWaveReady) && (true || (mRemainingEnemiesCount < 200))) {
+            startNextWave();
+            return true;
+        }
+
+        return false;
     }
 }

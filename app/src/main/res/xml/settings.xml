@@ -17,6 +17,22 @@
         android:key="transparent_menus_enabled"
         android:defaultValue="false"
         android:title="@string/transparent_menus"/>
+    <SwitchPreference
+        android:key="show_tower_levels_enabled"
+        android:defaultValue="false"
+        android:title="@string/show_tower_levels"/>
+    <SwitchPreference
+        android:key="auto_waves_enabled"
+        android:defaultValue="false"
+        android:title="@string/enable_auto_waves"/>
+    <SwitchPreference
+        android:key="max_buttons_enabled"
+        android:defaultValue="false"
+        android:title="@string/enable_max_buttons"/>
+    <SwitchPreference
+        android:key="relay_buttons_enabled"
+        android:defaultValue="false"
+        android:title="@string/enable_relay_buttons"/>
     <ListPreference
         android:key="back_button_mode"
         android:defaultValue="@string/back_button_mode_disabled"
