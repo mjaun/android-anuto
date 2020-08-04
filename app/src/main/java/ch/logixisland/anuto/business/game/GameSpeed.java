@@ -7,8 +7,8 @@ import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.loop.Message;
 
 public class GameSpeed {
-
-    private static final int FAST_FORWARD_SPEED = 4;
+    private static final int FAST_FORWARD_SPEED = 2;
+    private static final int MAX_FAST_FORWARD_SPEED = 128;
 
     public interface Listener {
         void gameSpeedChanged();
@@ -18,6 +18,7 @@ public class GameSpeed {
     private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
     private boolean mFastForwardActive = false;
+    private int mFastForwardMultiplier = FAST_FORWARD_SPEED;
 
     public GameSpeed(GameEngine gameEngine) {
         mGameEngine = gameEngine;
@@ -27,18 +28,40 @@ public class GameSpeed {
         return mFastForwardActive;
     }
 
-    public void toggleFastForward() {
+    public void setFastForwardActive(final boolean active) {
         if (mGameEngine.isThreadChangeNeeded()) {
             mGameEngine.post(new Message() {
                 @Override
                 public void execute() {
-                    toggleFastForward();
+                    setFastForwardActive(active);
                 }
             });
             return;
         }
 
-        setFastForwardActive(!mFastForwardActive);
+        if (mFastForwardActive != active) {
+            mFastForwardActive = active;
+            updateTicks();
+        }
+    }
+
+
+    public int fastForwardMultiplier() {
+        return mFastForwardMultiplier;
+    }
+
+    public void cycleFastForward() {
+        if (mGameEngine.isThreadChangeNeeded()) {
+            mGameEngine.post(new Message() {
+                @Override
+                public void execute() {
+                    cycleFastForward();
+                }
+            });
+            return;
+        }
+
+        cycleThroughMultiplier();
     }
 
     public void addListener(Listener listener) {
@@ -49,14 +72,20 @@ public class GameSpeed {
         mListeners.remove(listener);
     }
 
-    private void setFastForwardActive(boolean fastForwardActive) {
-        if (mFastForwardActive != fastForwardActive) {
-            mFastForwardActive = fastForwardActive;
-            mGameEngine.setTicksPerLoop(mFastForwardActive ? FAST_FORWARD_SPEED : 1);
+    private void cycleThroughMultiplier() {
+        mFastForwardMultiplier = mFastForwardMultiplier < MAX_FAST_FORWARD_SPEED ? mFastForwardMultiplier * 2 : FAST_FORWARD_SPEED;
 
-            for (Listener listener : mListeners) {
-                listener.gameSpeedChanged();
-            }
+        updateTicks();
+    }
+
+    private void updateTicks() {
+        if (mFastForwardActive)
+            mGameEngine.setTicksPerLoop(mFastForwardMultiplier);
+        else
+            mGameEngine.setTicksPerLoop(1);
+
+        for (Listener listener : mListeners) {
+            listener.gameSpeedChanged();
         }
     }
 }

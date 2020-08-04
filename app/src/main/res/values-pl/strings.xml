@@ -6,7 +6,6 @@
     <string name="build_tower">Buduj</string>
     <string name="next_wave">Następna fala</string>
     <string name="normal_speed">1x</string>
-    <string name="fast_speed">4x</string>
 
     <string name="restart">Restart</string>
     <string name="change_map">Zmień mapę</string>

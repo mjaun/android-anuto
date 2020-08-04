@@ -22,6 +22,7 @@ public class GlueShot extends Shot implements SpriteTransformation {
 
         public SpriteTemplate mSpriteTemplate;
     }
+
     private float mIntensity;
 
     private float mDuration;
@@ -29,6 +30,7 @@ public class GlueShot extends Shot implements SpriteTransformation {
     private AnimatedSprite mSprite;
 
     private Sound mSound;
+
     public GlueShot(Entity origin, Vector2 position, Vector2 target, float intensity, float duration) {
         super(origin);
         setPosition(position);

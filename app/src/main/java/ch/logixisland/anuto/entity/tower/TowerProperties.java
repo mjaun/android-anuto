@@ -17,6 +17,7 @@ public class TowerProperties {
     private float mEnhanceReload;
     private String mUpgradeTowerName;
     private int mUpgradeCost;
+    private int mUpgradeLevel;
 
     public static class Builder {
 
@@ -87,6 +88,11 @@ public class TowerProperties {
             return this;
         }
 
+        public Builder setUpgradeLevel(int upgradeLevel) {
+            mResult.mUpgradeLevel = upgradeLevel;
+            return this;
+        }
+
         public TowerProperties build() {
             return mResult;
         }
@@ -142,6 +148,10 @@ public class TowerProperties {
 
     public int getUpgradeCost() {
         return mUpgradeCost;
+    }
+
+    public int getUpgradeLevel() {
+        return mUpgradeLevel;
     }
 
 }

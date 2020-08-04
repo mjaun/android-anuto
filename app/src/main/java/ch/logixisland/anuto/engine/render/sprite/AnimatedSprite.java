@@ -37,7 +37,7 @@ public class AnimatedSprite extends SpriteInstance {
 
     public void setSequenceForward() {
         int bitmapCount = getTemplate().getBitmapCount();
-        int seq[] = new int[bitmapCount];
+        int[] seq = new int[bitmapCount];
 
         for (int i = 0; i < seq.length; i++) {
             seq[i] = i;
@@ -48,7 +48,7 @@ public class AnimatedSprite extends SpriteInstance {
 
     public void setSequenceForwardBackward() {
         int bitmapCount = getTemplate().getBitmapCount();
-        int seq[] = new int[bitmapCount * 2 - 2];
+        int[] seq = new int[bitmapCount * 2 - 2];
 
         for (int i = 0; i < seq.length; i++) {
             if (i < bitmapCount) {
@@ -63,7 +63,7 @@ public class AnimatedSprite extends SpriteInstance {
 
     public void setSequenceBackward() {
         int bitmapCount = getTemplate().getBitmapCount();
-        int seq[] = new int[bitmapCount];
+        int[] seq = new int[bitmapCount];
 
         for (int i = 0; i < seq.length; i++) {
             seq[i] = bitmapCount - 1 - i;

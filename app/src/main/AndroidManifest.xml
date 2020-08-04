@@ -41,6 +41,19 @@
             android:icon="@drawable/settings"
             android:theme="@android:style/Theme.DeviceDefault">
         </activity>
+        <activity
+            android:name=".view.loadmenu.LoadMenuActivity"
+            android:label="@string/savegames"
+            android:icon="@drawable/settings"
+            android:theme="@android:style/Theme.DeviceDefault">
+        </activity>
+        <activity
+            android:name=".view.faq.EnemyStatsActivity"
+            android:label="@string/enemy_stats"
+            android:icon="@drawable/settings"
+            android:theme="@android:style/Theme.DeviceDefault">
+        </activity>
+
     </application>
 
 </manifest>

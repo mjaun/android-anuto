@@ -24,6 +24,7 @@ public class AreaObserver implements Entity.Listener {
 
     public interface Listener {
         void enemyEntered(Enemy enemy);
+
         void enemyExited(Enemy enemy);
     }
 

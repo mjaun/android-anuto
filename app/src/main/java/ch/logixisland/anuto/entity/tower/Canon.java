@@ -45,6 +45,7 @@ public class Canon extends Tower implements SpriteTransformation {
             .setEnhanceReload(0.05f)
             .setUpgradeTowerName(DualCanon.ENTITY_NAME)
             .setUpgradeCost(5600)
+            .setUpgradeLevel(1)
             .build();
 
     public static class Factory extends EntityFactory {
@@ -183,6 +184,7 @@ public class Canon extends Tower implements SpriteTransformation {
         List<TowerInfoValue> properties = new ArrayList<>();
         properties.add(new TowerInfoValue(R.string.damage, getDamage()));
         properties.add(new TowerInfoValue(R.string.reload, getReloadTime()));
+        properties.add(new TowerInfoValue(R.string.dps, getDamage() / getReloadTime()));
         properties.add(new TowerInfoValue(R.string.range, getRange()));
         properties.add(new TowerInfoValue(R.string.inflicted, getDamageInflicted()));
         return properties;

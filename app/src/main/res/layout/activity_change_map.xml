@@ -1,5 +1,4 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -19,7 +18,7 @@
         android:horizontalSpacing="20dp"
         android:clipToPadding="false"
         android:stretchMode="columnWidth"
-        android:scrollbarStyle="outsideOverlay"/>
+        android:scrollbarStyle="outsideOverlay" />
 
     <ImageView
         android:id="@+id/arrow_up"
@@ -29,7 +28,7 @@
         android:background="@android:color/transparent"
         android:layout_alignParentTop="true"
         android:rotation="270"
-        android:src="@drawable/select_map_arrow"/>
+        android:src="@drawable/select_map_arrow" />
 
     <ImageView
         android:id="@+id/arrow_down"
@@ -39,6 +38,6 @@
         android:background="@android:color/transparent"
         android:layout_alignParentBottom="true"
         android:rotation="90"
-        android:src="@drawable/select_map_arrow"/>
+        android:src="@drawable/select_map_arrow" />
 
 </RelativeLayout>

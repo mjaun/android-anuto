@@ -47,7 +47,7 @@ public class GameActivity extends AnutoActivity {
         setContentView(R.layout.activity_game);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        view_tower_defense = (GameView) findViewById(R.id.view_tower_defense);
+        view_tower_defense = findViewById(R.id.view_tower_defense);
     }
 
     @Override

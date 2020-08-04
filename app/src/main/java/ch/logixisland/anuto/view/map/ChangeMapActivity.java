@@ -48,10 +48,10 @@ public class ChangeMapActivity extends AnutoActivity implements AdapterView.OnIt
 
         mAdapter = new MapsAdapter(this, mMapRepository, mHighScores);
 
-        arrow_up = (ImageView) findViewById(R.id.arrow_up);
-        arrow_down = (ImageView) findViewById(R.id.arrow_down);
+        arrow_up = findViewById(R.id.arrow_up);
+        arrow_down = findViewById(R.id.arrow_down);
 
-        grid_maps = (GridView) findViewById(R.id.grid_maps);
+        grid_maps = findViewById(R.id.grid_maps);
         grid_maps.setOnItemClickListener(this);
         grid_maps.getViewTreeObserver().addOnScrollChangedListener(this);
         grid_maps.post(new Runnable() {

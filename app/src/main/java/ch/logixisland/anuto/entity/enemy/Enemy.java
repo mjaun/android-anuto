@@ -35,7 +35,9 @@ public abstract class Enemy extends Entity {
 
     public interface Listener {
         void enemyKilled(Enemy enemy);
+
         void enemyFinished(Enemy enemy);
+
         void enemyRemoved(Enemy enemy);
     }
 
@@ -177,8 +179,14 @@ public abstract class Enemy extends Entity {
         return mEnemyProperties.getSpeed() * Math.max(mSpeedModifier, GameSettings.MIN_SPEED_MODIFIER);
     }
 
-    public void modifySpeed(float f) {
-        mSpeedModifier = mSpeedModifier * f;
+    public void modifySpeed(float f, Entity origin) {
+        if (origin instanceof Tower) {
+            Tower originTower = (Tower) origin;
+
+            if (!mEnemyProperties.getStrongAgainst().contains(originTower.getWeaponType())) {
+                mSpeedModifier = mSpeedModifier * f;
+            }
+        }
     }
 
     private float getDistanceRemaining() {

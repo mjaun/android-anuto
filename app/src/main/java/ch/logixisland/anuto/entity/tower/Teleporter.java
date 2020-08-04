@@ -41,6 +41,7 @@ public class Teleporter extends Tower implements SpriteTransformation {
             .setEnhanceDamage(0)
             .setEnhanceRange(0f)
             .setEnhanceReload(0.5f)
+            .setUpgradeLevel(3)
             .build();
 
     public static class Factory extends EntityFactory {

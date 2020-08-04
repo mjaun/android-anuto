@@ -9,6 +9,7 @@ public class TargetTracker implements Entity.Listener {
 
     public interface Listener {
         void targetReached(Enemy target);
+
         void targetLost(Enemy target);
     }
 

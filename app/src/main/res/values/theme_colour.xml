@@ -19,6 +19,9 @@
         <item name="healEffectColor">#77EE2828</item>
         <item name="teleportEffectColor">#79AF35AF</item>
 
+        <item name="weakAgainstColor">#009000</item>
+        <item name="strongAgainstColor">#c00000</item>
+
         <item name="base1">@drawable/tower_base1</item>
         <item name="base2">@drawable/tower_base2</item>
         <item name="base3">@drawable/tower_base3</item>

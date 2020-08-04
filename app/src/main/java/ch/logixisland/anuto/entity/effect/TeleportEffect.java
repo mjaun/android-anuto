@@ -39,6 +39,7 @@ public class TeleportEffect extends Effect implements Entity.Listener {
         }
 
     }
+
     private Enemy mTarget;
 
     private float mDistance;

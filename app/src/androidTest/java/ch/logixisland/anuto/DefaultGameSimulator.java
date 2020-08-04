@@ -21,6 +21,7 @@ import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.Intersections;
 import ch.logixisland.anuto.util.math.Line;
 import ch.logixisland.anuto.util.math.Vector2;
+import ch.logixisland.anuto.view.game.GameActivity;
 
 public class DefaultGameSimulator extends GameSimulator {
 
@@ -32,10 +33,13 @@ public class DefaultGameSimulator extends GameSimulator {
     private final TowerTiers mTowerTiers;
     private final Random mRandom = new Random();
     private final TickTimer mSaveAndLoadTimer = TickTimer.createInterval(120f);
+    private final TickTimer mSGTimer = TickTimer.createInterval(30f);
     private final TickTimer mSimulationTickTimer = TickTimer.createInterval(0.5f);
 
-    DefaultGameSimulator(GameFactory gameFactory) {
-        super(gameFactory);
+    private int mSGMode = 0;
+
+    DefaultGameSimulator(GameActivity gameActivity, GameFactory gameFactory) {
+        super(gameActivity, gameFactory);
         mTowerTiers = new TowerTiers(gameFactory);
     }
 
@@ -50,6 +54,24 @@ public class DefaultGameSimulator extends GameSimulator {
 
         if (mSaveAndLoadTimer.tick()) {
             saveAndLoad();
+        }
+
+        if (mSGTimer.tick()) {
+            switch (++mSGMode) {
+                default:
+                    //for mSaveAndLoadTimer
+                    mSGMode = 0;
+                    break;
+                case 1:
+                    saveSG();
+                    break;
+                case 2:
+                    loadSG();
+                    break;
+                case 3:
+                    deleteSG();
+                    break;
+            }
         }
     }
 
