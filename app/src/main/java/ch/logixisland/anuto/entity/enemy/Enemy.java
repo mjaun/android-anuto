@@ -183,10 +183,12 @@ public abstract class Enemy extends Entity {
         if (origin instanceof Tower) {
             Tower originTower = (Tower) origin;
 
-            if (!mEnemyProperties.getStrongAgainst().contains(originTower.getWeaponType())) {
-                mSpeedModifier = mSpeedModifier * f;
+            if (mEnemyProperties.getStrongAgainst().contains(originTower.getWeaponType())) {
+                return;
             }
         }
+
+        mSpeedModifier = mSpeedModifier * f;
     }
 
     private float getDistanceRemaining() {
