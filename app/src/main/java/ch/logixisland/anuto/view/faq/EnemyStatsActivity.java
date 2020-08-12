@@ -11,7 +11,7 @@ import ch.logixisland.anuto.engine.theme.Theme;
 import ch.logixisland.anuto.engine.theme.ThemeManager;
 import ch.logixisland.anuto.view.AnutoActivity;
 
-public class FAQActivity extends AnutoActivity implements ThemeManager.Listener {
+public class EnemyStatsActivity extends AnutoActivity implements ThemeManager.Listener {
 
     private EnemiesAdapter mAdapter;
 
@@ -19,7 +19,7 @@ public class FAQActivity extends AnutoActivity implements ThemeManager.Listener 
     private Context appContext;
     private Theme mTheme;
 
-    public FAQActivity() {
+    public EnemyStatsActivity() {
         AnutoApplication app = AnutoApplication.getInstance();
         appContext = app.getApplicationContext();
         mTheme = app.getGameFactory().getGameEngine().getThemeManager().getTheme();
@@ -34,7 +34,7 @@ public class FAQActivity extends AnutoActivity implements ThemeManager.Listener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_faq);
+        setContentView(R.layout.activity_enemy_stats);
 
         mAdapter = new EnemiesAdapter(this, appContext, mTheme);
 

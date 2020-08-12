@@ -102,7 +102,7 @@ public class GameLoader implements ErrorListener {
     }
 
     public void saveGame() {
-        if (mGameEngine.isThreadRunnging() && mGameEngine.isThreadChangeNeeded()) {
+        if (mGameEngine.isThreadRunning() && mGameEngine.isThreadChangeNeeded()) {
             mGameEngine.post(new Message() {
                 @Override
                 public void execute() {
@@ -135,7 +135,7 @@ public class GameLoader implements ErrorListener {
     }
 
     public File makeNewSavegame() {
-        /*if (mGameEngine.isThreadRunnging() && mGameEngine.isThreadChangeNeeded()) {
+        /*if (mGameEngine.isThreadRunning() && mGameEngine.isThreadChangeNeeded()) {
             mGameEngine.post(new Message() {
                 @Override
                 public void execute() {
@@ -265,7 +265,7 @@ public class GameLoader implements ErrorListener {
     }
 
     public void loadGame(final String fileName, final boolean userSavegame) {
-        if (//mGameEngine.isThreadRunnging() &&
+        if (//mGameEngine.isThreadRunning() &&
                 mGameEngine.isThreadChangeNeeded()) {
             mGameEngine.post(new Message() {
                 @Override

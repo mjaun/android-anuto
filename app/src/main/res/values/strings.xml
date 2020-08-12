@@ -6,7 +6,7 @@
     <string name="build_tower">Build</string>
     <string name="next_wave">Next Wave</string>
     <string name="normal_speed">1x</string>
-    <string name="var_speed">%1$dx</string>
+    <string name="var_speed" translatable="false">%1$dx</string>
 
     <string name="restart">Restart</string>
     <string name="change_map">Change Map</string>
@@ -90,7 +90,7 @@
     <string name="tutorial_enemies">If an enemy finishes the path, you loose one life. The game is over if you have no more lives left.\n\n<b>Tip:</b> Some towers are more effective against a certain type of enemy than others.</string>
     <string name="tutorial_finish">Good luck and have fun! You can activate the tutorial again in the settings.</string>
     <string name="dps" translatable="false">DPS</string>
-    <string name="savemenu">Save menu</string>
+    <string name="savegames">Savegames</string>
     <string name="faq" translatable="false">FAQ</string>
     <string name="health">Health:</string>
     <string name="speed">Speed:</string>
@@ -110,5 +110,6 @@
     <string name="sprinter">Sprinter</string>
     <string name="flyer">Flyer</string>
     <string name="healer">Healer</string>
+    <string name="enemy_stats">Enemy Stats</string>
 
 </resources>

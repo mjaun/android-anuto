@@ -85,7 +85,7 @@
     <string name="map_cloverleaf_name">Kleeblatt</string>
     <string name="map_roundabout_name">Kreisverkehr</string>
     <string name="map_runway_name">Startbahn</string>
-    <string name="savemenu">Speichern/laden</string>
+    <string name="savegames">Spielstände</string>
     <string name="health">Energie:</string>
     <string name="speed">Geschwindigkeit:</string>
     <string name="reward">Belohnung:</string>
@@ -96,4 +96,9 @@
     <string name="quicksave">Schnellspeichern</string>
     <string name="theme_colour">Farbig</string>
     <string name="remainingEnemiesCount">Verbleibende Gegner</string>
+    <string name="delete">Löschen</string>
+    <string name="deleteConfirmation">Soll dieser Spielstand wirklich gelöscht werden?</string>
+    <string name="enemy_stats">Gegner Infos</string>
+    <string name="name">Name:</string>
+    <string name="saveGameSuccessful">Spielstand erfolgreich erzeugt</string>
 </resources>

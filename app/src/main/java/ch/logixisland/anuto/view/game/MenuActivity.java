@@ -14,7 +14,7 @@ import ch.logixisland.anuto.business.game.GameLoader;
 import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.engine.theme.ActivityType;
 import ch.logixisland.anuto.view.AnutoActivity;
-import ch.logixisland.anuto.view.faq.FAQActivity;
+import ch.logixisland.anuto.view.faq.EnemyStatsActivity;
 import ch.logixisland.anuto.view.loadmenu.LoadMenuActivity;
 import ch.logixisland.anuto.view.map.ChangeMapActivity;
 import ch.logixisland.anuto.view.setting.SettingsActivity;
@@ -24,7 +24,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
     private static final int REQUEST_CHANGE_MAP = 1;
     private static final int REQUEST_SETTINGS = 2;
     private static final int REQUEST_LOADMENU = 3;
-    private static final int REQUEST_FAQ = 3;
+    private static final int REQUEST_ENEMY_STATS = 4;
 
     private final GameLoader mGameLoader;
     private final GameState mGameState;
@@ -36,7 +36,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
     private Button btn_change_map;
     private Button btn_quicksave;
     private Button btn_loadmenu;
-    private Button btn_faq;
+    private Button btn_enemy_stats;
     private Button btn_settings;
 
     public MenuActivity() {
@@ -59,7 +59,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
         btn_change_map = findViewById(R.id.btn_change_map);
         btn_quicksave = findViewById(R.id.btn_quicksave);
         btn_loadmenu = findViewById(R.id.btn_loadmenu);
-        btn_faq = findViewById(R.id.btn_faq);
+        btn_enemy_stats = findViewById(R.id.btn_enemy_stats);
         btn_settings = findViewById(R.id.btn_settings);
 
         activity_menu = findViewById(R.id.activity_menu);
@@ -69,7 +69,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
         btn_change_map.setOnClickListener(this);
         btn_quicksave.setOnClickListener(this);
         btn_loadmenu.setOnClickListener(this);
-        btn_faq.setOnClickListener(this);
+        btn_enemy_stats.setOnClickListener(this);
         btn_settings.setOnClickListener(this);
         btn_quicksave.setEnabled(mGameState.isGameStarted());
         btn_loadmenu.setEnabled(mGameLoader.hasSavegames());
@@ -105,9 +105,9 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
             return;
         }
 
-        if (view == btn_faq) {
-            Intent intent = new Intent(this, FAQActivity.class);
-            startActivityForResult(intent, REQUEST_FAQ);
+        if (view == btn_enemy_stats) {
+            Intent intent = new Intent(this, EnemyStatsActivity.class);
+            startActivityForResult(intent, REQUEST_ENEMY_STATS);
             return;
         }
 
@@ -144,7 +144,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
             finish();
         }
 
-        if (requestCode == REQUEST_FAQ) {
+        if (requestCode == REQUEST_ENEMY_STATS) {
             finish();
         }
 
