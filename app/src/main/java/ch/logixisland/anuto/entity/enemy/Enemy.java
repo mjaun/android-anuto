@@ -116,6 +116,10 @@ public abstract class Enemy extends Entity {
         }
     }
 
+    public EnemyProperties getEnemyProperties() {
+        return mEnemyProperties;
+    }
+
     public void startTeleport() {
         mBeingTeleported = true;
     }

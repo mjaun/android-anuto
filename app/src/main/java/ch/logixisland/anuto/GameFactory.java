@@ -104,26 +104,26 @@ public class GameFactory {
     }
 
     private void registerEntities() {
-        mEntityRegistry.registerEntity(BasicPlateau.ENTITY_NAME, new BasicPlateau.Factory(), new BasicPlateau.Persister());
+        mEntityRegistry.registerEntity(new BasicPlateau.Factory(), new BasicPlateau.Persister());
 
-        mEntityRegistry.registerEntity(Blob.ENTITY_NAME, new Blob.Factory(), new Blob.Persister());
-        mEntityRegistry.registerEntity(Flyer.ENTITY_NAME, new Flyer.Factory(), new Flyer.Persister());
-        mEntityRegistry.registerEntity(Healer.ENTITY_NAME, new Healer.Factory(), new Healer.Persister());
-        mEntityRegistry.registerEntity(Soldier.ENTITY_NAME, new Soldier.Factory(), new Soldier.Persister());
-        mEntityRegistry.registerEntity(Sprinter.ENTITY_NAME, new Sprinter.Factory(), new Sprinter.Persister());
+        mEntityRegistry.registerEntity(new Blob.Factory(), new Blob.Persister());
+        mEntityRegistry.registerEntity(new Flyer.Factory(), new Flyer.Persister());
+        mEntityRegistry.registerEntity(new Healer.Factory(), new Healer.Persister());
+        mEntityRegistry.registerEntity(new Soldier.Factory(), new Soldier.Persister());
+        mEntityRegistry.registerEntity(new Sprinter.Factory(), new Sprinter.Persister());
 
-        mEntityRegistry.registerEntity(Canon.ENTITY_NAME, new Canon.Factory(), new Canon.Persister());
-        mEntityRegistry.registerEntity(DualCanon.ENTITY_NAME, new DualCanon.Factory(), new DualCanon.Persister());
-        mEntityRegistry.registerEntity(MachineGun.ENTITY_NAME, new MachineGun.Factory(), new MachineGun.Persister());
-        mEntityRegistry.registerEntity(SimpleLaser.ENTITY_NAME, new SimpleLaser.Factory(), new SimpleLaser.Persister());
-        mEntityRegistry.registerEntity(BouncingLaser.ENTITY_NAME, new BouncingLaser.Factory(), new BouncingLaser.Persister());
-        mEntityRegistry.registerEntity(StraightLaser.ENTITY_NAME, new StraightLaser.Factory(), new StraightLaser.Persister());
-        mEntityRegistry.registerEntity(Mortar.ENTITY_NAME, new Mortar.Factory(), new Mortar.Persister());
-        mEntityRegistry.registerEntity(MineLayer.ENTITY_NAME, new MineLayer.Factory(), new MineLayer.Persister());
-        mEntityRegistry.registerEntity(RocketLauncher.ENTITY_NAME, new RocketLauncher.Factory(), new RocketLauncher.Persister());
-        mEntityRegistry.registerEntity(GlueTower.ENTITY_NAME, new GlueTower.Factory(), new GlueTower.Persister());
-        mEntityRegistry.registerEntity(GlueGun.ENTITY_NAME, new GlueGun.Factory(), new GlueGun.Persister());
-        mEntityRegistry.registerEntity(Teleporter.ENTITY_NAME, new Teleporter.Factory(), new Teleporter.Persister());
+        mEntityRegistry.registerEntity(new Canon.Factory(), new Canon.Persister());
+        mEntityRegistry.registerEntity(new DualCanon.Factory(), new DualCanon.Persister());
+        mEntityRegistry.registerEntity(new MachineGun.Factory(), new MachineGun.Persister());
+        mEntityRegistry.registerEntity(new SimpleLaser.Factory(), new SimpleLaser.Persister());
+        mEntityRegistry.registerEntity(new BouncingLaser.Factory(), new BouncingLaser.Persister());
+        mEntityRegistry.registerEntity(new StraightLaser.Factory(), new StraightLaser.Persister());
+        mEntityRegistry.registerEntity(new Mortar.Factory(), new Mortar.Persister());
+        mEntityRegistry.registerEntity(new MineLayer.Factory(), new MineLayer.Persister());
+        mEntityRegistry.registerEntity(new RocketLauncher.Factory(), new RocketLauncher.Persister());
+        mEntityRegistry.registerEntity(new GlueTower.Factory(), new GlueTower.Persister());
+        mEntityRegistry.registerEntity(new GlueGun.Factory(), new GlueGun.Persister());
+        mEntityRegistry.registerEntity(new Teleporter.Factory(), new Teleporter.Persister());
     }
 
     private void initializeBusiness(Context context) {

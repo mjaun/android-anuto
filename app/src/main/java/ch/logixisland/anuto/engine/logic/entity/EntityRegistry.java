@@ -1,7 +1,9 @@
 package ch.logixisland.anuto.engine.logic.entity;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.persistence.Persister;
@@ -10,9 +12,22 @@ import ch.logixisland.anuto.util.iterator.StreamIterator;
 
 public class EntityRegistry implements Persister {
 
+    private static class Registration {
+        private final int mType;
+        private final String mName;
+        private final EntityFactory mFactory;
+        private final EntityPersister mPersister;
+
+        public Registration(int type, String name, EntityFactory factory, EntityPersister persister) {
+            mType = type;
+            mName = name;
+            mFactory = factory;
+            mPersister = persister;
+        }
+    }
+
     private final GameEngine mGameEngine;
-    private final Map<String, EntityFactory> mEntityFactories = new HashMap<>();
-    private final Map<String, EntityPersister> mEntityPersisters = new HashMap<>();
+    private final Map<String, Registration> mRegistrations = new HashMap<>();
 
     private int mNextEntityId;
 
@@ -20,15 +35,35 @@ public class EntityRegistry implements Persister {
         mGameEngine = gameEngine;
     }
 
-    public void registerEntity(String name, EntityFactory factory, EntityPersister persister) {
-        mEntityFactories.put(name, factory);
-        mEntityPersisters.put(name, persister);
+    public void registerEntity(EntityFactory factory, EntityPersister persister) {
+        Entity entity = factory.create(mGameEngine);
+
+        mRegistrations.put(entity.getEntityName(), new Registration(
+                entity.getEntityType(),
+                entity.getEntityName(),
+                factory,
+                persister
+        ));
     }
 
     public Entity createEntity(String name) {
-        Entity entity = mEntityFactories.get(name).create(mGameEngine);
+        Registration registration = mRegistrations.get(name);
+        assert registration != null;
+        Entity entity = registration.mFactory.create(mGameEngine);
         entity.setEntityId(mNextEntityId++);
         return entity;
+    }
+
+    public Set<String> getEntityNamesByType(int type) {
+        Set<String> result = new HashSet<>();
+
+        for (Registration registration : mRegistrations.values()) {
+            if (registration.mType == type) {
+                result.add(registration.mName);
+            }
+        }
+
+        return result;
     }
 
     @Override
@@ -41,9 +76,11 @@ public class EntityRegistry implements Persister {
         mNextEntityId = gameState.getInt("nextEntityId");
 
         for (KeyValueStore data : gameState.getStoreList("entities")) {
-            String entityName = data.getString("name");
-            Entity entity = mEntityFactories.get(entityName).create(mGameEngine);
-            mEntityPersisters.get(entityName).readEntityData(entity, data);
+            Registration registration = mRegistrations.get(data.getString("name"));
+            assert registration != null;
+
+            Entity entity = registration.mFactory.create(mGameEngine);
+            registration.mPersister.readEntityData(entity, data);
             mGameEngine.add(entity);
         }
     }
@@ -55,11 +92,15 @@ public class EntityRegistry implements Persister {
         StreamIterator<Entity> iterator = mGameEngine.getAllEntities();
         while (iterator.hasNext()) {
             Entity entity = iterator.next();
-            EntityPersister persister = mEntityPersisters.get(entity.getEntityName());
+            Registration registration = mRegistrations.get(entity.getEntityName());
+
+            assert registration != null;
+            EntityPersister persister = registration.mPersister;
 
             if (persister != null) {
                 gameState.appendStore("entities", persister.writeEntityData(entity));
             }
         }
     }
+
 }

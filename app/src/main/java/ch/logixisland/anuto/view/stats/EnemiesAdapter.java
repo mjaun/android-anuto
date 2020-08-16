@@ -21,7 +21,10 @@ import java.util.List;
 import java.util.Map;
 
 import ch.logixisland.anuto.R;
+import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.theme.Theme;
+import ch.logixisland.anuto.entity.EntityTypes;
+import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.entity.enemy.EnemyProperties;
 import ch.logixisland.anuto.entity.enemy.EnemyType;
 
@@ -32,22 +35,23 @@ public class EnemiesAdapter extends BaseAdapter {
     private final List<EnemyProperties> mEnemyProperties;
 
     private final WeakReference<Activity> mActivityRef;
-    private Context appContext;
+    private Context mContext;
     private Theme mTheme;
 
-    public EnemiesAdapter(Activity activity, Context context, Theme theme) {
+    public EnemiesAdapter(Activity activity, Context context, Theme theme, EntityRegistry entityRegistry) {
         mActivityRef = new WeakReference<>(activity);
-        appContext = context;
+        mContext = context;
         mTheme = theme;
 
-        if ((sTheme != theme.getName()) || (sEnemyCache == null)) {
-            sTheme = theme.getName();
+        if (!mTheme.getName().equals(sTheme) || sEnemyCache == null) {
+            sTheme = mTheme.getName();
             sEnemyCache = new HashMap<>();
         }
 
         mEnemyProperties = new ArrayList<>();
-        for (EnemyType x : EnemyType.values()) {
-            mEnemyProperties.add(new EnemyProperties.Builder(x.name()).build());
+        for (String name : entityRegistry.getEntityNamesByType(EntityTypes.ENEMY)) {
+            Enemy enemy = (Enemy) entityRegistry.createEntity(name);
+            mEnemyProperties.add(enemy.getEnemyProperties());
         }
     }
 
@@ -119,7 +123,7 @@ public class EnemiesAdapter extends BaseAdapter {
                 throw new RuntimeException("Unknown enemy!");
         }
 
-        Bitmap sheet = BitmapFactory.decodeResource(appContext.getResources(), mTheme.getResourceId(attrId));
+        Bitmap sheet = BitmapFactory.decodeResource(mContext.getResources(), mTheme.getResourceId(attrId));
         int spriteWidth = sheet.getWidth() / spriteCount;
         int spriteHeight = sheet.getHeight();
 
@@ -197,7 +201,6 @@ public class EnemiesAdapter extends BaseAdapter {
         dmp = TextUtils.join("\n", enemyProperties.getStrongAgainst());
         viewHolder.txt_strong_against.setText(dmp.length() > 0 ? dmp : activity.getString(R.string.none));
         viewHolder.txt_strong_against.setTextColor(mTheme.getColor(R.attr.strongAgainstColor));
-
 
         if (!sEnemyCache.containsKey(enemyProperties.getEnemyType())) {
             Bitmap bmp = extractSingleBmp(enemyProperties.getEnemyType());
