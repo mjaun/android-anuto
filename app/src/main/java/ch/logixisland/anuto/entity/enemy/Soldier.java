@@ -15,10 +15,14 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 
 public class Soldier extends Enemy implements SpriteTransformation {
 
-    public final static String ENTITY_NAME = EnemyType.soldier.name();
+    public final static String ENTITY_NAME = "soldier";
     private final static float ANIMATION_SPEED = 1f;
 
-    private final static EnemyProperties ENEMY_PROPERTIES = new EnemyProperties.Builder(ENTITY_NAME).build();
+    private final static EnemyProperties ENEMY_PROPERTIES = new EnemyProperties.Builder(ENTITY_NAME)
+            .setHealth(300)
+            .setSpeed(1.0f)
+            .setReward(10)
+            .build();
 
     public static class Factory extends EntityFactory {
         @Override

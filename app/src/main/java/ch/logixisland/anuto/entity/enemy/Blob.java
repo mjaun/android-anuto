@@ -15,10 +15,16 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 
 public class Blob extends Enemy implements SpriteTransformation {
 
-    public final static String ENTITY_NAME = EnemyType.blob.name();
+    public final static String ENTITY_NAME = "blob";
     private final static float ANIMATION_SPEED = 1.5f;
 
-    private final static EnemyProperties ENEMY_PROPERTIES = new EnemyProperties.Builder(ENTITY_NAME).build();
+    private final static EnemyProperties ENEMY_PROPERTIES = new EnemyProperties.Builder(ENTITY_NAME)
+            .setHealth(600)
+            .setSpeed(0.5f)
+            .setReward(20)
+            .setWeakAgainst(WeaponType.Explosive)
+            .setStrongAgainst(WeaponType.Bullet)
+            .build();
 
     public static class Factory extends EntityFactory {
         @Override

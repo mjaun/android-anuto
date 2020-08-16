@@ -15,10 +15,15 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
 
 public class Flyer extends Enemy implements SpriteTransformation {
 
-    public final static String ENTITY_NAME = EnemyType.flyer.name();
+    public final static String ENTITY_NAME = "flyer";
     private final static float ANIMATION_SPEED = 1.0f;
 
-    private final static EnemyProperties ENEMY_PROPERTIES = new EnemyProperties.Builder(ENTITY_NAME).build();
+    private final static EnemyProperties ENEMY_PROPERTIES = new EnemyProperties.Builder(ENTITY_NAME)
+            .setHealth(400)
+            .setSpeed(1.3f)
+            .setReward(30)
+            .setWeakAgainst(WeaponType.Laser, WeaponType.Bullet)
+            .build();
 
     public static class Factory extends EntityFactory {
         @Override

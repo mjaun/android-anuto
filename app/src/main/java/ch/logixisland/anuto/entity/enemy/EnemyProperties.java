@@ -18,73 +18,30 @@ public class EnemyProperties {
         private EnemyProperties mResult = new EnemyProperties();
 
         public Builder(String entityName) {
-
-            this.setEnemyType(EnemyType.valueOf(entityName));
-
-            switch (mResult.getEnemyType()) {
-                case soldier:
-                    this.setHealth(300)
-                            .setSpeed(1.0f)
-                            .setReward(10);
-                    break;
-                case blob:
-                    this.setHealth(600)
-                            .setSpeed(0.5f)
-                            .setReward(20)
-                            .setWeakAgainst(WeaponType.Explosive)
-                            .setStrongAgainst(WeaponType.Bullet);
-                    break;
-                case sprinter:
-                    this.setHealth(200)
-                            .setSpeed(3.0f)
-                            .setReward(15)
-                            .setWeakAgainst(WeaponType.Explosive)
-                            .setStrongAgainst(WeaponType.Laser);
-                    break;
-                case flyer:
-                    this.setHealth(400)
-                            .setSpeed(1.3f)
-                            .setReward(30)
-                            .setWeakAgainst(WeaponType.Laser, WeaponType.Bullet)
-                            .setStrongAgainst(WeaponType.Glue);
-                    break;
-                case healer:
-                    this.setHealth(400)
-                            .setSpeed(1.2f)
-                            .setReward(30)
-                            .setWeakAgainst(WeaponType.Laser, WeaponType.Bullet);
-                    break;
-                default:
-                    throw new RuntimeException("Unknown enemy!");
-            }
+            mResult.mEnemyType = EnemyType.valueOf(entityName);
         }
 
-        private Builder setEnemyType(EnemyType enemyType) {
-            mResult.mEnemyType = enemyType;
-            return this;
-        }
-
-        private Builder setHealth(int health) {
+        public Builder setHealth(int health) {
             mResult.mHealth = health;
             return this;
         }
 
-        private Builder setSpeed(float speed) {
+        public Builder setSpeed(float speed) {
             mResult.mSpeed = speed;
             return this;
         }
 
-        private Builder setReward(int reward) {
+        public Builder setReward(int reward) {
             mResult.mReward = reward;
             return this;
         }
 
-        private Builder setWeakAgainst(WeaponType... weakAgainst) {
+        public Builder setWeakAgainst(WeaponType... weakAgainst) {
             mResult.mWeakAgainst = Arrays.asList(weakAgainst);
             return this;
         }
 
-        private Builder setStrongAgainst(WeaponType... strongAgainst) {
+        public Builder setStrongAgainst(WeaponType... strongAgainst) {
             mResult.mStrongAgainst = Arrays.asList(strongAgainst);
             return this;
         }

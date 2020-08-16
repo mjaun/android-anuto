@@ -22,7 +22,7 @@ import ch.logixisland.anuto.util.math.SampledFunction;
 
 public class Healer extends Enemy implements SpriteTransformation {
 
-    public final static String ENTITY_NAME = EnemyType.healer.name();
+    public final static String ENTITY_NAME = "healer";
     private final static float ANIMATION_SPEED = 1.5f;
     private final static float HEAL_SCALE_FACTOR = 2f;
     private final static float HEAL_ROTATION = 2.5f;
@@ -32,7 +32,12 @@ public class Healer extends Enemy implements SpriteTransformation {
     private final static float HEAL_DURATION = 1.5f;
     private final static float HEAL_RADIUS = 0.7f;
 
-    private final static EnemyProperties ENEMY_PROPERTIES = new EnemyProperties.Builder(ENTITY_NAME).build();
+    private final static EnemyProperties ENEMY_PROPERTIES = new EnemyProperties.Builder(ENTITY_NAME)
+            .setHealth(400)
+            .setSpeed(1.2f)
+            .setReward(30)
+            .setWeakAgainst(WeaponType.Laser, WeaponType.Bullet)
+            .build();
 
     public static class Factory extends EntityFactory {
         @Override
