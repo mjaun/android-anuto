@@ -35,7 +35,7 @@ public class EnemyStatsActivity extends AnutoActivity implements ThemeManager.Li
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enemy_stats);
 
-        EnemiesAdapter adapter = new EnemiesAdapter(this, mAppContext, mTheme, mEntityRegistry);
+        EnemiesAdapter adapter = new EnemiesAdapter(this, mTheme, mEntityRegistry);
 
         GridView grid_enemies = findViewById(R.id.grid_enemies);
         grid_enemies.setAdapter(adapter);

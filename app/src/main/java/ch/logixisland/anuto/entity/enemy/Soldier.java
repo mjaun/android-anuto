@@ -1,5 +1,7 @@
 package ch.logixisland.anuto.entity.enemy;
 
+import android.graphics.Canvas;
+
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
@@ -56,13 +58,19 @@ public class Soldier extends Enemy implements SpriteTransformation {
     }
 
     @Override
+    public String getEntityName() {
+        return ENTITY_NAME;
+    }
+
+    @Override
     public int getTextId() {
         return R.string.soldier;
     }
 
     @Override
-    public String getEntityName() {
-        return ENTITY_NAME;
+    public void drawPreview(Canvas canvas) {
+        StaticData s = (StaticData) getStaticData();
+        getSpriteFactory().createStatic(Layers.ENEMY, s.mSpriteTemplate).draw(canvas);
     }
 
     @Override

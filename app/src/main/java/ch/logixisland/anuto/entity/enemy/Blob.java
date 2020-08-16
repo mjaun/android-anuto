@@ -1,5 +1,7 @@
 package ch.logixisland.anuto.entity.enemy;
 
+import android.graphics.Canvas;
+
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
@@ -95,6 +97,12 @@ public class Blob extends Enemy implements SpriteTransformation {
         super.clean();
 
         getGameEngine().remove(mSprite);
+    }
+
+    @Override
+    public void drawPreview(Canvas canvas) {
+        StaticData s = (StaticData) getStaticData();
+        getSpriteFactory().createStatic(Layers.ENEMY, s.mSpriteTemplate).draw(canvas);
     }
 
     @Override

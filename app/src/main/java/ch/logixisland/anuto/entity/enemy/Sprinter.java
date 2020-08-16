@@ -1,5 +1,7 @@
 package ch.logixisland.anuto.entity.enemy;
 
+import android.graphics.Canvas;
+
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
@@ -12,6 +14,7 @@ import ch.logixisland.anuto.engine.render.sprite.SpriteInstance;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTemplate;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformation;
 import ch.logixisland.anuto.engine.render.sprite.SpriteTransformer;
+import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.util.math.Function;
 import ch.logixisland.anuto.util.math.SampledFunction;
 
@@ -65,13 +68,22 @@ public class Sprinter extends Enemy implements SpriteTransformation {
     }
 
     @Override
+    public String getEntityName() {
+        return ENTITY_NAME;
+    }
+
+    @Override
     public int getTextId() {
         return R.string.sprinter;
     }
 
     @Override
-    public String getEntityName() {
-        return ENTITY_NAME;
+    public void drawPreview(Canvas canvas) {
+        StaticData s = (StaticData) getStaticData();
+
+        StaticSprite sprite = getSpriteFactory().createStatic(Layers.ENEMY, s.mSpriteTemplate);
+        sprite.setIndex(3);
+        sprite.draw(canvas);
     }
 
     @Override

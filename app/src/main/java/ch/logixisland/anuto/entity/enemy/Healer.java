@@ -1,5 +1,7 @@
 package ch.logixisland.anuto.entity.enemy;
 
+import android.graphics.Canvas;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -108,13 +110,19 @@ public class Healer extends Enemy implements SpriteTransformation {
     }
 
     @Override
+    public String getEntityName() {
+        return ENTITY_NAME;
+    }
+
+    @Override
     public int getTextId() {
         return R.string.healer;
     }
 
     @Override
-    public String getEntityName() {
-        return ENTITY_NAME;
+    public void drawPreview(Canvas canvas) {
+        StaticData s = (StaticData) getStaticData();
+        getSpriteFactory().createStatic(Layers.ENEMY, s.mSpriteTemplate).draw(canvas);
     }
 
     @Override

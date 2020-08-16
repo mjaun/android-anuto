@@ -3,8 +3,7 @@ package ch.logixisland.anuto.view.stats;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
+import android.graphics.Canvas;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +21,7 @@ import java.util.Map;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
+import ch.logixisland.anuto.engine.render.Viewport;
 import ch.logixisland.anuto.engine.theme.Theme;
 import ch.logixisland.anuto.entity.EntityTypes;
 import ch.logixisland.anuto.entity.enemy.Enemy;
@@ -35,12 +35,10 @@ public class EnemiesAdapter extends BaseAdapter {
     private final List<Enemy> mEnemies;
 
     private final WeakReference<Activity> mActivityRef;
-    private Context mContext;
     private Theme mTheme;
 
-    public EnemiesAdapter(Activity activity, Context context, Theme theme, EntityRegistry entityRegistry) {
+    public EnemiesAdapter(Activity activity, Theme theme, EntityRegistry entityRegistry) {
         mActivityRef = new WeakReference<>(activity);
-        mContext = context;
         mTheme = theme;
 
         if (!mTheme.getName().equals(sTheme) || sEnemyCache == null) {
@@ -89,58 +87,18 @@ public class EnemiesAdapter extends BaseAdapter {
         return 0;
     }
 
-    private Bitmap extractSingleBmp(EnemyType enemyType) {
-        int attrId, spriteCount, spriteId;
+    private Bitmap createPreviewBitmap(Enemy enemy) {
+        Viewport viewport = new Viewport();
+        viewport.setGameSize(1, 1);
+        viewport.setScreenSize(120, 120);
 
-        switch (enemyType) {
-            case soldier:
-                attrId = R.attr.soldier;
-                spriteCount = 12;
-                spriteId = 0;
-                break;
-            case blob:
-                attrId = R.attr.blob;
-                spriteCount = 9;
-                spriteId = 0;
-                break;
-            case sprinter:
-                attrId = R.attr.sprinter;
-                spriteCount = 6;
-                spriteId = 3;
-                break;
-            case flyer:
-                attrId = R.attr.flyer;
-                spriteCount = 6;
-                spriteId = 4;
-                break;
-            case healer:
-                attrId = R.attr.healer;
-                spriteCount = 4;
-                spriteId = 0;
-                break;
-            default:
-                throw new RuntimeException("Unknown enemy!");
-        }
+        Bitmap bitmap = Bitmap.createBitmap(120, 120, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        canvas.concat(viewport.getScreenMatrix());
+        enemy.drawPreview(canvas);
 
-        Bitmap sheet = BitmapFactory.decodeResource(mContext.getResources(), mTheme.getResourceId(attrId));
-        int spriteWidth = sheet.getWidth() / spriteCount;
-        int spriteHeight = sheet.getHeight();
-
-
-        float aspect = (float) spriteWidth / spriteHeight;
-
-        float newHeight = 120;
-        float newWidth = newHeight * aspect;
-        float scaleHeight = (newHeight) / spriteHeight;
-        float scaleWidth = (newWidth) / spriteWidth;
-        Matrix matrix = new Matrix();
-        matrix.postScale(scaleWidth, scaleHeight);
-
-        Bitmap resizedBitmap = Bitmap.createBitmap(sheet, spriteWidth * spriteId, 0, spriteWidth, spriteHeight, matrix, false);
-        sheet.recycle();
-        return resizedBitmap;
+        return bitmap;
     }
-
 
     public View getView(int position, View convertView, ViewGroup parent) {
         Activity activity = mActivityRef.get();
@@ -186,7 +144,7 @@ public class EnemiesAdapter extends BaseAdapter {
         viewHolder.txt_strong_against.setTextColor(mTheme.getColor(R.attr.strongAgainstColor));
 
         if (!sEnemyCache.containsKey(enemyProperties.getEnemyType())) {
-            Bitmap bmp = extractSingleBmp(enemyProperties.getEnemyType());
+            Bitmap bmp = createPreviewBitmap(enemy);
             sEnemyCache.put(enemyProperties.getEnemyType(), bmp);
         }
 

@@ -1,5 +1,7 @@
 package ch.logixisland.anuto.entity.enemy;
 
+import android.graphics.Canvas;
+
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -69,6 +71,8 @@ public abstract class Enemy extends Entity {
     }
 
     public abstract int getTextId();
+
+    public abstract void drawPreview(Canvas canvas);
 
     @Override
     public final int getEntityType() {
