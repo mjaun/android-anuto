@@ -65,6 +65,11 @@ public class Sprinter extends Enemy implements SpriteTransformation {
     }
 
     @Override
+    public int getTextId() {
+        return R.string.sprinter;
+    }
+
+    @Override
     public String getEntityName() {
         return ENTITY_NAME;
     }

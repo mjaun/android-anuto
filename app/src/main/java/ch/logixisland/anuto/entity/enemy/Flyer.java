@@ -59,6 +59,11 @@ public class Flyer extends Enemy implements SpriteTransformation {
     }
 
     @Override
+    public int getTextId() {
+        return R.string.flyer;
+    }
+
+    @Override
     public String getEntityName() {
         return ENTITY_NAME;
     }

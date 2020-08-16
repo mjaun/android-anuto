@@ -68,6 +68,8 @@ public abstract class Enemy extends Entity {
         mHealthBar = new HealthBar(getTheme(), this);
     }
 
+    public abstract int getTextId();
+
     @Override
     public final int getEntityType() {
         return EntityTypes.ENEMY;

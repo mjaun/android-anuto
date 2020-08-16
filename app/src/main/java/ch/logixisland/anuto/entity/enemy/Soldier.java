@@ -56,6 +56,11 @@ public class Soldier extends Enemy implements SpriteTransformation {
     }
 
     @Override
+    public int getTextId() {
+        return R.string.soldier;
+    }
+
+    @Override
     public String getEntityName() {
         return ENTITY_NAME;
     }

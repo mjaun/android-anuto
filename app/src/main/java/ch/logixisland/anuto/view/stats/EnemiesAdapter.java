@@ -32,7 +32,7 @@ public class EnemiesAdapter extends BaseAdapter {
     private static String sTheme;
     private static Map<EnemyType, Bitmap> sEnemyCache;
 
-    private final List<EnemyProperties> mEnemyProperties;
+    private final List<Enemy> mEnemies;
 
     private final WeakReference<Activity> mActivityRef;
     private Context mContext;
@@ -48,10 +48,9 @@ public class EnemiesAdapter extends BaseAdapter {
             sEnemyCache = new HashMap<>();
         }
 
-        mEnemyProperties = new ArrayList<>();
+        mEnemies = new ArrayList<>();
         for (String name : entityRegistry.getEntityNamesByType(EntityTypes.ENEMY)) {
-            Enemy enemy = (Enemy) entityRegistry.createEntity(name);
-            mEnemyProperties.add(enemy.getEnemyProperties());
+            mEnemies.add((Enemy) entityRegistry.createEntity(name));
         }
     }
 
@@ -77,12 +76,12 @@ public class EnemiesAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return mEnemyProperties.size();
+        return mEnemies.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return mEnemyProperties.get(position);
+        return mEnemies.get(position);
     }
 
     @Override
@@ -157,49 +156,33 @@ public class EnemiesAdapter extends BaseAdapter {
         } else {
             enemyItemView = convertView;
         }
-        EnemyProperties enemyProperties = mEnemyProperties.get(position);
-        ViewHolder viewHolder = new ViewHolder(enemyItemView);
-        String dmp;
 
-        switch (enemyProperties.getEnemyType()) {
-            case soldier:
-                dmp = activity.getString(R.string.soldier);
-                break;
-            case blob:
-                dmp = activity.getString(R.string.blob);
-                break;
-            case sprinter:
-                dmp = activity.getString(R.string.sprinter);
-                break;
-            case flyer:
-                dmp = activity.getString(R.string.flyer);
-                break;
-            case healer:
-                dmp = activity.getString(R.string.healer);
-                break;
-            default:
-                throw new RuntimeException("Unknown enemy!");
-        }
-        viewHolder.txt_name.setText(dmp);
+        Enemy enemy = mEnemies.get(position);
+        EnemyProperties enemyProperties = enemy.getEnemyProperties();
+
+        ViewHolder viewHolder = new ViewHolder(enemyItemView);
+
+        String tmp = activity.getString(enemy.getTextId());
+        viewHolder.txt_name.setText(tmp);
 
         DecimalFormat fmt = new DecimalFormat();
-        dmp = fmt.format(enemyProperties.getHealth());
-        viewHolder.txt_health.setText(dmp);
+        tmp = fmt.format(enemyProperties.getHealth());
+        viewHolder.txt_health.setText(tmp);
 
-        DecimalFormat df2 = new DecimalFormat("#0 '%'");
-        dmp = df2.format(enemyProperties.getSpeed() * 100);
-        viewHolder.txt_speed.setText(dmp);
+        DecimalFormat fmt2 = new DecimalFormat("#0 '%'");
+        tmp = fmt2.format(enemyProperties.getSpeed() * 100);
+        viewHolder.txt_speed.setText(tmp);
 
-        dmp = fmt.format(enemyProperties.getReward());
-        viewHolder.txt_reward.setText(dmp);
+        tmp = fmt.format(enemyProperties.getReward());
+        viewHolder.txt_reward.setText(tmp);
 
-        dmp = TextUtils.join("\n", enemyProperties.getWeakAgainst());
-        viewHolder.txt_weak_against.setText(dmp.length() > 0 ? dmp : activity.getString(R.string.none));
+        tmp = TextUtils.join("\n", enemyProperties.getWeakAgainst());
+        viewHolder.txt_weak_against.setText(tmp.length() > 0 ? tmp : activity.getString(R.string.none));
         viewHolder.txt_weak_against.setTextColor(mTheme.getColor(R.attr.weakAgainstColor));
 
 
-        dmp = TextUtils.join("\n", enemyProperties.getStrongAgainst());
-        viewHolder.txt_strong_against.setText(dmp.length() > 0 ? dmp : activity.getString(R.string.none));
+        tmp = TextUtils.join("\n", enemyProperties.getStrongAgainst());
+        viewHolder.txt_strong_against.setText(tmp.length() > 0 ? tmp : activity.getString(R.string.none));
         viewHolder.txt_strong_against.setTextColor(mTheme.getColor(R.attr.strongAgainstColor));
 
         if (!sEnemyCache.containsKey(enemyProperties.getEnemyType())) {
