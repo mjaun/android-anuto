@@ -6,7 +6,6 @@ import java.util.Collections;
 
 public class EnemyProperties {
 
-    private EnemyType mEnemyType;
     private int mHealth;
     private float mSpeed;
     private int mReward;
@@ -16,10 +15,6 @@ public class EnemyProperties {
     public static class Builder {
 
         private EnemyProperties mResult = new EnemyProperties();
-
-        public Builder(String entityName) {
-            mResult.mEnemyType = EnemyType.valueOf(entityName);
-        }
 
         public Builder setHealth(int health) {
             mResult.mHealth = health;
@@ -50,10 +45,6 @@ public class EnemyProperties {
             return mResult;
         }
 
-    }
-
-    public EnemyType getEnemyType() {
-        return mEnemyType;
     }
 
     public int getHealth() {

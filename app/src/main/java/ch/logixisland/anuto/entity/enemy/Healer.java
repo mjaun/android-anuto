@@ -34,7 +34,7 @@ public class Healer extends Enemy implements SpriteTransformation {
     private final static float HEAL_DURATION = 1.5f;
     private final static float HEAL_RADIUS = 0.7f;
 
-    private final static EnemyProperties ENEMY_PROPERTIES = new EnemyProperties.Builder(ENTITY_NAME)
+    private final static EnemyProperties ENEMY_PROPERTIES = new EnemyProperties.Builder()
             .setHealth(400)
             .setSpeed(1.2f)
             .setReward(30)

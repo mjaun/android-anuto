@@ -20,7 +20,7 @@ public class Blob extends Enemy implements SpriteTransformation {
     public final static String ENTITY_NAME = "blob";
     private final static float ANIMATION_SPEED = 1.5f;
 
-    private final static EnemyProperties ENEMY_PROPERTIES = new EnemyProperties.Builder(ENTITY_NAME)
+    private final static EnemyProperties ENEMY_PROPERTIES = new EnemyProperties.Builder()
             .setHealth(600)
             .setSpeed(0.5f)
             .setReward(20)

@@ -23,7 +23,7 @@ public class Sprinter extends Enemy implements SpriteTransformation {
     public final static String ENTITY_NAME = "sprinter";
     private final static float ANIMATION_SPEED = 0.7f;
 
-    private final static EnemyProperties ENEMY_PROPERTIES = new EnemyProperties.Builder(ENTITY_NAME)
+    private final static EnemyProperties ENEMY_PROPERTIES = new EnemyProperties.Builder()
             .setHealth(200)
             .setSpeed(3.0f)
             .setReward(15)

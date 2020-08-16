@@ -21,7 +21,7 @@ public class Flyer extends Enemy implements SpriteTransformation {
     public final static String ENTITY_NAME = "flyer";
     private final static float ANIMATION_SPEED = 1.0f;
 
-    private final static EnemyProperties ENEMY_PROPERTIES = new EnemyProperties.Builder(ENTITY_NAME)
+    private final static EnemyProperties ENEMY_PROPERTIES = new EnemyProperties.Builder()
             .setHealth(400)
             .setSpeed(1.3f)
             .setReward(30)

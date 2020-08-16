@@ -1,7 +1,6 @@
 package ch.logixisland.anuto.view.stats;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.text.TextUtils;
@@ -15,9 +14,7 @@ import android.widget.TextView;
 import java.lang.ref.WeakReference;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
@@ -26,12 +23,8 @@ import ch.logixisland.anuto.engine.theme.Theme;
 import ch.logixisland.anuto.entity.EntityTypes;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.entity.enemy.EnemyProperties;
-import ch.logixisland.anuto.entity.enemy.EnemyType;
 
 public class EnemiesAdapter extends BaseAdapter {
-    private static String sTheme;
-    private static Map<EnemyType, Bitmap> sEnemyCache;
-
     private final List<Enemy> mEnemies;
 
     private final WeakReference<Activity> mActivityRef;
@@ -40,11 +33,6 @@ public class EnemiesAdapter extends BaseAdapter {
     public EnemiesAdapter(Activity activity, Theme theme, EntityRegistry entityRegistry) {
         mActivityRef = new WeakReference<>(activity);
         mTheme = theme;
-
-        if (!mTheme.getName().equals(sTheme) || sEnemyCache == null) {
-            sTheme = mTheme.getName();
-            sEnemyCache = new HashMap<>();
-        }
 
         mEnemies = new ArrayList<>();
         for (String name : entityRegistry.getEntityNamesByType(EntityTypes.ENEMY)) {
@@ -87,19 +75,6 @@ public class EnemiesAdapter extends BaseAdapter {
         return 0;
     }
 
-    private Bitmap createPreviewBitmap(Enemy enemy) {
-        Viewport viewport = new Viewport();
-        viewport.setGameSize(1, 1);
-        viewport.setScreenSize(120, 120);
-
-        Bitmap bitmap = Bitmap.createBitmap(120, 120, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        canvas.concat(viewport.getScreenMatrix());
-        enemy.drawPreview(canvas);
-
-        return bitmap;
-    }
-
     public View getView(int position, View convertView, ViewGroup parent) {
         Activity activity = mActivityRef.get();
 
@@ -138,19 +113,27 @@ public class EnemiesAdapter extends BaseAdapter {
         viewHolder.txt_weak_against.setText(tmp.length() > 0 ? tmp : activity.getString(R.string.none));
         viewHolder.txt_weak_against.setTextColor(mTheme.getColor(R.attr.weakAgainstColor));
 
-
         tmp = TextUtils.join("\n", enemyProperties.getStrongAgainst());
         viewHolder.txt_strong_against.setText(tmp.length() > 0 ? tmp : activity.getString(R.string.none));
         viewHolder.txt_strong_against.setTextColor(mTheme.getColor(R.attr.strongAgainstColor));
 
-        if (!sEnemyCache.containsKey(enemyProperties.getEnemyType())) {
-            Bitmap bmp = createPreviewBitmap(enemy);
-            sEnemyCache.put(enemyProperties.getEnemyType(), bmp);
-        }
-
-        viewHolder.img_enemy.setImageBitmap(sEnemyCache.get(enemyProperties.getEnemyType()));
+        Bitmap bmp = createPreviewBitmap(enemy);
+        viewHolder.img_enemy.setImageBitmap(bmp);
 
         return enemyItemView;
+    }
+
+    private Bitmap createPreviewBitmap(Enemy enemy) {
+        Viewport viewport = new Viewport();
+        viewport.setGameSize(1, 1);
+        viewport.setScreenSize(120, 120);
+
+        Bitmap bitmap = Bitmap.createBitmap(120, 120, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        canvas.concat(viewport.getScreenMatrix());
+        enemy.drawPreview(canvas);
+
+        return bitmap;
     }
 
 }

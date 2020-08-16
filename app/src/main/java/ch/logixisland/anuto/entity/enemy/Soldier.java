@@ -20,7 +20,7 @@ public class Soldier extends Enemy implements SpriteTransformation {
     public final static String ENTITY_NAME = "soldier";
     private final static float ANIMATION_SPEED = 1f;
 
-    private final static EnemyProperties ENEMY_PROPERTIES = new EnemyProperties.Builder(ENTITY_NAME)
+    private final static EnemyProperties ENEMY_PROPERTIES = new EnemyProperties.Builder()
             .setHealth(300)
             .setSpeed(1.0f)
             .setReward(10)
