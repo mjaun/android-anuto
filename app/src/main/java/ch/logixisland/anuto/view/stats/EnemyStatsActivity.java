@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.view.faq;
+package ch.logixisland.anuto.view.stats;
 
 import android.content.Context;
 import android.os.Bundle;

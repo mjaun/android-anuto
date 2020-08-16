@@ -48,7 +48,7 @@
             android:theme="@android:style/Theme.DeviceDefault">
         </activity>
         <activity
-            android:name=".view.faq.EnemyStatsActivity"
+            android:name=".view.stats.EnemyStatsActivity"
             android:label="@string/enemy_stats"
             android:icon="@drawable/settings"
             android:theme="@android:style/Theme.DeviceDefault">
