@@ -1,4 +1,4 @@
-package ch.logixisland.anuto.view.loadmenu;
+package ch.logixisland.anuto.view.load;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -18,7 +18,7 @@ import ch.logixisland.anuto.business.game.SaveGameInfo;
 import ch.logixisland.anuto.business.game.SaveGameRepository;
 import ch.logixisland.anuto.view.AnutoActivity;
 
-public class LoadMenuActivity extends AnutoActivity implements AdapterView.OnItemClickListener,
+public class LoadGameActivity extends AnutoActivity implements AdapterView.OnItemClickListener,
         ViewTreeObserver.OnScrollChangedListener {
 
     public static int CONTEXT_MENU__DELETE_ID = 0;
@@ -33,7 +33,7 @@ public class LoadMenuActivity extends AnutoActivity implements AdapterView.OnIte
     private GridView grid_savegames;
 
 
-    public LoadMenuActivity() {
+    public LoadGameActivity() {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
         mGameLoader = factory.getGameLoader();
         mSaveGameRepository = factory.getSaveGameRepository();

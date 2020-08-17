@@ -92,13 +92,13 @@
     <string name="weak_against">Schwach gegen:</string>
     <string name="strong_against">Stark gegen:</string>
     <string name="none">Keine</string>
-    <string name="loadmenu">Spielstand Menü</string>
-    <string name="quicksave">Schnellspeichern</string>
+    <string name="load_game">Spiel Laden</string>
+    <string name="save_game">Spiel Speichern</string>
     <string name="theme_colour">Farbig</string>
     <string name="remainingEnemiesCount">Verbleibende Gegner</string>
     <string name="delete">Löschen</string>
     <string name="deleteConfirmation">Soll dieser Spielstand wirklich gelöscht werden?</string>
     <string name="enemy_stats">Gegner Infos</string>
     <string name="name">Name:</string>
-    <string name="saveGameSuccessful">Spielstand erfolgreich erzeugt</string>
+    <string name="game_saved">Spiel gespeichert</string>
 </resources>

@@ -42,8 +42,8 @@
             android:theme="@android:style/Theme.DeviceDefault">
         </activity>
         <activity
-            android:name=".view.loadmenu.LoadMenuActivity"
-            android:label="@string/savegames"
+            android:name=".view.load.LoadGameActivity"
+            android:label="@string/load_game"
             android:icon="@drawable/settings"
             android:theme="@android:style/Theme.DeviceDefault">
         </activity>

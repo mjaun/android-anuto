@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.loadmenu.LoadMenuActivity">
+    tools:context=".view.load.LoadGameActivity">
 
     <GridView
         android:id="@+id/grid_savegames"

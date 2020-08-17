@@ -33,18 +33,18 @@
             android:text="@string/restart" />
 
         <Button
-            android:id="@+id/btn_quicksave"
+            android:id="@+id/btn_save_game"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:text="@string/quicksave" />
+            android:text="@string/save_game" />
 
         <Button
-            android:id="@+id/btn_loadmenu"
+            android:id="@+id/btn_load_game"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:text="@string/loadmenu" />
+            android:text="@string/load_game" />
 
         <Button
             android:id="@+id/btn_change_map"

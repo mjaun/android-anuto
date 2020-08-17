@@ -16,7 +16,7 @@ import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.game.SaveGameRepository;
 import ch.logixisland.anuto.engine.theme.ActivityType;
 import ch.logixisland.anuto.view.AnutoActivity;
-import ch.logixisland.anuto.view.loadmenu.LoadMenuActivity;
+import ch.logixisland.anuto.view.load.LoadGameActivity;
 import ch.logixisland.anuto.view.map.ChangeMapActivity;
 import ch.logixisland.anuto.view.setting.SettingsActivity;
 import ch.logixisland.anuto.view.stats.EnemyStatsActivity;
@@ -38,8 +38,8 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
 
     private Button btn_restart;
     private Button btn_change_map;
-    private Button btn_quicksave;
-    private Button btn_loadmenu;
+    private Button btn_save_game;
+    private Button btn_load_game;
     private Button btn_enemy_stats;
     private Button btn_settings;
 
@@ -63,8 +63,8 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
 
         btn_restart = findViewById(R.id.btn_restart);
         btn_change_map = findViewById(R.id.btn_change_map);
-        btn_quicksave = findViewById(R.id.btn_quicksave);
-        btn_loadmenu = findViewById(R.id.btn_loadmenu);
+        btn_save_game = findViewById(R.id.btn_save_game);
+        btn_load_game = findViewById(R.id.btn_load_game);
         btn_enemy_stats = findViewById(R.id.btn_enemy_stats);
         btn_settings = findViewById(R.id.btn_settings);
 
@@ -73,12 +73,12 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
 
         btn_restart.setOnClickListener(this);
         btn_change_map.setOnClickListener(this);
-        btn_quicksave.setOnClickListener(this);
-        btn_loadmenu.setOnClickListener(this);
+        btn_save_game.setOnClickListener(this);
+        btn_load_game.setOnClickListener(this);
         btn_enemy_stats.setOnClickListener(this);
         btn_settings.setOnClickListener(this);
-        btn_quicksave.setEnabled(mGameState.isGameStarted());
-        btn_loadmenu.setEnabled(!mSaveGameRepository.getSaveGameInfos().isEmpty());
+        btn_save_game.setEnabled(mGameState.isGameStarted());
+        btn_load_game.setEnabled(!mSaveGameRepository.getSaveGameInfos().isEmpty());
 
         activity_menu.setOnTouchListener(this);
         menu_layout.setOnTouchListener(this);
@@ -98,15 +98,15 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
             return;
         }
 
-        if (view == btn_quicksave) {
+        if (view == btn_save_game) {
             mGameSaver.saveGame();
-            btn_loadmenu.setEnabled(true);
-            Toast.makeText(this, getString(ch.logixisland.anuto.R.string.saveGameSuccessful), Toast.LENGTH_LONG).show();
+            btn_load_game.setEnabled(true);
+            Toast.makeText(this, getString(R.string.game_saved), Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (view == btn_loadmenu) {
-            Intent intent = new Intent(this, LoadMenuActivity.class);
+        if (view == btn_load_game) {
+            Intent intent = new Intent(this, LoadGameActivity.class);
             startActivityForResult(intent, REQUEST_LOADMENU);
             return;
         }
