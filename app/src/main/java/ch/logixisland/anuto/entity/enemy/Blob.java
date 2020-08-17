@@ -61,7 +61,7 @@ public class Blob extends Enemy implements SpriteTransformation {
 
     @Override
     public int getTextId() {
-        return R.string.blob;
+        return R.string.enemy_blob;
     }
 
     @Override

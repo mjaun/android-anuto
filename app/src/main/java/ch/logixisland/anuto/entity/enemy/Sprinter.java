@@ -74,7 +74,7 @@ public class Sprinter extends Enemy implements SpriteTransformation {
 
     @Override
     public int getTextId() {
-        return R.string.sprinter;
+        return R.string.enemy_sprinter;
     }
 
     @Override

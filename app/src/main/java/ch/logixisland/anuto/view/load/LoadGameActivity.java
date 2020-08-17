@@ -21,7 +21,7 @@ import ch.logixisland.anuto.view.AnutoActivity;
 public class LoadGameActivity extends AnutoActivity implements AdapterView.OnItemClickListener,
         ViewTreeObserver.OnScrollChangedListener {
 
-    public static int CONTEXT_MENU__DELETE_ID = 0;
+    public static int CONTEXT_MENU_DELETE_ID = 0;
 
     private final GameLoader mGameLoader;
     private final SaveGameRepository mSaveGameRepository;
@@ -77,26 +77,16 @@ public class LoadGameActivity extends AnutoActivity implements AdapterView.OnIte
     }
 
     public void onCreateContextMenu(android.view.ContextMenu menu, View v, android.view.ContextMenu.ContextMenuInfo menuInfo) {
-        menu.add(0, CONTEXT_MENU__DELETE_ID, 0, R.string.delete);
+        menu.add(0, CONTEXT_MENU_DELETE_ID, 0, R.string.delete);
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        if (item.getItemId() == CONTEXT_MENU__DELETE_ID) {
-            final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-            final SaveGameInfo saveGameInfo = mSaveGameRepository.getSaveGameInfos().get(info.position);
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.delete)
-                    .setMessage(R.string.deleteConfirmation)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            mSaveGameRepository.deleteSaveGame(saveGameInfo);
-                            mAdapter.notifyDataSetChanged();
-                        }
-                    })
-                    .setNegativeButton(android.R.string.no, null).show();
+        if (item.getItemId() == CONTEXT_MENU_DELETE_ID) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+            SaveGameInfo saveGameInfo = mSaveGameRepository.getSaveGameInfos().get(info.position);
+            mSaveGameRepository.deleteSaveGame(saveGameInfo);
+            mAdapter.notifyDataSetChanged();
             return true;
         }
 

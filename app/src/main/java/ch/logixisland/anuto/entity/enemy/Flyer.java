@@ -68,7 +68,7 @@ public class Flyer extends Enemy implements SpriteTransformation {
 
     @Override
     public int getTextId() {
-        return R.string.flyer;
+        return R.string.enemy_flyer;
     }
 
     @Override

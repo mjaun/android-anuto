@@ -116,7 +116,7 @@ public class Healer extends Enemy implements SpriteTransformation {
 
     @Override
     public int getTextId() {
-        return R.string.healer;
+        return R.string.enemy_healer;
     }
 
     @Override

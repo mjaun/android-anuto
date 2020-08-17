@@ -9,8 +9,13 @@
     <string name="var_speed" translatable="false">%1$dx</string>
 
     <string name="restart">Restart</string>
+    <string name="save_game">Save Game</string>
+    <string name="game_saved">Game saved</string>
+    <string name="load_game">Load Game</string>
     <string name="change_map">Change Map</string>
     <string name="settings">Settings</string>
+
+    <string name="delete">Delete</string>
 
     <string name="sound">Sound</string>
     <string name="theme">Theme</string>
@@ -40,6 +45,7 @@
     <string name="intensity">Intensity</string>
     <string name="duration">Duration</string>
     <string name="inflicted">Inflicted</string>
+    <string name="dps" translatable="false">DPS</string>
 
     <string name="lock_target">Lock Target</string>
     <string name="strategy">Strategy</string>
@@ -90,26 +96,18 @@
     <string name="tutorial_enemies">If an enemy finishes the path, you loose one life. The game is over if you have no more lives left.\n\n<b>Tip:</b> Some towers are more effective against a certain type of enemy than others.</string>
     <string name="tutorial_finish">Good luck and have fun! You can activate the tutorial again in the settings.</string>
 
-    <string name="dps" translatable="false">DPS</string>
-    <string name="faq" translatable="false">FAQ</string>
+    <string name="enemy_stats">Enemy Stats</string>
+    <string name="name">Name:</string>
     <string name="health">Health:</string>
     <string name="speed">Speed:</string>
     <string name="reward">Reward:</string>
     <string name="weak_against">Weak against:</string>
     <string name="strong_against">Strong against:</string>
     <string name="none">None</string>
-    <string name="save_game">Save Game</string>
-    <string name="load_game">Load Game</string>
-    <string name="remainingEnemiesCount">Remaining enemies</string>
-    <string name="game_saved">Game saved</string>
-    <string name="delete">Delete</string>
-    <string name="deleteConfirmation">Do you really want to delete this savegame?</string>
-    <string name="name">Name:</string>
-    <string name="soldier">Soldier</string>
-    <string name="blob">Blob</string>
-    <string name="sprinter">Sprinter</string>
-    <string name="flyer">Flyer</string>
-    <string name="healer">Healer</string>
-    <string name="enemy_stats">Enemy Stats</string>
 
+    <string name="enemy_soldier">Soldier</string>
+    <string name="enemy_blob">Blob</string>
+    <string name="enemy_sprinter">Sprinter</string>
+    <string name="enemy_flyer">Flyer</string>
+    <string name="enemy_healer">Healer</string>
 </resources>
