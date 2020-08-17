@@ -3,6 +3,7 @@ package ch.logixisland.anuto.business.game;
 import android.content.Context;
 import android.util.Log;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -88,11 +89,11 @@ public class GameLoader implements ErrorListener {
         loadMap(mCurrentMapId);
     }
 
-    public KeyValueStore readSaveGame(final String fileName, final boolean userSavegame) {
+    public KeyValueStore readSaveGame(final String fileName) {
         KeyValueStore gameState;
 
         try {
-            gameState = getGameState(fileName, userSavegame);
+            gameState = getGameState(fileName);
         } catch (FileNotFoundException e) {
             Log.i(TAG, "No save game file found.");
             return null;
@@ -109,15 +110,15 @@ public class GameLoader implements ErrorListener {
     }
 
     public void loadGame() {
-        loadGame(SAVED_GAME_FILE, false);
+        loadGame(new File(mContext.getFilesDir(), SAVED_GAME_FILE).getAbsolutePath());
     }
 
-    public void loadGame(final String fileName, final boolean userSavegame) {
+    public void loadGame(final String fileName) {
         if (mGameEngine.isThreadChangeNeeded()) {
             mGameEngine.post(new Message() {
                 @Override
                 public void execute() {
-                    loadGame(fileName, userSavegame);
+                    loadGame(fileName);
                 }
             });
             return;
@@ -127,7 +128,7 @@ public class GameLoader implements ErrorListener {
         KeyValueStore gameState;
 
         try {
-            gameState = getGameState(fileName, userSavegame);
+            gameState = getGameState(fileName);
         } catch (FileNotFoundException e) {
             Log.i(TAG, "No save game file found.");
             loadMap(mMapRepository.getDefaultMapId());
@@ -146,13 +147,13 @@ public class GameLoader implements ErrorListener {
         initializeGame(mCurrentMapId, gameState);
     }
 
-    public KeyValueStore getGameState(final String fileName, final boolean userSavegame) throws IOException {
+    public KeyValueStore getGameState(final String fileName) throws IOException {
         Log.i(TAG, "Reading state...");
         KeyValueStore gameState;
 
         FileInputStream inputStream = null;
         try {
-            inputStream = userSavegame ? new FileInputStream(fileName) : mContext.openFileInput(fileName);
+            inputStream = new FileInputStream(fileName);
             gameState = KeyValueStore.fromStream(inputStream);
         } finally {
             if (inputStream != null)
@@ -236,7 +237,7 @@ public class GameLoader implements ErrorListener {
         // avoid game not starting anymore because of a somehow corrupt saved game file
         if (loopCount < 10) {
             Log.w(TAG, "Game crashed just after loading, deleting saved game file.");
-            mContext.deleteFile(SAVED_GAME_FILE);
+            new File(mContext.getFilesDir(), SAVED_GAME_FILE).delete();
         }
     }
 

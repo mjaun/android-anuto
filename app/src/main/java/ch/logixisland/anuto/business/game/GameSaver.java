@@ -54,10 +54,10 @@ public class GameSaver {
             return;
         }
 
-        saveGame(GameLoader.SAVED_GAME_FILE, false);
+        saveGame(new File(mContext.getFilesDir(), GameLoader.SAVED_GAME_FILE).getAbsolutePath());
     }
 
-    void saveGame(final String fileName, final boolean userSavegame) {
+    void saveGame(final String fileName) {
         Log.i(TAG, "Saving game...");
         KeyValueStore gameState = new KeyValueStore();
         mGamePersister.writeState(gameState);
@@ -65,7 +65,7 @@ public class GameSaver {
         gameState.putString("mapId", mGameLoader.getCurrentMapId());
 
         try {
-            FileOutputStream outputStream = userSavegame ? (new FileOutputStream(fileName, false)) : mContext.openFileOutput(fileName, Context.MODE_PRIVATE);
+            FileOutputStream outputStream = new FileOutputStream(fileName, false);
             gameState.toStream(outputStream);
             outputStream.close();
             Log.i(TAG, "Game saved.");
@@ -122,7 +122,7 @@ public class GameSaver {
 
         try {
             Log.i(TAG, "Creating savegame info...");
-            saveGame(rootdir.getAbsolutePath() + File.separator + GameLoader.SAVED_GAME_FILE, true);
+            saveGame(rootdir.getAbsolutePath() + File.separator + GameLoader.SAVED_GAME_FILE);
 
             KeyValueStore savegameInfo = new KeyValueStore();
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
