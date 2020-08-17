@@ -15,8 +15,8 @@ public final class SaveGameInfo {
 
     public static SaveGameInfo createSGI(File folder) {
         try {
-            KeyValueStore savegameInfoStore = KeyValueStore.fromStream(new FileInputStream(new File(folder, GameLoader.SAVED_GAMEINFO_FILE)));
-            Bitmap cachedScreenshot = BitmapFactory.decodeFile(new File(folder, GameLoader.SAVED_SCREENSHOT_FILE).getAbsolutePath());
+            KeyValueStore savegameInfoStore = KeyValueStore.fromStream(new FileInputStream(new File(folder, SaveGameRepository.GAME_INFO_FILE)));
+            Bitmap cachedScreenshot = BitmapFactory.decodeFile(new File(folder, SaveGameRepository.SCREENSHOT_FILE).getAbsolutePath());
             return new SaveGameInfo(folder, savegameInfoStore, cachedScreenshot);
         } catch (Exception e) {
             return null;
@@ -33,8 +33,8 @@ public final class SaveGameInfo {
         return mFolder;
     }
 
-    public String getSaveGamePath() {
-        return new File(mFolder, GameLoader.SAVED_GAME_FILE).getAbsolutePath();
+    public String getGameStatePath() {
+        return new File(mFolder, SaveGameRepository.GAME_STATE_FILE).getAbsolutePath();
     }
 
     public Bitmap getCachedScreenshot() {

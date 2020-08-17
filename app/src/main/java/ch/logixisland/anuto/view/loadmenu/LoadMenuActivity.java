@@ -73,7 +73,7 @@ public class LoadMenuActivity extends AnutoActivity implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        mGameLoader.loadGame(mAdapter.getItem(position).getSaveGamePath());
+        mGameLoader.loadGame(mAdapter.getItem(position).getGameStatePath());
 
         finish();
     }

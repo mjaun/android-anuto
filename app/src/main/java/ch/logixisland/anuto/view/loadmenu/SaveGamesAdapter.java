@@ -29,7 +29,7 @@ public class SaveGamesAdapter extends BaseAdapter {
 
     SaveGamesAdapter(Activity activity, SaveGameRepository saveGameRepository) {
         mActivityRef = new WeakReference<>(activity);
-        mSaveGameInfos = saveGameRepository.getSavegameInfos();
+        mSaveGameInfos = saveGameRepository.getSaveGameInfos();
     }
 
     static private class ViewHolder {

@@ -99,7 +99,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
         }
 
         if (view == btn_quicksave) {
-            mGameSaver.makeNewSavegame();
+            mGameSaver.saveGame();
             btn_loadmenu.setEnabled(true);
             Toast.makeText(this, getString(ch.logixisland.anuto.R.string.saveGameSuccessful), Toast.LENGTH_LONG).show();
             return;

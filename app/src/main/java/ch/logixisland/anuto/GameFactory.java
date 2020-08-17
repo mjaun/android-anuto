@@ -135,13 +135,13 @@ public class GameFactory {
         mSaveGameRepository = new SaveGameRepository(context);
         mScoreBoard = new ScoreBoard(mGameEngine);
         mTowerSelector = new TowerSelector(mGameEngine, mScoreBoard);
-        mGameLoader = new GameLoader(context, mGameEngine, mGamePersister, mViewport, mEntityRegistry, mMapRepository);
-        mHighScores = new HighScores(context, mGameEngine, mScoreBoard, mGameLoader);
         mGameState = new GameState(mScoreBoard, mHighScores, mTowerSelector);
         mTowerAging = new TowerAging(mGameEngine);
         mSpeedManager = new GameSpeed(mGameEngine);
         mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mGameState, mEntityRegistry, mTowerAging);
+        mGameLoader = new GameLoader(context, mGameEngine, mGamePersister, mViewport, mEntityRegistry, mMapRepository, mSaveGameRepository);
         mGameSaver = new GameSaver(context, mGameEngine, mGameLoader, mGamePersister, mRenderer, mWaveManager, mScoreBoard, mSaveGameRepository);
+        mHighScores = new HighScores(context, mGameEngine, mScoreBoard, mGameLoader);
         mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector, mEntityRegistry);
         mTowerInserter = new TowerInserter(mGameEngine, mGameState, mEntityRegistry, mTowerSelector, mTowerAging, mScoreBoard);
         mTutorialControl = new TutorialControl(context, mTowerInserter, mTowerSelector, mWaveManager);

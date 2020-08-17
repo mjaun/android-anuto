@@ -26,9 +26,6 @@ import ch.logixisland.anuto.util.container.KeyValueStore;
 public class GameLoader implements ErrorListener {
 
     private static final String TAG = GameLoader.class.getSimpleName();
-    public static final String SAVED_GAME_FILE = "saved_game.json";
-    public static final String SAVED_SCREENSHOT_FILE = "screen.png";
-    public static final String SAVED_GAMEINFO_FILE = "gameinfo.json";
 
 
     public interface Listener {
@@ -41,18 +38,21 @@ public class GameLoader implements ErrorListener {
     private final Viewport mViewport;
     private final EntityRegistry mEntityRegistry;
     private final MapRepository mMapRepository;
+    private final SaveGameRepository mSaveGameRepository;
     private String mCurrentMapId;
 
     private List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
     public GameLoader(Context context, GameEngine gameEngine, GamePersister gamePersister,
-                      Viewport viewport, EntityRegistry entityRegistry, MapRepository mapRepository) {
+                      Viewport viewport, EntityRegistry entityRegistry, MapRepository mapRepository,
+                      SaveGameRepository saveGameRepository) {
         mContext = context;
         mGameEngine = gameEngine;
         mGamePersister = gamePersister;
         mViewport = viewport;
         mEntityRegistry = entityRegistry;
         mMapRepository = mapRepository;
+        mSaveGameRepository = saveGameRepository;
 
         mGameEngine.registerErrorListener(this);
     }
@@ -88,10 +88,10 @@ public class GameLoader implements ErrorListener {
     }
 
     public void autoLoadGame() {
-        File autoSaveFile = new File(mContext.getFilesDir(), SAVED_GAME_FILE);
+        File autoSaveStateFile = mSaveGameRepository.getAutoSaveStateFile();
 
-        if (autoSaveFile.exists()) {
-            loadGame(autoSaveFile.getAbsolutePath());
+        if (autoSaveStateFile.exists()) {
+            loadGame(autoSaveStateFile.getAbsolutePath());
         } else {
             Log.i(TAG, "No auto save game file not found.");
             loadMap(mMapRepository.getDefaultMapId());
@@ -190,7 +190,7 @@ public class GameLoader implements ErrorListener {
         // avoid game not starting anymore because of a somehow corrupt saved game file
         if (loopCount < 10) {
             Log.w(TAG, "Game crashed just after loading, deleting saved game file.");
-            new File(mContext.getFilesDir(), SAVED_GAME_FILE).delete();
+            mSaveGameRepository.getAutoSaveStateFile().delete();
         }
     }
 

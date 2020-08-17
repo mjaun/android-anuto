@@ -1,14 +1,10 @@
 package ch.logixisland.anuto.business.game;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import ch.logixisland.anuto.BuildConfig;
 import ch.logixisland.anuto.business.wave.WaveManager;
@@ -54,10 +50,26 @@ public class GameSaver {
             return;
         }
 
-        saveGame(new File(mContext.getFilesDir(), GameLoader.SAVED_GAME_FILE).getAbsolutePath());
+        saveGameState(mSaveGameRepository.getAutoSaveStateFile().getAbsolutePath());
     }
 
-    void saveGame(final String fileName) {
+    public File saveGame() {
+        if (mGameEngine.isThreadRunning()) {
+            throw new RuntimeException("This method cannot be used when the game thread is running!");
+        }
+
+        SaveGameInfo saveGameInfo = mSaveGameRepository.createSaveGame(
+                mRenderer.getScreenshot(),
+                mScoreBoard.getScore(),
+                mWaveManager.getWaveNumber(),
+                mScoreBoard.getLives()
+        );
+
+        saveGameState(saveGameInfo.getGameStatePath());
+        return saveGameInfo.getFolder();
+    }
+
+    void saveGameState(String fileName) {
         Log.i(TAG, "Saving game...");
         KeyValueStore gameState = new KeyValueStore();
         mGamePersister.writeState(gameState);
@@ -73,77 +85,5 @@ public class GameSaver {
             mContext.deleteFile(fileName);
             throw new RuntimeException("Could not save game!", e);
         }
-    }
-
-    public File makeNewSavegame() {
-        /*if (mGameEngine.isThreadRunning() && mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    makeNewSavegame();
-                }
-            });
-            return;
-        }*/
-
-        Date now = new Date();
-        SimpleDateFormat dtFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-        File rootdir = new File(mContext.getFilesDir() + File.separator
-                + "savegame" + File.separator
-                + dtFormat.format(now));
-        rootdir.mkdirs();
-
-        Bitmap bitmap = mRenderer.getScreenshot();
-
-        try {
-            Log.i(TAG, "Saving screenshot...");
-
-            FileOutputStream outputStream = new FileOutputStream(new File(rootdir, GameLoader.SAVED_SCREENSHOT_FILE), false);
-
-            int destWidth = 600;
-            int origWidth = bitmap.getWidth();
-
-            if (destWidth < origWidth) {
-                int origHeight = bitmap.getHeight();
-
-                int destHeight = (int) (((float) origHeight) / (((float) origWidth) / destWidth));
-                bitmap = Bitmap.createScaledBitmap(bitmap, destWidth, destHeight, false);
-            }
-
-            bitmap.compress(Bitmap.CompressFormat.PNG, 30, outputStream);
-            outputStream.flush();
-            outputStream.close();
-            Log.i(TAG, "Screenshot saved.");
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Could not save game!", e);
-        }
-
-        try {
-            Log.i(TAG, "Creating savegame info...");
-            saveGame(rootdir.getAbsolutePath() + File.separator + GameLoader.SAVED_GAME_FILE);
-
-            KeyValueStore savegameInfo = new KeyValueStore();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            savegameInfo.putInt("appVersion", BuildConfig.VERSION_CODE);
-            savegameInfo.putString("dateTime", dateFormat.format(now));
-            savegameInfo.putInt("waveNumber", mWaveManager.getWaveNumber());
-            savegameInfo.putInt("remainingEnemiesCount", mWaveManager.getRemainingEnemiesCount());
-            savegameInfo.putInt("score", mScoreBoard.getScore());
-            savegameInfo.putInt("credits", mScoreBoard.getCredits());
-            savegameInfo.putInt("lives", mScoreBoard.getLives());
-
-            FileOutputStream outputStream = new FileOutputStream(new File(rootdir, GameLoader.SAVED_GAMEINFO_FILE), false);
-            savegameInfo.toStream(outputStream);
-            outputStream.close();
-            Log.i(TAG, "Savegame info saved.");
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Could not save game!", e);
-        }
-
-        mSaveGameRepository.refresh();
-
-        return rootdir;
     }
 }
