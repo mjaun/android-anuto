@@ -94,12 +94,17 @@ public class EntityRegistry implements Persister {
             Entity entity = iterator.next();
             Registration registration = mRegistrations.get(entity.getEntityName());
 
-            assert registration != null;
+            if (registration == null) {
+                continue;
+            }
+
             EntityPersister persister = registration.mPersister;
 
-            if (persister != null) {
-                gameState.appendStore("entities", persister.writeEntityData(entity));
+            if (persister == null) {
+                continue;
             }
+
+            gameState.appendStore("entities", persister.writeEntityData(entity));
         }
     }
 
