@@ -11,8 +11,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -205,34 +203,9 @@ public class GameLoader implements ErrorListener {
             throw new RuntimeException("Could not save game!", e);
         }
 
+        daFac.getSaveGameRepository().refresh(this);
+
         return rootdir;
-    }
-
-    public void deleteSavegame(File rootdir) {
-        File[] files = rootdir.listFiles();
-
-        if ((files == null) || (files.length == 0)) {
-            Log.d(TAG, "No Files Found");
-        } else if (files.length != 3) {
-            Log.d(TAG, "Incorrect File Count");
-        } else {
-            Log.d(TAG, "Size: " + files.length);
-
-            final List<String> ldeleteThis = Arrays.asList(SAVED_GAME_FILE, SAVED_SCREENSHOT_FILE, SAVED_GAMEINFO_FILE);
-            final List<File> lfiles = new ArrayList<>(Arrays.asList(files));
-            List<File> result = new ArrayList<>();
-            for (File one : lfiles) {
-                Log.d(TAG, "FileName:" + one.getName());
-                if (ldeleteThis.contains(one.getName()))
-                    result.add(one);
-            }
-            if (result.size() != lfiles.size())
-                return;
-            for (File one : result) {
-                one.delete();
-            }
-            rootdir.delete();
-        }
     }
 
     public KeyValueStore readSaveGame(final String fileName, final boolean userSavegame) {
@@ -387,39 +360,4 @@ public class GameLoader implements ErrorListener {
         }
     }
 
-    public boolean hasSavegames() {
-        File rootdir = new File(mContext.getFilesDir() + File.separator
-                + "savegame" + File.separator
-                + getCurrentMapId());
-
-        File[] files = rootdir.listFiles();
-
-        return (files != null) && (files.length > 0);
-
-    }
-
-    public SaveGameRepository getSaveGameRepository() {
-        SaveGameRepository sgr = new SaveGameRepository(this);
-        File rootdir = new File(mContext.getFilesDir() + File.separator
-                + "savegame" + File.separator
-                + getCurrentMapId());
-
-        File[] files = rootdir.listFiles();
-
-        if ((files == null) || (files.length == 0)) {
-            Log.d(TAG, "No Files Found");
-        } else {
-            Log.d(TAG, "Size: " + files.length);
-            final List<File> lfiles = new ArrayList<>(Arrays.asList(files));
-            Collections.sort(lfiles, Collections.reverseOrder());
-
-            for (File one : lfiles) {
-                Log.d(TAG, "FileName:" + one.getName());
-                SaveGameInfo sgi = SaveGameInfo.createSGI(this, one);
-                if (sgi != null)
-                    sgr.addSGI(sgi);
-            }
-        }
-        return sgr;
-    }
 }

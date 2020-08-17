@@ -12,6 +12,7 @@ import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.game.GameLoader;
 import ch.logixisland.anuto.business.game.GameState;
+import ch.logixisland.anuto.business.game.SaveGameRepository;
 import ch.logixisland.anuto.engine.theme.ActivityType;
 import ch.logixisland.anuto.view.AnutoActivity;
 import ch.logixisland.anuto.view.stats.EnemyStatsActivity;
@@ -26,6 +27,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
     private static final int REQUEST_LOADMENU = 3;
     private static final int REQUEST_ENEMY_STATS = 4;
 
+    private final SaveGameRepository mSaveGameRepository;
     private final GameLoader mGameLoader;
     private final GameState mGameState;
 
@@ -41,6 +43,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
 
     public MenuActivity() {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
+        mSaveGameRepository = factory.getSaveGameRepository();
         mGameLoader = factory.getGameLoader();
         mGameState = factory.getGameState();
     }
@@ -72,7 +75,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
         btn_enemy_stats.setOnClickListener(this);
         btn_settings.setOnClickListener(this);
         btn_quicksave.setEnabled(mGameState.isGameStarted());
-        btn_loadmenu.setEnabled(mGameLoader.hasSavegames());
+        btn_loadmenu.setEnabled(mSaveGameRepository.hasSavegames(mGameLoader));
 
         activity_menu.setOnTouchListener(this);
         menu_layout.setOnTouchListener(this);

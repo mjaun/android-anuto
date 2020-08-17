@@ -77,7 +77,7 @@ public abstract class GameSimulator {
 
     protected void loadSG() {
         if (mLastSG != null) {
-            if (!StreamIterator.fromIterable(mGameFactory.getGameLoader().getSaveGameRepository()
+            if (!StreamIterator.fromIterable(mGameFactory.getSaveGameRepository()
                     .getSavegameInfos()).filter(byFolder(mLastSG.getFolder())).isEmpty())
                 mGameFactory.getGameLoader().loadGameState(mLastSG.getSavegameState());
             else
@@ -88,7 +88,7 @@ public abstract class GameSimulator {
 
     protected void deleteSG() {
         if (mLastSG != null) {
-            mGameFactory.getGameLoader().deleteSavegame(mLastSG.getFolder());
+            mGameFactory.getSaveGameRepository().deleteSavegame(mLastSG.getFolder());
             mLastSG = null;
         }
     }

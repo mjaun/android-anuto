@@ -8,6 +8,7 @@ import ch.logixisland.anuto.business.game.GameSpeed;
 import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.game.HighScores;
 import ch.logixisland.anuto.business.game.MapRepository;
+import ch.logixisland.anuto.business.game.SaveGameRepository;
 import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.business.game.TutorialControl;
 import ch.logixisland.anuto.business.tower.TowerAging;
@@ -72,6 +73,7 @@ public class GameFactory {
     private TowerAging mTowerAging;
     private TowerInserter mTowerInserter;
     private MapRepository mMapRepository;
+    private SaveGameRepository mSaveGameRepository;
     private GameLoader mGameLoader;
     private WaveManager mWaveManager;
     private GameSpeed mSpeedManager;
@@ -128,6 +130,7 @@ public class GameFactory {
 
     private void initializeBusiness(Context context) {
         mMapRepository = new MapRepository();
+        mSaveGameRepository = new SaveGameRepository(context);
         mScoreBoard = new ScoreBoard(mGameEngine);
         mTowerSelector = new TowerSelector(mGameEngine, mScoreBoard);
         mGameLoader = new GameLoader(context, mGameEngine, mGamePersister, mViewport, mEntityRegistry, mMapRepository, mRenderer);
@@ -205,6 +208,10 @@ public class GameFactory {
         return mMapRepository;
     }
 
+    public SaveGameRepository getSaveGameRepository() {
+        return mSaveGameRepository;
+    }
+
     public HighScores getHighScores() {
         return mHighScores;
     }
@@ -212,5 +219,4 @@ public class GameFactory {
     public TutorialControl getTutorialControl() {
         return mTutorialControl;
     }
-
 }

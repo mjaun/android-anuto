@@ -38,7 +38,7 @@ public class LoadMenuActivity extends AnutoActivity implements AdapterView.OnIte
     public LoadMenuActivity() {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
         mGameLoader = factory.getGameLoader();
-        mSaveGameRepository = mGameLoader.getSaveGameRepository();
+        mSaveGameRepository = factory.getSaveGameRepository();
     }
 
     @Override
@@ -52,6 +52,7 @@ public class LoadMenuActivity extends AnutoActivity implements AdapterView.OnIte
 
         setContentView(R.layout.activity_load_menu);
 
+        mSaveGameRepository.refresh(mGameLoader);
         mAdapter = new SaveGamesAdapter(this, mSaveGameRepository);
 
         arrow_up = findViewById(R.id.arrow_up);
