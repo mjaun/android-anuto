@@ -94,7 +94,7 @@ public abstract class GameSimulator {
     }
 
     protected void saveAndLoad() {
-        mGameFactory.getGameLoader().saveGame();
+        mGameFactory.getGameLoader().autoSaveGame();
         mGameFactory.getGameLoader().loadGame();
         installTickHandler();
     }

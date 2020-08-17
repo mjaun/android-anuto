@@ -101,23 +101,22 @@ public class GameLoader implements ErrorListener {
         loadMap(mCurrentMapId);
     }
 
-    public void saveGame() {
+    public void autoSaveGame() {
         if (mGameEngine.isThreadRunning() && mGameEngine.isThreadChangeNeeded()) {
             mGameEngine.post(new Message() {
                 @Override
                 public void execute() {
-                    saveGame();
+                    autoSaveGame();
                 }
             });
             return;
         }
 
-        saveGame("", false);
+        saveGame(SAVED_GAME_FILE, false);
     }
 
-    private void saveGame(final String rootdir, final boolean userSavegame) {
+    private void saveGame(final String fileName, final boolean userSavegame) {
         Log.i(TAG, "Saving game...");
-        String fileName = userSavegame ? rootdir + File.separator + SAVED_GAME_FILE : SAVED_GAME_FILE;
         KeyValueStore gameState = new KeyValueStore();
         mGamePersister.writeState(gameState);
         gameState.putInt("appVersion", BuildConfig.VERSION_CODE);
@@ -160,7 +159,6 @@ public class GameLoader implements ErrorListener {
         Bitmap bitmap = mRenderer.getScreenshot();
 
         try {
-            //FileOutputStream outputStream = mContext.openFileOutput("screen.png", Context.MODE_PRIVATE);
             Log.i(TAG, "Saving screenshot...");
 
             FileOutputStream outputStream = new FileOutputStream(new File(rootdir, SAVED_SCREENSHOT_FILE), false);
@@ -179,8 +177,6 @@ public class GameLoader implements ErrorListener {
             outputStream.flush();
             outputStream.close();
             Log.i(TAG, "Screenshot saved.");
-
-            //MediaStore.Images.Media.insertImage(getContentResolver(),filename.getAbsolutePath(),filename.getName(),filename.getName());
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Could not save game!", e);
@@ -188,7 +184,7 @@ public class GameLoader implements ErrorListener {
 
         try {
             Log.i(TAG, "Creating savegame info...");
-            saveGame(rootdir.getAbsolutePath(), true);
+            saveGame(rootdir.getAbsolutePath() + File.separator + SAVED_GAME_FILE, true);
 
             KeyValueStore savegameInfo = new KeyValueStore();
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -205,7 +201,6 @@ public class GameLoader implements ErrorListener {
             outputStream.close();
             Log.i(TAG, "Savegame info saved.");
         } catch (Exception e) {
-            //deleteSavegame?
             e.printStackTrace();
             throw new RuntimeException("Could not save game!", e);
         }
@@ -265,8 +260,7 @@ public class GameLoader implements ErrorListener {
     }
 
     public void loadGame(final String fileName, final boolean userSavegame) {
-        if (//mGameEngine.isThreadRunning() &&
-                mGameEngine.isThreadChangeNeeded()) {
+        if (mGameEngine.isThreadChangeNeeded()) {
             mGameEngine.post(new Message() {
                 @Override
                 public void execute() {

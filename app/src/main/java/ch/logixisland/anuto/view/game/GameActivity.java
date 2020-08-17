@@ -59,7 +59,7 @@ public class GameActivity extends AnutoActivity {
     @Override
     public void onPause() {
         super.onPause();
-        mGameLoader.saveGame();
+        mGameLoader.autoSaveGame();
         mGameEngine.stop();
     }
 
