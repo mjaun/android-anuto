@@ -198,12 +198,7 @@ public class TowerSelector implements ScoreBoard.Listener, Entity.Listener, Towe
     }
 
     @Override
-    public void valueChanged(int value) {
-        updateTowerInfo();
-    }
-
-    @Override
-    public void strengthChanged() {
+    public void propertiesChanged() {
         updateTowerInfo();
     }
 
