@@ -79,4 +79,22 @@
     <string name="tutorial_next_wave">Drücksch \"Nächsti\", für di nächsti Wäue vo Gägner z starte. Z Ziu isch, dass kene dür dini Verteidigung chunnt.\n\n<b>Tipp:</b> Wede die nächsti Wäue startisch, während no Wäuene aktiv si, bechunnsch ä Bonus!</string>
     <string name="tutorial_enemies">We ä Gägner glich düre chunnt verliersch es Läbe. Z Spiu isch fertig, wede kener Läbe me hesch.\n\n<b>Tipp:</b> Es paar Türm si gägä gwüssi Gägner besser aus angeri.</string>
     <string name="tutorial_finish">Viu Spass! Z Tutorial chasch ide Istellige nomau starte.</string>
+    <string name="save_game">Spiu spichärä</string>
+    <string name="game_saved">Spiu gspichärät</string>
+    <string name="load_game">Spiu ladä</string>
+    <string name="delete">Löschä</string>
+    <string name="theme_colour">Farbig</string>
+    <string name="map_big_u_name">Grosses U</string>
+    <string name="map_cloverleaf_name">Chleeblatt</string>
+    <string name="map_roundabout_name">Kreisu</string>
+    <string name="map_runway_name">Pistä</string>
+    <string name="map_higgledy_piggledy_name">Chrütz u Quer</string>
+    <string name="enemy_stats">Monster Datä</string>
+    <string name="name">Namä:</string>
+    <string name="health">Läbä:</string>
+    <string name="speed">Gschwindigkeit:</string>
+    <string name="reward">Belohnig:</string>
+    <string name="weak_against">Schwach gägä:</string>
+    <string name="strong_against">Starch gägä:</string>
+    <string name="none">Nüd</string>
 </resources>
