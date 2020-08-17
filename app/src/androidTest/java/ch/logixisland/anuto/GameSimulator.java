@@ -52,7 +52,7 @@ public abstract class GameSimulator {
 
     protected void saveSG() {
         deleteSG();
-        mLastSG = SaveGameInfo.createSGI(mGameFactory.getGameLoader(), mGameFactory.getGameSaver().makeNewSavegame());
+        mLastSG = SaveGameInfo.createSGI(mGameFactory.getGameSaver().makeNewSavegame());
         Thread thread = new Thread() {
             public void run() {
                 mGameActivity.runOnUiThread(new Runnable() {
@@ -79,7 +79,7 @@ public abstract class GameSimulator {
         if (mLastSG != null) {
             if (!StreamIterator.fromIterable(mGameFactory.getSaveGameRepository()
                     .getSavegameInfos()).filter(byFolder(mLastSG.getFolder())).isEmpty())
-                mGameFactory.getGameLoader().loadGameState(mLastSG.getSavegameState());
+                mGameFactory.getGameLoader().loadGame(mLastSG.getSaveGamePath());
             else
                 mLastSG = null;
             installTickHandler();
@@ -95,7 +95,7 @@ public abstract class GameSimulator {
 
     protected void saveAndLoad() {
         mGameFactory.getGameSaver().autoSaveGame();
-        mGameFactory.getGameLoader().loadGame();
+        mGameFactory.getGameLoader().autoLoadGame();
         installTickHandler();
     }
 

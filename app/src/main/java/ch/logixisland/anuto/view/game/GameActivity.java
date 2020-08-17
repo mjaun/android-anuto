@@ -43,7 +43,7 @@ public class GameActivity extends AnutoActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mGameLoader.loadGame();
+        mGameLoader.autoLoadGame();
 
         super.onCreate(savedInstanceState);
 

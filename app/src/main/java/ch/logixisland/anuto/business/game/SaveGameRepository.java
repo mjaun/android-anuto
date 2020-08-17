@@ -39,7 +39,7 @@ public class SaveGameRepository {
 
             for (File one : lfiles) {
                 Log.d(TAG, "FileName:" + one.getName());
-                SaveGameInfo sgi = SaveGameInfo.createSGI(gameLoader, one);
+                SaveGameInfo sgi = SaveGameInfo.createSGI(one);
                 if (sgi != null)
                     mSavegameInfos.add(sgi);
             }

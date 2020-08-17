@@ -5,8 +5,6 @@ import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -89,88 +87,43 @@ public class GameLoader implements ErrorListener {
         loadMap(mCurrentMapId);
     }
 
-    public KeyValueStore readSaveGame(final String fileName) {
-        KeyValueStore gameState;
+    public void autoLoadGame() {
+        File autoSaveFile = new File(mContext.getFilesDir(), SAVED_GAME_FILE);
 
-        try {
-            gameState = getGameState(fileName);
-        } catch (FileNotFoundException e) {
-            Log.i(TAG, "No save game file found.");
-            return null;
-        } catch (Exception e) {
-            Log.i(TAG, "Could not read save game!");
-            return null;
+        if (autoSaveFile.exists()) {
+            loadGame(autoSaveFile.getAbsolutePath());
+        } else {
+            Log.i(TAG, "No auto save game file not found.");
+            loadMap(mMapRepository.getDefaultMapId());
         }
-
-        if (gameState.getInt("appVersion") != BuildConfig.VERSION_CODE) {
-            Log.i(TAG, "App version mismatch.");
-            return null;
-        }
-        return gameState;
     }
 
-    public void loadGame() {
-        loadGame(new File(mContext.getFilesDir(), SAVED_GAME_FILE).getAbsolutePath());
-    }
-
-    public void loadGame(final String fileName) {
+    public void loadGame(final String path) {
         if (mGameEngine.isThreadChangeNeeded()) {
             mGameEngine.post(new Message() {
                 @Override
                 public void execute() {
-                    loadGame(fileName);
+                    loadGame(path);
                 }
             });
             return;
         }
 
-        Log.i(TAG, "Loading state...");
+        Log.i(TAG, "Loading game...");
         KeyValueStore gameState;
 
         try {
-            gameState = getGameState(fileName);
-        } catch (FileNotFoundException e) {
-            Log.i(TAG, "No save game file found.");
-            loadMap(mMapRepository.getDefaultMapId());
-            return;
-        } catch (Exception e) {
+            FileInputStream inputStream = new FileInputStream(path);
+            gameState = KeyValueStore.fromStream(inputStream);
+            inputStream.close();
+        }
+        catch (Exception e) {
             throw new RuntimeException("Could not load game!", e);
         }
 
         if (gameState.getInt("appVersion") != BuildConfig.VERSION_CODE) {
-            Log.i(TAG, "App version mismatch.");
+            Log.w(TAG, "App version mismatch.");
             loadMap(mMapRepository.getDefaultMapId());
-            return;
-        }
-
-        mCurrentMapId = gameState.getString("mapId");
-        initializeGame(mCurrentMapId, gameState);
-    }
-
-    public KeyValueStore getGameState(final String fileName) throws IOException {
-        Log.i(TAG, "Reading state...");
-        KeyValueStore gameState;
-
-        FileInputStream inputStream = null;
-        try {
-            inputStream = new FileInputStream(fileName);
-            gameState = KeyValueStore.fromStream(inputStream);
-        } finally {
-            if (inputStream != null)
-                inputStream.close();
-        }
-
-        return gameState;
-    }
-
-    public void loadGameState(final KeyValueStore gameState) {
-        if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    loadGameState(gameState);
-                }
-            });
             return;
         }
 
