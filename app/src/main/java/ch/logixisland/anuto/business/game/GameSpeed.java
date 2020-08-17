@@ -7,8 +7,8 @@ import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.loop.Message;
 
 public class GameSpeed {
-    private static final int FAST_FORWARD_SPEED = 2;
-    private static final int MAX_FAST_FORWARD_SPEED = 128;
+    private static final int MIN_FAST_FORWARD_SPEED = 2;
+    private static final int MAX_FAST_FORWARD_SPEED = 32;
 
     public interface Listener {
         void gameSpeedChanged();
@@ -18,7 +18,7 @@ public class GameSpeed {
     private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
     private boolean mFastForwardActive = false;
-    private int mFastForwardMultiplier = FAST_FORWARD_SPEED;
+    private int mFastForwardMultiplier = MIN_FAST_FORWARD_SPEED;
 
     public GameSpeed(GameEngine gameEngine) {
         mGameEngine = gameEngine;
@@ -45,7 +45,6 @@ public class GameSpeed {
         }
     }
 
-
     public int fastForwardMultiplier() {
         return mFastForwardMultiplier;
     }
@@ -61,7 +60,9 @@ public class GameSpeed {
             return;
         }
 
-        cycleThroughMultiplier();
+        mFastForwardMultiplier = mFastForwardMultiplier < MAX_FAST_FORWARD_SPEED ? mFastForwardMultiplier * 2 : MIN_FAST_FORWARD_SPEED;
+
+        updateTicks();
     }
 
     public void addListener(Listener listener) {
@@ -70,12 +71,6 @@ public class GameSpeed {
 
     public void removeListener(Listener listener) {
         mListeners.remove(listener);
-    }
-
-    private void cycleThroughMultiplier() {
-        mFastForwardMultiplier = mFastForwardMultiplier < MAX_FAST_FORWARD_SPEED ? mFastForwardMultiplier * 2 : FAST_FORWARD_SPEED;
-
-        updateTicks();
     }
 
     private void updateTicks() {
