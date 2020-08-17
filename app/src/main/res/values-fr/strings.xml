@@ -5,7 +5,6 @@
     <string name="menu">Menu</string>
     <string name="build_tower">Bâtir</string>
     <string name="next_wave">Prochaine</string>
-    <string name="normal_speed">1×</string>
 
     <string name="restart">Redémarrer</string>
     <string name="change_map">Changer de carte</string>

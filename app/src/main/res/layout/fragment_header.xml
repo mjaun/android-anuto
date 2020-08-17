@@ -99,28 +99,29 @@
             android:layout_height="35dp"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
-            android:minWidth="40dp"
             android:text="@string/next_wave" />
 
         <Button
-            android:id="@+id/btn_fast_forward"
+            android:id="@+id/btn_fast_forward_active"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@id/btn_next_wave"
-            android:layout_marginEnd="3dp"
-            android:minWidth="10dp"
-            android:text="@string/normal_speed" />
+            android:layout_marginEnd="5dp"
+            android:minWidth="35dp"
+            android:text="@string/fast_forward" />
 
-        <CheckBox
-            android:id="@+id/checkbox_fast_active"
+        <Button
+            android:id="@+id/btn_fast_forward_speed"
+            style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_centerVertical="true"
-            android:layout_toStartOf="@id/btn_fast_forward"
-            android:layout_marginEnd="-2dp"
-            android:text="" />
+            android:layout_toStartOf="@id/btn_fast_forward_active"
+            android:layout_marginEnd="-3dp"
+            android:minWidth="35dp"
+            android:text="2x" />
 
         <Button
             android:id="@+id/btn_menu"
@@ -128,9 +129,8 @@
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_centerVertical="true"
-            android:layout_toStartOf="@id/checkbox_fast_active"
+            android:layout_toStartOf="@id/btn_fast_forward_speed"
             android:layout_marginEnd="5dp"
-            android:minWidth="40dp"
             android:text="@string/menu" />
 
     </RelativeLayout>

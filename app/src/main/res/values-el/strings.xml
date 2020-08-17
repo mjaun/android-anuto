@@ -5,7 +5,6 @@
     <string name="menu">Μενού</string>
     <string name="build_tower">Οικοδόμηση</string>
     <string name="next_wave">Επόμενο κύμα</string>
-    <string name="normal_speed">1x</string>
 
     <string name="restart">Ξεκίνημα από την αρχή</string>
     <string name="change_map">Αλλαγή χάρτη</string>

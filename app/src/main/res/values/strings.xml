@@ -5,8 +5,8 @@
     <string name="menu">Menu</string>
     <string name="build_tower">Build</string>
     <string name="next_wave">Next Wave</string>
-    <string name="normal_speed">1x</string>
     <string name="var_speed" translatable="false">%1$dx</string>
+    <string name="fast_forward" translatable="false">FF</string>
 
     <string name="restart">Restart</string>
     <string name="save_game">Save Game</string>
