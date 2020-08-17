@@ -90,7 +90,6 @@ public class GameSaver {
         SimpleDateFormat dtFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         File rootdir = new File(mContext.getFilesDir() + File.separator
                 + "savegame" + File.separator
-                + mGameLoader.getCurrentMapId() + File.separator
                 + dtFormat.format(now));
         rootdir.mkdirs();
 
@@ -143,7 +142,7 @@ public class GameSaver {
             throw new RuntimeException("Could not save game!", e);
         }
 
-        mSaveGameRepository.refresh(mGameLoader);
+        mSaveGameRepository.refresh();
 
         return rootdir;
     }

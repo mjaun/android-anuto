@@ -21,12 +21,11 @@ public class SaveGameRepository {
         mSavegameInfos = new ArrayList<>();
     }
 
-    public void refresh(GameLoader gameLoader) {
+    public void refresh() {
         mSavegameInfos.clear();
 
         File rootdir = new File(mContext.getFilesDir() + File.separator
-                + "savegame" + File.separator
-                + gameLoader.getCurrentMapId());
+                + "savegame" + File.separator);
 
         File[] files = rootdir.listFiles();
 
@@ -84,10 +83,9 @@ public class SaveGameRepository {
         }
     }
 
-    public boolean hasSavegames(GameLoader gameLoader) {
+    public boolean hasSavegames() {
         File rootdir = new File(mContext.getFilesDir() + File.separator
-                + "savegame" + File.separator
-                + gameLoader.getCurrentMapId());
+                + "savegame" + File.separator);
 
         File[] files = rootdir.listFiles();
 

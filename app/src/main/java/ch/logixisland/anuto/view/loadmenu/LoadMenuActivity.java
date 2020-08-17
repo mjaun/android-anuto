@@ -52,7 +52,7 @@ public class LoadMenuActivity extends AnutoActivity implements AdapterView.OnIte
 
         setContentView(R.layout.activity_load_menu);
 
-        mSaveGameRepository.refresh(mGameLoader);
+        mSaveGameRepository.refresh();
         mAdapter = new SaveGamesAdapter(this, mSaveGameRepository);
 
         arrow_up = findViewById(R.id.arrow_up);

@@ -78,7 +78,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
         btn_enemy_stats.setOnClickListener(this);
         btn_settings.setOnClickListener(this);
         btn_quicksave.setEnabled(mGameState.isGameStarted());
-        btn_loadmenu.setEnabled(mSaveGameRepository.hasSavegames(mGameLoader));
+        btn_loadmenu.setEnabled(mSaveGameRepository.hasSavegames());
 
         activity_menu.setOnTouchListener(this);
         menu_layout.setOnTouchListener(this);
