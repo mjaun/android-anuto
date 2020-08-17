@@ -4,8 +4,6 @@ import android.util.Log;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import ch.logixisland.anuto.engine.render.Renderer;
-
 public class FrameRateLogger {
 
     private static final String TAG = FrameRateLogger.class.getSimpleName();

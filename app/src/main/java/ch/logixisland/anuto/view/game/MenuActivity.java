@@ -16,10 +16,10 @@ import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.game.SaveGameRepository;
 import ch.logixisland.anuto.engine.theme.ActivityType;
 import ch.logixisland.anuto.view.AnutoActivity;
-import ch.logixisland.anuto.view.stats.EnemyStatsActivity;
 import ch.logixisland.anuto.view.loadmenu.LoadMenuActivity;
 import ch.logixisland.anuto.view.map.ChangeMapActivity;
 import ch.logixisland.anuto.view.setting.SettingsActivity;
+import ch.logixisland.anuto.view.stats.EnemyStatsActivity;
 
 public class MenuActivity extends AnutoActivity implements View.OnClickListener, View.OnTouchListener {
 

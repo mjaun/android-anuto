@@ -21,7 +21,6 @@ import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.Intersections;
 import ch.logixisland.anuto.util.math.Line;
 import ch.logixisland.anuto.util.math.Vector2;
-import ch.logixisland.anuto.view.game.GameActivity;
 
 public class DefaultGameSimulator extends GameSimulator {
 

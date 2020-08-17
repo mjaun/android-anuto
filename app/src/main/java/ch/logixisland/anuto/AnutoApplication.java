@@ -1,7 +1,6 @@
 package ch.logixisland.anuto;
 
 import android.app.Application;
-import android.content.Context;
 
 public class AnutoApplication extends Application {
 

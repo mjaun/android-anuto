@@ -1,16 +1,12 @@
 package ch.logixisland.anuto;
 
 import android.util.Log;
-import android.widget.Toast;
 
-import java.io.File;
 import java.util.concurrent.CountDownLatch;
 
 import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.game.SaveGameInfo;
 import ch.logixisland.anuto.engine.logic.loop.TickListener;
-import ch.logixisland.anuto.util.iterator.Predicate;
-import ch.logixisland.anuto.view.game.GameActivity;
 
 public abstract class GameSimulator {
 
