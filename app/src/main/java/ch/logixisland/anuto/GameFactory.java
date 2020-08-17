@@ -4,6 +4,7 @@ import android.content.Context;
 import android.preference.PreferenceManager;
 
 import ch.logixisland.anuto.business.game.GameLoader;
+import ch.logixisland.anuto.business.game.GameSaver;
 import ch.logixisland.anuto.business.game.GameSpeed;
 import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.game.HighScores;
@@ -75,6 +76,7 @@ public class GameFactory {
     private MapRepository mMapRepository;
     private SaveGameRepository mSaveGameRepository;
     private GameLoader mGameLoader;
+    private GameSaver mGameSaver;
     private WaveManager mWaveManager;
     private GameSpeed mSpeedManager;
     private GameState mGameState;
@@ -133,12 +135,13 @@ public class GameFactory {
         mSaveGameRepository = new SaveGameRepository(context);
         mScoreBoard = new ScoreBoard(mGameEngine);
         mTowerSelector = new TowerSelector(mGameEngine, mScoreBoard);
-        mGameLoader = new GameLoader(context, mGameEngine, mGamePersister, mViewport, mEntityRegistry, mMapRepository, mRenderer);
+        mGameLoader = new GameLoader(context, mGameEngine, mGamePersister, mViewport, mEntityRegistry, mMapRepository);
         mHighScores = new HighScores(context, mGameEngine, mScoreBoard, mGameLoader);
         mGameState = new GameState(mScoreBoard, mHighScores, mTowerSelector);
         mTowerAging = new TowerAging(mGameEngine);
         mSpeedManager = new GameSpeed(mGameEngine);
         mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mGameState, mEntityRegistry, mTowerAging);
+        mGameSaver = new GameSaver(context, mGameEngine, mGameLoader, mGamePersister, mRenderer, mWaveManager, mScoreBoard, mSaveGameRepository);
         mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector, mEntityRegistry);
         mTowerInserter = new TowerInserter(mGameEngine, mGameState, mEntityRegistry, mTowerSelector, mTowerAging, mScoreBoard);
         mTutorialControl = new TutorialControl(context, mTowerInserter, mTowerSelector, mWaveManager);
@@ -219,4 +222,9 @@ public class GameFactory {
     public TutorialControl getTutorialControl() {
         return mTutorialControl;
     }
+
+    public GameSaver getGameSaver() {
+        return mGameSaver;
+    }
+
 }

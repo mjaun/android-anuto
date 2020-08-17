@@ -11,6 +11,7 @@ import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.game.GameLoader;
+import ch.logixisland.anuto.business.game.GameSaver;
 import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.game.SaveGameRepository;
 import ch.logixisland.anuto.engine.theme.ActivityType;
@@ -29,6 +30,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
 
     private final SaveGameRepository mSaveGameRepository;
     private final GameLoader mGameLoader;
+    private final GameSaver mGameSaver;
     private final GameState mGameState;
 
     private View activity_menu;
@@ -45,6 +47,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
         mSaveGameRepository = factory.getSaveGameRepository();
         mGameLoader = factory.getGameLoader();
+        mGameSaver = factory.getGameSaver();
         mGameState = factory.getGameState();
     }
 
@@ -96,7 +99,7 @@ public class MenuActivity extends AnutoActivity implements View.OnClickListener,
         }
 
         if (view == btn_quicksave) {
-            mGameLoader.makeNewSavegame();
+            mGameSaver.makeNewSavegame();
             btn_loadmenu.setEnabled(true);
             Toast.makeText(this, getString(ch.logixisland.anuto.R.string.saveGameSuccessful), Toast.LENGTH_LONG).show();
             return;

@@ -9,6 +9,7 @@ import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.game.GameLoader;
+import ch.logixisland.anuto.business.game.GameSaver;
 import ch.logixisland.anuto.business.tower.TowerSelector;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.theme.ActivityType;
@@ -17,6 +18,7 @@ import ch.logixisland.anuto.view.AnutoActivity;
 public class GameActivity extends AnutoActivity {
 
     private final GameLoader mGameLoader;
+    private final GameSaver mGameSaver;
     private final GameEngine mGameEngine;
     private final TowerSelector mTowerSelector;
     private final BackButtonControl mBackButtonControl;
@@ -28,6 +30,7 @@ public class GameActivity extends AnutoActivity {
     public GameActivity() {
         GameFactory factory = AnutoApplication.getInstance().getGameFactory();
         mGameLoader = factory.getGameLoader();
+        mGameSaver = factory.getGameSaver();
         mGameEngine = factory.getGameEngine();
         mTowerSelector = factory.getTowerSelector();
         mBackButtonControl = new BackButtonControl(AnutoApplication.getInstance());
@@ -59,7 +62,7 @@ public class GameActivity extends AnutoActivity {
     @Override
     public void onPause() {
         super.onPause();
-        mGameLoader.autoSaveGame();
+        mGameSaver.autoSaveGame();
         mGameEngine.stop();
     }
 

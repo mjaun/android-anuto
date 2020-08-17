@@ -1,25 +1,17 @@
 package ch.logixisland.anuto.business.game;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.util.Log;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.BuildConfig;
-import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
-import ch.logixisland.anuto.business.wave.WaveManager;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.loop.ErrorListener;
@@ -28,7 +20,6 @@ import ch.logixisland.anuto.engine.logic.map.GameMap;
 import ch.logixisland.anuto.engine.logic.map.PlateauInfo;
 import ch.logixisland.anuto.engine.logic.map.WaveInfo;
 import ch.logixisland.anuto.engine.logic.persistence.GamePersister;
-import ch.logixisland.anuto.engine.render.Renderer;
 import ch.logixisland.anuto.engine.render.Viewport;
 import ch.logixisland.anuto.entity.plateau.Plateau;
 import ch.logixisland.anuto.util.container.KeyValueStore;
@@ -51,20 +42,18 @@ public class GameLoader implements ErrorListener {
     private final Viewport mViewport;
     private final EntityRegistry mEntityRegistry;
     private final MapRepository mMapRepository;
-    private final Renderer mRenderer;
     private String mCurrentMapId;
 
     private List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
     public GameLoader(Context context, GameEngine gameEngine, GamePersister gamePersister,
-                      Viewport viewport, EntityRegistry entityRegistry, MapRepository mapRepository, Renderer renderer) {
+                      Viewport viewport, EntityRegistry entityRegistry, MapRepository mapRepository) {
         mContext = context;
         mGameEngine = gameEngine;
         mGamePersister = gamePersister;
         mViewport = viewport;
         mEntityRegistry = entityRegistry;
         mMapRepository = mapRepository;
-        mRenderer = renderer;
 
         mGameEngine.registerErrorListener(this);
     }
@@ -97,115 +86,6 @@ public class GameLoader implements ErrorListener {
         }
 
         loadMap(mCurrentMapId);
-    }
-
-    public void autoSaveGame() {
-        if (mGameEngine.isThreadRunning() && mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    autoSaveGame();
-                }
-            });
-            return;
-        }
-
-        saveGame(SAVED_GAME_FILE, false);
-    }
-
-    private void saveGame(final String fileName, final boolean userSavegame) {
-        Log.i(TAG, "Saving game...");
-        KeyValueStore gameState = new KeyValueStore();
-        mGamePersister.writeState(gameState);
-        gameState.putInt("appVersion", BuildConfig.VERSION_CODE);
-        gameState.putString("mapId", mCurrentMapId);
-
-        try {
-            FileOutputStream outputStream = userSavegame ? (new FileOutputStream(fileName, false)) : mContext.openFileOutput(fileName, Context.MODE_PRIVATE);
-            gameState.toStream(outputStream);
-            outputStream.close();
-            Log.i(TAG, "Game saved.");
-        } catch (Exception e) {
-            mContext.deleteFile(fileName);
-            throw new RuntimeException("Could not save game!", e);
-        }
-    }
-
-    public File makeNewSavegame() {
-        /*if (mGameEngine.isThreadRunning() && mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    makeNewSavegame();
-                }
-            });
-            return;
-        }*/
-
-        GameFactory daFac = AnutoApplication.getInstance().getGameFactory();
-        WaveManager mWaveManager = daFac.getWaveManager();
-        ScoreBoard mScoreBoard = daFac.getScoreBoard();
-
-        Date now = new Date();
-        SimpleDateFormat dtFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-        File rootdir = new File(mContext.getFilesDir() + File.separator
-                + "savegame" + File.separator
-                + getCurrentMapId() + File.separator
-                + dtFormat.format(now));
-        rootdir.mkdirs();
-
-        Bitmap bitmap = mRenderer.getScreenshot();
-
-        try {
-            Log.i(TAG, "Saving screenshot...");
-
-            FileOutputStream outputStream = new FileOutputStream(new File(rootdir, SAVED_SCREENSHOT_FILE), false);
-
-            int destWidth = 600;
-            int origWidth = bitmap.getWidth();
-
-            if (destWidth < origWidth) {
-                int origHeight = bitmap.getHeight();
-
-                int destHeight = (int) (((float) origHeight) / (((float) origWidth) / destWidth));
-                bitmap = Bitmap.createScaledBitmap(bitmap, destWidth, destHeight, false);
-            }
-
-            bitmap.compress(Bitmap.CompressFormat.PNG, 30, outputStream);
-            outputStream.flush();
-            outputStream.close();
-            Log.i(TAG, "Screenshot saved.");
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Could not save game!", e);
-        }
-
-        try {
-            Log.i(TAG, "Creating savegame info...");
-            saveGame(rootdir.getAbsolutePath() + File.separator + SAVED_GAME_FILE, true);
-
-            KeyValueStore savegameInfo = new KeyValueStore();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            savegameInfo.putInt("appVersion", BuildConfig.VERSION_CODE);
-            savegameInfo.putString("dateTime", dateFormat.format(now));
-            savegameInfo.putInt("waveNumber", mWaveManager.getWaveNumber());
-            savegameInfo.putInt("remainingEnemiesCount", mWaveManager.getRemainingEnemiesCount());
-            savegameInfo.putInt("score", mScoreBoard.getScore());
-            savegameInfo.putInt("credits", mScoreBoard.getCredits());
-            savegameInfo.putInt("lives", mScoreBoard.getLives());
-
-            FileOutputStream outputStream = new FileOutputStream(new File(rootdir, SAVED_GAMEINFO_FILE), false);
-            savegameInfo.toStream(outputStream);
-            outputStream.close();
-            Log.i(TAG, "Savegame info saved.");
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Could not save game!", e);
-        }
-
-        daFac.getSaveGameRepository().refresh(this);
-
-        return rootdir;
     }
 
     public KeyValueStore readSaveGame(final String fileName, final boolean userSavegame) {
