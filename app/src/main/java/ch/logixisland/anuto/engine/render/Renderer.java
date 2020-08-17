@@ -63,18 +63,10 @@ public class Renderer {
     }
 
     public Bitmap getScreenshot() {
-        RectF mapRect = mViewport.getMapRect();
+        RectF mapRect = mViewport.getScreenGameRect();
         Bitmap bitmap = Bitmap.createBitmap(Math.round(mapRect.width()), Math.round(mapRect.height()), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
-
-        //that call would eventually end in Renderer.draw(), so just take a shortcut.
-        //it should be sufficient, since we only need our drawables
-        //mViewRef.get().draw(canvas);
-
-        //perhaps build another draw routine, so the game map is better visible
-        //e.g. an independent theme just for savegame screenshot
         draw(canvas);
-
         return bitmap;
     }
 
@@ -83,7 +75,7 @@ public class Renderer {
 
         canvas.drawColor(Color.BLACK);
         canvas.concat(mViewport.getScreenMatrix());
-        canvas.clipRect(mViewport.getScreenClipRect());
+        canvas.clipRect(mViewport.getGameClipRect());
         canvas.drawColor(mBackgroundColor);
 
         for (Drawable obj : mDrawables) {
@@ -100,6 +92,6 @@ public class Renderer {
     }
 
     public boolean isPositionVisible(Vector2 position) {
-        return mViewport.getScreenClipRect().contains(position.x(), position.y());
+        return mViewport.getGameClipRect().contains(position.x(), position.y());
     }
 }

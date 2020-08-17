@@ -13,13 +13,13 @@ public class Viewport {
     private float mGameHeight;
     private float mScreenWidth;
     private float mScreenHeight;
-    private RectF mScreenClipRect;
-    private RectF mMapRect;
+    private RectF mGameClipRect;
+    private RectF mScreenGameRect;
 
     public void setGameSize(int width, int height) {
         mGameWidth = width;
         mGameHeight = height;
-        mScreenClipRect = new RectF(-0.5f, -0.5f, mGameWidth - 0.5f, mGameHeight - 0.5f);
+        mGameClipRect = new RectF(-0.5f, -0.5f, mGameWidth - 0.5f, mGameHeight - 0.5f);
         calcScreenMatrix();
     }
 
@@ -33,12 +33,12 @@ public class Viewport {
         return mScreenMatrix;
     }
 
-    public RectF getScreenClipRect() {
-        return mScreenClipRect;
+    public RectF getGameClipRect() {
+        return mGameClipRect;
     }
 
-    public RectF getMapRect() {
-        return mMapRect;
+    public RectF getScreenGameRect() {
+        return mScreenGameRect;
     }
 
     public Vector2 screenToGame(Vector2 pos) {
@@ -60,7 +60,7 @@ public class Viewport {
         float right = left + width;
         float bottom = top + height;
 
-        mMapRect = new RectF(left, top, right, bottom);
+        mScreenGameRect = new RectF(left, top, right, bottom);
 
         mScreenMatrix.postTranslate(0.5f, 0.5f);
         mScreenMatrix.postScale(tileSize, tileSize);
