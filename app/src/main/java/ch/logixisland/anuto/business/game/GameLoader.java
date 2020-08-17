@@ -91,19 +91,19 @@ public class GameLoader implements ErrorListener {
         File autoSaveStateFile = mSaveGameRepository.getAutoSaveStateFile();
 
         if (autoSaveStateFile.exists()) {
-            loadGame(autoSaveStateFile.getAbsolutePath());
+            loadGame(autoSaveStateFile);
         } else {
             Log.i(TAG, "No auto save game file not found.");
             loadMap(mMapRepository.getDefaultMapId());
         }
     }
 
-    public void loadGame(final String path) {
+    public void loadGame(final File stateFile) {
         if (mGameEngine.isThreadChangeNeeded()) {
             mGameEngine.post(new Message() {
                 @Override
                 public void execute() {
-                    loadGame(path);
+                    loadGame(stateFile);
                 }
             });
             return;
@@ -113,7 +113,7 @@ public class GameLoader implements ErrorListener {
         KeyValueStore gameState;
 
         try {
-            FileInputStream inputStream = new FileInputStream(path);
+            FileInputStream inputStream = new FileInputStream(stateFile);
             gameState = KeyValueStore.fromStream(inputStream);
             inputStream.close();
         }

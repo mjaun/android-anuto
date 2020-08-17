@@ -8,7 +8,7 @@ import ch.logixisland.anuto.engine.render.Renderer;
 
 public class FrameRateLogger {
 
-    private static final String TAG = Renderer.class.getSimpleName();
+    private static final String TAG = FrameRateLogger.class.getSimpleName();
 
     private static final int LOG_INTERVAL = 5000;
 

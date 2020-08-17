@@ -1,5 +1,6 @@
 package ch.logixisland.anuto.util.container;
 
+import android.annotation.SuppressLint;
 import android.content.res.Resources;
 
 import org.json.JSONArray;
@@ -11,14 +12,20 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import ch.logixisland.anuto.util.math.Vector2;
 
 public class KeyValueStore {
+
+    @SuppressLint("SimpleDateFormat")
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
     private JSONObject mJsonObject;
 
@@ -85,6 +92,18 @@ public class KeyValueStore {
         }
 
         return collection;
+    }
+
+    public void putDate(String key, Date value) {
+        putString(key, dateFormat.format(value));
+    }
+
+    public Date getDate(String key) {
+        try {
+            return dateFormat.parse(getString(key));
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void putString(String key, String value) {

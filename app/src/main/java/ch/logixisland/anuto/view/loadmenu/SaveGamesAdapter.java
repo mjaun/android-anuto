@@ -11,8 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
+import java.text.DateFormat;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import ch.logixisland.anuto.R;
@@ -83,7 +85,8 @@ public class SaveGamesAdapter extends BaseAdapter {
         SaveGameInfo saveGameInfo = mSaveGameInfos.get(position);
         ViewHolder viewHolder = new ViewHolder(sgItemView);
 
-        viewHolder.txt_datetime.setText(saveGameInfo.getDatetime());
+        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault());
+        viewHolder.txt_datetime.setText(dateFormat.format(saveGameInfo.getDate()));
         String tmp = resources.getString(R.string.score) + ": " + StringUtils.formatSuffix(saveGameInfo.getScore());
         viewHolder.txt_score.setText(tmp);
         tmp = resources.getString(R.string.wave) + ": " + StringUtils.formatSuffix(saveGameInfo.getWave());
@@ -91,7 +94,7 @@ public class SaveGamesAdapter extends BaseAdapter {
         tmp = resources.getString(R.string.lives) + ": " + StringUtils.formatSuffix(saveGameInfo.getLives());
         viewHolder.txt_lives.setText(tmp);
 
-        viewHolder.img_thumb.setImageBitmap(saveGameInfo.getCachedScreenshot());
+        viewHolder.img_thumb.setImageBitmap(saveGameInfo.getScreenshot());
 
         return sgItemView;
     }

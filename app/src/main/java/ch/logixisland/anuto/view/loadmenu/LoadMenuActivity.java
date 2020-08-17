@@ -3,7 +3,6 @@ package ch.logixisland.anuto.view.loadmenu;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -15,10 +14,9 @@ import ch.logixisland.anuto.AnutoApplication;
 import ch.logixisland.anuto.GameFactory;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.business.game.GameLoader;
+import ch.logixisland.anuto.business.game.SaveGameInfo;
 import ch.logixisland.anuto.business.game.SaveGameRepository;
 import ch.logixisland.anuto.view.AnutoActivity;
-
-import static android.content.ContentValues.TAG;
 
 public class LoadMenuActivity extends AnutoActivity implements AdapterView.OnItemClickListener,
         ViewTreeObserver.OnScrollChangedListener {
@@ -52,7 +50,6 @@ public class LoadMenuActivity extends AnutoActivity implements AdapterView.OnIte
 
         setContentView(R.layout.activity_load_menu);
 
-        mSaveGameRepository.refresh();
         mAdapter = new SaveGamesAdapter(this, mSaveGameRepository);
 
         arrow_up = findViewById(R.id.arrow_up);
@@ -73,7 +70,8 @@ public class LoadMenuActivity extends AnutoActivity implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        mGameLoader.loadGame(mAdapter.getItem(position).getGameStatePath());
+        SaveGameInfo saveGameInfo = mAdapter.getItem(position);
+        mGameLoader.loadGame(mSaveGameRepository.getGameStateFile(saveGameInfo));
 
         finish();
     }
@@ -84,10 +82,9 @@ public class LoadMenuActivity extends AnutoActivity implements AdapterView.OnIte
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-
         if (item.getItemId() == CONTEXT_MENU__DELETE_ID) {
             final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-            Log.d(TAG, "Item Timestamp at POSITION:" + mAdapter.getItem(info.position).getDatetime());
+            final SaveGameInfo saveGameInfo = mSaveGameRepository.getSaveGameInfos().get(info.position);
             new AlertDialog.Builder(this)
                     .setTitle(R.string.delete)
                     .setMessage(R.string.deleteConfirmation)
@@ -95,13 +92,14 @@ public class LoadMenuActivity extends AnutoActivity implements AdapterView.OnIte
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface dialog, int whichButton) {
-                            mSaveGameRepository.removeSGIAt(info.position);
+                            mSaveGameRepository.deleteSaveGame(saveGameInfo);
                             mAdapter.notifyDataSetChanged();
                         }
                     })
                     .setNegativeButton(android.R.string.no, null).show();
             return true;
         }
+
         return false;
     }
 

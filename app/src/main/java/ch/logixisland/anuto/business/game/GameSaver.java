@@ -16,7 +16,7 @@ import ch.logixisland.anuto.util.container.KeyValueStore;
 
 public class GameSaver {
 
-    private static final String TAG = GameLoader.class.getSimpleName();
+    private static final String TAG = GameSaver.class.getSimpleName();
 
     private final Context mContext;
     private final GameEngine mGameEngine;
@@ -50,11 +50,11 @@ public class GameSaver {
             return;
         }
 
-        saveGameState(mSaveGameRepository.getAutoSaveStateFile().getAbsolutePath());
+        saveGameState(mSaveGameRepository.getAutoSaveStateFile());
     }
 
-    public File saveGame() {
-        if (mGameEngine.isThreadRunning()) {
+    public SaveGameInfo saveGame() {
+        if (mGameEngine.isThreadRunning() && mGameEngine.isThreadChangeNeeded()) {
             throw new RuntimeException("This method cannot be used when the game thread is running!");
         }
 
@@ -65,11 +65,11 @@ public class GameSaver {
                 mScoreBoard.getLives()
         );
 
-        saveGameState(saveGameInfo.getGameStatePath());
-        return saveGameInfo.getFolder();
+        saveGameState(mSaveGameRepository.getGameStateFile(saveGameInfo));
+        return saveGameInfo;
     }
 
-    void saveGameState(String fileName) {
+    void saveGameState(File stateFile) {
         Log.i(TAG, "Saving game...");
         KeyValueStore gameState = new KeyValueStore();
         mGamePersister.writeState(gameState);
@@ -77,12 +77,11 @@ public class GameSaver {
         gameState.putString("mapId", mGameLoader.getCurrentMapId());
 
         try {
-            FileOutputStream outputStream = new FileOutputStream(fileName, false);
+            FileOutputStream outputStream = new FileOutputStream(stateFile, false);
             gameState.toStream(outputStream);
             outputStream.close();
             Log.i(TAG, "Game saved.");
         } catch (Exception e) {
-            mContext.deleteFile(fileName);
             throw new RuntimeException("Could not save game!", e);
         }
     }

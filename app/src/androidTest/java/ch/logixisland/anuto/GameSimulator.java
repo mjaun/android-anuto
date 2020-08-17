@@ -10,22 +10,19 @@ import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.game.SaveGameInfo;
 import ch.logixisland.anuto.engine.logic.loop.TickListener;
 import ch.logixisland.anuto.util.iterator.Predicate;
-import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.view.game.GameActivity;
 
 public abstract class GameSimulator {
 
     private final static String TAG = GameSimulator.class.getSimpleName();
 
-    private final GameActivity mGameActivity;
     private final GameFactory mGameFactory;
 
     private CountDownLatch mFinishedLatch;
 
-    private SaveGameInfo mLastSG = null;
+    private SaveGameInfo mSaveGameInfo = null;
 
-    GameSimulator(GameActivity gameActivity, GameFactory gameFactory) {
-        mGameActivity = gameActivity;
+    GameSimulator(GameFactory gameFactory) {
         mGameFactory = gameFactory;
     }
 
@@ -38,7 +35,7 @@ public abstract class GameSimulator {
     void waitForFinished() {
         try {
             mFinishedLatch.await();
-            deleteSG();
+            deleteSaveGame();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -50,50 +47,30 @@ public abstract class GameSimulator {
         return mGameFactory;
     }
 
-    protected void saveSG() {
-        deleteSG();
-        mLastSG = SaveGameInfo.createSGI(mGameFactory.getGameSaver().saveGame());
-        Thread thread = new Thread() {
-            public void run() {
-                mGameActivity.runOnUiThread(new Runnable() {
-                    public void run() {
-                        Toast.makeText(mGameActivity, mGameActivity.getString(ch.logixisland.anuto.R.string.saveGameSuccessful), Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
-        };
-        thread.start();
+    protected void saveGame() {
+        Log.i(TAG, "Saving game...");
+        deleteSaveGame();
+        mSaveGameInfo = mGameFactory.getGameSaver().saveGame();
     }
 
-
-    private static Predicate<SaveGameInfo> byFolder(final File folder) {
-        return new Predicate<SaveGameInfo>() {
-            @Override
-            public boolean apply(SaveGameInfo value) {
-                return value.getFolder().equals(folder);
-            }
-        };
-    }
-
-    protected void loadSG() {
-        if (mLastSG != null) {
-            if (!StreamIterator.fromIterable(mGameFactory.getSaveGameRepository()
-                    .getSaveGameInfos()).filter(byFolder(mLastSG.getFolder())).isEmpty())
-                mGameFactory.getGameLoader().loadGame(mLastSG.getGameStatePath());
-            else
-                mLastSG = null;
+    protected void loadGame() {
+        if (mSaveGameInfo != null) {
+            Log.i(TAG, "Loading game...");
+            mGameFactory.getGameLoader().loadGame(mGameFactory.getSaveGameRepository().getGameStateFile(mSaveGameInfo));
             installTickHandler();
         }
     }
 
-    protected void deleteSG() {
-        if (mLastSG != null) {
-            mGameFactory.getSaveGameRepository().deleteSavegame(mLastSG.getFolder());
-            mLastSG = null;
+    protected void deleteSaveGame() {
+        if (mSaveGameInfo != null) {
+            Log.i(TAG, "Deleting save game...");
+            mGameFactory.getSaveGameRepository().deleteSaveGame(mSaveGameInfo);
+            mSaveGameInfo = null;
         }
     }
 
-    protected void saveAndLoad() {
+    protected void autoSaveAndLoad() {
+        Log.i(TAG, "Testing auto save and load...");
         mGameFactory.getGameSaver().autoSaveGame();
         mGameFactory.getGameLoader().autoLoadGame();
         installTickHandler();

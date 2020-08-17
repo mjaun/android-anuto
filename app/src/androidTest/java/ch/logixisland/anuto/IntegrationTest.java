@@ -19,7 +19,7 @@ public class IntegrationTest {
 
     @Test
     public void integrationTest() {
-        GameSimulator simulator = new DefaultGameSimulator(mActivityRule.getActivity(), AnutoApplication.getInstance().getGameFactory());
+        GameSimulator simulator = new DefaultGameSimulator(AnutoApplication.getInstance().getGameFactory());
         simulator.startSimulation();
         simulator.waitForFinished();
     }

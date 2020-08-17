@@ -1,10 +1,13 @@
 package ch.logixisland.anuto.business.game;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -19,62 +22,48 @@ import ch.logixisland.anuto.util.container.KeyValueStore;
 
 public class SaveGameRepository {
 
-    private static final String TAG = GameLoader.class.getSimpleName();
+    private static final String TAG = SaveGameRepository.class.getSimpleName();
 
     private static final String AUTO_SAVE_STATE_FILE = "autosave.json";
 
-    public static final String GAME_INFO_FILE = "info.json";
-    public static final String GAME_STATE_FILE = "state.json";
-    public static final String SCREENSHOT_FILE = "screen.png";
+    private static final String GAME_INFO_FILE = "info.json";
+    private static final String GAME_STATE_FILE = "state.json";
+    private static final String SCREENSHOT_FILE = "screen.png";
 
-    private final List<SaveGameInfo> mSaveGameInfos;
     private final Context mContext;
+    private final List<SaveGameInfo> mSaveGameInfos;
 
     public SaveGameRepository(Context context) {
         mContext = context;
         mSaveGameInfos = new ArrayList<>();
+
+        readSaveGameInfos();
     }
 
     public File getAutoSaveStateFile() {
         return new File(mContext.getFilesDir(), AUTO_SAVE_STATE_FILE);
     }
 
-    public void refresh() {
-        mSaveGameInfos.clear();
+    public File getGameStateFile(SaveGameInfo saveGameInfo) {
+        return new File(saveGameInfo.getFolder(), GAME_STATE_FILE);
+    }
 
-        File rootdir = new File(mContext.getFilesDir() + File.separator
-                + "savegame" + File.separator);
-
-        File[] files = rootdir.listFiles();
-
-        if ((files == null) || (files.length == 0)) {
-            Log.d(TAG, "No Files Found");
-        } else {
-            Log.d(TAG, "Size: " + files.length);
-            final List<File> lfiles = new ArrayList<>(Arrays.asList(files));
-            Collections.sort(lfiles, Collections.reverseOrder());
-
-            for (File one : lfiles) {
-                Log.d(TAG, "FileName:" + one.getName());
-                SaveGameInfo sgi = SaveGameInfo.createSGI(one);
-                if (sgi != null)
-                    mSaveGameInfos.add(sgi);
-            }
-        }
+    public List<SaveGameInfo> getSaveGameInfos() {
+        return Collections.unmodifiableList(mSaveGameInfos);
     }
 
     public SaveGameInfo createSaveGame(Bitmap screenshot, int score, int wave, int lives) {
-        Date now = new Date();
-        SimpleDateFormat dtFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-        File rootdir = new File(mContext.getFilesDir() + File.separator
+        Date date = new Date();
+
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        File folder = new File(mContext.getFilesDir() + File.separator
                 + "savegame" + File.separator
-                + dtFormat.format(now));
-        rootdir.mkdirs();
+                + dateFormat.format(date));
+        folder.mkdirs();
 
         try {
             Log.i(TAG, "Saving screenshot...");
-
-            FileOutputStream outputStream = new FileOutputStream(new File(rootdir, SCREENSHOT_FILE), false);
+            FileOutputStream outputStream = new FileOutputStream(new File(folder, SCREENSHOT_FILE), false);
 
             int destWidth = 600;
             int origWidth = screenshot.getWidth();
@@ -89,80 +78,90 @@ public class SaveGameRepository {
             screenshot.compress(Bitmap.CompressFormat.PNG, 30, outputStream);
             outputStream.flush();
             outputStream.close();
-
-            Log.i(TAG, "Screenshot saved.");
         } catch (IOException e) {
             throw new RuntimeException("Could not save screenshot!", e);
         }
 
         try {
-            Log.i(TAG, "Creating savegame info...");
-            KeyValueStore savegameInfo = new KeyValueStore();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            savegameInfo.putInt("appVersion", BuildConfig.VERSION_CODE);
-            savegameInfo.putString("dateTime", dateFormat.format(now));
-            savegameInfo.putInt("score", score);
-            savegameInfo.putInt("waveNumber", wave);
-            savegameInfo.putInt("lives", lives);
+            Log.i(TAG, "Saving game info...");
+            KeyValueStore saveGameInfo = new KeyValueStore();
+            saveGameInfo.putInt("appVersion", BuildConfig.VERSION_CODE);
+            saveGameInfo.putDate("date", date);
+            saveGameInfo.putInt("score", score);
+            saveGameInfo.putInt("wave", wave);
+            saveGameInfo.putInt("lives", lives);
 
-            FileOutputStream outputStream = new FileOutputStream(new File(rootdir, GAME_INFO_FILE), false);
-            savegameInfo.toStream(outputStream);
+            FileOutputStream outputStream = new FileOutputStream(new File(folder, GAME_INFO_FILE), false);
+            saveGameInfo.toStream(outputStream);
             outputStream.close();
-            Log.i(TAG, "Savegame info saved.");
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Could not save game!", e);
+            throw new RuntimeException("Could not save game info!", e);
         }
 
-        SaveGameInfo sgi = SaveGameInfo.createSGI(rootdir);
-        return sgi;
+        SaveGameInfo saveGameInfo = new SaveGameInfo(folder, date, score, wave, lives, screenshot);
+        mSaveGameInfos.add(0, saveGameInfo);
+        return saveGameInfo;
     }
 
-    public void removeSGIAt(int position) {
-        if (mSaveGameInfos.size() > position) {
-            deleteSavegame(mSaveGameInfos.get(position).getFolder());
-            mSaveGameInfos.remove(position);
+    public void deleteSaveGame(SaveGameInfo saveGameInfo) {
+        if (!mSaveGameInfos.contains(saveGameInfo)) {
+            throw new RuntimeException("Unknown save game!");
         }
-    }
 
-    public List<SaveGameInfo> getSaveGameInfos() {
-        return Collections.unmodifiableList(mSaveGameInfos);
-    }
+        Log.i(TAG, "Deleting save game: " + saveGameInfo.getFolder().getAbsolutePath());
+        final List<String> files = Arrays.asList(GAME_STATE_FILE, GAME_INFO_FILE, SCREENSHOT_FILE);
 
-    public void deleteSavegame(File rootdir) {
-        File[] files = rootdir.listFiles();
-
-        if ((files == null) || (files.length == 0)) {
-            Log.d(TAG, "No Files Found");
-        } else if (files.length != 3) {
-            Log.d(TAG, "Incorrect File Count");
-        } else {
-            Log.d(TAG, "Size: " + files.length);
-
-            final List<String> ldeleteThis = Arrays.asList(GAME_STATE_FILE, GAME_INFO_FILE, SCREENSHOT_FILE);
-            final List<File> lfiles = new ArrayList<>(Arrays.asList(files));
-            List<File> result = new ArrayList<>();
-            for (File one : lfiles) {
-                Log.d(TAG, "FileName:" + one.getName());
-                if (ldeleteThis.contains(one.getName()))
-                    result.add(one);
+        for (String file : files) {
+            if (!new File(saveGameInfo.getFolder(), file).delete()) {
+                Log.e(TAG, "Failed to delete file: " + file);
             }
-            if (result.size() != lfiles.size())
-                return;
-            for (File one : result) {
-                one.delete();
-            }
-            rootdir.delete();
         }
+
+        if (!saveGameInfo.getFolder().delete()) {
+            Log.e(TAG, "Failed to delete save game: " + saveGameInfo.getFolder().getAbsolutePath());
+        }
+
+        mSaveGameInfos.remove(saveGameInfo);
     }
 
-    public boolean hasSavegames() {
+    private void readSaveGameInfos() {
         File rootdir = new File(mContext.getFilesDir() + File.separator
                 + "savegame" + File.separator);
 
-        File[] files = rootdir.listFiles();
+        File[] fileArray = rootdir.listFiles();
 
-        return (files != null) && (files.length > 0);
+        if (fileArray == null || fileArray.length == 0) {
+            Log.i(TAG, "No save games found");
+            return;
+        }
 
+        List<File> fileList = Arrays.asList(fileArray);
+        Collections.sort(fileList, Collections.reverseOrder());
+
+        for (File file : fileList) {
+            Log.i(TAG, "Reading save game:" + file.getName());
+            SaveGameInfo saveGameInfo = readSaveGameInfo(file);
+
+            if (saveGameInfo != null) {
+                mSaveGameInfos.add(saveGameInfo);
+            }
+        }
+    }
+
+    private static SaveGameInfo readSaveGameInfo(File folder) {
+        try {
+            KeyValueStore gameInfoStore = KeyValueStore.fromStream(new FileInputStream(new File(folder, GAME_INFO_FILE)));
+            Date date = gameInfoStore.getDate("date");
+            int score = gameInfoStore.getInt("score");
+            int wave = gameInfoStore.getInt("wave");
+            int lives = gameInfoStore.getInt("lives");
+
+            Bitmap screenshot = BitmapFactory.decodeFile(new File(folder, SCREENSHOT_FILE).getAbsolutePath());
+
+            return new SaveGameInfo(folder, date, score, wave, lives, screenshot);
+        } catch (Exception e) {
+            Log.w(TAG, "Failed to read save game: " + folder.getName());
+            return null;
+        }
     }
 }

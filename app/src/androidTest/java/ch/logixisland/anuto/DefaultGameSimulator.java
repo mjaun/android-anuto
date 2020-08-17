@@ -32,14 +32,14 @@ public class DefaultGameSimulator extends GameSimulator {
 
     private final TowerTiers mTowerTiers;
     private final Random mRandom = new Random();
-    private final TickTimer mSaveAndLoadTimer = TickTimer.createInterval(120f);
-    private final TickTimer mSGTimer = TickTimer.createInterval(30f);
+    private final TickTimer mAutoSaveAndLoadTimer = TickTimer.createInterval(120f);
+    private final TickTimer mSaveAndLoadTimer = TickTimer.createInterval(30f);
     private final TickTimer mSimulationTickTimer = TickTimer.createInterval(0.5f);
 
-    private int mSGMode = 0;
+    private int mSaveAndLoadState = 0;
 
-    DefaultGameSimulator(GameActivity gameActivity, GameFactory gameFactory) {
-        super(gameActivity, gameFactory);
+    DefaultGameSimulator(GameFactory gameFactory) {
+        super(gameFactory);
         mTowerTiers = new TowerTiers(gameFactory);
     }
 
@@ -52,24 +52,23 @@ public class DefaultGameSimulator extends GameSimulator {
             tryStartNextWave();
         }
 
-        if (mSaveAndLoadTimer.tick()) {
-            saveAndLoad();
+        if (mAutoSaveAndLoadTimer.tick()) {
+            autoSaveAndLoad();
         }
 
-        if (mSGTimer.tick()) {
-            switch (++mSGMode) {
-                default:
-                    //for mSaveAndLoadTimer
-                    mSGMode = 0;
-                    break;
+        if (mSaveAndLoadTimer.tick()) {
+            switch (++mSaveAndLoadState) {
                 case 1:
-                    saveSG();
+                    saveGame();
                     break;
                 case 2:
-                    loadSG();
+                    loadGame();
                     break;
                 case 3:
-                    deleteSG();
+                    deleteSaveGame();
+                    break;
+                case 10:
+                    mSaveAndLoadState = 0;
                     break;
             }
         }

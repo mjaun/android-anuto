@@ -1,67 +1,50 @@
 package ch.logixisland.anuto.business.game;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
 import java.io.File;
-import java.io.FileInputStream;
-
-import ch.logixisland.anuto.util.container.KeyValueStore;
+import java.util.Date;
 
 public final class SaveGameInfo {
-    final private File mFolder;
-    final private KeyValueStore mSavegameInfoStore;
-    final private Bitmap mCachedScreenshot;
 
-    public static SaveGameInfo createSGI(File folder) {
-        try {
-            KeyValueStore savegameInfoStore = KeyValueStore.fromStream(new FileInputStream(new File(folder, SaveGameRepository.GAME_INFO_FILE)));
-            Bitmap cachedScreenshot = BitmapFactory.decodeFile(new File(folder, SaveGameRepository.SCREENSHOT_FILE).getAbsolutePath());
-            return new SaveGameInfo(folder, savegameInfoStore, cachedScreenshot);
-        } catch (Exception e) {
-            return null;
-        }
-    }
+    private final File mFolder;
+    private final Date mDate;
+    private final int mScore;
+    private final int mWave;
+    private final int mLives;
+    private final Bitmap mScreenshot;
 
-    private SaveGameInfo(File folder, KeyValueStore savegameInfoStore, Bitmap cachedScreenshot) {
+    public SaveGameInfo(File folder, Date date, int score, int wave, int lives, Bitmap screenshot) {
         mFolder = folder;
-        mSavegameInfoStore = savegameInfoStore;
-        mCachedScreenshot = cachedScreenshot;
+        mDate = date;
+        mScore = score;
+        mWave = wave;
+        mLives = lives;
+        mScreenshot = screenshot;
     }
 
     public File getFolder() {
         return mFolder;
     }
 
-    public String getGameStatePath() {
-        return new File(mFolder, SaveGameRepository.GAME_STATE_FILE).getAbsolutePath();
-    }
-
-    public Bitmap getCachedScreenshot() {
-        return mCachedScreenshot;
-    }
-
-    public String getDatetime() {
-        return mSavegameInfoStore.getString("dateTime");
+    public Date getDate() {
+        return mDate;
     }
 
     public int getScore() {
-        return mSavegameInfoStore.getInt("score");
+        return mScore;
     }
 
     public int getWave() {
-        return mSavegameInfoStore.getInt("waveNumber");
-    }
-
-    public int getRemainingEnemiesCount() {
-        return mSavegameInfoStore.getInt("remainingEnemiesCount");
-    }
-
-    public int getCredits() {
-        return mSavegameInfoStore.getInt("credits");
+        return mWave;
     }
 
     public int getLives() {
-        return mSavegameInfoStore.getInt("lives");
+        return mLives;
     }
+
+    public Bitmap getScreenshot() {
+        return mScreenshot;
+    }
+
 }
