@@ -112,20 +112,23 @@ public class SaveGameRepository {
             throw new RuntimeException("Unknown save game!");
         }
 
-        Log.i(TAG, "Deleting save game: " + saveGameInfo.getFolder().getAbsolutePath());
+        deleteSaveGame(saveGameInfo.getFolder());
+        mSaveGameInfos.remove(saveGameInfo);
+    }
+
+    private static void deleteSaveGame(File folder) {
+        Log.i(TAG, "Deleting save game: " + folder.getAbsolutePath());
         final List<String> files = Arrays.asList(GAME_STATE_FILE, GAME_INFO_FILE, SCREENSHOT_FILE);
 
         for (String file : files) {
-            if (!new File(saveGameInfo.getFolder(), file).delete()) {
+            if (!new File(folder, file).delete()) {
                 Log.e(TAG, "Failed to delete file: " + file);
             }
         }
 
-        if (!saveGameInfo.getFolder().delete()) {
-            Log.e(TAG, "Failed to delete save game: " + saveGameInfo.getFolder().getAbsolutePath());
+        if (!folder.delete()) {
+            Log.e(TAG, "Failed to delete save game: " + folder.getAbsolutePath());
         }
-
-        mSaveGameInfos.remove(saveGameInfo);
     }
 
     private void readSaveGameInfos() {
@@ -135,7 +138,7 @@ public class SaveGameRepository {
         File[] fileArray = rootdir.listFiles();
 
         if (fileArray == null || fileArray.length == 0) {
-            Log.i(TAG, "No save games found");
+            Log.i(TAG, "No save games found.");
             return;
         }
 
@@ -143,7 +146,6 @@ public class SaveGameRepository {
         Collections.sort(fileList, Collections.reverseOrder());
 
         for (File file : fileList) {
-            Log.i(TAG, "Reading save game:" + file.getName());
             SaveGameInfo saveGameInfo = readSaveGameInfo(file);
 
             if (saveGameInfo != null) {
@@ -154,7 +156,14 @@ public class SaveGameRepository {
 
     private static SaveGameInfo readSaveGameInfo(File folder) {
         try {
+            Log.i(TAG, "Reading save game:" + folder.getName());
             KeyValueStore gameInfoStore = KeyValueStore.fromStream(new FileInputStream(new File(folder, GAME_INFO_FILE)));
+
+            if (gameInfoStore.getInt("version") != SAVE_GAME_VERSION) {
+                Log.i(TAG, "Invalid version.");
+                return null;
+            }
+
             Date date = gameInfoStore.getDate("date");
             int score = gameInfoStore.getInt("score");
             int wave = gameInfoStore.getInt("wave");
@@ -164,7 +173,7 @@ public class SaveGameRepository {
 
             return new SaveGameInfo(folder, date, score, wave, lives, screenshot);
         } catch (Exception e) {
-            Log.w(TAG, "Failed to read save game: " + folder.getName());
+            Log.w(TAG, "Failed to read save game!");
             return null;
         }
     }
