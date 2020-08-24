@@ -89,6 +89,7 @@ public class HeaderFragment extends AnutoFragment implements WaveManager.Listene
         txt_lives.setText(getString(R.string.lives) + ": " + mScoreBoard.getLives());
         txt_bonus.setText(getString(R.string.bonus) + ": " + StringUtils.formatSuffix(mScoreBoard.getWaveBonus() + mScoreBoard.getEarlyBonus()));
         btn_fast_forward_speed.setText(getString(R.string.var_speed, mGameSpeed.fastForwardMultiplier()));
+        btn_fast_forward_active.setPressed(mGameSpeed.isFastForwardActive());
 
         final List<TowerView> towerViews = new ArrayList<>();
         towerViews.add((TowerView) v.findViewById(R.id.view_tower_1));
@@ -111,6 +112,13 @@ public class HeaderFragment extends AnutoFragment implements WaveManager.Listene
         });
 
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        btn_fast_forward_active.setPressed(mGameSpeed.isFastForwardActive());
     }
 
     @Override
