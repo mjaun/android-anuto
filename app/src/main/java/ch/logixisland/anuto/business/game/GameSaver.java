@@ -1,12 +1,10 @@
 package ch.logixisland.anuto.business.game;
 
-import android.content.Context;
 import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
 
-import ch.logixisland.anuto.BuildConfig;
 import ch.logixisland.anuto.business.wave.WaveManager;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.loop.Message;
@@ -18,7 +16,6 @@ public class GameSaver {
 
     private static final String TAG = GameSaver.class.getSimpleName();
 
-    private final Context mContext;
     private final GameEngine mGameEngine;
     private final GameLoader mGameLoader;
     private final GamePersister mGamePersister;
@@ -27,9 +24,8 @@ public class GameSaver {
     private final ScoreBoard mScoreBoard;
     private final SaveGameRepository mSaveGameRepository;
 
-    public GameSaver(Context context, GameEngine gameEngine, GameLoader gameLoader, GamePersister gamePersister,
+    public GameSaver(GameEngine gameEngine, GameLoader gameLoader, GamePersister gamePersister,
                      Renderer renderer, WaveManager waveManager, ScoreBoard scoreBoard, SaveGameRepository saveGameRepository) {
-        mContext = context;
         mGameEngine = gameEngine;
         mGameLoader = gameLoader;
         mGamePersister = gamePersister;
@@ -73,7 +69,7 @@ public class GameSaver {
         Log.i(TAG, "Saving game...");
         KeyValueStore gameState = new KeyValueStore();
         mGamePersister.writeState(gameState);
-        gameState.putInt("appVersion", BuildConfig.VERSION_CODE);
+        gameState.putInt("version", SaveGameRepository.SAVE_GAME_VERSION);
         gameState.putString("mapId", mGameLoader.getCurrentMapId());
 
         try {

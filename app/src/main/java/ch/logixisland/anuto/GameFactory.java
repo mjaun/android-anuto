@@ -141,7 +141,7 @@ public class GameFactory {
         mHighScores = new HighScores(context, mGameEngine, mScoreBoard, mGameLoader);
         mGameState = new GameState(mScoreBoard, mHighScores, mTowerSelector);
         mWaveManager = new WaveManager(mGameEngine, mScoreBoard, mGameState, mEntityRegistry, mTowerAging);
-        mGameSaver = new GameSaver(context, mGameEngine, mGameLoader, mGamePersister, mRenderer, mWaveManager, mScoreBoard, mSaveGameRepository);
+        mGameSaver = new GameSaver(mGameEngine, mGameLoader, mGamePersister, mRenderer, mWaveManager, mScoreBoard, mSaveGameRepository);
         mTowerControl = new TowerControl(mGameEngine, mScoreBoard, mTowerSelector, mEntityRegistry);
         mTowerInserter = new TowerInserter(mGameEngine, mGameState, mEntityRegistry, mTowerSelector, mTowerAging, mScoreBoard);
         mTutorialControl = new TutorialControl(context, mTowerInserter, mTowerSelector, mWaveManager);

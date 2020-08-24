@@ -17,12 +17,13 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import ch.logixisland.anuto.BuildConfig;
 import ch.logixisland.anuto.util.container.KeyValueStore;
 
 public class SaveGameRepository {
 
     private static final String TAG = SaveGameRepository.class.getSimpleName();
+
+    public static final int SAVE_GAME_VERSION = 1;
 
     private static final String AUTO_SAVE_STATE_FILE = "autosave.json";
 
@@ -55,10 +56,13 @@ public class SaveGameRepository {
     public SaveGameInfo createSaveGame(Bitmap screenshot, int score, int wave, int lives) {
         Date date = new Date();
 
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         File folder = new File(mContext.getFilesDir() + File.separator
                 + "savegame" + File.separator
                 + dateFormat.format(date));
+
+        //noinspection ResultOfMethodCallIgnored
         folder.mkdirs();
 
         try {
@@ -85,7 +89,7 @@ public class SaveGameRepository {
         try {
             Log.i(TAG, "Saving game info...");
             KeyValueStore saveGameInfo = new KeyValueStore();
-            saveGameInfo.putInt("appVersion", BuildConfig.VERSION_CODE);
+            saveGameInfo.putInt("version", SAVE_GAME_VERSION);
             saveGameInfo.putDate("date", date);
             saveGameInfo.putInt("score", score);
             saveGameInfo.putInt("wave", wave);

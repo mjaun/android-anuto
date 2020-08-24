@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ch.logixisland.anuto.BuildConfig;
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
@@ -120,7 +119,7 @@ public class GameLoader implements ErrorListener {
             throw new RuntimeException("Could not load game!", e);
         }
 
-        if (gameState.getInt("appVersion") != BuildConfig.VERSION_CODE) {
+        if (gameState.getInt("version") != SaveGameRepository.SAVE_GAME_VERSION) {
             Log.w(TAG, "App version mismatch.");
             loadMap(mMapRepository.getDefaultMapId());
             return;
@@ -189,6 +188,8 @@ public class GameLoader implements ErrorListener {
         // avoid game not starting anymore because of a somehow corrupt saved game file
         if (loopCount < 10) {
             Log.w(TAG, "Game crashed just after loading, deleting saved game file.");
+
+            //noinspection ResultOfMethodCallIgnored
             mSaveGameRepository.getAutoSaveStateFile().delete();
         }
     }
