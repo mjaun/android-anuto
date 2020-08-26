@@ -8,6 +8,7 @@
 
         <item name="textColor">#000000</item>
         <item name="textDisabledColor">#ff0000</item>
+        <item name="textActiveColor">#009000</item>
         <item name="backgroundColor">#ffffff</item>
         <item name="healthBarColor">#00ff00</item>
         <item name="healthBarBackgroundColor">#000000</item>

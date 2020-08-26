@@ -2,6 +2,8 @@ package ch.logixisland.anuto.view.game;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -21,16 +23,18 @@ import ch.logixisland.anuto.business.game.GameSpeed;
 import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.business.tower.TowerSelector;
 import ch.logixisland.anuto.business.wave.WaveManager;
+import ch.logixisland.anuto.engine.theme.ThemeManager;
 import ch.logixisland.anuto.util.StringUtils;
 import ch.logixisland.anuto.view.AnutoFragment;
 
 public class HeaderFragment extends AnutoFragment implements WaveManager.Listener, ScoreBoard.Listener,
-        GameSpeed.Listener, View.OnClickListener, View.OnTouchListener {
+        GameSpeed.Listener, View.OnClickListener {
 
     private final WaveManager mWaveManager;
     private final GameSpeed mGameSpeed;
     private final ScoreBoard mScoreBoard;
     private final TowerSelector mTowerSelector;
+    private final ThemeManager mThemeManager;
 
     private Handler mHandler;
 
@@ -55,6 +59,7 @@ public class HeaderFragment extends AnutoFragment implements WaveManager.Listene
         mWaveManager = factory.getWaveManager();
         mGameSpeed = factory.getSpeedManager();
         mTowerSelector = factory.getTowerSelector();
+        mThemeManager = factory.getThemeManager();
     }
 
     @Override
@@ -78,7 +83,7 @@ public class HeaderFragment extends AnutoFragment implements WaveManager.Listene
 
         btn_next_wave.setOnClickListener(this);
         btn_fast_forward_speed.setOnClickListener(this);
-        btn_fast_forward_active.setOnTouchListener(this);
+        btn_fast_forward_active.setOnClickListener(this);
         btn_menu.setOnClickListener(this);
         btn_build_tower.setOnClickListener(this);
         fragment_header.setOnClickListener(this);
@@ -89,7 +94,7 @@ public class HeaderFragment extends AnutoFragment implements WaveManager.Listene
         txt_lives.setText(getString(R.string.lives) + ": " + mScoreBoard.getLives());
         txt_bonus.setText(getString(R.string.bonus) + ": " + StringUtils.formatSuffix(mScoreBoard.getWaveBonus() + mScoreBoard.getEarlyBonus()));
         btn_fast_forward_speed.setText(getString(R.string.var_speed, mGameSpeed.fastForwardMultiplier()));
-        btn_fast_forward_active.setPressed(mGameSpeed.isFastForwardActive());
+        updateButtonFastForwardActive();
 
         final List<TowerView> towerViews = new ArrayList<>();
         towerViews.add((TowerView) v.findViewById(R.id.view_tower_1));
@@ -115,13 +120,6 @@ public class HeaderFragment extends AnutoFragment implements WaveManager.Listene
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-
-        btn_fast_forward_active.setPressed(mGameSpeed.isFastForwardActive());
-    }
-
-    @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
@@ -144,21 +142,6 @@ public class HeaderFragment extends AnutoFragment implements WaveManager.Listene
     }
 
     @Override
-    public boolean onTouch(View view, MotionEvent motionEvent) {
-        if (view == btn_fast_forward_active) {
-            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                return true;
-            }
-
-            if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                mGameSpeed.setFastForwardActive(!mGameSpeed.isFastForwardActive());
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
     public void onClick(View view) {
         if (view == fragment_header) {
             mTowerSelector.selectTower(null);
@@ -172,6 +155,11 @@ public class HeaderFragment extends AnutoFragment implements WaveManager.Listene
 
         if (view == btn_fast_forward_speed) {
             mGameSpeed.cycleFastForward();
+            return;
+        }
+
+        if (view == btn_fast_forward_active) {
+            mGameSpeed.setFastForwardActive(!mGameSpeed.isFastForwardActive());
             return;
         }
 
@@ -259,8 +247,16 @@ public class HeaderFragment extends AnutoFragment implements WaveManager.Listene
             @Override
             public void run() {
                 btn_fast_forward_speed.setText(getString(R.string.var_speed, mGameSpeed.fastForwardMultiplier()));
-                btn_fast_forward_active.setPressed(mGameSpeed.isFastForwardActive());
+                updateButtonFastForwardActive();
             }
         });
+    }
+
+    private void updateButtonFastForwardActive() {
+        if (mGameSpeed.isFastForwardActive()) {
+            btn_fast_forward_active.setTextColor(mThemeManager.getTheme().getColor(R.attr.textActiveColor));
+        } else {
+            btn_fast_forward_active.setTextColor(mThemeManager.getTheme().getColor(R.attr.textColor));
+        }
     }
 }
