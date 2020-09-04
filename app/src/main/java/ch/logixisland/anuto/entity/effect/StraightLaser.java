@@ -4,12 +4,16 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import java.util.Collection;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.entity.EntityTypes;
 import ch.logixisland.anuto.entity.enemy.Enemy;
+import ch.logixisland.anuto.entity.enemy.Flyer;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.Vector2;
 
@@ -17,9 +21,11 @@ public class StraightLaser extends Effect {
 
     private final static float LASER_WIDTH = 0.7f;
 
-    private final static float EFFECT_DURATION = 0.5f;
+    private final static float FLYER_STUN_INTENSITY = 20.0f;
+    private final static float EFFECT_DURATION = 1.0f;
+    private final static float VISIBLE_EFFECT_DURATION = 0.5f;
     private final static int ALPHA_START = 180;
-    private final static int ALPHA_STEP = (int) (ALPHA_START / (GameEngine.TARGET_FRAME_RATE * EFFECT_DURATION));
+    private final static int ALPHA_STEP = (int) (ALPHA_START / (GameEngine.TARGET_FRAME_RATE * VISIBLE_EFFECT_DURATION));
 
     private class LaserDrawable implements Drawable {
         private Paint mPaint;
@@ -55,6 +61,7 @@ public class StraightLaser extends Effect {
 
     private float mDamage;
     private Vector2 mLaserTo;
+    private Collection<Flyer> mStunnedFliers = new CopyOnWriteArrayList<>();
 
     private LaserDrawable mDrawObject;
 
@@ -98,6 +105,19 @@ public class StraightLaser extends Effect {
         while (enemies.hasNext()) {
             Enemy enemy = enemies.next();
             enemy.damage(mDamage, getOrigin());
+
+            if (enemy instanceof Flyer) {
+                Flyer flyer = (Flyer) enemy;
+                flyer.modifySpeed(1.0f / FLYER_STUN_INTENSITY, getOrigin());
+                mStunnedFliers.add(flyer);
+            }
+        }
+    }
+
+    @Override
+    protected void effectEnd() {
+        for (Flyer flyer : mStunnedFliers) {
+            flyer.modifySpeed(FLYER_STUN_INTENSITY, getOrigin());
         }
     }
 }

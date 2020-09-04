@@ -13,13 +13,16 @@ import ch.logixisland.anuto.engine.render.Drawable;
 import ch.logixisland.anuto.engine.render.Layers;
 import ch.logixisland.anuto.entity.EntityTypes;
 import ch.logixisland.anuto.entity.enemy.Enemy;
+import ch.logixisland.anuto.entity.enemy.Flyer;
 import ch.logixisland.anuto.util.math.Vector2;
 
 public class BouncingLaser extends Effect {
 
+    private final static float FLYER_STUN_INTENSITY = 20.0f;
     private final static float EFFECT_DURATION = 0.5f;
+    private final static float VISIBLE_EFFECT_DURATION = 0.5f;
     private final static int ALPHA_START = 180;
-    private final static int ALPHA_STEP = (int) (ALPHA_START / (GameEngine.TARGET_FRAME_RATE * EFFECT_DURATION));
+    private final static int ALPHA_STEP = (int) (ALPHA_START / (GameEngine.TARGET_FRAME_RATE * VISIBLE_EFFECT_DURATION));
 
     private class LaserDrawable implements Drawable {
         private Paint mPaint;
@@ -120,8 +123,6 @@ public class BouncingLaser extends Effect {
 
     @Override
     protected void effectBegin() {
-        super.effectBegin();
-
         if (mBounceCount > 0) {
             if (mPrevTargets == null) {
                 mPrevTargets = new ArrayList<>();
@@ -138,6 +139,16 @@ public class BouncingLaser extends Effect {
         }
 
         mTarget.damage(mDamage, getOrigin());
+
+        if (mTarget instanceof Flyer) {
+            mTarget.modifySpeed(1.0f / FLYER_STUN_INTENSITY, getOrigin());
+        }
     }
 
+    @Override
+    protected void effectEnd() {
+        if (mTarget instanceof Flyer) {
+            mTarget.modifySpeed(FLYER_STUN_INTENSITY, getOrigin());
+        }
+    }
 }
