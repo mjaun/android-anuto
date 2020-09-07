@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <!-- App infos -->
+    <string name="app_name">Anuto TD</string>
+
+    <!-- Game -->
+    <string name="menu">Menü</string>
+    <string name="build_tower">İnşa et</string>
+    <string name="next_wave">Sıradaki dalga</string>
+    <string name="var_speed" translatable="false">%1$dx</string>
+    <string name="fast_forward" translatable="false">FF</string>
+
+    <!-- Menu -->
+    <string name="restart">Yeniden başlat</string>
+    <string name="save_game">Oyunu kaydet</string>
+    <string name="game_saved">Oyun kaydedildi</string>
+    <string name="load_game">Oyun yükle</string>
+    <string name="change_map">Harita değiştir</string>
+    <string name="settings">Ayarlar</string>
+
+    <!-- Saves -->
+    <string name="delete">Sil</string>
+
+    <!-- Settings -->
+    <string name="sound">Ses</string>
+    <string name="theme">Tema</string>
+    <string name="change_theme">Tema değiştir</string>
+    <string name="change_theme_warning">Tema değiştirmek istediğinizden emin misiniz? Oyun yeniden başlayacaktır.</string>
+    <string name="back_button_mode">Geri\'ye basarak oyunu kapat</string>
+    <string name="reset_highscores">En yüksek puanları sıfırla</string>
+    <string name="reset_highscores_warning">En yüksek puanları sıfırlamak istediğinizden emin misiniz?</string>
+    <string name="start_tutorial">Eğitimi başlat</string>
+    <string name="start_tutorial_warning">Eğitimi başlatmak istediğinizden emin misiniz? Oyun yeniden başlayacaktır.</string>
+    <string name="transparent_menus">Şeffaf oyun içi menü</string>
+
+    <!-- End of game -->
+    <string name="game_over">Oyun bitti!</string>
+    <string name="score">Puan</string>
+
+    <!-- Game stats -->
+    <string name="credits">Para</string>
+    <string name="lives">Can</string>
+    <string name="wave">Dalga</string>
+    <string name="bonus">Bonus</string>
+
+    <!-- Tower infos -->
+    <string name="level">Seviye</string>
+    <string name="damage">Hasar</string>
+    <string name="reload">Yenilenme</string>
+    <string name="range">Menzil</string>
+    <string name="splash">Patlayıcı çapı</string>
+    <string name="distance">Uzaklık</string>
+    <string name="intensity">Şiddet</string>
+    <string name="duration">Süre</string>
+    <string name="inflicted">Toplam hasar</string>
+    <string name="dps" translatable="false">DPS</string>
+
+    <!-- Tower options -->
+    <string name="lock_target">Hedefe kitlen</string>
+    <string name="strategy">Strateji</string>
+    <string name="enhance">Güçlendir</string>
+    <string name="upgrade">Yükselt</string>
+    <string name="sell">Sat</string>
+
+    <!-- On off -->
+    <string name="on">Açık</string>
+    <string name="off">Kapalı</string>
+    <string name="twice">İki kez</string>
+
+    <!-- Strategies -->
+    <string name="strategy_closest">En yakın</string>
+    <string name="strategy_weakest">En zayıf</string>
+    <string name="strategy_strongest">En güçlü</string>
+    <string name="strategy_first">İlk</string>
+    <string name="strategy_last">Son</string>
+
+    <!-- Theme -->
+    <string name="theme_original">Orijinal</string>
+    <string name="theme_dark">Karanlık</string>
+    <string name="theme_colour">Renkli</string>
+
+    <!-- Maps -->
+    <string name="map_original_name">Orijinal</string>
+    <string name="map_waiting_line_name">Bundan tiksiniyorum</string>
+    <string name="map_turn_round_name">Geri bas</string>
+    <string name="map_hurry_name">Acelemiz var!</string>
+    <string name="map_civyshk_2y_name">Civyshk 2Y</string>
+    <string name="map_civyshk_line5_name">Civyshk 5 yol</string>
+    <string name="map_civyshk_labyrinth_name">Civyshk labirenti</string>
+    <string name="map_civyshk_yard_name">Civyshk bahçesi</string>
+    <string name="map_higgledy_piggledy_name">Allak bullak</string>
+    <string name="map_big_u_name">Büyük U</string>
+    <string name="map_cloverleaf_name">Yonca yaprağı</string>
+    <string name="map_roundabout_name">Boks maçı</string>
+    <string name="map_runway_name">Koş</string>
+    <string name="press_back_button_again_toast">Çıkmak için geri tuşuna tekrar basınız</string>
+
+    <!-- Tutorial -->
+    <string name="tutorial">Başlarken</string>
+    <string name="got_it">Anladım!</string>
+    <string name="skip_tutorial">Eğitimi geç</string>
+
+    <string name="tutorial_build_tower">Anuto TD\'ye hoş geldiniz! Hadi bir kule inşa ederek başlayalım: Sol üstteki envanterden bir kuleyi oyun alanına sürükleyin.</string>
+    <string name="tutorial_credits">Eğer bir kulenin fiyat listesi kırmızıya dönmüşse bu o kuleyi inşa etmek için yeterli paranız yok demektir. Parayı düşmanları öldürerek ve bir dalgayı tamamlayarak kazanırsınız.</string>
+    <string name="tutorial_tower_options_1">Bir kuleye bir kez dokunarak o kulenin menzilini, iki kez dokunarak o kulenin özelliklerini içeren menüyü görüntülersiniz.</string>
+    <string name="tutorial_tower_options_2">Strateji o kulenin saldıracağı düşmanı neye göre seçeceğini belirir. Hedefe kitlen o kulenin saldırmayı seçtiği bir düşmanı menzilinden çıkana kadar bırakmayacağı anlamına gelir.</string>
+    <string name="tutorial_tower_options_3">Güçlendir bir kulenin daha iyi saldırmasını sağlar. Yükselt bir kulenin ondan daha iyi bir kuleye dönüşmesini sağlar.\n\n<b>Aklında Olsun:</b> Eğer bir kuleyi yükseltirseniz, daha önce o kuleyi güçlendirmek için kullandığınız paralar boşa gidecer.</string>
+    <string name="tutorial_tower_options_4">Sat bir kuleyi kaldırır ve parasının bir miktarını geri verir.\n\n<b>Aklında Olsun:</b> Kulelerin değeri zamanla azalır.</string>
+    <string name="tutorial_next_wave">\"Sıradaki dalga\" bir sonraki düşman dalgasını başlatır. Amaç düşmanlardan bir tanesinin bile savunmanızı geçmesini engellemektir.\n\n<b>Aklında Olsun:</b> Eğer zaten bir dalga olduğu halde yenisini çağırırsanız fazladan para kazanırsınız!</string>
+    <string name="tutorial_enemies">Eğer bir düşman yolunu tamamlarsa bir can kaybedersiniz. Eğer hiç canınız kalmazsa oyun biter.\n\n<b>Aklında Olsun:</b> Bazı kuleler belli başlı düşmanlarda daha etkilidir.</string>
+    <string name="tutorial_finish">Bol şans ve iyi eğlenceler! Ayarlardan eğitimi tekrar alabilirsiniz.</string>
+
+    <!-- Enemy infos -->
+    <string name="enemy_stats">Düşman Özellikleri</string>
+    <string name="name">İsim:</string>
+    <string name="health">Sağlık:</string>
+    <string name="speed">Hız:</string>
+    <string name="reward">Ödül:</string>
+    <string name="weak_against">Zayıf yanları:</string>
+    <string name="strong_against">Güçlü yanları:</string>
+    <string name="none">Hiçbiri</string>
+
+    <!-- Enemy names -->
+    <string name="enemy_soldier">Asker</string>
+    <string name="enemy_blob">Ahmak</string>
+    <string name="enemy_sprinter">Koşucu</string>
+    <string name="enemy_flyer">Uçucu</string>
+    <string name="enemy_healer">Doktor</string>
+</resources>
