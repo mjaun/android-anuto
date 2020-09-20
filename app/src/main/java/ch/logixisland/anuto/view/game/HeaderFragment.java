@@ -94,10 +94,10 @@ public class HeaderFragment extends AnutoFragment implements WaveManager.Listene
         updateButtonFastForwardActive();
 
         final List<TowerView> towerViews = new ArrayList<>();
-        towerViews.add((TowerView) v.findViewById(R.id.view_tower_1));
-        towerViews.add((TowerView) v.findViewById(R.id.view_tower_2));
-        towerViews.add((TowerView) v.findViewById(R.id.view_tower_3));
-        towerViews.add((TowerView) v.findViewById(R.id.view_tower_4));
+        towerViews.add(v.findViewById(R.id.view_tower_1));
+        towerViews.add(v.findViewById(R.id.view_tower_2));
+        towerViews.add(v.findViewById(R.id.view_tower_3));
+        towerViews.add(v.findViewById(R.id.view_tower_4));
         mTowerViewControl = new TowerViewControl(towerViews);
 
         fragment_header.addOnLayoutChangeListener((v1, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
