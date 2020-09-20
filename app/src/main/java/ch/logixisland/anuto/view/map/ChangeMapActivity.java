@@ -54,12 +54,7 @@ public class ChangeMapActivity extends AnutoActivity implements AdapterView.OnIt
         grid_maps = findViewById(R.id.grid_maps);
         grid_maps.setOnItemClickListener(this);
         grid_maps.getViewTreeObserver().addOnScrollChangedListener(this);
-        grid_maps.post(new Runnable() {
-            @Override
-            public void run() {
-                updateArrowVisibility();
-            }
-        });
+        grid_maps.post(this::updateArrowVisibility);
         grid_maps.setAdapter(mAdapter);
     }
 

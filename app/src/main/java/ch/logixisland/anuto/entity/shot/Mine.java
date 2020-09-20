@@ -15,7 +15,6 @@ import ch.logixisland.anuto.entity.effect.Explosion;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.entity.enemy.Flyer;
 import ch.logixisland.anuto.util.RandomUtils;
-import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.Function;
 import ch.logixisland.anuto.util.math.SampledFunction;
@@ -160,12 +159,7 @@ public class Mine extends Shot implements SpriteTransformation {
             StreamIterator<Enemy> enemiesInRange = getGameEngine().getEntitiesByType(EntityTypes.ENEMY)
                     .filter(inRange(getPosition(), TRIGGER_RADIUS))
                     .cast(Enemy.class)
-                    .filter(new Predicate<Enemy>() {
-                        @Override
-                        public boolean apply(Enemy value) {
-                            return !(value instanceof Flyer);
-                        }
-                    });
+                    .filter(value -> !(value instanceof Flyer));
 
             if (!enemiesInRange.isEmpty()) {
                 getGameEngine().add(new Explosion(getOrigin(), getPosition(), mDamage, mRadius));

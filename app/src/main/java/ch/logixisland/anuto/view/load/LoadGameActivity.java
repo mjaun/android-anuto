@@ -1,7 +1,5 @@
 package ch.logixisland.anuto.view.load;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -58,12 +56,7 @@ public class LoadGameActivity extends AnutoActivity implements AdapterView.OnIte
         grid_savegames = findViewById(R.id.grid_savegames);
         grid_savegames.setOnItemClickListener(this);
         grid_savegames.getViewTreeObserver().addOnScrollChangedListener(this);
-        grid_savegames.post(new Runnable() {
-            @Override
-            public void run() {
-                updateArrowVisibility();
-            }
-        });
+        grid_savegames.post(this::updateArrowVisibility);
         grid_savegames.setAdapter(mAdapter);
         registerForContextMenu(grid_savegames);
     }

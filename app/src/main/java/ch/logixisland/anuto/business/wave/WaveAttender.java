@@ -7,7 +7,6 @@ import java.util.List;
 import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
-import ch.logixisland.anuto.engine.logic.loop.Message;
 import ch.logixisland.anuto.engine.logic.map.EnemyInfo;
 import ch.logixisland.anuto.engine.logic.map.MapPath;
 import ch.logixisland.anuto.engine.logic.map.WaveInfo;
@@ -189,12 +188,7 @@ class WaveAttender implements Enemy.Listener {
         mRemainingEnemies.add(enemy);
         enemy.addListener(this);
 
-        mGameEngine.postAfterTicks(new Message() {
-            @Override
-            public void execute() {
-                mGameEngine.add(enemy);
-            }
-        }, delayTicks);
+        mGameEngine.postAfterTicks(() -> mGameEngine.add(enemy), delayTicks);
     }
 
     @Override

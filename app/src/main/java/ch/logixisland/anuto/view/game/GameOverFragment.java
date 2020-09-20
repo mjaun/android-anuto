@@ -70,29 +70,21 @@ public class GameOverFragment extends AnutoFragment implements GameState.Listene
 
     @Override
     public void gameRestart() {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                getFragmentManager().beginTransaction()
-                        .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-                        .hide(GameOverFragment.this)
-                        .commitAllowingStateLoss();
-            }
-        });
+        mHandler.post(() -> getFragmentManager().beginTransaction()
+                .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                .hide(GameOverFragment.this)
+                .commitAllowingStateLoss());
     }
 
     @Override
     public void gameOver() {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                updateScore();
+        mHandler.post(() -> {
+            updateScore();
 
-                getFragmentManager().beginTransaction()
-                        .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-                        .show(GameOverFragment.this)
-                        .commitAllowingStateLoss();
-            }
+            getFragmentManager().beginTransaction()
+                    .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                    .show(GameOverFragment.this)
+                    .commitAllowingStateLoss();
         });
     }
 

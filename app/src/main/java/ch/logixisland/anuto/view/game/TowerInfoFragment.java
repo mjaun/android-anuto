@@ -146,23 +146,15 @@ public class TowerInfoFragment extends AnutoFragment implements View.OnClickList
 
     @Override
     public void showTowerInfo(final TowerInfo towerInfo) {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                show();
-                refresh(towerInfo);
-            }
+        mHandler.post(() -> {
+            show();
+            refresh(towerInfo);
         });
     }
 
     @Override
     public void hideTowerInfo() {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                hide();
-            }
-        });
+        mHandler.post(this::hide);
     }
 
     private void show() {

@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.engine.logic.GameEngine;
-import ch.logixisland.anuto.engine.logic.loop.Message;
 
 public class GameSpeed {
     private static final int MIN_FAST_FORWARD_SPEED = 2;
@@ -30,12 +29,7 @@ public class GameSpeed {
 
     public void setFastForwardActive(final boolean active) {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    setFastForwardActive(active);
-                }
-            });
+            mGameEngine.post(() -> setFastForwardActive(active));
             return;
         }
 
@@ -51,12 +45,7 @@ public class GameSpeed {
 
     public void cycleFastForward() {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    cycleFastForward();
-                }
-            });
+            mGameEngine.post(this::cycleFastForward);
             return;
         }
 

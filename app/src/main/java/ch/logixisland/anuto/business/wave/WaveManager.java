@@ -12,7 +12,6 @@ import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.business.tower.TowerAging;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
-import ch.logixisland.anuto.engine.logic.loop.Message;
 import ch.logixisland.anuto.engine.logic.map.MapPath;
 import ch.logixisland.anuto.engine.logic.map.WaveInfo;
 import ch.logixisland.anuto.engine.logic.persistence.Persister;
@@ -75,12 +74,7 @@ public class WaveManager implements Persister, GameState.Listener {
 
     public void startNextWave() {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    startNextWave();
-                }
-            });
+            mGameEngine.post(this::startNextWave);
             return;
         }
 
@@ -207,12 +201,9 @@ public class WaveManager implements Persister, GameState.Listener {
     }
 
     private void nextWaveReadyDelayed(float delay) {
-        mGameEngine.postDelayed(new Message() {
-            @Override
-            public void execute() {
-                if (!mGameState.isGameOver()) {
-                    setNextWaveReady(true);
-                }
+        mGameEngine.postDelayed(() -> {
+            if (!mGameState.isGameOver()) {
+                setNextWaveReady(true);
             }
         }, delay);
     }

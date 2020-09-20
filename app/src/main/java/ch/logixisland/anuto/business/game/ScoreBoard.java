@@ -5,7 +5,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import ch.logixisland.anuto.GameSettings;
 import ch.logixisland.anuto.engine.logic.GameEngine;
-import ch.logixisland.anuto.engine.logic.loop.Message;
 import ch.logixisland.anuto.engine.logic.persistence.Persister;
 import ch.logixisland.anuto.util.container.KeyValueStore;
 
@@ -35,12 +34,7 @@ public class ScoreBoard implements Persister {
 
     public void takeLives(final int lives) {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    takeLives(lives);
-                }
-            });
+            mGameEngine.post(() -> takeLives(lives));
             return;
         }
 
@@ -50,12 +44,7 @@ public class ScoreBoard implements Persister {
 
     public void giveCredits(final int credits, final boolean earned) {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    giveCredits(credits, earned);
-                }
-            });
+            mGameEngine.post(() -> giveCredits(credits, earned));
             return;
         }
 
@@ -70,12 +59,7 @@ public class ScoreBoard implements Persister {
 
     public void takeCredits(final int credits) {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    takeCredits(credits);
-                }
-            });
+            mGameEngine.post(() -> takeCredits(credits));
             return;
         }
 
@@ -85,12 +69,7 @@ public class ScoreBoard implements Persister {
 
     public void setEarlyBonus(final int earlyBonus) {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    setEarlyBonus(earlyBonus);
-                }
-            });
+            mGameEngine.post(() -> setEarlyBonus(earlyBonus));
             return;
         }
 
@@ -100,12 +79,7 @@ public class ScoreBoard implements Persister {
 
     public void setWaveBonus(final int waveBonus) {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    setWaveBonus(waveBonus);
-                }
-            });
+            mGameEngine.post(() -> setWaveBonus(waveBonus));
             return;
         }
 

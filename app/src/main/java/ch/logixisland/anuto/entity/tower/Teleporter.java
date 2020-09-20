@@ -20,7 +20,6 @@ import ch.logixisland.anuto.entity.effect.TeleportEffect;
 import ch.logixisland.anuto.entity.enemy.Enemy;
 import ch.logixisland.anuto.entity.enemy.WeaponType;
 import ch.logixisland.anuto.util.RandomUtils;
-import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
 public class Teleporter extends Tower implements SpriteTransformation {
@@ -173,11 +172,6 @@ public class Teleporter extends Tower implements SpriteTransformation {
         StaticData s = (StaticData) getStaticData();
 
         return super.getPossibleTargets()
-                .filter(new Predicate<Enemy>() {
-                    @Override
-                    public boolean apply(Enemy enemy) {
-                        return !enemy.isBeingTeleported() && !enemy.wasTeleported();
-                    }
-                });
+                .filter(enemy -> !enemy.isBeingTeleported() && !enemy.wasTeleported());
     }
 }

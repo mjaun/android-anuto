@@ -6,7 +6,6 @@ import java.util.concurrent.CountDownLatch;
 
 import ch.logixisland.anuto.business.game.GameState;
 import ch.logixisland.anuto.business.game.SaveGameInfo;
-import ch.logixisland.anuto.engine.logic.loop.TickListener;
 
 public abstract class GameSimulator {
 
@@ -113,15 +112,11 @@ public abstract class GameSimulator {
     }
 
     private void installTickHandler() {
-        mGameFactory.getGameEngine().add(new TickListener() {
-
-            @Override
-            public void tick() {
-                if (mGameFactory.getGameState().isGameOver()) {
-                    simulationFinished();
-                } else {
-                    GameSimulator.this.tick();
-                }
+        mGameFactory.getGameEngine().add(() -> {
+            if (mGameFactory.getGameState().isGameOver()) {
+                simulationFinished();
+            } else {
+                GameSimulator.this.tick();
             }
         });
     }

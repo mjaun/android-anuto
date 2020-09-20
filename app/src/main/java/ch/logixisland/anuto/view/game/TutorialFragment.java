@@ -72,23 +72,13 @@ public class TutorialFragment extends AnutoFragment implements TutorialControl.T
 
     @Override
     public void showHint(final int textId, final boolean showSkipButton) {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                show(textId, showSkipButton);
-            }
-        });
+        mHandler.post(() -> show(textId, showSkipButton));
 
     }
 
     @Override
     public void tutorialFinished() {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                hide();
-            }
-        });
+        mHandler.post(this::hide);
     }
 
     private void show(int textId, boolean showSkipButton) {

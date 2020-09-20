@@ -6,7 +6,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
-import ch.logixisland.anuto.engine.logic.loop.Message;
 import ch.logixisland.anuto.entity.EntityTypes;
 import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.util.math.Vector2;
@@ -73,12 +72,7 @@ public class TowerSelector implements ScoreBoard.Listener, Entity.Listener, Towe
 
     public void toggleTowerBuildView() {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    toggleTowerBuildView();
-                }
-            });
+            mGameEngine.post(this::toggleTowerBuildView);
             return;
         }
 
@@ -92,12 +86,7 @@ public class TowerSelector implements ScoreBoard.Listener, Entity.Listener, Towe
     public void selectTowerAt(Vector2 position) {
         if (mGameEngine.isThreadChangeNeeded()) {
             final Vector2 finalPosition = position;
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    selectTowerAt(finalPosition);
-                }
-            });
+            mGameEngine.post(() -> selectTowerAt(finalPosition));
             return;
         }
 
@@ -115,12 +104,7 @@ public class TowerSelector implements ScoreBoard.Listener, Entity.Listener, Towe
     public void selectTower(Tower tower) {
         if (mGameEngine.isThreadChangeNeeded()) {
             final Tower finalTower = tower;
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    selectTower(finalTower);
-                }
-            });
+            mGameEngine.post(() -> selectTower(finalTower));
             return;
         }
 
@@ -140,12 +124,7 @@ public class TowerSelector implements ScoreBoard.Listener, Entity.Listener, Towe
 
     public void setControlsEnabled(final boolean enabled) {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    setControlsEnabled(enabled);
-                }
-            });
+            mGameEngine.post(() -> setControlsEnabled(enabled));
             return;
         }
 
@@ -158,12 +137,7 @@ public class TowerSelector implements ScoreBoard.Listener, Entity.Listener, Towe
 
     void showTowerInfo(Tower tower) {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    showTowerInfoView();
-                }
-            });
+            mGameEngine.post(this::showTowerInfoView);
             return;
         }
 
@@ -173,12 +147,7 @@ public class TowerSelector implements ScoreBoard.Listener, Entity.Listener, Towe
 
     void updateTowerInfo() {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    updateTowerInfo();
-                }
-            });
+            mGameEngine.post(this::updateTowerInfo);
             return;
         }
 

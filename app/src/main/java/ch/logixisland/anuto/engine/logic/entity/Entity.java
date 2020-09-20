@@ -19,54 +19,36 @@ public abstract class Entity {
     }
 
     public static Predicate<Entity> inRange(final Vector2 center, final float range) {
-        return new Predicate<Entity>() {
-            @Override
-            public boolean apply(Entity entity) {
-                return entity.getDistanceTo(center) <= range;
-            }
-        };
+        return entity -> entity.getDistanceTo(center) <= range;
     }
 
     public static Predicate<Entity> onLine(final Vector2 p1, final Vector2 p2, final float lineWidth) {
-        return new Predicate<Entity>() {
-            @Override
-            public boolean apply(Entity entity) {
-                Vector2 line = p1.to(p2);
-                Vector2 toObj = p1.to(entity.mPosition);
-                Vector2 proj = toObj.proj(line);
+        return entity -> {
+            Vector2 line = p1.to(p2);
+            Vector2 toObj = p1.to(entity.mPosition);
+            Vector2 proj = toObj.proj(line);
 
-                // check whether object is after line end
-                if (proj.len() > line.len()) {
-                    return false;
-                }
-
-                // check whether object is before line end
-                if (!MathUtils.equals(proj.angle(), line.angle(), 1f)) {
-                    return false;
-                }
-
-                return proj.to(toObj).len() <= lineWidth / 2f;
-
+            // check whether object is after line end
+            if (proj.len() > line.len()) {
+                return false;
             }
+
+            // check whether object is before line end
+            if (!MathUtils.equals(proj.angle(), line.angle(), 1f)) {
+                return false;
+            }
+
+            return proj.to(toObj).len() <= lineWidth / 2f;
+
         };
     }
 
     public static Predicate<Entity> nameEquals(final String name) {
-        return new Predicate<Entity>() {
-            @Override
-            public boolean apply(Entity value) {
-                return name.equals(value.getEntityName());
-            }
-        };
+        return value -> name.equals(value.getEntityName());
     }
 
     public static Function<Entity, Float> distanceTo(final Vector2 toPoint) {
-        return new Function<Entity, Float>() {
-            @Override
-            public Float apply(Entity input) {
-                return input.getDistanceTo(toPoint);
-            }
-        };
+        return input -> input.getDistanceTo(toPoint);
     }
 
     private final GameEngine mGameEngine;
