@@ -31,7 +31,7 @@ public class Mine extends Shot implements SpriteTransformation {
     private final static float HEIGHT_SCALING_STOP = 1.0f;
     private final static float HEIGHT_SCALING_PEAK = 1.5f;
 
-    private class StaticData {
+    private static class StaticData {
         SpriteTemplate mSpriteTemplate;
     }
 

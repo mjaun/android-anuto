@@ -18,7 +18,7 @@ public class CanonShotMg extends Shot implements SpriteTransformation {
     private final static float HIT_RANGE = 0.5f;
     public final static float MOVEMENT_SPEED = 8.0f;
 
-    private class StaticData {
+    private static class StaticData {
         public SpriteTemplate mSpriteTemplate;
     }
 
