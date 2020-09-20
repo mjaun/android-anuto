@@ -95,8 +95,8 @@ public class TowerView extends View {
             canvas.restore();
 
             canvas.drawText(Integer.toString(mPreviewTower.getValue()),
-                    getWidth() / 2,
-                    getHeight() / 2 - (mPaintText.ascent() + mPaintText.descent()) / 2,
+                    getWidth() / 2.0f,
+                    getHeight() / 2.0f - (mPaintText.ascent() + mPaintText.descent()) / 2,
                     mPaintText);
         }
     }
