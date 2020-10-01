@@ -87,8 +87,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 return true;
             }
 
-            AlertDialog.Builder builder;
-            builder = new AlertDialog.Builder(preference.getContext());
+            AlertDialog.Builder builder = new AlertDialog.Builder(preference.getContext());
             builder.setTitle(R.string.change_theme)
                     .setMessage(R.string.change_theme_warning)
                     .setPositiveButton(android.R.string.yes, (dialog, which) -> themePreference.setValue(newValue.toString()))
@@ -102,8 +101,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     private void setupResetHighscores() {
         Preference preference = findPreference(PREF_RESET_HIGHSCORES);
         preference.setOnPreferenceClickListener(preference1 -> {
-            AlertDialog.Builder builder;
-            builder = new AlertDialog.Builder(preference1.getContext());
+            AlertDialog.Builder builder = new AlertDialog.Builder(preference1.getContext());
             builder.setTitle(R.string.reset_highscores)
                     .setMessage(R.string.reset_highscores_warning)
                     .setPositiveButton(android.R.string.yes, (dialog, which) -> mHighScores.clearHighScores())
@@ -117,8 +115,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     private void setupResetTutorial() {
         Preference preference = findPreference(PREF_START_TUTORIAL);
         preference.setOnPreferenceClickListener(preference1 -> {
-            AlertDialog.Builder builder;
-            builder = new AlertDialog.Builder(preference1.getContext());
+            AlertDialog.Builder builder = new AlertDialog.Builder(preference1.getContext());
             builder.setTitle(R.string.start_tutorial)
                     .setMessage(R.string.start_tutorial_warning)
                     .setPositiveButton(android.R.string.yes, (dialog, which) -> {

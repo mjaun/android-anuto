@@ -24,8 +24,7 @@ public abstract class LazyIterator<T> extends StreamIterator<T> {
         if (hasNext()) {
             mNextFetched = false;
             return mNextElement;
-        } else {
-            throw new NoSuchElementException();
         }
+        throw new NoSuchElementException();
     }
 }

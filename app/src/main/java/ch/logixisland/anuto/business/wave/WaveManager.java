@@ -265,7 +265,7 @@ public class WaveManager implements Persister, GameState.Listener {
         wave.modifyEnemyReward(rewardModifier);
         wave.modifyWaveReward(getIterationNumber());
 
-        Log.i(TAG, String.format("waveNumber=%d", getWaveNumber()));
+        Log.i(TAG, String.format("waveNumber=%d", mWaveNumber));
         Log.i(TAG, String.format("waveHealth=%f", waveHealth));
         Log.i(TAG, String.format("creditsEarned=%d", mScoreBoard.getCreditsEarned()));
         Log.i(TAG, String.format("damagePossible=%f", damagePossible));
@@ -274,7 +274,7 @@ public class WaveManager implements Persister, GameState.Listener {
     }
 
     private int getIterationNumber() {
-        return (getWaveNumber() / mGameEngine.getWaveInfos().size()) + 1;
+        return (mWaveNumber / mGameEngine.getWaveInfos().size()) + 1;
     }
 
     private int getEarlyBonus() {

@@ -246,7 +246,7 @@ public abstract class Tower extends Entity {
 
     public StreamIterator<Enemy> getPossibleTargets() {
         return getGameEngine().getEntitiesByType(EntityTypes.ENEMY)
-                .filter(inRange(getPosition(), getRange()))
+                .filter(inRange(getPosition(), mRange))
                 .cast(Enemy.class);
     }
 

@@ -27,9 +27,8 @@ public class TickTimer {
         if (mValue <= 0f) {
             mValue += mReloadValue;
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
 }

@@ -162,9 +162,8 @@ public class Healer extends Enemy implements SpriteTransformation {
     public float getSpeed() {
         if (mStaticData.mHealing) {
             return 0f;
-        } else {
-            return super.getSpeed();
         }
+        return super.getSpeed();
     }
 
     @Override

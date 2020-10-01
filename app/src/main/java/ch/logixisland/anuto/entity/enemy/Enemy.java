@@ -223,10 +223,9 @@ public abstract class Enemy extends Entity {
 
             if (distance < toWaypointDist) {
                 return position.add(toWaypoint.mul(distance / toWaypointDist));
-            } else {
-                distance -= toWaypointDist;
-                index++;
             }
+            distance -= toWaypointDist;
+            index++;
         }
 
         return position;

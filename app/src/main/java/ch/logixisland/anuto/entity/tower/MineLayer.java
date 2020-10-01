@@ -190,7 +190,7 @@ public class MineLayer extends Tower implements SpriteTransformation {
     public void tick() {
         super.tick();
 
-        if (isReloaded() && mMines.size() < mMaxMineCount && mSections.size() > 0) {
+        if (isReloaded() && mMines.size() < mMaxMineCount && !mSections.isEmpty()) {
             mShooting = true;
             setReloaded(false);
         }

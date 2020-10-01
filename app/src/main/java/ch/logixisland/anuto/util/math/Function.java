@@ -98,9 +98,8 @@ public abstract class Function {
             public float calculate(float input) {
                 if (input < at) {
                     return Function.this.calculate(input);
-                } else {
-                    return f.calculate(input - at);
                 }
+                return f.calculate(input - at);
             }
         };
     }

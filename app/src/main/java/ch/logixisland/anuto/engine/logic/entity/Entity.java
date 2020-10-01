@@ -90,7 +90,7 @@ public abstract class Entity {
     }
 
     public void remove() {
-        getGameEngine().remove(this);
+        mGameEngine.remove(this);
     }
 
     public void tick() {
@@ -98,7 +98,7 @@ public abstract class Entity {
     }
 
     protected Object getStaticData() {
-        return getGameEngine().getStaticData(this);
+        return mGameEngine.getStaticData(this);
     }
 
     public GameEngine getGameEngine() {
@@ -106,15 +106,15 @@ public abstract class Entity {
     }
 
     protected SpriteFactory getSpriteFactory() {
-        return getGameEngine().getSpriteFactory();
+        return mGameEngine.getSpriteFactory();
     }
 
     protected Theme getTheme() {
-        return getGameEngine().getThemeManager().getTheme();
+        return mGameEngine.getThemeManager().getTheme();
     }
 
     protected SoundFactory getSoundFactory() {
-        return getGameEngine().getSoundFactory();
+        return mGameEngine.getSoundFactory();
     }
 
     public Vector2 getPosition() {
@@ -154,7 +154,7 @@ public abstract class Entity {
     }
 
     public boolean isPositionVisible() {
-        return getGameEngine().isPositionVisible(mPosition);
+        return mGameEngine.isPositionVisible(mPosition);
     }
 
     public void addListener(Listener listener) {
