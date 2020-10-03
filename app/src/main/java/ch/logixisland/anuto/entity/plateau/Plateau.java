@@ -12,12 +12,7 @@ public abstract class Plateau extends Entity {
     }
 
     public static Predicate<Plateau> unoccupied() {
-        return new Predicate<Plateau>() {
-            @Override
-            public boolean apply(Plateau value) {
-                return !value.isOccupied();
-            }
-        };
+        return value -> !value.mOccupied;
     }
 
     private boolean mOccupied;

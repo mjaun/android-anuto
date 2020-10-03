@@ -19,7 +19,7 @@ public class CanonShot extends Shot implements SpriteTransformation, TargetTrack
     private final static float ROTATION_SPEED = 1.0f;
     private final static float ROTATION_STEP = ROTATION_SPEED * 360f / GameEngine.TARGET_FRAME_RATE;
 
-    private class StaticData {
+    private static class StaticData {
         public SpriteTemplate mSpriteTemplate;
     }
 

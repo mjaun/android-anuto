@@ -2,12 +2,9 @@ package ch.logixisland.anuto.view.game;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -97,22 +94,19 @@ public class HeaderFragment extends AnutoFragment implements WaveManager.Listene
         updateButtonFastForwardActive();
 
         final List<TowerView> towerViews = new ArrayList<>();
-        towerViews.add((TowerView) v.findViewById(R.id.view_tower_1));
-        towerViews.add((TowerView) v.findViewById(R.id.view_tower_2));
-        towerViews.add((TowerView) v.findViewById(R.id.view_tower_3));
-        towerViews.add((TowerView) v.findViewById(R.id.view_tower_4));
+        towerViews.add(v.findViewById(R.id.view_tower_1));
+        towerViews.add(v.findViewById(R.id.view_tower_2));
+        towerViews.add(v.findViewById(R.id.view_tower_3));
+        towerViews.add(v.findViewById(R.id.view_tower_4));
         mTowerViewControl = new TowerViewControl(towerViews);
 
-        fragment_header.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-            @Override
-            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                View lastTowerView = towerViews.get(towerViews.size() - 1);
-                boolean enoughSpace = lastTowerView.getX() + lastTowerView.getWidth() < btn_menu.getX();
+        fragment_header.addOnLayoutChangeListener((v1, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
+            View lastTowerView = towerViews.get(towerViews.size() - 1);
+            boolean enoughSpace = lastTowerView.getX() + lastTowerView.getWidth() < btn_menu.getX();
 
-                btn_build_tower.setVisibility(enoughSpace ? View.INVISIBLE : View.VISIBLE);
-                for (TowerView towerView : towerViews) {
-                    towerView.setVisibility(enoughSpace ? View.VISIBLE : View.INVISIBLE);
-                }
+            btn_build_tower.setVisibility(enoughSpace ? View.INVISIBLE : View.VISIBLE);
+            for (TowerView towerView : towerViews) {
+                towerView.setVisibility(enoughSpace ? View.VISIBLE : View.INVISIBLE);
             }
         });
 
@@ -183,72 +177,39 @@ public class HeaderFragment extends AnutoFragment implements WaveManager.Listene
 
     @Override
     public void waveNumberChanged() {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                txt_wave.setText(getString(R.string.wave) + ": " + mWaveManager.getWaveNumber() + " (" + mWaveManager.getRemainingEnemiesCount() + ")");
-            }
-        });
+        mHandler.post(() -> txt_wave.setText(getString(R.string.wave) + ": " + mWaveManager.getWaveNumber() + " (" + mWaveManager.getRemainingEnemiesCount() + ")"));
     }
 
     @Override
     public void nextWaveReadyChanged() {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                btn_next_wave.setEnabled(mWaveManager.isNextWaveReady());
-            }
-        });
+        mHandler.post(() -> btn_next_wave.setEnabled(mWaveManager.isNextWaveReady()));
     }
 
     @Override
     public void remainingEnemiesCountChanged() {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                txt_wave.setText(getString(R.string.wave) + ": " + mWaveManager.getWaveNumber() + " (" + mWaveManager.getRemainingEnemiesCount() + ")");
-            }
-        });
+        mHandler.post(() -> txt_wave.setText(getString(R.string.wave) + ": " + mWaveManager.getWaveNumber() + " (" + mWaveManager.getRemainingEnemiesCount() + ")"));
     }
 
     @Override
     public void creditsChanged(final int credits) {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                txt_credits.setText(getString(R.string.credits) + ": " + StringUtils.formatSuffix(credits));
-            }
-        });
+        mHandler.post(() -> txt_credits.setText(getString(R.string.credits) + ": " + StringUtils.formatSuffix(credits)));
     }
 
     @Override
     public void livesChanged(final int lives) {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                txt_lives.setText(getString(R.string.lives) + ": " + lives);
-            }
-        });
+        mHandler.post(() -> txt_lives.setText(getString(R.string.lives) + ": " + lives));
     }
 
     @Override
     public void bonusChanged(final int waveBonus, final int earlyBonus) {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                txt_bonus.setText(getString(R.string.bonus) + ": " + StringUtils.formatSuffix(waveBonus + earlyBonus));
-            }
-        });
+        mHandler.post(() -> txt_bonus.setText(getString(R.string.bonus) + ": " + StringUtils.formatSuffix(waveBonus + earlyBonus)));
     }
 
     @Override
     public void gameSpeedChanged() {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                btn_fast_forward_speed.setText(getString(R.string.var_speed, mGameSpeed.fastForwardMultiplier()));
-                updateButtonFastForwardActive();
-            }
+        mHandler.post(() -> {
+            btn_fast_forward_speed.setText(getString(R.string.var_speed, mGameSpeed.fastForwardMultiplier()));
+            updateButtonFastForwardActive();
         });
     }
 

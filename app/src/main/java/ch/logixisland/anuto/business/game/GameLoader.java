@@ -13,7 +13,6 @@ import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.engine.logic.loop.ErrorListener;
-import ch.logixisland.anuto.engine.logic.loop.Message;
 import ch.logixisland.anuto.engine.logic.map.GameMap;
 import ch.logixisland.anuto.engine.logic.map.PlateauInfo;
 import ch.logixisland.anuto.engine.logic.map.WaveInfo;
@@ -70,12 +69,7 @@ public class GameLoader implements ErrorListener {
 
     public void restart() {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    restart();
-                }
-            });
+            mGameEngine.post(this::restart);
             return;
         }
 
@@ -99,12 +93,7 @@ public class GameLoader implements ErrorListener {
 
     public void loadGame(final File stateFile) {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    loadGame(stateFile);
-                }
-            });
+            mGameEngine.post(() -> loadGame(stateFile));
             return;
         }
 
@@ -131,12 +120,7 @@ public class GameLoader implements ErrorListener {
 
     public void loadMap(final String mapId) {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    loadMap(mapId);
-                }
-            });
+            mGameEngine.post(() -> loadMap(mapId));
             return;
         }
 

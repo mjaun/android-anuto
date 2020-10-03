@@ -21,7 +21,6 @@ import ch.logixisland.anuto.engine.render.sprite.StaticSprite;
 import ch.logixisland.anuto.entity.enemy.WeaponType;
 import ch.logixisland.anuto.entity.shot.GlueShot;
 import ch.logixisland.anuto.util.RandomUtils;
-import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.Intersections;
 import ch.logixisland.anuto.util.math.Line;
@@ -234,12 +233,7 @@ public class GlueTower extends Tower implements SpriteTransformation {
                 final Vector2 target = Vector2.polar(dist, angle).add(sect.getPoint1());
 
                 boolean free = StreamIterator.fromIterable(mTargets)
-                        .filter(new Predicate<Vector2>() {
-                            @Override
-                            public boolean apply(Vector2 value) {
-                                return value.to(target).len() < 0.5f;
-                            }
-                        })
+                        .filter(value -> value.to(target).len() < 0.5f)
                         .isEmpty();
 
                 if (free) {

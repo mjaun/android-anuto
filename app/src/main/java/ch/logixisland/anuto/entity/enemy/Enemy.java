@@ -18,21 +18,11 @@ import ch.logixisland.anuto.util.math.Vector2;
 public abstract class Enemy extends Entity {
 
     public static Function<Enemy, Float> health() {
-        return new Function<Enemy, Float>() {
-            @Override
-            public Float apply(Enemy input) {
-                return input.mHealth;
-            }
-        };
+        return input -> input.mHealth;
     }
 
     public static Function<Enemy, Float> distanceRemaining() {
-        return new Function<Enemy, Float>() {
-            @Override
-            public Float apply(Enemy input) {
-                return input.getDistanceRemaining();
-            }
-        };
+        return Enemy::getDistanceRemaining;
     }
 
     public interface Listener {
@@ -233,10 +223,9 @@ public abstract class Enemy extends Entity {
 
             if (distance < toWaypointDist) {
                 return position.add(toWaypoint.mul(distance / toWaypointDist));
-            } else {
-                distance -= toWaypointDist;
-                index++;
             }
+            distance -= toWaypointDist;
+            index++;
         }
 
         return position;

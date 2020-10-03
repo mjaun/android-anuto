@@ -61,7 +61,7 @@ public class ThemeManager implements SharedPreferences.OnSharedPreferenceChangeL
     }
 
     private void updateTheme() {
-        int themeIndex = Integer.valueOf(mPreferences.getString(Preferences.THEME_INDEX, "0"));
+        int themeIndex = Integer.parseInt(mPreferences.getString(Preferences.THEME_INDEX, "0"));
         Theme theme = mAvailableThemes.get(themeIndex);
         setTheme(theme);
     }

@@ -184,48 +184,23 @@ public abstract class StreamIterator<T> implements Iterator<T> {
     }
 
     public StreamIterator<T> filter(final T object) {
-        return new FilteringIterator<>(this, new Predicate<T>() {
-            @Override
-            public boolean apply(T value) {
-                return !value.equals(object);
-            }
-        });
+        return new FilteringIterator<>(this, value -> !value.equals(object));
     }
 
     public StreamIterator<T> filter(final Collection<? extends T> collection) {
-        return new FilteringIterator<>(this, new Predicate<T>() {
-            @Override
-            public boolean apply(T value) {
-                return !collection.contains(value);
-            }
-        });
+        return new FilteringIterator<>(this, value -> !collection.contains(value));
     }
 
     public <F> StreamIterator<F> filter(final Class<F> klass) {
-        return new FilteringIterator<>(this, new Predicate<T>() {
-            @Override
-            public boolean apply(T value) {
-                return klass.isInstance(value);
-            }
-        }).cast(klass);
+        return new FilteringIterator<>(this, klass::isInstance).cast(klass);
     }
 
     public <F> StreamIterator<F> cast(final Class<F> castTo) {
-        return new MappingIterator<>(this, new Function<T, F>() {
-            @Override
-            public F apply(T input) {
-                return castTo.cast(input);
-            }
-        });
+        return new MappingIterator<>(this, castTo::cast);
     }
 
     public <F> StreamIterator<F> ofType(final Class<F> type) {
-        Predicate<T> predicate = new Predicate<T>() {
-            @Override
-            public boolean apply(T value) {
-                return type.isInstance(value);
-            }
-        };
+        Predicate<T> predicate = type::isInstance;
 
         return this.filter(predicate).cast(type);
     }

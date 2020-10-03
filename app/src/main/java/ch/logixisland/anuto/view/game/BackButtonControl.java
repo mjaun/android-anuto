@@ -40,10 +40,9 @@ public class BackButtonControl {
             case TWICE:
                 if (timeNow < mLastBackButtonPress + BACK_TWICE_INTERVAL) {
                     return BackButtonAction.EXIT;
-                } else {
-                    mLastBackButtonPress = timeNow;
-                    return BackButtonAction.SHOW_TOAST;
                 }
+                mLastBackButtonPress = timeNow;
+                return BackButtonAction.SHOW_TOAST;
 
             default:
                 return BackButtonAction.DO_NOTHING;

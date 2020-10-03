@@ -82,22 +82,12 @@ class TowerViewControl implements GameLoader.Listener, ScoreBoard.Listener, View
 
     @Override
     public void gameLoaded() {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                updateTowerSlots();
-            }
-        });
+        mHandler.post(this::updateTowerSlots);
     }
 
     @Override
     public void creditsChanged(int credits) {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                updateTowerEnabled();
-            }
-        });
+        mHandler.post(this::updateTowerEnabled);
     }
 
     @Override

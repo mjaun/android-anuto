@@ -18,7 +18,7 @@ public class GlueShot extends Shot implements SpriteTransformation {
     public final static float MOVEMENT_SPEED = 4.0f;
     private final static float ANIMATION_SPEED = 1.0f;
 
-    private class StaticData {
+    private static class StaticData {
 
         public SpriteTemplate mSpriteTemplate;
     }

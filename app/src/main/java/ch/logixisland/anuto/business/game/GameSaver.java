@@ -7,7 +7,6 @@ import java.io.FileOutputStream;
 
 import ch.logixisland.anuto.business.wave.WaveManager;
 import ch.logixisland.anuto.engine.logic.GameEngine;
-import ch.logixisland.anuto.engine.logic.loop.Message;
 import ch.logixisland.anuto.engine.logic.persistence.GamePersister;
 import ch.logixisland.anuto.engine.render.Renderer;
 import ch.logixisland.anuto.util.container.KeyValueStore;
@@ -37,12 +36,7 @@ public class GameSaver {
 
     public void autoSaveGame() {
         if (mGameEngine.isThreadRunning() && mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    autoSaveGame();
-                }
-            });
+            mGameEngine.post(this::autoSaveGame);
             return;
         }
 

@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
 import ch.logixisland.anuto.entity.tower.Tower;
-import ch.logixisland.anuto.util.iterator.Function;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 
 public class TowerTiers {
@@ -21,12 +20,7 @@ public class TowerTiers {
         final EntityRegistry entityRegistry = mGameFactory.getEntityRegistry();
 
         return StreamIterator.fromIterable(Arrays.asList(GameSettings.BUILD_MENU_TOWER_NAMES))
-                .map(new Function<String, Tower>() {
-                    @Override
-                    public Tower apply(String name) {
-                        return (Tower) entityRegistry.createEntity(name);
-                    }
-                });
+                .map(name -> (Tower) entityRegistry.createEntity(name));
     }
 
     protected int getTowerTier(Tower tower) {

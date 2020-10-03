@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import ch.logixisland.anuto.engine.logic.GameEngine;
-import ch.logixisland.anuto.engine.logic.loop.Message;
 
 public class HighScores {
 
@@ -26,12 +25,7 @@ public class HighScores {
 
     public void updateHighScore() {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    updateHighScore();
-                }
-            });
+            mGameEngine.post(this::updateHighScore);
             return;
         }
 

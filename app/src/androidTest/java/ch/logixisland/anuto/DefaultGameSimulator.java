@@ -16,7 +16,6 @@ import ch.logixisland.anuto.entity.plateau.Plateau;
 import ch.logixisland.anuto.entity.tower.Tower;
 import ch.logixisland.anuto.entity.tower.TowerStrategy;
 import ch.logixisland.anuto.util.iterator.Function;
-import ch.logixisland.anuto.util.iterator.Predicate;
 import ch.logixisland.anuto.util.iterator.StreamIterator;
 import ch.logixisland.anuto.util.math.Intersections;
 import ch.logixisland.anuto.util.math.Line;
@@ -92,12 +91,7 @@ public class DefaultGameSimulator extends GameSimulator {
             }
 
             int unenhancedTowersInNextTier = getTowers()
-                    .filter(new Predicate<Tower>() {
-                        @Override
-                        public boolean apply(Tower tower) {
-                            return mTowerTiers.getTowerTier(tower) == tier + 1 && tower.getLevel() == 1;
-                        }
-                    })
+                    .filter(tower1 -> mTowerTiers.getTowerTier(tower1) == tier + 1 && tower1.getLevel() == 1)
                     .count();
 
             if (unenhancedTowersInNextTier >= MAX_UNENHANCED_TOWERS_PER_TIER && tier + 1 != MAX_TIER) {
@@ -105,12 +99,7 @@ public class DefaultGameSimulator extends GameSimulator {
             }
 
             int notAffordableUpgradesInSameTier = getTowers()
-                    .filter(new Predicate<Tower>() {
-                        @Override
-                        public boolean apply(Tower tower) {
-                            return mTowerTiers.getTowerTier(tower) == tier && tower.isUpgradeable() && tower.getUpgradeCost() > scoreBoard.getCredits();
-                        }
-                    })
+                    .filter(tower12 -> mTowerTiers.getTowerTier(tower12) == tier && tower12.isUpgradeable() && tower12.getUpgradeCost() > scoreBoard.getCredits())
                     .count();
 
             if (notAffordableUpgradesInSameTier > 0) {
@@ -141,12 +130,7 @@ public class DefaultGameSimulator extends GameSimulator {
             }
 
             int enhancedTowersInTier = getTowers()
-                    .filter(new Predicate<Tower>() {
-                        @Override
-                        public boolean apply(Tower tower) {
-                            return mTowerTiers.getTowerTier(tower) == tier && tower.getLevel() > 1;
-                        }
-                    })
+                    .filter(tower1 -> mTowerTiers.getTowerTier(tower1) == tier && tower1.getLevel() > 1)
                     .count();
 
             if (enhancedTowersInTier >= MAX_ENHANCED_TOWERS_PER_TIER) {
@@ -165,12 +149,7 @@ public class DefaultGameSimulator extends GameSimulator {
         final WaveManager waveManager = getGameFactory().getWaveManager();
 
         int unenhancedTowerCount = getTowers()
-                .filter(new Predicate<Tower>() {
-                    @Override
-                    public boolean apply(Tower tower) {
-                        return mTowerTiers.getTowerTier(tower) == 1 && tower.getLevel() == 1;
-                    }
-                })
+                .filter(tower -> mTowerTiers.getTowerTier(tower) == 1 && tower.getLevel() == 1)
                 .count();
 
         if (unenhancedTowerCount >= MAX_UNENHANCED_TOWERS_PER_TIER) {
@@ -178,12 +157,7 @@ public class DefaultGameSimulator extends GameSimulator {
         }
 
         int unaffordableTowers = mTowerTiers.getBuildableTowers()
-                .filter(new Predicate<Tower>() {
-                    @Override
-                    public boolean apply(Tower tower) {
-                        return tower.getValue() > scoreBoard.getCredits();
-                    }
-                })
+                .filter(tower -> tower.getValue() > scoreBoard.getCredits())
                 .count();
 
         if (unaffordableTowers > 0) {
@@ -191,12 +165,7 @@ public class DefaultGameSimulator extends GameSimulator {
         }
 
         Tower selectedTower = mTowerTiers.getBuildableTowers()
-                .filter(new Predicate<Tower>() {
-                    @Override
-                    public boolean apply(Tower tower) {
-                        return tower.getDamage() > 0 || waveManager.getWaveNumber() > NO_SLOW_DOWN_TOWERS_BEFORE_WAVE;
-                    }
-                })
+                .filter(tower -> tower.getDamage() > 0 || waveManager.getWaveNumber() > NO_SLOW_DOWN_TOWERS_BEFORE_WAVE)
                 .random(mRandom);
 
         if (selectedTower == null) {
@@ -238,41 +207,28 @@ public class DefaultGameSimulator extends GameSimulator {
         final List<MapPath> paths = getGameFactory().getGameEngine().getGameMap().getPaths();
         final float range = tower.getRange();
 
-        final Function<Plateau, Float> distanceCovered = new Function<Plateau, Float>() {
-            @Override
-            public Float apply(Plateau plateau) {
-                float distanceCovered = 0;
+        final Function<Plateau, Float> distanceCovered = plateau -> {
+            float distanceCovered1 = 0;
 
-                for (MapPath path : paths) {
-                    for (Line line : Intersections.getPathSectionsInRange(path.getWayPoints(), plateau.getPosition(), range)) {
-                        distanceCovered += line.length();
-                    }
+            for (MapPath path : paths) {
+                for (Line line : Intersections.getPathSectionsInRange(path.getWayPoints(), plateau.getPosition(), range)) {
+                    distanceCovered1 += line.length();
                 }
-
-                return distanceCovered;
             }
+
+            return distanceCovered1;
         };
 
         final Float maxDistanceCovered = getFreePlateaus()
                 .map(distanceCovered)
-                .max(new Function<Float, Float>() {
-                    @Override
-                    public Float apply(Float input) {
-                        return input;
-                    }
-                });
+                .max(input -> input);
 
         if (maxDistanceCovered == null) {
             return null;
         }
 
         return getFreePlateaus()
-                .filter(new Predicate<Plateau>() {
-                    @Override
-                    public boolean apply(Plateau value) {
-                        return distanceCovered.apply(value) > maxDistanceCovered * 0.8f;
-                    }
-                })
+                .filter(value -> distanceCovered.apply(value) > maxDistanceCovered * 0.8f)
                 .random(mRandom);
     }
 

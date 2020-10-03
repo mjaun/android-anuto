@@ -82,16 +82,15 @@ public class GameActivity extends AnutoActivity {
             if (mTowerSelector.isTowerSelected()) {
                 mTowerSelector.selectTower(null);
                 return true;
-            } else {
-                switch (mBackButtonControl.backButtonPressed()) {
-                    case DO_NOTHING:
-                        return true;
-                    case SHOW_TOAST:
-                        mBackButtonToast = showBackButtonToast();
-                        return true;
-                    default:
-                        return super.onKeyDown(keyCode, event);
-                }
+            }
+            switch (mBackButtonControl.backButtonPressed()) {
+                case DO_NOTHING:
+                    return true;
+                case SHOW_TOAST:
+                    mBackButtonToast = showBackButtonToast();
+                    return true;
+                default:
+                    return super.onKeyDown(keyCode, event);
             }
         }
 

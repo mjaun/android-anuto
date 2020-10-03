@@ -20,7 +20,7 @@ public class GlueEffect extends Effect implements SpriteTransformation, AreaObse
     private final static int ALPHA_START = 150;
     private final static float RANGE = 1f;
 
-    private class StaticData {
+    private static class StaticData {
         SpriteTemplate mSpriteTemplate;
     }
 

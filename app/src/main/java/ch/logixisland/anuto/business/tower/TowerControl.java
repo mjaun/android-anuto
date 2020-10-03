@@ -6,7 +6,6 @@ import java.util.List;
 import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
-import ch.logixisland.anuto.engine.logic.loop.Message;
 import ch.logixisland.anuto.entity.plateau.Plateau;
 import ch.logixisland.anuto.entity.tower.Aimer;
 import ch.logixisland.anuto.entity.tower.Tower;
@@ -29,12 +28,7 @@ public class TowerControl {
 
     public void upgradeTower() {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    upgradeTower();
-                }
-            });
+            mGameEngine.post(this::upgradeTower);
             return;
         }
 
@@ -68,12 +62,7 @@ public class TowerControl {
 
     public void enhanceTower() {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    enhanceTower();
-                }
-            });
+            mGameEngine.post(this::enhanceTower);
             return;
         }
 
@@ -89,12 +78,7 @@ public class TowerControl {
 
     public void cycleTowerStrategy() {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    cycleTowerStrategy();
-                }
-            });
+            mGameEngine.post(this::cycleTowerStrategy);
             return;
         }
 
@@ -121,12 +105,7 @@ public class TowerControl {
 
     public void toggleLockTarget() {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    toggleLockTarget();
-                }
-            });
+            mGameEngine.post(this::toggleLockTarget);
             return;
         }
 
@@ -147,12 +126,7 @@ public class TowerControl {
 
     public void sellTower() {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    sellTower();
-                }
-            });
+            mGameEngine.post(this::sellTower);
             return;
         }
 

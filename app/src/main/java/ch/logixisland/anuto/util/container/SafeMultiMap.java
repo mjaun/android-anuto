@@ -50,7 +50,7 @@ public class SafeMultiMap<T> implements StreamIterable<T> {
         SafeCollection<T> collection = mLayers.get(key);
 
         if (collection == null) {
-            collection = new SafeCollection<T>();
+            collection = new SafeCollection<>();
             mLayers.put(key, collection);
         }
 

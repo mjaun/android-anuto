@@ -9,7 +9,6 @@ import ch.logixisland.anuto.business.game.ScoreBoard;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.logic.entity.EntityRegistry;
-import ch.logixisland.anuto.engine.logic.loop.Message;
 import ch.logixisland.anuto.entity.EntityTypes;
 import ch.logixisland.anuto.entity.plateau.Plateau;
 import ch.logixisland.anuto.entity.tower.Tower;
@@ -48,12 +47,7 @@ public class TowerInserter {
 
     public void insertTower(final String towerName) {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    insertTower(towerName);
-                }
-            });
+            mGameEngine.post(() -> insertTower(towerName));
             return;
         }
 
@@ -66,12 +60,7 @@ public class TowerInserter {
 
     public void setPosition(final Vector2 position) {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    setPosition(position);
-                }
-            });
+            mGameEngine.post(() -> setPosition(position));
             return;
         }
 
@@ -97,12 +86,7 @@ public class TowerInserter {
 
     public void buyTower() {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    buyTower();
-                }
-            });
+            mGameEngine.post(this::buyTower);
             return;
         }
 
@@ -127,12 +111,7 @@ public class TowerInserter {
 
     public void cancel() {
         if (mGameEngine.isThreadChangeNeeded()) {
-            mGameEngine.post(new Message() {
-                @Override
-                public void execute() {
-                    cancel();
-                }
-            });
+            mGameEngine.post(this::cancel);
             return;
         }
 

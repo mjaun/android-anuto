@@ -18,7 +18,7 @@ public class TeleportedMarker extends Effect implements Entity.Listener {
     private static final float MARKER_MAX_RADIUS = 0.2f;
     private static final float MARKER_SPEED = 1f;
 
-    private class StaticData implements TickListener {
+    private static class StaticData implements TickListener {
         private SampledFunction mScaleFunction;
 
         @Override

@@ -1,7 +1,6 @@
 package ch.logixisland.anuto.view.setting;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.ListPreference;
@@ -83,73 +82,51 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
     private void setupChangeThemeConfirmationDialog() {
         final ListPreference themePreference = (ListPreference) findPreference(Preferences.THEME_INDEX);
-        themePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(final Preference preference, final Object newValue) {
-                if (!mGameState.isGameStarted()) {
-                    return true;
-                }
-
-                AlertDialog.Builder builder;
-                builder = new AlertDialog.Builder(preference.getContext());
-                builder.setTitle(R.string.change_theme)
-                        .setMessage(R.string.change_theme_warning)
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                themePreference.setValue(newValue.toString());
-                            }
-                        })
-                        .setNegativeButton(android.R.string.no, null)
-                        .setIcon(R.drawable.alert)
-                        .show();
-                return false;
+        themePreference.setOnPreferenceChangeListener((preference, newValue) -> {
+            if (!mGameState.isGameStarted()) {
+                return true;
             }
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(preference.getContext());
+            builder.setTitle(R.string.change_theme)
+                    .setMessage(R.string.change_theme_warning)
+                    .setPositiveButton(android.R.string.yes, (dialog, which) -> themePreference.setValue(newValue.toString()))
+                    .setNegativeButton(android.R.string.no, null)
+                    .setIcon(R.drawable.alert)
+                    .show();
+            return false;
         });
     }
 
     private void setupResetHighscores() {
         Preference preference = findPreference(PREF_RESET_HIGHSCORES);
-        preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                AlertDialog.Builder builder;
-                builder = new AlertDialog.Builder(preference.getContext());
-                builder.setTitle(R.string.reset_highscores)
-                        .setMessage(R.string.reset_highscores_warning)
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                mHighScores.clearHighScores();
-                            }
-                        })
-                        .setNegativeButton(android.R.string.no, null)
-                        .setIcon(R.drawable.alert)
-                        .show();
-                return true;
-            }
+        preference.setOnPreferenceClickListener(preference1 -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(preference1.getContext());
+            builder.setTitle(R.string.reset_highscores)
+                    .setMessage(R.string.reset_highscores_warning)
+                    .setPositiveButton(android.R.string.yes, (dialog, which) -> mHighScores.clearHighScores())
+                    .setNegativeButton(android.R.string.no, null)
+                    .setIcon(R.drawable.alert)
+                    .show();
+            return true;
         });
     }
 
     private void setupResetTutorial() {
         Preference preference = findPreference(PREF_START_TUTORIAL);
-        preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                AlertDialog.Builder builder;
-                builder = new AlertDialog.Builder(preference.getContext());
-                builder.setTitle(R.string.start_tutorial)
-                        .setMessage(R.string.start_tutorial_warning)
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                mTutorialControl.restart();
-                                mGameLoader.restart();
-                                getActivity().finish();
-                            }
-                        })
-                        .setNegativeButton(android.R.string.no, null)
-                        .setIcon(R.drawable.alert)
-                        .show();
-                return true;
-            }
+        preference.setOnPreferenceClickListener(preference1 -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(preference1.getContext());
+            builder.setTitle(R.string.start_tutorial)
+                    .setMessage(R.string.start_tutorial_warning)
+                    .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                        mTutorialControl.restart();
+                        mGameLoader.restart();
+                        getActivity().finish();
+                    })
+                    .setNegativeButton(android.R.string.no, null)
+                    .setIcon(R.drawable.alert)
+                    .show();
+            return true;
         });
     }
 }
