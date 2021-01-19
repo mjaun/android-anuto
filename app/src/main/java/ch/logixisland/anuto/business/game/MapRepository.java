@@ -25,6 +25,7 @@ public class MapRepository {
         mMapInfos.add(new MapInfo("cloverleaf", R.string.map_cloverleaf_name, R.raw.map_cloverleaf));
         mMapInfos.add(new MapInfo("roundabout", R.string.map_roundabout_name, R.raw.map_roundabout));
         mMapInfos.add(new MapInfo("runway", R.string.map_runway_name, R.raw.map_runway));
+        mMapInfos.add(new MapInfo("wtf", R.string.map_wtf_name, R.raw.map_wtf));
     }
 
     public List<MapInfo> getMapInfos() {
