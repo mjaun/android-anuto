@@ -60,6 +60,8 @@
     <string name="map_original_name">Z\'Originau</string>
     <string name="map_turn_round_name">Ä Rundi dräie</string>
     <string name="map_waiting_line_name">Warteschlange</string>
+    <string name="map_turn_left_name">Links abbiegä</string>
+    <string name="map_turn_right_name">Rächts abbiegä</string>
     <string name="press_back_button_again_toast">Zum Beende d Zrügg-Taste nomau drücke</string>
     <string name="reset_highscores">Punktzahle zrüggsetze</string>
     <string name="start_tutorial">Tutorial starte</string>

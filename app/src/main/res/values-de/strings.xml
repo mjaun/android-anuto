@@ -61,6 +61,8 @@
     <string name="map_civyshk_line5_name">Civyshk 5 Linien</string>
     <string name="map_civyshk_labyrinth_name">Civyshk Labyrinth</string>
     <string name="map_civyshk_2y_name">Civyshk 2Y</string>
+    <string name="map_turn_left_name">Links Abbiegen</string>
+    <string name="map_turn_right_name">Rechts Abbiegen</string>
     <string name="reset_highscores">Punktzahlen zurücksetzen</string>
     <string name="reset_highscores_warning">Willst du wirklich alle Punktzahlen zurücksetzen?</string>
     <string name="start_tutorial">Tutorial starten</string>
