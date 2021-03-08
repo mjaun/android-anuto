@@ -25,7 +25,6 @@ public class GameLoader implements ErrorListener {
 
     private static final String TAG = GameLoader.class.getSimpleName();
 
-
     public interface Listener {
         void gameLoaded();
     }
@@ -39,7 +38,8 @@ public class GameLoader implements ErrorListener {
     private final SaveGameRepository mSaveGameRepository;
     private String mCurrentMapId;
 
-    private List<Listener> mListeners = new CopyOnWriteArrayList<>();
+    private final SaveGameMigrator mSaveGameMigrator = new SaveGameMigrator();
+    private final List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
     public GameLoader(Context context, GameEngine gameEngine, GamePersister gamePersister,
                       Viewport viewport, EntityRegistry entityRegistry, MapRepository mapRepository,
@@ -108,8 +108,8 @@ public class GameLoader implements ErrorListener {
             throw new RuntimeException("Could not load game!", e);
         }
 
-        if (gameState.getInt("version") != SaveGameRepository.SAVE_GAME_VERSION) {
-            Log.w(TAG, "App version mismatch.");
+        if (!mSaveGameMigrator.migrate(gameState)) {
+            Log.w(TAG, "Failed to migrate save game!");
             loadMap(mMapRepository.getDefaultMapId());
             return;
         }

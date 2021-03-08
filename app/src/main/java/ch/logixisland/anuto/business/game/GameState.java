@@ -21,6 +21,7 @@ public class GameState implements ScoreBoard.Listener, Persister {
 
     private boolean mGameOver = false;
     private boolean mGameStarted = false;
+    private int mFinalScore = 0;
 
     private List<Listener> mListeners = new CopyOnWriteArrayList<>();
 
@@ -38,6 +39,10 @@ public class GameState implements ScoreBoard.Listener, Persister {
 
     public boolean isGameStarted() {
         return !mGameOver && mGameStarted;
+    }
+
+    public int getFinalScore() {
+        return mFinalScore;
     }
 
     public void addListener(Listener listener) {
@@ -77,13 +82,14 @@ public class GameState implements ScoreBoard.Listener, Persister {
 
     @Override
     public void writeState(KeyValueStore gameState) {
-
+        gameState.putInt("finalScore", mFinalScore);
     }
 
     @Override
     public void readState(KeyValueStore gameState) {
         setGameOver(gameState.getInt("lives") < 0);
         mGameStarted = gameState.getInt("waveNumber") > 0;
+        mFinalScore = gameState.getInt("finalScore");
     }
 
     private void setGameOver(boolean gameOver) {
@@ -91,6 +97,7 @@ public class GameState implements ScoreBoard.Listener, Persister {
 
         if (gameOver) {
             mHighScores.updateHighScore();
+            mFinalScore = mScoreBoard.getScore();
             mTowerSelector.setControlsEnabled(false);
 
             for (Listener listener : mListeners) {
@@ -100,6 +107,7 @@ public class GameState implements ScoreBoard.Listener, Persister {
 
         if (!gameOver) {
             mGameStarted = false;
+            mFinalScore = 0;
             mTowerSelector.setControlsEnabled(true);
 
             for (Listener listener : mListeners) {

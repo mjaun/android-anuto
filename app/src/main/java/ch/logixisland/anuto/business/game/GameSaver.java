@@ -63,7 +63,7 @@ public class GameSaver {
         Log.i(TAG, "Saving game...");
         KeyValueStore gameState = new KeyValueStore();
         mGamePersister.writeState(gameState);
-        gameState.putInt("version", SaveGameRepository.SAVE_GAME_VERSION);
+        gameState.putInt("version", SaveGameMigrator.SAVE_GAME_VERSION);
         gameState.putString("mapId", mGameLoader.getCurrentMapId());
 
         try {

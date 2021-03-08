@@ -23,8 +23,6 @@ public class SaveGameRepository {
 
     private static final String TAG = SaveGameRepository.class.getSimpleName();
 
-    public static final int SAVE_GAME_VERSION = 1;
-
     private static final String AUTO_SAVE_STATE_FILE = "autosave.json";
 
     private static final String GAME_INFO_FILE = "info.json";
@@ -89,7 +87,7 @@ public class SaveGameRepository {
         try {
             Log.i(TAG, "Saving game info...");
             KeyValueStore saveGameInfo = new KeyValueStore();
-            saveGameInfo.putInt("version", SAVE_GAME_VERSION);
+            saveGameInfo.putInt("version", SaveGameMigrator.SAVE_GAME_VERSION);
             saveGameInfo.putDate("date", date);
             saveGameInfo.putInt("score", score);
             saveGameInfo.putInt("wave", wave);
@@ -158,11 +156,6 @@ public class SaveGameRepository {
         try {
             Log.i(TAG, "Reading save game:" + folder.getName());
             KeyValueStore gameInfoStore = KeyValueStore.fromStream(new FileInputStream(new File(folder, GAME_INFO_FILE)));
-
-            if (gameInfoStore.getInt("version") != SAVE_GAME_VERSION) {
-                Log.i(TAG, "Invalid version.");
-                return null;
-            }
 
             Date date = gameInfoStore.getDate("date");
             int score = gameInfoStore.getInt("score");
