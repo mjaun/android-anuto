@@ -75,6 +75,16 @@ public class EnemiesAdapter extends BaseAdapter {
         return 0;
     }
 
+    @Override
+    public boolean areAllItemsEnabled() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled(int position) {
+        return false;
+    }
+
     public View getView(int position, View convertView, ViewGroup parent) {
         Activity activity = mActivityRef.get();
 
