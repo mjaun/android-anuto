@@ -1,49 +1,116 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <string name="app_name">Anuto TD</string>
-    <string name="back_button_mode">Comportamento do voltar</string>
-    <string name="bonus">Bonus</string>
-    <string name="change_map">Mudar mapa</string>
-    <string name="change_theme">Mudar tema</string>
-    <string name="credits">Créditos</string>
-    <string name="damage">Dano</string>
-    <string name="distance">Distância</string>
-    <string name="duration">Duração</string>
-    <string name="enhance">Melhorar</string>
-    <string name="game_over">Fim de jogo</string>
-    <string name="inflicted">Dano causado</string>
-    <string name="intensity">Intensidade</string>
-    <string name="level">Nível</string>
-    <string name="map_hurry_name">Estamos com pressa!</string>
-    <string name="map_original_name">O Original</string>
-    <string name="map_waiting_line_name">Odeio filas</string>
-    <string name="lives">Vidas</string>
-    <string name="lock_target">Travar alvo</string>
+
     <string name="menu">Menu</string>
+    <string name="build_tower">Construir</string>
     <string name="next_wave">Próxima onda</string>
-    <string name="off">Desligado</string>
-    <string name="on">Ligado</string>
-    <string name="range">Distância</string>
-    <string name="reload">Recarregar</string>
+    <string name="var_speed" translatable="false">%1$dx</string>
+    <string name="fast_forward" translatable="false”>\></string>
+
     <string name="restart">Reiniciar</string>
-    <string name="score">Pontuação</string>
-    <string name="sell">Vender</string>
+    <string name="save_game">Guardar jogo</string>
+    <string name="game_saved">Jogo guardado</string>
+    <string name="load_game">Carregar jogo</string>
+    <string name="change_map">Alterar mapa</string>
     <string name="settings">Configurações</string>
+
+    <string name="delete">Eliminar</string>
+
     <string name="sound">Som</string>
-    <string name="splash">Raio da explosão</string>
-    <string name="strategy">Estratégia</string>
-    <string name="strategy_closest">Mais perto</string>
-    <string name="strategy_first">Primeiro</string>
-    <string name="strategy_last">Último</string>
-    <string name="strategy_strongest">Mais forte</string>
-    <string name="strategy_weakest">Mais fraco</string>
     <string name="theme">Tema</string>
-    <string name="theme_dark">Escuro</string>
-    <string name="theme_original">Original</string>
-    <string name="twice">Duas vezes</string>
-    <string name="upgrade">Melhoria</string>
-    <string name="change_theme_warning">Você tem certeza que quer mudar o tema? O jogo reiniciará</string>
+    <string name="change_theme">Alterar tema</string>
+    <string name="change_theme_warning">Quer alterar o tema? O jogo será reiniciado.</string>
+    <string name="back_button_mode">Fechar a aplicação com o botão de voltar</string>
+    <string name="reset_highscores">Limpar tabela de classificações</string>
+    <string name="reset_highscores_warning">quer mesmo limpar a tabela de classificações?</string>
+    <string name="start_tutorial">Iniciar o tutorial</string>
+    <string name="start_tutorial_warning">Quer mesmo começar o tutorial?O jogo atual será perdido.</string>
+    <string name="transparent_menus">Menus transparentes</string>
+
+    <string name="game_over">Fim do jogo!</string>
+    <string name="score">Pontuação</string>
+
+    <string name="credits">Créditos</string>
+    <string name="lives">Vidas</string>
     <string name="wave">Onda</string>
-    <string name="map_turn_round_name">Dê a volta</string>
+    <string name="bonus">Bónus</string>
+
+    <string name="level">Nível</string>
+    <string name="damage">Dano</string>
+    <string name="reload">Recarregar</string>
+    <string name="range">Alcance</string>
+    <string name="splash">Raio de explosão</string>
+    <string name="distance">Distância</string>
+    <string name="intensity">Intensidade</string>
+    <string name="duration">Duração</string>
+    <string name="inflicted">Dano infligido</string>
+    <string name="dps" translatable="false">Dano por seg.</string>
+
+    <string name="lock_target">Bloquear alvo</string>
+    <string name="strategy">Estratégia</string>
+    <string name="enhance">Melhorar</string>
+    <string name="upgrade">Evoluir</string>
+    <string name="sell">Vender</string>
+
+    <string name="on">ativado</string>
+    <string name="off">desativado</string>
+    <string name="twice">dobro</string>
+
+    <string name="strategy_closest">mais próximo</string>
+    <string name="strategy_weakest">mais fraco</string>
+    <string name="strategy_strongest">mais forte</string>
+    <string name="strategy_first">primeiro</string>
+    <string name="strategy_last">último</string>
+
+    <string name="theme_original">Original</string>
+    <string name="theme_dark">Escuro</string>
+    <string name="theme_colour">Cor</string>
+
+    <string name="map_original_name">O original</string>
+    <string name="map_waiting_line_name">Deteste filas</string>
+    <string name="map_turn_round_name">Dar a volta</string>
+    <string name="map_hurry_name">Estou com pressa!</string>
+    <string name="map_civyshk_2y_name">Civyshk 2Y</string>
+    <string name="map_civyshk_line5_name">Civyshk linha5</string>
     <string name="map_civyshk_labyrinth_name">Labirinto Civyshk</string>
+    <string name="map_civyshk_yard_name">Praça Civyshk</string>
+    <string name="map_higgledy_piggledy_name">Higgledy Piggledy</string>
+    <string name="map_big_u_name">Grande u</string>
+    <string name="map_cloverleaf_name">Cloverleaf</string>
+    <string name="map_roundabout_name">Rotunda</string>
+    <string name="map_runway_name">Pista</string>
+    <string name="map_wtf_name">WTF?</string>
+    <string name="map_turn_left_name">Virar à esquerda</string>
+    <string name="map_turn_right_name">Virar à direita</string>
+    <string name="press_back_button_again_toast">Pressione novamente o botão de voltar para sair</string>
+
+    <string name="tutorial">Começar</string>
+    <string name="got_it">Compreendi!</string>
+    <string name="skip_tutorial">Sair do tutorial</string>
+
+    <string name="tutorial_build_tower">Bem-vindo(a) ao Anuto TD! Comece por construir uma torre: arraste uma torre do inventário no topo para a área de jogo.</string>
+    <string name="tutorial_credits">Se a etiqueta de preço de uma torre estiver a vermelho, não tem créditos suficientes para comprar essa torre. Ganha créditos matando inimigos e terminando as ondas.</string>
+    <string name="tutorial_tower_options_1">Toque numa torre para ver o seu alcance, toque novamente para mostrar o menu para mais opções.</string>
+    <string name="tutorial_tower_options_2">A estratégia define a forma como a torre escolhe o seu alvo. Bloquear o alvo significa que a torre não trocará de alvo enquanto o alvo atual se mantiver dentro do alcance.</string>
+    <string name="tutorial_tower_options_3">A melhoria de uma torre fará com que o seu desempenho seja melhor. A evolução de uma torre irá substituir a torre por uma torre melhor.\n\n<b>Dica:</b> se evoluir uma torre, os créditos já gastos em melhorias são perdidos.</string>
+    <string name="tutorial_tower_options_4">A venda da torre irá removê-la e receberá de volta alguns créditos.\n\n<b> Dica:</b> as torres diminuem de valor ao longo do tempo.</string>
+    <string name="tutorial_next_wave">Pressione o botão \”Próxima onda\” para chamar a próxima onda de inimigos. O objectivo é que nenhum deles consiga passar pela sua defesa.\n\n<b> Dica:</b> se ativar a próxima onda antecipadamente enquanto ainda há inimigos de ondas anteriores, ganha créditos de bónus!</string>
+    <string name="tutorial_enemies">Se um inimigo chegar ao fim do caminho, perde uma vida. O jogo termina se já não tiver mais vidas.\n\n<b> Dica:</b> algumas torres são mais eficazes contra um certo tipo de inimigos do que outras.</string>
+    <string name="tutorial_finish">Boa sorte e divirta-se! Pode ativar novamente o tutorial nas definições.</string>
+
+    <string name="enemy_stats">Estatísticas do inimigo</string>
+    <string name="name">Nome:</string>
+    <string name="health">Vida:</string>
+    <string name="speed">Velocidade:</string>
+    <string name="reward">Prémio:</string>
+    <string name="weak_against">Fraco contra:</string>
+    <string name="strong_against">Forte contra:</string>
+    <string name="none">Nenhum</string>
+
+    <string name="enemy_soldier">Soldado</string>
+    <string name="enemy_blob">Grumo</string>
+    <string name="enemy_sprinter">Velocista</string>
+    <string name="enemy_flyer">Voador</string>
+    <string name="enemy_healer">Curandeiro</string>
 </resources>
