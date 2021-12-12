@@ -1,18 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <string name="app_name">Anuto TD</string>
 
-    <string name="menu">Setelan</string>
-    <string name="next_wave">Gelombang Lain</string>
+    <string name="menu">Menu</string>
+    <string name="build_tower">Bangun</string>
+    <string name="next_wave">Gelombang Selanjutnya</string>
+    <string name="var_speed" translatable="false">%1$dx</string>
+    <string name="fast_forward" translatable="false">FF</string>
 
-    <string name="restart">Mulai ulang</string>
-    <string name="change_map">Ubah peta</string>
-    <string name="theme">Tema</string>
+    <string name="restart">Mulai Ulang</string>
+    <string name="save_game">Simpan Permainan</string>
+    <string name="game_saved">Permainan Tersimpan</string>
+    <string name="load_game">Muat Permainan</string>
+    <string name="change_map">Ganti Peta</string>
+    <string name="settings">Pengaturan</string>
+
+    <string name="delete">Hapus</string>
+
     <string name="sound">Suara</string>
+    <string name="theme">Tema</string>
+    <string name="change_theme">Ganti tema</string>
+    <string name="change_theme_warning">Apakah Anda yakin ingin mengganti tema? Permainan akan dimulai ulang.</string>
+    <string name="back_button_mode">Tutup aplikasi dengan tombol kembali</string>
+    <string name="reset_highscores">Atur ulang skor tertinggi</string>
+    <string name="reset_highscores_warning">Apakah Anda yakin ingin mengatur ulang seluruh skor tertinggi?</string>
+    <string name="start_tutorial">Mulai tutorial</string>
+    <string name="start_tutorial_warning">Apakah Anda yakin ingin memulai tutorial? Permainan akan dimulai ulang.</string>
+    <string name="transparent_menus">Menu dalam permainan transparan</string>
 
-    <string name="game_over">Permainan telah berakhir!</string>
+    <string name="game_over">Permainan Berakhir!</string>
     <string name="score">Skor</string>
 
-    <string name="credits">Uang</string>
+    <string name="credits">Kredit</string>
     <string name="lives">Nyawa</string>
     <string name="wave">Gelombang</string>
     <string name="bonus">Bonus</string>
@@ -20,21 +39,23 @@
     <string name="level">Level</string>
     <string name="damage">Kerusakan</string>
     <string name="reload">Isi Ulang</string>
-    <string name="range">RuangLingkup</string>
-    <string name="splash">JarakLedakan</string>
+    <string name="range">Jangkauan</string>
+    <string name="splash">Radius Ledakan</string>
     <string name="distance">Jarak</string>
     <string name="intensity">Intensitas</string>
     <string name="duration">Durasi</string>
-    <string name="inflicted">Akibat</string>
+    <string name="inflicted">Mengakibatkan</string>
+    <string name="dps" translatable="false">DPS</string>
 
-    <string name="lock_target">Kunci target</string>
-    <string name="strategy">strategi</string>
-    <string name="enhance">Tambahkan</string>
+    <string name="lock_target">Kunci Target</string>
+    <string name="strategy">Strategi</string>
+    <string name="enhance">Kuatkan</string>
     <string name="upgrade">Tingkatkan</string>
     <string name="sell">Jual</string>
 
-    <string name="on">aktif</string>
-    <string name="off">mati</string>
+    <string name="on">Nyala</string>
+    <string name="off">Mati</string>
+    <string name="twice">Dua Kali</string>
 
     <string name="strategy_closest">Terdekat</string>
     <string name="strategy_weakest">Terlemah</string>
@@ -44,4 +65,52 @@
 
     <string name="theme_original">Orisinal</string>
     <string name="theme_dark">Gelap</string>
+    <string name="theme_colour">Berwarna</string>
+
+    <string name="map_original_name">Orisinal</string>
+    <string name="map_waiting_line_name">Aku Benci Antrian</string>
+    <string name="map_turn_round_name">Berputar Satu Lingkaran</string>
+    <string name="map_hurry_name">Kami Sedang Buru-Buru!</string>
+    <string name="map_civyshk_2y_name">Civyshk 2Y</string>
+    <string name="map_civyshk_line5_name">Civyshk Line5</string>
+    <string name="map_civyshk_labyrinth_name">Labirin Civyshk</string>
+    <string name="map_civyshk_yard_name">Halaman Civyshk</string>
+    <string name="map_higgledy_piggledy_name">Higgledy Piggledy</string>
+    <string name="map_big_u_name">U Besar</string>
+    <string name="map_cloverleaf_name">Daun Semanggi</string>
+    <string name="map_roundabout_name">Bundaran</string>
+    <string name="map_runway_name">Landasan Pacu</string>
+    <string name="map_wtf_name">WTF?</string>
+    <string name="map_turn_left_name">Belok Kiri</string>
+    <string name="map_turn_right_name">Belok Kanan</string>
+    <string name="press_back_button_again_toast">Tekan lagi tombol kembali untuk keluar</string>
+
+    <string name="tutorial">Memulai</string>
+    <string name="got_it">Dimengerti!</string>
+    <string name="skip_tutorial">Lewati Tutorial</string>
+
+    <string name="tutorial_build_tower">Selamat datang di Anuto TD! Mulai dengan membangun sebuah menara: Geser sebuah menara dari bilah peralatan di atas ke medan bermain.</string>
+    <string name="tutorial_credits">Jika tanda harga sebuah menara menjadi merah, Anda tidak punya cukup kredit untuk membeli menara tersebut. Anda mendapatkan kredit dengan membunuh lawan dan menyelesaikan gelombang.</string>
+    <string name="tutorial_tower_options_1">Tekan sebuah menara untuk melihat jangkauannya, tekan lagi untuk membuka menunya untuk opsi yang lebih banyak.</string>
+    <string name="tutorial_tower_options_2">Strategi menentukan bagaimana menara memilih targetnya. Kunci target berarti menara tidak akan berganti target selama target saat itu masih ada di jangkauannya.</string>
+    <string name="tutorial_tower_options_3">Menguatkan sebuah menara akan menambah baikkan performanya. Meningkatkan sebuah menara akan menggantikan menara tersebut dengan menara yang lebih bagus.\n\n<b>Tips:</b> Jika meningkatkan menara, perlu diingat bahwa kredit yang dihabiskan ke penguatan akan hilang.</string>
+    <string name="tutorial_tower_options_4">Menjual menara akan menghapusnya dan Anda akan mendapatkan beberapa kredit kembali.\n\n<b>Tips:</b> Valuasi menara menurun seiring waktu.</string>
+    <string name="tutorial_next_wave">Tekan \"Gelombang Selanjutnya\" untuk memanggil gelombang musuh selanjutnya. Tujuannya adalah tidak ada dari mereka yang melewati pertahanan Anda.\n\n<b>Tips:</b> Jika Anda memanggil gelombang selanjutnya ketika masih ada gelombang yang berjalan, Anda akan mendapatkan kredit tambahan!</string>
+    <string name="tutorial_enemies">Jika satu musuh menyelesaikan lintasan mereka, Anda kehilangan satu nyawa. Permainan berakhir jika Anda tidak punya nyawa lagi.\n\n<b>Tips:</b> Beberapa menara lebih efektif melawan beberapa tipe lawan daripada menara lainnya.</string>
+    <string name="tutorial_finish">Semoga berhasil dan selamat bersenang-senang! Anda dapat mengulang tutorial lagi di pengaturan.</string>
+
+    <string name="enemy_stats">Status Lawan</string>
+    <string name="name">Nama:</string>
+    <string name="health">Darah:</string>
+    <string name="speed">Kecepatan:</string>
+    <string name="reward">Hadiah:</string>
+    <string name="weak_against">Lemah dengan:</string>
+    <string name="strong_against">Kuat dengan:</string>
+    <string name="none">Tidak ada</string>
+
+    <string name="enemy_soldier">Prajurit</string>
+    <string name="enemy_blob">Gumpalan</string>
+    <string name="enemy_sprinter">Pelari</string>
+    <string name="enemy_flyer">Penerbang</string>
+    <string name="enemy_healer">Penyembuh</string>
 </resources>
