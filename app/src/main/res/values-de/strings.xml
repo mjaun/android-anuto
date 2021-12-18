@@ -27,6 +27,7 @@
     <string name="intensity">Intensität</string>
     <string name="duration">Dauer</string>
     <string name="inflicted">Verursacht</string>
+    <string name="dps">Schaden/Sek</string>
 
     <string name="lock_target">Ziel verfolgen</string>
     <string name="strategy">Strategie</string>

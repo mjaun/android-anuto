@@ -6,7 +6,7 @@
     <string name="build_tower">Build</string>
     <string name="next_wave">Next Wave</string>
     <string name="var_speed" translatable="false">%1$dx</string>
-    <string name="fast_forward" translatable="false">FF</string>
+    <string name="fast_forward" translatable="false">\>\></string>
 
     <string name="restart">Restart</string>
     <string name="save_game">Save Game</string>
@@ -45,7 +45,7 @@
     <string name="intensity">Intensity</string>
     <string name="duration">Duration</string>
     <string name="inflicted">Inflicted</string>
-    <string name="dps" translatable="false">DPS</string>
+    <string name="dps">Damage/Sec</string>
 
     <string name="lock_target">Lock Target</string>
     <string name="strategy">Strategy</string>

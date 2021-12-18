@@ -5,8 +5,6 @@
     <string name="menu">Menu</string>
     <string name="build_tower">Bangun</string>
     <string name="next_wave">Gelombang Selanjutnya</string>
-    <string name="var_speed" translatable="false">%1$dx</string>
-    <string name="fast_forward" translatable="false">FF</string>
 
     <string name="restart">Mulai Ulang</string>
     <string name="save_game">Simpan Permainan</string>
@@ -45,7 +43,6 @@
     <string name="intensity">Intensitas</string>
     <string name="duration">Durasi</string>
     <string name="inflicted">Mengakibatkan</string>
-    <string name="dps" translatable="false">DPS</string>
 
     <string name="lock_target">Kunci Target</string>
     <string name="strategy">Strategi</string>

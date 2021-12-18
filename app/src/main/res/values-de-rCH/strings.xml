@@ -27,6 +27,7 @@
     <string name="intensity">Intensität</string>
     <string name="duration">Duur</string>
     <string name="inflicted">Verursacht</string>
+    <string name="dps">Schade/Sek</string>
 
     <string name="lock_target">Ziu verfouge</string>
     <string name="strategy">Strategie</string>
