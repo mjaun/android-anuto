@@ -83,6 +83,9 @@
     <string name="map_wtf_name">WTF?</string>
     <string name="map_turn_left_name">Turn Left</string>
     <string name="map_turn_right_name">Turn Right</string>
+    <string name="map_oddball_name">Oddball</string>
+    <string name="map_spiral1_name">Spiral v1</string>
+    <string name="map_chaos_name">Chaos</string>
     <string name="press_back_button_again_toast">Press back button again to exit</string>
 
     <string name="tutorial">Getting Started</string>
