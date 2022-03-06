@@ -139,9 +139,9 @@ public class Mortar extends Tower implements SpriteTransformation {
 
         if (mAimer.getTarget() != null && isReloaded()) {
             Vector2 targetPos = mAimer.getTarget().getPositionAfter(MortarShot.TIME_TO_TARGET);
-            targetPos = targetPos.add(Vector2.polar(RandomUtils.next(INACCURACY), RandomUtils.next(360f)));
+            targetPos = Vector2.polar(RandomUtils.next(INACCURACY), RandomUtils.next(360f)).add(targetPos);
             mAngle = getAngleTo(targetPos);
-            Vector2 shotPos = getPosition().add(Vector2.polar(SHOT_SPAWN_OFFSET, mAngle));
+            Vector2 shotPos = Vector2.polar(SHOT_SPAWN_OFFSET, mAngle).add(getPosition());
 
             getGameEngine().add(new MortarShot(this, shotPos, targetPos, getDamage(), mExplosionRadius));
             mSound.play();

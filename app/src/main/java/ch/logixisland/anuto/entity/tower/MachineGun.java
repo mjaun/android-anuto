@@ -183,9 +183,9 @@ public class MachineGun extends Tower implements SpriteTransformation {
     }
 
     private Vector2 calcShootingDirection(Enemy target) {
-        Vector2 ps = getPosition().add(getDirectionTo(target).mul(SHOT_SPAWN_OFFSET));
+        Vector2 ps = getDirectionTo(target).mul(SHOT_SPAWN_OFFSET).add(getPosition());
         Vector2 pt = target.getPosition();
-        Vector2 ptToPs = pt.to(ps);
+        float ptToPsAngle = pt.angleTo(ps);
 
         Vector2 dt = target.getDirection();
         if (dt == null) {
@@ -196,10 +196,10 @@ public class MachineGun extends Tower implements SpriteTransformation {
         float vs = CanonShotMg.MOVEMENT_SPEED;
         float vt = target.getSpeed();
 
-        float alpha = dt.angle() - ptToPs.angle();
+        float alpha = dt.angle() - ptToPsAngle;
         float beta = MathUtils.toDegrees((float) Math.asin(vt * Math.sin(MathUtils.toRadians(alpha)) / vs));
 
-        float angle = 180f + ptToPs.angle() - beta;
+        float angle = 180f + ptToPsAngle - beta;
         return Vector2.polar(1f, angle);
     }
 }

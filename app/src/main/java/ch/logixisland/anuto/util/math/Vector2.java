@@ -9,6 +9,22 @@ public class Vector2 {
         );
     }
 
+    public static Vector2 add(Vector2 a, Vector2 b) {
+        return new Vector2(a.x + b.x, a.y + b.y);
+    }
+
+    public static Vector2 sub(Vector2 a, Vector2 b) {
+        return new Vector2(a.x - b.x, a.y - b.y);
+    }
+
+    public static Vector2 to(Vector2 a, Vector2 b) {
+        return new Vector2(b.x - a.x, b.y - a.y);
+    }
+
+    public static Vector2 mul(Vector2 v, float s) {
+        return new Vector2(v.x * s, v.y * s);
+    }
+
     private float x;
     private float y;
 
@@ -30,20 +46,18 @@ public class Vector2 {
         return y;
     }
 
+    // Like add() but overwrites the source object instead of allocating
     public Vector2 add(Vector2 v) {
-        return new Vector2(this.x + v.x, this.y + v.y);
+        this.x = this.x + v.x;
+        this.y = this.y + v.y;
+        return this;
     }
 
-    public Vector2 sub(Vector2 v) {
-        return new Vector2(this.x - v.x, this.y - v.y);
-    }
-
-    public Vector2 to(Vector2 v) {
-        return new Vector2(v.x - this.x, v.y - this.y);
-    }
-
+    // Like mul() but overwrites the source object instead of allocating
     public Vector2 mul(float s) {
-        return new Vector2(this.x * s, this.y * s);
+        this.x = this.x * s;
+        this.y = this.y * s;
+        return this;
     }
 
     public Vector2 div(float s) {
@@ -54,8 +68,12 @@ public class Vector2 {
         return x * v.x + y * v.y;
     }
 
-    public float len() {
+    private static float len(float x, float y) {
         return (float) Math.sqrt(x * x + y * y);
+    }
+
+    public float len() {
+        return len(x, y);
     }
 
     public float len2() {
@@ -68,11 +86,33 @@ public class Vector2 {
 
     public Vector2 proj(Vector2 v) {
         float f = this.dot(v) / v.len2();
-        return v.mul(f);
+        return Vector2.mul(v, f);
+    }
+
+    private static float angle(float x, float y) {
+        return MathUtils.toDegrees((float) Math.atan2(y, x));
     }
 
     public float angle() {
-        return MathUtils.toDegrees((float) Math.atan2(y, x));
+        return angle(this.x, this.y);
+    }
+
+    // equivalent to v.to(x).len()
+    public float distanceTo(Vector2 v) {
+        return len(v.x - this.x, v.y - this.y);
+    }
+
+    // equivalent to v.to(x).angle()
+    public float angleTo(Vector2 v) {
+        return angle(v.x - this.x, v.y - this.y);
+    }
+
+    public Vector2 directionTo(Vector2 v) {
+        Vector2 to = Vector2.to(this, v);
+        float len = to.len();
+        to.x /= len;
+        to.y /= len;
+        return to;
     }
 
     @Override

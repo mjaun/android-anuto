@@ -78,7 +78,7 @@ public class TeleportEffect extends Effect implements Entity.Listener {
     @Override
     public void tick() {
         super.tick();
-        mTarget.move(mMoveDirection.mul(mMoveStep));
+        mTarget.move(Vector2.mul(mMoveDirection, mMoveStep));
     }
 
     @Override

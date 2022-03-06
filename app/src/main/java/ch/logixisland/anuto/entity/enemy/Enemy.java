@@ -202,7 +202,7 @@ public abstract class Enemy extends Entity {
             Vector2 wThis = mWayPoints.get(i);
             Vector2 wLast = mWayPoints.get(i - 1);
 
-            dist += wLast.to(wThis).len();
+            dist += wLast.distanceTo(wThis);
         }
 
         return dist;
@@ -218,11 +218,13 @@ public abstract class Enemy extends Entity {
         Vector2 position = getPosition();
 
         while (index < mWayPoints.size()) {
-            Vector2 toWaypoint = position.to(mWayPoints.get(index));
-            float toWaypointDist = toWaypoint.len();
+            Vector2 wayPoint = mWayPoints.get(index);
+            float toWaypointDist = position.distanceTo(wayPoint);
 
             if (distance < toWaypointDist) {
-                return position.add(toWaypoint.mul(distance / toWaypointDist));
+                return Vector2.to(position, wayPoint)
+                              .mul(distance / toWaypointDist)
+                              .add(position);
             }
             distance -= toWaypointDist;
             index++;
@@ -236,16 +238,17 @@ public abstract class Enemy extends Entity {
         Vector2 pos = getPosition();
 
         while (index > 0) {
-            Vector2 wp = mWayPoints.get(index);
-            Vector2 toWp = pos.to(wp);
-            float toWpLen = toWp.len();
+            Vector2 wp = mWayPoints.get(index);;
+            float toWpDist = pos.distanceTo(wp);
 
-            if (dist > toWpLen) {
-                dist -= toWpLen;
+            if (dist > toWpDist) {
+                dist -= toWpDist;
                 pos = wp;
                 index--;
             } else {
-                pos = toWp.norm().mul(dist).add(pos);
+                pos = pos.directionTo(wp)
+                         .mul(dist)
+                         .add(pos);
                 setPosition(pos);
                 mWayPointIndex = index + 1;
                 return;

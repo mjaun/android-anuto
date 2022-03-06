@@ -188,7 +188,7 @@ public class GlueTower extends Tower implements SpriteTransformation {
                 mShooting = false;
 
                 for (Vector2 target : mTargets) {
-                    Vector2 position = getPosition().add(Vector2.polar(SHOT_SPAWN_OFFSET, getAngleTo(target)));
+                    Vector2 position = Vector2.polar(SHOT_SPAWN_OFFSET, getAngleTo(target)).add(getPosition());
                     getGameEngine().add(new GlueShot(this, position, target, mGlueIntensity, GLUE_DURATION));
                 }
             }
@@ -233,7 +233,7 @@ public class GlueTower extends Tower implements SpriteTransformation {
                 final Vector2 target = Vector2.polar(dist, angle).add(sect.getPoint1());
 
                 boolean free = StreamIterator.fromIterable(mTargets)
-                        .filter(value -> value.to(target).len() < 0.5f)
+                        .filter(value -> value.distanceTo(target) < 0.5f)
                         .isEmpty();
 
                 if (free) {

@@ -124,7 +124,7 @@ public class SimpleLaser extends Tower implements SpriteTransformation {
             mAngle = getAngleTo(mAimer.getTarget());
 
             if (isReloaded()) {
-                Vector2 from = getPosition().add(Vector2.polar(LASER_SPAWN_OFFSET, mAngle));
+                Vector2 from = Vector2.polar(LASER_SPAWN_OFFSET, mAngle).add(getPosition());
                 getGameEngine().add(new BouncingLaser(this, from, mAimer.getTarget(), getDamage()));
                 setReloaded(false);
                 mSound.play();

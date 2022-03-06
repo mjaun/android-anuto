@@ -252,8 +252,8 @@ public class MineLayer extends Tower implements SpriteTransformation {
             if (dist > length) {
                 dist -= length;
             } else {
-                return section.lineVector()
-                        .norm()
+                return section
+                        .direction()
                         .mul(dist)
                         .add(section.getPoint1());
             }
