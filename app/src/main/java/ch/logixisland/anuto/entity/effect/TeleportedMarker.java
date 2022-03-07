@@ -20,6 +20,7 @@ public class TeleportedMarker extends Effect implements Entity.Listener {
 
     private static class StaticData implements TickListener {
         private SampledFunction mScaleFunction;
+        private Paint mPaint;
 
         @Override
         public void tick() {
@@ -28,13 +29,8 @@ public class TeleportedMarker extends Effect implements Entity.Listener {
     }
 
     private class MarkerDrawable implements Drawable {
-        private Paint mPaint;
 
         private MarkerDrawable() {
-            mPaint = new Paint();
-            mPaint.setStyle(Paint.Style.FILL);
-            mPaint.setColor(Color.MAGENTA);
-            mPaint.setAlpha(30);
         }
 
         @Override
@@ -48,7 +44,7 @@ public class TeleportedMarker extends Effect implements Entity.Listener {
                     getPosition().x(),
                     getPosition().y(),
                     mStaticData.mScaleFunction.getValue(),
-                    mPaint);
+                    mStaticData.mPaint);
         }
     }
 
@@ -73,6 +69,11 @@ public class TeleportedMarker extends Effect implements Entity.Listener {
                 .offset((MARKER_MAX_RADIUS + MARKER_MIN_RADIUS) / 2)
                 .stretch(GameEngine.TARGET_FRAME_RATE / MARKER_SPEED / (float) Math.PI)
                 .sample();
+
+        s.mPaint = new Paint();
+        s.mPaint.setStyle(Paint.Style.FILL);
+        s.mPaint.setColor(Color.MAGENTA);
+        s.mPaint.setAlpha(30);
 
         getGameEngine().add(s);
         return s;

@@ -11,14 +11,16 @@ import ch.logixisland.anuto.engine.theme.Theme;
 public class RangeIndicator implements Drawable {
 
     private final Tower mTower;
-    private final Paint mPen;
+    private static Paint mPen = null;
 
     public RangeIndicator(Theme theme, Tower tower) {
         mTower = tower;
-        mPen = new Paint();
-        mPen.setStyle(Paint.Style.STROKE);
-        mPen.setStrokeWidth(0.05f);
-        mPen.setColor(theme.getColor(R.attr.rangeIndicatorColor));
+        if (mPen == null) {
+            mPen = new Paint();
+            mPen.setStyle(Paint.Style.STROKE);
+            mPen.setStrokeWidth(0.05f);
+            mPen.setColor(theme.getColor(R.attr.rangeIndicatorColor));
+        }
     }
 
     @Override

@@ -15,16 +15,12 @@ public class TeleportEffect extends Effect implements Entity.Listener {
 
     private static final float EFFECT_DURATION = 1f;
 
+    private static class StaticData {
+        private Paint mPaint;
+    }
     private class TeleportDrawable implements Drawable {
 
-        private Paint mPaint;
-
         public TeleportDrawable() {
-            mPaint = new Paint();
-            mPaint.setStyle(Paint.Style.STROKE);
-            mPaint.setStrokeWidth(0.1f);
-            mPaint.setColor(Color.MAGENTA);
-            mPaint.setAlpha(70);
         }
 
         @Override
@@ -35,7 +31,7 @@ public class TeleportEffect extends Effect implements Entity.Listener {
         @Override
         public void draw(Canvas canvas) {
             Vector2 target = mTarget.getPosition();
-            canvas.drawLine(getPosition().x(), getPosition().y(), target.x(), target.y(), mPaint);
+            canvas.drawLine(getPosition().x(), getPosition().y(), target.x(), target.y(), mStaticData.mPaint);
         }
 
     }
@@ -46,6 +42,7 @@ public class TeleportEffect extends Effect implements Entity.Listener {
     private Vector2 mMoveDirection;
     private float mMoveStep;
     private TeleportDrawable mDrawObject;
+    private StaticData mStaticData;
 
     public TeleportEffect(Entity origin, Vector2 position, Enemy target, float distance) {
         super(origin, EFFECT_DURATION);
@@ -64,8 +61,14 @@ public class TeleportEffect extends Effect implements Entity.Listener {
     }
 
     @Override
+    public Object initStatic() {
+        return null;
+    }
+
+    @Override
     public void init() {
         super.init();
+        mStaticData = (StaticData) getStaticData();
         getGameEngine().add(mDrawObject);
     }
 

@@ -12,15 +12,17 @@ import ch.logixisland.anuto.util.math.Vector2;
 public class LevelIndicator implements Drawable {
 
     private final Tower mTower;
-    private final Paint mText;
+    private static Paint mText = null;
 
     LevelIndicator(Theme theme, Tower tower) {
         mTower = tower;
 
-        mText = new Paint();
-        mText.setStyle(Paint.Style.FILL);
-        mText.setColor(theme.getColor(R.attr.levelIndicatorColor));
-        mText.setTextSize(100);
+        if (mText == null) {
+            mText = new Paint();
+            mText.setStyle(Paint.Style.FILL);
+            mText.setColor(theme.getColor(R.attr.levelIndicatorColor));
+            mText.setTextSize(100);
+        }
     }
 
     @Override
