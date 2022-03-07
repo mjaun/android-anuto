@@ -1,5 +1,7 @@
 package ch.logixisland.anuto.entity.plateau;
 
+import android.graphics.Canvas;
+
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
@@ -73,7 +75,7 @@ public class BasicPlateau extends Plateau implements SpriteTransformation {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, SpriteTransformer transformer) {
-        transformer.translate(getPosition());
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        SpriteTransformer.translate(canvas, getPosition());
     }
 }

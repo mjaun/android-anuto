@@ -75,10 +75,10 @@ public class GlueTower extends Tower implements SpriteTransformation {
         StaticSprite mSprite;
 
         @Override
-        public void draw(SpriteInstance sprite, SpriteTransformer transformer) {
-            transformer.translate(getPosition());
-            transformer.rotate(mAngle);
-            transformer.translate(mCanonOffset, 0);
+        public void draw(SpriteInstance sprite, Canvas canvas) {
+            SpriteTransformer.translate(canvas, getPosition());
+            canvas.rotate(mAngle);
+            canvas.translate(mCanonOffset, 0);
         }
     }
 
@@ -198,8 +198,8 @@ public class GlueTower extends Tower implements SpriteTransformation {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, SpriteTransformer transformer) {
-        transformer.translate(getPosition());
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        SpriteTransformer.translate(canvas, getPosition());
     }
 
     @Override

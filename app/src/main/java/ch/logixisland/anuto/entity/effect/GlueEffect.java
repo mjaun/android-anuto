@@ -1,5 +1,6 @@
 package ch.logixisland.anuto.entity.effect;
 
+import android.graphics.Canvas;
 import android.graphics.Paint;
 
 import ch.logixisland.anuto.R;
@@ -76,9 +77,9 @@ public class GlueEffect extends Effect implements SpriteTransformation, AreaObse
     }
 
     @Override
-    public void draw(SpriteInstance sprite, SpriteTransformer transformer) {
-        transformer.translate(getPosition());
-        transformer.rotate(mAngle);
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        SpriteTransformer.translate(canvas, getPosition());
+        canvas.rotate(mAngle);
     }
 
     @Override

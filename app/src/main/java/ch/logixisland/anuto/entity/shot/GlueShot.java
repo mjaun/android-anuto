@@ -1,5 +1,7 @@
 package ch.logixisland.anuto.entity.shot;
 
+import android.graphics.Canvas;
+
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
@@ -90,7 +92,7 @@ public class GlueShot extends Shot implements SpriteTransformation {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, SpriteTransformer transformer) {
-        transformer.translate(getPosition());
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        SpriteTransformer.translate(canvas, getPosition());
     }
 }

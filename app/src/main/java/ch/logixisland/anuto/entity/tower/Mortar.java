@@ -161,11 +161,11 @@ public class Mortar extends Tower implements SpriteTransformation {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, SpriteTransformer transformer) {
-        transformer.translate(getPosition());
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        SpriteTransformer.translate(canvas, getPosition());
 
         if (sprite == mSpriteCanon) {
-            transformer.rotate(mAngle);
+            canvas.rotate(mAngle);
         }
     }
 

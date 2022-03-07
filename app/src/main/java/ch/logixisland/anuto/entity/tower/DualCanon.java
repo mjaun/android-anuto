@@ -214,23 +214,23 @@ public class DualCanon extends Tower implements SpriteTransformation {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, SpriteTransformer transformer) {
-        transformer.translate(getPosition());
-        transformer.rotate(mAngle);
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        SpriteTransformer.translate(canvas, getPosition());
+        canvas.rotate(mAngle);
 
         if (sprite == mCanons[0].sprite) {
-            transformer.translate(0, 0.3f);
+            canvas.translate(0, 0.3f);
 
             if (mCanons[0].reboundActive) {
-                transformer.translate(-mCanons[0].reboundFunction.getValue(), 0);
+                canvas.translate(-mCanons[0].reboundFunction.getValue(), 0);
             }
         }
 
         if (sprite == mCanons[1].sprite) {
-            transformer.translate(0, -0.3f);
+            canvas.translate(0, -0.3f);
 
             if (mCanons[1].reboundActive) {
-                transformer.translate(-mCanons[1].reboundFunction.getValue(), 0);
+                canvas.translate(-mCanons[1].reboundFunction.getValue(), 0);
             }
         }
     }
