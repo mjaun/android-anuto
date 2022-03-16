@@ -60,11 +60,11 @@ public class EnemyProperties {
     }
 
     public Collection<WeaponType> getWeakAgainst() {
-        return Collections.unmodifiableCollection(mWeakAgainst);
+        return mWeakAgainst;
     }
 
     public Collection<WeaponType> getStrongAgainst() {
-        return Collections.unmodifiableCollection(mStrongAgainst);
+        return mStrongAgainst;
     }
 
 }

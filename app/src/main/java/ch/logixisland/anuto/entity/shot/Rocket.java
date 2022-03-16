@@ -1,5 +1,7 @@
 package ch.logixisland.anuto.entity.shot;
 
+import android.graphics.Canvas;
+
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
 import ch.logixisland.anuto.engine.render.Layers;
@@ -109,9 +111,9 @@ public class Rocket extends Shot implements SpriteTransformation, TargetTracker.
         }
     }
 
-    public void draw(SpriteInstance sprite, SpriteTransformer transformer) {
-        transformer.translate(getPosition());
-        transformer.rotate(mAngle);
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        SpriteTransformer.translate(canvas, getPosition());
+        canvas.rotate(mAngle);
     }
 
     @Override

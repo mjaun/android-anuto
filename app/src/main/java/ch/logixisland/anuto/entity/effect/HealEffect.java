@@ -19,15 +19,13 @@ public class HealEffect extends Effect {
 
     private static final float EFFECT_DURATION = 0.7f;
 
-    private class HealDrawable implements Drawable {
+    private static class StaticData {
         private Paint mPaint;
+    }
 
+
+    private class HealDrawable implements Drawable {
         public HealDrawable() {
-            mPaint = new Paint();
-            mPaint.setStyle(Paint.Style.STROKE);
-            mPaint.setStrokeWidth(0.05f);
-            mPaint.setColor(Color.BLUE);
-            mPaint.setAlpha(70);
         }
 
         @Override
@@ -37,7 +35,7 @@ public class HealEffect extends Effect {
 
         @Override
         public void draw(Canvas canvas) {
-            canvas.drawCircle(getPosition().x(), getPosition().y(), mDrawRadius, mPaint);
+            canvas.drawCircle(getPosition().x(), getPosition().y(), mDrawRadius, mStaticData.mPaint);
         }
     }
 
@@ -47,6 +45,7 @@ public class HealEffect extends Effect {
 
     private Drawable mDrawable;
     private Collection<Enemy> mHealedEnemies;
+    private StaticData mStaticData;
 
     public HealEffect(Entity origin, Vector2 position, float amount, float radius, Collection<Enemy> healedEnemies) {
         super(origin, EFFECT_DURATION);
@@ -56,14 +55,25 @@ public class HealEffect extends Effect {
         mRange = radius;
         mDrawRadius = 0f;
         mHealedEnemies = healedEnemies;
-
         mDrawable = new HealDrawable();
     }
 
     @Override
+    public Object initStatic() {
+        StaticData s = new StaticData();
+        s.mPaint = new Paint();
+
+        s.mPaint.setStyle(Paint.Style.STROKE);
+        s.mPaint.setStrokeWidth(0.05f);
+        s.mPaint.setColor(Color.BLUE);
+        s.mPaint.setAlpha(70);
+        return s;
+    }
+    @Override
     public void init() {
         super.init();
 
+        mStaticData = (StaticData) getStaticData();
         getGameEngine().add(mDrawable);
     }
 

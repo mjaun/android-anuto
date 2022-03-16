@@ -127,7 +127,7 @@ public class BouncingLaser extends Tower implements SpriteTransformation {
             mAngle = getAngleTo(mAimer.getTarget());
 
             if (isReloaded()) {
-                Vector2 origin = getPosition().add(Vector2.polar(LASER_SPAWN_OFFSET, mAngle));
+                Vector2 origin = Vector2.polar(LASER_SPAWN_OFFSET, mAngle).add(getPosition());
                 getGameEngine().add(new ch.logixisland.anuto.entity.effect.BouncingLaser(
                         this,
                         origin,
@@ -148,9 +148,9 @@ public class BouncingLaser extends Tower implements SpriteTransformation {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, SpriteTransformer transformer) {
-        transformer.translate(getPosition());
-        transformer.rotate(mAngle);
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        SpriteTransformer.translate(canvas, getPosition());
+        canvas.rotate(mAngle);
     }
 
     @Override

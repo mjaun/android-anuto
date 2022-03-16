@@ -44,7 +44,7 @@ public abstract class SpriteInstance implements Drawable {
         canvas.save();
 
         if (mListener != null) {
-            mListener.draw(this, new SpriteTransformer(canvas));
+            mListener.draw(this, canvas);
         }
 
         Bitmap bitmap = mTemplate.getBitmaps().get(getIndex());

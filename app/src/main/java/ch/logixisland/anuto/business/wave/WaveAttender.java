@@ -178,8 +178,8 @@ class WaveAttender implements Enemy.Listener {
         enemy.setupPath(path.getWayPoints());
 
         Vector2 startPosition = path.getWayPoints().get(0);
-        Vector2 startDirection = startPosition.to(path.getWayPoints().get(1)).norm();
-        enemy.setPosition(startPosition.add(startDirection.mul(-offset)));
+        Vector2 startDirection = startPosition.directionTo(path.getWayPoints().get(1));
+        enemy.setPosition(Vector2.mul(startDirection, -offset).add(startPosition));
 
         return enemy;
     }

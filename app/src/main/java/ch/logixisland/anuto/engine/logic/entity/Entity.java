@@ -24,8 +24,8 @@ public abstract class Entity {
 
     public static Predicate<Entity> onLine(final Vector2 p1, final Vector2 p2, final float lineWidth) {
         return entity -> {
-            Vector2 line = p1.to(p2);
-            Vector2 toObj = p1.to(entity.mPosition);
+            Vector2 line = Vector2.to(p1, p2);
+            Vector2 toObj = Vector2.to(p1, entity.mPosition);
             Vector2 proj = toObj.proj(line);
 
             // check whether object is after line end
@@ -38,7 +38,7 @@ public abstract class Entity {
                 return false;
             }
 
-            return proj.to(toObj).len() <= lineWidth / 2f;
+            return proj.distanceTo(toObj) <= lineWidth / 2f;
 
         };
     }
@@ -125,8 +125,9 @@ public abstract class Entity {
         mPosition = position;
     }
 
+    // note: overwrites offset
     public void move(Vector2 offset) {
-        mPosition = mPosition.add(offset);
+        mPosition = offset.add(mPosition);
     }
 
     public float getDistanceTo(Entity target) {
@@ -134,7 +135,7 @@ public abstract class Entity {
     }
 
     public float getDistanceTo(Vector2 target) {
-        return mPosition.to(target).len();
+        return mPosition.distanceTo(target);
     }
 
     public Vector2 getDirectionTo(Entity target) {
@@ -142,7 +143,7 @@ public abstract class Entity {
     }
 
     public Vector2 getDirectionTo(Vector2 target) {
-        return mPosition.to(target).norm();
+        return mPosition.directionTo(target);
     }
 
     public float getAngleTo(Entity target) {
@@ -150,7 +151,7 @@ public abstract class Entity {
     }
 
     public float getAngleTo(Vector2 target) {
-        return mPosition.to(target).angle();
+        return mPosition.angleTo(target);
     }
 
     public boolean isPositionVisible() {

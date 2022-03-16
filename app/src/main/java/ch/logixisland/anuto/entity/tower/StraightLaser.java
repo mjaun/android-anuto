@@ -122,8 +122,8 @@ public class StraightLaser extends Tower implements SpriteTransformation {
             mAngle = getAngleTo(mAimer.getTarget());
 
             if (isReloaded()) {
-                Vector2 laserFrom = getPosition().add(Vector2.polar(LASER_SPAWN_OFFSET, mAngle));
-                Vector2 laserTo = getPosition().add(Vector2.polar(LASER_LENGTH, mAngle));
+                Vector2 laserFrom = Vector2.polar(LASER_SPAWN_OFFSET, mAngle).add(getPosition());
+                Vector2 laserTo = Vector2.polar(LASER_LENGTH, mAngle).add(getPosition());
                 getGameEngine().add(new ch.logixisland.anuto.entity.effect.StraightLaser(this, laserFrom, laserTo, getDamage()));
                 setReloaded(false);
                 mSound.play();
@@ -137,9 +137,9 @@ public class StraightLaser extends Tower implements SpriteTransformation {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, SpriteTransformer transformer) {
-        transformer.translate(getPosition());
-        transformer.rotate(mAngle);
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        SpriteTransformer.translate(canvas, getPosition());
+        canvas.rotate(mAngle);
     }
 
     @Override

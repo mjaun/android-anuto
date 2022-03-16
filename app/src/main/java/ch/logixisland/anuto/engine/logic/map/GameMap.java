@@ -36,10 +36,10 @@ public class GameMap {
     }
 
     public Collection<PlateauInfo> getPlateaus() {
-        return Collections.unmodifiableCollection(mPlateaus);
+        return mPlateaus;
     }
 
     public List<MapPath> getPaths() {
-        return Collections.unmodifiableList(mPaths);
+        return mPaths;
     }
 }

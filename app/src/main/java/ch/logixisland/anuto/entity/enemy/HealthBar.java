@@ -15,16 +15,20 @@ public class HealthBar implements Drawable {
     private static final float HEALTHBAR_OFFSET = 0.6f;
 
     private final Enemy mEntity;
-    private final Paint mHealthBarBg;
-    private final Paint mHealthBarFg;
+    private static Paint mHealthBarBg = null;
+    private static Paint mHealthBarFg = null;
 
     public HealthBar(Theme theme, Enemy entity) {
         mEntity = entity;
 
-        mHealthBarBg = new Paint();
-        mHealthBarBg.setColor(theme.getColor(R.attr.healthBarBackgroundColor));
-        mHealthBarFg = new Paint();
-        mHealthBarFg.setColor(theme.getColor(R.attr.healthBarColor));
+        if (mHealthBarBg == null) {
+            mHealthBarBg = new Paint();
+            mHealthBarBg.setColor(theme.getColor(R.attr.healthBarBackgroundColor));
+        }
+        if (mHealthBarFg == null) {
+            mHealthBarFg = new Paint();
+            mHealthBarFg.setColor(theme.getColor(R.attr.healthBarColor));
+        }
     }
 
     @Override

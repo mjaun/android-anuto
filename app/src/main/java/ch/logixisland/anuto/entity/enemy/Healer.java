@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.GameEngine;
@@ -130,7 +131,7 @@ public class Healer extends Enemy implements SpriteTransformation {
         StaticData s = new StaticData();
 
         s.mHealTimer = TickTimer.createInterval(HEAL_INTERVAL);
-        s.mHealedEnemies = new ArrayList<>();
+        s.mHealedEnemies = new HashSet<>();
 
         s.mScaleFunction = Function.sine()
                 .join(Function.constant(0), (float) Math.PI)
@@ -193,9 +194,9 @@ public class Healer extends Enemy implements SpriteTransformation {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, SpriteTransformer transformer) {
-        transformer.translate(getPosition());
-        transformer.rotate(mStaticData.mAngle);
-        transformer.scale(mStaticData.mScale);
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        SpriteTransformer.translate(canvas, getPosition());
+        canvas.rotate(mStaticData.mAngle);
+        SpriteTransformer.scale(canvas, mStaticData.mScale);
     }
 }

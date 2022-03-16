@@ -25,7 +25,7 @@ public class WaveInfo {
     }
 
     public List<EnemyInfo> getEnemies() {
-        return Collections.unmodifiableList(mEnemies);
+        return mEnemies;
     }
 
     public int getExtend() {

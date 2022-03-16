@@ -215,9 +215,9 @@ public class MineLayer extends Tower implements SpriteTransformation {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, SpriteTransformer transformer) {
-        transformer.translate(getPosition());
-        transformer.rotate(mAngle);
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        SpriteTransformer.translate(canvas, getPosition());
+        canvas.rotate(mAngle);
     }
 
     @Override
@@ -252,8 +252,8 @@ public class MineLayer extends Tower implements SpriteTransformation {
             if (dist > length) {
                 dist -= length;
             } else {
-                return section.lineVector()
-                        .norm()
+                return section
+                        .direction()
                         .mul(dist)
                         .add(section.getPoint1());
             }

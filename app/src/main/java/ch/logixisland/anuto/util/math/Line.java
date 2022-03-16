@@ -22,16 +22,15 @@ public class Line {
         return mPoint2;
     }
 
-    public Vector2 lineVector() {
-        return mPoint1.to(mPoint2);
-    }
-
     public float length() {
-        return lineVector().len();
+        return mPoint1.distanceTo(mPoint2);
     }
 
     public float angle() {
-        return lineVector().angle();
+        return mPoint1.angleTo(mPoint2);
     }
 
+    public Vector2 direction() {
+        return mPoint1.directionTo(mPoint2);
+    }
 }

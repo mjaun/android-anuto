@@ -144,7 +144,7 @@ public class GlueGun extends Tower implements SpriteTransformation {
 
             mAngle = getAngleTo(target);
 
-            Vector2 position = getPosition().add(Vector2.polar(SHOT_SPAWN_OFFSET, getAngleTo(target)));
+            Vector2 position = Vector2.polar(SHOT_SPAWN_OFFSET, getAngleTo(target)).add(getPosition());
             getGameEngine().add(new GlueShot(this, position, target, mGlueIntensity, GLUE_DURATION));
             mSound.play();
 
@@ -163,9 +163,9 @@ public class GlueGun extends Tower implements SpriteTransformation {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, SpriteTransformer transformer) {
-        transformer.translate(getPosition());
-        transformer.rotate(mAngle);
+    public void draw(SpriteInstance sprite, Canvas canvas) {
+        SpriteTransformer.translate(canvas, getPosition());
+        canvas.rotate(mAngle);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package ch.logixisland.anuto.entity.shot;
 
+import android.graphics.Canvas;
+
 import ch.logixisland.anuto.R;
 import ch.logixisland.anuto.engine.logic.GameEngine;
 import ch.logixisland.anuto.engine.logic.entity.Entity;
@@ -169,11 +171,11 @@ public class Mine extends Shot implements SpriteTransformation {
     }
 
     @Override
-    public void draw(SpriteInstance sprite, SpriteTransformer transformer) {
+    public void draw(SpriteInstance sprite, Canvas canvas) {
         float s = mHeightScalingFunction.getValue();
-        transformer.translate(getPosition());
-        transformer.scale(s);
-        transformer.rotate(mAngle);
+        SpriteTransformer.translate(canvas, getPosition());
+        SpriteTransformer.scale(canvas, s);
+        canvas.rotate(mAngle);
     }
 
     public boolean isFlying() {

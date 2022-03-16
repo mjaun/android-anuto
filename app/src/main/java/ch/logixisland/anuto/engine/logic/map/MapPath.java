@@ -14,7 +14,7 @@ public class MapPath {
     }
 
     public List<Vector2> getWayPoints() {
-        return Collections.unmodifiableList(mWayPoints);
+        return mWayPoints;
     }
 
 }

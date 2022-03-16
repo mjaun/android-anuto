@@ -1,5 +1,6 @@
 package ch.logixisland.anuto.entity.effect;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -20,7 +21,7 @@ public class AreaObserver implements Entity.Listener {
     private final GameEngine mGameEngine;
     private final Listener mListener;
     private final TickTimer mUpdateTimer = TickTimer.createInterval(0.1f);
-    private final List<Enemy> mEnemiesInArea = new CopyOnWriteArrayList<>();
+    private final HashSet<Enemy> mEnemiesInArea = new HashSet<>();
 
     public interface Listener {
         void enemyEntered(Enemy enemy);
@@ -60,9 +61,10 @@ public class AreaObserver implements Entity.Listener {
     }
 
     private void checkForExitedEnemies() {
-        for (Enemy enemy : mEnemiesInArea) {
+        for (Iterator<Enemy> it = mEnemiesInArea.iterator(); it.hasNext(); ) {
+            Enemy enemy = it.next();
             if (enemy.getDistanceTo(mPosition) > mRange) {
-                mEnemiesInArea.remove(enemy);
+                it.remove();
                 enemy.removeListener(this);
                 mListener.enemyExited(enemy);
             }

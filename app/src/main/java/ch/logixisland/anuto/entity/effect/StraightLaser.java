@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -61,7 +62,7 @@ public class StraightLaser extends Effect {
 
     private float mDamage;
     private Vector2 mLaserTo;
-    private Collection<Flyer> mStunnedFliers = new CopyOnWriteArrayList<>();
+    private Collection<Flyer> mStunnedFliers = new ArrayList<>();
 
     private LaserDrawable mDrawObject;
 
