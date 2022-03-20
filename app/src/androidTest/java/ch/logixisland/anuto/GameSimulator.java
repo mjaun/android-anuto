@@ -108,7 +108,7 @@ public abstract class GameSimulator {
 
     private void adjustSettings() {
         // make it a little bit easier for the simulator to be sure that higher tiers are reached
-        mGameFactory.getScoreBoard().giveCredits(200000, false);
+        mGameFactory.getScoreBoard().giveCredits(500000, false);
     }
 
     private void installTickHandler() {

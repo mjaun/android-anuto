@@ -23,18 +23,16 @@ import ch.logixisland.anuto.util.math.Vector2;
 
 public class DefaultGameSimulator extends GameSimulator {
 
-    private static final int MAX_TIER = 3;
-    private static final int MAX_UNENHANCED_TOWERS_PER_TIER = 2;
-    private static final int MAX_ENHANCED_TOWERS_PER_TIER = 4;
-    private static final int NO_SLOW_DOWN_TOWERS_BEFORE_WAVE = 20;
+    private static final int TARGET_TOWER_COUNT_PER_TYPE_AND_TIER = 2;
 
     private final TowerTiers mTowerTiers;
     private final Random mRandom = new Random();
-    private final TickTimer mAutoSaveAndLoadTimer = TickTimer.createInterval(120f);
-    private final TickTimer mSaveAndLoadTimer = TickTimer.createInterval(30f);
-    private final TickTimer mSimulationTickTimer = TickTimer.createInterval(0.5f);
+    private final TickTimer mAutoSaveAndLoadTimer = TickTimer.createInterval(300f);
+    private final TickTimer mSaveAndLoadTimer = TickTimer.createInterval(120f);
+    private final TickTimer mSimulationTickTimer = TickTimer.createInterval(2f);
 
     private int mSaveAndLoadState = 0;
+    private boolean mAllTowersUpgraded = false;
 
     DefaultGameSimulator(GameFactory gameFactory) {
         super(gameFactory);
@@ -77,32 +75,35 @@ public class DefaultGameSimulator extends GameSimulator {
         final TowerSelector towerSelector = getGameFactory().getTowerSelector();
         final TowerControl towerControl = getGameFactory().getTowerControl();
 
+        mAllTowersUpgraded = true;
         StreamIterator<Tower> iterator = getTowers();
+
         while (iterator.hasNext()) {
             Tower tower = iterator.next();
-            final int tier = mTowerTiers.getTowerTier(tower);
 
-            if (!tower.isUpgradeable() || tower.getUpgradeCost() > scoreBoard.getCredits()) {
+            // check if upgrade is possible
+            if (!tower.isUpgradeable()) {
                 continue;
             }
 
+            mAllTowersUpgraded = false;
+
+            // check if upgrade is affordable
+            if (tower.getUpgradeCost() > scoreBoard.getCredits()) {
+                continue;
+            }
+
+            // check if tower was already enhanced
             if (tower.getLevel() > 1) {
                 continue;
             }
 
-            int unenhancedTowersInNextTier = getTowers()
-                    .filter(tower1 -> mTowerTiers.getTowerTier(tower1) == tier + 1 && tower1.getLevel() == 1)
+            // check if next tier already reached target tower count
+            int upgradedTowerCount = getTowers()
+                    .filter(t -> tower.getUpgradeName().equals(t.getEntityName()))
                     .count();
 
-            if (unenhancedTowersInNextTier >= MAX_UNENHANCED_TOWERS_PER_TIER && tier + 1 != MAX_TIER) {
-                continue;
-            }
-
-            int notAffordableUpgradesInSameTier = getTowers()
-                    .filter(tower12 -> mTowerTiers.getTowerTier(tower12) == tier && tower12.isUpgradeable() && tower12.getUpgradeCost() > scoreBoard.getCredits())
-                    .count();
-
-            if (notAffordableUpgradesInSameTier > 0) {
+            if (upgradedTowerCount >= TARGET_TOWER_COUNT_PER_TYPE_AND_TIER) {
                 continue;
             }
 
@@ -121,19 +122,33 @@ public class DefaultGameSimulator extends GameSimulator {
         final ScoreBoard scoreBoard = getGameFactory().getScoreBoard();
 
         StreamIterator<Tower> iterator = getTowers();
+
         while (iterator.hasNext()) {
             Tower tower = iterator.next();
             final int tier = mTowerTiers.getTowerTier(tower);
 
-            if (!tower.isEnhanceable() || tower.getEnhanceCost() > scoreBoard.getCredits()) {
+            // check if enhancing is possible
+            if (!tower.isEnhanceable()) {
                 continue;
             }
 
-            int enhancedTowersInTier = getTowers()
-                    .filter(tower1 -> mTowerTiers.getTowerTier(tower1) == tier && tower1.getLevel() > 1)
+            // check if enhancing is affordable
+            if (tower.getEnhanceCost() > scoreBoard.getCredits()) {
+                continue;
+            }
+
+            // keep one tower un-enhanced for upgrading
+            int enhancedTowerCount = getTowers()
+                    .filter(t -> tower.getEntityName().equals(t.getEntityName()))
+                    .filter(t -> t.getLevel() > 1)
                     .count();
 
-            if (enhancedTowersInTier >= MAX_ENHANCED_TOWERS_PER_TIER) {
+            if (tower.isUpgradeable() && enhancedTowerCount >= TARGET_TOWER_COUNT_PER_TYPE_AND_TIER - 1) {
+                continue;
+            }
+
+            // prioritize upgrading before enhancing the last tier
+            if (!tower.isUpgradeable() && !mAllTowersUpgraded) {
                 continue;
             }
 
@@ -146,43 +161,38 @@ public class DefaultGameSimulator extends GameSimulator {
     private void tryBuildTower() {
         final TowerInserter towerInserter = getGameFactory().getTowerInserter();
         final ScoreBoard scoreBoard = getGameFactory().getScoreBoard();
-        final WaveManager waveManager = getGameFactory().getWaveManager();
 
-        int unenhancedTowerCount = getTowers()
-                .filter(tower -> mTowerTiers.getTowerTier(tower) == 1 && tower.getLevel() == 1)
-                .count();
+        StreamIterator<Tower> iterator = mTowerTiers.getBuildableTowers();
 
-        if (unenhancedTowerCount >= MAX_UNENHANCED_TOWERS_PER_TIER) {
-            return;
+        while (iterator.hasNext()) {
+            Tower tower = iterator.next();
+
+            // check if building is affordable
+            if (tower.getValue() > scoreBoard.getCredits()) {
+                continue;
+            }
+
+            // don't exceed target tower count
+            int builtTowerCount = getTowers()
+                    .filter(t -> tower.getEntityName().equals(t.getEntityName()))
+                    .count();
+
+            if (builtTowerCount >= TARGET_TOWER_COUNT_PER_TYPE_AND_TIER) {
+                continue;
+            }
+
+            Plateau selectedPlateau = findTowerPlateau(tower);
+
+            if (selectedPlateau == null) {
+                return;
+            }
+
+            towerInserter.insertTower(tower.getEntityName());
+            towerInserter.setPosition(selectedPlateau.getPosition());
+            towerInserter.buyTower();
+
+            randomizeTowerStrategy(selectedPlateau.getPosition());
         }
-
-        int unaffordableTowers = mTowerTiers.getBuildableTowers()
-                .filter(tower -> tower.getValue() > scoreBoard.getCredits())
-                .count();
-
-        if (unaffordableTowers > 0) {
-            return;
-        }
-
-        Tower selectedTower = mTowerTiers.getBuildableTowers()
-                .filter(tower -> tower.getDamage() > 0 || waveManager.getWaveNumber() > NO_SLOW_DOWN_TOWERS_BEFORE_WAVE)
-                .random(mRandom);
-
-        if (selectedTower == null) {
-            return;
-        }
-
-        Plateau selectedPlateau = findTowerPlateau(selectedTower);
-
-        if (selectedPlateau == null) {
-            return;
-        }
-
-        towerInserter.insertTower(selectedTower.getEntityName());
-        towerInserter.setPosition(selectedPlateau.getPosition());
-        towerInserter.buyTower();
-
-        randomizeTowerStrategy(selectedPlateau.getPosition());
     }
 
     private void randomizeTowerStrategy(Vector2 position) {
