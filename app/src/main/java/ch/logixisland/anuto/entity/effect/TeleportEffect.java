@@ -62,7 +62,15 @@ public class TeleportEffect extends Effect implements Entity.Listener {
 
     @Override
     public Object initStatic() {
-        return null;
+        TeleportEffect.StaticData s = new TeleportEffect.StaticData();
+
+        s.mPaint = new Paint();
+        s.mPaint.setStyle(Paint.Style.STROKE);
+        s.mPaint.setStrokeWidth(0.1f);
+        s.mPaint.setColor(Color.MAGENTA);
+        s.mPaint.setAlpha(70);
+
+        return s;
     }
 
     @Override
