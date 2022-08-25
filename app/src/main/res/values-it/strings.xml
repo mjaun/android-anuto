@@ -43,7 +43,7 @@
     <string name="intensity">Intensità</string>
     <string name="duration">Durata</string>
     <string name="inflicted">Inflitto</string>
-    <string name="dps">danno/secondo</string>
+    <string name="dps">Danno/secondo</string>
 
     <string name="lock_target">Fermo sull\'obiettivo</string>
     <string name="strategy">Strategia</string>
@@ -90,7 +90,7 @@
     <string name="got_it">Ok!</string>
     <string name="skip_tutorial">Salta tutorial</string>
 
-    <string name="tutorial_build_tower">Benvennuto in Anuto TD! Inizia a costruire una torre: trascina una torre dall\'inventario in alto verso il campo da gioco.</string>
+    <string name="tutorial_build_tower">Benvenuto in Anuto TD! Inizia a costruire una torre: trascina una torre dall\'inventario in alto verso il campo da gioco.</string>
     <string name="tutorial_credits">Se il prezzo di una torre diventa rosso significa che non hai abbastanza soldi per comprare quella torre. Guadagni soldi uccidendo i nemici e terminando le ondate.</string>
     <string name="tutorial_tower_options_1">Premi su una torre per vedere il suo raggio d'azione. Premi nuovamente per aprire il suo menù per ulteriori opzioni.</string>
     <string name="tutorial_tower_options_2">La strategia definisce come la torre sceglie il suo obiettivo. Fermare sull\'obiettivo significa che la torre non cambia obiettivo fin quando questo si trova nel raggio d'azione.</string>
