@@ -99,7 +99,7 @@
     <string name="tutorial_tower_options_3">Enhancing a tower will make it perform better. Upgrading a tower will replace the tower with a better tower.\n\n<b>Tip:</b> If upgrading towers, keep in mind that credits already spent into enhancements are lost.</string>
     <string name="tutorial_tower_options_4">Selling the tower will remove it and you\'ll get some credits back.\n\n<b>Tip:</b> Towers decrease in value over time.</string>
     <string name="tutorial_next_wave">Press \"Next Wave\" to call in the next wave of enemies. The goal is that none of them makes it through your defense.\n\n<b>Tip:</b> If you call in the next wave while there are still active waves, you earn bonus credits!</string>
-    <string name="tutorial_enemies">If an enemy finishes the path, you loose one life. The game is over if you have no more lives left.\n\n<b>Tip:</b> Some towers are more effective against a certain type of enemy than others.</string>
+    <string name="tutorial_enemies">If an enemy finishes the path, you lose one life. The game is over if you have no more lives left.\n\n<b>Tip:</b> Some towers are more effective against a certain type of enemy than others.</string>
     <string name="tutorial_finish">Good luck and have fun! You can activate the tutorial again in the settings.</string>
 
     <string name="enemy_stats">Enemy Stats</string>
