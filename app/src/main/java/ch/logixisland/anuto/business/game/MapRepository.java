@@ -31,6 +31,9 @@ public class MapRepository {
         mMapInfos.add(new MapInfo("oddball", R.string.map_oddball_name, R.raw.map_oddball));
         mMapInfos.add(new MapInfo("spiral1", R.string.map_spiral1_name, R.raw.map_spiral1));
         mMapInfos.add(new MapInfo("chaos", R.string.map_chaos_name, R.raw.map_chaos));
+        mMapInfos.add(new MapInfo("moar_chaos", R.string.map_moar_chaos_name, R.raw.map_moar_chaos));
+        mMapInfos.add(new MapInfo("spiral2", R.string.map_spiral2_name, R.raw.map_spiral2));
+        mMapInfos.add(new MapInfo("nou", R.string.map_nou_name, R.raw.map_nou));
     }
 
     public List<MapInfo> getMapInfos() {
