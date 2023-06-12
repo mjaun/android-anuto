@@ -78,7 +78,7 @@
     <string name="map_cloverleaf_name">Quadrifoglio</string>
     <string name="map_roundabout_name">Rotonda</string>
     <string name="map_runway_name">Via di fuga</string>
-    <string name="map_wtf_name">Ma che diav...?</string>
+    <string name="map_wtf_name">Ma che diav…?</string>
     <string name="map_turn_left_name">Gira a sinistra</string>
     <string name="map_turn_right_name">Gira a destra</string>
     <string name="map_oddball_name">Palla rimbalzante</string>
@@ -92,11 +92,11 @@
 
     <string name="tutorial_build_tower">Benvenuto in Anuto TD! Inizia a costruire una torre: trascina una torre dall\'inventario in alto verso il campo da gioco.</string>
     <string name="tutorial_credits">Se il prezzo di una torre diventa rosso significa che non hai abbastanza soldi per comprare quella torre. Guadagni soldi uccidendo i nemici e terminando le ondate.</string>
-    <string name="tutorial_tower_options_1">Premi su una torre per vedere il suo raggio d'azione. Premi nuovamente per aprire il suo menù per ulteriori opzioni.</string>
-    <string name="tutorial_tower_options_2">La strategia definisce come la torre sceglie il suo obiettivo. Fermare sull\'obiettivo significa che la torre non cambia obiettivo fin quando questo si trova nel raggio d'azione.</string>
+    <string name="tutorial_tower_options_1">Premi su una torre per vedere il suo raggio d\'azione. Premi nuovamente per aprire il suo menù per ulteriori opzioni.</string>
+    <string name="tutorial_tower_options_2">La strategia definisce come la torre sceglie il suo obiettivo. Fermare sull\'obiettivo significa che la torre non cambia obiettivo fin quando questo si trova nel raggio d\'azione.</string>
     <string name="tutorial_tower_options_3">Migliorare una torre migliora le sue capacità. Aggiornare una torre la sostituisce con una migliore.\n\n<b>Consiglio:</b> Se aggiorni le torri, tieni in mente che i soldi usati per le migliorie vanno perduti.</string>
     <string name="tutorial_tower_options_4">Vendere una torre la rimuove e ti ridà dei soldi indietro.\n\n<b>Consiglio:</b> Le torri vengono deprezzate nel tempo.</string>
-    <string name="tutorial_next_wave">Premi \"Prossima\" per iniziare una nuova ondata di nemici. L'obiettivo è che nessuno di questi possa arrivare alla fine superando le difese.\n\n<b>Consiglio:</b> Se inizi una nuova ondate mentre un\'altra è ancora in corso, guadagni dei soldi bonus!</string>
+    <string name="tutorial_next_wave">Premi \"Prossima\" per iniziare una nuova ondata di nemici. L\'obiettivo è che nessuno di questi possa arrivare alla fine superando le difese.\n\n<b>Consiglio:</b> Se inizi una nuova ondate mentre un\'altra è ancora in corso, guadagni dei soldi bonus!</string>
     <string name="tutorial_enemies">Se un nemico raggiunge la fine perdi una vita. Il gioco finisce quando non hai più vite.\n\n<b>Consiglio:</b> Alcune torri sono più efficienti contro alcuni tipi di nemici rispetto ad altri.</string>
     <string name="tutorial_finish">Buona fortuna e divertiti! Puoi ricominciare il tutorial nuovamente nelle impostazioni.</string>
 
