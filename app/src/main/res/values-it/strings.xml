@@ -3,16 +3,32 @@
     <string name="app_name">Anuto TD</string>
 
     <string name="menu">Menù</string>
+    <string name="build_tower">Costruisci</string>
     <string name="next_wave">Prossima</string>
 
-    <string name="restart">Ricomincia</string>
+    <string name="restart">Ricomincia</string>    
+    <string name="save_game">Salva</string>
+    <string name="game_saved">Gioco salvato</string>
+    <string name="load_game">Carica</string>
     <string name="change_map">Cambia mappa</string>
-    <string name="theme">Tema</string>
+    <string name="settings">Impostazioni</string>
+
+    <string name="delete">Cancella</string>
+
     <string name="sound">Suono</string>
+    <string name="theme">Tema</string>
+    <string name="change_theme">Cambia tema</string>
+    <string name="change_theme_warning">Sei sicuro di voler cambiare il tema? Il gioco si riavvierà.</string>
+    <string name="back_button_mode">Chiudi app con il tasto Indietro</string>
+    <string name="reset_highscores">Azzera classifiche</string>
+    <string name="reset_highscores_warning">Sei sicuro di voler azzerare tutte le classifiche?</string>
+    <string name="start_tutorial">Avvia il tutorial</string>
+    <string name="start_tutorial_warning">Sei sicuro di voler avviare il tutorial? Il gioco si riavvierà.</string>
+    <string name="transparent_menus">Menù nel gioco trasparenti</string>
 
     <string name="game_over">Partita finita!</string>
     <string name="score">Punteggio</string>
-
+    
     <string name="credits">Crediti</string>
     <string name="lives">Vite</string>
     <string name="wave">Ondata</string>
@@ -27,6 +43,7 @@
     <string name="intensity">Intensità</string>
     <string name="duration">Durata</string>
     <string name="inflicted">Inflitto</string>
+    <string name="dps">Danno/secondo</string>
 
     <string name="lock_target">Fermo sull\'obiettivo</string>
     <string name="strategy">Strategia</string>
@@ -36,6 +53,7 @@
 
     <string name="on">Acceso</string>
     <string name="off">Spento</string>
+    <string name="twice">Doppio</string>
 
     <string name="strategy_closest">Più vicino</string>
     <string name="strategy_weakest">Più debole</string>
@@ -43,6 +61,57 @@
     <string name="strategy_first">Primo</string>
     <string name="strategy_last">Ultimo</string>
 
-    <string name="theme_dark">Scuro</string>
     <string name="theme_original">Originale</string>
+    <string name="theme_dark">Scuro</string>
+    <string name="theme_colour">Colorato</string>
+
+    <string name="map_original_name">L\'originale</string>
+    <string name="map_waiting_line_name">Odio le code</string>
+    <string name="map_turn_round_name">Gira attorno</string>
+    <string name="map_hurry_name">Siamo di fretta!</string>
+    <string name="map_civyshk_2y_name">Civyshk 2Y</string>
+    <string name="map_civyshk_line5_name">Civyshk Linea5</string>
+    <string name="map_civyshk_labyrinth_name">Civyshk Labirinto</string>
+    <string name="map_civyshk_yard_name">Civyshk Yard</string>
+    <string name="map_higgledy_piggledy_name">Higgledy Piggledy</string>
+    <string name="map_big_u_name">Grande U</string>
+    <string name="map_cloverleaf_name">Quadrifoglio</string>
+    <string name="map_roundabout_name">Rotonda</string>
+    <string name="map_runway_name">Via di fuga</string>
+    <string name="map_wtf_name">Ma che diav...?</string>
+    <string name="map_turn_left_name">Gira a sinistra</string>
+    <string name="map_turn_right_name">Gira a destra</string>
+    <string name="map_oddball_name">Palla rimbalzante</string>
+    <string name="map_spiral1_name">Spirale v1</string>
+    <string name="map_chaos_name">Caos</string>
+    <string name="press_back_button_again_toast">Premi Indietro nuovamente per uscire</string>
+
+    <string name="tutorial">Inizio</string>
+    <string name="got_it">Ok!</string>
+    <string name="skip_tutorial">Salta tutorial</string>
+
+    <string name="tutorial_build_tower">Benvenuto in Anuto TD! Inizia a costruire una torre: trascina una torre dall\'inventario in alto verso il campo da gioco.</string>
+    <string name="tutorial_credits">Se il prezzo di una torre diventa rosso significa che non hai abbastanza soldi per comprare quella torre. Guadagni soldi uccidendo i nemici e terminando le ondate.</string>
+    <string name="tutorial_tower_options_1">Premi su una torre per vedere il suo raggio d'azione. Premi nuovamente per aprire il suo menù per ulteriori opzioni.</string>
+    <string name="tutorial_tower_options_2">La strategia definisce come la torre sceglie il suo obiettivo. Fermare sull\'obiettivo significa che la torre non cambia obiettivo fin quando questo si trova nel raggio d'azione.</string>
+    <string name="tutorial_tower_options_3">Migliorare una torre migliora le sue capacità. Aggiornare una torre la sostituisce con una migliore.\n\n<b>Consiglio:</b> Se aggiorni le torri, tieni in mente che i soldi usati per le migliorie vanno perduti.</string>
+    <string name="tutorial_tower_options_4">Vendere una torre la rimuove e ti ridà dei soldi indietro.\n\n<b>Consiglio:</b> Le torri vengono deprezzate nel tempo.</string>
+    <string name="tutorial_next_wave">Premi \"Prossima\" per iniziare una nuova ondata di nemici. L'obiettivo è che nessuno di questi possa arrivare alla fine superando le difese.\n\n<b>Consiglio:</b> Se inizi una nuova ondate mentre un\'altra è ancora in corso, guadagni dei soldi bonus!</string>
+    <string name="tutorial_enemies">Se un nemico raggiunge la fine perdi una vita. Il gioco finisce quando non hai più vite.\n\n<b>Consiglio:</b> Alcune torri sono più efficienti contro alcuni tipi di nemici rispetto ad altri.</string>
+    <string name="tutorial_finish">Buona fortuna e divertiti! Puoi ricominciare il tutorial nuovamente nelle impostazioni.</string>
+
+    <string name="enemy_stats">Nemici</string>
+    <string name="name">Nome:</string>
+    <string name="health">Vita:</string>
+    <string name="speed">Velocità:</string>
+    <string name="reward">Guadagno:</string>
+    <string name="weak_against">Debolezze:</string>
+    <string name="strong_against">Resistenze:</string>
+    <string name="none">Nessuna</string>
+
+    <string name="enemy_soldier">Soldato</string>
+    <string name="enemy_blob">Blob</string>
+    <string name="enemy_sprinter">Corridore</string>
+    <string name="enemy_flyer">Volatile</string>
+    <string name="enemy_healer">Guaritore</string>
 </resources>
