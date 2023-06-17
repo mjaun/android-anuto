@@ -1,6 +1,6 @@
 # Anuto - Another Ugly Tower Defense
 
-![Travis-ci](https://api.travis-ci.org/reloZid/android-anuto.svg)
+[![Project Dashboard](https://sourcespy.com/shield.svg)](https://sourcespy.com/github/mjaunandroidanuto/)
 
 <img src="./images/feature.png" width="400" />
 
