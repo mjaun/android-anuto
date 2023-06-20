@@ -89,6 +89,7 @@
     <string name="map_moar_chaos_name">Moar Chaos</string>
     <string name="map_spiral2_name">Spiral v2</string>
     <string name="map_nou_name">No, U</string>
+    <string name="map_highscore_name">Highscore!</string>
     <string name="press_back_button_again_toast">Press back button again to exit</string>
 
     <string name="tutorial">Getting Started</string>
