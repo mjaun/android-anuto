@@ -16,6 +16,7 @@
 /build*
 
 app/*.apk
+app/release/
 app/src/main/libs/
 app/src/main/obj/
 
