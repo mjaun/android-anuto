@@ -12,7 +12,7 @@
         android:name=".AnutoApplication"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/icon"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/icon_round"
         android:label="@string/app_name">
 
         <!-- Activity themes are changed programatically later. In order for translucent activities
